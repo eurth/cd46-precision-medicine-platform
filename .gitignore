@@ -33,6 +33,17 @@ data/raw/
 # KG ready files (regenerated from pipeline)
 data/processed/kg_ready/
 
+# GENIE / cBioPortal raw downloads (large parquet files, regenerate with downloader)
+data/genie/prad_mrna.parquet
+data/genie/prad_cna.parquet
+data/genie/prad_mutations.parquet
+data/genie/prad_clinical.parquet
+
+# Processed GENIE summaries ARE committed (small, needed for Streamlit Cloud)
+# data/genie/genie_cd46_cna_summary.parquet   <- committed
+# data/genie/genie_psma_cd46_cooccurrence.parquet <- committed
+# data/genie/genie_mutation_summary.parquet   <- committed
+
 # ── Logs and build artefacts ─────────────────────────────
 pipeline.log
 *.log

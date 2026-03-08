@@ -43,8 +43,11 @@ python-dotenv>=1.0
 pyyaml>=6.0
 rich>=13.7
 
-# GENIE (Phase 2 — install separately when needed)
+# GENIE / cBioPortal (Phase 2 — uncomment when Synapse DUA approved for raw data)
 # synapseclient>=4.0
+
+# cBioPortal public API (already used — no extra package needed, uses requests)
+# Processed GENIE summaries committed to data/genie/*.parquet (small, pre-computed)
 
 # Testing
 pytest>=8.1
