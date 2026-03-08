@@ -206,7 +206,8 @@ with tab1:
                 "n_total": len(g),
                 "n_eligible": int((g["cd46_log2_tpm"] >= thr_val).sum()),
                 "pct_eligible": (g["cd46_log2_tpm"] >= thr_val).mean() * 100,
-            })
+            }),
+            include_groups=False,
         ).reset_index().sort_values("pct_eligible", ascending=True)
 
         yval_t = "pct_eligible" if show_axis == "% Eligible" else "n_eligible"
@@ -1070,7 +1071,8 @@ with tab6:
                     pc_df = df_cb.groupby("cancer_type").apply(
                         lambda g: pd.Series({"N Total": len(g),
                                              "N CD46-High": int((g["cd46_log2_tpm"] >= cb_threshold).sum()),
-                                             "% Eligible": round((g["cd46_log2_tpm"] >= cb_threshold).mean() * 100, 1)})
+                                             "% Eligible": round((g["cd46_log2_tpm"] >= cb_threshold).mean() * 100, 1)}),
+                        include_groups=False,
                     ).reset_index().rename(columns={"cancer_type": "Cancer"}).sort_values("% Eligible", ascending=False)
                     st.dataframe(pc_df, use_container_width=True, hide_index=True)
 
