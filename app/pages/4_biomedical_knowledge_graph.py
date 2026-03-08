@@ -12,6 +12,14 @@ load_dotenv(Path(__file__).resolve().parents[2] / ".env")
 
 import streamlit as st
 
+# Inject Streamlit Cloud secrets into os.environ (no-op when running locally with .env)
+for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
+    try:
+        if _k in st.secrets and not os.environ.get(_k):
+            os.environ[_k] = st.secrets[_k]
+    except Exception:
+        pass
+
 
 st.title("🕸️ Biomedical Knowledge Graph")
 st.markdown(

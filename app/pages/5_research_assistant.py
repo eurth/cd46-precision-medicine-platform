@@ -1,4 +1,5 @@
 """Page 5 — AI Assistant (GPT-4o + Gemini fallback via LiteLLM)."""
+import os
 import sys
 from pathlib import Path
 
@@ -8,6 +9,14 @@ from dotenv import load_dotenv
 load_dotenv(Path(__file__).resolve().parents[2] / ".env")
 
 import streamlit as st
+
+# Inject Streamlit Cloud secrets into os.environ (no-op when running locally with .env)
+for _k in ("OPENAI_API_KEY", "GEMINI_API_KEY", "NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
+    try:
+        if _k in st.secrets and not os.environ.get(_k):
+            os.environ[_k] = st.secrets[_k]
+    except Exception:
+        pass
 
 
 st.title("🤖 CD46 AI Research Assistant")
