@@ -761,102 +761,259 @@ with tab6:
         "All recommendations require physician interpretation and institutional review."
     )
 
-    col_s1, col_s2 = st.columns(2)
+    # ---- Two-patient comparison toggle -------
+    compare_mode = st.checkbox("⚖️ Compare two patient profiles side-by-side", value=False)
+    n_profiles = 2 if compare_mode else 1
+    profile_labels = ["Patient A", "Patient B"] if compare_mode else ["Patient"]
 
-    with col_s1:
-        st.markdown("**Biomarker Inputs**")
+    profile_results = []
+    input_columns = st.columns(n_profiles)
 
-        cd46_expr = st.slider(
-            "CD46 mRNA Expression (log₂ TPM)",
-            min_value=0.0, max_value=15.0, value=10.5, step=0.5,
-            help="From RNA-seq. Log₂ TPM > 10.5 = 75th percentile across TCGA.",
-        )
-        psma_status = st.select_slider(
-            "PSMA (FOLH1) Expression",
-            options=["Absent", "Low", "Moderate", "High", "Very High"],
-            value="Low",
-            help="IHC or RNA-seq based PSMA status.",
-        )
-        ar_amplification = st.checkbox("AR Gene Amplification", value=False,
-            help="AR CNA gain/amplification — from WGS/WES or FISH.")
-        tp53_loss = st.checkbox("TP53 Loss (biallelic)", value=False,
-            help="Biallelic TP53 inactivation — reduces DNA damage response.")
-        rb1_loss = st.checkbox("RB1 Loss (biallelic)", value=False,
-            help="RB1 biallelic loss — associated with neuroendocrine differentiation.")
-        arv7_positive = st.checkbox("AR-V7 Splice Variant Positive", value=False,
-            help="Detected by plasma RNA or IHC. Predicts enzalutamide resistance.")
-        prior_lupsma = st.checkbox("Prior 177Lu-PSMA therapy (failed)", value=False,
-            help="Failed prior PSMA-directed RLT — CD46 rescue strategy applicable.")
+    for _pi, _pcol in enumerate(input_columns):
+        with _pcol:
+            if compare_mode:
+                st.markdown(f"### {profile_labels[_pi]}")
 
-    with col_s2:
-        st.markdown("**Clinical Factors**")
-        ecog_ps = st.selectbox(
-            "ECOG Performance Status",
-            options=["0 — Fully active", "1 — Restricted strenuous activity", "2 — Ambulatory, >50% wakeful", "3 — Limited self-care"],
-            index=1,
-        )
-        bone_mets = st.checkbox("Bone metastases present", value=True,
-            help="Bone mets common in mCRPC — alpha emission range important.")
-        visceral_mets = st.checkbox("Visceral metastases present", value=False,
-            help="Liver/lung mets — consider systemic toxicity carefully.")
-        gleason_score = st.slider(
-            "Gleason Score (or Grade Group equivalent)", 
-            min_value=6, max_value=10, value=8, step=1,
-        )
+            col_s1, col_s2 = st.columns(2)
 
-    # ==========================
-    # Scoring algorithm
-    # ==========================
-    def calc_score(cd46_expr, psma_status, ar_amp, tp53, rb1, arv7, prior_lupsma,
-                   ecog_ps, bone_mets, visceral_mets, gleason):
-        score = 0
+            with col_s1:
+                st.markdown("**Target Expression**")
+                cd46_expr = st.slider(
+                    "CD46 log₂ TPM",
+                    min_value=0.0, max_value=15.0,
+                    value=10.5 if _pi == 0 else 8.0, step=0.5,
+                    help="Log₂ TPM > 10.5 = 75th percentile across TCGA. High expression = better target.",
+                    key=f"cd46_expr_{_pi}",
+                )
+                psma_status = st.select_slider(
+                    "PSMA (FOLH1) Expression",
+                    options=["Absent", "Low", "Moderate", "High", "Very High"],
+                    value="Low" if _pi == 0 else "High",
+                    help="Lower PSMA = CD46 is primary target. Higher PSMA = consider Lu-PSMA first.",
+                    key=f"psma_{_pi}",
+                )
+                folh1_expression = st.slider(
+                    "FOLH1 mRNA (log₂ TPM)", 0.0, 15.0,
+                    value=6.0 if _pi == 0 else 11.0, step=0.5,
+                    help="FOLH1 RNA level (distinct from IHC PSMA status). High = Lu-PSMA preferred.",
+                    key=f"folh1_{_pi}",
+                )
+                psa_level = st.number_input(
+                    "PSA (ng/mL)", min_value=0.0, max_value=5000.0,
+                    value=45.0 if _pi == 0 else 12.0, step=5.0,
+                    help="Serum PSA. Rising PSA under castration = castration-resistant disease.",
+                    key=f"psa_{_pi}",
+                )
+                psa_doubling = st.selectbox(
+                    "PSA Doubling Time",
+                    ["< 3 months", "3–6 months", "6–12 months", "> 12 months"],
+                    index=0 if _pi == 0 else 2,
+                    help="Short PSADT reflects more aggressive disease biology.",
+                    key=f"psadt_{_pi}",
+                )
+                ldh = st.number_input(
+                    "LDH (U/L)",
+                    min_value=0, max_value=5000, value=280 if _pi == 0 else 180,
+                    help="Elevated LDH ≥ ULN signals high disease burden.",
+                    key=f"ldh_{_pi}",
+                )
 
-        # CD46 expression (35 pts)
-        if cd46_expr >= 12.0: score += 35
-        elif cd46_expr >= 10.5: score += 28
-        elif cd46_expr >= 9.0: score += 18
-        elif cd46_expr >= 7.5: score += 8
-        else: score += 0
+            with col_s2:
+                st.markdown("**Genomic Alterations**")
+                ar_amplification = st.checkbox(
+                    "AR Amplification", value=False if _pi == 0 else True,
+                    help="AR CNA gain — upregulates CD46 expression.", key=f"ar_{_pi}")
+                tp53_loss = st.checkbox(
+                    "TP53 biallelic loss", value=False,
+                    help="Reduces DSB response, slightly reduces alpha efficacy.", key=f"tp53_{_pi}")
+                rb1_loss = st.checkbox(
+                    "RB1 biallelic loss", value=False,
+                    help="Associated with neuroendocrine differentiation.", key=f"rb1_{_pi}")
+                arv7_positive = st.checkbox(
+                    "AR-V7 splice variant +", value=False if _pi == 0 else True,
+                    help="Predicts ARSI resistance; CD46 becomes priority target.", key=f"arv7_{_pi}")
+                brca2_loss = st.checkbox(
+                    "BRCA2 / BRCA1 loss (HRD)", value=False,
+                    help="HRD may synergise with DSB-rich alpha radiation.", key=f"brca2_{_pi}")
+                atm_mut = st.checkbox(
+                    "ATM mutation", value=False,
+                    help="ATM loss (HR pathway) — similar synergy to BRCA2.", key=f"atm_{_pi}")
+                cdk12_loss = st.checkbox(
+                    "CDK12 biallelic loss", value=False,
+                    help="Immune-hot tumour phenotype — may respond well to combinatorial.", key=f"cdk12_{_pi}")
+                pten_loss = st.checkbox(
+                    "PTEN loss (PI3K activated)", value=False,
+                    help="PI3K pathway resistance — co-target potential.", key=f"pten_{_pi}")
+                myc_amp = st.checkbox(
+                    "MYC amplification", value=False,
+                    help="Co-amplified with AR in 27% mCRPC; drives proliferation.", key=f"myc_{_pi}")
+                spop_mut = st.checkbox(
+                    "SPOP mutation (favourable)", value=False,
+                    help="SPOP mutations associated with better prognosis and ARSI response.", key=f"spop_{_pi}")
 
-        # PSMA status — lower PSMA = higher CD46 priority (15 pts)
-        psma_points = {"Absent": 15, "Low": 13, "Moderate": 8, "High": 3, "Very High": 0}
-        score += psma_points.get(psma_status, 0)
+            st.markdown("**Clinical Factors**")
+            ccol1, ccol2 = st.columns(2)
+            with ccol1:
+                ecog_ps = st.selectbox(
+                    "ECOG PS",
+                    ["0 — Fully active", "1 — Restricted strenuous", "2 — Ambulatory >50%", "3 — Limited self-care"],
+                    index=1 if _pi == 0 else 0,
+                    key=f"ecog_{_pi}",
+                )
+                gleason_score = st.slider(
+                    "Gleason / Grade Group", 6, 10, value=8, step=1, key=f"gl_{_pi}")
+                prior_arsi_lines = st.selectbox(
+                    "Prior ARSI lines",
+                    ["0 (ARSI-naive)", "1 (1 line failed)", "2+ (2+ lines failed)"],
+                    index=1,
+                    help="Enzalutamide/abiraterone lines — more = higher CD46 expression expected.",
+                    key=f"arsi_{_pi}",
+                )
+            with ccol2:
+                prior_lupsma = st.checkbox(
+                    "Prior 177Lu-PSMA failed", value=False if _pi == 0 else True,
+                    help="Failed PSMA-directed RLT → CD46 is rescue strategy.", key=f"lupsma_{_pi}")
+                prior_chemo = st.checkbox(
+                    "Prior docetaxel/cabazitaxel", value=False, key=f"chemo_{_pi}",
+                    help="Prior taxane use — progression = higher priority.")
+                bone_mets = st.checkbox(
+                    "Bone metastases", value=True, key=f"bone_{_pi}",
+                    help="Alpha emission ideal for bone-adjacent tumour microenvironment.")
+                visceral_mets = st.checkbox(
+                    "Visceral metastases", value=False, key=f"vis_{_pi}",
+                    help="Liver/lung mets increase systemic risk.")
 
-        # AR amplification — upregulates CD46 (5 pts bonus)
-        if ar_amp: score += 5
+            # ==========================
+            # Scoring algorithm (15 biomarkers)
+            # ==========================
+            def calc_score_v2(
+                cd46, psma, folh1, psa, psadt, ldh,
+                ar_amp, tp53, rb1, arv7, brca2, atm, cdk12, pten, myc, spop,
+                ecog, gleason, prior_arsi, prior_lupsma_f, prior_chemo_f, bone, visceral,
+            ):
+                s = 0
 
-        # Resistance markers — small penalties (TP53 -5, RB1 -8)
-        if tp53: score -= 5
-        if rb1: score -= 8
+                # ---- CD46 expression (30 pts — primary target driver) ----
+                if cd46 >= 12.0:   s += 30
+                elif cd46 >= 10.5: s += 24
+                elif cd46 >= 9.0:  s += 15
+                elif cd46 >= 7.5:  s += 6
+                else:              s += 0
 
-        # AR-V7 — neutral/slight bonus (upregulates CD46, +3)
-        if arv7: score += 3
+                # ---- PSMA / FOLH1 (12 pts — inverse: low PSMA = CD46 is priority) ----
+                psma_pts = {"Absent": 12, "Low": 10, "Moderate": 6, "High": 2, "Very High": 0}
+                s += psma_pts.get(psma, 0)
+                # FOLH1 mRNA adjusts PSMA score refinement
+                if folh1 < 6.0:   s += 3
+                elif folh1 < 9.0: s += 1
 
-        # Prior failed Lu-PSMA (10 pts priority bonus)
-        if prior_lupsma: score += 10
+                # ---- PSA trajectory (6 pts) ----
+                psadt_pts = {"< 3 months": 6, "3–6 months": 4, "6–12 months": 2, "> 12 months": 0}
+                s += psadt_pts.get(psadt, 0)
+                if psa >= 100:  s += 2  # Very high PSA = high burden = priority
+                elif psa >= 20: s += 1
 
-        # ECOG PS penalty
-        ecog_n = int(ecog_ps[0])
-        ecog_penalty = {0: 0, 1: -2, 2: -8, 3: -20}.get(ecog_n, 0)
-        score += ecog_penalty
+                # ---- LDH (disease burden, 4 pts) ----
+                if ldh >= 460:         s += 0   # above ULN x2 — toxicity concern
+                elif ldh >= 230:       s += 2   # ULN = ~230 U/L (mild elevation)
+                else:                  s += 4   # Normal range = best safety profile
 
-        # Gleason (5 pts)
-        if gleason >= 9: score += 5
-        elif gleason >= 8: score += 3
-        elif gleason >= 7: score += 1
+                # ---- Genomic alterations ----
+                if ar_amp:  s += 5    # AR amp upregulates CD46 — strong bonus
+                if arv7:    s += 4    # AR-V7 = ARSI resistance → CD46 priority
+                if tp53:    s -= 5    # TP53 loss — reduced DNA repair, slight alpha concern
+                if rb1:     s -= 6    # NCRPC risk
+                if brca2:   s += 3    # HRD synergy with DSBs
+                if atm:     s += 2    # HR deficiency (lesser than BRCA2)
+                if cdk12:   s += 2    # Immune-hot — combinatorial potential
+                if pten:    s -= 3    # PI3K resistance pathway
+                if myc:     s += 1    # Proliferative — more target antigen cycling
+                if spop:    s += 2    # Favourable SPOP mutation (+2 prognosis)
 
-        # Bone mets (favours alpha range, +3)
-        if bone_mets: score += 3
-        # Visceral mets (increased risk, -5)
-        if visceral_mets: score -= 5
+                # ---- Prior therapies (5 pts) ----
+                arsi_pts = {"0 (ARSI-naive)": 0, "1 (1 line failed)": 3, "2+ (2+ lines failed)": 5}
+                s += arsi_pts.get(prior_arsi, 0)
+                if prior_lupsma_f: s += 8   # CD46 is rescue after Lu-PSMA
+                if prior_chemo_f: s += 2    # Higher line = more urgent
 
-        return max(0, min(100, score))
+                # ---- ECOG / performance ----
+                ecog_n = int(ecog[0])
+                s += {0: 0, 1: -2, 2: -8, 3: -20}.get(ecog_n, 0)
 
-    ecog_n_str = ecog_ps
-    final_score = calc_score(
-        cd46_expr, psma_status, ar_amplification, tp53_loss, rb1_loss,
-        arv7_positive, prior_lupsma, ecog_ps, bone_mets, visceral_mets, gleason_score,
-    )
+                # ---- Gleason ----
+                if gleason >= 9:   s += 4
+                elif gleason >= 8: s += 2
+                elif gleason >= 7: s += 1
+
+                # ---- Metastatic features ----
+                if bone:     s += 3   # Alpha range ideal for bone mets
+                if visceral: s -= 5   # Increased toxicity risk
+
+                return max(0, min(100, s))
+
+            prior_arsi_lines_val = prior_arsi_lines
+            final_score = calc_score_v2(
+                cd46_expr, psma_status, folh1_expression, psa_level, psa_doubling, ldh,
+                ar_amplification, tp53_loss, rb1_loss, arv7_positive, brca2_loss,
+                atm_mut, cdk12_loss, pten_loss, myc_amp, spop_mut,
+                ecog_ps, gleason_score, prior_arsi_lines_val, prior_lupsma, prior_chemo,
+                bone_mets, visceral_mets,
+            )
+
+            profile_results.append({
+                "label": profile_labels[_pi],
+                "score": final_score,
+                "cd46_expr": cd46_expr,
+                "psma": psma_status,
+                "folh1": folh1_expression,
+                "psa": psa_level,
+                "psadt": psa_doubling,
+                "ldh": ldh,
+                "ar_amp": ar_amplification,
+                "tp53": tp53_loss,
+                "rb1": rb1_loss,
+                "arv7": arv7_positive,
+                "brca2": brca2_loss,
+                "atm": atm_mut,
+                "cdk12": cdk12_loss,
+                "pten": pten_loss,
+                "myc": myc_amp,
+                "spop": spop_mut,
+                "ecog": ecog_ps,
+                "gleason": gleason_score,
+                "prior_arsi": prior_arsi_lines,
+                "prior_lupsma": prior_lupsma,
+                "prior_chemo": prior_chemo,
+                "bone": bone_mets,
+                "visceral": visceral_mets,
+            })
+
+    # Use first profile as primary for gauge / breakdown
+    primary = profile_results[0]
+    final_score = primary["score"]
+    cd46_expr      = primary["cd46_expr"]
+    psma_status    = primary["psma"]
+    ar_amplification = primary["ar_amp"]
+    tp53_loss      = primary["tp53"]
+    rb1_loss       = primary["rb1"]
+    arv7_positive  = primary["arv7"]
+    brca2_loss     = primary["brca2"]
+    atm_mut        = primary["atm"]
+    cdk12_loss     = primary["cdk12"]
+    pten_loss      = primary["pten"]
+    myc_amp        = primary["myc"]
+    spop_mut       = primary["spop"]
+    ecog_ps        = primary["ecog"]
+    gleason_score  = primary["gleason"]
+    prior_arsi_lines = primary["prior_arsi"]
+    prior_lupsma   = primary["prior_lupsma"]
+    prior_chemo    = primary["prior_chemo"]
+    bone_mets      = primary["bone"]
+    visceral_mets  = primary["visceral"]
+    psa_level      = primary["psa"]
+    psa_doubling   = primary["psadt"]
+    ldh            = primary["ldh"]
+    folh1_expression = primary["folh1"]
 
     # Score gauge
     if final_score >= 65:
@@ -926,26 +1083,203 @@ with tab6:
             unsafe_allow_html=True,
         )
 
-    # Score breakdown table
-    st.markdown("**Score Breakdown**")
+    # Score breakdown table (15 biomarkers)
+    st.markdown("**Score Breakdown — 15-Biomarker Framework**")
+    psma_pts = {"Absent": 12, "Low": 10, "Moderate": 6, "High": 2, "Very High": 0}
+    psadt_pts = {"< 3 months": 6, "3–6 months": 4, "6–12 months": 2, "> 12 months": 0}
+    arsi_pts  = {"0 (ARSI-naive)": 0, "1 (1 line failed)": 3, "2+ (2+ lines failed)": 5}
     breakdown = [
-        ("CD46 Expression",             f"{cd46_expr:.1f} log₂ TPM",  35 if cd46_expr >= 12 else 28 if cd46_expr >= 10.5 else 18 if cd46_expr >= 9 else 8 if cd46_expr >= 7.5 else 0),
-        ("PSMA Status (inverse)",       psma_status,                  {"Absent":15,"Low":13,"Moderate":8,"High":3,"Very High":0}.get(psma_status,0)),
-        ("AR Amplification",            "Yes" if ar_amplification else "No", 5 if ar_amplification else 0),
-        ("TP53 Loss",                   "Yes" if tp53_loss else "No", -5 if tp53_loss else 0),
-        ("RB1 Loss",                    "Yes" if rb1_loss else "No",  -8 if rb1_loss else 0),
-        ("AR-V7 Positive",              "Yes" if arv7_positive else "No", 3 if arv7_positive else 0),
-        ("Prior 177Lu-PSMA failure",    "Yes" if prior_lupsma else "No", 10 if prior_lupsma else 0),
-        ("ECOG Performance Status",     ecog_ps[:1],                  {0:-0,1:-2,2:-8,3:-20}.get(int(ecog_ps[0]),0)),
-        ("Gleason Score",               str(gleason_score),           5 if gleason_score >= 9 else 3 if gleason_score >= 8 else 1),
-        ("Bone Metastases",             "Yes" if bone_mets else "No", 3 if bone_mets else 0),
-        ("Visceral Metastases",         "Yes" if visceral_mets else "No", -5 if visceral_mets else 0),
+        ("CD46 mRNA Expression",         f"{cd46_expr:.1f} log₂ TPM",    30 if cd46_expr >= 12 else 24 if cd46_expr >= 10.5 else 15 if cd46_expr >= 9 else 6 if cd46_expr >= 7.5 else 0),
+        ("PSMA IHC Status (inverse)",    psma_status,                     psma_pts.get(psma_status, 0)),
+        ("FOLH1 mRNA (inverse)",         f"{folh1_expression:.1f} log₂",  3 if folh1_expression < 6 else 1 if folh1_expression < 9 else 0),
+        ("PSA Doubling Time",            psa_doubling,                    psadt_pts.get(psa_doubling, 0)),
+        ("PSA Level",                    f"{psa_level:.0f} ng/mL",        2 if psa_level >= 100 else 1 if psa_level >= 20 else 0),
+        ("LDH",                          f"{ldh} U/L",                    0 if ldh >= 460 else 2 if ldh >= 230 else 4),
+        ("AR Amplification",             "Yes" if ar_amplification else "No", 5 if ar_amplification else 0),
+        ("AR-V7 Positive",               "Yes" if arv7_positive else "No",    4 if arv7_positive else 0),
+        ("TP53 Biallelic Loss",          "Yes" if tp53_loss else "No",        -5 if tp53_loss else 0),
+        ("RB1 Biallelic Loss",           "Yes" if rb1_loss else "No",         -6 if rb1_loss else 0),
+        ("BRCA2/BRCA1 Loss (HRD)",       "Yes" if brca2_loss else "No",       3 if brca2_loss else 0),
+        ("ATM Mutation",                 "Yes" if atm_mut else "No",           2 if atm_mut else 0),
+        ("CDK12 Biallelic Loss",         "Yes" if cdk12_loss else "No",        2 if cdk12_loss else 0),
+        ("PTEN Loss (PI3K activated)",   "Yes" if pten_loss else "No",        -3 if pten_loss else 0),
+        ("MYC Amplification",            "Yes" if myc_amp else "No",           1 if myc_amp else 0),
+        ("SPOP Mutation (favourable)",   "Yes" if spop_mut else "No",          2 if spop_mut else 0),
+        ("Prior ARSI Lines",             prior_arsi_lines,                arsi_pts.get(prior_arsi_lines, 0)),
+        ("Prior 177Lu-PSMA Failure",     "Yes" if prior_lupsma else "No",      8 if prior_lupsma else 0),
+        ("Prior Taxane Chemotherapy",    "Yes" if prior_chemo else "No",        2 if prior_chemo else 0),
+        ("ECOG Performance Status",      ecog_ps[:1],                     {0: 0, 1: -2, 2: -8, 3: -20}.get(int(ecog_ps[0]), 0)),
+        ("Gleason Score",                str(gleason_score),              4 if gleason_score >= 9 else 2 if gleason_score >= 8 else 1),
+        ("Bone Metastases",              "Yes" if bone_mets else "No",         3 if bone_mets else 0),
+        ("Visceral Metastases",          "Yes" if visceral_mets else "No",    -5 if visceral_mets else 0),
     ]
     df_breakdown = pd.DataFrame(breakdown, columns=["Factor", "Value", "Points"])
-    df_breakdown["Contribution"] = df_breakdown["Points"].apply(
+    df_breakdown["Impact"] = df_breakdown["Points"].apply(
         lambda p: f"✅ +{p}" if p > 0 else (f"⚠️ {p}" if p < 0 else "— 0")
     )
-    st.dataframe(df_breakdown[["Factor", "Value", "Contribution"]], use_container_width=True, hide_index=True)
+    df_breakdown["Category"] = [
+        "Target Expression", "Target Expression", "Target Expression",
+        "Disease Burden", "Disease Burden", "Disease Burden",
+        "Genomics", "Genomics", "Genomics", "Genomics", "Genomics", "Genomics", "Genomics", "Genomics", "Genomics", "Genomics",
+        "Treatment History", "Treatment History", "Treatment History",
+        "Clinical", "Clinical", "Clinical", "Clinical",
+    ]
+    st.dataframe(
+        df_breakdown[["Category", "Factor", "Value", "Impact"]],
+        use_container_width=True, hide_index=True,
+    )
+
+    # ---- Side-by-side comparison card (compare mode) ----
+    if compare_mode and len(profile_results) == 2:
+        st.markdown("---")
+        st.markdown("### ⚖️ Profile Comparison")
+        cmp_c1, cmp_c2 = st.columns(2)
+        for _i, _pr in enumerate(profile_results):
+            _sc = _pr["score"]
+            _col = "#22c55e" if _sc >= 65 else "#fbbf24" if _sc >= 45 else "#f97316" if _sc >= 25 else "#ef4444"
+            _tier = "Tier 1 — Strong Candidate" if _sc >= 65 else "Tier 2 — Consider" if _sc >= 45 else "Tier 3 — Borderline" if _sc >= 25 else "Tier 4 — Not Suitable"
+            [cmp_c1, cmp_c2][_i].markdown(
+                f"<div style='background:{_col}22;border:2px solid {_col};padding:16px;border-radius:10px;text-align:center;'>"
+                f"<div style='font-size:1.5em;font-weight:700;color:{_col};'>{_pr['label']}</div>"
+                f"<div style='font-size:3em;font-weight:900;color:{_col};'>{_sc}</div>"
+                f"<div style='color:{_col};font-size:0.9em;margin-top:4px;'>{_tier}</div>"
+                f"<hr style='border-color:{_col}44;'>"
+                f"<table style='width:100%;font-size:0.8em;color:#94a3b8;text-align:left;'>"
+                f"<tr><td>CD46</td><td style='color:#e2e8f0;'>{_pr['cd46_expr']:.1f} log₂</td></tr>"
+                f"<tr><td>PSMA</td><td style='color:#e2e8f0;'>{_pr['psma']}</td></tr>"
+                f"<tr><td>PSA</td><td style='color:#e2e8f0;'>{_pr['psa']:.0f} ng/mL</td></tr>"
+                f"<tr><td>AR-V7</td><td style='color:#e2e8f0;'>{'+'if _pr['arv7'] else '−'}</td></tr>"
+                f"<tr><td>Prior Lu-PSMA</td><td style='color:#e2e8f0;'>{'Yes' if _pr['prior_lupsma'] else 'No'}</td></tr>"
+                f"</table></div>",
+                unsafe_allow_html=True,
+            )
+
+        # Radar comparison chart
+        import plotly.graph_objects as _go2
+        radar_dims = ["CD46 Expr", "PSMA inv.", "PSA Score", "Genomics", "Therapy Hist.", "Performance"]
+        def _profile_radar(pr):
+            psma_map = {"Absent": 12, "Low": 10, "Moderate": 6, "High": 2, "Very High": 0}
+            genomics = (5 if pr["ar_amp"] else 0) + (4 if pr["arv7"] else 0) + (3 if pr["brca2"] else 0) - (5 if pr["tp53"] else 0) - (6 if pr["rb1"] else 0)
+            therapy  = (8 if pr["prior_lupsma"] else 0) + ({"0 (ARSI-naive)": 0, "1 (1 line failed)": 3, "2+ (2+ lines failed)": 5}.get(pr["prior_arsi"], 0))
+            ecog_n   = int(pr["ecog"][0])
+            perf     = max(0, 10 - ecog_n * 3)
+            psa_sc   = ({"< 3 months": 6, "3–6 months": 4, "6–12 months": 2, "> 12 months": 0}.get(pr["psadt"], 0))
+            vals = [
+                min(30, 30 if pr["cd46_expr"] >= 12 else 24 if pr["cd46_expr"] >= 10.5 else 15 if pr["cd46_expr"] >= 9 else 6),
+                psma_map.get(pr["psma"], 0),
+                psa_sc,
+                max(0, min(15, genomics + 8)),
+                min(13, therapy),
+                perf,
+            ]
+            return [v / max_v * 10 for v, max_v in zip(vals, [30, 12, 6, 15, 13, 10])]
+
+        fig_radar = _go2.Figure()
+        colors = ["#38bdf8", "#4ade80"]
+        for _i, _pr in enumerate(profile_results):
+            r = _profile_radar(_pr)
+            fig_radar.add_trace(_go2.Scatterpolar(
+                r=r + [r[0]], theta=radar_dims + [radar_dims[0]],
+                fill="toself", name=_pr["label"],
+                line=dict(color=colors[_i], width=2),
+                fillcolor=colors[_i].replace("#", "rgba(") + ",0.15)",
+            ))
+        fig_radar.update_layout(
+            polar=dict(
+                radialaxis=dict(visible=True, range=[0, 10], color="#64748b"),
+                angularaxis=dict(color="#94a3b8"),
+                bgcolor="#1e293b",
+            ),
+            paper_bgcolor="#0f172a", legend=dict(font=dict(color="#e2e8f0")),
+            height=380, margin=dict(l=40, r=40, t=40, b=40),
+            title=dict(text="Multi-Dimensional Profile Radar", font=dict(color="#e2e8f0", size=13)),
+        )
+        st.plotly_chart(fig_radar, use_container_width=True)
+
+    # ---- Population Percentile ----
+    st.markdown("---")
+    st.markdown("### 📊 Population Context & Expected Outcomes")
+
+    # Simulate a patient score distribution based on real CD46 expression distribution
+    if not df_expr.empty:
+        import numpy as _np2
+        # Proxy population scores from real CD46 expression data (scaled 0–100)
+        _cd46_vals = df_expr["cd46_log2_tpm"].dropna().values
+        # Score distribution approximated from CD46 expression alone (simplified proxy)
+        _pop_scores = _np2.clip((_cd46_vals - 6.0) / (14.0 - 6.0) * 70 + 15, 0, 100)
+        _percentile = float((_pop_scores < final_score).mean() * 100)
+
+        perc_col1, perc_col2, perc_col3, perc_col4 = st.columns(4)
+        perc_col1.metric("Your Score", f"{final_score}/100", delta=f"Tier: {'1' if final_score>=65 else '2' if final_score>=45 else '3' if final_score>=25 else '4'}")
+        perc_col2.metric("Population Percentile", f"{_percentile:.0f}th", help="Based on 11,069 TCGA patients, CD46 expression proxy scoring")
+        perc_col3.metric("Patients Ranked Below", f"{int(_percentile/100 * len(_pop_scores)):,}", f"of {len(_pop_scores):,} total")
+        perc_col4.metric("Tier Distribution", f"{'Strong Candidate' if final_score>=65 else 'Consider' if final_score>=45 else 'Borderline' if final_score>=25 else 'Not Suitable'}")
+
+        # Score distribution histogram with patient marker
+        import plotly.graph_objects as _go3
+        fig_dist = _go3.Figure()
+        fig_dist.add_trace(_go3.Histogram(
+            x=_pop_scores, nbinsx=40,
+            marker_color="#1e40af", opacity=0.7, name="Population",
+        ))
+        fig_dist.add_vline(x=final_score, line_color="#f59e0b", line_width=3, annotation_text=f"This Patient ({final_score})", annotation_font_color="#f59e0b")
+        # Tier markers
+        for thr, col, lbl in [(65, "#22c55e", "Tier 1"), (45, "#fbbf24", "Tier 2"), (25, "#f97316", "Tier 3")]:
+            fig_dist.add_vline(x=thr, line_color=col, line_width=1.5, line_dash="dot", annotation_text=lbl, annotation_font_color=col, annotation_position="top left")
+        fig_dist.update_layout(
+            height=280, paper_bgcolor="#0f172a", plot_bgcolor="#0f172a",
+            xaxis=dict(title="Suitability Score", color="#94a3b8", range=[0, 100], gridcolor="#1e293b"),
+            yaxis=dict(title="# Patients", color="#94a3b8", gridcolor="#1e293b"),
+            legend=dict(font=dict(color="#e2e8f0")), margin=dict(l=10, r=10, t=30, b=10),
+            title=dict(text="Score Distribution vs. TCGA Population (11,069 patients, proxy model)",
+                       font=dict(color="#e2e8f0", size=12)),
+        )
+        st.plotly_chart(fig_dist, use_container_width=True)
+
+        # ---- Expected Outcomes by Tier (from survival CSV) ----
+        import pathlib as _pl2
+        _surv_path = _pl2.Path(__file__).resolve().parents[2] / "data" / "processed" / "cd46_survival_results.csv"
+        if _surv_path.exists():
+            _surv_df = pd.read_csv(_surv_path)
+            _os_df = _surv_df[_surv_df["endpoint"] == "OS"].dropna(subset=["hazard_ratio"])
+            if not _os_df.empty:
+                st.markdown("**📈 Historical Outcomes by Tier — from Survival Analysis**")
+                st.caption(f"Based on {len(_os_df)} OS endpoints across TCGA cohorts; showing what tier the CD46-high group achieved.")
+                _tier_thresholds = {"Tier 1 (≥65)": _os_df[_os_df["hazard_ratio"] >= 1.5], "Tier 2 (45-64)": _os_df[(_os_df["hazard_ratio"] >= 1.2) & (_os_df["hazard_ratio"] < 1.5)], "Others": _os_df[_os_df["hazard_ratio"] < 1.2]}
+                for _tt, _tdf in _tier_thresholds.items():
+                    if not _tdf.empty:
+                        with st.expander(f"{_tt} — {len(_tdf)} matching cohorts"):
+                            st.dataframe(_tdf[["cancer_type","hazard_ratio","p_value","n_high","n_low"]].rename(columns={"cancer_type":"Cancer","hazard_ratio":"HR (CD46-High)","p_value":"p-value","n_high":"N High","n_low":"N Low"}).head(10), use_container_width=True, hide_index=True)
+
+    # ---- Sensitivity analysis: what changes the score most? ----
+    st.markdown("---")
+    st.markdown("### 🎯 Score Sensitivity Analysis — What Would Change the Score?")
+    st.caption("Shows how much each biomarker change would move the score if flipped from its current value.")
+
+    _sens_items = [
+        ("Add: Prior Lu-PSMA failure",   8 if not prior_lupsma else 0,         not prior_lupsma),
+        ("Flip: AR-V7 positive",          4 if not arv7_positive else -4,        True),
+        ("Flip: AR Amplification",        5 if not ar_amplification else -5,     True),
+        ("Add: BRCA2/HRD loss",           3 if not brca2_loss else 0,            not brca2_loss),
+        ("Remove: TP53 loss",             5 if tp53_loss else 0,                  tp53_loss),
+        ("Remove: RB1 loss",              6 if rb1_loss else 0,                   rb1_loss),
+        ("Remove: Visceral mets",         5 if visceral_mets else 0,              visceral_mets),
+        ("Remove: PTEN loss",             3 if pten_loss else 0,                  pten_loss),
+        ("Increase CD46 to ≥12.0",        max(0, 30 - (30 if cd46_expr >= 12 else 24 if cd46_expr >= 10.5 else 15 if cd46_expr >= 9 else 6)), cd46_expr < 12.0),
+        ("Improve PSADT to < 3 months",   max(0, 6 - psadt_pts.get(psa_doubling, 0)), psa_doubling != "< 3 months"),
+        ("Add: 2+ prior ARSI lines",      max(0, 5 - arsi_pts.get(prior_arsi_lines, 0)), prior_arsi_lines != "2+ (2+ lines failed)"),
+        ("Add: CDK12 biallelic loss",     2 if not cdk12_loss else 0,             not cdk12_loss),
+    ]
+    _sens_df = pd.DataFrame(
+        [(item, delta, f"{'⬆️ +' if delta > 0 else '⬇️ ' if delta < 0 else '—'}{abs(delta)}", final_score + delta)
+         for item, delta, condition in _sens_items if condition and delta != 0],
+        columns=["Change", "Delta", "Effect", "New Score"],
+    )
+    if not _sens_df.empty:
+        _sens_df = _sens_df.sort_values("Delta", ascending=False)
+        st.dataframe(_sens_df, use_container_width=True, hide_index=True)
+    else:
+        st.info("Score is near maximum — no further improvements identified.")
 
     st.markdown("---")
     # ===================================================================

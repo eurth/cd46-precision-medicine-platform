@@ -86,6 +86,8 @@ pg = st.navigation(
                 icon="🕸️",
             ),
             st.Page("pages/5_research_assistant.py", title="Research Assistant", icon="🤖"),
+            st.Page("pages/6_biomarker_panel.py", title="Biomarker Panel", icon="🧬"),
+            st.Page("pages/7_kg_query_explorer.py", title="KG Query Explorer", icon="🔍"),
         ],
     }
 )

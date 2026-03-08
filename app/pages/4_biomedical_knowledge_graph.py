@@ -480,11 +480,316 @@ if driver is not None:
 else:
     st.info("Connect to the knowledge graph to enable network visualization.")
 
+# ---------------------------------------------------------------------------
+# Protein Structures & Networks (AlphaFold + STRING)
+# ---------------------------------------------------------------------------
+
+st.subheader("🧬 Protein Structures & Interaction Networks")
+
+af_tab, str_tab, pub_tab = st.tabs([
+    "🔬 AlphaFold Structure",
+    "🌐 STRING Protein Network",
+    "📚 Key Publications",
+])
+
+with af_tab:
+    st.markdown(
+        "<div style='background:#1e293b;border-left:3px solid #38bdf8;padding:12px 16px;"
+        "border-radius:6px;margin-bottom:14px;'>"
+        "<b style='color:#38bdf8;'>CD46 (Membrane Cofactor Protein) — UniProt P15529</b><br>"
+        "<span style='color:#94a3b8;'>AlphaFold predicted structure · pLDDT confidence · EBI AlphaFold Database</span>"
+        "</div>",
+        unsafe_allow_html=True,
+    )
+
+    @st.cache_data(ttl=86_400, show_spinner=False)
+    def _fetch_alphafold() -> dict:
+        try:
+            import requests as _req
+            r = _req.get("https://alphafold.ebi.ac.uk/api/prediction/P15529", timeout=12)
+            if r.status_code == 200:
+                data = r.json()
+                return data[0] if data else {}
+        except Exception:
+            pass
+        return {}
+
+    with st.spinner("Loading AlphaFold metadata…"):
+        af = _fetch_alphafold()
+
+    col_af1, col_af2 = st.columns([1, 1])
+
+    with col_af1:
+        if af:
+            st.success("✅ AlphaFold metadata loaded (EBI API)")
+            st.metric("UniProt ID", af.get("uniprotAccession", "P15529"))
+            st.metric("Sequence Length", f"{af.get('seqLength', 347)} aa")
+            st.metric("AlphaFold Version", af.get("latestVersion", "v4"))
+            plddt = af.get("plddt")
+            if plddt:
+                import numpy as _np
+                mean_conf = float(_np.mean(plddt)) if isinstance(plddt, list) else None
+                st.metric("Mean pLDDT Confidence", f"{mean_conf:.1f}/100" if mean_conf else "N/A")
+
+            # pLDDT per-residue bar chart
+            if isinstance(plddt, list) and len(plddt) > 0:
+                import plotly.graph_objects as _go
+                plddt_fig = _go.Figure(_go.Bar(
+                    y=plddt,
+                    marker_color=[
+                        "#3b82f6" if v > 90 else "#22c55e" if v > 70 else "#eab308" if v > 50 else "#ef4444"
+                        for v in plddt
+                    ],
+                    hovertemplate="Residue %{x}<br>pLDDT: %{y:.1f}<extra></extra>",
+                ))
+                plddt_fig.update_layout(
+                    height=180, margin=dict(l=0, r=0, t=20, b=0),
+                    paper_bgcolor="#0f172a", plot_bgcolor="#0f172a",
+                    xaxis=dict(title="Residue", color="#94a3b8", showgrid=False),
+                    yaxis=dict(title="pLDDT", color="#94a3b8", range=[0, 100], gridcolor="#1e293b"),
+                    title=dict(text="Per-residue pLDDT confidence", font=dict(color="#e2e8f0", size=11)),
+                )
+                st.plotly_chart(plddt_fig, use_container_width=True)
+        else:
+            st.info(
+                "AlphaFold API unavailable (network timeout or rate limit). "
+                "Known properties: UniProt P15529 · 347 aa · SCR domains 1-4 · "
+                "Mean pLDDT ~85 (high confidence) · surface-exposed CCP repeats."
+            )
+            st.metric("UniProt ID", "P15529")
+            st.metric("Sequence Length", "347 aa")
+            st.metric("Mean pLDDT (typical)", "~85/100")
+
+    with col_af2:
+        st.markdown("**Structure confidence guide:**")
+        st.markdown("""
+        | pLDDT Score | Confidence | Region |
+        |---|---|---|
+        | > 90 | Very high | Reliable backbone |
+        | 70–90 | High | Generally correct |
+        | 50–70 | Low | Disordered regions |
+        | < 50 | Very low | Ignore for modelling |
+        """)
+        st.info(
+            "💡 CD46 SCR domains (1–4) are well-structured with high pLDDT. "
+            "The transmembrane anchor and cytoplasmic tails are STA-1/STA-2/LCA-1/LCA-2 isoform-specific."
+        )
+
+    st.markdown("**Interactive 3D Structure Viewer (AlphaFold DB):**")
+    st.markdown(
+        "<iframe src='https://alphafold.ebi.ac.uk/entry/P15529' "
+        "width='100%' height='650px' style='border:1px solid #334155;border-radius:8px;'>"
+        "</iframe>",
+        unsafe_allow_html=True,
+    )
+    st.link_button("Open Full AlphaFold Entry ↗", "https://alphafold.ebi.ac.uk/entry/P15529")
+
+with str_tab:
+    st.markdown(
+        "<div style='background:#1e293b;border-left:3px solid #818cf8;padding:12px 16px;"
+        "border-radius:6px;margin-bottom:14px;'>"
+        "<b style='color:#818cf8;'>CD46 Protein Interaction Network — STRING Database</b><br>"
+        "<span style='color:#94a3b8;'>Homo sapiens (taxid: 9606) · Combined score > 400 · "
+        "Physical + functional interactions</span>"
+        "</div>",
+        unsafe_allow_html=True,
+    )
+
+    if st.button("🔄 Fetch STRING Interactions", key="fetch_string"):
+        with st.spinner("Querying STRING DB API..."):
+            try:
+                import requests as _req
+                resp = _req.get(
+                    "https://string-db.org/api/json/interaction_partners",
+                    params={
+                        "identifiers": "CD46",
+                        "species": 9606,
+                        "limit": 25,
+                        "caller_identity": "cd46_precision_medicine_platform",
+                    },
+                    timeout=15,
+                )
+                if resp.status_code == 200:
+                    string_data = resp.json()
+                    st.session_state["string_data"] = string_data
+                    st.success(f"✅ {len(string_data)} interaction partners loaded")
+                else:
+                    st.warning(f"STRING API returned status {resp.status_code}")
+            except Exception as e:
+                st.error(f"STRING fetch failed: {e}")
+
+    if "string_data" in st.session_state:
+        import pandas as pd
+        import plotly.graph_objects as go
+        import math
+
+        interactions = st.session_state["string_data"]
+        df_str = pd.DataFrame(interactions)
+
+        # Key complement pathway genes to highlight
+        COMPLEMENT_GENES = {"CD55", "CD59", "CR2", "C3", "C4A", "C4B", "C1QA", "CFH", "MCP", "CR1"}
+
+        # Display table
+        if not df_str.empty:
+            display_cols = ["preferredName_B", "score", "nscore", "escore", "fscore", "tscore"]
+            available = [c for c in display_cols if c in df_str.columns]
+            df_show = df_str[available].copy()
+            df_show.columns = [c.replace("preferredName_B", "Partner").replace("score", "Combined").replace(
+                "nscore", "Neighborhood").replace("escore", "Experiment").replace(
+                "fscore", "Co-occurrence").replace("tscore", "Text-mining") for c in available]
+            df_show["Complement?"] = df_show["Partner"].apply(
+                lambda x: "🔴" if x in COMPLEMENT_GENES else ""
+            )
+            st.dataframe(
+                df_show.sort_values("Combined", ascending=False).head(25),
+                use_container_width=True,
+                hide_index=True,
+            )
+
+            # Plotly network graph
+            partner_names = [r.get("preferredName_B", "") for r in interactions[:20]]
+            scores = [r.get("score", 0) / 1000 for r in interactions[:20]]
+
+            # Arrange partners in a circle around CD46
+            n = len(partner_names)
+            angles = [2 * math.pi * i / n for i in range(n)]
+            cx, cy = [math.cos(a) for a in angles], [math.sin(a) for a in angles]
+
+            node_x = [0] + cx
+            node_y = [0] + cy
+            node_text = ["CD46"] + partner_names
+            node_colors = ["#38bdf8"] + [
+                "#f87171" if p in COMPLEMENT_GENES else "#818cf8"
+                for p in partner_names
+            ]
+            node_sizes = [28] + [12 + int(s * 10) for s in scores]
+
+            edge_x, edge_y = [], []
+            for i in range(n):
+                edge_x += [0, cx[i], None]
+                edge_y += [0, cy[i], None]
+
+            fig_str = go.Figure()
+            fig_str.add_trace(go.Scatter(
+                x=edge_x, y=edge_y,
+                mode="lines",
+                line=dict(width=0.8, color="#334155"),
+                hoverinfo="none",
+                showlegend=False,
+            ))
+            fig_str.add_trace(go.Scatter(
+                x=node_x, y=node_y,
+                mode="markers+text",
+                marker=dict(size=node_sizes, color=node_colors, line=dict(width=1, color="#0f172a")),
+                text=node_text,
+                textposition="top center",
+                textfont=dict(size=9, color="#e2e8f0"),
+                hovertext=[
+                    f"CD46 — hub node" if i == 0
+                    else f"{partner_names[i-1]}<br>Score: {scores[i-1]:.3f}"
+                    for i in range(n + 1)
+                ],
+                hoverinfo="text",
+                showlegend=False,
+            ))
+            fig_str.update_layout(
+                height=440,
+                paper_bgcolor="#0f172a",
+                plot_bgcolor="#0f172a",
+                xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+                yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+                margin=dict(l=10, r=10, t=30, b=10),
+                title=dict(
+                    text="CD46 Protein Interaction Network (STRING DB)",
+                    font=dict(color="#e2e8f0", size=13),
+                ),
+            )
+            st.plotly_chart(fig_str, use_container_width=True)
+            st.caption("🔴 Red = Complement pathway partners · 🔵 Blue = CD46 hub · Purple = Other interactions")
+
+    st.info(
+        "💡 CD46 physically interacts with complement proteins C3b, C4b, and factor I. "
+        "It also associates with measles virus receptor complex — a known therapeutic vulnerability. "
+        "STRING combined score > 0.7 indicates high-confidence interaction."
+    )
+    st.link_button(
+        "Open CD46 in STRING ↗",
+        "https://string-db.org/network/9606.ENSP00000317276",
+    )
+
+with pub_tab:
+    st.markdown(
+        "<div style='background:#1e293b;border-left:3px solid #4ade80;padding:12px 16px;"
+        "border-radius:6px;margin-bottom:14px;'>"
+        "<b style='color:#4ade80;'>Curated CD46 Evidence Base</b><br>"
+        "<span style='color:#94a3b8;'>Peer-reviewed publications from AuraDB knowledge graph · "
+        "Foundational papers for 225Ac-CD46 program</span>"
+        "</div>",
+        unsafe_allow_html=True,
+    )
+
+    # Load from AuraDB if connected
+    pub_records = []
+    if driver is not None:
+        try:
+            with driver.session() as session:
+                result = session.run(
+                    "MATCH (pub:Publication) RETURN pub ORDER BY pub.year DESC"
+                )
+                pub_records = [dict(rec["pub"]) for rec in result]
+        except Exception as e:
+            st.warning(f"Could not load publications from KG: {e}")
+
+    if not pub_records:
+        st.info("No publications in knowledge graph yet — run `scripts/load_kg_extras.py` to populate.")
+    else:
+        # Evidence type filter
+        ev_types = sorted({p.get("evidence_type", "Other") for p in pub_records})
+        sel_types = st.multiselect("Filter by evidence type", ev_types, default=ev_types)
+        filtered = [p for p in pub_records if p.get("evidence_type", "Other") in sel_types]
+
+        for pub in filtered:
+            pmid = pub.get("pubmed_id", "")
+            url = f"https://pubmed.ncbi.nlm.nih.gov/{pmid}/" if pmid else "#"
+            ev_color = {
+                "Experimental": "#f87171",
+                "Clinical trial": "#fb923c",
+                "Clinical-translational": "#fbbf24",
+                "Biomarker": "#4ade80",
+                "Preclinical": "#818cf8",
+                "Bioinformatics": "#38bdf8",
+                "Review": "#94a3b8",
+            }.get(pub.get("evidence_type", ""), "#64748b")
+
+            st.markdown(
+                f"""
+                <div style='background:#1e293b;border:1px solid #334155;border-left:4px solid {ev_color};
+                padding:14px 16px;margin:8px 0;border-radius:6px;'>
+                <span style='background:{ev_color}22;color:{ev_color};font-size:0.75em;
+                padding:2px 8px;border-radius:12px;font-weight:600;'>
+                {pub.get('evidence_type','').upper()}</span>
+                <b style='color:#e2e8f0;display:block;margin-top:8px;font-size:1.0em;'>
+                {pub.get('title','')}</b>
+                <span style='color:#94a3b8;font-size:0.84em;'>
+                {', '.join(pub.get('authors', [])) if isinstance(pub.get('authors'), list) else pub.get('authors','')}</span><br>
+                <span style='color:#64748b;font-size:0.82em;'>
+                {pub.get('journal','')} &middot; {pub.get('year','')}</span><br>
+                <span style='color:#38bdf8;font-size:0.84em;margin-top:6px;display:block;'>
+                \u2192 {pub.get('key_finding','')}</span>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+            if pmid and pmid != "#":
+                st.link_button(f"PubMed {pmid} ↗", url)
+
 st.markdown("---")
 st.markdown(
     "<div style='color:#64748b; font-size:0.8em;'>"
-    "Knowledge graph: 1,452 nodes · 353 relationships · Gene, Protein, Disease, Drug, PatientGroup, CellLine, Pathway, Tissue node types. "
-    "Phase 2 expansion: AACR GENIE genomics integration."
+    "Knowledge graph: 1,452+ nodes · Gene, Protein, Disease, Drug, PatientGroup, CellLine, "
+    "Pathway, Tissue, Publication, ClinicalTrial node types. "
+    "AlphaFold: EBI structure prediction (pLDDT confidence). "
+    "STRING: protein–protein interaction network (Homo sapiens)."
     "</div>",
     unsafe_allow_html=True,
 )
