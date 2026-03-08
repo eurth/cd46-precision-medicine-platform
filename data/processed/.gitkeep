@@ -1,0 +1,7 @@
+# This file ensures the data/processed/ directory is tracked by Git.
+# The processed CSV files in this folder are committed to the repo so that
+# Streamlit Community Cloud can serve the app without re-running the pipeline.
+#
+# Raw source files (data/raw/) are excluded from Git — they are large
+# (750 MB+) and must be re-downloaded by running:
+#   python scripts/run_pipeline.py --mode download

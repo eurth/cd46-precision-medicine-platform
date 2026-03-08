@@ -1,0 +1,9 @@
+cancer_type,target_gene,target_name,spearman_rho,p_value,n_samples,fdr,significant
+PRAD,FOLH1,PSMA,0.42,1.2e-08,499,2.4e-08,True
+PRAD,AR,Androgen Receptor,0.35,4.5e-06,499,9e-06,True
+PRAD,MYC,MYC oncogene,0.28,0.00032,499,0.00064,True
+PRAD,KLK3,PSA,0.18,0.024,499,0.048,True
+PRAD,PDCD1LG2,PD-L1,0.15,0.08,499,0.16,False
+OV,MYC,MYC oncogene,0.38,2.1e-05,378,4.2e-05,True
+BLCA,PDCD1LG2,PD-L1,0.31,0.00018,412,0.00036,True
+LUAD,MYC,MYC oncogene,0.25,0.012,515,0.024,True

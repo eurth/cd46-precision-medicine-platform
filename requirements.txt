@@ -1,0 +1,51 @@
+# Core data processing
+polars>=0.20
+pandas>=2.2
+pyarrow>=15
+numpy>=1.26
+
+# HTTP / API calls
+requests>=2.31
+tqdm>=4.66
+httpx>=0.27
+
+# Bioinformatics / statistics
+lifelines>=0.28
+scikit-learn>=1.4
+scipy>=1.12
+statsmodels>=0.14
+
+# Biological databases
+biopython>=1.83
+
+# Visualization
+plotly>=5.20
+pyvis>=0.3.2
+kaleido>=0.2.1
+
+# Knowledge graph / Neo4j
+neo4j>=5.18
+
+# Streamlit web app
+streamlit>=1.32
+
+# LLM / AI
+openai>=1.25
+google-generativeai>=0.5
+langchain>=0.2
+langchain-openai>=0.1
+langchain-google-genai>=0.0.6
+langgraph>=0.1
+litellm>=1.35
+
+# Configuration and utilities
+python-dotenv>=1.0
+pyyaml>=6.0
+rich>=13.7
+
+# GENIE (Phase 2 — install separately when needed)
+# synapseclient>=4.0
+
+# Testing
+pytest>=8.1
+pytest-cov>=5.0

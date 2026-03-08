@@ -1,0 +1,25 @@
+tissue,type,staining_intensity,intensity_score,fraction_positive,h_score_approx,data_source
+Kidney,normal,High,3,0.95,300,HPA_fallback
+Liver,normal,Medium,2,0.8,200,HPA_fallback
+Prostate,normal,Medium,2,0.75,200,HPA_fallback
+Prostate,tumor,High,3,0.9,300,HPA_fallback
+Breast,normal,Low,1,0.6,100,HPA_fallback
+Breast,tumor,Medium,2,0.7,200,HPA_fallback
+Lung,normal,Medium,2,0.75,200,HPA_fallback
+Lung,tumor,High,3,0.85,300,HPA_fallback
+Colon,normal,Low,1,0.55,100,HPA_fallback
+Colon,tumor,Medium,2,0.65,200,HPA_fallback
+Ovary,normal,Medium,2,0.7,200,HPA_fallback
+Ovary,tumor,High,3,0.88,300,HPA_fallback
+Bladder,normal,Medium,2,0.72,200,HPA_fallback
+Bladder,tumor,High,3,0.87,300,HPA_fallback
+Pancreas,normal,Low,1,0.5,100,HPA_fallback
+Pancreas,tumor,Medium,2,0.68,200,HPA_fallback
+Brain,normal,Low,1,0.45,100,HPA_fallback
+Cerebral cortex,normal,Not detected,0,0.1,0,HPA_fallback
+Heart muscle,normal,Low,1,0.55,100,HPA_fallback
+Skeletal muscle,normal,Not detected,0,0.15,0,HPA_fallback
+Lymph node,normal,High,3,0.95,300,HPA_fallback
+Bone marrow,normal,High,3,0.92,300,HPA_fallback
+Spleen,normal,High,3,0.9,300,HPA_fallback
+Tonsil,normal,High,3,0.93,300,HPA_fallback

@@ -1,0 +1,100 @@
+# Dataset-level configuration
+# Each dataset has its own section with download URLs, column names, and filters
+
+tcga:
+  name: "TCGA-UCSC-Xena"
+  version: "PANCAN-2023"
+  expression:
+    url: "https://pancanatlas.xenahubs.net/download/EB%2B%2BAdjustPANCAN_IlluminaHiSeq_RNASeqV2.geneExp.xena.gz"
+    local_path: "data/raw/tcga/TCGA_RSEM_gene_tpm.gz"
+    format: "tsv_gz"
+    gene_column: "sample"
+    expected_rows: 60499
+    expected_cols: 11069
+  phenotype:
+    url: "https://pancanatlas.xenahubs.net/download/TCGA_phenotype_denseDataOnlyDownload.tsv.gz"
+    local_path: "data/raw/tcga/TCGA_phenotype_denseDataOnlyDownload.tsv.gz"
+    cohort_col: "_primary_disease"
+    sample_type_col: "sample_type"
+    study_col: "_primary_disease"
+    tcga_filter_val: "TCGA"
+  survival:
+    url: "https://pancanatlas.xenahubs.net/download/Survival_SupplementalTable_S1_20171025.tsv.gz"
+    local_path: "data/raw/tcga/Survival_SupplementalTable_S1_20171025.tsv.gz"
+    sample_col: "sample"
+    os_time_col: "OS.time"
+    os_event_col: "OS"
+    pfi_time_col: "PFI.time"
+    pfi_event_col: "PFI"
+    cancer_type_col: "cancer_type"
+  output:
+    cd46_expression: "data/processed/cd46_expression.csv"
+    cd46_by_cancer: "data/processed/cd46_by_cancer.csv"
+
+hpa:
+  name: "Human-Protein-Atlas"
+  version: "v24"
+  endpoints:
+    gene: "https://www.proteinatlas.org/ENSG00000117335.json"
+  output:
+    raw: "data/raw/hpa/cd46_protein_expression.json"
+    processed: "data/processed/hpa_cd46_protein.csv"
+
+cbioportal:
+  name: "cBioPortal-mCRPC"
+  base_url: "https://www.cbioportal.org/api"
+  studies:
+    su2c: "prad_su2c_2019"
+    msk: "prad_msk_2019"
+  output:
+    raw: "data/raw/apis/cbioportal_mcrpc.json"
+    processed: "data/processed/cbioportal_mcrpc.csv"
+
+depmap:
+  name: "DepMap-Broad"
+  version: "25Q3"
+  files:
+    crispr:
+      local_path: "data/raw/depmap/CRISPRGeneEffect.csv"
+      cd46_column: "CD46 (4179)"
+    metadata:
+      local_path: "data/raw/depmap/Model.csv"
+  output:
+    processed: "data/processed/depmap_cd46_essentiality.csv"
+  note: "Download manually from https://depmap.org/portal/data_page/ — CRISPRGeneEffect.csv + Model.csv from 25Q3"
+
+open_targets:
+  name: "Open-Targets-Platform"
+  endpoint: "https://api.platform.opentargets.org/api/v4/graphql"
+  target_id: "ENSG00000117335"
+  output:
+    raw: "data/raw/apis/open_targets_cd46.json"
+
+chembl:
+  name: "ChEMBL"
+  base_url: "https://www.ebi.ac.uk/chembl/api/data"
+  target_id: "CHEMBL2176"
+  output:
+    raw: "data/raw/apis/chembl_cd46.json"
+
+clinicaltrials:
+  name: "ClinicalTrials.gov"
+  base_url: "https://clinicaltrials.gov/api/v2/studies"
+  query: "CD46 cancer"
+  page_size: 100
+  output:
+    raw: "data/raw/apis/clinicaltrials_cd46.json"
+
+uniprot:
+  name: "UniProt"
+  base_url: "https://rest.uniprot.org/uniprotkb"
+  accession: "P15529"
+  output:
+    raw: "data/raw/apis/uniprot_cd46.json"
+
+pubmed:
+  name: "PubMed-Entrez"
+  query: "CD46 cancer expression therapy radioligand"
+  retmax: 50
+  output:
+    raw: "data/raw/apis/pubmed_cd46.json"

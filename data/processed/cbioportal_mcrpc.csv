@@ -1,0 +1,27 @@
+patient_id,AGE_AT_DIAGNOSIS,CHEMO_REGIMEN_CATEGORY,os_months,os_status,PSA,RACE,SAMPLE_COUNT,sex,study,dataset,cohort_subtype,cancer_type
+1115019,54,Standard of care abiraterone,3.153745072,1:DECEASED,0.8,White Non-Hispanic,1,Male,prad_su2c_2019,cBioPortal,mCRPC,PRAD
+1115020,53.7,Standard of care enzalutamide,8.442838371,1:DECEASED,10.7,White Non-Hispanic,1,Male,prad_su2c_2019,cBioPortal,mCRPC,PRAD
+5115022,44.5,Standard of care enzalutamide,,,1049.6,White Non-Hispanic,1,Male,prad_su2c_2019,cBioPortal,mCRPC,PRAD
+6115012,64.1,Other: Taxol,,,27.4,White,1,Male,prad_su2c_2019,cBioPortal,mCRPC,PRAD
+6115013,50.1,Standard of care abiraterone,,,20,White,1,Male,prad_su2c_2019,cBioPortal,mCRPC,PRAD
+6115014,61.1,Other: Post Abiraterone Acetate vs. Placebo,,,8.3,White,1,Male,prad_su2c_2019,cBioPortal,mCRPC,PRAD
+5115023,64.6,Standard of care abiraterone,,,7.2,White Non-Hispanic,1,Male,prad_su2c_2019,cBioPortal,mCRPC,PRAD
+5115024,60.7,Other:Docetaxel,,,6.6,White Non-Hispanic,1,Male,prad_su2c_2019,cBioPortal,mCRPC,PRAD
+5115026,50.5,Trial 1 abiraterone +/- ABT888 (+ABT),,,23.6,White Non-Hispanic,1,Male,prad_su2c_2019,cBioPortal,mCRPC,PRAD
+5115027,44.8,Screen Failure,,,9.1,White Non-Hispanic,1,Male,prad_su2c_2019,cBioPortal,mCRPC,PRAD
+5115028,49.2,Other: Docetaxel,,,2.8,White Non-Hispanic,1,Male,prad_su2c_2019,cBioPortal,mCRPC,PRAD
+5115029,58.2,Standard of care abiraterone,,,,White Non-Hispanic,1,Male,prad_su2c_2019,cBioPortal,mCRPC,PRAD
+5115030,63.1,Trial 1 abiraterone +/- ABT888 (+ABT),1.67542707,0:LIVING,,White Non-Hispanic,1,Male,prad_su2c_2019,cBioPortal,mCRPC,PRAD
+5115031,66.2,Standard of care abiraterone,20.20367937,0:LIVING,2.4,White Non-Hispanic,1,Male,prad_su2c_2019,cBioPortal,mCRPC,PRAD
+5115032,69.8,Other: Cabo in CRPC,,,48.6,White Non-Hispanic,1,Male,prad_su2c_2019,cBioPortal,mCRPC,PRAD
+5115098,57.4,Other: Cabozantinib,,,,Black or African American,1,,prad_su2c_2019,cBioPortal,mCRPC,PRAD
+p_C_03LNU8,,,,,,,1,Male,prad_msk_2019,cBioPortal,mCRPC,PRAD
+p_C_36924L,,,,,,,1,Male,prad_msk_2019,cBioPortal,mCRPC,PRAD
+p_C_CAUWT7,,,,,,,1,Male,prad_msk_2019,cBioPortal,mCRPC,PRAD
+p_C_DU6ECC,,,,,,,2,Male,prad_msk_2019,cBioPortal,mCRPC,PRAD
+p_C_E0KJFJ,,,,,,,2,Male,prad_msk_2019,cBioPortal,mCRPC,PRAD
+p_C_EDTVRA,,,,,,,1,Male,prad_msk_2019,cBioPortal,mCRPC,PRAD
+p_C_M8X42T,,,,,,,2,Male,prad_msk_2019,cBioPortal,mCRPC,PRAD
+p_C_P8K3TR,,,,,,,3,Male,prad_msk_2019,cBioPortal,mCRPC,PRAD
+p_C_VC6P9A,,,,,,,2,Male,prad_msk_2019,cBioPortal,mCRPC,PRAD
+p_C_WXR0TT,,,,,,,3,Male,prad_msk_2019,cBioPortal,mCRPC,PRAD

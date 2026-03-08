@@ -1,0 +1,78 @@
+# CD46 Precision Medicine Platform
+# Central configuration — all thresholds, paths, and API endpoints
+
+project:
+  name: "CD46 Precision Medicine Platform"
+  version: "1.0.0"
+  author: "Ayutara Research Lab"
+  description: "AI-powered 225Ac-CD46 therapy patient selection platform"
+
+# CD46 gene identifiers
+cd46:
+  symbol: "CD46"
+  ensembl_id: "ENSG00000117335"
+  uniprot_id: "P15529"
+  chromosome: "1q32.2"
+  entrez_id: 4179
+  aliases: ["MCP", "MIC10", "TLX"]
+
+# 225Ac eligibility thresholds
+ac225_thresholds:
+  log2_tpm_median: 2.5       # log2(TPM+0.001) median split
+  log2_tpm_75pct: 3.2        # 75th percentile
+  log2_tpm_90pct: 4.0        # 90th percentile
+  default_method: "median"   # median | 75pct | 90pct | custom
+
+# Priority score weights (must sum to 1.0)
+priority_score:
+  expression_rank_weight: 0.35
+  survival_impact_weight: 0.35
+  cna_amplification_weight: 0.15
+  protein_expression_weight: 0.15
+  high_priority_threshold: 0.70
+  moderate_threshold: 0.45
+
+# TCGA cancer type codes (33 TCGA types)
+tcga:
+  cancer_codes: [
+    "ACC","BLCA","BRCA","CESC","CHOL","COAD","DLBC","ESCA",
+    "GBM","HNSC","KICH","KIRC","KIRP","LAML","LGG","LIHC",
+    "LUAD","LUSC","MESO","OV","PAAD","PCPG","PRAD","READ",
+    "SARC","SKCM","STAD","TGCT","THCA","THYM","UCEC","UCS","UVM"
+  ]
+  target_cancer: "PRAD"
+  sample_count_prad: 499
+
+# Survival analysis settings
+survival:
+  min_samples_per_group: 20
+  significance_threshold: 0.05
+  cox_covariates: []   # add "age_at_index", "ajcc_pathologic_stage" if available
+  km_time_col: "OS.time"
+  km_event_col: "OS"
+  pfi_time_col: "PFI.time"
+  pfi_event_col: "PFI"
+
+# DepMap settings
+depmap:
+  cd46_column: "CD46 (4179)"
+  crispr_dependency_threshold: -0.5   # below this = dependent
+
+# Biomarker correlation panel
+correlation:
+  targets: ["FOLH1", "PDCD1L1", "AR", "MYC", "PSCA"]
+  method: "spearman"
+  fdr_method: "fdr_bh"
+
+# Output paths (relative to project root)
+paths:
+  data_raw: "data/raw"
+  data_processed: "data/processed"
+  kg_ready: "data/processed/kg_ready"
+  reports: "reports"
+  figures: "reports/figures"
+
+# Logging
+logging:
+  level: "INFO"
+  format: "%(asctime)s | %(levelname)s | %(name)s | %(message)s"

@@ -1,0 +1,61 @@
+# ─────────────────────────────────────────────────────────
+# CD46 Precision Medicine Platform — .gitignore
+# ─────────────────────────────────────────────────────────
+
+# Secrets — NEVER commit these
+.env
+.streamlit/secrets.toml
+
+# Python runtime
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# ── Data ─────────────────────────────────────────────────
+# Raw source files are large (750 MB+ each) — not committed
+data/raw/
+
+# Processed CSVs ARE committed (small, needed for Streamlit Cloud demo)
+# data/processed/  ← intentionally NOT in gitignore
+
+# KG ready files (regenerated from pipeline)
+data/processed/kg_ready/
+
+# ── Logs and build artefacts ─────────────────────────────
+pipeline.log
+*.log
+reports/figures/*.png
+reports/figures/*.pdf
+*.html
+
+# Notebooks checkpoints
+.ipynb_checkpoints/
+notebooks/.ipynb_checkpoints/
+
+# OS noise
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDEs
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+
+# Test / coverage
+.coverage
+htmlcov/
+.pytest_cache/
