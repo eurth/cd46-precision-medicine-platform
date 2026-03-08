@@ -70,3 +70,4 @@ desktop.ini
 .coverage
 htmlcov/
 .pytest_cache/
+cd46_precision_medicine_platform.code-workspace
