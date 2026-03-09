@@ -46,6 +46,8 @@ with st.sidebar:
         - ✅ ClinicalTrials.gov (14 CD46 trials)
         - ✅ Drug-Target Database (ChEMBL)
         - ✅ Open Targets Disease Evidence (772 associations)
+        - ✅ STRING DB PPI Network (30 partners, 103 interactions)
+        - ✅ Drug Pipeline (10 agents, 3 classes)
         - 🔜 AACR GENIE Genomics (Phase 2)
         """
     )
@@ -92,6 +94,10 @@ pg = st.navigation(
         "Clinical Tools": [
             st.Page("pages/8_patient_eligibility.py", title="Patient Eligibility Scorer", icon="🎯"),
             st.Page("pages/9_competitive_landscape.py", title="Competitive Landscape", icon="🏆"),
+        ],
+        "Biology & Pipeline": [
+            st.Page("pages/10_ppi_network.py", title="PPI Network Explorer", icon="🕸️"),
+            st.Page("pages/11_drug_pipeline.py", title="Drug Pipeline", icon="💊"),
         ],
     }
 )
