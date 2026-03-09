@@ -45,7 +45,7 @@ with st.sidebar:
         - ✅ CRISPR Functional Screen (DepMap, 1,186 cell lines)
         - ✅ ClinicalTrials.gov (14 CD46 trials)
         - ✅ Drug-Target Database (ChEMBL)
-        - ✅ Open Targets Disease Evidence
+        - ✅ Open Targets Disease Evidence (772 associations)
         - 🔜 AACR GENIE Genomics (Phase 2)
         """
     )
