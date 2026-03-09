@@ -626,7 +626,7 @@ with af_tab:
         ),
         showlegend=True,
     )
-    st.plotly_chart(dom_fig, use_container_width=True)
+    st.plotly_chart(dom_fig, width='stretch')
 
     # ── SECTION 3: Natural Variants ───────────────────────────────────────────
     st.markdown("#### 🔬 Natural Variants (13 SNPs)")
@@ -725,7 +725,7 @@ with af_tab:
                        gridcolor="#1e293b", range=[0, 1]),
             yaxis=dict(color="#e2e8f0", tickfont=dict(size=10), autorange="reversed"),
         )
-        st.plotly_chart(ot_fig, use_container_width=True)
+        st.plotly_chart(ot_fig, width='stretch')
         st.caption("Source: Open Targets Platform — 772 total associations. Colors: red=hematologic, orange=genetic, yellow=immune, green=cancer, purple=infectious. Score 0–1.")
     else:
         st.info("Open Targets data not available — check data/raw/apis/open_targets_cd46.json")
@@ -760,7 +760,7 @@ with af_tab:
             xaxis=dict(title="Residue index", color="#94a3b8", showgrid=False),
             yaxis=dict(title="pLDDT", color="#94a3b8", range=[0, 100], gridcolor="#1e293b"),
         )
-        st.plotly_chart(plddt_fig, use_container_width=True)
+        st.plotly_chart(plddt_fig, width='stretch')
         st.caption("Blue > 90 (very high) · Green 70–90 (high) · Yellow 50–70 (low) · Red < 50 (very low)")
     else:
         st.info("pLDDT data unavailable (AlphaFold EBI API timeout). SCR domains 1–4 typically score > 85.")
@@ -898,7 +898,7 @@ with str_tab:
                     font=dict(color="#e2e8f0", size=13),
                 ),
             )
-            st.plotly_chart(fig_str, use_container_width=True)
+            st.plotly_chart(fig_str, width='stretch')
             st.caption("🔴 Red = Complement pathway partners · 🔵 Blue = CD46 hub · Purple = Other interactions")
 
     st.info(

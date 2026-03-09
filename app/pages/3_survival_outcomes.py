@@ -115,7 +115,7 @@ with tab1:
             if time_col in expr_df.columns and event_col in expr_df.columns:
                 fig = plot_km_curves(expr_df, cancer_sel, time_col, event_col, return_fig=True)
                 fig.update_layout(height=420, margin=dict(t=40, b=40))
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig, width='stretch')
             else:
                 st.info(
                     f"Survival columns `{time_col}` / `{event_col}` not in expression data — "
@@ -167,7 +167,7 @@ with tab2:
             from src.visualization.cd46_plots import plot_forest_plot
             fig2 = plot_forest_plot(survival_df, endpoint=fp_endpoint, return_fig=True)
             fig2.update_layout(height=550, margin=dict(t=40, b=40, l=120))
-            st.plotly_chart(fig2, use_container_width=True)
+            st.plotly_chart(fig2, width='stretch')
         except Exception as e:
             st.error(f"Forest plot error: {e}")
     else:

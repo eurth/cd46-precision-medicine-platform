@@ -162,7 +162,7 @@ with tab1:
                 margin=dict(l=10, r=80, t=30, b=10),
                 title=dict(text="Pan-Cancer CD46 mRNA Expression (TCGA)", font=dict(color="#e2e8f0", size=13)),
             )
-            st.plotly_chart(fig1, use_container_width=True)
+            st.plotly_chart(fig1, width='stretch')
             st.caption("🔴 PRAD · 🟠 BLCA · 🟡 OV highlighted as priority targets · Dashed = pan-cancer mean · Dotted = 75th pct threshold")
         else:
             st.info("Expression column not found — run `python scripts/run_pipeline.py` to generate.")
@@ -238,7 +238,7 @@ with tab1:
             cm1.metric("Eligible at threshold", f"{n_elig:,}", f"{n_elig/max(n_tot,1)*100:.1f}% of {n_tot:,}")
             cm2.metric("Cancers > 50% eligible", str(int((grp_thr["pct_eligible"] >= 50).sum())))
             cm3.metric("Threshold", f"{thr_val:.1f} log₂ TPM")
-            st.plotly_chart(fig_thr, use_container_width=True)
+            st.plotly_chart(fig_thr, width='stretch')
             top3 = grp_thr.nlargest(3, "pct_eligible")["cancer_type"].tolist()
             st.caption(f"Highest eligibility at {thr_val:.1f}: **{'  ·  '.join(top3)}**")
     else:
@@ -288,7 +288,7 @@ with tab2:
                     margin=dict(l=10, r=10, t=40, b=10),
                     title_font=dict(color="#e2e8f0", size=13),
                 )
-                st.plotly_chart(fig2, use_container_width=True)
+                st.plotly_chart(fig2, width='stretch')
                 st.caption("Source: SU2C mCRPC 2019 (n=444) + TCGA PRAD · CNA-based alteration rates")
             else:
                 st.info("GENIE columnar data not in expected format — check parquet schema.")
@@ -369,7 +369,7 @@ with tab3:
             title_font=dict(color="#e2e8f0", size=13),
             margin=dict(l=10, r=10, t=40, b=10),
         )
-        st.plotly_chart(fig_resist, use_container_width=True)
+        st.plotly_chart(fig_resist, width='stretch')
 
     with col_r2:
         st.markdown("**Resistance Marker Interpretation**")
@@ -421,7 +421,7 @@ with tab3:
                     title_font=dict(color="#e2e8f0", size=13),
                     margin=dict(l=10, r=10, t=40, b=10),
                 )
-                st.plotly_chart(fig_surv, use_container_width=True)
+                st.plotly_chart(fig_surv, width='stretch')
                 st.caption("HR > 1.0 = CD46-High associated with worse prognosis → stronger therapeutic need")
 
     st.info(
@@ -518,7 +518,7 @@ with tab4:
         margin=dict(l=10, r=10, t=30, b=10),
         title=dict(text="Complement Regulatory Network — CD46 Central Hub", font=dict(color="#e2e8f0", size=13)),
     )
-    st.plotly_chart(fig_comp, use_container_width=True)
+    st.plotly_chart(fig_comp, width='stretch')
 
     col_cp1, col_cp2 = st.columns(2)
     with col_cp1:
@@ -1069,7 +1069,7 @@ with tab6:
             font=dict(color="#e2e8f0"),
             margin=dict(l=20, r=20, t=30, b=20),
         )
-        st.plotly_chart(fig_gauge, use_container_width=True)
+        st.plotly_chart(fig_gauge, width='stretch')
 
     with col_rec:
         st.markdown(f"<br><br>", unsafe_allow_html=True)
@@ -1194,7 +1194,7 @@ with tab6:
             height=380, margin=dict(l=40, r=40, t=40, b=40),
             title=dict(text="Multi-Dimensional Profile Radar", font=dict(color="#e2e8f0", size=13)),
         )
-        st.plotly_chart(fig_radar, use_container_width=True)
+        st.plotly_chart(fig_radar, width='stretch')
 
     # ---- Population Percentile ----
     st.markdown("---")
@@ -1234,7 +1234,7 @@ with tab6:
             title=dict(text="Score Distribution vs. TCGA Population (11,069 patients, proxy model)",
                        font=dict(color="#e2e8f0", size=12)),
         )
-        st.plotly_chart(fig_dist, use_container_width=True)
+        st.plotly_chart(fig_dist, width='stretch')
 
         # ---- Expected Outcomes by Tier (from survival CSV) ----
         import pathlib as _pl2
@@ -1373,7 +1373,7 @@ with tab6:
                         legend=dict(bgcolor="#1e293b", font=dict(color="#e2e8f0")),
                         margin=dict(l=10, r=10, t=10, b=10),
                     )
-                    st.plotly_chart(fig_dist, use_container_width=True)
+                    st.plotly_chart(fig_dist, width='stretch')
 
                 # Landmark survival comparison
                 with vc2:
@@ -1396,7 +1396,7 @@ with tab6:
                             legend=dict(bgcolor="#1e293b", font=dict(color="#e2e8f0")),
                             margin=dict(l=10, r=10, t=10, b=10),
                         )
-                        st.plotly_chart(fig_lm, use_container_width=True)
+                        st.plotly_chart(fig_lm, width='stretch')
                         st.caption("Landmark analysis — patients with follow-up past each timepoint")
 
                 # Per-cancer breakdown
@@ -1478,7 +1478,7 @@ with tab6:
             height=260, paper_bgcolor="#0f172a",
             margin=dict(l=20, r=20, t=30, b=10),
         )
-        st.plotly_chart(fig_gauge, use_container_width=True)
+        st.plotly_chart(fig_gauge, width='stretch')
 
     with col_sc2:
         st.markdown(

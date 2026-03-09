@@ -28,7 +28,7 @@ with st.sidebar:
         <div style="text-align: center; padding: 8px 0 16px;">
           <h2 style="color:#38bdf8; margin:0;">🔬 CD46 Platform</h2>
           <p style="color:#64748b; font-size:0.8em; margin:4px 0;">
-            Prof. Bobba Naidu Research Program
+            225Ac-CD46 Radiopharmaceutical Research
           </p>
         </div>
         """,
@@ -39,11 +39,11 @@ with st.sidebar:
     st.markdown("**Integrated Data Sources**")
     st.markdown(
         """
-        - ✅ TCGA Pan-Cancer Cohort (33 cancers, ~11K patients)
-        - ✅ Human Protein Atlas (30 tissues)
-        - ✅ mCRPC Clinical Cohort (n=1,183)
-        - ✅ CRISPR Functional Screen (DepMap)
-        - ✅ ClinicalTrials.gov
+        - ✅ TCGA Pan-Cancer Cohort (25 cancers, ~2,800 patients)
+        - ✅ Human Protein Atlas (81 tissues)
+        - ✅ mCRPC Clinical Cohort (n=226)
+        - ✅ CRISPR Functional Screen (DepMap, 1,186 cell lines)
+        - ✅ ClinicalTrials.gov (14 CD46 trials)
         - ✅ Drug-Target Database (ChEMBL)
         - ✅ Open Targets Disease Evidence
         - 🔜 AACR GENIE Genomics (Phase 2)
@@ -88,6 +88,10 @@ pg = st.navigation(
             st.Page("pages/5_research_assistant.py", title="Research Assistant", icon="🤖"),
             st.Page("pages/6_biomarker_panel.py", title="Biomarker Panel", icon="🧬"),
             st.Page("pages/7_kg_query_explorer.py", title="KG Query Explorer", icon="🔍"),
+        ],
+        "Clinical Tools": [
+            st.Page("pages/8_patient_eligibility.py", title="Patient Eligibility Scorer", icon="🎯"),
+            st.Page("pages/9_competitive_landscape.py", title="Competitive Landscape", icon="🏆"),
         ],
     }
 )

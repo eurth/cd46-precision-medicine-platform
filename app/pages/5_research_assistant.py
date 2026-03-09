@@ -31,6 +31,16 @@ st.markdown(
 
 from src.agent.orchestrator import PRESET_QUESTIONS
 
+# CAB-aligned focus questions (Clinical Advisory Board themes)
+CAB_QUESTIONS = [
+    "Which cancers have the strongest case for 225Ac-CD46 targeted RLT based on expression and survival data?",
+    "What is the optimal biomarker strategy for CD46 patient selection in a Phase I trial?",
+    "How does CD46 compare to PSMA as a therapeutic target in mCRPC, and what is the differentiation?",
+    "Design a Phase I dose-escalation trial for 225Ac-CD46 RLT in mCRPC — key elements?",
+    "What is the complement evasion mechanism of CD46 and how does it drive tumour immune escape?",
+    "Which CD46 isoforms are most relevant for antibody targeting and why does isoform selection matter?",
+]
+
 col_provider, col_temp = st.columns([2, 1])
 with col_provider:
     provider = st.selectbox("LLM Provider", ["auto", "openai", "gemini"], index=0)
@@ -104,6 +114,27 @@ for idx, msg in enumerate(st.session_state.messages):
 # Preset questions (quick-start buttons)
 # ---------------------------------------------------------------------------
 
+def _run_preset(q: str, key_prefix: str) -> None:
+    """Shared handler for preset + CAB question buttons."""
+    if agent is not None:
+        with st.chat_message("user"):
+            st.markdown(q)
+        with st.chat_message("assistant"):
+            with st.spinner("Thinking..."):
+                response_placeholder = st.empty()
+                full_response = ""
+                try:
+                    for token in agent.stream(q):
+                        full_response += token
+                        response_placeholder.markdown(full_response + "▌")
+                    response_placeholder.markdown(full_response)
+                except Exception as e:
+                    full_response = f"Error: {e}"
+                    response_placeholder.error(full_response)
+        st.session_state.messages.append({"role": "assistant", "content": full_response})
+        st.rerun()
+
+
 if not st.session_state.messages:
     st.subheader("Quick-start Questions")
     cols = st.columns(2)
@@ -111,23 +142,21 @@ if not st.session_state.messages:
         col = cols[i % 2]
         if col.button(q, key=f"preset_{i}", use_container_width=True):
             st.session_state.messages.append({"role": "user", "content": q})
-            if agent is not None:
-                with st.chat_message("user"):
-                    st.markdown(q)
-                with st.chat_message("assistant"):
-                    with st.spinner("Thinking..."):
-                        response_placeholder = st.empty()
-                        full_response = ""
-                        try:
-                            for token in agent.stream(q):
-                                full_response += token
-                                response_placeholder.markdown(full_response + "▌")
-                            response_placeholder.markdown(full_response)
-                        except Exception as e:
-                            full_response = f"Error: {e}"
-                            response_placeholder.error(full_response)
-                st.session_state.messages.append({"role": "assistant", "content": full_response})
-                st.rerun()
+            _run_preset(q, "preset")
+
+    st.markdown("---")
+    st.subheader("🔬 Clinical Advisory Board Focus Questions")
+    st.caption(
+        "Pre-built questions aligned to the 6 CAB evaluation themes: "
+        "Biomarkers/CDx · Theranostic Integration · Trial Architecture · "
+        "Sequencing · Endpoints · Access/Pathways"
+    )
+    cab_cols = st.columns(2)
+    for i, q in enumerate(CAB_QUESTIONS):
+        col = cab_cols[i % 2]
+        if col.button(q, key=f"cab_{i}", use_container_width=True):
+            st.session_state.messages.append({"role": "user", "content": q})
+            _run_preset(q, "cab")
 
 # ---------------------------------------------------------------------------
 # Chat input

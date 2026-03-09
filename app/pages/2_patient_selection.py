@@ -141,7 +141,7 @@ def _show_cbioportal_tab():
                 xaxis_title="Cohort", yaxis_title="% Samples",
                 legend=dict(orientation="h", yanchor="bottom", y=1.02),
             )
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch')
             st.caption(
                 "mCRPC (SU2C): 43% CD46-altered vs 9% in localised PRAD (TCGA) — "
                 "confirms CD46 upregulation in castration-resistant disease."
@@ -166,7 +166,7 @@ def _show_cbioportal_tab():
             xaxis_title="Cohort", yaxis_title="% Samples Altered",
             legend=dict(orientation="h", yanchor="bottom", y=1.02),
         )
-        st.plotly_chart(fig2, use_container_width=True)
+        st.plotly_chart(fig2, width='stretch')
         st.caption(
             "AR amplification (71% mCRPC) drives CD46 upregulation via androgen signalling. "
             "MYC co-amplification (71%) supports aggressive disease phenotype."
@@ -247,7 +247,7 @@ with tab1:
                 coloraxis_showscale=False, showlegend=False,
                 margin=dict(t=20, b=80), yaxis_title="% CD46-High",
             )
-            st.plotly_chart(bar_fig, use_container_width=True)
+            st.plotly_chart(bar_fig, width='stretch')
 
         with col_stacked:
             stacked = go.Figure()
@@ -264,7 +264,7 @@ with tab1:
                 legend=dict(orientation="h", y=-0.35),
                 margin=dict(t=20, b=80), yaxis_title="Number of Patients",
             )
-            st.plotly_chart(stacked, use_container_width=True)
+            st.plotly_chart(stacked, width='stretch')
     else:
         st.warning("⚠️ Eligibility data not found — run `python scripts/run_pipeline.py --mode analyze`")
 
@@ -289,7 +289,7 @@ with tab2:
                 thresh_fig.update_traces(textposition="outside")
                 thresh_fig.update_layout(height=340, coloraxis_showscale=False, showlegend=False,
                                          margin=dict(t=20, b=40), xaxis_title="")
-                st.plotly_chart(thresh_fig, use_container_width=True)
+                st.plotly_chart(thresh_fig, width='stretch')
         else:
             st.markdown(
                 "| Threshold | n Eligible | % Eligible |\n"
@@ -344,7 +344,7 @@ with tab3:
                 marker_color=["#475569", "#3b82f6", "#f59e0b", "#dc2626"],
             ))
             funnel.update_layout(height=280, margin=dict(t=10, b=10, l=10, r=10))
-            st.plotly_chart(funnel, use_container_width=True)
+            st.plotly_chart(funnel, width='stretch')
 
     with col_ar:
         with st.container(border=True):
@@ -366,7 +366,7 @@ with tab3:
             ))
             ar_fig.update_layout(height=280, yaxis_title="Relative CD46 expression",
                                  margin=dict(t=10, b=10), showlegend=False)
-            st.plotly_chart(ar_fig, use_container_width=True)
+            st.plotly_chart(ar_fig, width='stretch')
 
     st.markdown("---")
     st.markdown("**Co-biomarker correlations (PRAD, TCGA, Spearman)**")

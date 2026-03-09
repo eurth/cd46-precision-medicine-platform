@@ -85,7 +85,7 @@ with tab1:
 
             fig = plot_pan_cancer_boxplot(expr_df, sort_by=sort_by, return_fig=True)
             fig.update_layout(height=380, margin=dict(t=30, b=60))
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width='stretch')
         except Exception as e:
             st.error(f"Visualization error: {e}")
             st.dataframe(expr_df.head(10))
@@ -117,7 +117,7 @@ with tab2:
             with col_heat:
                 fig2 = plot_priority_heatmap(priority_df, return_fig=True)
                 fig2.update_layout(height=360, margin=dict(t=30, b=40))
-                st.plotly_chart(fig2, use_container_width=True)
+                st.plotly_chart(fig2, width='stretch')
             with col_rank:
                 st.markdown("**Top 10 Priority Cancers**")
                 top10 = priority_df.sort_values("priority_score", ascending=False).head(10) if "priority_score" in priority_df.columns else priority_df.head(10)
@@ -160,7 +160,7 @@ with tab3:
             with col_l:
                 fig3 = plot_hpa_protein(hpa_df, return_fig=True)
                 fig3.update_layout(height=360, margin=dict(t=30, b=40))
-                st.plotly_chart(fig3, use_container_width=True)
+                st.plotly_chart(fig3, width='stretch')
             with col_r:
                 st.markdown("**Interpretation**")
                 st.markdown(

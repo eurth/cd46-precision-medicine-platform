@@ -354,7 +354,7 @@ with tab_builder:
                         yaxis=dict(title=chart_col.replace("_", " "), color="#94a3b8", gridcolor="#1e293b"),
                         margin=dict(l=10, r=10, t=30, b=10),
                     )
-                    st.plotly_chart(fig, use_container_width=True)
+                    st.plotly_chart(fig, width='stretch')
         else:
             st.info("No results returned — the graph may not have matching nodes yet, or the query returned empty results.")
 
@@ -711,7 +711,7 @@ LIMIT 50
                 margin=dict(l=10, r=10, t=10, b=10),
                 title=dict(text=f"Graph: {preset_sel}", font=dict(color="#e2e8f0", size=13)),
             )
-            st.plotly_chart(fig_g, use_container_width=True)
+            st.plotly_chart(fig_g, width='stretch')
             st.caption(f"Rendering {n_nodes} nodes and {len(df_g)} edges from AuraDB · Node size = degree")
             st.dataframe(df_g, use_container_width=True, hide_index=True)
         else:
