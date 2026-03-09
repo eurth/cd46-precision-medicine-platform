@@ -301,8 +301,7 @@ with tab_overview:
     summary_cols = ["Name", "Drug Class", "Modality", "Target", "Phase Label",
                     "Developer", "Indication", "Isotope / Payload"]
     st.dataframe(
-        PIPELINE[summary_cols].sort_values(["Drug Class", "Phase_num"],
-                                            ascending=[True, False]),
+        PIPELINE.sort_values(["Drug Class", "Phase_num"], ascending=[True, False])[summary_cols],
         use_container_width=True,
         height=340,
         hide_index=True,
