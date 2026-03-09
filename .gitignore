@@ -6,6 +6,9 @@
 .env
 .streamlit/secrets.toml
 
+# Memory Bank — local planning docs, not part of deployable codebase
+MEMORY_BANK/
+
 # Python runtime
 __pycache__/
 *.py[cod]
