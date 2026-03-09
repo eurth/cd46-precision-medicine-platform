@@ -21,7 +21,7 @@ with col2:
 with col3:
     st.metric("Total Patients Profiled", "~2,800", "CD46 expression sequenced")
 with col4:
-    st.metric("Knowledge Graph Nodes", "2,455", "Genes, drugs, diseases, cohorts")
+    st.metric("Knowledge Graph Nodes", "2,484", "Genes, drugs, diseases, cohorts")
 
 st.markdown("---")
 st.subheader("Navigate the Platform")
@@ -114,7 +114,7 @@ with st.expander("📈 Investor Summary — 225Ac-CD46 Target Evidence", expande
     inv4.metric("Peer-reviewed publications", "55", "PubMed, CD46 oncology")
     inv1b, inv2b = st.columns(2)
     inv1b.metric("Disease associations (Open Targets)", "772", "CD46 → disease evidence links")
-    inv2b.metric("Knowledge Graph nodes", "2,455", "Across 14 node types")
+    inv2b.metric("Knowledge Graph nodes", "2,484", "Across 15 node types")
 
     st.markdown("**Top 5 Indications by CD46 Expression (TCGA)**")
 
