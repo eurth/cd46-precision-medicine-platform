@@ -493,14 +493,25 @@ af_tab, str_tab, pub_tab = st.tabs([
 ])
 
 with af_tab:
-    st.markdown(
-        "<div style='background:#1e293b;border-left:3px solid #38bdf8;padding:12px 16px;"
-        "border-radius:6px;margin-bottom:14px;'>"
-        "<b style='color:#38bdf8;'>CD46 (Membrane Cofactor Protein) — UniProt P15529</b><br>"
-        "<span style='color:#94a3b8;'>AlphaFold predicted structure · pLDDT confidence · EBI AlphaFold Database</span>"
-        "</div>",
-        unsafe_allow_html=True,
-    )
+    # ── helpers ──────────────────────────────────────────────────────────────
+    _DATA_ROOT = Path(__file__).resolve().parents[2] / "data" / "raw"
+
+    @st.cache_data(ttl=3_600, show_spinner=False)
+    def _load_uniprot() -> dict:
+        p = _DATA_ROOT / "apis" / "uniprot_cd46.json"
+        if p.exists():
+            with open(p, encoding="utf-8") as f:
+                return json.load(f)
+        return {}
+
+    @st.cache_data(ttl=3_600, show_spinner=False)
+    def _load_open_targets() -> list:
+        p = _DATA_ROOT / "apis" / "open_targets_cd46.json"
+        if p.exists():
+            with open(p, encoding="utf-8") as f:
+                d = json.load(f)
+            return d.get("data", {}).get("target", {}).get("associatedDiseases", {}).get("rows", [])
+        return []
 
     @st.cache_data(ttl=86_400, show_spinner=False)
     def _fetch_alphafold() -> dict:
@@ -514,71 +525,251 @@ with af_tab:
             pass
         return {}
 
-    with st.spinner("Loading AlphaFold metadata…"):
-        af = _fetch_alphafold()
+    uni = _load_uniprot()
+    ot_rows = _load_open_targets()
 
-    col_af1, col_af2 = st.columns([1, 1])
+    # ── parse UniProt data ───────────────────────────────────────────────────
+    comments = uni.get("comments", [])
 
-    with col_af1:
-        if af:
-            st.success("✅ AlphaFold metadata loaded (EBI API)")
-            st.metric("UniProt ID", af.get("uniprotAccession", "P15529"))
-            st.metric("Sequence Length", f"{af.get('seqLength', 347)} aa")
-            st.metric("AlphaFold Version", af.get("latestVersion", "v4"))
-            plddt = af.get("plddt")
-            if plddt:
-                import numpy as _np
-                mean_conf = float(_np.mean(plddt)) if isinstance(plddt, list) else None
-                st.metric("Mean pLDDT Confidence", f"{mean_conf:.1f}/100" if mean_conf else "N/A")
+    # Function description
+    func_text = next(
+        (c["texts"][0]["value"] for c in comments
+         if c.get("commentType") == "FUNCTION" and c.get("texts")), ""
+    )
 
-            # pLDDT per-residue bar chart
-            if isinstance(plddt, list) and len(plddt) > 0:
-                import plotly.graph_objects as _go
-                plddt_fig = _go.Figure(_go.Bar(
-                    y=plddt,
-                    marker_color=[
-                        "#3b82f6" if v > 90 else "#22c55e" if v > 70 else "#eab308" if v > 50 else "#ef4444"
-                        for v in plddt
-                    ],
-                    hovertemplate="Residue %{x}<br>pLDDT: %{y:.1f}<extra></extra>",
-                ))
-                plddt_fig.update_layout(
-                    height=180, margin=dict(l=0, r=0, t=20, b=0),
-                    paper_bgcolor="#0f172a", plot_bgcolor="#0f172a",
-                    xaxis=dict(title="Residue", color="#94a3b8", showgrid=False),
-                    yaxis=dict(title="pLDDT", color="#94a3b8", range=[0, 100], gridcolor="#1e293b"),
-                    title=dict(text="Per-residue pLDDT confidence", font=dict(color="#e2e8f0", size=11)),
-                )
-                st.plotly_chart(plddt_fig, use_container_width=True)
-        else:
-            st.info(
-                "AlphaFold API unavailable (network timeout or rate limit). "
-                "Known properties: UniProt P15529 · 347 aa · SCR domains 1-4 · "
-                "Mean pLDDT ~85 (high confidence) · surface-exposed CCP repeats."
-            )
-            st.metric("UniProt ID", "P15529")
-            st.metric("Sequence Length", "347 aa")
-            st.metric("Mean pLDDT (typical)", "~85/100")
+    # Annotation score and sequence length
+    annot_score = uni.get("annotationScore", 5.0)
+    sequence = uni.get("sequence", {})
+    seq_len = sequence.get("length", 392)
 
-    with col_af2:
-        st.markdown("**Structure confidence guide:**")
-        st.markdown("""
-        | pLDDT Score | Confidence | Region |
-        |---|---|---|
-        | > 90 | Very high | Reliable backbone |
-        | 70–90 | High | Generally correct |
-        | 50–70 | Low | Disordered regions |
-        | < 50 | Very low | Ignore for modelling |
-        """)
-        st.info(
-            "💡 CD46 SCR domains (1–4) are well-structured with high pLDDT. "
-            "The transmembrane anchor and cytoplasmic tails are STA-1/STA-2/LCA-1/LCA-2 isoform-specific."
+    # Gene names
+    gene_names_block = uni.get("genes", [{}])
+    gene_primary = gene_names_block[0].get("geneName", {}).get("value", "CD46") if gene_names_block else "CD46"
+
+    # Features: domains + variants
+    features = uni.get("features", [])
+    nat_variants = [f for f in features if f.get("type") == "Natural variant"]
+    domains_raw = [f for f in features if f.get("type") in ("Signal", "Domain", "Transmembrane", "Topological domain")]
+
+    # Isoforms
+    alt_products = next((c for c in comments if c.get("commentType") == "ALTERNATIVE PRODUCTS"), {})
+    isoforms = alt_products.get("isoforms", [])
+    isoform_note = alt_products.get("note", {}).get("texts", [{}])[0].get("value", "")
+
+    # ── SECTION 1: Protein Overview ──────────────────────────────────────────
+    st.markdown(
+        "<div style='background:#1e293b;border-left:3px solid #38bdf8;padding:14px 18px;"
+        "border-radius:8px;margin-bottom:18px;'>"
+        "<span style='font-size:1.15em;font-weight:700;color:#38bdf8;'>CD46 — Membrane Cofactor Protein (MCP)</span>"
+        "&nbsp;&nbsp;<span style='background:#0f172a;color:#94a3b8;font-size:0.78em;padding:2px 9px;"
+        "border-radius:12px;'>UniProt P15529 · Homo sapiens</span>"
+        "</div>",
+        unsafe_allow_html=True,
+    )
+
+    ov_c1, ov_c2, ov_c3, ov_c4 = st.columns(4)
+    ov_c1.metric("Sequence Length", f"{seq_len} aa")
+    ov_c2.metric("Apparent MW", "56–66 kDa")
+    ov_c3.metric("UniProt Annotation", f"{annot_score:.0f}/5 ⭐")
+    ov_c4.metric("Natural Variants", len(nat_variants))
+
+    if func_text:
+        st.markdown(
+            f"<div style='background:#0f172a;border:1px solid #334155;padding:12px 16px;"
+            f"border-radius:6px;color:#cbd5e1;font-size:0.88em;line-height:1.6;margin-bottom:6px;'>"
+            f"<b style='color:#38bdf8;'>Function:</b> {func_text}</div>",
+            unsafe_allow_html=True,
         )
 
-    st.markdown("**Interactive 3D Structure Viewer (AlphaFold DB):**")
+    # ── SECTION 2: Linear Domain Map ─────────────────────────────────────────
+    st.markdown("#### 🗺️ Protein Domain Architecture")
+
+    import plotly.graph_objects as _go
+
+    DOMAIN_SEGMENTS = [
+        ("Signal peptide",   1,   34,  "#64748b"),
+        ("SCR / Sushi 1",   35,   96,  "#3b82f6"),
+        ("SCR / Sushi 2",   97,  159,  "#6366f1"),
+        ("SCR / Sushi 3",  160,  225,  "#8b5cf6"),
+        ("SCR / Sushi 4",  226,  285,  "#a855f7"),
+        ("STP-rich / O-glycan", 286, 343, "#ec4899"),
+        ("Transmembrane",  344,  366,  "#f59e0b"),
+        ("Cytoplasmic tail", 367, 392, "#10b981"),
+    ]
+
+    dom_fig = _go.Figure()
+    for name, start, end, color in DOMAIN_SEGMENTS:
+        dom_fig.add_trace(_go.Bar(
+            x=[end - start + 1],
+            y=["CD46"],
+            base=[start - 1],
+            orientation="h",
+            marker_color=color,
+            name=name,
+            hovertemplate=f"<b>{name}</b><br>Residues {start}–{end}<br>Length: {end - start + 1} aa<extra></extra>",
+        ))
+
+    dom_fig.update_layout(
+        barmode="stack",
+        height=120,
+        margin=dict(l=0, r=0, t=10, b=30),
+        paper_bgcolor="#0f172a",
+        plot_bgcolor="#0f172a",
+        xaxis=dict(
+            title="Residue position", color="#94a3b8",
+            gridcolor="#1e293b", range=[0, seq_len + 5],
+        ),
+        yaxis=dict(showticklabels=False, showgrid=False),
+        legend=dict(
+            orientation="h", y=-0.6, x=0, font=dict(size=10, color="#94a3b8"),
+            bgcolor="rgba(0,0,0,0)",
+        ),
+        showlegend=True,
+    )
+    st.plotly_chart(dom_fig, use_container_width=True)
+
+    # ── SECTION 3: Natural Variants ───────────────────────────────────────────
+    st.markdown("#### 🔬 Natural Variants (13 SNPs)")
+
+    if nat_variants:
+        import pandas as _pd
+        var_rows = []
+        for v in nat_variants:
+            pos = v.get("location", {}).get("start", {}).get("value", "?")
+            alt_seq = v.get("alternativeSequence", {})
+            orig = alt_seq.get("originalSequence", "?")
+            alts = alt_seq.get("alternativeSequences", ["?"])
+            variant_aa = alts[0] if alts else "?"
+            cross_refs = v.get("featureCrossReferences", [])
+            dbsnp = next((r["id"] for r in cross_refs if r.get("database") == "dbSNP"), "")
+            desc = v.get("description", "")
+            disease = ""
+            if "in " in desc:
+                parts = [p.strip() for p in desc.split(";") if not p.strip().startswith("dbSNP")]
+                disease = "; ".join(p.replace("in ", "") for p in parts if p and not p.startswith("dbSNP")).strip()
+            var_rows.append({
+                "Position": pos,
+                "Change": f"{orig} → {variant_aa}",
+                "dbSNP": dbsnp,
+                "Disease / Note": disease if disease else "-",
+            })
+        df_var = _pd.DataFrame(var_rows).sort_values("Position")
+        st.dataframe(df_var, use_container_width=True, hide_index=True)
+    else:
+        st.info("Natural variant data not available — check uniprot_cd46.json")
+
+    # ── SECTION 4: Isoforms ───────────────────────────────────────────────────
+    st.markdown("#### 🧬 Protein Isoforms")
+
+    if isoform_note:
+        st.caption(isoform_note)
+
+    if isoforms:
+        iso_rows = []
+        for iso in isoforms:
+            name = iso.get("name", {}).get("value", "?")
+            synonyms = [s.get("value", "") for s in iso.get("synonyms", [])]
+            syn_str = ", ".join(synonyms) if synonyms else "-"
+            iso_id = iso.get("isoformIds", ["?"])[0]
+            status = iso.get("isoformSequenceStatus", "?")
+            iso_rows.append({
+                "Isoform": name,
+                "Synonym(s)": syn_str,
+                "UniProt ID": iso_id,
+                "Sequence Status": status,
+            })
+        df_iso = _pd.DataFrame(iso_rows)
+        st.dataframe(df_iso, use_container_width=True, hide_index=True)
+    else:
+        st.info("Isoform data not available — check uniprot_cd46.json")
+
+    # ── SECTION 5: Open Targets Disease Associations ──────────────────────────
+    st.markdown("#### 🎯 Disease Associations (Open Targets — top 25 of 772)")
+
+    if ot_rows:
+        top25 = sorted(ot_rows, key=lambda r: r.get("score", 0), reverse=True)[:25]
+        ot_names = [r["disease"]["name"] for r in top25]
+        ot_scores = [round(r.get("score", 0), 4) for r in top25]
+        ot_areas = [
+            r["disease"].get("therapeuticAreas", [{}])[0].get("name", "other")
+            for r in top25
+        ]
+
+        AREA_COLORS = {
+            "hematologic disease": "#f87171",
+            "genetic, familial or congenital disease": "#fb923c",
+            "immune system disease": "#fbbf24",
+            "neoplasm": "#4ade80",
+            "cancer": "#4ade80",
+            "infectious disease": "#a78bfa",
+            "nervous system disease": "#38bdf8",
+            "urinary system disease": "#818cf8",
+        }
+        bar_colors = [
+            AREA_COLORS.get(a.lower(), "#64748b") for a in ot_areas
+        ]
+
+        ot_fig = _go.Figure(_go.Bar(
+            x=ot_scores,
+            y=ot_names,
+            orientation="h",
+            marker_color=bar_colors,
+            hovertemplate="<b>%{y}</b><br>Score: %{x:.4f}<extra></extra>",
+        ))
+        ot_fig.update_layout(
+            height=max(380, len(top25) * 18),
+            margin=dict(l=0, r=0, t=10, b=0),
+            paper_bgcolor="#0f172a",
+            plot_bgcolor="#0f172a",
+            xaxis=dict(title="Overall Association Score", color="#94a3b8",
+                       gridcolor="#1e293b", range=[0, 1]),
+            yaxis=dict(color="#e2e8f0", tickfont=dict(size=10), autorange="reversed"),
+        )
+        st.plotly_chart(ot_fig, use_container_width=True)
+        st.caption("Source: Open Targets Platform — 772 total associations. Colors: red=hematologic, orange=genetic, yellow=immune, green=cancer, purple=infectious. Score 0–1.")
+    else:
+        st.info("Open Targets data not available — check data/raw/apis/open_targets_cd46.json")
+
+    # ── SECTION 6: AlphaFold pLDDT ───────────────────────────────────────────
+    st.markdown("#### 📊 AlphaFold Structural Confidence (pLDDT)")
+
+    with st.spinner("Loading AlphaFold pLDDT…"):
+        af = _fetch_alphafold()
+
+    plddt = af.get("plddt") if af else None
+
+    if isinstance(plddt, list) and len(plddt) > 0:
+        import numpy as _np
+        mean_conf = float(_np.mean(plddt))
+        c_plddt1, c_plddt2, c_plddt3 = st.columns(3)
+        c_plddt1.metric("Mean pLDDT", f"{mean_conf:.1f} / 100")
+        c_plddt2.metric("Very High (>90)", f"{sum(1 for v in plddt if v > 90)} residues")
+        c_plddt3.metric("Low (<70)", f"{sum(1 for v in plddt if v < 70)} residues")
+
+        plddt_fig = _go.Figure(_go.Bar(
+            y=plddt,
+            marker_color=[
+                "#3b82f6" if v > 90 else "#22c55e" if v > 70 else "#eab308" if v > 50 else "#ef4444"
+                for v in plddt
+            ],
+            hovertemplate="Residue %{x}<br>pLDDT: %{y:.1f}<extra></extra>",
+        ))
+        plddt_fig.update_layout(
+            height=200, margin=dict(l=0, r=0, t=10, b=0),
+            paper_bgcolor="#0f172a", plot_bgcolor="#0f172a",
+            xaxis=dict(title="Residue index", color="#94a3b8", showgrid=False),
+            yaxis=dict(title="pLDDT", color="#94a3b8", range=[0, 100], gridcolor="#1e293b"),
+        )
+        st.plotly_chart(plddt_fig, use_container_width=True)
+        st.caption("Blue > 90 (very high) · Green 70–90 (high) · Yellow 50–70 (low) · Red < 50 (very low)")
+    else:
+        st.info("pLDDT data unavailable (AlphaFold EBI API timeout). SCR domains 1–4 typically score > 85.")
+
+    # ── SECTION 7: 3D Structure Viewer ────────────────────────────────────────
+    st.markdown("#### 🔭 Interactive 3D Structure (AlphaFold DB)")
     st.markdown(
         "<iframe src='https://alphafold.ebi.ac.uk/entry/P15529' "
-        "width='100%' height='650px' style='border:1px solid #334155;border-radius:8px;'>"
+        "width='100%' height='620px' style='border:1px solid #334155;border-radius:8px;'>"
         "</iframe>",
         unsafe_allow_html=True,
     )
@@ -595,35 +786,38 @@ with str_tab:
         unsafe_allow_html=True,
     )
 
-    if st.button("🔄 Fetch STRING Interactions", key="fetch_string"):
-        with st.spinner("Querying STRING DB API..."):
-            try:
-                import requests as _req
-                resp = _req.get(
-                    "https://string-db.org/api/json/interaction_partners",
-                    params={
-                        "identifiers": "CD46",
-                        "species": 9606,
-                        "limit": 25,
-                        "caller_identity": "cd46_precision_medicine_platform",
-                    },
-                    timeout=15,
-                )
-                if resp.status_code == 200:
-                    string_data = resp.json()
-                    st.session_state["string_data"] = string_data
-                    st.success(f"✅ {len(string_data)} interaction partners loaded")
-                else:
-                    st.warning(f"STRING API returned status {resp.status_code}")
-            except Exception as e:
-                st.error(f"STRING fetch failed: {e}")
+    @st.cache_data(ttl=86_400, show_spinner=False)
+    def _fetch_string() -> list:
+        try:
+            import requests as _req
+            resp = _req.get(
+                "https://string-db.org/api/json/interaction_partners",
+                params={
+                    "identifiers": "CD46",
+                    "species": 9606,
+                    "limit": 25,
+                    "caller_identity": "cd46_precision_medicine_platform",
+                },
+                timeout=15,
+            )
+            if resp.status_code == 200:
+                return resp.json()
+        except Exception:
+            pass
+        return []
 
-    if "string_data" in st.session_state:
+    with st.spinner("Loading STRING interaction network…"):
+        string_data = _fetch_string()
+
+    if string_data:
+        st.success(f"✅ {len(string_data)} interaction partners loaded (STRING DB)")
+
+    if string_data:
         import pandas as pd
         import plotly.graph_objects as go
         import math
 
-        interactions = st.session_state["string_data"]
+        interactions = string_data
         df_str = pd.DataFrame(interactions)
 
         # Key complement pathway genes to highlight

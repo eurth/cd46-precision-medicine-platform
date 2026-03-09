@@ -317,6 +317,38 @@ def run_analysis_summary(analysis: str = "priority") -> str:
 
 
 # ---------------------------------------------------------------------------
+# Tool 6: Search PubMed live
+# ---------------------------------------------------------------------------
+
+def search_pubmed(query: str, max_results: int = 6) -> str:
+    """
+    Search PubMed via NCBI E-utilities and return article metadata with abstracts.
+
+    Args:
+        query: Free-text search query (e.g., "CD46 prostate cancer therapy")
+        max_results: Maximum articles to return (default 6)
+
+    Returns:
+        JSON string with article list: pmid, title, authors, journal, year, url, abstract_snippet
+    """
+    try:
+        from src.agent.pubmed_search import fetch_pubmed, format_for_llm_context
+        articles = fetch_pubmed(query, max_results)
+        return json.dumps(
+            {
+                "query": query,
+                "total_found": len(articles),
+                "articles": articles,
+                "formatted_context": format_for_llm_context(articles),
+            },
+            indent=2,
+        )
+    except Exception as e:
+        logger.error("PubMed search failed: %s", e)
+        return json.dumps({"error": str(e), "query": query})
+
+
+# ---------------------------------------------------------------------------
 # Tool registry for LangGraph
 # ---------------------------------------------------------------------------
 
@@ -326,4 +358,5 @@ TOOL_REGISTRY = {
     "get_eligibility": get_eligibility,
     "search_trials": search_trials,
     "run_analysis_summary": run_analysis_summary,
+    "search_pubmed": search_pubmed,
 }

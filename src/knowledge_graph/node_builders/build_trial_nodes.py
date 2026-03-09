@@ -88,7 +88,11 @@ def _parse_trials_json(trials_path: Path) -> list[dict]:
     with open(trials_path) as f:
         data = json.load(f)
 
-    studies = data.get("studies", [])
+    # Handle both root-list format and {"studies": [...]} dict format
+    if isinstance(data, list):
+        studies = data
+    else:
+        studies = data.get("studies", [])
     records = []
 
     for study in studies:

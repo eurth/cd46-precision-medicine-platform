@@ -1,5 +1,38 @@
 # CD46 Knowledge Graph — Node & Relationship Count Analysis
-# REVISED: March 7, 2026 — Full Phase 1 (all 4 datasets, no GENIE)
+# REVISED: March 10, 2026 — Confirmed AuraDB state after Phase 1 loaders
+
+---
+
+## ✅ CONFIRMED AURADB STATE (audit_kg.py — March 10, 2026)
+
+| Label | Count |
+|---|---|
+| CellLine | 1,186 |
+| ClinicalTrial | 14 |
+| DataSource | 5 |
+| Disease | 50 |
+| Drug | 3 |
+| Gene | 6 |
+| Pathway | 3 |
+| PatientGroup | 226 |
+| Protein | 4 |
+| ProteinIsoform | 16 |
+| ProteinVariant | 13 |
+| Publication | 55 |
+| SurvivalResult | 39 |
+| Tissue | 81 |
+| **TOTAL** | **1,701** |
+
+**Relationships: 1,118 total**
+Key rel types: ASSOCIATED_WITH(25), EXPRESSED_IN(324), HAS_CLINICAL_TRIAL(14),
+HAS_ISOFORM(16), HAS_PATIENT_GROUP(226), HAS_SURVIVAL_DATA(312),
+HAS_VARIANT(13), INVESTIGATES(14), OVEREXPRESSED_IN(20), SUPPORTS(70)
+
+### IMPORTANT: Protein node uniprot_id format
+Protein nodes use uniprot_id values like 'P15529-STA-1', NOT 'P15529'.
+Always MATCH using `symbol = 'CD46'` when targeting CD46 protein nodes.
+
+---
 
 ## AuraDB Free Tier Limits
 - Nodes: ~200,000

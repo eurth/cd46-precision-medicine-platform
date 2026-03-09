@@ -56,6 +56,19 @@ INTENTS = {
         "knowledge graph", "kg", "node", "edge", "relationship",
         "cypher", "neo4j", "graph",
     ],
+    "biomarker": [
+        "biomarker", "marker", "predictive", "complement", "cd55", "cd59", "ar-v7",
+        "tp53", "rb1", "resistance", "precision medicine", "patient selection",
+        "combination", "co-target", "scoring",
+    ],
+    "protein": [
+        "protein", "structure", "alphafold", "uniprot", "isoform", "domain",
+        "string", "interaction", "network", "complement pathway", "p15529",
+    ],
+    "literature": [
+        "pubmed", "paper", "publication", "study", "journal", "research",
+        "article", "cited", "reference", "evidence", "published",
+    ],
     "general": [],  # fallback
 }
 
@@ -81,6 +94,7 @@ def _load_context_for_intent(intent: str, question: str) -> tuple[str, list[str]
         load_csv_data,
         run_analysis_summary,
         search_trials,
+        search_pubmed,
     )
 
     contexts = []
@@ -129,10 +143,44 @@ def _load_context_for_intent(intent: str, question: str) -> tuple[str, list[str]
         contexts.append(f"KG priority scores:\n{result}")
         sources += ["AuraDB Knowledge Graph"]
 
+    elif intent == "biomarker":
+        result = load_csv_data("combination", top_n=20)
+        contexts.append(f"CD46 combination biomarker correlations:\n{result}")
+        result2 = run_analysis_summary("priority")
+        contexts.append(f"Cancer priority scores with biomarker context:\n{result2}")
+        result3 = load_csv_data("by_cancer", top_n=15)
+        contexts.append(f"CD46 expression by cancer type:\n{result3}")
+        sources += ["cd46_combination_biomarkers.csv", "TCGA", "SU2C mCRPC"]
+
+    elif intent == "protein":
+        result = load_csv_data("hpa", top_n=30)
+        contexts.append(f"CD46 protein expression (Human Protein Atlas):\n{result}")
+        result2 = load_csv_data("combination", top_n=15)
+        contexts.append(f"Protein interaction biomarkers:\n{result2}")
+        sources += ["Human Protein Atlas", "UniProt P15529", "AlphaFold EBI"]
+
+    elif intent == "literature":
+        pubmed_result = search_pubmed(f"CD46 {question[:80]}")
+        contexts.append(f"PubMed literature:\n{pubmed_result}")
+        sources += ["PubMed / NCBI"]
+
     else:  # general
         result = run_analysis_summary("priority")
         contexts.append(f"CD46 priority overview:\n{result}")
         sources += ["All datasets"]
+
+    # Always append fresh PubMed context for non-literature intents
+    if intent != "literature":
+        try:
+            pubmed_query = f"CD46 {intent} prostate cancer 225Ac therapy"
+            pub_raw = search_pubmed(pubmed_query, max_results=4)
+            import json as _json
+            pub_data = _json.loads(pub_raw)
+            if pub_data.get("formatted_context"):
+                contexts.append(pub_data["formatted_context"])
+                sources.append("PubMed / NCBI")
+        except Exception as _e:
+            logger.debug("PubMed context append skipped: %s", _e)
 
     return "\n\n".join(contexts), sources
 

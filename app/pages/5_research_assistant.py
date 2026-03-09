@@ -64,6 +64,8 @@ if agent_error:
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
+if "citations" not in st.session_state:
+    st.session_state.citations = {}  # {msg_idx: [article_dicts]}
 
 # New Question / Clear button — always visible when conversation exists
 if st.session_state.messages:
@@ -74,9 +76,29 @@ if st.session_state.messages:
             st.rerun()
 
 # Display prior messages
-for msg in st.session_state.messages:
+for idx, msg in enumerate(st.session_state.messages):
     with st.chat_message(msg["role"]):
         st.markdown(msg["content"])
+    # Show PubMed citations below each assistant message
+    if msg["role"] == "assistant" and idx in st.session_state.citations:
+        arts = st.session_state.citations[idx]
+        if arts:
+            with st.expander(f"📚 Referenced Literature ({len(arts)} papers)", expanded=False):
+                for i, art in enumerate(arts, 1):
+                    st.markdown(
+                        f"""
+                        <div style='background:#1e293b;border-left:3px solid #38bdf8;
+                        padding:10px 14px;margin:6px 0;border-radius:4px;'>
+                        <b style='color:#e2e8f0;'>[{i}] {art.get('title','')}</b><br>
+                        <span style='color:#94a3b8;font-size:0.85em;'>{art.get('authors','')}</span><br>
+                        <span style='color:#64748b;font-size:0.82em;'>{art.get('journal','')} &middot; {art.get('year','')}</span>
+                        {'<br><span style="color:#94a3b8;font-size:0.82em;">'+art.get("abstract_snippet","")[:280]+'...</span>' if art.get('abstract_snippet') else ''}
+                        </div>
+                        """,
+                        unsafe_allow_html=True,
+                    )
+                    if art.get("url"):
+                        st.link_button(f"Open PubMed ↗", art["url"])
 
 # ---------------------------------------------------------------------------
 # Preset questions (quick-start buttons)
@@ -137,6 +159,16 @@ if prompt := st.chat_input("Ask about CD46 expression, eligibility, survival, dr
                     response_placeholder.error(full_response)
 
             st.session_state.messages.append({"role": "assistant", "content": full_response})
+            # Fetch PubMed citations for this answer
+            try:
+                from src.agent.pubmed_search import fetch_pubmed
+                cite_query = f"CD46 {prompt[:80]} prostate cancer"
+                arts = fetch_pubmed(cite_query, max_results=5)
+                msg_idx = len(st.session_state.messages) - 1
+                st.session_state.citations[msg_idx] = arts
+            except Exception:
+                pass
+            st.rerun()
 
 # ---------------------------------------------------------------------------
 # Clear chat
@@ -145,6 +177,7 @@ if prompt := st.chat_input("Ask about CD46 expression, eligibility, survival, dr
 if st.session_state.messages:
     if st.button("🗑️ Clear conversation"):
         st.session_state.messages = []
+        st.session_state.citations = {}
         st.rerun()
 
 # ---------------------------------------------------------------------------
