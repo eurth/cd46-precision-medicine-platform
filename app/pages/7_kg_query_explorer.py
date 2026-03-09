@@ -719,7 +719,7 @@ LIMIT 50
 
 st.markdown("---")
 st.markdown(
-    "<div style='color:#64748b;font-size:0.78em;'>AuraDB: 1,517 nodes · 754 relationships · "
+    "<div style='color:#64748b;font-size:0.78em;'>AuraDB: 2,455 nodes · 1,870 relationships · "
     "Labels: Disease, SurvivalResult, Publication, ClinicalTrial, PatientGroup, Drug, Gene, Protein, Pathway, CellLine, Tissue · "
     "Read/Write access · Research use only.</div>",
     unsafe_allow_html=True,
