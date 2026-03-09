@@ -1,7 +1,9 @@
 # CD46 Precision Medicine Platform — Master Plan
-# Version: 1.0 | Date: March 7, 2026
-# Context: 48-hour pitch sprint for Prof. Bobba Naidu (225Ac-CD46 therapy)
-# Stack: VS Code local | Python 3.11 | GPT-4o + Gemini API | AuraDB Free
+# Version: 2.0 | Last Updated: March 9, 2026
+# Context: Pitch sprint for Prof. Bobba Naidu (225Ac-CD46 therapy)
+# Stack: VS Code local | Python 3.13.7 | GPT-4o + Gemini API | AuraDB Free
+# Git: https://github.com/eurth/cd46-precision-medicine-platform | branch: main
+# Streamlit local: http://localhost:8502 | Cloud: auto-deploys on push to main
 
 ---
 
@@ -52,38 +54,66 @@ cd46_precision_medicine_platform/
 
 ---
 
-## DATASETS — PHASE 1 (48-hour sprint)
+## DATASETS — STATUS AS OF MARCH 9, 2026
 
-| Dataset | What | Access | Time |
-|---|---|---|---|
-| TCGA (UCSC Xena) | CD46 mRNA, 19k samples, 33 cancers, survival | Free download | 4 min |
-| HPA API | CD46 protein per 44 tissues, tumor vs normal | Free REST | 5 sec |
-| SU2C mCRPC (cBioPortal) | 1,183 mCRPC patients (150 SU2C + 1,033 MSK) | Free REST | 1 min |
-| DepMap | 1,800 cell lines, CRISPR essentiality | Free download | 10 min |
-| ClinicalTrials.gov v2 | All CD46 NCT trials | Free REST | 10 sec |
-| ChEMBL | CD46 compounds | Free REST | 10 sec |
-| UniProt | CD46 protein annotation | Free REST | 5 sec |
-| Open Targets | CD46 target-disease scores | Free GraphQL | 30 sec |
+| Dataset | What | AuraDB Nodes | Status | Notes |
+|---|---|---|---|---|
+| TCGA (UCSC Xena) | CD46 mRNA, 33 cancers, survival | 50 Disease + 226 PatientGroup + 39 SurvivalResult | ✅ LOADED | Aggregated (High/Low groups per cancer) |
+| HPA (Human Protein Atlas) | CD46 protein, 44+ tissues | 81 Tissue | ✅ LOADED | 57 via curated list; raw JSON had no per-tissue levels |
+| DepMap | 1,800+ cell lines, CRISPR scores | 1,186 CellLine | ✅ LOADED | CD46 expression + CRISPR dependency as properties |
+| ClinicalTrials.gov v2 | All CD46 NCT trials | 14 ClinicalTrial | ✅ LOADED | 9 new NCTs + 5 existing |
+| ChEMBL | CD46 bioactivities | 0 new (data in JSON) | ⚠️ JSON ON DISK | Not yet loaded as nodes |
+| UniProt | CD46 protein features | 4 Protein + 16 ProteinIsoform + 13 ProteinVariant | ✅ LOADED | All 16 isoforms, 13 AHUS2/somatic variants |
+| Open Targets | CD46 disease associations | 50 Disease (25 via OT) | ⚠️ PARTIAL | Only 25/772 fetched (limit=25 at fetch time) |
+| cBioPortal mCRPC | SU2C + MSK mCRPC cohorts | 26 PatientGroup | ⚠️ SAMPLE | JSON has 26 unique patients; full 1,033 MSK not saved |
+| PubMed (Biopython Entrez) | CD46 publications | 55 Publication | ✅ LOADED | 47 new (5 search terms, deduplicated) |
+| Drugs (manual seed) | FOR46, 225Ac-ADC, PSMA | 3 Drug | ✅ SEEDED | Manual; DrugBank full data pending |
+| Pathways (manual seed) | Complement, immune evasion | 3 Pathway | ✅ SEEDED | Manual |
+| DrugBank Academic | CD46 drug-target interactions | 0 | ⬜ TODO | Free academic signup → ~25 Drug nodes |
+| STRING DB | CD46 protein interactions | 0 KG nodes (UI only) | ⬜ TODO | Tab auto-loads from API; not yet in AuraDB |
+| GENIE (AACR Synapse) | 12k PRAD variant patients | 0 | 🔒 BLOCKED | Synapse DUA in review (~1-2 weeks) |
 
-GENIE: DEFERRED to Phase 2 (200k individual patients exceed AuraDB Free node limit)
+### CONFIRMED AURADB STATE (March 9, 2026 — audit_kg.py)
+- **Total Nodes: 1,701**
+- **Total Relationships: 1,118**
+- Commit: `96641fb` | pushed to `main` ✅
+
+### NEXT HIGHEST-IMPACT (in order):
+1. **DrugBank Academic** — 5-min free signup → +~25 Drug nodes + TARGETS rels
+2. **Open Targets full re-fetch** — one GraphQL call with `size:772` → +747 Disease associations
+3. **STRING → KG** — load CD46 interaction partners as Gene nodes with INTERACTS_WITH rels
+
+GENIE: DEFERRED to Phase 2 (Synapse DUA pending; 12k patients would push us to ~15k nodes)
 
 ---
 
-## KG SIZE — PHASE 1
+## KG SIZE — ACTUAL vs PLAN
 
-| Dataset | Nodes | Rels |
-|---|---|---|
-| TCGA (aggregated) | 198 | 380 |
-| SU2C via cBioPortal (individual) | 1,183 | 7,000 |
-| HPA (44 tissues individual) | 176 | 300 |
-| DepMap (1,800 cell lines) | 1,800 | 5,400 |
-| Static seed (genes, proteins, pathways) | 395 | 1,200 |
-| Drugs + Trials | 50 | 200 |
-| Publications | 50 | 150 |
-| Open Targets + ChEMBL | 60 | 250 |
-| **TOTAL** | **~3,912** | **~14,880** |
+| Label | Planned | Actual (March 9) | Gap / Note |
+|---|---|---|---|
+| CellLine | 1,800 | 1,186 | DepMap loaded subset |
+| PatientGroup | 1,183 | 226 | cBioPortal JSON has 26; rest from TCGA aggregates |
+| Tissue | 176 | 81 | Curated list; HPA JSON lacked per-tissue data |
+| Disease | 60 | 50 | 33 TCGA + 25 Open Targets (partial) |
+| Publication | 50 | 55 | 47 PubMed + 8 manual = 55 ✅ |
+| ClinicalTrial | 50 | 14 | 14 loaded |
+| ProteinIsoform | 16 | 16 | ✅ All 16 UniProt isoforms |
+| ProteinVariant | 13 | 13 | ✅ All 13 natural variants |
+| Drug | 25 | 3 | DrugBank Academic pending |
+| SurvivalResult | — | 39 | Added from TCGA analysis |
+| Protein | 4 | 4 | CD46 splice isoform Protein nodes |
+| Gene | 6 | 6 | CD46 + related genes |
+| Pathway | 3 | 3 | Complement, immune evasion |
+| DataSource | 5 | 5 | TCGA, HPA, DepMap, ChEMBL, STRING |
+| **TOTAL** | **~3,912** | **1,701** | **43% of plan; gap = GENIE + DrugBank + full OT** |
 
-AuraDB Free: 200,000 nodes / 400,000 rels → **~2% utilization**
+AuraDB Free: 200,000 nodes / 400,000 rels → **~0.85% utilization — massive headroom**
+
+### Path to ~2,500 nodes (without GENIE):
+- DrugBank Academic: +~25 nodes
+- Open Targets full 772: +~747 Disease/ASSOCIATED_WITH
+- STRING → KG: +~20 Gene nodes
+- Full cBioPortal mCRPC 1,033 patients: +~1,007 PatientGroup nodes
 
 ---
 
@@ -98,26 +128,37 @@ AuraDB Free: 200,000 nodes / 400,000 rels → **~2% utilization**
 
 ---
 
-## 48-HOUR SPRINT PHASES
+## SPRINT EXECUTION STATUS
 
-### PRE-SPRINT SETUP (30 min)
-- Create AuraDB Free account → get Bolt URI + username + password
-- Create .env file with OPENAI_API_KEY, GEMINI_API_KEY, NEO4J_URI, NEO4J_USERNAME, NEO4J_PASSWORD
+| Phase | Task | Status |
+|---|---|---|
+| Setup | AuraDB Free + .env | ✅ DONE |
+| Phase 1 | Download all datasets | ✅ DONE |
+| Phase 2 | TCGA survival analysis | ✅ DONE |
+| Phase 3 | KG build (all loaders run) | ✅ DONE — 1,701 nodes |
+| Phase 4 | Streamlit app (all 6 pages) | ✅ DONE — running on :8502 |
+| Phase 4a | AlphaFold tab → protein biology panel | ✅ DONE — 7 sections |
+| Phase 4b | STRING tab auto-load | ✅ DONE |
+| Phase 5 | Push to GitHub | ✅ DONE — commit 96641fb |
+| Phase 5 | Streamlit Cloud deploy | ✅ AUTO-DEPLOY on push |
 
-### PHASE 1 — Download (Hours 0-2)
-  python scripts/run_pipeline.py --mode download
+## REMAINING WORK (short queue)
 
-### PHASE 2 — Analysis (Hours 2-8)
-  python scripts/run_pipeline.py --mode analyze
+| Task | Script / Action | Expected Gain | Priority |
+|---|---|---|---|
+| DrugBank Academic data | Sign up at go.drugbank.com → run `load_kg_drugbank.py` | +~25 Drug nodes, +~50 TARGETS rels | HIGH |
+| Open Targets full 772 rows | Re-fetch with `size:772` → re-run `load_kg_open_targets.py` | +~747 ASSOCIATED_WITH rels | HIGH |
+| STRING interactions → KG | Load 20 interaction partners from STRING API into AuraDB | +~20 Gene nodes, +~25 INTERACTS_WITH rels | MEDIUM |
+| Full mCRPC 1,033 patients | Re-fetch cBioPortal with all sample IDs → load | +~1,007 PatientGroup nodes | MEDIUM |
+| GENIE PRAD variants | Synapse DUA approval → `download_genie.py` + `load_kg_genie.py` | +~12,900 nodes | 🔒 BLOCKED |
 
-### PHASE 3 — KG Build (Hours 8-12)
-  python scripts/run_pipeline.py --mode kg
-
-### PHASE 4 — Streamlit App (Hours 12-24)
-  streamlit run app/streamlit_app.py
-
-### PHASE 5 — Deploy (Hours 24-36)
-  Push to GitHub → deploy Streamlit Community Cloud
+## IMPORTANT TECHNICAL NOTES
+- **Protein node MATCH**: Use `symbol = 'CD46'`, NOT `uniprot_id = 'P15529'`
+  (actual uniprot_id values are 'P15529-STA-1', 'P15529-LCA-1' etc.)
+- **AuraDB credentials**: NEO4J_URI + NEO4J_USERNAME + NEO4J_PASSWORD in `.env`
+- **Local Streamlit**: `.venv\Scripts\streamlit.exe run app/streamlit_app.py --server.port 8502`
+- **Syntax check**: `.venv\Scripts\python.exe -m py_compile <file>` before every commit
+- **Audit**: `python scripts/audit_kg.py` after every loader run
 
 ### PHASE 6 — Polish + Practice (Hours 36-48)
 

@@ -1,5 +1,25 @@
 # CD46 Platform — Dataset API Reference
-# All endpoints verified March 7, 2026
+# Last Updated: March 9, 2026
+# STATUS KEY: ✅ LOADED | ⚠️ PARTIAL | ⬜ TODO | 🔒 BLOCKED
+
+---
+
+## STATUS SUMMARY (March 9, 2026)
+
+| Source | Status | AuraDB Nodes | Notes |
+|---|---|---|---|
+| TCGA | ✅ LOADED | 50 Disease, 226 PatientGroup, 39 SurvivalResult | Aggregated |
+| HPA | ✅ LOADED | 81 Tissue | Curated list (JSON lacked levels) |
+| DepMap | ✅ LOADED | 1,186 CellLine | Expression + CRISPR as properties |
+| ClinicalTrials.gov | ✅ LOADED | 14 ClinicalTrial | 9 via API + 5 manual |
+| UniProt | ✅ LOADED | 4 Protein, 16 ProteinIsoform, 13 ProteinVariant | Full isoforms + variants |
+| Open Targets | ⚠️ PARTIAL | 50 Disease (25 via OT) | 25/772 — re-fetch with size:772 |
+| cBioPortal mCRPC | ⚠️ PARTIAL | 26 PatientGroup | Sample only; full 1,033 pending |
+| PubMed Entrez | ✅ LOADED | 55 Publication | 47 new via biopython |
+| ChEMBL | ⚠️ JSON ONLY | 0 new nodes | data/raw/apis/chembl_cd46.json on disk |
+| DrugBank Academic | ⬜ TODO | 0 | Sign up at go.drugbank.com |
+| STRING DB | ⬜ TODO (in UI) | 0 KG nodes | API works in Streamlit; not in AuraDB yet |
+| GENIE Synapse | 🔒 BLOCKED | 0 | Synapse DUA pending |
 
 ---
 
@@ -59,10 +79,28 @@ CD46 human protein:
 
 ---
 
-## 6. Open Targets GraphQL API
+## 6. Open Targets GraphQL API — ⚠️ PARTIAL (25/772 loaded)
 
 Endpoint: https://api.platform.opentargets.org/api/v4/graphql
 
+# CURRENT JSON: data/raw/apis/open_targets_cd46.json — only 25 rows (limit=25 at fetch)
+# TODO: Re-fetch with size:772 to get all 772 associations
+
+# FULL FETCH QUERY (run to get all 772):
+  query CD46Full {
+    target(ensemblId: "ENSG00000117335") {
+      associatedDiseases(page: {index: 0, size: 772}) {
+        count
+        rows {
+          disease { id name therapeuticAreas { id name } }
+          score
+          datasourceScores { id score }
+        }
+      }
+    }
+  }
+
+# Original query (size:20 — too small):
 Query:
   query CD46Target {
     target(ensemblId: "ENSG00000117335") {
@@ -131,7 +169,29 @@ Terms: Non-commercial research use only
 
 ---
 
-## 10. AACR GENIE (Synapse) — PHASE 2 ONLY
+## 10. DrugBank Academic — ⬜ TODO (next high-impact step)
+
+Sign up: https://go.drugbank.com/releases/latest (free academic license, ~5 min)
+Once approved, download: DrugBank Full Database XML
+Filter for: CD46 (gene name) or P15529 (UniProt ID) in drug-target interactions
+Load script to create: scripts/load_kg_drugbank.py
+Expected: ~25 Drug nodes + ~50 TARGETS rels linking Drug → Gene(CD46)
+
+---
+
+## 11. STRING Protein Interactions — ⬜ TODO (in Streamlit UI, not yet in AuraDB)
+
+CD46 interaction partners:
+  URL: https://string-db.org/api/json/interaction_partners?identifiers=P15529&species=9606&limit=25
+  Returns: array of {stringId_A, stringId_B, preferredName_A, preferredName_B, score, ...}
+
+Currently: Streamlit tab auto-loads this (cached) for display only.
+TODO: Load top 20 partners as Gene nodes with INTERACTS_WITH rel in AuraDB.
+  Load script to create: scripts/load_kg_string.py
+
+---
+
+## 12. AACR GENIE (Synapse) — 🔒 BLOCKED (~1-2 weeks)
 
 Dataset: syn7222066 (GENIE main release)
 Access: synapseclient Python package
@@ -143,3 +203,5 @@ Access: synapseclient Python package
 CD46 locus: chromosome 1, position ~207,600,000-207,660,000 (GRCh38)
 CNA file: data_CNA.txt — look for CD46 or MCP column
 Mutation file: data_mutations_extended.txt — filter Hugo_Symbol == "CD46"
+Synapse dataset ID: syn7222066
+Expected gain when approved: +~12,900 nodes, +~48,000 rels → total ~15,000 nodes
