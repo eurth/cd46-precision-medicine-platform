@@ -98,6 +98,10 @@ pg = st.navigation(
         "Biology & Pipeline": [
             st.Page("pages/10_ppi_network.py", title="PPI Network Explorer", icon="🕸️"),
             st.Page("pages/11_drug_pipeline.py", title="Drug Pipeline", icon="💊"),
+            st.Page("pages/12_dosimetry_safety.py", title="Dosimetry & Safety Index", icon="⚗️"),
+        ],
+        "Clinical Strategy": [
+            st.Page("pages/13_clinical_strategy_engine.py", title="Clinical Strategy Engine", icon="🔬"),
         ],
     }
 )

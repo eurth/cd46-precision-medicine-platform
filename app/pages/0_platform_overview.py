@@ -24,6 +24,79 @@ with col4:
     st.metric("Knowledge Graph Nodes", "3,047", "Genes, drugs, diseases, cohorts")
 
 st.markdown("---")
+
+# ── End-to-End Development Engine ─────────────────────────────────────────────
+st.subheader("🔬 End-to-End Development Engine")
+st.markdown("From discovery biology to global registration — all evidence in one connected platform.")
+
+st.markdown("""
+<style>
+.pipeline-stages {
+    display: flex; gap: .5rem; margin: .6rem 0 1rem 0; flex-wrap: wrap;
+}
+.pipe-stage {
+    flex: 1; min-width: 170px;
+    background: #1e293b; border: 1px solid #334155;
+    border-radius: 10px; padding: .9rem 1rem; text-align: center;
+}
+.pipe-stage .icon { font-size: 1.6rem; }
+.pipe-stage .phase { font-size: .72rem; font-weight: 700; letter-spacing: .08em;
+                     color: #94a3b8; margin: .2rem 0; }
+.pipe-stage .title { font-size: .9rem; font-weight: 700; color: #f8fafc; margin: .2rem 0; }
+.pipe-stage .desc  { font-size: .74rem; color: #64748b; margin-top: .3rem; line-height: 1.4; }
+.pipe-stage .status-done   { color: #22c55e; font-size: .75rem; font-weight: 700; margin-top:.4rem; }
+.pipe-stage .status-active { color: #f97316; font-size: .75rem; font-weight: 700; margin-top:.4rem; }
+.pipe-stage .status-ready  { color: #38bdf8; font-size: .75rem; font-weight: 700; margin-top:.4rem; }
+.pipe-arrow { display: flex; align-items: center; color: #475569; font-size: 1.4rem;
+              padding-top: 1rem; flex-shrink: 0; }
+</style>
+<div class="pipeline-stages">
+  <div class="pipe-stage">
+    <div class="icon">🧬</div>
+    <div class="phase">PRECLINICAL</div>
+    <div class="title">AI-guided Biology</div>
+    <div class="desc">CD46 target validation · 797 disease associations · PPI network · 16 isoforms · DepMap CRISPR</div>
+    <div class="status-done">✅ Complete</div>
+  </div>
+  <div class="pipe-arrow">→</div>
+  <div class="pipe-stage">
+    <div class="icon">⚗️</div>
+    <div class="phase">PHASE I</div>
+    <div class="title">Safety & Dose</div>
+    <div class="desc">HPA dosimetry · Therapeutic index · FOR46 n=56 completed · DLT monitoring protocol</div>
+    <div class="status-active">▶ FOR46 Phase I done; 225Ac design-ready</div>
+  </div>
+  <div class="pipe-arrow">→</div>
+  <div class="pipe-stage">
+    <div class="icon">📊</div>
+    <div class="phase">PHASE II</div>
+    <div class="title">Proof-of-Concept</div>
+    <div class="desc">OS HR=1.65 (PRAD) · 789 real mCRPC patients · Patient funnel: 11% eligible per 1,000 screened</div>
+    <div class="status-ready">◉ Evidence-strong · Design-ready</div>
+  </div>
+  <div class="pipe-arrow">→</div>
+  <div class="pipe-stage">
+    <div class="icon">🌍</div>
+    <div class="phase">PHASE III</div>
+    <div class="title">Global Registration</div>
+    <div class="desc">Pluvicto precedent (FDA 2022) · CD46 CAR-T Phase III n=412 · PSMA-low unmet need</div>
+    <div class="status-ready">○ Pipeline visibility</div>
+  </div>
+  <div class="pipe-arrow">→</div>
+  <div class="pipe-stage">
+    <div class="icon">🏥</div>
+    <div class="phase">APPROVAL</div>
+    <div class="title">Target 2030</div>
+    <div class="desc">Indication: PSMA-low mCRPC post-ARPI · CD46 IHC companion Dx · Accelerated pathway eligible</div>
+    <div class="status-ready">○ Strategic milestone</div>
+  </div>
+</div>
+""", unsafe_allow_html=True)
+
+st.page_link("pages/13_clinical_strategy_engine.py",
+             label="🔬 Open Clinical Strategy Engine — full end-to-end evidence narrative →")
+
+st.markdown("---")
 st.subheader("Navigate the Platform")
 
 card_col1, card_col2, card_col3 = st.columns(3)
