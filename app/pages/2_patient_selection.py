@@ -435,35 +435,32 @@ with tab4:
                 n_lines=("depmap_id", "count"),
                 n_dependent=("cd46_is_dependency", "sum"),
                 mean_crispr=("cd46_crispr_score", "mean"),
-                mean_tpm=("cd46_expression_tpm", "mean"),
             )
             .reset_index()
         )
         bridge_data["pct_dependent"] = (bridge_data["n_dependent"] / bridge_data["n_lines"] * 100).round(1)
         bridge_data = bridge_data[bridge_data["n_lines"] >= 3].sort_values("pct_dependent", ascending=False).head(15)
 
-        fig_bridge = _px.scatter(
+        fig_bridge = _px.bar(
             bridge_data,
-            x="mean_tpm",
-            y="mean_crispr",
-            size="n_lines",
-            color="pct_dependent",
-            text="cancer_type",
+            x="cancer_type",
+            y="pct_dependent",
+            color="mean_crispr",
+            text="pct_dependent",
             labels={
-                "mean_tpm": "Mean CD46 Expression (TPM)",
+                "cancer_type": "Cell Line Lineage",
                 "mean_crispr": "Mean CRISPR Score (lower = more essential)",
                 "pct_dependent": "% Cell Lines Dependent",
             },
-            color_continuous_scale="RdYlGn_r",
-            title="DepMap: CD46 Expression vs CRISPR Dependency by Cancer Type",
+            color_continuous_scale="Reds_r",
+            title="DepMap: CD46 CRISPR Dependency by Cancer Type",
             template="plotly_dark",
         )
-        fig_bridge.update_traces(textposition="top center", textfont_size=10)
-        fig_bridge.add_hline(y=-0.5, line_dash="dash", line_color="#ef4444",
-                             annotation_text="Essentiality threshold (−0.5)")
+        fig_bridge.update_traces(textposition="outside", textfont_size=10)
         fig_bridge.update_layout(
             height=420, plot_bgcolor="#0f172a", paper_bgcolor="#0f172a",
             margin=dict(l=20, r=20, t=50, b=40),
+            xaxis_tickangle=-45
         )
         st.plotly_chart(fig_bridge, width="stretch")
 
