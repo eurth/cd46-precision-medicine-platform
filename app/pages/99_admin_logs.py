@@ -108,8 +108,10 @@ c2.metric("👥 Unique Sessions",  f"{unique_sess:,}")
 c3.metric("📑 Pages Visited",    f"{unique_pages:,}")
 c4.metric("🔥 Top Page",         top_page[:20] + ("…" if len(top_page) > 20 else ""))
 
+last_seen_str = last_seen.strftime('%Y-%m-%d %H:%M') if pd.notna(last_seen) else "unknown"
+
 st.caption(
-    f"Last visit: **{last_seen.strftime('%Y-%m-%d %H:%M')} UTC**  |  "
+    f"Last visit: **{last_seen_str} UTC**  |  "
     f"Log size: **{total_views:,} rows**  |  "
     f"⚠️ `/tmp/` resets on Streamlit Cloud server restarts — download CSV to archive."
 )
@@ -121,12 +123,17 @@ with st.expander("🔎 Filters", expanded=True):
     fc1, fc2, fc3 = st.columns(3)
 
     with fc1:
-        min_d = df["Date"].min()
-        max_d = df["Date"].max()
-        date_range = st.date_input(
-            "Date range", value=(min_d, max_d),
-            min_value=min_d, max_value=max_d, key="admin_date",
-        )
+        valid_dates = df["Date"].dropna()
+        if not valid_dates.empty:
+            min_d = valid_dates.min()
+            max_d = valid_dates.max()
+            date_range = st.date_input(
+                "Date range", value=(min_d, max_d),
+                min_value=min_d, max_value=max_d, key="admin_date",
+            )
+        else:
+            date_range = ()
+            st.caption("No valid dates yet.")
 
     with fc2:
         pages = ["All"] + sorted(df["Page"].dropna().unique().tolist())
