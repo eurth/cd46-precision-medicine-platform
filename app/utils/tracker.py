@@ -1,6 +1,6 @@
 ﻿"""
 Visitor tracking - logs page visits to a private GitHub Gist.
-Columns: Timestamp | Session_ID | Page | Browser | OS | IP
+Columns: Timestamp | Session_ID | Page | Browser | OS | IP | Country | City
 
 The Gist write runs in a background thread so it never slows down page loads.
 
@@ -12,6 +12,7 @@ Streamlit Cloud Secrets required:
 import csv
 import datetime
 import io
+import ipaddress
 import threading
 import uuid
 
@@ -39,9 +40,46 @@ def _parse_ua(ua: str) -> tuple:
     return browser, os_name
 
 
-def _write_to_gist(token: str, gist_id: str, row: list) -> None:
-    """Runs in background thread. Reads Gist, appends row, writes back."""
+def _is_public_ip(ip: str) -> bool:
     try:
+        return ipaddress.ip_address(ip).is_global
+    except ValueError:
+        return False
+
+
+def _get_public_ip(headers: dict) -> str:
+    """Extracts the first public IP from standard proxy headers."""
+    candidates = []
+    if "X-Forwarded-For" in headers:
+        candidates.extend([x.strip() for x in headers["X-Forwarded-For"].split(",")])
+    if "X-Real-Ip" in headers:
+        candidates.extend([x.strip() for x in headers["X-Real-Ip"].split(",")])
+    
+    for ip in candidates:
+        if ip and _is_public_ip(ip):
+            return ip
+    return candidates[0] if candidates else "Unknown"
+
+
+def _write_to_gist(token: str, gist_id: str, ts: str, session_id: str, page_name: str, browser: str, os_name: str, ip: str) -> None:
+    """Runs in background thread. Does GeoIP lookup, reads Gist, appends row, writes back."""
+    try:
+        # 1. GeoIP Lookup (takes ~100ms, free, no auth)
+        country, city = "Unknown", "Unknown"
+        if ip and ip != "Unknown" and _is_public_ip(ip):
+            try:
+                geo_resp = requests.get(f"http://ip-api.com/json/{ip}", timeout=3)
+                if geo_resp.status_code == 200:
+                    geo_data = geo_resp.json()
+                    if geo_data.get("status") == "success":
+                        country = geo_data.get("country", "Unknown")
+                        city = geo_data.get("city", "Unknown")
+            except Exception:
+                pass
+
+        row = [ts, session_id, page_name, browser, os_name, ip, country, city]
+
+        # 2. Update Gist
         hdrs = {
             "Authorization": f"token {token}",
             "Accept": "application/vnd.github.v3+json",
@@ -52,12 +90,15 @@ def _write_to_gist(token: str, gist_id: str, row: list) -> None:
         gist_files = r.json().get("files", {})
         if _FILENAME not in gist_files:
             return
+        
         current = gist_files[_FILENAME]["content"]
         if current and not current.endswith("\n"):
             current += "\n"
+            
         buf = io.StringIO()
         csv.writer(buf).writerow(row)
         new_content = current + buf.getvalue()
+        
         requests.patch(
             f"{_API_BASE}/{gist_id}",
             json={"files": {_FILENAME: {"content": new_content}}},
@@ -88,17 +129,20 @@ def log_page_visit(page_name: str) -> None:
 
         try:
             hdrs_ctx = dict(st.context.headers)
-            ua  = hdrs_ctx.get("User-Agent", "")
-            ip  = (hdrs_ctx.get("X-Forwarded-For", "") or
-                   hdrs_ctx.get("X-Real-Ip", "") or "").split(",")[0].strip()
+            ua = hdrs_ctx.get("User-Agent", "")
+            ip = _get_public_ip(hdrs_ctx)
         except Exception:
-            ua, ip = "", ""
+            ua, ip = "", "Unknown"
 
         browser, os_name = _parse_ua(ua)
         ts  = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
-        row = [ts, session_id, page_name, browser, os_name, ip]
 
-        t = threading.Thread(target=_write_to_gist, args=(token, gist_id, row), daemon=True)
+        # Pass kwargs to thread to avoid passing a mutable list
+        t = threading.Thread(
+            target=_write_to_gist, 
+            args=(token, gist_id, ts, session_id, page_name, browser, os_name, ip), 
+            daemon=True
+        )
         t.start()
 
     except Exception:

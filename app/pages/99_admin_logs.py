@@ -3,8 +3,11 @@ Admin - Visitor Analytics (GitHub Gist backend)
 Password-gated, hidden from sidebar.
 URL: /admin_logs
 """
-import io, sys
+import csv
+import io
+import sys
 from pathlib import Path
+
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
@@ -63,45 +66,32 @@ except Exception as e:
     st.error(f"Could not read Gist: {e}")
     st.stop()
 
-# ---- Parse ------------------------------------------------------------------
+# ---- Parse CSV Robustly -----------------------------------------------------
 try:
-    df = pd.read_csv(io.StringIO(raw))
+    # Use python's csv module instead of pandas directly to handle variable row lengths gracefully
+    f = io.StringIO(raw)
+    reader = csv.reader(f)
+    headers_in_file = next(reader, [])
+    
+    # Expected full header
+    expected = ["Timestamp", "Session_ID", "Page", "Browser", "OS", "IP", "Country", "City"]
+    
+    parsed_rows = []
+    for row in reader:
+        # Pad row with empty strings if it's too short, truncate if it's too long
+        padded_row = row + [""] * max(0, len(expected) - len(row))
+        parsed_rows.append(padded_row[:len(expected)])
+        
+    df = pd.DataFrame(parsed_rows, columns=expected)
 except Exception as e:
     st.error(f"CSV parse error: {e}")
     st.code(raw[:500])
     st.stop()
 
-# Ensure all expected columns exist
-for col in ["Timestamp","Session_ID","Page","Browser","OS","IP"]:
-    if col not in df.columns:
-        df[col] = ""
-
 df = df[df["Page"].notna() & (df["Page"] != "")]
 
 if df.empty:
     st.info("No visits logged yet.")
-    with st.expander("Diagnostics - Test Write", expanded=True):
-        if st.button("Write test row to Gist", key="btn_test"):
-            try:
-                current = raw
-                if current and not current.endswith("\n"):
-                    current += "\n"
-                buf = io.StringIO()
-                import csv as _csv
-                _csv.writer(buf).writerow(["2026-01-01 00:00:00","TESTID","TestPage","Chrome","Windows","1.2.3.4"])
-                pr = requests.patch(
-                    f"{_API_BASE}/{gist_id}",
-                    json={"files": {_FILENAME: {"content": current + buf.getvalue()}}},
-                    headers=hdrs, timeout=15,
-                )
-                if pr.status_code in (200,201):
-                    st.success("Write OK - click Refresh.")
-                else:
-                    st.error(f"HTTP {pr.status_code}: {pr.text[:300]}")
-            except Exception as ex:
-                st.error(str(ex))
-        st.markdown("**Raw Gist content:**")
-        st.code(raw[:1000])
     st.stop()
 
 df["Timestamp"] = pd.to_datetime(df["Timestamp"], errors="coerce")
@@ -127,7 +117,7 @@ st.divider()
 
 # ---- Filters ----------------------------------------------------------------
 with st.expander("Filters", expanded=False):
-    fa, fb, fc = st.columns(3)
+    fa, fb, fc, fd = st.columns(4)
     with fa:
         vd = df["Date"].dropna()
         if not vd.empty:
@@ -139,6 +129,8 @@ with st.expander("Filters", expanded=False):
         sp = st.selectbox("Page",    ["All"]+sorted(df["Page"].dropna().unique().tolist()), key="sp")
     with fc:
         sb = st.selectbox("Browser", ["All"]+sorted(df["Browser"].dropna().unique().tolist()), key="sb")
+    with fd:
+        sc = st.selectbox("Country", ["All"]+sorted([c for c in df["Country"].dropna().unique() if c]), key="sc")
 
 fdf = df.copy()
 if len(dr)==2:
@@ -147,6 +139,9 @@ if sp != "All":
     fdf = fdf[fdf["Page"]==sp]
 if sb != "All":
     fdf = fdf[fdf["Browser"]==sb]
+if sc != "All":
+    fdf = fdf[fdf["Country"]==sc]
+
 st.caption(f"Showing {len(fdf):,} of {total:,} records")
 
 # ---- Charts -----------------------------------------------------------------
@@ -169,32 +164,25 @@ with cb:
 
 cc, cd = st.columns(2)
 with cc:
+    cv = fdf["Country"].replace("", "Unknown").value_counts().reset_index()
+    cv.columns = ["Country", "Views"]
+    st.plotly_chart(px.bar(cv.head(10), x="Views", y="Country", orientation="h", title="Top Countries",
+                   color_discrete_sequence=["#10b981"]).update_layout(
+                   paper_bgcolor="#0f172a",plot_bgcolor="#0f172a",font_color="#e2e8f0",
+                   yaxis={"categoryorder":"total ascending"},
+                   margin=dict(l=10,r=10,t=40,b=10)), use_container_width=True)
+with cd:
     bv = fdf["Browser"].value_counts().reset_index()
     bv.columns=["Browser","Count"]
     st.plotly_chart(px.pie(bv, names="Browser", values="Count", title="Browsers",
                    color_discrete_sequence=px.colors.qualitative.Set2, hole=0.4).update_layout(
                    paper_bgcolor="#0f172a",font_color="#e2e8f0",
                    margin=dict(l=10,r=10,t=40,b=10)), use_container_width=True)
-with cd:
-    ov = fdf["OS"].value_counts().reset_index()
-    ov.columns=["OS","Count"]
-    st.plotly_chart(px.bar(ov, x="Count", y="OS", orientation="h", title="OS",
-                   color_discrete_sequence=["#f59e0b"]).update_layout(
-                   paper_bgcolor="#0f172a",plot_bgcolor="#0f172a",font_color="#e2e8f0",
-                   yaxis={"categoryorder":"total ascending"},
-                   margin=dict(l=10,r=10,t=40,b=10)), use_container_width=True)
-
-hv = fdf.groupby("Hour").size().reset_index(name="Views")
-st.plotly_chart(px.bar(hv, x="Hour", y="Views", title="Activity by Hour (UTC)",
-               color_discrete_sequence=["#e879f9"]).update_layout(
-               paper_bgcolor="#0f172a",plot_bgcolor="#0f172a",font_color="#e2e8f0",
-               xaxis=dict(tickmode="linear",dtick=2),
-               margin=dict(l=10,r=10,t=40,b=10)), use_container_width=True)
 
 # ---- Table ------------------------------------------------------------------
 st.divider()
 st.subheader("Session Log")
-cols = [c for c in ["Timestamp","Session_ID","Page","Browser","OS","IP"] if c in fdf.columns]
+cols = [c for c in ["Timestamp","Session_ID","Page","Browser","OS","IP", "Country", "City"] if c in fdf.columns]
 disp = fdf[cols].sort_values("Timestamp", ascending=False).reset_index(drop=True)
 st.dataframe(disp, use_container_width=True, height=380)
 st.download_button("Download CSV", disp.to_csv(index=False).encode(),
