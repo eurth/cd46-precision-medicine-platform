@@ -206,15 +206,15 @@ with col_t1:
     surv_prad = surv_df[surv_df["cancer_type"] == "PRAD"] if "cancer_type" in surv_df.columns else pd.DataFrame()
 
     # Waterfall: top cancers by CD46 expression
-    if "cd46_median_tpm_log2" in expr_df.columns and "cancer_type" in expr_df.columns:
-        top_expr = expr_df.nlargest(12, "cd46_median_tpm_log2").copy()
+    if "cd46_median" in expr_df.columns and "cancer_type" in expr_df.columns:
+        top_expr = expr_df.nlargest(12, "cd46_median").copy()
         top_expr["highlight"] = top_expr["cancer_type"].apply(lambda x: "PRAD" if x == "PRAD" else "other")
 
         fig_expr = go.Figure(go.Bar(
             x=top_expr["cancer_type"],
-            y=top_expr["cd46_median_tpm_log2"],
+            y=top_expr["cd46_median"],
             marker_color=["#f97316" if x == "PRAD" else "#3b82f6" for x in top_expr["cancer_type"]],
-            text=[f"{v:.1f}" for v in top_expr["cd46_median_tpm_log2"]],
+            text=[f"{v:.1f}" for v in top_expr["cd46_median"]],
             textposition="outside",
         ))
         fig_expr.update_layout(
@@ -537,8 +537,8 @@ with col_o1:
         fig_forest = go.Figure()
         for _, row in forest_df.iterrows():
             hr = row["hazard_ratio"]
-            ci_lo = row.get("ci_low", hr * 0.75)
-            ci_hi = row.get("ci_high", hr * 1.30)
+            ci_lo = row.get("hr_lower_95", hr * 0.75)
+            ci_hi = row.get("hr_upper_95", hr * 1.30)
             ct = row["cancer_type"]
             color = "#f97316" if ct == "PRAD" else "#3b82f6"
 

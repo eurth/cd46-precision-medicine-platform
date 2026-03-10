@@ -1,0 +1,55 @@
+tissue_site_detail,tissue_site,tissue_site_id,median_tpm,mean_tpm,q1_tpm,q3_tpm,n_samples,unit,dataset
+Adrenal Gland,Adrenal Gland,Adrenal_Gland,137.6,140.251,106.5,164.5,258,TPM,gtex_v8
+Minor Salivary Gland,Salivary Gland,Minor_Salivary_Gland,133.9,146.6211,93.37,187.1,162,TPM,gtex_v8
+Lung,Lung,Lung,121.0,126.4417,102.1,142.7,578,TPM,gtex_v8
+Nerve - Tibial,Nerve,Nerve_Tibial,100.8,103.2861,81.67,121.2,619,TPM,gtex_v8
+Prostate,Prostate,Prostate,98.83,103.9752,77.23,126.1,245,TPM,gtex_v8
+Adipose - Subcutaneous,Adipose Tissue,Adipose_Subcutaneous,97.27,99.7203,83.49,112.9,663,TPM,gtex_v8
+Breast - Mammary Tissue,Breast,Breast_Mammary_Tissue,97.22,103.6042,75.92,122.3,459,TPM,gtex_v8
+Artery - Aorta,Blood Vessel,Artery_Aorta,93.02,94.7129,81.33,108.3,432,TPM,gtex_v8
+Uterus,Uterus,Uterus,92.3,94.157,77.12,107.1,142,TPM,gtex_v8
+Ovary,Ovary,Ovary,89.69,91.6554,78.68,103.3,180,TPM,gtex_v8
+Cervix - Endocervix,Cervix Uteri,Cervix_Endocervix,87.61,86.876,69.38,107.0,10,TPM,gtex_v8
+Vagina,Vagina,Vagina,85.87,91.9215,71.03,110.1,156,TPM,gtex_v8
+Artery - Tibial,Blood Vessel,Artery_Tibial,85.24,86.679,71.83,99.11,663,TPM,gtex_v8
+Esophagus - Mucosa,Esophagus,Esophagus_Mucosa,84.59,91.0649,67.76,108.4,555,TPM,gtex_v8
+Fallopian Tube,Fallopian Tube,Fallopian_Tube,82.43,87.5067,64.88,98.07,9,TPM,gtex_v8
+Artery - Coronary,Blood Vessel,Artery_Coronary,81.32,81.4518,66.27,93.87,240,TPM,gtex_v8
+Kidney - Medulla,Kidney,Kidney_Medulla,80.66,76.1725,66.65,132.0,4,TPM,gtex_v8
+Cervix - Ectocervix,Cervix Uteri,Cervix_Ectocervix,77.25,80.2344,72.89,89.78,9,TPM,gtex_v8
+Adipose - Visceral (Omentum),Adipose Tissue,Adipose_Visceral_Omentum,74.11,75.1935,60.87,88.34,541,TPM,gtex_v8
+Thyroid,Thyroid,Thyroid,73.88,75.843,62.75,86.6,653,TPM,gtex_v8
+Small Intestine - Terminal Ileum,Small Intestine,Small_Intestine_Terminal_Ileum,66.17,67.1775,55.12,75.26,187,TPM,gtex_v8
+Cells - Cultured fibroblasts,Skin,Cells_Cultured_fibroblasts,64.4,65.3993,53.9,75.02,504,TPM,gtex_v8
+Spleen,Spleen,Spleen,61.24,62.3382,51.27,71.38,241,TPM,gtex_v8
+Bladder,Bladder,Bladder,60.78,85.4486,43.93,109.9,21,TPM,gtex_v8
+Colon - Sigmoid,Colon,Colon_Sigmoid,60.14,60.3169,50.35,69.91,373,TPM,gtex_v8
+Stomach,Stomach,Stomach,59.62,62.7188,50.55,72.1,359,TPM,gtex_v8
+Colon - Transverse,Colon,Colon_Transverse,59.15,60.115,51.41,67.72,406,TPM,gtex_v8
+Cells - EBV-transformed lymphocytes,Blood Vessel,Cells_EBV-transformed_lymphocytes,56.78,58.7564,48.66,68.21,174,TPM,gtex_v8
+Esophagus - Gastroesophageal Junction,Esophagus,Esophagus_Gastroesophageal_Junction,54.31,56.2425,46.22,64.59,375,TPM,gtex_v8
+Skin - Not Sun Exposed (Suprapubic),Skin,Skin_Not_Sun_Exposed_Suprapubic,54.27,54.7106,42.05,64.96,604,TPM,gtex_v8
+Skin - Sun Exposed (Lower leg),Skin,Skin_Sun_Exposed_Lower_leg,51.8,54.456,40.31,64.96,701,TPM,gtex_v8
+Esophagus - Muscularis,Esophagus,Esophagus_Muscularis,50.38,51.967,42.79,60.55,515,TPM,gtex_v8
+Pituitary,Pituitary,Pituitary,46.24,47.5359,39.43,53.95,283,TPM,gtex_v8
+Pancreas,Pancreas,Pancreas,41.13,45.152,33.35,53.1,328,TPM,gtex_v8
+Brain - Spinal cord (cervical c-1),Brain,Brain_Spinal_cord_cervical_c-1,38.27,41.4793,25.94,55.87,159,TPM,gtex_v8
+Testis,Testis,Testis,36.79,38.1537,31.61,41.73,361,TPM,gtex_v8
+Kidney - Cortex,Kidney,Kidney_Cortex,36.34,48.4829,27.76,60.04,85,TPM,gtex_v8
+Liver,Liver,Liver,31.65,35.833,24.22,40.62,226,TPM,gtex_v8
+Brain - Cerebellum,Brain,Brain_Cerebellum,27.85,29.9293,21.69,34.94,241,TPM,gtex_v8
+Whole Blood,Blood,Whole_Blood,27.51,36.3078,12.53,50.45,755,TPM,gtex_v8
+Brain - Cerebellar Hemisphere,Brain,Brain_Cerebellar_Hemisphere,27.22,29.1589,21.42,34.16,215,TPM,gtex_v8
+Heart - Atrial Appendage,Heart,Heart_Atrial_Appendage,23.49,24.4343,19.12,28.36,429,TPM,gtex_v8
+Brain - Substantia nigra,Brain,Brain_Substantia_nigra,19.19,21.5484,12.9,26.81,139,TPM,gtex_v8
+Brain - Hypothalamus,Brain,Brain_Hypothalamus,19.17,21.4722,13.6,26.1,202,TPM,gtex_v8
+Muscle - Skeletal,Muscle,Muscle_Skeletal,18.3,20.3024,14.79,23.47,803,TPM,gtex_v8
+Heart - Left Ventricle,Heart,Heart_Left_Ventricle,18.01,18.3902,12.39,22.84,432,TPM,gtex_v8
+Brain - Cortex,Brain,Brain_Cortex,17.01,18.1006,13.41,21.24,255,TPM,gtex_v8
+Brain - Frontal Cortex (BA9),Brain,Brain_Frontal_Cortex_BA9,16.87,18.1204,13.12,21.16,209,TPM,gtex_v8
+Brain - Hippocampus,Brain,Brain_Hippocampus,16.69,18.924,10.8,23.71,197,TPM,gtex_v8
+Brain - Caudate (basal ganglia),Brain,Brain_Caudate_basal_ganglia,15.16,15.7739,10.49,18.88,246,TPM,gtex_v8
+Brain - Putamen (basal ganglia),Brain,Brain_Putamen_basal_ganglia,13.26,14.3235,9.592,18.35,205,TPM,gtex_v8
+Brain - Anterior cingulate cortex (BA24),Brain,Brain_Anterior_cingulate_cortex_BA24,13.05,14.2448,9.72,16.48,176,TPM,gtex_v8
+Brain - Nucleus accumbens (basal ganglia),Brain,Brain_Nucleus_accumbens_basal_ganglia,13.0,14.4705,9.707,17.87,246,TPM,gtex_v8
+Brain - Amygdala,Brain,Brain_Amygdala,12.53,14.271,9.2,17.59,152,TPM,gtex_v8

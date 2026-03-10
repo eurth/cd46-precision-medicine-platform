@@ -100,7 +100,7 @@ tumor_df  = hpa[hpa["type"] == "tumor"].copy().rename(columns={"h_score_approx":
 paired = normal_df[["tissue", "h_normal", "staining_intensity", "fraction_positive"]].copy()
 paired.columns = ["Tissue", "Normal H-score", "Normal Intensity", "Normal Fraction"]
 paired = paired.merge(
-    tumor_df[["tissue","h_score_approx"]].rename(columns={"h_score_approx":"Tumour H-score","tissue":"Tissue"}),
+    tumor_df[["tissue","h_tumor"]].rename(columns={"h_tumor":"Tumour H-score","tissue":"Tissue"}),
     on="Tissue", how="left"
 )
 paired["Tumour H-score"] = paired["Tumour H-score"].fillna(0)

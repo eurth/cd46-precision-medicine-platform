@@ -93,8 +93,29 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-st.page_link("pages/13_clinical_strategy_engine.py",
-             label="🔬 Open Clinical Strategy Engine — full end-to-end evidence narrative →")
+# Per-stage quick-links beneath the pipeline diagram
+_nav_cols = st.columns(5)
+with _nav_cols[0]:
+    st.caption("🧬 Preclinical")
+    st.page_link("pages/1_cd46_expression_atlas.py",      label="Expression Atlas")
+    st.page_link("pages/4_biomedical_knowledge_graph.py", label="Knowledge Graph")
+    st.page_link("pages/10_ppi_network.py",               label="PPI Network")
+with _nav_cols[1]:
+    st.caption("⚗️ Phase I")
+    st.page_link("pages/12_dosimetry_safety.py", label="Dosimetry & Safety")
+with _nav_cols[2]:
+    st.caption("📊 Phase II")
+    st.page_link("pages/2_patient_selection.py",  label="Patient Selection")
+    st.page_link("pages/3_survival_outcomes.py",  label="Survival Outcomes")
+    st.page_link("pages/8_patient_eligibility.py", label="Patient Eligibility")
+with _nav_cols[3]:
+    st.caption("🌍 Phase III")
+    st.page_link("pages/9_competitive_landscape.py", label="Competitive Landscape")
+    st.page_link("pages/11_drug_pipeline.py",        label="Drug Pipeline")
+with _nav_cols[4]:
+    st.caption("🏥 Approval")
+    st.page_link("pages/13_clinical_strategy_engine.py", label="Clinical Strategy Engine")
+    st.page_link("pages/14_cd46_diagnostics.py",         label="Diagnostics & Early Detection")
 
 st.markdown("---")
 st.subheader("Navigate the Platform")

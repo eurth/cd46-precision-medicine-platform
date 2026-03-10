@@ -102,6 +102,7 @@ pg = st.navigation(
         ],
         "Clinical Strategy": [
             st.Page("pages/13_clinical_strategy_engine.py", title="Clinical Strategy Engine", icon="🔬"),
+            st.Page("pages/14_cd46_diagnostics.py", title="Diagnostics & Early Detection", icon="🧪"),
         ],
     }
 )
