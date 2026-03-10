@@ -1,14 +1,102 @@
 """
-Visitor tracking — logs page visits to a local CSV file.
+Visitor tracking — logs page visits to /tmp/cd46_visitor_log.csv
 
-Log file: data/logs/visitor_log.csv
-Columns:  Timestamp | Session_ID | Page | IP | Country | City | Region | ISP | Browser | OS
+Columns: Timestamp | Session_ID | Page | Browser | OS
 
 Design:
-- Dedupes per page per session (no double-logging on Streamlit reruns)
-- Silently absorbs all errors — never crashes the main app
-- Works locally and on Streamlit Cloud (note: Cloud filesystem resets on redeploy)
+- Ultra-minimal: no external HTTP calls, no st.context, no cache_data
+- Writes errors to /tmp/cd46_tracker_debug.txt (visible in admin page)
+- Dedupes per page per session
+- Never crashes the main app
 """
+
+import csv
+import datetime
+import uuid
+from pathlib import Path
+
+import streamlit as st
+
+_LOG_FILE   = Path("/tmp/cd46_visitor_log.csv")
+_DEBUG_FILE = Path("/tmp/cd46_tracker_debug.txt")
+
+_HEADERS = ["Timestamp", "Session_ID", "Page", "Browser", "OS"]
+
+
+def _parse_ua(ua: str) -> tuple[str, str]:
+    browser, os_name = "Unknown", "Unknown"
+    ua_l = ua.lower()
+    if "edg/" in ua_l or "edga/" in ua_l:
+        browser = "Edge"
+    elif "opr/" in ua_l or "opera/" in ua_l:
+        browser = "Opera"
+    elif "chrome/" in ua_l and "safari" in ua_l:
+        browser = "Chrome"
+    elif "firefox/" in ua_l:
+        browser = "Firefox"
+    elif "safari/" in ua_l:
+        browser = "Safari"
+    if "iphone" in ua_l:
+        os_name = "iOS (iPhone)"
+    elif "ipad" in ua_l:
+        os_name = "iOS (iPad)"
+    elif "android" in ua_l:
+        os_name = "Android"
+    elif "windows" in ua_l:
+        os_name = "Windows"
+    elif "macintosh" in ua_l or "mac os x" in ua_l:
+        os_name = "macOS"
+    elif "linux" in ua_l:
+        os_name = "Linux"
+    return browser, os_name
+
+
+def _debug(msg: str) -> None:
+    try:
+        with open(_DEBUG_FILE, "a", encoding="utf-8") as f:
+            f.write(f"{datetime.datetime.utcnow()} | {msg}\n")
+    except Exception:
+        pass
+
+
+def log_page_visit(page_name: str) -> None:
+    """
+    Call from streamlit_app.py after st.navigation().
+    Dedupes per page per session, never raises.
+    """
+    try:
+        # Dedupe
+        flag = f"_tracked_{page_name}"
+        if st.session_state.get(flag):
+            return
+        st.session_state[flag] = True
+
+        # Session ID
+        if "_session_id" not in st.session_state:
+            st.session_state["_session_id"] = str(uuid.uuid4())[:8].upper()
+        session_id = st.session_state["_session_id"]
+
+        # User-agent (safe fallback)
+        try:
+            ua = st.context.headers.get("User-Agent", "")
+        except Exception:
+            ua = ""
+        browser, os_name = _parse_ua(ua)
+
+        ts = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
+        row = [ts, session_id, page_name, browser, os_name]
+
+        # Write header if file doesn't exist
+        write_header = not _LOG_FILE.exists()
+        with open(_LOG_FILE, "a", newline="", encoding="utf-8") as f:
+            w = csv.writer(f)
+            if write_header:
+                w.writerow(_HEADERS)
+            w.writerow(row)
+
+    except Exception as exc:
+        _debug(f"ERROR in log_page_visit({page_name!r}): {exc}")
+
 
 import csv
 import datetime

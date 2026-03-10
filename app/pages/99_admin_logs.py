@@ -13,8 +13,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+from pathlib import Path
 
-_LOG_FILE = Path("/tmp") / "cd46_visitor_log.csv"
+_LOG_FILE   = Path("/tmp/cd46_visitor_log.csv")
+_DEBUG_FILE = Path("/tmp/cd46_tracker_debug.txt")
 
 # ── Password gate ─────────────────────────────────────────────────────────────
 if "admin_authed" not in st.session_state:
@@ -62,6 +64,26 @@ if not _LOG_FILE.exists():
         "Note: `/tmp/` resets on server restarts — download the CSV regularly to archive."
     )
     st.caption(f"Log path: `{_LOG_FILE}`")
+
+    # ── Debug panel ───────────────────────────────────────────────────────
+    with st.expander("🔧 Diagnostics (debug)", expanded=True):
+        if st.button("✅ Run Test Write"):
+            try:
+                import csv as _csv
+                with open(_LOG_FILE, "w", newline="", encoding="utf-8") as f:
+                    w = _csv.writer(f)
+                    w.writerow(["Timestamp", "Session_ID", "Page", "Browser", "OS"])
+                    w.writerow(["TEST", "TESTID", "AdminTest", "Chrome", "Windows"])
+                st.success(f"Write succeeded → `{_LOG_FILE}` created. Refresh the page.")
+            except Exception as e:
+                st.error(f"Write FAILED: {e}")
+
+        if _DEBUG_FILE.exists():
+            st.markdown("**Tracker error log** (`/tmp/cd46_tracker_debug.txt`):")
+            st.code(_DEBUG_FILE.read_text(encoding="utf-8")[-3000:])
+        else:
+            st.caption("No tracker errors logged yet (debug file doesn't exist either).")
+
     st.stop()
 
 df = pd.read_csv(_LOG_FILE)
