@@ -5,6 +5,7 @@ URL: /admin_logs
 """
 import csv
 import io
+import ipaddress
 import sys
 from pathlib import Path
 
@@ -68,17 +69,14 @@ except Exception as e:
 
 # ---- Parse CSV Robustly -----------------------------------------------------
 try:
-    # Use python's csv module instead of pandas directly to handle variable row lengths gracefully
     f = io.StringIO(raw)
     reader = csv.reader(f)
     headers_in_file = next(reader, [])
     
-    # Expected full header
     expected = ["Timestamp", "Session_ID", "Page", "Browser", "OS", "IP", "Country", "City"]
     
     parsed_rows = []
     for row in reader:
-        # Pad row with empty strings if it's too short, truncate if it's too long
         padded_row = row + [""] * max(0, len(expected) - len(row))
         parsed_rows.append(padded_row[:len(expected)])
         
@@ -89,6 +87,54 @@ except Exception as e:
     st.stop()
 
 df = df[df["Page"].notna() & (df["Page"] != "")]
+
+# IP Debug helper
+def _get_public_ip(headers: dict) -> str:
+    candidates = []
+    if "X-Forwarded-For" in headers:
+        candidates.extend([x.strip() for x in headers["X-Forwarded-For"].split(",")])
+    if "X-Real-Ip" in headers:
+        candidates.extend([x.strip() for x in headers["X-Real-Ip"].split(",")])
+    for ip in candidates:
+        try:
+            if ip and ipaddress.ip_address(ip).is_global:
+                return ip
+        except ValueError:
+            pass
+    return candidates[0] if candidates else "Unknown"
+
+# Always show diagnostics expander
+with st.expander("🔧 Diagnostics & Connection Info", expanded=df.empty):
+    try:
+        h = dict(st.context.headers)
+        detected_ip = _get_public_ip(h)
+        st.markdown(f"**Detected Public IP for this session:** `{detected_ip}`")
+        st.json({k: v for k, v in h.items() if "ip" in k.lower() or "forward" in k.lower()})
+    except Exception as e:
+        st.write("Could not read headers.")
+    
+    if st.button("Write test row to Gist", key="btn_test"):
+        try:
+            current = raw
+            if current and not current.endswith("\n"):
+                current += "\n"
+            buf = io.StringIO()
+            import csv as _csv
+            _csv.writer(buf).writerow(["2026-01-01 00:00:00","TESTID","TestPage","Chrome","Windows","8.8.8.8","USA","TestCity"])
+            pr = requests.patch(
+                f"{_API_BASE}/{gist_id}",
+                json={"files": {_FILENAME: {"content": current + buf.getvalue()}}},
+                headers=hdrs, timeout=15,
+            )
+            if pr.status_code in (200,201):
+                st.success("Write OK - click Refresh.")
+            else:
+                st.error(f"HTTP {pr.status_code}: {pr.text[:300]}")
+        except Exception as ex:
+            st.error(str(ex))
+    
+    st.markdown("**Raw Gist content:**")
+    st.code(raw[:1000])
 
 if df.empty:
     st.info("No visits logged yet.")
