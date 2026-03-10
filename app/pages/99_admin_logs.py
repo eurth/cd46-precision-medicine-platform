@@ -91,17 +91,19 @@ df = df[df["Page"].notna() & (df["Page"] != "")]
 # IP Debug helper
 def _get_public_ip(headers: dict) -> str:
     candidates = []
-    if "X-Forwarded-For" in headers:
-        candidates.extend([x.strip() for x in headers["X-Forwarded-For"].split(",")])
-    if "X-Real-Ip" in headers:
-        candidates.extend([x.strip() for x in headers["X-Real-Ip"].split(",")])
+    for k, v in headers.items():
+        if k.lower() in ("x-forwarded-for", "x-real-ip", "true-client-ip", "cf-connecting-ip"):
+            candidates.extend([x.strip() for x in v.split(",")])
+            
+    import ipaddress
     for ip in candidates:
         try:
             if ip and ipaddress.ip_address(ip).is_global:
                 return ip
         except ValueError:
             pass
-    return candidates[0] if candidates else "Unknown"
+            
+    return candidates[-1] if candidates else "Unknown"
 
 # Always show diagnostics expander
 with st.expander("🔧 Diagnostics & Connection Info", expanded=df.empty):

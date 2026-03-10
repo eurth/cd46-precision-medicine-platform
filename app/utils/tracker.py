@@ -48,17 +48,22 @@ def _is_public_ip(ip: str) -> bool:
 
 
 def _get_public_ip(headers: dict) -> str:
-    """Extracts the first public IP from standard proxy headers."""
+    """Extracts the public IP from standard proxy headers, ignoring internal IPs."""
     candidates = []
-    if "X-Forwarded-For" in headers:
-        candidates.extend([x.strip() for x in headers["X-Forwarded-For"].split(",")])
-    if "X-Real-Ip" in headers:
-        candidates.extend([x.strip() for x in headers["X-Real-Ip"].split(",")])
     
+    # Case-insensitive header search
+    for key, val in headers.items():
+        k = key.lower()
+        if k in ("x-forwarded-for", "x-real-ip", "true-client-ip", "cf-connecting-ip"):
+            candidates.extend([x.strip() for x in val.split(",")])
+
+    # Find the first truly public IP
     for ip in candidates:
         if ip and _is_public_ip(ip):
             return ip
-    return candidates[0] if candidates else "Unknown"
+            
+    # Fallback to the last candidate if all are private
+    return candidates[-1] if candidates else "Unknown"
 
 
 def _write_to_gist(token: str, gist_id: str, ts: str, session_id: str, page_name: str, browser: str, os_name: str, ip: str) -> None:
@@ -129,7 +134,12 @@ def log_page_visit(page_name: str) -> None:
 
         try:
             hdrs_ctx = dict(st.context.headers)
-            ua = hdrs_ctx.get("User-Agent", "")
+            # Find User-Agent case-insensitively
+            ua = ""
+            for k, v in hdrs_ctx.items():
+                if k.lower() == "user-agent":
+                    ua = v
+                    break
             ip = _get_public_ip(hdrs_ctx)
         except Exception:
             ua, ip = "", "Unknown"
