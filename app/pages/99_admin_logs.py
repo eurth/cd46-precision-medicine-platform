@@ -1,35 +1,36 @@
-"""
-Admin — Visitor Analytics
+﻿"""
+Admin -- Visitor Analytics (GitHub Gist backend)
 Password-gated. NOT shown in the sidebar.
-Access directly: https://cd46-precision-medicine-platform.streamlit.app/Admin_Logs
-                 http://localhost:850X/Admin_Logs
+Access directly: https://cd46-precision-medicine-platform.streamlit.app/admin_logs
+                 http://localhost:850X/admin_logs
 """
+import io
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-import streamlit as st
 import pandas as pd
 import plotly.express as px
-from pathlib import Path
+import requests
+import streamlit as st
 
-_LOG_FILE   = Path("/tmp/cd46_visitor_log.csv")
-_DEBUG_FILE = Path("/tmp/cd46_tracker_debug.txt")
+_FILENAME = "cd46_visitor_log.csv"
+_API_BASE = "https://api.github.com/gists"
 
-# ── Password gate ─────────────────────────────────────────────────────────────
+# -- Password gate ------------------------------------------------------------
 if "admin_authed" not in st.session_state:
     st.session_state.admin_authed = False
 
 if not st.session_state.admin_authed:
     st.markdown(
-        "<h2 style='color:#38bdf8; margin-bottom:4px;'>🔒 Admin Access</h2>"
-        "<p style='color:#64748b;'>Visitor analytics — authorised access only.</p>",
+        "<h2 style='color:#38bdf8; margin-bottom:4px;'>Lock Admin Access</h2>"
+        "<p style='color:#64748b;'>Visitor analytics -- authorised access only.</p>",
         unsafe_allow_html=True,
     )
     pw = st.text_input("Password", type="password", key="admin_pw_input")
-    if st.button("Unlock", type="primary"):
+    if st.button("Unlock", type="primary", key="btn_unlock"):
         correct = st.secrets.get("admin", {}).get("password", "")
         if pw and pw == correct:
             st.session_state.admin_authed = True
@@ -38,88 +39,122 @@ if not st.session_state.admin_authed:
             st.error("Incorrect password.")
     st.stop()
 
-# ── Header + controls ─────────────────────────────────────────────────────────
+# -- Header -------------------------------------------------------------------
 st.markdown(
-    "<h2 style='color:#38bdf8; margin-bottom:0;'>📊 Visitor Analytics</h2>"
-    "<p style='color:#64748b; margin-top:4px;'>CD46 Platform — live access log</p>",
+    "<h2 style='color:#38bdf8; margin-bottom:0;'>Visitor Analytics</h2>"
+    "<p style='color:#64748b; margin-top:4px;'>CD46 Platform -- GitHub Gist log</p>",
     unsafe_allow_html=True,
 )
 
 col_r, col_l, _ = st.columns([1, 1, 8])
 with col_r:
-    if st.button("🔄 Refresh"):
+    if st.button("Refresh", key="btn_refresh"):
         st.rerun()
 with col_l:
-    if st.button("🚪 Logout"):
+    if st.button("Logout", key="btn_logout"):
         st.session_state.admin_authed = False
         st.rerun()
 
 st.markdown("---")
 
-# ── Load CSV ──────────────────────────────────────────────────────────────────
-if not _LOG_FILE.exists():
-    st.info(
-        "**No visits logged yet.**\n\n"
-        "The log file is created automatically when the first visitor arrives. "
-        "Note: `/tmp/` resets on server restarts — download the CSV regularly to archive."
+# -- Check secrets ------------------------------------------------------------
+token   = st.secrets.get("github_gist", {}).get("token", "")
+gist_id = st.secrets.get("github_gist", {}).get("gist_id", "")
+
+if not token or not gist_id:
+    st.warning(
+        "**GitHub Gist not configured yet.**\n\n"
+        "Add the following to Streamlit Cloud Secrets (Settings -> Secrets)."
     )
-    st.caption(f"Log path: `{_LOG_FILE}`")
+    with st.expander("Setup Guide", expanded=True):
+        st.markdown("""
+**Step 1 - Create a private Gist**
+1. Go to gist.github.com
+2. Filename: `cd46_visitor_log.csv`
+3. Content (exactly this one line):
+   ```
+   Timestamp,Session_ID,Page,Browser,OS
+   ```
+4. Click **Create secret gist**
+5. Copy the Gist ID from the URL
 
-    # ── Debug panel ───────────────────────────────────────────────────────
-    with st.expander("🔧 Diagnostics (debug)", expanded=True):
-        if st.button("✅ Run Test Write"):
-            try:
-                import csv as _csv
-                with open(_LOG_FILE, "w", newline="", encoding="utf-8") as f:
-                    w = _csv.writer(f)
-                    w.writerow(["Timestamp", "Session_ID", "Page", "Browser", "OS"])
-                    w.writerow(["TEST", "TESTID", "AdminTest", "Chrome", "Windows"])
-                st.success(f"Write succeeded → `{_LOG_FILE}` created. Refresh the page.")
-            except Exception as e:
-                st.error(f"Write FAILED: {e}")
+**Step 2 - Create a Personal Access Token**
+1. Go to github.com/settings/tokens -> Generate new token (classic)
+2. Note: `CD46 Visitor Tracker`
+3. Expiration: 1 year
+4. Scope: tick only **gist**
+5. Generate and copy immediately
 
-        if _DEBUG_FILE.exists():
-            st.markdown("**Tracker error log** (`/tmp/cd46_tracker_debug.txt`):")
-            st.code(_DEBUG_FILE.read_text(encoding="utf-8")[-3000:])
-        else:
-            st.caption("No tracker errors logged yet (debug file doesn't exist either).")
+**Step 3 - Add to Streamlit Cloud Secrets**
+```toml
+[github_gist]
+token   = "ghp_xxxxxxxxxxxxxxxxxxxx"
+gist_id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
+[admin]
+password = "CD46Admin2026!"
+```
+        """)
     st.stop()
 
-df = pd.read_csv(_LOG_FILE)
+# -- Fetch Gist data ----------------------------------------------------------
+hdrs = {
+    "Authorization": f"token {token}",
+    "Accept": "application/vnd.github.v3+json",
+}
+
+try:
+    resp = requests.get(f"{_API_BASE}/{gist_id}", headers=hdrs, timeout=10)
+    resp.raise_for_status()
+    raw_csv = resp.json()["files"][_FILENAME]["content"]
+except requests.exceptions.HTTPError as e:
+    st.error(f"GitHub API error {e.response.status_code}: {e.response.text[:300]}")
+    st.stop()
+except Exception as e:
+    st.error(f"Could not fetch Gist: {e}")
+    st.stop()
+
+# -- Parse CSV ----------------------------------------------------------------
+try:
+    df = pd.read_csv(io.StringIO(raw_csv))
+except Exception as e:
+    st.error(f"Could not parse CSV from Gist: {e}")
+    st.code(raw_csv[:500])
+    st.stop()
+
+df = df.dropna(subset=["Page"])
 if df.empty:
-    st.info("Log file exists but is empty — no visits recorded yet.")
+    st.info("No visits logged yet -- log file only contains the header row.")
     st.stop()
 
 df["Timestamp"] = pd.to_datetime(df["Timestamp"], errors="coerce")
-df["Date"] = df["Timestamp"].dt.date
-df["Hour"] = df["Timestamp"].dt.hour
+df["Date"]      = df["Timestamp"].dt.date
+df["Hour"]      = df["Timestamp"].dt.hour
 
-# ── KPI metrics ───────────────────────────────────────────────────────────────
-total_views = len(df)
-unique_sess = df["Session_ID"].nunique()
-unique_pages= df["Page"].nunique()
-top_page    = df["Page"].value_counts().index[0] if total_views else "–"
-last_seen   = df["Timestamp"].max()
+# -- KPI metrics --------------------------------------------------------------
+total_views  = len(df)
+unique_sess  = df["Session_ID"].nunique()
+unique_pages = df["Page"].nunique()
+top_page     = df["Page"].value_counts().index[0] if total_views else "-"
+last_seen    = df["Timestamp"].max()
+last_seen_str = last_seen.strftime("%Y-%m-%d %H:%M") if pd.notna(last_seen) else "unknown"
 
 c1, c2, c3, c4 = st.columns(4)
-c1.metric("📄 Total Page Views", f"{total_views:,}")
-c2.metric("👥 Unique Sessions",  f"{unique_sess:,}")
-c3.metric("📑 Pages Visited",    f"{unique_pages:,}")
-c4.metric("🔥 Top Page",         top_page[:20] + ("…" if len(top_page) > 20 else ""))
-
-last_seen_str = last_seen.strftime('%Y-%m-%d %H:%M') if pd.notna(last_seen) else "unknown"
+c1.metric("Total Page Views", f"{total_views:,}")
+c2.metric("Unique Sessions",  f"{unique_sess:,}")
+c3.metric("Pages Visited",    f"{unique_pages:,}")
+c4.metric("Top Page",         top_page[:20] + ("..." if len(top_page) > 20 else ""))
 
 st.caption(
     f"Last visit: **{last_seen_str} UTC**  |  "
     f"Log size: **{total_views:,} rows**  |  "
-    f"⚠️ `/tmp/` resets on Streamlit Cloud server restarts — download CSV to archive."
+    f"Stored in private GitHub Gist -- persistent across server restarts."
 )
 
 st.markdown("---")
 
-# ── Filters ───────────────────────────────────────────────────────────────────
-with st.expander("🔎 Filters", expanded=True):
+# -- Filters ------------------------------------------------------------------
+with st.expander("Filters", expanded=True):
     fc1, fc2, fc3 = st.columns(3)
 
     with fc1:
@@ -143,7 +178,6 @@ with st.expander("🔎 Filters", expanded=True):
         browsers = ["All"] + sorted(df["Browser"].dropna().unique().tolist())
         sel_browser = st.selectbox("Browser", browsers, key="admin_browser")
 
-# Apply filters
 fdf = df.copy()
 if len(date_range) == 2:
     fdf = fdf[(fdf["Date"] >= date_range[0]) & (fdf["Date"] <= date_range[1])]
@@ -154,8 +188,8 @@ if sel_browser != "All":
 
 st.caption(f"Showing **{len(fdf):,}** of **{total_views:,}** records after filters.")
 
-# ── Charts row 1: daily views + top pages ─────────────────────────────────────
-st.subheader("📈 Traffic Overview")
+# -- Charts -------------------------------------------------------------------
+st.subheader("Traffic Overview")
 col_a, col_b = st.columns(2)
 
 with col_a:
@@ -163,9 +197,8 @@ with col_a:
     fig = px.bar(daily, x="Date", y="Views", title="Daily Page Views",
                  color_discrete_sequence=["#38bdf8"])
     fig.update_layout(paper_bgcolor="#0f172a", plot_bgcolor="#0f172a",
-                      font_color="#e2e8f0", margin=dict(l=10, r=10, t=40, b=10),
-                      xaxis_title="", yaxis_title="Views")
-    st.plotly_chart(fig, width="stretch")
+                      font_color="#e2e8f0", margin=dict(l=10, r=10, t=40, b=10))
+    st.plotly_chart(fig, use_container_width=True)
 
 with col_b:
     page_vc = fdf["Page"].value_counts().reset_index()
@@ -176,9 +209,8 @@ with col_b:
                        font_color="#e2e8f0",
                        yaxis={"categoryorder": "total ascending"},
                        margin=dict(l=10, r=10, t=40, b=10))
-    st.plotly_chart(fig2, width="stretch")
+    st.plotly_chart(fig2, use_container_width=True)
 
-# ── Charts row 2: browsers + OS ──────────────────────────────────────────────
 col_c, col_d = st.columns(2)
 
 with col_c:
@@ -188,7 +220,7 @@ with col_c:
                   color_discrete_sequence=px.colors.qualitative.Set2, hole=0.4)
     fig3.update_layout(paper_bgcolor="#0f172a", font_color="#e2e8f0",
                        margin=dict(l=10, r=10, t=40, b=10))
-    st.plotly_chart(fig3, width="stretch")
+    st.plotly_chart(fig3, use_container_width=True)
 
 with col_d:
     osvc = fdf["OS"].value_counts().reset_index()
@@ -200,9 +232,8 @@ with col_d:
                        font_color="#e2e8f0",
                        yaxis={"categoryorder": "total ascending"},
                        margin=dict(l=10, r=10, t=40, b=10))
-    st.plotly_chart(fig4, width="stretch")
+    st.plotly_chart(fig4, use_container_width=True)
 
-# ── Chart row 3: activity by hour ─────────────────────────────────────────────
 hourly = fdf.groupby("Hour").size().reset_index(name="Views")
 fig5 = px.bar(hourly, x="Hour", y="Views", title="Activity by Hour (UTC)",
               color_discrete_sequence=["#e879f9"])
@@ -210,31 +241,12 @@ fig5.update_layout(paper_bgcolor="#0f172a", plot_bgcolor="#0f172a",
                    font_color="#e2e8f0",
                    xaxis=dict(tickmode="linear", dtick=2),
                    margin=dict(l=10, r=10, t=40, b=10))
-st.plotly_chart(fig5, width="stretch")
+st.plotly_chart(fig5, use_container_width=True)
 
-# ── Session detail table ──────────────────────────────────────────────────────
+# -- Session table ------------------------------------------------------------
 st.markdown("---")
-st.subheader("📋 Session Log")
-import pandas as pd
+st.subheader("Session Log")
 
-# ---------------------------------------------------------------------------
-# Password gate — must pass before any data is shown
-# ---------------------------------------------------------------------------
-if "admin_authed" not in st.session_state:
-    st.session_state.admin_authed = False
-
-if not st.session_state.admin_authed:
-    st.markdown(
-        "<h2 style='color:#38bdf8;'>🔒 Admin Access</h2>",
-        unsafe_allow_html=True,
-    )
-    st.caption("Visitor logs & analytics — authorised access only.")
-    pw = st.text_input("Password", type="password", key="admin_pw_input")
-    if st.button("Unlock", type="primary"):
-        correct = st.secrets.get("admin", {}).get("password", "")
-        if pw and pw == correct:
-            st.session_state.admin_authed = True
-            st.rerun()
 show_cols = [c for c in ["Timestamp", "Session_ID", "Page", "Browser", "OS"] if c in fdf.columns]
 display_df = (
     fdf[show_cols]
@@ -246,176 +258,9 @@ st.dataframe(display_df, use_container_width=True, height=380)
 
 csv_bytes = display_df.to_csv(index=False).encode("utf-8")
 st.download_button(
-    "⬇️ Download CSV",
+    "Download CSV",
     data=csv_bytes,
     file_name="cd46_visitor_log.csv",
     mime="text/csv",
+    key="btn_download",
 )
-
-
-st.markdown(
-    "<h2 style='color:#38bdf8;'>🔒 Visitor Logs — Admin View</h2>",
-    unsafe_allow_html=True,
-)
-
-col_refresh, col_logout, _ = st.columns([1, 1, 8])
-with col_refresh:
-    if st.button("🔄 Refresh"):
-        st.cache_data.clear()
-        st.rerun()
-with col_logout:
-    if st.button("🚪 Logout"):
-        st.session_state.admin_authed = False
-        st.rerun()
-
-st.markdown("---")
-
-
-@st.cache_data(ttl=60, show_spinner="Loading visitor data…")
-def _load_sessions() -> list[dict]:
-    creds = Credentials.from_service_account_info(
-        dict(st.secrets["gcp_service_account"]),
-        scopes=[
-            "https://spreadsheets.google.com/feeds",
-            "https://www.googleapis.com/auth/drive",
-        ],
-    )
-    gc = gspread.authorize(creds)
-    sh = gc.open(st.secrets["google_sheets"]["sheet_name"])
-    ws = sh.worksheet("Sessions")
-    return ws.get_all_records()
-
-
-# Check if GCP is configured at all before attempting connection
-if "gcp_service_account" not in st.secrets:
-    st.info(
-        "**Google Sheets not configured yet.**\n\n"
-        "Visitor tracking will appear here once you add `[gcp_service_account]` "
-        "and `[google_sheets]` to your Streamlit Secrets.\n\n"
-        "See `.streamlit/secrets.toml.template` for setup instructions."
-    )
-    st.stop()
-
-try:
-    rows = _load_sessions()
-except Exception as e:
-    st.error(f"Could not connect to Google Sheets: {e}")
-    st.stop()
-
-if not rows:
-    st.info("No visits have been logged yet.  "
-            "Check that your secrets are configured and the app has received a visitor.")
-    st.stop()
-
-df = pd.DataFrame(rows)
-
-# ---------------------------------------------------------------------------
-# Summary metrics
-# ---------------------------------------------------------------------------
-c1, c2, c3, c4 = st.columns(4)
-c1.metric("Total Page Views", len(df))
-c2.metric(
-    "Unique Sessions",
-    df["Session ID"].nunique() if "Session ID" in df.columns else "–",
-)
-c3.metric(
-    "Countries",
-    df["Country"].nunique() if "Country" in df.columns else "–",
-)
-c4.metric(
-    "Unique Pages Visited",
-    df["Page"].nunique() if "Page" in df.columns else "–",
-)
-
-st.markdown("---")
-
-# ---------------------------------------------------------------------------
-# Filters
-# ---------------------------------------------------------------------------
-col_a, col_b, col_c = st.columns(3)
-
-with col_a:
-    if "Page" in df.columns:
-        page_filter = st.multiselect("Filter by Page", sorted(df["Page"].dropna().unique()))
-        if page_filter:
-            df = df[df["Page"].isin(page_filter)]
-
-with col_b:
-    if "Country" in df.columns:
-        country_filter = st.multiselect("Filter by Country", sorted(df["Country"].dropna().unique()))
-        if country_filter:
-            df = df[df["Country"].isin(country_filter)]
-
-with col_c:
-    if "Browser" in df.columns:
-        browser_filter = st.multiselect("Filter by Browser", sorted(df["Browser"].dropna().unique()))
-        if browser_filter:
-            df = df[df["Browser"].isin(browser_filter)]
-
-# Sort newest first
-if "Timestamp" in df.columns:
-    df = df.sort_values("Timestamp", ascending=False)
-
-# ---------------------------------------------------------------------------
-# Data table
-# ---------------------------------------------------------------------------
-st.subheader(f"Session Log ({len(df):,} rows)")
-st.dataframe(df, use_container_width=True, height=500)
-
-csv = df.to_csv(index=False)
-st.download_button(
-    "⬇️ Download CSV",
-    data=csv,
-    file_name="visitor_logs.csv",
-    mime="text/csv",
-)
-
-st.markdown("---")
-
-# ---------------------------------------------------------------------------
-# Quick charts
-# ---------------------------------------------------------------------------
-if len(df) >= 2:
-    import plotly.express as px
-
-    col_chart1, col_chart2 = st.columns(2)
-
-    with col_chart1:
-        if "Page" in df.columns:
-            page_counts = df["Page"].value_counts().reset_index()
-            page_counts.columns = ["Page", "Views"]
-            fig = px.bar(
-                page_counts,
-                x="Views", y="Page",
-                orientation="h",
-                title="Page Views",
-                color_discrete_sequence=["#38bdf8"],
-            )
-            fig.update_layout(
-                paper_bgcolor="#0f172a",
-                plot_bgcolor="#0f172a",
-                font_color="#e2e8f0",
-                yaxis={"categoryorder": "total ascending"},
-                margin={"l": 10, "r": 10, "t": 40, "b": 10},
-            )
-            st.plotly_chart(fig, width="stretch")
-
-    with col_chart2:
-        if "Country" in df.columns:
-            country_counts = df["Country"].value_counts().reset_index()
-            country_counts.columns = ["Country", "Visits"]
-            fig2 = px.bar(
-                country_counts.head(15),
-                x="Visits", y="Country",
-                orientation="h",
-                title="Top Countries",
-                color_discrete_sequence=["#818cf8"],
-            )
-            fig2.update_layout(
-                paper_bgcolor="#0f172a",
-                plot_bgcolor="#0f172a",
-                font_color="#e2e8f0",
-                yaxis={"categoryorder": "total ascending"},
-                margin={"l": 10, "r": 10, "t": 40, "b": 10},
-            )
-            st.plotly_chart(fig2, width="stretch")

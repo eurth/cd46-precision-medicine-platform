@@ -1,26 +1,37 @@
 """
-Visitor tracking — logs page visits to /tmp/cd46_visitor_log.csv
+Visitor tracking — logs page visits to a private GitHub Gist as CSV.
 
 Columns: Timestamp | Session_ID | Page | Browser | OS
 
+Setup (one-time):
+  1. Create a private Gist at https://gist.github.com with a single file
+     named  cd46_visitor_log.csv  containing exactly this header line:
+       Timestamp,Session_ID,Page,Browser,OS
+  2. Create a GitHub PAT at https://github.com/settings/tokens
+     with only the  gist  scope (no other permissions needed).
+  3. Add to Streamlit Cloud Secrets (Settings → Secrets):
+       [github_gist]
+       token   = "ghp_xxxxxxxxxxxxxxxxxxxx"
+       gist_id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
 Design:
-- Ultra-minimal: no external HTTP calls, no st.context, no cache_data
-- Writes errors to /tmp/cd46_tracker_debug.txt (visible in admin page)
-- Dedupes per page per session
-- Never crashes the main app
+  - Reads current Gist content, appends one row, writes back (PATCH).
+  - Dedupes per page per session — at most one API call per page per user.
+  - All exceptions are silently swallowed so the main app never crashes.
+  - Falls back gracefully if secrets are not configured yet.
 """
 
 import csv
 import datetime
+import io
 import uuid
-from pathlib import Path
 
+import requests
 import streamlit as st
 
-_LOG_FILE   = Path("/tmp/cd46_visitor_log.csv")
-_DEBUG_FILE = Path("/tmp/cd46_tracker_debug.txt")
-
-_HEADERS = ["Timestamp", "Session_ID", "Page", "Browser", "OS"]
+_FILENAME = "cd46_visitor_log.csv"
+_HEADERS  = ["Timestamp", "Session_ID", "Page", "Browser", "OS"]
+_API_BASE = "https://api.github.com/gists"
 
 
 def _parse_ua(ua: str) -> tuple[str, str]:
@@ -51,51 +62,73 @@ def _parse_ua(ua: str) -> tuple[str, str]:
     return browser, os_name
 
 
-def _debug(msg: str) -> None:
-    try:
-        with open(_DEBUG_FILE, "a", encoding="utf-8") as f:
-            f.write(f"{datetime.datetime.utcnow()} | {msg}\n")
-    except Exception:
-        pass
+def _gist_cfg():
+    """Return (token, gist_id) from secrets, or ('', '') if not configured."""
+    cfg = st.secrets.get("github_gist", {})
+    return cfg.get("token", ""), cfg.get("gist_id", "")
+
+
+def _auth_headers(token: str) -> dict:
+    return {
+        "Authorization": f"token {token}",
+        "Accept": "application/vnd.github.v3+json",
+    }
 
 
 def log_page_visit(page_name: str) -> None:
     """
     Call from streamlit_app.py after st.navigation().
-    Dedupes per page per session, never raises.
+    Dedupes per page per session; never raises.
     """
     try:
-        # Dedupe
+        # --- dedupe ---
         flag = f"_tracked_{page_name}"
         if st.session_state.get(flag):
             return
         st.session_state[flag] = True
 
-        # Session ID
+        token, gist_id = _gist_cfg()
+        if not token or not gist_id:
+            return  # not configured yet — skip silently
+
+        # --- session ID ---
         if "_session_id" not in st.session_state:
-            st.session_state["_session_id"] = str(uuid.uuid4())[:8].upper()
+            st.session_state["_session_id"] = uuid.uuid4().hex[:8].upper()
         session_id = st.session_state["_session_id"]
 
-        # User-agent (safe fallback)
+        # --- detect browser / OS ---
         try:
             ua = st.context.headers.get("User-Agent", "")
         except Exception:
             ua = ""
         browser, os_name = _parse_ua(ua)
 
-        ts = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
+        ts  = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
         row = [ts, session_id, page_name, browser, os_name]
 
-        # Write header if file doesn't exist
-        write_header = not _LOG_FILE.exists()
-        with open(_LOG_FILE, "a", newline="", encoding="utf-8") as f:
-            w = csv.writer(f)
-            if write_header:
-                w.writerow(_HEADERS)
-            w.writerow(row)
+        # --- read current Gist content ---
+        hdrs = _auth_headers(token)
+        resp = requests.get(f"{_API_BASE}/{gist_id}", headers=hdrs, timeout=8)
+        resp.raise_for_status()
+        current = resp.json()["files"][_FILENAME]["content"]
 
-    except Exception as exc:
-        _debug(f"ERROR in log_page_visit({page_name!r}): {exc}")
+        # --- append new row ---
+        if current and not current.endswith("\n"):
+            current += "\n"
+        out = io.StringIO()
+        csv.writer(out).writerow(row)
+        new_content = current + out.getvalue()
+
+        # --- write back ---
+        requests.patch(
+            f"{_API_BASE}/{gist_id}",
+            json={"files": {_FILENAME: {"content": new_content}}},
+            headers=hdrs,
+            timeout=8,
+        )
+
+    except Exception:
+        pass  # never crash the main app
 
 
 import csv
