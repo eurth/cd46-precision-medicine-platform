@@ -96,24 +96,22 @@ df["Date"] = df["Timestamp"].dt.date
 df["Hour"] = df["Timestamp"].dt.hour
 
 # ── KPI metrics ───────────────────────────────────────────────────────────────
-total_views    = len(df)
-unique_sess    = df["Session_ID"].nunique()
-unique_ips     = df["IP"].nunique()
-unique_country = df["Country"].replace("", pd.NA).dropna().nunique()
-top_page       = df["Page"].value_counts().index[0] if total_views else "–"
-last_seen      = df["Timestamp"].max()
+total_views = len(df)
+unique_sess = df["Session_ID"].nunique()
+unique_pages= df["Page"].nunique()
+top_page    = df["Page"].value_counts().index[0] if total_views else "–"
+last_seen   = df["Timestamp"].max()
 
-c1, c2, c3, c4, c5 = st.columns(5)
+c1, c2, c3, c4 = st.columns(4)
 c1.metric("📄 Total Page Views", f"{total_views:,}")
 c2.metric("👥 Unique Sessions",  f"{unique_sess:,}")
-c3.metric("🌐 Unique IPs",       f"{unique_ips:,}")
-c4.metric("🗺️ Countries",        f"{unique_country:,}")
-c5.metric("🔥 Top Page",         top_page[:18] + ("…" if len(top_page) > 18 else ""))
+c3.metric("📑 Pages Visited",    f"{unique_pages:,}")
+c4.metric("🔥 Top Page",         top_page[:20] + ("…" if len(top_page) > 20 else ""))
 
 st.caption(
     f"Last visit: **{last_seen.strftime('%Y-%m-%d %H:%M')} UTC**  |  "
     f"Log size: **{total_views:,} rows**  |  "
-    f"⚠️ On Streamlit Cloud this file resets on redeploy — download CSV to archive."
+    f"⚠️ `/tmp/` resets on Streamlit Cloud server restarts — download CSV to archive."
 )
 
 st.markdown("---")
@@ -135,9 +133,8 @@ with st.expander("🔎 Filters", expanded=True):
         sel_page = st.selectbox("Page", pages, key="admin_page")
 
     with fc3:
-        countries_avail = df["Country"].replace("", pd.NA).dropna().unique().tolist()
-        countries = ["All"] + sorted(countries_avail)
-        sel_country = st.selectbox("Country", countries, key="admin_country")
+        browsers = ["All"] + sorted(df["Browser"].dropna().unique().tolist())
+        sel_browser = st.selectbox("Browser", browsers, key="admin_browser")
 
 # Apply filters
 fdf = df.copy()
@@ -145,8 +142,8 @@ if len(date_range) == 2:
     fdf = fdf[(fdf["Date"] >= date_range[0]) & (fdf["Date"] <= date_range[1])]
 if sel_page != "All":
     fdf = fdf[fdf["Page"] == sel_page]
-if sel_country != "All":
-    fdf = fdf[fdf["Country"] == sel_country]
+if sel_browser != "All":
+    fdf = fdf[fdf["Browser"] == sel_browser]
 
 st.caption(f"Showing **{len(fdf):,}** of **{total_views:,}** records after filters.")
 
@@ -174,58 +171,39 @@ with col_b:
                        margin=dict(l=10, r=10, t=40, b=10))
     st.plotly_chart(fig2, width="stretch")
 
-# ── Charts row 2: countries + browsers ────────────────────────────────────────
+# ── Charts row 2: browsers + OS ──────────────────────────────────────────────
 col_c, col_d = st.columns(2)
 
 with col_c:
-    country_data = fdf["Country"].replace("", pd.NA).dropna()
-    if not country_data.empty:
-        cvc = country_data.value_counts().reset_index()
-        cvc.columns = ["Country", "Visits"]
-        fig3 = px.bar(cvc.head(12), x="Visits", y="Country", orientation="h",
-                      title="Visitors by Country",
-                      color_discrete_sequence=["#34d399"])
-        fig3.update_layout(paper_bgcolor="#0f172a", plot_bgcolor="#0f172a",
-                           font_color="#e2e8f0",
-                           yaxis={"categoryorder": "total ascending"},
-                           margin=dict(l=10, r=10, t=40, b=10))
-        st.plotly_chart(fig3, width="stretch")
-    else:
-        st.info("No geo data yet — IP lookup runs on first real visitor.")
-
-with col_d:
     bvc = fdf["Browser"].value_counts().reset_index()
     bvc.columns = ["Browser", "Count"]
-    fig4 = px.pie(bvc, names="Browser", values="Count", title="Browser Breakdown",
+    fig3 = px.pie(bvc, names="Browser", values="Count", title="Browser Breakdown",
                   color_discrete_sequence=px.colors.qualitative.Set2, hole=0.4)
-    fig4.update_layout(paper_bgcolor="#0f172a", font_color="#e2e8f0",
+    fig3.update_layout(paper_bgcolor="#0f172a", font_color="#e2e8f0",
                        margin=dict(l=10, r=10, t=40, b=10))
-    st.plotly_chart(fig4, width="stretch")
+    st.plotly_chart(fig3, width="stretch")
 
-# ── Charts row 3: OS + hour of day ────────────────────────────────────────────
-col_e, col_f = st.columns(2)
-
-with col_e:
+with col_d:
     osvc = fdf["OS"].value_counts().reset_index()
     osvc.columns = ["OS", "Count"]
-    fig5 = px.bar(osvc, x="Count", y="OS", orientation="h",
+    fig4 = px.bar(osvc, x="Count", y="OS", orientation="h",
                   title="Operating System",
                   color_discrete_sequence=["#f59e0b"])
-    fig5.update_layout(paper_bgcolor="#0f172a", plot_bgcolor="#0f172a",
+    fig4.update_layout(paper_bgcolor="#0f172a", plot_bgcolor="#0f172a",
                        font_color="#e2e8f0",
                        yaxis={"categoryorder": "total ascending"},
                        margin=dict(l=10, r=10, t=40, b=10))
-    st.plotly_chart(fig5, width="stretch")
+    st.plotly_chart(fig4, width="stretch")
 
-with col_f:
-    hourly = fdf.groupby("Hour").size().reset_index(name="Views")
-    fig6 = px.bar(hourly, x="Hour", y="Views", title="Activity by Hour (UTC)",
-                  color_discrete_sequence=["#e879f9"])
-    fig6.update_layout(paper_bgcolor="#0f172a", plot_bgcolor="#0f172a",
-                       font_color="#e2e8f0",
-                       xaxis=dict(tickmode="linear", dtick=2),
-                       margin=dict(l=10, r=10, t=40, b=10))
-    st.plotly_chart(fig6, width="stretch")
+# ── Chart row 3: activity by hour ─────────────────────────────────────────────
+hourly = fdf.groupby("Hour").size().reset_index(name="Views")
+fig5 = px.bar(hourly, x="Hour", y="Views", title="Activity by Hour (UTC)",
+              color_discrete_sequence=["#e879f9"])
+fig5.update_layout(paper_bgcolor="#0f172a", plot_bgcolor="#0f172a",
+                   font_color="#e2e8f0",
+                   xaxis=dict(tickmode="linear", dtick=2),
+                   margin=dict(l=10, r=10, t=40, b=10))
+st.plotly_chart(fig5, width="stretch")
 
 # ── Session detail table ──────────────────────────────────────────────────────
 st.markdown("---")
@@ -250,7 +228,7 @@ if not st.session_state.admin_authed:
         if pw and pw == correct:
             st.session_state.admin_authed = True
             st.rerun()
-show_cols = [c for c in ["Timestamp", "Session_ID", "Page", "IP", "Country", "City", "Browser", "OS"] if c in fdf.columns]
+show_cols = [c for c in ["Timestamp", "Session_ID", "Page", "Browser", "OS"] if c in fdf.columns]
 display_df = (
     fdf[show_cols]
     .sort_values("Timestamp", ascending=False)
