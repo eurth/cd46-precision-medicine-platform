@@ -14,9 +14,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-_LOG_FILE = (
-    Path(__file__).resolve().parent.parent.parent / "data" / "logs" / "visitor_log.csv"
-)
+_LOG_FILE = Path("/tmp") / "cd46_visitor_log.csv"
 
 # ── Password gate ─────────────────────────────────────────────────────────────
 if "admin_authed" not in st.session_state:
@@ -61,10 +59,9 @@ if not _LOG_FILE.exists():
     st.info(
         "**No visits logged yet.**\n\n"
         "The log file is created automatically when the first visitor arrives. "
-        "On Streamlit Cloud the file resets on each redeploy — download the CSV "
-        "regularly to preserve history."
+        "Note: `/tmp/` resets on server restarts — download the CSV regularly to archive."
     )
-    st.caption(f"Expected log path: `data/logs/visitor_log.csv`")
+    st.caption(f"Log path: `{_LOG_FILE}`")
     st.stop()
 
 df = pd.read_csv(_LOG_FILE)

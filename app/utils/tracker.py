@@ -18,8 +18,8 @@ from pathlib import Path
 import requests
 import streamlit as st
 
-_LOG_DIR  = Path(__file__).resolve().parent.parent.parent / "data" / "logs"
-_LOG_FILE = _LOG_DIR / "visitor_log.csv"
+_LOG_DIR  = Path("/tmp")
+_LOG_FILE = _LOG_DIR / "cd46_visitor_log.csv"
 
 _HEADERS = [
     "Timestamp", "Session_ID", "Page", "IP",
@@ -82,7 +82,7 @@ def _geo_lookup(ip: str) -> dict:
 
 
 def _ensure_log_file() -> None:
-    _LOG_DIR.mkdir(parents=True, exist_ok=True)
+    # /tmp/ always exists — just create the CSV header if needed
     if not _LOG_FILE.exists():
         with open(_LOG_FILE, "w", newline="", encoding="utf-8") as f:
             csv.writer(f).writerow(_HEADERS)
