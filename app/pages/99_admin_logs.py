@@ -124,7 +124,47 @@ except Exception as e:
 
 df = df.dropna(subset=["Page"])
 if df.empty:
-    st.info("No visits logged yet -- log file only contains the header row.")
+    st.info("No visits logged yet — log file only contains the header row.")
+
+    # Diagnostics panel
+    with st.expander("🔧 Diagnostics", expanded=True):
+        st.markdown("**Test write to Gist:**")
+        if st.button("✅ Run Test Write", key="btn_test_write"):
+            import csv as _csv
+            import io as _io
+            try:
+                # Read current
+                r = requests.get(f"{_API_BASE}/{gist_id}", headers=hdrs, timeout=10)
+                r.raise_for_status()
+                current = r.json()["files"][_FILENAME]["content"]
+                if current and not current.endswith("\n"):
+                    current += "\n"
+                buf = _io.StringIO()
+                _csv.writer(buf).writerow(["2026-01-01 00:00:00", "TESTID", "TestPage", "Chrome", "Windows"])
+                patch_r = requests.patch(
+                    f"{_API_BASE}/{gist_id}",
+                    json={"files": {_FILENAME: {"content": current + buf.getvalue()}}},
+                    headers=hdrs,
+                    timeout=10,
+                )
+                if patch_r.status_code in (200, 201):
+                    st.success("✅ Write succeeded! Click Refresh to see data.")
+                else:
+                    st.error(f"PATCH failed HTTP {patch_r.status_code}: {patch_r.text[:300]}")
+            except Exception as ex:
+                st.error(f"Exception: {type(ex).__name__}: {ex}")
+
+        st.markdown("**Tracker debug log** (`/tmp/cd46_tracker_debug.txt`):")
+        from pathlib import Path as _Path
+        _dbg = _Path("/tmp/cd46_tracker_debug.txt")
+        if _dbg.exists():
+            st.code(_dbg.read_text(encoding="utf-8")[-3000:])
+        else:
+            st.caption("Debug file not created yet — tracker hasn't run or has had no errors.")
+
+        st.markdown("**Raw Gist CSV content:**")
+        st.code(raw_csv[:1000])
+
     st.stop()
 
 df["Timestamp"] = pd.to_datetime(df["Timestamp"], errors="coerce")

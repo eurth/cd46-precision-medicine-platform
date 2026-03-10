@@ -75,6 +75,18 @@ def _auth_headers(token: str) -> dict:
     }
 
 
+_DEBUG_FILE = "/tmp/cd46_tracker_debug.txt"
+
+
+def _dbg(msg: str) -> None:
+    """Append a timestamped line to the debug file. Best-effort."""
+    try:
+        with open(_DEBUG_FILE, "a", encoding="utf-8") as f:
+            f.write(f"{datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} | {msg}\n")
+    except Exception:
+        pass
+
+
 def log_page_visit(page_name: str) -> None:
     """
     Call from streamlit_app.py after st.navigation().
@@ -89,7 +101,8 @@ def log_page_visit(page_name: str) -> None:
 
         token, gist_id = _gist_cfg()
         if not token or not gist_id:
-            return  # not configured yet — skip silently
+            _dbg("SKIP: github_gist secrets not configured")
+            return
 
         # --- session ID ---
         if "_session_id" not in st.session_state:
@@ -109,8 +122,14 @@ def log_page_visit(page_name: str) -> None:
         # --- read current Gist content ---
         hdrs = _auth_headers(token)
         resp = requests.get(f"{_API_BASE}/{gist_id}", headers=hdrs, timeout=8)
-        resp.raise_for_status()
-        current = resp.json()["files"][_FILENAME]["content"]
+        if resp.status_code != 200:
+            _dbg(f"GET {gist_id} -> HTTP {resp.status_code}: {resp.text[:200]}")
+            return
+        gist_data = resp.json()
+        if _FILENAME not in gist_data.get("files", {}):
+            _dbg(f"File '{_FILENAME}' not found in Gist. Files: {list(gist_data.get('files', {}).keys())}")
+            return
+        current = gist_data["files"][_FILENAME]["content"]
 
         # --- append new row ---
         if current and not current.endswith("\n"):
@@ -120,15 +139,19 @@ def log_page_visit(page_name: str) -> None:
         new_content = current + out.getvalue()
 
         # --- write back ---
-        requests.patch(
+        patch_resp = requests.patch(
             f"{_API_BASE}/{gist_id}",
             json={"files": {_FILENAME: {"content": new_content}}},
             headers=hdrs,
             timeout=8,
         )
+        if patch_resp.status_code not in (200, 201):
+            _dbg(f"PATCH -> HTTP {patch_resp.status_code}: {patch_resp.text[:200]}")
+        else:
+            _dbg(f"OK: logged '{page_name}' for session {session_id}")
 
-    except Exception:
-        pass  # never crash the main app
+    except Exception as exc:
+        _dbg(f"EXCEPTION in log_page_visit({page_name!r}): {type(exc).__name__}: {exc}")
 
 
 import csv
