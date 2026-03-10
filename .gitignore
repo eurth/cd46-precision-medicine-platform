@@ -50,6 +50,8 @@ data/genie/prad_clinical.parquet
 # ── Logs and build artefacts ─────────────────────────────
 pipeline.log
 *.log
+# Visitor tracking log (operational data, not source)
+data/logs/visitor_log.csv
 reports/figures/*.png
 reports/figures/*.pdf
 *.html

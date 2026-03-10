@@ -26,6 +26,9 @@ kaleido>=0.2.1
 # Knowledge graph / Neo4j
 neo4j>=5.18
 
+# Visitor tracking — Google Sheets
+gspread>=6.0
+
 # Streamlit web app
 streamlit>=1.32
 

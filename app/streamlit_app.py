@@ -6,10 +6,13 @@ Run: streamlit run app/streamlit_app.py
 import sys
 from pathlib import Path
 
-# Ensure project root on path
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+# Ensure project root and app/ dir are both on path
+_HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(_HERE.parent))  # project root
+sys.path.insert(0, str(_HERE))         # app/ dir (for utils.tracker etc.)
 
 import streamlit as st
+from utils.tracker import log_page_visit
 
 st.set_page_config(
     page_title="CD46 Precision Medicine Platform",
@@ -104,6 +107,28 @@ pg = st.navigation(
             st.Page("pages/13_clinical_strategy_engine.py", title="Clinical Strategy Engine", icon="🔬"),
             st.Page("pages/14_cd46_diagnostics.py", title="Diagnostics & Early Detection", icon="🧪"),
         ],
+        # Zero-width-space key → invisible group header; CSS below hides the link too
+        "​": [
+            st.Page("pages/99_admin_logs.py", title="Admin Logs", icon="🔒"),
+        ],
     }
 )
+
+# Hide admin page from sidebar nav (accessible via direct URL only)
+st.markdown(
+    """
+    <style>
+    /* Hide the Admin Logs nav link and its parent list item */
+    section[data-testid="stSidebar"] a[href*="Admin_Logs"],
+    section[data-testid="stSidebar"] a[href*="admin_logs"],
+    section[data-testid="stSidebar"] li:has(a[href*="Admin_Logs"]),
+    section[data-testid="stSidebar"] li:has(a[href*="admin_logs"]) {
+        display: none !important;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
+log_page_visit(pg.title or "Unknown")
 pg.run()
