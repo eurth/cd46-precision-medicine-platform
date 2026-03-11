@@ -76,3 +76,20 @@ desktop.ini
 htmlcov/
 .pytest_cache/
 cd46_precision_medicine_platform.code-workspace
+
+# Ad-hoc test & scratch scripts
+test_*.py
+*_test.py
+scratch_*.py
+
+# Log and output dumps
+*.log
+streamlit_log.txt
+output*.txt
+synapse_test_output*.txt
+genie_cancers.txt
+check_parquet.txt
+
+# Raw GENIE downloads (too large for Git)
+data/raw/*.txt
+data/raw/*.gz

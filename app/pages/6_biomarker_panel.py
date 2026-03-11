@@ -253,65 +253,113 @@ with tab2:
     if not df_genie.empty:
         col_g1, col_g2 = st.columns(2)
 
-        with col_g1:
-            st.markdown("#### CD46 Alterations by Cancer")
-            st.caption("Patients harbouring CD46 Amplification or Mutation")
-            
-            cd46_amp = df_genie.groupby("CANCER_TYPE").agg(
-                total=("SAMPLE_ID", "count"),
-                alt=("CD46_Amplified", "sum")
-            ).reset_index()
-            # add mutations
-            cd46_mut = df_genie.groupby("CANCER_TYPE").agg(mut=("CD46_Mutated", "sum")).reset_index()
-            cd46_amp = pd.merge(cd46_amp, cd46_mut, on="CANCER_TYPE")
-            
-            cd46_amp = cd46_amp[cd46_amp["total"] > 1000] # filter small cohorts
-            cd46_amp["pct_altered"] = ((cd46_amp["alt"] + cd46_amp["mut"]) / cd46_amp["total"]) * 100
-            cd46_amp = cd46_amp.sort_values("pct_altered", ascending=False).head(12)
+        st.info(
+            "🧬 **CD46 is an expression-level target** — selected by protein/mRNA overexpression (IHC/RNA-seq), "
+            "not genomic amplification. The charts below show **AR and PTEN** alterations that define "
+            "the aggressive CRPC patient population where CD46 is most highly upregulated."
+        )
 
-            fig_g1 = px.bar(
-                cd46_amp, x="pct_altered", y="CANCER_TYPE", orientation="h",
-                labels={"pct_altered": "% Patients Altered", "CANCER_TYPE": ""},
-                color_discrete_sequence=["#ef4444"],
-                text=cd46_amp["pct_altered"].round(1).astype(str) + "%",
+        with col_g1:
+            st.markdown("#### AR & PTEN Alteration Rates by Cancer Type")
+            st.caption("Key driver alterations identifying the CD46-eligible population · cohorts ≥1,000 patients")
+
+            # Build per-cancer grouped stats
+            top_cts = df_genie.groupby("CANCER_TYPE").size().reset_index(name="n")
+            top_cts = top_cts[top_cts["n"] >= 1000].sort_values("n", ascending=False).head(10)
+            ct_rows = []
+            for _, r in top_cts.iterrows():
+                ct = r["CANCER_TYPE"]
+                sub = df_genie[df_genie["CANCER_TYPE"] == ct]
+                n = len(sub)
+                ct_rows.append({
+                    "CANCER_TYPE": ct,
+                    "AR %": round((sub["AR_Mutated"] | sub["AR_Amplified"]).mean() * 100, 1),
+                    "PTEN %": round((sub["PTEN_Mutated"] | sub["PTEN_Deleted"]).mean() * 100, 1),
+                    "TP53 %": round(sub["TP53_Mutated"].mean() * 100, 1),
+                })
+            ct_df = pd.DataFrame(ct_rows).sort_values("AR %", ascending=True)
+
+            fig_g1 = go.Figure()
+            fig_g1.add_trace(go.Bar(
+                name="AR", y=ct_df["CANCER_TYPE"], x=ct_df["AR %"], orientation="h",
+                marker_color="#3b82f6", text=ct_df["AR %"].astype(str) + "%", textposition="outside"
+            ))
+            fig_g1.add_trace(go.Bar(
+                name="PTEN", y=ct_df["CANCER_TYPE"], x=ct_df["PTEN %"], orientation="h",
+                marker_color="#f59e0b", text=ct_df["PTEN %"].astype(str) + "%", textposition="outside"
+            ))
+            fig_g1.add_trace(go.Bar(
+                name="TP53", y=ct_df["CANCER_TYPE"], x=ct_df["TP53 %"], orientation="h",
+                marker_color="#ef4444", text=ct_df["TP53 %"].astype(str) + "%", textposition="outside"
+            ))
+            fig_g1.update_layout(
+                barmode="group", height=420,
+                margin=dict(l=10, r=80, t=10, b=10),
+                xaxis_title="% Patients Altered",
+                legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
             )
-            fig_g1.update_layout(yaxis={'categoryorder': 'total ascending'}, height=400, margin=dict(l=10, r=10, t=10, b=10))
-            fig_g1.update_traces(textposition="outside")
             st.plotly_chart(fig_g1, use_container_width=True)
 
         with col_g2:
-            st.markdown("#### Prostate Cancer Co-targeting Matrix")
-            st.caption("Overlap of actionable pathways in mCRPC (GENIE subset)")
-            
+            st.markdown("#### Prostate Cancer: Full Driver Alteration Landscape")
+            st.caption("All 8 molecular subtypes · GENIE n=9,251")
+
             prad_g = df_genie[df_genie["CANCER_TYPE"] == "Prostate Cancer"].copy()
             if not prad_g.empty:
-                prad_g["AR_Alt"] = prad_g["AR_Amplified"] | prad_g["AR_Mutated"]
-                prad_g["CD46_Alt"] = prad_g["CD46_Amplified"] | prad_g["CD46_Mutated"]
-                
-                prad_g["Status"] = "Other / None"
-                prad_g.loc[prad_g["AR_Alt"], "Status"] = "AR Altered Only"
-                prad_g.loc[prad_g["CD46_Alt"], "Status"] = "CD46 Altered Only"
-                prad_g.loc[prad_g["AR_Alt"] & prad_g["CD46_Alt"], "Status"] = "Both AR & CD46 Altered"
-                
-                scounts = prad_g["Status"].value_counts().reset_index()
-                scounts.columns = ["Status", "Patients"]
-                
+                prad_g["AR"] = prad_g["AR_Amplified"] | prad_g["AR_Mutated"]
+                prad_g["PTEN"] = prad_g["PTEN_Mutated"] | prad_g["PTEN_Deleted"]
+                prad_g["TP53"] = prad_g["TP53_Mutated"]
+
+                def _classify_p6(row):
+                    ar, pt, t = row["AR"], row["PTEN"], row["TP53"]
+                    if ar and pt and t:  return "AR + PTEN + TP53 (Triple-Hit)"
+                    if ar and pt:        return "AR + PTEN \u2192 CD46 Priority"
+                    if ar and t:         return "AR + TP53"
+                    if pt and t:         return "PTEN + TP53"
+                    if ar:               return "AR Only"
+                    if pt:               return "PTEN Only"
+                    if t:                return "TP53 Only"
+                    return "No Detected Driver Alteration"
+
+                prad_g["Segment"] = prad_g.apply(_classify_p6, axis=1)
+                scounts = prad_g["Segment"].value_counts().reset_index()
+                scounts.columns = ["Segment", "Patients"]
+
+                _seg_order = [
+                    "AR + PTEN + TP53 (Triple-Hit)", "AR + PTEN \u2192 CD46 Priority",
+                    "AR + TP53", "PTEN + TP53", "AR Only", "PTEN Only",
+                    "TP53 Only", "No Detected Driver Alteration"
+                ]
+                _seg_colors = {
+                    "AR + PTEN + TP53 (Triple-Hit)": "#7c3aed",
+                    "AR + PTEN \u2192 CD46 Priority": "#8b5cf6",
+                    "AR + TP53": "#3b82f6",
+                    "PTEN + TP53": "#f97316",
+                    "AR Only": "#38bdf8",
+                    "PTEN Only": "#f59e0b",
+                    "TP53 Only": "#f87171",
+                    "No Detected Driver Alteration": "#334155",
+                }
+                scounts["Segment"] = pd.Categorical(scounts["Segment"], categories=_seg_order, ordered=True)
+                scounts = scounts.sort_values("Segment")
+
                 fig_g2 = px.pie(
-                    scounts, names="Status", values="Patients", hole=0.5,
-                    color="Status",
-                    color_discrete_map={
-                        "Both AR & CD46 Altered": "#8b5cf6",
-                        "AR Altered Only": "#3b82f6",
-                        "CD46 Altered Only": "#ef4444",
-                        "Other / None": "#334155"
-                    }
+                    scounts, names="Segment", values="Patients", hole=0.45,
+                    color="Segment",
+                    color_discrete_map=_seg_colors,
+                    category_orders={"Segment": _seg_order}
                 )
-                fig_g2.update_layout(margin=dict(t=20, b=20, l=10, r=10), height=350)
+                fig_g2.update_traces(textposition="inside", textinfo="percent+label", textfont_size=9)
+                fig_g2.update_layout(
+                    margin=dict(t=10, b=10, l=10, r=10), height=420, showlegend=False
+                )
                 st.plotly_chart(fig_g2, use_container_width=True)
+                n_g = len(prad_g)
+                n_any_g = (prad_g["AR"] | prad_g["PTEN"] | prad_g["TP53"]).sum()
                 st.info(
-                    "**Clinical Implication:** Prostate cancer patients with combined AR and CD46 alterations represent "
-                    "a subset of aggressive castrate-resistant disease where 225Ac-CD46 "
-                    "may provide a therapeutic alternative."
+                    f"**{n_any_g:,} / {n_g:,} prostate patients ({n_any_g/n_g*100:.0f}%) carry at least one "
+                    "tracked driver alteration.** Purple = primary 225Ac-CD46 priority. "
+                    "Dark slate = localized/early-stage or other drivers (BRCA2, CDK12, RB1)."
                 )
 
     else:

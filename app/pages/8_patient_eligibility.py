@@ -465,22 +465,102 @@ with tab_genie:
             
             if total_g > 0:
                 # Calculate real-world frequencies
-                cd46_alt = g_cohort["CD46_Mutated"].sum() + g_cohort["CD46_Amplified"].sum()
-                ar_alt = g_cohort["AR_Mutated"].sum() + g_cohort["AR_Amplified"].sum()
-                tp53_alt = g_cohort["TP53_Mutated"].sum() + g_cohort["TP53_Amplified"].sum()
-                
-                c1, c2, c3, c4 = st.columns(4)
+                g = g_cohort.copy()
+                g["AR"] = g["AR_Mutated"] | g["AR_Amplified"]
+                g["PTEN"] = g["PTEN_Mutated"] | g["PTEN_Deleted"]
+                g["TP53"] = g["TP53_Mutated"]
+                ar_alt = g["AR"].sum()
+                pten_alt = g["PTEN"].sum()
+                tp53_alt = g["TP53"].sum()
+                any_alt = (g["AR"] | g["PTEN"] | g["TP53"]).sum()
+                triple_hit = (g["AR"] & g["PTEN"] & g["TP53"]).sum()
+                ar_pten = (g["AR"] & g["PTEN"]).sum()
+
+                c1, c2, c3, c4, c5 = st.columns(5)
                 c1.metric("Real-World Patients", f"{total_g:,}")
-                c2.metric("CD46 Altered", f"{(cd46_alt/total_g)*100:.1f}%")
-                c3.metric("AR Altered", f"{(ar_alt/total_g)*100:.1f}%")
-                c4.metric("TP53 Altered", f"{(tp53_alt/total_g)*100:.1f}%")
-                
+                c2.metric("AR Altered", f"{(ar_alt/total_g)*100:.1f}%")
+                c3.metric("PTEN Altered", f"{(pten_alt/total_g)*100:.1f}%")
+                c4.metric("TP53 Mutated", f"{(tp53_alt/total_g)*100:.1f}%")
+                c5.metric("Any Driver", f"{(any_alt/total_g)*100:.1f}%", "at least 1")
+
+                st.caption(
+                    "\U0001F9EC CD46 is targeted by **protein overexpression** (IHC/RNA-seq), "
+                    "not genomic alteration. AR and PTEN alterations identify patients where CD46 is most upregulated."
+                )
+
+                # Full 8-segment molecular landscape chart
+                st.markdown("**Molecular Landscape \u2014 Driver Alteration Subtypes:**")
+
+                def _classify_p8(row):
+                    ar, pt, t = row["AR"], row["PTEN"], row["TP53"]
+                    if ar and pt and t:  return "AR + PTEN + TP53 (Triple-Hit)"
+                    if ar and pt:        return "AR + PTEN \u2192 CD46 Priority"
+                    if ar and t:         return "AR + TP53"
+                    if pt and t:         return "PTEN + TP53"
+                    if ar:               return "AR Only"
+                    if pt:               return "PTEN Only"
+                    if t:                return "TP53 Only"
+                    return "No Detected Driver Alteration"
+
+                g["Segment"] = g.apply(_classify_p8, axis=1)
+                seg_df = g["Segment"].value_counts().reset_index()
+                seg_df.columns = ["Segment", "Patients"]
+                seg_df["%"] = (seg_df["Patients"] / total_g * 100).round(1)
+
+                _seg_order = [
+                    "AR + PTEN + TP53 (Triple-Hit)", "AR + PTEN \u2192 CD46 Priority",
+                    "AR + TP53", "PTEN + TP53", "AR Only", "PTEN Only",
+                    "TP53 Only", "No Detected Driver Alteration"
+                ]
+                _seg_colors = [
+                    "#7c3aed", "#8b5cf6", "#3b82f6", "#f97316",
+                    "#38bdf8", "#f59e0b", "#f87171", "#334155"
+                ]
+                color_map = dict(zip(_seg_order, _seg_colors))
+                seg_df["Color"] = seg_df["Segment"].map(color_map).fillna("#6b7280")
+                seg_df["Segment"] = pd.Categorical(seg_df["Segment"], categories=_seg_order, ordered=True)
+                seg_df = seg_df.sort_values("Segment")
+
+                import plotly.graph_objects as _go_p8
+                bar_p8 = _go_p8.Figure(_go_p8.Bar(
+                    x=seg_df["Segment"], y=seg_df["%"],
+                    marker_color=seg_df["Color"].tolist(),
+                    text=seg_df["%"].astype(str) + "%",
+                    textposition="outside"
+                ))
+                bar_p8.update_layout(
+                    height=320, xaxis_tickangle=-35,
+                    yaxis_title="% of Patients",
+                    margin=dict(t=10, b=80, l=10, r=10),
+                    paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)"
+                )
+                st.plotly_chart(bar_p8, use_container_width=True)
+
                 st.markdown(f"**Clinical Translation for {cancer_sel}:**")
-                st.markdown(f"- In the real-world GENIE cohort, **{cd46_alt:,}** patients ({cd46_alt/total_g:.1%}) harbour direct CD46 pathway alterations.")
-                if ar_alt/total_g > 0.1:
-                    st.markdown(f"- The high rate of AR alterations ({ar_alt/total_g:.1%}) suggests significant overlap with PSMA-directed therapies, highlighting the need for CD46 as an alternative or combination target.")
-                if tp53_alt/total_g > 0.3:
-                    st.markdown(f"- Extensive TP53 alterations ({tp53_alt/total_g:.1%}) reflect aggressive disease phenotypes where traditional therapies often fail, reinforcing the rationale for 225Ac-CD46.")
+                if ar_alt/total_g > 0.05:
+                    st.markdown(
+                        f"- **AR alterations** ({ar_alt/total_g:.1%}) drive castrate-resistant disease; "
+                        "androgen deprivation upregulates CD46 expression 2\u20133\u00d7."
+                    )
+                if pten_alt/total_g > 0.05:
+                    st.markdown(
+                        f"- **PTEN loss** ({pten_alt/total_g:.1%}) activates PI3K/AKT and elevates CD46 surface expression."
+                    )
+                if ar_pten > 0:
+                    st.markdown(
+                        f"- **{ar_pten/total_g*100:.1f}% AR+PTEN co-altered** (double-hit) \u2014 "
+                        "highest-priority 225Ac-CD46 subgroup."
+                    )
+                if triple_hit > 0:
+                    st.markdown(
+                        f"- **{triple_hit/total_g*100:.1f}% triple-hit** (AR+PTEN+TP53) \u2014 most aggressive phenotype, "
+                        "most likely to have failed prior therapies."
+                    )
+                if tp53_alt/total_g > 0.2:
+                    st.markdown(
+                        f"- **TP53 mutations** ({tp53_alt/total_g:.1%}) reflect aggressive biology "
+                        "where conventional therapies frequently fail."
+                    )
             else:
                 st.write(f"No patients found for {genie_name} in the targeted GENIE cohort.")
         else:
