@@ -24,7 +24,6 @@ for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
         pass
 
 DATA_DIR = Path("data/processed")
-GENIE_DIR = Path("data/genie")
 
 st.title("🧬 Biomarker Panel")
 st.markdown(
@@ -63,13 +62,8 @@ def load_survival():
     return pd.read_csv(p) if p.exists() else pd.DataFrame()
 
 @st.cache_data(ttl=3600)
-def load_genie_cna():
-    p = GENIE_DIR / "genie_cd46_cna_summary.parquet"
-    return pd.read_parquet(p) if p.exists() else pd.DataFrame()
-
-@st.cache_data(ttl=3600)
-def load_genie_psma():
-    p = GENIE_DIR / "genie_psma_cd46_cooccurrence.parquet"
+def load_genie_cohort():
+    p = DATA_DIR / "genie_full_cohort.parquet"
     return pd.read_parquet(p) if p.exists() else pd.DataFrame()
 
 @st.cache_data(ttl=3600)
@@ -82,8 +76,7 @@ df_cancer = load_by_cancer()
 df_combination = load_combination()
 df_priority = load_priority()
 df_survival = load_survival()
-df_genie = load_genie_cna()
-df_psma = load_genie_psma()
+df_genie = load_genie_cohort()
 df_hpa = load_hpa()
 df_expr_raw = load_expression()  # 11,069 patient rows with OS/PFI survival data
 df_expr = df_expr_raw[df_expr_raw["sample_type"] == "Primary Tumor"].copy() if not df_expr_raw.empty else df_expr_raw
@@ -245,15 +238,14 @@ with tab1:
         st.info("Run `python scripts/run_pipeline.py` to enable live threshold exploration.")
 
 # ===========================================================================
-# TAB 2 — CO-TARGETING & COMPLEMENTARITY
+# TAB 2 — CO-TARGETING & COMPLEMENTARITY (AACR GENIE)
 # ===========================================================================
 with tab2:
     st.markdown(
         "<div style='background:#1e293b;border-left:3px solid #4ade80;padding:12px 16px;"
         "border-radius:6px;margin-bottom:14px;'>"
-        "<b style='color:#4ade80;'>PSMA / CD46 Co-Targeting Strategy</b><br>"
-        "<span style='color:#94a3b8;'>SU2C mCRPC cohort (n=444) · CNA-based alteration rates · "
-        "PSMA-low patients as priority CD46 targets</span>"
+        "<b style='color:#4ade80;'>Real-World Target Mutational/Amplification Frequencies</b><br>"
+        "<span style='color:#94a3b8;'>AACR Project GENIE 19.0 Cohort (n = 271,837 samples)</span>"
         "</div>",
         unsafe_allow_html=True,
     )
@@ -262,46 +254,72 @@ with tab2:
         col_g1, col_g2 = st.columns(2)
 
         with col_g1:
-            st.markdown("**Alteration Rates — SU2C mCRPC**")
-            # Try to display available columns from genie CNA summary
-            st.dataframe(df_genie.head(30), use_container_width=True, hide_index=True)
+            st.markdown("#### CD46 Alterations by Cancer")
+            st.caption("Patients harbouring CD46 Amplification or Mutation")
+            
+            cd46_amp = df_genie.groupby("CANCER_TYPE").agg(
+                total=("SAMPLE_ID", "count"),
+                alt=("CD46_Amplified", "sum")
+            ).reset_index()
+            # add mutations
+            cd46_mut = df_genie.groupby("CANCER_TYPE").agg(mut=("CD46_Mutated", "sum")).reset_index()
+            cd46_amp = pd.merge(cd46_amp, cd46_mut, on="CANCER_TYPE")
+            
+            cd46_amp = cd46_amp[cd46_amp["total"] > 1000] # filter small cohorts
+            cd46_amp["pct_altered"] = ((cd46_amp["alt"] + cd46_amp["mut"]) / cd46_amp["total"]) * 100
+            cd46_amp = cd46_amp.sort_values("pct_altered", ascending=False).head(12)
+
+            fig_g1 = px.bar(
+                cd46_amp, x="pct_altered", y="CANCER_TYPE", orientation="h",
+                labels={"pct_altered": "% Patients Altered", "CANCER_TYPE": ""},
+                color_discrete_sequence=["#ef4444"],
+                text=cd46_amp["pct_altered"].round(1).astype(str) + "%",
+            )
+            fig_g1.update_layout(yaxis={'categoryorder': 'total ascending'}, height=400, margin=dict(l=10, r=10, t=10, b=10))
+            fig_g1.update_traces(textposition="outside")
+            st.plotly_chart(fig_g1, use_container_width=True)
 
         with col_g2:
-            # Build alteration bar chart from REAL genie parquet data
-            GENES_FOCUS = ["CD46", "AR", "FOLH1", "MYC", "TP53", "RB1", "BRCA2", "CDK12"]
-            if "gene_symbol" in df_genie.columns and "alteration_pct" in df_genie.columns:
-                df_g2 = df_genie[df_genie["gene_symbol"].isin(GENES_FOCUS)].copy()
-                df_g2["gene_symbol"] = df_g2["gene_symbol"].replace({"FOLH1": "PSMA (FOLH1)"})
-                fig2 = px.bar(
-                    df_g2, x="gene_symbol", y="alteration_pct", color="cohort",
-                    barmode="group",
-                    text=df_g2["alteration_pct"].apply(lambda v: f"{v:.1f}%"),
-                    color_discrete_sequence=["#f87171", "#38bdf8", "#4ade80", "#fbbf24"],
-                    title="Gene Alteration Rates — Real Cohort Data",
+            st.markdown("#### Prostate Cancer Co-targeting Matrix")
+            st.caption("Overlap of actionable pathways in mCRPC (GENIE subset)")
+            
+            prad_g = df_genie[df_genie["CANCER_TYPE"] == "Prostate Cancer"].copy()
+            if not prad_g.empty:
+                prad_g["AR_Alt"] = prad_g["AR_Amplified"] | prad_g["AR_Mutated"]
+                prad_g["CD46_Alt"] = prad_g["CD46_Amplified"] | prad_g["CD46_Mutated"]
+                
+                prad_g["Status"] = "Other / None"
+                prad_g.loc[prad_g["AR_Alt"], "Status"] = "AR Altered Only"
+                prad_g.loc[prad_g["CD46_Alt"], "Status"] = "CD46 Altered Only"
+                prad_g.loc[prad_g["AR_Alt"] & prad_g["CD46_Alt"], "Status"] = "Both AR & CD46 Altered"
+                
+                scounts = prad_g["Status"].value_counts().reset_index()
+                scounts.columns = ["Status", "Patients"]
+                
+                fig_g2 = px.pie(
+                    scounts, names="Status", values="Patients", hole=0.5,
+                    color="Status",
+                    color_discrete_map={
+                        "Both AR & CD46 Altered": "#8b5cf6",
+                        "AR Altered Only": "#3b82f6",
+                        "CD46 Altered Only": "#ef4444",
+                        "Other / None": "#334155"
+                    }
                 )
-                fig2.update_traces(textposition="outside")
-                fig2.update_layout(
-                    height=380, paper_bgcolor="#0f172a", plot_bgcolor="#0f172a",
-                    xaxis=dict(color="#94a3b8", gridcolor="#1e293b"),
-                    yaxis=dict(title="Alteration rate (%)", color="#94a3b8", gridcolor="#1e293b"),
-                    legend=dict(bgcolor="#1e293b", font=dict(color="#e2e8f0")),
-                    margin=dict(l=10, r=10, t=40, b=10),
-                    title_font=dict(color="#e2e8f0", size=13),
+                fig_g2.update_layout(margin=dict(t=20, b=20, l=10, r=10), height=350)
+                st.plotly_chart(fig_g2, use_container_width=True)
+                st.info(
+                    "**Clinical Implication:** Prostate cancer patients with combined AR and CD46 alterations represent "
+                    "a subset of aggressive castrate-resistant disease where 225Ac-CD46 "
+                    "may provide a therapeutic alternative."
                 )
-                st.plotly_chart(fig2, width='stretch')
-                st.caption("Source: SU2C mCRPC 2019 (n=444) + TCGA PRAD · CNA-based alteration rates")
-            else:
-                st.info("GENIE columnar data not in expected format — check parquet schema.")
 
     else:
-        st.info("GENIE parquet files not found — run `scripts/download_cbioportal.py`")
-
-    if not df_psma.empty:
-        st.markdown("**PSMA × CD46 Co-occurrence Matrix (SU2C)**")
-        st.dataframe(df_psma, use_container_width=True, hide_index=True)
+        st.info("GENIE real-world dataset not loaded. Run the `fetch_genie_cd46.py` script.")
 
     # Clinical decision matrix
-    st.markdown("**Clinical Decision Matrix — Dual-Target Strategy**")
+    st.markdown("---")
+    st.markdown("**Clinical Decision Matrix — Dual-Target Strategy (PSMA)**")
     matrix = pd.DataFrame({
         "Patient Profile": [
             "PSMA-High + CD46-High",

@@ -52,6 +52,10 @@ def load_priority() -> pd.DataFrame:
     p = DATA_DIR / "priority_score.csv"
     return pd.read_csv(p) if p.exists() else pd.DataFrame()
 
+@st.cache_data(ttl=3600)
+def load_genie() -> pd.DataFrame:
+    p = DATA_DIR / "genie_full_cohort.parquet"
+    return pd.read_parquet(p) if p.exists() else pd.DataFrame()
 
 # ---------------------------------------------------------------------------
 # Scoring logic
@@ -83,6 +87,27 @@ CANCER_LABELS: dict[str, str] = {
     "TGCT": "Testicular Germ Cell Tumors",
     "GBM": "Glioblastoma Multiforme",
     "LGG": "Brain Lower Grade Glioma",
+}
+
+TCGA_TO_GENIE_MAP = {
+    "LUAD": "Non-Small Cell Lung Cancer",
+    "LUSC": "Non-Small Cell Lung Cancer",
+    "PRAD": "Prostate Cancer",
+    "COAD": "Colorectal Cancer",
+    "BRCA": "Breast Cancer",
+    "BLCA": "Bladder Cancer",
+    "PAAD": "Pancreatic Cancer",
+    "KIRC": "Renal Cell Carcinoma",
+    "KIRP": "Renal Cell Carcinoma",
+    "STAD": "Esophagogastric Cancer",
+    "OV": "Ovarian Cancer",
+    "LIHC": "Hepatobiliary Cancer",
+    "UCEC": "Endometrial Cancer",
+    "LAML": "Leukemia",
+    "SKCM": "Melanoma",
+    "SARC": "Soft Tissue Sarcoma",
+    "GBM": "Glioma",
+    "LGG": "Glioma"
 }
 
 
@@ -210,6 +235,7 @@ def classify(score: float) -> tuple[str, str, str, str]:
 df_expr = load_by_cancer()
 df_surv = load_survival()
 df_priority = load_priority()
+df_genie = load_genie()
 
 if df_expr.empty:
     st.error("Expression data unavailable — check data/processed/cd46_by_cancer.csv")
@@ -367,7 +393,7 @@ with col_output:
 st.divider()
 st.subheader("Evidence & Context")
 
-tab_ev, tab_sim = st.tabs(["Evidence Summary", "Similar Indications"])
+tab_ev, tab_genie, tab_sim = st.tabs(["Evidence Summary", "🌍 GENIE Real-World Context", "Similar Indications"])
 
 with tab_ev:
     ev1, ev2 = st.columns(2)
@@ -425,6 +451,40 @@ with tab_ev:
                 use_container_width=True,
                 hide_index=True,
             )
+
+with tab_genie:
+    st.markdown("#### AACR Project GENIE 19.0 — Cohort Context")
+    if df_genie.empty:
+        st.warning("GENIE data not found. Run the extraction pipeline.")
+    else:
+        genie_name = TCGA_TO_GENIE_MAP.get(cancer_sel)
+        if genie_name:
+            st.info(f"Mapping TCGA **{cancer_sel}** to GENIE **{genie_name}**.")
+            g_cohort = df_genie[df_genie["CANCER_TYPE"] == genie_name]
+            total_g = len(g_cohort)
+            
+            if total_g > 0:
+                # Calculate real-world frequencies
+                cd46_alt = g_cohort["CD46_Mutated"].sum() + g_cohort["CD46_Amplified"].sum()
+                ar_alt = g_cohort["AR_Mutated"].sum() + g_cohort["AR_Amplified"].sum()
+                tp53_alt = g_cohort["TP53_Mutated"].sum() + g_cohort["TP53_Amplified"].sum()
+                
+                c1, c2, c3, c4 = st.columns(4)
+                c1.metric("Real-World Patients", f"{total_g:,}")
+                c2.metric("CD46 Altered", f"{(cd46_alt/total_g)*100:.1f}%")
+                c3.metric("AR Altered", f"{(ar_alt/total_g)*100:.1f}%")
+                c4.metric("TP53 Altered", f"{(tp53_alt/total_g)*100:.1f}%")
+                
+                st.markdown(f"**Clinical Translation for {cancer_sel}:**")
+                st.markdown(f"- In the real-world GENIE cohort, **{cd46_alt:,}** patients ({cd46_alt/total_g:.1%}) harbour direct CD46 pathway alterations.")
+                if ar_alt/total_g > 0.1:
+                    st.markdown(f"- The high rate of AR alterations ({ar_alt/total_g:.1%}) suggests significant overlap with PSMA-directed therapies, highlighting the need for CD46 as an alternative or combination target.")
+                if tp53_alt/total_g > 0.3:
+                    st.markdown(f"- Extensive TP53 alterations ({tp53_alt/total_g:.1%}) reflect aggressive disease phenotypes where traditional therapies often fail, reinforcing the rationale for 225Ac-CD46.")
+            else:
+                st.write(f"No patients found for {genie_name} in the targeted GENIE cohort.")
+        else:
+            st.write(f"No direct GENIE broad cancer type mapping available for TCGA {cancer_sel}.")
 
 with tab_sim:
     st.markdown(
