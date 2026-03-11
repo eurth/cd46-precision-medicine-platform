@@ -83,113 +83,108 @@ k4.metric("AR blockade effect", "↑ 2–3×", "CD46 upregulated post-castration
 st.markdown("---")
 
 # ---------------------------------------------------------------------------
-# Real-world mCRPC cohort tab — cBioPortal data (no auth required)
+# Real-world Genomics (AACR GENIE)
 # ---------------------------------------------------------------------------
 
 @st.cache_data(show_spinner=False)
-def _load_genie_summaries():
-    base = Path(__file__).resolve().parents[2] / "data" / "genie"
-    cna_s   = base / "genie_cd46_cna_summary.parquet"
-    cooccur = base / "genie_psma_cd46_cooccurrence.parquet"
-    mut_s   = base / "genie_mutation_summary.parquet"
-    return (
-        pd.read_parquet(cna_s)   if cna_s.exists()   else pd.DataFrame(),
-        pd.read_parquet(cooccur) if cooccur.exists() else pd.DataFrame(),
-        pd.read_parquet(mut_s)   if mut_s.exists()   else pd.DataFrame(),
-    )
+def _load_genie_data():
+    base = Path(__file__).resolve().parents[2] / "data" / "processed"
+    p = base / "genie_full_cohort.parquet"
+    if p.exists():
+        return pd.read_parquet(p)
+    return pd.DataFrame()
 
-
-def _show_cbioportal_tab():
-    st.markdown("### Real-World mCRPC Cohort Validation")
+def _show_genie_tab():
+    st.markdown("### AACR Project GENIE: Real-World Clinical Genomics")
     st.info(
-        "**Source:** cBioPortal public API (no authentication required)  \n"
-        "**Cohorts:** SU2C/PCF mCRPC 2019 (444 patients) · TCGA PRAD (499) · Michigan mPRAD (61)  \n"
-        "**Genes:** CD46 · FOLH1 (PSMA) · AR · MYC — Copy Number Alteration (GISTIC discrete values)"
+        "**Source:** AACR Project GENIE Release 19.0-public (271,837 real-world sequenced tumours)  \n"
+        "**Significance:** Validates CD46, AR, and PTEN mutational/amplification prevalence in massive clinical populations."
     )
 
-    cna_df, cooccur_df, mut_df = _load_genie_summaries()
+    df = _load_genie_data()
 
-    if cna_df.empty:
-        st.warning(
-            "GENIE summary files not found. Run `python src/genie/cbioportal_downloader.py` "
-            "then `python src/genie/processor.py` to generate them."
-        )
+    if df.empty:
+        st.warning("GENIE full cohort file not found. Run `python scripts/fetch_genie_cd46.py`.")
         return
+
+    # High-level Metrics
+    c1, c2, c3, c4 = st.columns(4)
+    c1.metric("Total Patients", f"{len(df):,}")
+    c2.metric("Prostate Cancers", f"{len(df[df['CANCER_TYPE'] == 'Prostate Cancer']):,}")
+    c3.metric("CD46 Altered", f"{df['CD46_Mutated'].sum() + df['CD46_Amplified'].sum() + df['CD46_Deleted'].sum():,}")
+    c4.metric("AR Altered", f"{df['AR_Mutated'].sum() + df['AR_Amplified'].sum() + df['AR_Deleted'].sum():,}")
+
+    st.markdown("---")
 
     col_a, col_b = st.columns(2)
 
     with col_a:
-        st.markdown("#### CD46 Copy Number Alteration by Cohort")
-        cd46_cna = cna_df[cna_df["gene_symbol"] == "CD46"].copy()
-        if not cd46_cna.empty:
-            fig = go.Figure()
-            fig.add_bar(
-                x=cd46_cna["cohort"], y=cd46_cna["amplification_pct"],
-                name="Amplified", marker_color="#38bdf8",
-            )
-            fig.add_bar(
-                x=cd46_cna["cohort"],
-                y=cd46_cna["alteration_pct"] - cd46_cna["amplification_pct"],
-                name="Gained (+1)", marker_color="#0ea5e9",
-            )
-            fig.add_bar(
-                x=cd46_cna["cohort"], y=cd46_cna["deletion_pct"],
-                name="Deleted", marker_color="#f97316",
-            )
-            fig.update_layout(
-                barmode="stack", height=360, margin=dict(t=30, b=60),
-                xaxis_title="Cohort", yaxis_title="% Samples",
-                legend=dict(orientation="h", yanchor="bottom", y=1.02),
-            )
-            st.plotly_chart(fig, width='stretch')
-            st.caption(
-                "mCRPC (SU2C): 43% CD46-altered vs 9% in localised PRAD (TCGA) — "
-                "confirms CD46 upregulation in castration-resistant disease."
-            )
+        st.markdown("#### Top Cancers with CD46 Amplification")
+        # Calculate % of samples with CD46 Amplification per cancer type
+        cd46_amp = df.groupby("CANCER_TYPE").agg(
+            total=("SAMPLE_ID", "count"),
+            amp=("CD46_Amplified", "sum")
+        ).reset_index()
+        cd46_amp = cd46_amp[cd46_amp["total"] > 500] # Filter small cohorts
+        cd46_amp["pct_amp"] = (cd46_amp["amp"] / cd46_amp["total"]) * 100
+        cd46_amp = cd46_amp.sort_values("pct_amp", ascending=False).head(15)
+
+        fig1 = go.Figure()
+        fig1.add_trace(go.Bar(
+            x=cd46_amp["pct_amp"], y=cd46_amp["CANCER_TYPE"],
+            orientation='h', marker_color="#dc2626",
+            text=cd46_amp["pct_amp"].round(1).astype(str) + "%",
+            textposition="outside"
+        ))
+        fig1.update_layout(
+            height=400, margin=dict(l=10, r=10, t=30, b=10),
+            paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
+            xaxis_title="% Patients with CD46 Amplification", yaxis={"categoryorder": "total ascending"}
+        )
+        st.plotly_chart(fig1, use_container_width=True)
 
     with col_b:
-        st.markdown("#### Gene Alteration Rates Across Cohorts")
-        pivot = cna_df.pivot_table(
-            index="cohort", columns="gene_symbol",
-            values="alteration_pct", aggfunc="first",
-        ).reset_index()
-        fig2 = go.Figure()
-        gene_colors = {"CD46": "#38bdf8", "FOLH1": "#f97316", "AR": "#a855f7", "MYC": "#22c55e"}
-        for gene, color in gene_colors.items():
-            if gene in pivot.columns:
-                fig2.add_bar(
-                    x=pivot["cohort"], y=pivot[gene],
-                    name=gene, marker_color=color,
-                )
-        fig2.update_layout(
-            barmode="group", height=360, margin=dict(t=30, b=60),
-            xaxis_title="Cohort", yaxis_title="% Samples Altered",
-            legend=dict(orientation="h", yanchor="bottom", y=1.02),
-        )
-        st.plotly_chart(fig2, width='stretch')
-        st.caption(
-            "AR amplification (71% mCRPC) drives CD46 upregulation via androgen signalling. "
-            "MYC co-amplification (71%) supports aggressive disease phenotype."
-        )
+        st.markdown("#### Prostate Cancer Co-occurrence (AR & CD46)")
+        prad = df[df["CANCER_TYPE"] == "Prostate Cancer"].copy()
+        
+        prad["Status"] = "Other"
+        prad.loc[prad["AR_Amplified"] | prad["AR_Mutated"], "Status"] = "AR Altered Only"
+        prad.loc[prad["CD46_Amplified"] | prad["CD46_Mutated"], "Status"] = "CD46 Altered Only"
+        prad.loc[(prad["AR_Amplified"] | prad["AR_Mutated"]) & (prad["CD46_Amplified"] | prad["CD46_Mutated"]), "Status"] = "Both AR & CD46 Altered"
+        
+        status_counts = prad["Status"].value_counts().reset_index()
+        status_counts.columns = ["Status", "Count"]
 
-    if not cooccur_df.empty:
-        st.markdown("#### PSMA-low / CD46-altered Co-occurrence (SU2C mCRPC)")
-        high_relevance = cooccur_df[cooccur_df["therapeutic_relevance"].str.startswith("HIGH")]
-        n_targetable = int(high_relevance["n_samples"].sum()) if not high_relevance.empty else 0
-        n_total = int(cooccur_df["n_samples"].sum())
-        st.metric(
-            "PSMA-deleted + CD46-altered patients",
-            f"{n_targetable} / {n_total}",
-            f"{n_targetable/n_total*100:.1f}% — primary 225Ac-CD46 CNA candidates",
+        fig2 = px.pie(
+            status_counts, names="Status", values="Count",
+            hole=0.4, color="Status",
+            color_discrete_map={
+                "Both AR & CD46 Altered": "#8b5cf6",
+                "AR Altered Only": "#3b82f6",
+                "CD46 Altered Only": "#dc2626",
+                "Other": "#475569"
+            }
         )
-        st.dataframe(
-            cooccur_df.sort_values("n_samples", ascending=False),
-            use_container_width=True, height=280,
+        fig2.update_layout(
+            height=400, margin=dict(l=10, r=10, t=30, b=10),
+            paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)"
         )
-        st.caption(
-            "Note: CNA-based co-occurrence is conservative. Expression-level PSMA loss + CD46 "
-            "upregulation (driven by AR signalling) affects a larger proportion of mCRPC patients."
-        )
+        st.plotly_chart(fig2, use_container_width=True)
+
+    st.markdown("#### Interactive Cohort Explorer")
+    with st.expander("Filter 271k Real-World Patients", expanded=False):
+        c_filt, g_filt, t_filt = st.columns(3)
+        cancer_sel = c_filt.selectbox("Cancer Type", ["All"] + sorted(df["CANCER_TYPE"].unique().tolist()))
+        gene_sel = g_filt.selectbox("Gene Alteration", ["None", "CD46_Amplified", "CD46_Mutated", "AR_Amplified", "PTEN_Deleted", "TP53_Mutated"])
+        
+        fdf = df.copy()
+        if cancer_sel != "All":
+            fdf = fdf[fdf["CANCER_TYPE"] == cancer_sel]
+        if gene_sel != "None":
+            fdf = fdf[fdf[gene_sel] == True]
+            
+        st.caption(f"Showing {len(fdf):,} patients matching filters.")
+        st.dataframe(fdf[["PATIENT_ID", "CANCER_TYPE_DETAILED", "AGE_AT_SEQ_REPORT", "SEX", "PRIMARY_RACE", "CD46_Amplified", "AR_Amplified"]].head(100), use_container_width=True)
 
 
 # ---------------------------------------------------------------------------
@@ -202,7 +197,7 @@ tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
     "🔗 PSMA / AR Complementarity",
     "🧬 CRISPR Essentiality",
     "📋 Data Table",
-    "🧪 Real-World mCRPC Cohorts",
+    "🌍 AACR GENIE Real-World",
 ])
 
 THRESHOLD_LABELS = {
@@ -512,11 +507,10 @@ with tab5:
         st.info("Data table will appear after running the analysis pipeline.")
 
 with tab6:
-    _show_cbioportal_tab()
+    _show_genie_tab()
 
 st.markdown("---")
 st.caption(
-    "Sources: TCGA/UCSC Xena · cBioPortal SU2C mCRPC (Abida et al., PNAS 2019) · "
-    "Michigan mPRAD (Robinson et al., Nature 2012) · "
+    "Sources: TCGA/UCSC Xena · AACR Project GENIE 19.0-public · "
     "DepMap CCLE CRISPR (Avana library)"
 )
