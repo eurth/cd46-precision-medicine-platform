@@ -93,3 +93,11 @@ check_parquet.txt
 # Raw GENIE downloads (too large for Git)
 data/raw/*.txt
 data/raw/*.gz
+
+# ── Video scripts & source docs ───────────────────────────
+# Screen-recording narration scripts — local use only, not part of codebase
+# video_scripts/
+
+# Radiopharmaceutical strategy PDF/MD source documents
+Radiopharmaceutical discovery orchestration system.pdf
+Radiopharmaceutical discovery orchestration system.md
