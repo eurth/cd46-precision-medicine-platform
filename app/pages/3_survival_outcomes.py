@@ -8,9 +8,9 @@ import pandas as pd
 import streamlit as st
 
 
-st.title("📈 CD46 Survival Outcomes")
+st.title("📈 Survival Outcomes")
 st.caption(
-    "Kaplan-Meier curves · Cox hazard ratios · CD46-High vs CD46-Low · "
+    "CD46 case study · Kaplan-Meier curves · Cox hazard ratios · CD46-High vs CD46-Low · "
     "33 TCGA cancer types · Overall Survival & Progression-Free Interval"
 )
 

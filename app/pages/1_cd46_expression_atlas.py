@@ -11,8 +11,8 @@ import streamlit as st
 # Page header
 # ---------------------------------------------------------------------------
 
-st.title("📊 CD46 Expression Atlas")
-st.caption("Pan-cancer mRNA + protein expression · TCGA (33 cancers) · Human Protein Atlas (30 tissues)")
+st.title("📊 Expression Atlas")
+st.caption("Pan-cancer mRNA + protein expression · TCGA (33 cancers) · Human Protein Atlas (30 tissues) · CD46 case study")
 
 # ---------------------------------------------------------------------------
 # Load data

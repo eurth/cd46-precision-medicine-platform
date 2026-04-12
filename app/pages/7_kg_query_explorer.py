@@ -34,10 +34,8 @@ for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD", "OPENAI_API_KEY", "G
 # AuraDB connection
 # ---------------------------------------------------------------------------
 
-@st.cache_resource
+@st.cache_resource(ttl=300)
 def get_driver():
-    from neo4j import GraphDatabase
-    uri  = os.environ.get("NEO4J_URI", "")
     user = os.environ.get("NEO4J_USERNAME", "neo4j")
     pwd  = os.environ.get("NEO4J_PASSWORD", "")
     if not uri or not pwd:

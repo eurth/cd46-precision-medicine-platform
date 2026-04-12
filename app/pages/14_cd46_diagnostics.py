@@ -25,8 +25,8 @@ from dotenv import load_dotenv
 
 load_dotenv(Path(__file__).resolve().parent.parent.parent / ".env")
 
-st.set_page_config(page_title="CD46 Diagnostics & Early Detection", layout="wide")
-st.title("🔬 CD46 Diagnostics & Early Detection")
+st.set_page_config(page_title="Diagnostics & Early Detection | OncoBridge", layout="wide")
+st.title("🔬 Diagnostics & Early Detection")
 st.markdown(
     "**Evidence framework · From biomarker discovery to clinical companion diagnostic**"
 )

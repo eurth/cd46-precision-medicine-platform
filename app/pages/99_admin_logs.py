@@ -6,6 +6,7 @@ URL: /admin_logs
 import csv
 import io
 import ipaddress
+import os
 import sys
 from pathlib import Path
 
@@ -20,15 +21,31 @@ import streamlit as st
 _FILENAME = "cd46_visitor_log.csv"
 _API_BASE = "https://api.github.com/gists"
 
+
+def _get_admin_password() -> str:
+    """Read admin password: env var first (Coolify), then st.secrets (local dev)."""
+    env_pw = os.environ.get("ADMIN_PASSWORD", "")
+    if env_pw:
+        return env_pw
+    try:
+        return st.secrets.get("admin", {}).get("password", "")
+    except Exception:
+        return ""
+
+
 # ---- Password gate ----------------------------------------------------------
 if "admin_authed" not in st.session_state:
     st.session_state.admin_authed = False
 
 if not st.session_state.admin_authed:
     st.title("Admin Access")
+    _correct_pw = _get_admin_password()
+    if not _correct_pw:
+        st.error("Admin password not configured. Set ADMIN_PASSWORD environment variable.")
+        st.stop()
     pw = st.text_input("Password", type="password", key="admin_pw")
     if st.button("Unlock", key="btn_unlock"):
-        if pw == st.secrets.get("admin", {}).get("password", ""):
+        if pw == _correct_pw:
             st.session_state.admin_authed = True
             st.rerun()
         else:
@@ -51,10 +68,10 @@ with c2:
 st.divider()
 
 # ---- Secrets check ----------------------------------------------------------
-token   = st.secrets.get("github_gist", {}).get("token", "")
-gist_id = st.secrets.get("github_gist", {}).get("gist_id", "")
+token   = st.secrets.get("github_gist", {}).get("token", "") or os.environ.get("GITHUB_GIST_TOKEN", "")
+gist_id = st.secrets.get("github_gist", {}).get("gist_id", "") or os.environ.get("GITHUB_GIST_ID", "")
 if not token or not gist_id:
-    st.error("github_gist secrets not set in Streamlit Cloud.")
+    st.error("GitHub Gist credentials not configured. Set GITHUB_GIST_TOKEN and GITHUB_GIST_ID env vars.")
     st.stop()
 
 # ---- Fetch Gist -------------------------------------------------------------

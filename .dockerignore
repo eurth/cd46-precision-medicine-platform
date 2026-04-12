@@ -1,0 +1,46 @@
+# OncoBridge Intelligence — Docker build exclusions
+# Keep image lean; runtime data is provided via Coolify volume mount
+
+# Version control
+.git
+.gitignore
+.gitattributes
+
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.venv
+venv
+*.egg-info
+
+# Secrets — never baked into image
+.env
+.env.*
+.streamlit/secrets.toml
+
+# Data — provided via volume mount /data/oncobridge-data → /app/data
+data/
+
+# Large binary / LFS files
+*.parquet
+
+# Internal planning docs (not needed at runtime)
+MEMORY_BANK/
+_archive/
+
+# Dev artefacts
+notebooks/
+reports/
+tests/
+.vscode/
+
+# Docs and media
+*.md
+!README.md
+*.docx
+*.pptx
+
+# Coolify env template (safe to commit, not needed in image)
+coolify.env.example

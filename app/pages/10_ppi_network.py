@@ -30,10 +30,8 @@ for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
         pass
 
 
-@st.cache_resource
+@st.cache_resource(ttl=300)
 def get_driver():
-    from neo4j import GraphDatabase
-    uri      = os.getenv("NEO4J_URI")
     user     = os.getenv("NEO4J_USERNAME", "neo4j")
     password = os.getenv("NEO4J_PASSWORD")
     if not uri or not password:
@@ -158,7 +156,7 @@ def build_graph(nodes: list, edges: list, min_score: float) -> nx.Graph:
 
 
 # ── Page header ───────────────────────────────────────────────────────────────
-st.title("PPI Network Explorer")
+st.title("🕸️ PPI Network Explorer")
 st.markdown(
     "**CD46 protein-protein interaction neighbourhood** | "
     "Source: [STRING DB](https://string-db.org) v12.0 | CC BY 4.0 | "

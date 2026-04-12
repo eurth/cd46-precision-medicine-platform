@@ -30,7 +30,7 @@ CURATED_PUBLICATIONS = [
         "year": 2021,
         "doi": "10.2967/jnumed.120.258517",
         "evidence_type": "Preclinical",
-        "relevance": "Direct foundation paper for Prof. Bobba Naidu's 225Ac-CD46 program",
+        "relevance": "Direct foundation paper for 225Ac-CD46 alpha-particle radioimmunotherapy",
         "key_finding": "225Ac-anti-CD46 achieves tumor regression in mCRPC xenograft models; alpha particles induce DNA DSBs",
     },
     {

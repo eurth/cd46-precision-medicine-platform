@@ -19,7 +19,7 @@ CURATED_DRUGS = [
         "phase": "Preclinical / Phase I design",
         "target": "CD46 (ENSG00000117335)",
         "indication": "mCRPC, CD46-overexpressing solid tumors",
-        "notes": "Primary therapeutic agent in Prof. Bobba Naidu's program",
+        "notes": "Primary therapeutic agent in the 225Ac-CD46 radiopharmaceutical programme",
     },
     {
         "chembl_id": "CHEMBL2176",

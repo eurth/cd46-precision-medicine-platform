@@ -19,7 +19,7 @@ import requests
 logger = logging.getLogger(__name__)
 
 EUTILS_BASE = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
-EMAIL = "info@ayutara.com"  # courtesy email for NCBI rate limits
+EMAIL = "research@eurthtech.com"  # courtesy email for NCBI rate limits
 TIMEOUT = 12  # seconds
 
 

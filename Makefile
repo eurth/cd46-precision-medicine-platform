@@ -1,7 +1,7 @@
 .PHONY: setup download analyze kg app full test clean help
 
 help:
-	@echo "CD46 Precision Medicine Platform — Available Commands:"
+	@echo "OncoBridge Intelligence \u2014 Available Commands:"
 	@echo "  make setup      Install all Python dependencies"
 	@echo "  make download   Download all datasets (TCGA ~4min + APIs ~2min)"
 	@echo "  make analyze    Run all analysis scripts"

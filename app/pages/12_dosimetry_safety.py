@@ -19,7 +19,7 @@ for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
         pass
 
 st.set_page_config(
-    page_title="Dosimetry & Safety Index | CD46",
+    page_title="Dosimetry & Safety Index | OncoBridge",
     page_icon="⚗️",
     layout="wide",
 )

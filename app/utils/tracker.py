@@ -16,6 +16,8 @@ import ipaddress
 import threading
 import uuid
 
+import os
+
 import requests
 import streamlit as st
 
@@ -123,8 +125,8 @@ def log_page_visit(page_name: str) -> None:
         st.session_state[flag] = True
 
         cfg = st.secrets.get("github_gist", {})
-        token   = cfg.get("token", "")
-        gist_id = cfg.get("gist_id", "")
+        token   = cfg.get("token", "") or os.environ.get("GITHUB_GIST_TOKEN", "")
+        gist_id = cfg.get("gist_id", "") or os.environ.get("GITHUB_GIST_ID", "")
         if not token or not gist_id:
             return
 

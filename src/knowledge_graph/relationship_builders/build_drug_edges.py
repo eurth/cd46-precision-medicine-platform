@@ -15,7 +15,7 @@ DRUG_INDICATION_EDGES = [
         "tcga_code": "PRAD",
         "relationship_type": "PRIMARY_INDICATION",
         "clinical_stage": "Preclinical / Phase I design",
-        "evidence": "Prof. Bobba Naidu program — direct target population",
+        "evidence": "225Ac-CD46 radiopharmaceutical programme — direct target population",
     },
     {
         "chembl_id": "CHEMBL2176",

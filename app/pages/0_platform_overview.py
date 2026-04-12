@@ -6,9 +6,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 
 import streamlit as st
 
-st.title("🔬 CD46 Precision Medicine Platform")
+st.title("🔬 OncoBridge Intelligence")
 st.markdown(
-    "**225Ac-CD46 Radiopharmaceutical Therapy | Pan-Cancer Evidence Platform | Research Use**"
+    "**Pan-Cancer Target Intelligence Platform · CD46 Case Study · Knowledge Graph + AI Research · EurthTech**"
 )
 st.markdown("---")
 
@@ -124,7 +124,7 @@ card_col1, card_col2, card_col3 = st.columns(3)
 
 with card_col1:
     with st.container(border=True):
-        st.markdown("### 📊 CD46 Expression Atlas")
+        st.markdown("### 📊 Expression Atlas")
         st.markdown(
             "Pan-cancer CD46 mRNA + protein expression across 33 TCGA cancers "
             "and 30 Human Protein Atlas tissues. Ranked expression, heatmaps, "
@@ -188,7 +188,7 @@ st.markdown("---")
 # Investor Summary
 # ---------------------------------------------------------------------------
 
-with st.expander("📈 Investor Summary — 225Ac-CD46 Target Evidence", expanded=False):
+with st.expander("📈 Research Summary — CD46 Target Evidence", expanded=False):
     st.markdown(
         """
         ### Why CD46 as a Radiopharmaceutical Target?

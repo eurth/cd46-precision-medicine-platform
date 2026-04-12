@@ -6,8 +6,9 @@ import os
 
 logger = logging.getLogger(__name__)
 
-_SYSTEM_PROMPT = """You are an expert AI assistant for the CD46 Precision Medicine Platform,
-supporting Prof. Bobba Naidu's 225Ac-CD46 cancer therapy research program.
+_SYSTEM_PROMPT = """You are an expert AI research assistant for OncoBridge Intelligence,
+an EurthTech pan-cancer target intelligence platform demonstrating Knowledge Graph + AI-driven
+cancer research — focused on CD46 as a validated case study.
 
 You have access to:
 - Pan-cancer TCGA CD46 expression data (33 cancer types, ~11,000 patients)

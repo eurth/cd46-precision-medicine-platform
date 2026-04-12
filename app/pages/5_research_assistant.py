@@ -19,10 +19,11 @@ for _k in ("OPENAI_API_KEY", "GEMINI_API_KEY", "NEO4J_URI", "NEO4J_USERNAME", "N
         pass
 
 
-st.title("🤖 CD46 AI Research Assistant")
+st.title("🤖 OncoBridge Research Assistant")
 st.markdown(
-    "**Ask questions about CD46 biology, patient eligibility, survival outcomes, drug targets, and clinical trials. "
-    "Powered by GPT-4o (primary) or Gemini 2.5 Flash (fallback) with integrated research data context.**"
+    "**Ask questions about target biology, patient eligibility, survival outcomes, drug targets, and clinical trials. "
+    "Powered by GPT-4o (primary) or Gemini 2.5 Flash (fallback) with integrated knowledge graph context. "
+    "Showcasing the CD46 case study.**"
 )
 
 # ---------------------------------------------------------------------------

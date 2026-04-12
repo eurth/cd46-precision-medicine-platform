@@ -1,6 +1,6 @@
-# CD46 Precision Medicine Platform
+# OncoBridge Intelligence
 
-**Investigator:** Prof. Bobba Naidu | **Target:** CD46 (Membrane Cofactor Protein, MCP) | **Therapeutic Focus:** ²²⁵Ac-CD46 Targeted Alpha Therapy
+**By EurthTech Research** | **Target:** CD46 (Membrane Cofactor Protein, MCP) | **Focus:** Pan-Cancer Knowledge Graph + AI Research Platform | **Case Study:** ²²⁵Ac-CD46 Targeted Alpha Therapy
 
 ---
 
@@ -271,8 +271,8 @@ pytest tests/ --cov=src --cov-report=html -v
 
 ## License
 
-This project is for academic research use under the direction of Prof. Bobba Naidu. All data sources are used in accordance with their respective terms of service.
+This project is open for research and portfolio review. All data sources are used in accordance with their respective terms of service. Built by EurthTech Research.
 
 ---
 
-*Platform built with GitHub Copilot (Claude Sonnet 4.6) — CD46 Precision Medicine Platform v1.0.0*
+*Platform built with GitHub Copilot (Claude Sonnet 4.6) — OncoBridge Intelligence v1.0.0 | EurthTech*

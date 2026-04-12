@@ -19,7 +19,7 @@ for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
         pass
 
 st.set_page_config(
-    page_title="Clinical Strategy Engine | CD46",
+    page_title="Clinical Strategy Engine | OncoBridge",
     page_icon="🔬",
     layout="wide",
 )
@@ -72,10 +72,8 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ── AuraDB driver ─────────────────────────────────────────────────────────────
-@st.cache_resource
+@st.cache_resource(ttl=300)
 def get_driver():
-    from neo4j import GraphDatabase
-    uri = os.environ.get("NEO4J_URI")
     user = os.environ.get("NEO4J_USERNAME", "neo4j")
     pw = os.environ.get("NEO4J_PASSWORD")
     if not uri or not pw:

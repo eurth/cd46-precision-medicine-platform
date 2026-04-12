@@ -2,10 +2,10 @@
 # Central configuration — all thresholds, paths, and API endpoints
 
 project:
-  name: "CD46 Precision Medicine Platform"
+  name: "OncoBridge Intelligence"
   version: "1.0.0"
-  author: "Ayutara Research Lab"
-  description: "AI-powered 225Ac-CD46 therapy patient selection platform"
+  author: "EurthTech Research"
+  description: "Pan-cancer target intelligence platform · CD46 case study · Knowledge Graph + AI"
 
 # CD46 gene identifiers
 cd46:

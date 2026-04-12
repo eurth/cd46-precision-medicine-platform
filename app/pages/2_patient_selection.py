@@ -10,8 +10,8 @@ import plotly.graph_objects as go
 import streamlit as st
 
 
-st.title("🎯 Patient Selection — 225Ac-CD46 Therapy")
-st.caption("Who is eligible? · How many? · Why CD46? · What else matters?")
+st.title("🎯 Patient Selection")
+st.caption("225Ac-CD46 α-RLT · Who is eligible? · How many? · Why CD46? · Complementary biomarkers")
 
 # ---------------------------------------------------------------------------
 # Clinical context banner — the "missing connection"

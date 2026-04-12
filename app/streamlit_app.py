@@ -15,7 +15,7 @@ import streamlit as st
 from utils.tracker import log_page_visit
 
 st.set_page_config(
-    page_title="CD46 Precision Medicine Platform",
+    page_title="OncoBridge Intelligence",
     page_icon="🔬",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -29,9 +29,9 @@ with st.sidebar:
     st.markdown(
         """
         <div style="text-align: center; padding: 8px 0 16px;">
-          <h2 style="color:#38bdf8; margin:0;">🔬 CD46 Platform</h2>
+          <h2 style="color:#38bdf8; margin:0;">🔬 OncoBridge Intelligence</h2>
           <p style="color:#64748b; font-size:0.8em; margin:4px 0;">
-            225Ac-CD46 Radiopharmaceutical Research
+            Pan-Cancer Target Intelligence · EurthTech Research
           </p>
         </div>
         """,
@@ -39,14 +39,14 @@ with st.sidebar:
     )
 
     st.markdown("---")
-    st.markdown("**Integrated Data Sources**")
+    st.markdown("**Integrated Data Sources** _(CD46 case study)_")
     st.markdown(
         """
         - ✅ TCGA Pan-Cancer Cohort (25 cancers, ~2,800 patients)
         - ✅ Human Protein Atlas (81 tissues)
         - ✅ mCRPC Clinical Cohort (n=226)
         - ✅ CRISPR Functional Screen (DepMap, 1,186 cell lines)
-        - ✅ ClinicalTrials.gov (14 CD46 trials)
+        - ✅ ClinicalTrials.gov (14 CD46 RLT trials)
         - ✅ Drug-Target Database (ChEMBL)
         - ✅ Open Targets Disease Evidence (772 associations)
         - ✅ STRING DB PPI Network (30 partners, 103 interactions)
@@ -59,9 +59,9 @@ with st.sidebar:
     st.markdown(
         """
         <div style="color:#64748b; font-size:0.75em;">
-          <b>Target Gene:</b> CD46 (Membrane Cofactor Protein)<br>
+          <b>Case Study Target:</b> CD46 (Membrane Cofactor Protein)<br>
           <b>Chromosome:</b> 1q32.2<br>
-          <b>Biology:</b> Complement C3b/C4b regulator<br>
+          <b>Biology:</b> Complement C3b/C4b regulator · immune evasion<br>
           <b>Therapeutic modality:</b> 225Ac alpha-particle radioimmunotherapy
         </div>
         """,
@@ -82,7 +82,7 @@ pg = st.navigation(
             ),
         ],
         "Research Modules": [
-            st.Page("pages/1_cd46_expression_atlas.py", title="CD46 Expression Atlas", icon="📊"),
+            st.Page("pages/1_cd46_expression_atlas.py", title="Expression Atlas", icon="📊"),
             st.Page("pages/2_patient_selection.py", title="Patient Selection", icon="🎯"),
             st.Page("pages/3_survival_outcomes.py", title="Survival Outcomes", icon="📈"),
             st.Page(
