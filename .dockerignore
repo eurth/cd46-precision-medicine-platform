@@ -20,11 +20,17 @@ venv
 .env.*
 .streamlit/secrets.toml
 
-# Data — provided via volume mount /data/oncobridge-data → /app/data
-data/
+# Data — include processed CSVs and genie summaries (small, in git)
+# Exclude large raw source files only
+data/raw/
+data/logs/
+data/processed/kg_ready/
 
-# Large binary / LFS files
-*.parquet
+# Large raw GENIE parquets (not needed by app UI)
+data/genie/prad_mrna.parquet
+data/genie/prad_cna.parquet
+data/genie/prad_mutations.parquet
+data/genie/prad_clinical.parquet
 
 # Internal planning docs (not needed at runtime)
 MEMORY_BANK/
