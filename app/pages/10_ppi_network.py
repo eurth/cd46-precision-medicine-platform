@@ -32,6 +32,8 @@ for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
 
 @st.cache_resource(ttl=300)
 def get_driver():
+    from neo4j import GraphDatabase
+    uri      = os.getenv("NEO4J_URI")
     user     = os.getenv("NEO4J_USERNAME", "neo4j")
     password = os.getenv("NEO4J_PASSWORD")
     if not uri or not password:
