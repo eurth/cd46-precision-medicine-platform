@@ -3,16 +3,33 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import pandas as pd
 import streamlit as st
+from components.styles import inject_global_css, page_hero
+
+inject_global_css()
 
 # ---------------------------------------------------------------------------
 # Page header
 # ---------------------------------------------------------------------------
 
-st.title("📊 Expression Atlas")
-st.caption("Pan-cancer mRNA + protein expression · TCGA (33 cancers) · Human Protein Atlas (30 tissues) · CD46 case study")
+st.markdown(
+    page_hero(
+        icon="📊",
+        module_name="Expression Atlas",
+        purpose="Pan-cancer mRNA + protein expression · TCGA (33 cancers) · Human Protein Atlas (30 tissues) · CD46 case study",
+        kpi_chips=[
+            ("Cancer Types", "33"),
+            ("Top Indicator", "PRAD"),
+            ("HPA Tissues", "30"),
+            ("Threshold", "log₂≥2.5"),
+        ],
+        source_badges=["TCGA", "HPA"],
+    ),
+    unsafe_allow_html=True,
+)
 
 # ---------------------------------------------------------------------------
 # Load data

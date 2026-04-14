@@ -3,6 +3,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import math
 import os
@@ -11,6 +12,7 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
+from components.styles import inject_global_css, page_hero
 
 from dotenv import load_dotenv
 load_dotenv(Path(__file__).resolve().parents[2] / ".env")
@@ -25,11 +27,22 @@ for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
 
 DATA_DIR = Path("data/processed")
 
-st.title("🧬 Biomarker Panel")
+inject_global_css()
+
 st.markdown(
-    "**Clinical decision support for 225Ac-CD46 alpha-particle radioimmunotherapy. "
-    "Multi-biomarker scoring, co-targeting analysis, and real-world mCRPC cohort data "
-    "integrated from TCGA, SU2C, and Human Protein Atlas.**"
+    page_hero(
+        icon="🧬",
+        module_name="Biomarker Panel",
+        purpose="Clinical decision support for 225Ac-CD46 α-RLT · multi-biomarker scoring · co-targeting analysis · mCRPC cohort data",
+        kpi_chips=[
+            ("Biomarkers Tracked", "5"),
+            ("mCRPC Cohort", "226 pts"),
+            ("GENIE Prostate", "9,251 pts"),
+            ("Driver Segments", "8"),
+        ],
+        source_badges=["TCGA", "GENIE", "cBioPortal", "mCRPC"],
+    ),
+    unsafe_allow_html=True,
 )
 
 # ---------------------------------------------------------------------------

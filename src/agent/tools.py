@@ -217,20 +217,23 @@ def search_trials(query: str = "CD46", status: Optional[str] = None) -> str:
     ]
 
     if status:
-        results = [t for t in results if status.lower() in t.get("status", "").lower()]
+        results = [t for t in results if t.get("status", "").lower() == status.lower()]
 
     # Also load from API file if available
     if trials_path.exists():
         with open(trials_path) as f:
             data = json.load(f)
-        for study in data.get("studies", [])[:20]:
+        studies = data if isinstance(data, list) else data.get("studies", [])
+        for study in studies[:20]:
             try:
                 ps = study.get("protocolSection", {})
                 nct_id = ps.get("identificationModule", {}).get("nctId", "")
                 title = ps.get("identificationModule", {}).get("briefTitle", "")
-                st = ps.get("statusModule", {}).get("overallStatus", "")
+                st_raw = ps.get("statusModule", {}).get("overallStatus", "")
+                # Normalize ClinicalTrials.gov v2 uppercase codes (e.g. RECRUITING → Recruiting)
+                st = st_raw.replace("_", " ").title()
                 if query_lower in title.lower():
-                    if not status or status.lower() in st.lower():
+                    if not status or st.lower() == status.lower():
                         if nct_id not in {r["nct_id"] for r in results}:
                             results.append({"nct_id": nct_id, "title": title, "status": st})
             except Exception:

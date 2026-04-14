@@ -12,6 +12,7 @@ Shows results as tables, metric cards, and optionally a Plotly network graph.
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import os
 import json
@@ -19,6 +20,7 @@ import time
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
+from components.styles import inject_global_css, page_hero
 from dotenv import load_dotenv
 
 load_dotenv(Path(__file__).resolve().parents[2] / ".env")
@@ -240,11 +242,22 @@ LIMIT 30
 # Page layout
 # ---------------------------------------------------------------------------
 
-st.title("🔍 Knowledge Graph Query Explorer")
+inject_global_css()
+
 st.markdown(
-    "**Live research interface to the CD46 AuraDB knowledge graph.** "
-    "Run pre-built research queries, write custom Cypher, or ask questions in plain English. "
-    "Results are computed in real-time from the graph database."
+    page_hero(
+        icon="🔍",
+        module_name="KG Query Explorer",
+        purpose="Live research interface to the CD46 AuraDB knowledge graph · pre-built queries · Cypher editor · natural language → Cypher",
+        kpi_chips=[
+            ("Query Templates", "10"),
+            ("KG Nodes", "3,047"),
+            ("Node Labels", "12"),
+            ("Rel Types", "15+"),
+        ],
+        source_badges=["UniProt", "OpenTargets", "ClinicalTrials", "STRING"],
+    ),
+    unsafe_allow_html=True,
 )
 
 driver = get_driver()

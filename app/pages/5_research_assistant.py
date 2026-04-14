@@ -4,11 +4,13 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from dotenv import load_dotenv
 load_dotenv(Path(__file__).resolve().parents[2] / ".env")
 
 import streamlit as st
+from components.styles import inject_global_css, page_hero
 
 # Inject Streamlit Cloud secrets into os.environ (no-op when running locally with .env)
 for _k in ("OPENAI_API_KEY", "GEMINI_API_KEY", "NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
@@ -18,12 +20,22 @@ for _k in ("OPENAI_API_KEY", "GEMINI_API_KEY", "NEO4J_URI", "NEO4J_USERNAME", "N
     except Exception:
         pass
 
+inject_global_css()
 
-st.title("🤖 OncoBridge Research Assistant")
 st.markdown(
-    "**Ask questions about target biology, patient eligibility, survival outcomes, drug targets, and clinical trials. "
-    "Powered by GPT-4o (primary) or Gemini 2.5 Flash (fallback) with integrated knowledge graph context. "
-    "Showcasing the CD46 case study.**"
+    page_hero(
+        icon="🤖",
+        module_name="Research Assistant",
+        purpose="GPT-4o powered natural language interface · integrated KG context · CD46 case study · data-grounded answers",
+        kpi_chips=[
+            ("Primary Model", "GPT-4o"),
+            ("Fallback", "Gemini 2.5"),
+            ("KG Context", "3,047 nodes"),
+            ("Data Sources", "8 integrated"),
+        ],
+        source_badges=["TCGA", "HPA", "OpenTargets", "ChEMBL"],
+    ),
+    unsafe_allow_html=True,
 )
 
 # ---------------------------------------------------------------------------

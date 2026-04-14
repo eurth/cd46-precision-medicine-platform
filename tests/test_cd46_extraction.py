@@ -76,9 +76,9 @@ class TestCD46Extraction:
         from src.preprocessing.harmonize_datasets import get_disease_meta
 
         meta = get_disease_meta("PRAD")
-        assert meta["full_name"] == "Prostate Adenocarcinoma"
+        assert meta["name"] == "Prostate Adenocarcinoma"
         assert meta["icd10"].startswith("C")
-        assert "NCIT" in meta["ncit"]
+        assert meta["ncit"]  # non-empty NCIT code (e.g. 'C7378')
 
     def test_harmonize_all_33_cancers(self):
         """All 33 TCGA cancer codes have metadata entries."""
@@ -94,7 +94,7 @@ class TestCD46Extraction:
         for code in TCGA_CODES:
             try:
                 meta = get_disease_meta(code)
-                if not meta.get("full_name"):
+                if not meta.get("name"):
                     missing.append(code)
             except (KeyError, AttributeError):
                 missing.append(code)
@@ -113,16 +113,16 @@ class TestHPAProcessing:
 
         records = _hpa_fallback_data()
         df = pd.DataFrame(records)
-        prostate_row = df[df["tissue"] == "Prostate"]
-        assert len(prostate_row) > 0
-        assert prostate_row.iloc[0]["tumor_level"] in ["High", "Medium"]
+        prostate_tumor = df[(df["tissue"] == "Prostate") & (df["type"] == "tumor")]
+        assert len(prostate_tumor) > 0
+        assert prostate_tumor.iloc[0]["staining_intensity"] in ["High", "Medium"]
 
     def test_fallback_data_all_tissues_have_both_levels(self):
-        """All fallback tissue rows have both tumor_level and normal_level."""
+        """All fallback tissue rows have staining_intensity and type fields."""
         from src.preprocessing.process_hpa import _hpa_fallback_data
 
         records = _hpa_fallback_data()
         for rec in records:
-            assert "tumor_level" in rec, f"Missing tumor_level: {rec}"
-            assert "normal_level" in rec, f"Missing normal_level: {rec}"
-            assert rec["tumor_level"] in ["Not detected", "Low", "Medium", "High"]
+            assert "staining_intensity" in rec, f"Missing staining_intensity: {rec}"
+            assert "type" in rec, f"Missing type: {rec}"
+            assert rec["staining_intensity"] in ["Not detected", "Low", "Medium", "High"]

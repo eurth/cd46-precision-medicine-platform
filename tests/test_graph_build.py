@@ -121,9 +121,7 @@ class TestKGSchema:
         node = GeneNode(
             ensembl_id="ENSG00000117335",
             symbol="CD46",
-            entrez_id="4179",
             chromosome="1q32.2",
-            full_name="CD46 molecule",
         )
         d = node.to_dict()
         assert d["ensembl_id"] == "ENSG00000117335"
@@ -132,7 +130,7 @@ class TestKGSchema:
     def test_disease_node_to_dict(self):
         from src.knowledge_graph.schema import DiseaseNode
 
-        node = DiseaseNode(tcga_code="PRAD", full_name="Prostate Adenocarcinoma", icd10="C61")
+        node = DiseaseNode(tcga_code="PRAD", name="Prostate Adenocarcinoma", icd10="C61")
         d = node.to_dict()
         assert d["tcga_code"] == "PRAD"
 
@@ -141,11 +139,11 @@ class TestKGSchema:
         from src.knowledge_graph import schema
 
         node_classes = [
-            (schema.GeneNode, {"ensembl_id": "X", "symbol": "X", "entrez_id": "1", "chromosome": "1", "full_name": "X"}),
-            (schema.ProteinNode, {"uniprot_id": "P1", "name": "N", "symbol": "S"}),
-            (schema.DiseaseNode, {"tcga_code": "X", "full_name": "N", "icd10": "C1"}),
-            (schema.TissueNode, {"tissue_name": "T", "tissue_type": "Epithelial"}),
-            (schema.DrugNode, {"chembl_id": "C1", "name": "D1", "drug_type": "ADC"}),
+            (schema.GeneNode, {"ensembl_id": "ENSG000X", "symbol": "CD46"}),
+            (schema.ProteinNode, {"uniprot_id": "P15529", "symbol": "CD46"}),
+            (schema.DiseaseNode, {"tcga_code": "PRAD", "name": "Prostate Adenocarcinoma", "icd10": "C61"}),
+            (schema.TissueNode, {"name": "Prostate", "type": "tumor"}),
+            (schema.DrugNode, {"name": "Drug1", "drug_type": "ADC", "chembl_id": "C1"}),
         ]
         for cls, kwargs in node_classes:
             node = cls(**kwargs)

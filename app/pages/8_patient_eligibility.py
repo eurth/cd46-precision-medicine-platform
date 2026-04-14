@@ -3,6 +3,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import math
 import os
@@ -10,6 +11,7 @@ import os
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
+from components.styles import inject_global_css, page_hero
 from dotenv import load_dotenv
 
 load_dotenv(Path(__file__).resolve().parents[2] / ".env")
@@ -23,11 +25,22 @@ for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
 
 DATA_DIR = Path("data/processed")
 
-st.title("🎯 Patient Eligibility Scorer")
+inject_global_css()
+
 st.markdown(
-    "**Evidence-based candidate assessment for 225Ac-CD46 radiopharmaceutical therapy. "
-    "Integrates CD46 expression rank, clinical survival impact, co-biomarker context, and "
-    "treatment history across 25 TCGA cancer types (n > 2,800 patients).**"
+    page_hero(
+        icon="🎯",
+        module_name="Patient Eligibility Scorer",
+        purpose="Evidence-based candidate assessment for 225Ac-CD46 RLT · 25 TCGA cancer types · n > 2,800 patients",
+        kpi_chips=[
+            ("Cancer Types", "25"),
+            ("Total Patients", "~2,800"),
+            ("PRAD CD46-High", "44%"),
+            ("Threshold Method", "75th pct"),
+        ],
+        source_badges=["TCGA", "GENIE", "HPA"],
+    ),
+    unsafe_allow_html=True,
 )
 
 # ---------------------------------------------------------------------------

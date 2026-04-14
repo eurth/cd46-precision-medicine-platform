@@ -4,11 +4,15 @@ The single investor/CAB-ready artifact that connects all platform evidence.
 """
 
 import os
+import sys
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
 import plotly.express as px
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from components.styles import inject_global_css, page_hero
 
 # ── Streamlit Cloud secret injection ──────────────────────────────────────────
 for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
@@ -22,6 +26,18 @@ st.set_page_config(
     page_title="Clinical Strategy Engine | OncoBridge",
     page_icon="🔬",
     layout="wide",
+)
+
+inject_global_css()
+st.markdown(
+    page_hero(
+        icon="🔬",
+        module_name="Clinical Strategy Engine",
+        purpose="End-to-end development narrative: Target → Drug → Patient → Trial → Outcome",
+        kpi_chips=[("Stages", "5"), ("Trials", "14"), ("mCRPC pts", "579"), ("Target", "2030")],
+        source_badges=["TCGA", "ClinicalTrials", "mCRPC"],
+    ),
+    unsafe_allow_html=True,
 )
 
 # ── Styles ────────────────────────────────────────────────────────────────────
@@ -540,7 +556,13 @@ with col_o1:
             ci_lo = row.get("hr_lower_95", hr * 0.75)
             ci_hi = row.get("hr_upper_95", hr * 1.30)
             ct = row["cancer_type"]
-            color = "#f97316" if ct == "PRAD" else "#3b82f6"
+            p_val = float(row.get("log_rank_p", row.get("p_value", 1.0)))
+            if p_val < 0.05 and hr < 1.0:
+                color = "#6366F1"
+            elif p_val < 0.05 and hr >= 1.0:
+                color = "#EF4444"
+            else:
+                color = "#475569"
 
             fig_forest.add_trace(go.Scatter(
                 x=[ci_lo, hr, ci_hi],
@@ -555,7 +577,7 @@ with col_o1:
                 showlegend=False,
             ))
 
-        fig_forest.add_vline(x=1.0, line_dash="dash", line_color="#94a3b8",
+        fig_forest.add_vline(x=1.0, line_dash="dash", line_color="rgba(255,255,255,0.4)",
                              annotation_text="HR=1.0 (no effect)", annotation_position="top right")
         fig_forest.update_layout(
             template="plotly_dark",
@@ -564,8 +586,8 @@ with col_o1:
             yaxis_title="",
             height=380,
             margin=dict(l=10, r=20, t=40, b=40),
-            plot_bgcolor="#0f172a",
-            paper_bgcolor="#0f172a",
+            plot_bgcolor="#0B1120",
+            paper_bgcolor="#0B1120",
         )
         st.plotly_chart(fig_forest, width="stretch")
         st.caption(
@@ -586,13 +608,13 @@ with col_o1:
             text=[f"HR={v:.2f}" for v in df_fallback["HR"]],
             textposition="outside",
         ))
-        fig_fb.add_vline(x=1.0, line_dash="dash", line_color="#94a3b8")
+        fig_fb.add_vline(x=1.0, line_dash="dash", line_color="rgba(255,255,255,0.4)")
         fig_fb.update_layout(
             template="plotly_dark",
             title="OS Hazard Ratio — CD46-High vs CD46-Low",
             height=320,
             margin=dict(l=10, r=80, t=40, b=40),
-            plot_bgcolor="#0f172a", paper_bgcolor="#0f172a",
+            plot_bgcolor="#0B1120", paper_bgcolor="#0B1120",
         )
         st.plotly_chart(fig_fb, width="stretch")
 

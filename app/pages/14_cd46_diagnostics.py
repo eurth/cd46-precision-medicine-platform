@@ -15,6 +15,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import os
 
@@ -22,19 +23,22 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 from dotenv import load_dotenv
+from components.styles import inject_global_css, page_hero
 
 load_dotenv(Path(__file__).resolve().parent.parent.parent / ".env")
 
 st.set_page_config(page_title="Diagnostics & Early Detection | OncoBridge", layout="wide")
-st.title("🔬 Diagnostics & Early Detection")
+inject_global_css()
 st.markdown(
-    "**Evidence framework · From biomarker discovery to clinical companion diagnostic**"
+    page_hero(
+        icon="🔬",
+        module_name="Diagnostics & Early Detection",
+        purpose="Evidence framework · CD46 from biomarker discovery to clinical companion diagnostic · GTEx · ClinVar · cBioPortal",
+        kpi_chips=[("GTEx Tissues", "54"), ("ClinVar Variants", "500"), ("IHC Tissues", "81"), ("PET Imaging", "active")],
+        source_badges=["HPA", "TCGA", "ClinicalTrials"],
+    ),
+    unsafe_allow_html=True,
 )
-st.markdown(
-    "_All data from public sources: GTEx, ClinVar, cBioPortal TCGA, Human Protein Atlas. "
-    "Research use only._"
-)
-st.markdown("---")
 
 # ── Data loading helpers ──────────────────────────────────────────────────────
 DATA = Path(__file__).resolve().parent.parent.parent / "data" / "processed"

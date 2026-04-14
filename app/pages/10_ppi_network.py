@@ -12,6 +12,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from dotenv import load_dotenv
 load_dotenv(Path(__file__).resolve().parents[2] / ".env")
@@ -20,6 +21,7 @@ import networkx as nx
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
+from components.styles import inject_global_css, page_hero
 
 # Inject Streamlit Cloud secrets -> os.environ
 for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
@@ -158,7 +160,23 @@ def build_graph(nodes: list, edges: list, min_score: float) -> nx.Graph:
 
 
 # ── Page header ───────────────────────────────────────────────────────────────
-st.title("🕸️ PPI Network Explorer")
+inject_global_css()
+
+st.markdown(
+    page_hero(
+        icon="🕸️",
+        module_name="PPI Network Explorer",
+        purpose="CD46 protein–protein interaction network · STRING DB v12.0 · 30 partners · 103 interactions · visualised from AuraDB",
+        kpi_chips=[
+            ("PPI Partners", "30"),
+            ("Interactions", "103"),
+            ("Source", "STRING DB"),
+            ("Confidence", "High (≥0.7)"),
+        ],
+        source_badges=["STRING", "UniProt"],
+    ),
+    unsafe_allow_html=True,
+)
 st.markdown(
     "**CD46 protein-protein interaction neighbourhood** | "
     "Source: [STRING DB](https://string-db.org) v12.0 | CC BY 4.0 | "

@@ -3,15 +3,28 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import pandas as pd
 import streamlit as st
+from components.styles import inject_global_css, page_hero
 
+inject_global_css()
 
-st.title("📈 Survival Outcomes")
-st.caption(
-    "CD46 case study · Kaplan-Meier curves · Cox hazard ratios · CD46-High vs CD46-Low · "
-    "33 TCGA cancer types · Overall Survival & Progression-Free Interval"
+st.markdown(
+    page_hero(
+        icon="📈",
+        module_name="Survival Outcomes",
+        purpose="CD46 case study · Kaplan-Meier curves · Cox hazard ratios · CD46-High vs CD46-Low · 33 TCGA cancer types",
+        kpi_chips=[
+            ("Significant", "3"),
+            ("Tested", "24"),
+            ("PRAD HR", "0.77"),
+            ("Endpoints", "OS + PFI"),
+        ],
+        source_badges=["TCGA"],
+    ),
+    unsafe_allow_html=True,
 )
 
 # ---------------------------------------------------------------------------

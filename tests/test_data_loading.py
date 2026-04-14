@@ -100,17 +100,17 @@ class TestGetEligibility:
         df = pd.DataFrame(
             {
                 "cancer_type": ["PRAD", "PRAD", "OV"],
-                "threshold": ["75th_pct", "median", "75th_pct"],
+                "threshold_method": ["75th_pct", "median", "75th_pct"],
                 "n_eligible": [219, 249, 180],
                 "n_total": [497, 497, 420],
-                "fraction_eligible": [0.441, 0.501, 0.429],
+                "pct_eligible": [44.1, 50.1, 42.9],
             }
         )
         csv_path = tmp_path / "patient_groups.csv"
         df.to_csv(csv_path, index=False)
         monkeypatch.setattr(tools, "DATA_DIR", tmp_path)
 
-        result = json.loads(get_eligibility("PRAD", "75th_pct"))
+        result = json.loads(tools.get_eligibility("PRAD", "75th_pct"))
         assert result["n_eligible"] == 219
         assert result["pct_eligible"] == pytest.approx(44.1, abs=0.5)
 

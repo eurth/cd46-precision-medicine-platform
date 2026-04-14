@@ -13,6 +13,7 @@ sys.path.insert(0, str(_HERE))         # app/ dir (for utils.tracker etc.)
 
 import streamlit as st
 from utils.tracker import log_page_visit
+from components.styles import inject_global_css
 
 st.set_page_config(
     page_title="OncoBridge Intelligence",
@@ -21,52 +22,32 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
+inject_global_css()
+
 # ---------------------------------------------------------------------------
 # Sidebar branding
 # ---------------------------------------------------------------------------
 
 with st.sidebar:
     st.markdown(
-        """
-        <div style="text-align: center; padding: 8px 0 16px;">
-          <h2 style="color:#38bdf8; margin:0;">🔬 OncoBridge Intelligence</h2>
-          <p style="color:#64748b; font-size:0.8em; margin:4px 0;">
-            Pan-Cancer Target Intelligence · EurthTech Research
-          </p>
-        </div>
-        """,
+        '<div style="'
+        'padding:16px 18px 14px;'
+        'border-bottom:1px solid #0A1628;'
+        'margin-bottom:4px;'
+        '">'
+        '<div style="'
+        'font-family:\'Space Grotesk\',sans-serif;'
+        'font-size:15px;font-weight:700;color:#E2E8F0;'
+        'letter-spacing:-0.2px;margin-bottom:2px;'
+        '">🔬 OncoBridge</div>'
+        '<div style="'
+        'font-size:10px;color:#4E637A;letter-spacing:0.08em;'
+        'text-transform:uppercase;font-weight:600;'
+        '">CD46 Intelligence</div>'
+        '</div>',
         unsafe_allow_html=True,
     )
-
-    st.markdown("---")
-    st.markdown("**Integrated Data Sources** _(CD46 case study)_")
-    st.markdown(
-        """
-        - ✅ TCGA Pan-Cancer Cohort (25 cancers, ~2,800 patients)
-        - ✅ Human Protein Atlas (81 tissues)
-        - ✅ mCRPC Clinical Cohort (n=226)
-        - ✅ CRISPR Functional Screen (DepMap, 1,186 cell lines)
-        - ✅ ClinicalTrials.gov (14 CD46 RLT trials)
-        - ✅ Drug-Target Database (ChEMBL)
-        - ✅ Open Targets Disease Evidence (772 associations)
-        - ✅ STRING DB PPI Network (30 partners, 103 interactions)
-        - ✅ Drug Pipeline (10 agents, 3 classes)
-        - 🔜 AACR GENIE Genomics (Phase 2)
-        """
-    )
-
-    st.markdown("---")
-    st.markdown(
-        """
-        <div style="color:#64748b; font-size:0.75em;">
-          <b>Case Study Target:</b> CD46 (Membrane Cofactor Protein)<br>
-          <b>Chromosome:</b> 1q32.2<br>
-          <b>Biology:</b> Complement C3b/C4b regulator · immune evasion<br>
-          <b>Therapeutic modality:</b> 225Ac alpha-particle radioimmunotherapy
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
+    st.markdown('<span></span>', unsafe_allow_html=True)
 
 # ---------------------------------------------------------------------------
 # Navigation — controls the left-nav labels and page routing

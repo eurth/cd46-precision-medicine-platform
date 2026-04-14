@@ -3,12 +3,17 @@ CD46 expression in normal vs tumour tissues — the Phase I safety argument.
 """
 
 import os
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
 import streamlit as st
 import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
 import plotly.express as px
-from pathlib import Path
+from components.styles import inject_global_css, page_hero
 
 # ── Streamlit Cloud secret injection ─────────────────────────────────────────
 for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
@@ -23,6 +28,8 @@ st.set_page_config(
     page_icon="⚗️",
     layout="wide",
 )
+
+inject_global_css()
 
 # ── Styles ────────────────────────────────────────────────────────────────────
 st.markdown("""
@@ -42,7 +49,21 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ── Header ────────────────────────────────────────────────────────────────────
-st.markdown("## ⚗️ Therapeutic Index & Dosimetry Safety")
+st.markdown(
+    page_hero(
+        icon="⚗️",
+        module_name="Dosimetry & Safety Index",
+        purpose="Therapeutic index for 225Ac-CD46 α-RLT · normal vs tumour CD46 expression · Phase I safety argument · HPA data",
+        kpi_chips=[
+            ("HPA Tissues", "81"),
+            ("Tumour:Normal", ">3:1"),
+            ("FOR46 Phase I", "n=56"),
+            ("Isotope", "225Ac"),
+        ],
+        source_badges=["HPA", "TCGA", "ClinicalTrials"],
+    ),
+    unsafe_allow_html=True,
+)
 st.markdown(
     "CD46 expression across **normal tissues vs tumour** — quantifying the safety margin "
     "for 225Ac-CD46 alpha-particle radiopharmaceutical therapy."

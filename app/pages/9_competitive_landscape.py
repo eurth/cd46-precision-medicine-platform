@@ -3,6 +3,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import os
 
@@ -10,6 +11,7 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
+from components.styles import inject_global_css, page_hero
 from dotenv import load_dotenv
 
 load_dotenv(Path(__file__).resolve().parents[2] / ".env")
@@ -23,11 +25,22 @@ for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
 
 DATA_DIR = Path("data/processed")
 
-st.title("🏆 Competitive Landscape")
+inject_global_css()
+
 st.markdown(
-    "**Target comparison: CD46 vs PSMA vs FAP in solid tumours.** "
-    "Expression prevalence, clinical trial activity, target biology, and differentiation rationale "
-    "for 225Ac-CD46 radiopharmaceutical therapy in the current RLT treatment landscape."
+    page_hero(
+        icon="🏆",
+        module_name="Competitive Landscape",
+        purpose="CD46 vs PSMA vs FAP in solid tumours · expression prevalence · clinical trial activity · 225Ac-CD46 differentiation",
+        kpi_chips=[
+            ("Targets Compared", "3"),
+            ("CD46 Trials", "14"),
+            ("Approved Comparator", "Pluvicto"),
+            ("Unmet Need", "PSMA-low"),
+        ],
+        source_badges=["TCGA", "ClinicalTrials", "ChEMBL"],
+    ),
+    unsafe_allow_html=True,
 )
 
 # ---------------------------------------------------------------------------

@@ -3,15 +3,31 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
+from components.styles import inject_global_css, page_hero
 
+inject_global_css()
 
-st.title("🎯 Patient Selection")
-st.caption("225Ac-CD46 α-RLT · Who is eligible? · How many? · Why CD46? · Complementary biomarkers")
+st.markdown(
+    page_hero(
+        icon="🎯",
+        module_name="Patient Selection",
+        purpose="225Ac-CD46 α-RLT eligibility · Who qualifies? · How many? · Why CD46? · Complementary biomarkers",
+        kpi_chips=[
+            ("PRAD 75th pct", "40"),
+            ("PSMA-low/CD46-high", "~35%"),
+            ("AR Effect", "↑2–3×"),
+            ("Threshold", "75th pct"),
+        ],
+        source_badges=["TCGA", "GENIE", "DepMap", "cBioPortal"],
+    ),
+    unsafe_allow_html=True,
+)
 
 # ---------------------------------------------------------------------------
 # Clinical context banner — the "missing connection"

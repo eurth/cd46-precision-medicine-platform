@@ -12,11 +12,13 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import pandas as pd
 import plotly.graph_objects as go
 import plotly.express as px
 import streamlit as st
+from components.styles import inject_global_css, page_hero
 
 # ── Pipeline data ─────────────────────────────────────────────────────────────
 # Curated from NCT, FDA, PubMed, ChEMBL — matches Drug nodes in AuraDB KG
@@ -169,12 +171,22 @@ MODALITY_SHAPES = {
 
 
 # ── Page layout ───────────────────────────────────────────────────────────────
-st.title("💊 Drug Pipeline Explorer")
+inject_global_css()
+
 st.markdown(
-    "**Therapeutic agents relevant to CD46-targeted 225Ac radiopharmaceutical therapy.** "
-    "Includes CD46-targeting biologics, PSMA-RLT competitive reference, and complement "
-    "pathway inhibitors with mechanistic context. "
-    "Data sourced from ClinicalTrials.gov · FDA · ChEMBL CC BY-SA 4.0 · PubMed."
+    page_hero(
+        icon="💊",
+        module_name="Drug Pipeline Explorer",
+        purpose="CD46-targeting and RLT therapeutic landscape · ADC, radioimmunotherapy, and complement inhibitors · clinical trial status",
+        kpi_chips=[
+            ("Agents Tracked", "10"),
+            ("Drug Classes", "3"),
+            ("FDA Approved", "2"),
+            ("α-emitter", "225Ac"),
+        ],
+        source_badges=["ClinicalTrials", "ChEMBL", "TCGA"],
+    ),
+    unsafe_allow_html=True,
 )
 
 # ── Metric strip ──────────────────────────────────────────────────────────────

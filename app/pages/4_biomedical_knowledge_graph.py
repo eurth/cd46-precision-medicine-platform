@@ -3,6 +3,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import json
 import os
@@ -11,6 +12,7 @@ from dotenv import load_dotenv
 load_dotenv(Path(__file__).resolve().parents[2] / ".env")
 
 import streamlit as st
+from components.styles import inject_global_css, page_hero
 
 # Inject Streamlit Cloud secrets into os.environ (no-op when running locally with .env)
 for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
@@ -20,11 +22,22 @@ for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
     except Exception:
         pass
 
+inject_global_css()
 
-st.title("🕸️ Biomedical Knowledge Graph")
 st.markdown(
-    "**Neo4j AuraDB knowledge network — genes, proteins, diseases, drugs, clinical trials, and patient cohorts. "
-    "Interactive graph visualization and Cypher query interface.**"
+    page_hero(
+        icon="🕸️",
+        module_name="Biomedical Knowledge Graph",
+        purpose="Neo4j AuraDB network · genes, proteins, diseases, drugs, clinical trials, and patient cohorts · interactive graph + Cypher interface",
+        kpi_chips=[
+            ("KG Nodes", "3,047"),
+            ("KG Edges", "2,552"),
+            ("Drug Nodes", "10"),
+            ("Disease Links", "797"),
+        ],
+        source_badges=["UniProt", "OpenTargets", "ChEMBL", "STRING", "ClinicalTrials"],
+    ),
+    unsafe_allow_html=True,
 )
 
 # ---------------------------------------------------------------------------
@@ -349,10 +362,10 @@ NETWORK_SCENARIOS = {
 }
 
 COLOR_MAP = {
-    "Gene": "#38bdf8", "Protein": "#818cf8", "Disease": "#f87171",
-    "Tissue": "#4ade80", "Drug": "#fbbf24", "ClinicalTrial": "#fb923c",
-    "Pathway": "#a78bfa", "DataSource": "#94a3b8",
-    "PatientGroup": "#34d399", "CellLine": "#f472b6",
+    "Gene": "#6366F1", "Protein": "#6366F1", "Disease": "#EF4444",
+    "Tissue": "#22C55E", "Drug": "#F59E0B", "ClinicalTrial": "#F59E0B",
+    "Pathway": "#0EA5E9", "DataSource": "#94A3B8",
+    "PatientGroup": "#22C55E", "CellLine": "#94A3B8",
 }
 
 def _node_display(n, fallback="node"):
@@ -374,14 +387,14 @@ def _build_net(records, scenario_key):
     from pyvis.network import Network
     net = Network(
         height="540px", width="100%",
-        bgcolor="#0f172a", font_color="#e2e8f0",
+        bgcolor="#0B1120", font_color="#F8FAFC",
         directed=True,
     )
     net.set_options(
         '{"physics": {"barnesHut": {"gravitationalConstant": -6000, "springLength": 120},'
         '"stabilization": {"iterations": 120}},'
-        '"nodes": {"font": {"size": 12}, "borderWidth": 2},'
-        '"edges": {"smooth": {"type": "continuous"}, "arrows": {"to": {"enabled": true, "scaleFactor": 0.5}}}}'
+        '"nodes": {"font": {"size": 11, "face": "Inter, sans-serif", "color": "#F8FAFC"}, "borderWidth": 2},'
+        '"edges": {"color": {"color": "#1E293B"}, "smooth": {"type": "continuous"}, "arrows": {"to": {"enabled": true, "scaleFactor": 0.5}}}}'
     )
     return net
 

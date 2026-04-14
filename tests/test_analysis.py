@@ -75,17 +75,13 @@ class TestPanCancerAnalysis:
         except ImportError:
             pytest.skip("pan_cancer_cd46 not importable without data")
 
-        # Mock input
-        row = pd.Series(
-            {
-                "expression_rank": 0.9,
-                "survival_impact": 0.7,
-                "cna_freq": 0.3,
-                "protein_score": 0.8,
-            }
-        )
-        score = compute_priority_score(row)
-        assert 0.0 <= score <= 1.0, f"Priority score out of range: {score}"
+        cancer_df = pd.DataFrame({"cancer_type": ["PRAD", "OV"], "cd46_median": [4.5, 3.8]})
+        survival_df = pd.DataFrame()
+        hpa_df = pd.DataFrame()
+        result_df = compute_priority_score(cancer_df, survival_df, hpa_df)
+        assert "priority_score" in result_df.columns
+        for score in result_df["priority_score"]:
+            assert 0.0 <= score <= 1.0, f"Priority score out of range: {score}"
 
     def test_all_tcga_codes_in_priority_formula(self):
         """Formula weights must sum to 1.0."""
@@ -107,11 +103,13 @@ class TestSurvivalAnalysis:
             pytest.skip("survival_analysis not importable")
 
         prad_df = sample_expression_df[sample_expression_df["cancer_type"] == "PRAD"].copy()
-        stratified = stratify_patients(prad_df, threshold="median")
+        # rename to match function's expected column name
+        prad_df = prad_df.rename(columns={"cd46_log2": "cd46_log2_tpm"})
+        stratified = stratify_patients(prad_df)
 
         assert "cd46_group" in stratified.columns
-        n_high = (stratified["cd46_group"] == "High").sum()
-        n_low = (stratified["cd46_group"] == "Low").sum()
+        n_high = (stratified["cd46_group"] == "CD46-High").sum()
+        n_low = (stratified["cd46_group"] == "CD46-Low").sum()
         assert abs(n_high - n_low) <= 2, f"Unequal groups: {n_high} high, {n_low} low"
 
     def test_logrank_test_returns_float_p(self, sample_expression_df):
@@ -168,12 +166,10 @@ class TestAc225EligibilityAnalysis:
         prad_df = sample_expression_df[sample_expression_df["cancer_type"] == "PRAD"]
         cd46 = prad_df["cd46_log2"]
 
-        fractions = [
-            (cd46 >= cd46.median()).mean(),
-            (cd46 >= cd46.quantile(0.75)).mean(),
-            (cd46 >= 2.5).mean(),
-            (cd46 >= 3.0).mean(),
-        ]
+        # Thresholds must be sorted ascending so eligibility is monotone decreasing
+        raw_thresholds = [2.5, 3.0, cd46.median(), cd46.quantile(0.75)]
+        sorted_thresholds = sorted(raw_thresholds)
+        fractions = [(cd46 >= t).mean() for t in sorted_thresholds]
 
         for i in range(len(fractions) - 1):
             assert fractions[i] >= fractions[i + 1] - 0.05, (
