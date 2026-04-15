@@ -240,13 +240,15 @@ with tab1:
             height=420,
         )
         fig.update_layout(
-            plot_bgcolor="white",
-            paper_bgcolor="white",
-            legend={"orientation": "h", "y": 1.08},
+            plot_bgcolor="#0f172a",
+            paper_bgcolor="#0f172a",
+            legend={"orientation": "h", "y": 1.08, "font": {"color": "#94A3B8"}},
             margin={"t": 30, "b": 60},
-            xaxis={"tickangle": -45},
+            xaxis={"tickangle": -45, "color": "#94A3B8", "gridcolor": "#1e293b"},
+            yaxis={"color": "#94A3B8", "gridcolor": "#1e293b"},
+            font=dict(family="Inter", color="#94A3B8"),
         )
-        st.plotly_chart(fig, width='stretch')
+        st.plotly_chart(fig, use_container_width=True)
         st.caption(
             "CD46 data: TCGA UCSC Xena (n > 2,800 patients). "
             "PSMA estimates: representative TCGA median values from published literature. "
@@ -281,11 +283,15 @@ with tab2:
             title="Active Clinical Trials (ClinicalTrials.gov, March 2026)",
             showlegend=False,
             height=380,
-            plot_bgcolor="white",
-            yaxis={"title": "Number of Trials"},
+            plot_bgcolor="#0f172a",
+            paper_bgcolor="#0f172a",
+            yaxis={"title": "Number of Trials", "color": "#94A3B8", "gridcolor": "#1e293b"},
+            xaxis={"color": "#94A3B8"},
             margin={"t": 50, "b": 20},
+            font=dict(family="Inter", color="#94A3B8"),
+            title_font_color="#e2e8f0",
         )
-        st.plotly_chart(fig_trials, width='stretch')
+        st.plotly_chart(fig_trials, use_container_width=True)
 
     with cols_trial[1]:
         st.markdown("**Trial Breakdown**")
