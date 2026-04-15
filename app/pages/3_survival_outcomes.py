@@ -7,9 +7,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import pandas as pd
 import streamlit as st
-from components.styles import inject_global_css, page_hero
+from components.styles import page_hero
 
-inject_global_css()
 
 st.markdown(
     page_hero(

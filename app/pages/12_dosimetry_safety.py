@@ -13,7 +13,7 @@ import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
 import plotly.express as px
-from components.styles import inject_global_css, page_hero
+from components.styles import page_hero
 
 # ── Streamlit Cloud secret injection ─────────────────────────────────────────
 for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
@@ -29,7 +29,6 @@ st.set_page_config(
     layout="wide",
 )
 
-inject_global_css()
 
 # ── Styles ────────────────────────────────────────────────────────────────────
 st.markdown("""

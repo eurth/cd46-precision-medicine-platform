@@ -18,7 +18,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import plotly.express as px
 import streamlit as st
-from components.styles import inject_global_css, page_hero
+from components.styles import page_hero
 
 # ── Pipeline data ─────────────────────────────────────────────────────────────
 # Curated from NCT, FDA, PubMed, ChEMBL — matches Drug nodes in AuraDB KG
@@ -171,7 +171,6 @@ MODALITY_SHAPES = {
 
 
 # ── Page layout ───────────────────────────────────────────────────────────────
-inject_global_css()
 
 st.markdown(
     page_hero(

@@ -94,10 +94,16 @@ div[data-testid="stVerticalBlockBorderWrapper"] {
     background: #0D1829 !important; box-shadow: none !important;
     transition: background 0.15s !important;
 }
-[data-testid="stVerticalBlockBorderWrapper"]:hover { background: #112033 !important; }
+[data-testid="stVerticalBlockBorderWrapper"]:hover { background: transparent !important; }
 [data-testid="stVerticalBlockBorderWrapper"] > div {
     background: transparent !important; border-radius: 10px !important;
 }
+
+/* Equal-height columns */
+[data-testid="stHorizontalBlock"] { align-items: stretch !important; }
+[data-testid="stColumn"] { display: flex !important; flex-direction: column !important; }
+[data-testid="stColumn"] > div { display: flex !important; flex-direction: column !important; flex: 1 !important; }
+[data-testid="stColumn"] [data-testid="stVerticalBlockBorderWrapper"] { flex: 1 !important; }
 
 [data-testid="stExpander"] {
     border: 1px solid #16243C !important; border-radius: 8px !important; background: #07101F !important;
@@ -125,7 +131,7 @@ details[data-testid="stExpander"] > summary span {
 
 [data-testid="stSidebar"] {
     background: #040913 !important; border-right: 1px solid #16243C !important;
-    min-width: 248px !important; max-width: 248px !important;
+    min-width: 270px !important; max-width: 270px !important;
 }
 [data-testid="stSidebar"] .block-container,
 [data-testid="stSidebar"] > div:first-child > div { padding: 0 !important; }
@@ -148,7 +154,7 @@ details[data-testid="stExpander"] > summary span {
 [data-testid="stSidebarNavLink"] span,
 [data-testid="stSidebarNavLink"] p {
     font-family: 'Inter', sans-serif !important;
-    font-size: 13.5px !important; font-weight: 500 !important;
+    font-size: 12.5px !important; font-weight: 500 !important;
     color: #7A90AB !important; line-height: 1.3 !important;
 }
 [data-testid="stSidebarNavLink"]:hover { background: rgba(129,140,248,0.07) !important; }
@@ -284,6 +290,54 @@ details[data-testid="stExpander"] > summary span {
 }
 .kf-item:last-child { border-bottom: none; }
 .kf-item strong { color: #E2E8F0; font-weight: 600; }
+
+/* Image module cards (landing page) */
+.mc-img-card {
+    border-radius: 12px; overflow: hidden;
+    background: #0D1829;
+    display: flex; flex-direction: column;
+    height: 100%; transition: transform 0.15s, box-shadow 0.15s;
+}
+.mc-img-card:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+.mc-img-top {
+    height: 110px; display: flex; align-items: center; justify-content: center;
+    font-size: 42px; position: relative; overflow: hidden; flex-shrink: 0;
+}
+.mc-img-top-ind { background: linear-gradient(135deg, #1e1e54 0%, #141438 100%); }
+.mc-img-top-sky { background: linear-gradient(135deg, #0c2d45 0%, #071c2c 100%); }
+.mc-img-top-eme { background: linear-gradient(135deg, #0a2e22 0%, #061c15 100%); }
+.mc-img-top-amb { background: linear-gradient(135deg, #2e1f08 0%, #1a1105 100%); }
+.mc-img-body { padding: 16px 18px 14px; display: flex; flex-direction: column; flex: 1; }
+.mc-img-label {
+    font-size: 9px; font-weight: 700; letter-spacing: 0.16em;
+    text-transform: uppercase; display: block; margin-bottom: 6px;
+}
+.mc-img-label-ind { color: #818CF8; }
+.mc-img-label-sky { color: #38BDF8; }
+.mc-img-label-eme { color: #34D399; }
+.mc-img-label-amb { color: #FBBF24; }
+.mc-img-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px; font-weight: 700; color: #E2E8F0;
+    margin-bottom: 8px; display: block; line-height: 1.3;
+}
+.mc-img-desc {
+    font-size: 12px; color: #7A90AB; line-height: 1.6;
+    display: block; flex: 1; margin-bottom: 12px;
+}
+.mc-img-chips {
+    display: flex; gap: 6px; flex-wrap: wrap;
+    padding-top: 10px; border-top: 1px solid #16243C; margin-bottom: 12px;
+}
+.mc-img-chip {
+    font-size: 10px; font-weight: 600; color: #4E637A;
+    background: #07101F; padding: 2px 8px; border-radius: 4px;
+}
+.mc-img-link {
+    font-size: 11px; font-weight: 600; color: #818CF8;
+    text-decoration: none; letter-spacing: 0.04em;
+}
+.mc-img-link:hover { color: #A5B4FC; }
 
 .page-hero { padding: 26px 0 20px 0; margin-bottom: 32px; border-bottom: 1px solid #16243C; }
 .hero-top { display: flex; align-items: center; gap: 14px; margin-bottom: 5px; }

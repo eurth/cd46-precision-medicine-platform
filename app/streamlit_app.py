@@ -68,7 +68,7 @@ pg = st.navigation(
             st.Page("pages/3_survival_outcomes.py", title="Survival Outcomes", icon="📈"),
             st.Page(
                 "pages/4_biomedical_knowledge_graph.py",
-                title="Biomedical Knowledge Graph",
+                title="Knowledge Graph",
                 icon="🕸️",
             ),
             st.Page("pages/5_research_assistant.py", title="Research Assistant", icon="🤖"),
@@ -76,7 +76,7 @@ pg = st.navigation(
             st.Page("pages/7_kg_query_explorer.py", title="KG Query Explorer", icon="🔍"),
         ],
         "Clinical Tools": [
-            st.Page("pages/8_patient_eligibility.py", title="Patient Eligibility Scorer", icon="🎯"),
+            st.Page("pages/8_patient_eligibility.py", title="Eligibility Scorer", icon="🎯"),
             st.Page("pages/9_competitive_landscape.py", title="Competitive Landscape", icon="🏆"),
         ],
         "Biology & Pipeline": [

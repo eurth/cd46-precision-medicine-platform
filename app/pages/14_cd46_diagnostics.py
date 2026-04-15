@@ -23,12 +23,11 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 from dotenv import load_dotenv
-from components.styles import inject_global_css, page_hero
+from components.styles import page_hero
 
 load_dotenv(Path(__file__).resolve().parent.parent.parent / ".env")
 
 st.set_page_config(page_title="Diagnostics & Early Detection | OncoBridge", layout="wide")
-inject_global_css()
 st.markdown(
     page_hero(
         icon="🔬",

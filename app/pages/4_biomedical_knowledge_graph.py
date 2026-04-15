@@ -12,7 +12,7 @@ from dotenv import load_dotenv
 load_dotenv(Path(__file__).resolve().parents[2] / ".env")
 
 import streamlit as st
-from components.styles import inject_global_css, page_hero
+from components.styles import page_hero
 
 # Inject Streamlit Cloud secrets into os.environ (no-op when running locally with .env)
 for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
@@ -22,7 +22,6 @@ for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
     except Exception:
         pass
 
-inject_global_css()
 
 st.markdown(
     page_hero(

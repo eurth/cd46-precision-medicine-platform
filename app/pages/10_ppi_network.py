@@ -21,7 +21,7 @@ import networkx as nx
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
-from components.styles import inject_global_css, page_hero
+from components.styles import page_hero
 
 # Inject Streamlit Cloud secrets -> os.environ
 for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
@@ -160,7 +160,6 @@ def build_graph(nodes: list, edges: list, min_score: float) -> nx.Graph:
 
 
 # ── Page header ───────────────────────────────────────────────────────────────
-inject_global_css()
 
 st.markdown(
     page_hero(

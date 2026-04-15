@@ -12,7 +12,7 @@ import plotly.express as px
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from components.styles import inject_global_css, page_hero
+from components.styles import page_hero
 
 # ── Streamlit Cloud secret injection ──────────────────────────────────────────
 for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
@@ -28,7 +28,6 @@ st.set_page_config(
     layout="wide",
 )
 
-inject_global_css()
 st.markdown(
     page_hero(
         icon="🔬",

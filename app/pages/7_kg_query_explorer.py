@@ -20,7 +20,7 @@ import time
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
-from components.styles import inject_global_css, page_hero
+from components.styles import page_hero
 from dotenv import load_dotenv
 
 load_dotenv(Path(__file__).resolve().parents[2] / ".env")
@@ -242,7 +242,6 @@ LIMIT 30
 # Page layout
 # ---------------------------------------------------------------------------
 
-inject_global_css()
 
 st.markdown(
     page_hero(

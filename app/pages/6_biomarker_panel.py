@@ -12,7 +12,7 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
-from components.styles import inject_global_css, page_hero
+from components.styles import page_hero
 
 from dotenv import load_dotenv
 load_dotenv(Path(__file__).resolve().parents[2] / ".env")
@@ -27,7 +27,6 @@ for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
 
 DATA_DIR = Path("data/processed")
 
-inject_global_css()
 
 st.markdown(
     page_hero(
