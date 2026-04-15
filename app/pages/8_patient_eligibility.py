@@ -341,26 +341,31 @@ with col_output:
             mode="gauge+number",
             value=round(total_score, 1),
             gauge={
-                "axis": {"range": [0, 100], "tickwidth": 1, "tickcolor": "#555"},
+                "axis": {"range": [0, 100], "tickwidth": 1, "tickcolor": "#64748b"},
                 "bar": {"color": cat_colour, "thickness": 0.25},
-                "bgcolor": "white",
+                "bgcolor": "#1e293b",
                 "steps": [
-                    {"range": [0, 45], "color": "#fde8e8"},
-                    {"range": [45, 70], "color": "#fef3cd"},
-                    {"range": [70, 100], "color": "#d4edda"},
+                    {"range": [0, 45], "color": "#3b1a1a"},
+                    {"range": [45, 70], "color": "#3b2e0a"},
+                    {"range": [70, 100], "color": "#0d2b1a"},
                 ],
                 "threshold": {
-                    "line": {"color": "#333", "width": 3},
+                    "line": {"color": "#e2e8f0", "width": 3},
                     "thickness": 0.85,
                     "value": 70,
                 },
             },
-            title={"text": "Eligibility Score (0 – 100)", "font": {"size": 14}},
+            title={"text": "Eligibility Score (0 – 100)", "font": {"size": 14, "color": "#94A3B8"}},
             number={"font": {"size": 56, "color": cat_colour}},
         )
     )
-    fig_gauge.update_layout(height=270, margin={"t": 40, "b": 10, "l": 20, "r": 20})
-    st.plotly_chart(fig_gauge, width='stretch')
+    fig_gauge.update_layout(
+        height=270,
+        margin={"t": 40, "b": 10, "l": 20, "r": 20},
+        paper_bgcolor="#0f172a",
+        font=dict(family="Inter", color="#94A3B8"),
+    )
+    st.plotly_chart(fig_gauge, use_container_width=True)
 
     m1, m2 = st.columns(2)
     m1.metric("Overall Score", f"{total_score:.1f} / 100")
@@ -391,12 +396,14 @@ with col_output:
     fig_bar.update_layout(
         height=220,
         margin={"t": 10, "b": 10, "l": 10, "r": 50},
-        xaxis={"range": [0, 42], "title": "Points"},
-        yaxis={"title": ""},
-        plot_bgcolor="white",
+        xaxis={"range": [0, 42], "title": "Points", "color": "#94A3B8", "gridcolor": "#1e293b"},
+        yaxis={"title": "", "color": "#94A3B8"},
+        plot_bgcolor="#0f172a",
+        paper_bgcolor="#0f172a",
         showlegend=False,
+        font=dict(family="Inter", color="#94A3B8"),
     )
-    st.plotly_chart(fig_bar, width='stretch')
+    st.plotly_chart(fig_bar, use_container_width=True)
 
 # ---------------------------------------------------------------------------
 # Evidence detail tabs
@@ -533,18 +540,22 @@ with tab_genie:
                 seg_df["Segment"] = pd.Categorical(seg_df["Segment"], categories=_seg_order, ordered=True)
                 seg_df = seg_df.sort_values("Segment")
 
-                import plotly.graph_objects as _go_p8
-                bar_p8 = _go_p8.Figure(_go_p8.Bar(
+                bar_p8 = go.Figure(go.Bar(
                     x=seg_df["Segment"], y=seg_df["%"],
                     marker_color=seg_df["Color"].tolist(),
                     text=seg_df["%"].astype(str) + "%",
                     textposition="outside"
                 ))
                 bar_p8.update_layout(
-                    height=320, xaxis_tickangle=-35,
+                    height=320,
+                    xaxis_tickangle=-35,
                     yaxis_title="% of Patients",
                     margin=dict(t=10, b=80, l=10, r=10),
-                    paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)"
+                    paper_bgcolor="#0f172a",
+                    plot_bgcolor="#0f172a",
+                    font=dict(family="Inter", color="#94A3B8"),
+                    xaxis=dict(color="#94A3B8", gridcolor="#1e293b"),
+                    yaxis=dict(color="#94A3B8", gridcolor="#1e293b"),
                 )
                 st.plotly_chart(bar_p8, use_container_width=True)
 
