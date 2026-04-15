@@ -48,9 +48,14 @@ def get_driver():
 
 
 def run_cypher(cypher: str, params: dict | None = None) -> list[dict]:
-    """Execute Cypher and return list of row dicts."""
+    """Execute read-only Cypher and return list of row dicts."""
     driver = get_driver()
     if driver is None:
+        return []
+    _upper = cypher.strip().upper()
+    _forbidden = ["CREATE ", "MERGE ", "DELETE ", "SET ", "REMOVE ", "DROP "]
+    if any(_upper.startswith(f) or f" {f}" in _upper for f in _forbidden):
+        st.error("Write operations are not permitted. Use read-only MATCH queries.")
         return []
     try:
         with driver.session() as s:
@@ -261,8 +266,10 @@ st.markdown(
 
 driver = get_driver()
 if driver is None:
-    st.error("⚠️ NEO4J_URI / NEO4J_PASSWORD not configured. Set in .env or Streamlit Cloud secrets.")
-    st.stop()
+    st.warning(
+        "AuraDB not connected — set NEO4J_URI and NEO4J_PASSWORD in `.env` to enable live queries.  \n"
+        "Query templates and Cypher editor are shown for reference."
+    )
 
 # Schema sidebar summary
 with st.sidebar:
@@ -366,7 +373,7 @@ with tab_builder:
                         yaxis=dict(title=chart_col.replace("_", " "), color="#94a3b8", gridcolor="#1e293b"),
                         margin=dict(l=10, r=10, t=30, b=10),
                     )
-                    st.plotly_chart(fig, width='stretch')
+                    st.plotly_chart(fig, use_container_width=True)
         else:
             st.info("No results returned — the graph may not have matching nodes yet, or the query returned empty results.")
 
@@ -378,8 +385,8 @@ with tab_cypher:
         "<div style='background:#1e293b;border-left:3px solid #4ade80;padding:12px 16px;"
         "border-radius:6px;margin-bottom:14px;'>"
         "<b style='color:#4ade80;'>Direct Cypher Query Editor</b><br>"
-        "<span style='color:#94a3b8;'>Write any Cypher query against the live AuraDB instance. "
-        "Use MATCH, WHERE, RETURN. CREATE/DELETE/MERGE are allowed for power users.</span>"
+        "<span style='color:#94a3b8;'>Write read-only Cypher queries against the live AuraDB instance. "
+        "Use MATCH, WHERE, RETURN, ORDER BY, LIMIT. Write operations are blocked.</span>"
         "</div>",
         unsafe_allow_html=True,
     )
@@ -723,7 +730,7 @@ LIMIT 50
                 margin=dict(l=10, r=10, t=10, b=10),
                 title=dict(text=f"Graph: {preset_sel}", font=dict(color="#e2e8f0", size=13)),
             )
-            st.plotly_chart(fig_g, width='stretch')
+            st.plotly_chart(fig_g, use_container_width=True)
             st.caption(f"Rendering {n_nodes} nodes and {len(df_g)} edges from AuraDB · Node size = degree")
             st.dataframe(df_g, use_container_width=True, hide_index=True)
         else:
