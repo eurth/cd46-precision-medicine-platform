@@ -1,4 +1,4 @@
-"""Page 6 — Biomarker Panel: Clinical Decision Support for 225Ac-CD46 Therapy."""
+"""Page 6 â€” Biomarker Panel: Clinical Decision Support for 225Ac-CD46 Therapy."""
 import sys
 from pathlib import Path
 
@@ -30,9 +30,9 @@ DATA_DIR = Path("data/processed")
 
 st.markdown(
     page_hero(
-        icon="🧬",
+        icon="ðŸ§¬",
         module_name="Biomarker Panel",
-        purpose="Clinical decision support for 225Ac-CD46 α-RLT · multi-biomarker scoring · co-targeting analysis · mCRPC cohort data",
+        purpose="Clinical decision support for 225Ac-CD46 Î±-RLT Â· multi-biomarker scoring Â· co-targeting analysis Â· mCRPC cohort data",
         kpi_chips=[
             ("Biomarkers Tracked", "5"),
             ("mCRPC Cohort", "226 pts"),
@@ -112,22 +112,22 @@ st.markdown("---")
 # ---------------------------------------------------------------------------
 
 tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
-    "🎯 CD46 Inclusion",
-    "🔗 Co-targeting",
-    "⚠️ Resistance Markers",
-    "🧬 Complement Pathway",
-    "📚 Evidence Base",
-    "📋 Patient Scoring",
+    "ðŸŽ¯ CD46 Inclusion",
+    "ðŸ”— Co-targeting",
+    "âš ï¸ Resistance Markers",
+    "ðŸ§¬ Complement Pathway",
+    "ðŸ“š Evidence Base",
+    "ðŸ“‹ Patient Scoring",
 ])
 
 # ===========================================================================
-# TAB 1 — CD46 INCLUSION BIOMARKERS
+# TAB 1 â€” CD46 INCLUSION BIOMARKERS
 # ===========================================================================
 with tab1:
     st.markdown(
         "<div style='background:#1e293b;border-left:3px solid #38bdf8;padding:12px 16px;"
         "border-radius:6px;margin-bottom:14px;'>"
-        "<b style='color:#38bdf8;'>CD46 Expression — Inclusion Biomarker for 225Ac Radioimmunotherapy</b><br>"
+        "<b style='color:#38bdf8;'>CD46 Expression â€” Inclusion Biomarker for 225Ac Radioimmunotherapy</b><br>"
         "<span style='color:#94a3b8;'>High CD46 expression = increased alpha-particle target density. "
         "Threshold: top 25th percentile per cancer type. Data: TCGA Pan-Cancer (n=11,160).</span>"
         "</div>",
@@ -152,7 +152,7 @@ with tab1:
                 text=[f"{v:.2f}" for v in df_plot[expr_col]],
                 textposition="outside",
                 textfont=dict(size=9, color="#94a3b8"),
-                hovertemplate="%{y}: %{x:.3f} log₂ TPM<extra></extra>",
+                hovertemplate="%{y}: %{x:.3f} logâ‚‚ TPM<extra></extra>",
             ))
             mean_val = float(df_plot[expr_col].mean())
             p75_val = float(df_plot[expr_col].quantile(0.75))
@@ -162,43 +162,43 @@ with tab1:
                            annotation_text="75th pct threshold", annotation_font_color="#f87171")
             fig1.update_layout(
                 height=420, paper_bgcolor="#0f172a", plot_bgcolor="#0f172a",
-                xaxis=dict(title="CD46 log₂ TPM", color="#94a3b8", gridcolor="#1e293b"),
+                xaxis=dict(title="CD46 logâ‚‚ TPM", color="#94a3b8", gridcolor="#1e293b"),
                 yaxis=dict(color="#e2e8f0", tickfont=dict(size=9)),
                 margin=dict(l=10, r=80, t=30, b=10),
                 title=dict(text="Pan-Cancer CD46 mRNA Expression (TCGA)", font=dict(color="#e2e8f0", size=13)),
             )
-            st.plotly_chart(fig1, width='stretch')
-            st.caption("🔴 PRAD · 🟠 BLCA · 🟡 OV highlighted as priority targets · Dashed = pan-cancer mean · Dotted = 75th pct threshold")
+            st.plotly_chart(fig1, use_container_width=True)
+            st.caption("ðŸ”´ PRAD Â· ðŸŸ  BLCA Â· ðŸŸ¡ OV highlighted as priority targets Â· Dashed = pan-cancer mean Â· Dotted = 75th pct threshold")
         else:
-            st.info("Expression column not found — run `python scripts/run_pipeline.py` to generate.")
+            st.info("Expression column not found â€” run `python scripts/run_pipeline.py` to generate.")
 
         # Clinical decision tiers table
         st.markdown("**Clinical Expression Tiers**")
         tiers = pd.DataFrame({
-            "Tier": ["🟢 High", "🟡 Moderate", "🟠 Low", "🔴 Absent"],
-            "CD46 Level": ["> 75th percentile", "50th–75th percentile", "25th–50th percentile", "< 25th percentile"],
-            "Mean log₂ TPM": ["> 10.5", "9.0–10.5", "7.5–9.0", "< 7.5"],
-            "225Ac-CD46 Suitability": ["Strong candidate ✅", "Consider ⚡", "Borderline 🔶", "Not suitable ❌"],
+            "Tier": ["ðŸŸ¢ High", "ðŸŸ¡ Moderate", "ðŸŸ  Low", "ðŸ”´ Absent"],
+            "CD46 Level": ["> 75th percentile", "50thâ€“75th percentile", "25thâ€“50th percentile", "< 25th percentile"],
+            "Mean logâ‚‚ TPM": ["> 10.5", "9.0â€“10.5", "7.5â€“9.0", "< 7.5"],
+            "225Ac-CD46 Suitability": ["Strong candidate âœ…", "Consider âš¡", "Borderline ðŸ”¶", "Not suitable âŒ"],
             "Estimated Eligible %": ["25%", "25%", "25%", "25%"],
         })
         st.dataframe(tiers, use_container_width=True, hide_index=True)
 
     else:
-        st.warning("cd46_by_cancer.csv not found — run pipeline first.")
+        st.warning("cd46_by_cancer.csv not found â€” run pipeline first.")
 
     st.info(
-        "💡 CD46 expression is androgen-regulated: ADT upregulates CD46, explaining its enrichment "
+        "ðŸ’¡ CD46 expression is androgen-regulated: ADT upregulates CD46, explaining its enrichment "
         "in CRPC. Expression persists across PSMA-low subgroups, making CD46 an ideal rescue target "
         "for patients who progress on 177Lu-PSMA therapy."
     )
 
     # ---- DYNAMIC THRESHOLD EXPLORER ----
     st.markdown("---")
-    st.markdown("**🎯 Interactive Threshold Explorer — Live Eligibility from 11,069 TCGA Patients**")
+    st.markdown("**ðŸŽ¯ Interactive Threshold Explorer â€” Live Eligibility from 11,069 TCGA Patients**")
     if not df_expr.empty:
         t_col1, t_col2 = st.columns([1, 3])
         with t_col1:
-            thr_val = st.slider("CD46 log₂ TPM threshold", 8.0, 14.5, 12.5, 0.1, key="tab1_thr",
+            thr_val = st.slider("CD46 logâ‚‚ TPM threshold", 8.0, 14.5, 12.5, 0.1, key="tab1_thr",
                                 help="Drag to recompute eligibility across all TCGA cancer types")
             focus_cancers = st.multiselect("Highlight cancers", ALL_CANCERS,
                                            default=[c for c in ["PRAD","BLCA","OV"] if c in ALL_CANCERS],
@@ -242,15 +242,15 @@ with tab1:
             cm1, cm2, cm3 = st.columns(3)
             cm1.metric("Eligible at threshold", f"{n_elig:,}", f"{n_elig/max(n_tot,1)*100:.1f}% of {n_tot:,}")
             cm2.metric("Cancers > 50% eligible", str(int((grp_thr["pct_eligible"] >= 50).sum())))
-            cm3.metric("Threshold", f"{thr_val:.1f} log₂ TPM")
-            st.plotly_chart(fig_thr, width='stretch')
+            cm3.metric("Threshold", f"{thr_val:.1f} logâ‚‚ TPM")
+            st.plotly_chart(fig_thr, use_container_width=True)
             top3 = grp_thr.nlargest(3, "pct_eligible")["cancer_type"].tolist()
-            st.caption(f"Highest eligibility at {thr_val:.1f}: **{'  ·  '.join(top3)}**")
+            st.caption(f"Highest eligibility at {thr_val:.1f}: **{'  Â·  '.join(top3)}**")
     else:
         st.info("Run `python scripts/run_pipeline.py` to enable live threshold exploration.")
 
 # ===========================================================================
-# TAB 2 — CO-TARGETING & COMPLEMENTARITY (AACR GENIE)
+# TAB 2 â€” CO-TARGETING & COMPLEMENTARITY (AACR GENIE)
 # ===========================================================================
 with tab2:
     st.markdown(
@@ -266,14 +266,14 @@ with tab2:
         col_g1, col_g2 = st.columns(2)
 
         st.info(
-            "🧬 **CD46 is an expression-level target** — selected by protein/mRNA overexpression (IHC/RNA-seq), "
+            "ðŸ§¬ **CD46 is an expression-level target** â€” selected by protein/mRNA overexpression (IHC/RNA-seq), "
             "not genomic amplification. The charts below show **AR and PTEN** alterations that define "
             "the aggressive CRPC patient population where CD46 is most highly upregulated."
         )
 
         with col_g1:
             st.markdown("#### AR & PTEN Alteration Rates by Cancer Type")
-            st.caption("Key driver alterations identifying the CD46-eligible population · cohorts ≥1,000 patients")
+            st.caption("Key driver alterations identifying the CD46-eligible population Â· cohorts â‰¥1,000 patients")
 
             # Build per-cancer grouped stats
             top_cts = df_genie.groupby("CANCER_TYPE").size().reset_index(name="n")
@@ -306,15 +306,18 @@ with tab2:
             ))
             fig_g1.update_layout(
                 barmode="group", height=420,
+                paper_bgcolor="#0f172a", plot_bgcolor="#0f172a",
+                font=dict(color="#94a3b8"),
                 margin=dict(l=10, r=80, t=10, b=10),
-                xaxis_title="% Patients Altered",
-                legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+                xaxis=dict(title="% Patients Altered", color="#94a3b8", gridcolor="#1e293b"),
+                yaxis=dict(color="#e2e8f0", tickfont=dict(size=9)),
+                legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1, font=dict(color="#e2e8f0"))
             )
             st.plotly_chart(fig_g1, use_container_width=True)
 
         with col_g2:
             st.markdown("#### Prostate Cancer: Full Driver Alteration Landscape")
-            st.caption("All 8 molecular subtypes · GENIE n=9,251")
+            st.caption("All 8 molecular subtypes Â· GENIE n=9,251")
 
             prad_g = df_genie[df_genie["CANCER_TYPE"] == "Prostate Cancer"].copy()
             if not prad_g.empty:
@@ -361,9 +364,11 @@ with tab2:
                     color_discrete_map=_seg_colors,
                     category_orders={"Segment": _seg_order}
                 )
-                fig_g2.update_traces(textposition="inside", textinfo="percent+label", textfont_size=9)
+                fig_g2.update_traces(textposition="inside", textinfo="percent+label", textfont_size=9,
+                    textfont=dict(color="#f8fafc"))
                 fig_g2.update_layout(
-                    margin=dict(t=10, b=10, l=10, r=10), height=420, showlegend=False
+                    margin=dict(t=10, b=10, l=10, r=10), height=420, showlegend=False,
+                    paper_bgcolor="#0f172a", font=dict(color="#e2e8f0")
                 )
                 st.plotly_chart(fig_g2, use_container_width=True)
                 n_g = len(prad_g)
@@ -379,33 +384,33 @@ with tab2:
 
     # Clinical decision matrix
     st.markdown("---")
-    st.markdown("**Clinical Decision Matrix — Dual-Target Strategy (PSMA)**")
+    st.markdown("**Clinical Decision Matrix â€” Dual-Target Strategy (PSMA)**")
     matrix = pd.DataFrame({
         "Patient Profile": [
             "PSMA-High + CD46-High",
-            "PSMA-Low + CD46-High ⭐",
+            "PSMA-Low + CD46-High â­",
             "PSMA-High + CD46-Low",
             "PSMA-Low + CD46-Low",
         ],
         "Frequency (mCRPC est.)": ["~28%", "~15%", "~45%", "~12%"],
         "Recommended Strategy": [
-            "177Lu-PSMA617 (1st line) → 225Ac-CD46 (progression)",
-            "225Ac-CD46 (1st line) — primary indication",
-            "177Lu-PSMA617 — CD46 RIT not indicated",
+            "177Lu-PSMA617 (1st line) â†’ 225Ac-CD46 (progression)",
+            "225Ac-CD46 (1st line) â€” primary indication",
+            "177Lu-PSMA617 â€” CD46 RIT not indicated",
             "Alternative targets (AR-V7, PARP, etc.)",
         ],
-        "225Ac-CD46 Priority": ["HIGH 🟡", "VERY HIGH 🔴", "LOW ⬇️", "NOT INDICATED ⭕"],
+        "225Ac-CD46 Priority": ["HIGH ðŸŸ¡", "VERY HIGH ðŸ”´", "LOW â¬‡ï¸", "NOT INDICATED â­•"],
     })
     st.dataframe(matrix, use_container_width=True, hide_index=True)
 
     st.info(
-        "💡 ~35% of mCRPC patients have low PSMA expression (PSMA-low) and do not respond to "
+        "ðŸ’¡ ~35% of mCRPC patients have low PSMA expression (PSMA-low) and do not respond to "
         "177Lu-PSMA617. CD46 is expressed in >90% of CRPC cells regardless of PSMA status, "
         "making it the primary rescue target for this population."
     )
 
 # ===========================================================================
-# TAB 3 — RESISTANCE PREDICTORS
+# TAB 3 â€” RESISTANCE PREDICTORS
 # ===========================================================================
 with tab3:
     st.markdown(
@@ -413,7 +418,7 @@ with tab3:
         "border-radius:6px;margin-bottom:14px;'>"
         "<b style='color:#fbbf24;'>Therapy Resistance Biomarkers</b><br>"
         "<span style='color:#94a3b8;'>Genomic alterations predicting reduced response to "
-        "225Ac-CD46 and RLT approaches · mCRPC cohort data</span>"
+        "225Ac-CD46 and RLT approaches Â· mCRPC cohort data</span>"
         "</div>",
         unsafe_allow_html=True,
     )
@@ -447,32 +452,32 @@ with tab3:
             title_font=dict(color="#e2e8f0", size=13),
             margin=dict(l=10, r=10, t=40, b=10),
         )
-        st.plotly_chart(fig_resist, width='stretch')
+        st.plotly_chart(fig_resist, use_container_width=True)
 
     with col_r2:
         st.markdown("**Resistance Marker Interpretation**")
         resist_table = pd.DataFrame({
             "Marker": ["TP53 loss", "RB1 loss", "AR-V7 splice variant", "CDK12 biallelic loss", "BRCA1/2 loss"],
             "Mechanism": [
-                "Cell cycle deregulation → radiotherapy resistance",
-                "Neuroendocrine transdiff. → altered CD46 surface expression",
-                "ADT resistance → drives CD46 upregulation (compensatory)",
-                "Tandem duplications → homologous recomb. signature",
-                "HR deficiency → PARP inhibitor synergy",
+                "Cell cycle deregulation â†’ radiotherapy resistance",
+                "Neuroendocrine transdiff. â†’ altered CD46 surface expression",
+                "ADT resistance â†’ drives CD46 upregulation (compensatory)",
+                "Tandem duplications â†’ homologous recomb. signature",
+                "HR deficiency â†’ PARP inhibitor synergy",
             ],
             "Impact on 225Ac-CD46": [
-                "↓ DNA damage response — may reduce efficacy",
-                "⚠️ Monitor — NEPC subtype may lose CD46 surface",
-                "✅ CD46 upregulation maintained — no resistance",
-                "Neutral — consider PARP combo",
-                "✅ Synergistic — DSB from α-particles + HR deficiency",
+                "â†“ DNA damage response â€” may reduce efficacy",
+                "âš ï¸ Monitor â€” NEPC subtype may lose CD46 surface",
+                "âœ… CD46 upregulation maintained â€” no resistance",
+                "Neutral â€” consider PARP combo",
+                "âœ… Synergistic â€” DSB from Î±-particles + HR deficiency",
             ],
         })
         st.dataframe(resist_table, use_container_width=True, hide_index=True)
 
     # Survival impact of resistance markers
     if not df_survival.empty:
-        st.markdown("**CD46 High vs Low — Survival Impact (TCGA)**")
+        st.markdown("**CD46 High vs Low â€” Survival Impact (TCGA)**")
         hr_col = next((c for c in ["hazard_ratio", "hr", "cox_hr"] if c in df_survival.columns), None)
         p_col = next((c for c in ["log_rank_p", "p_value", "pval"] if c in df_survival.columns), None)
         cancer_col = next((c for c in ["cancer_type", "tcga_code"] if c in df_survival.columns), None)
@@ -487,7 +492,7 @@ with tab3:
                     color=hr_col,
                     color_continuous_scale=["#22c55e", "#fbbf24", "#ef4444"],
                     title="CD46-High Hazard Ratio vs Significance (p < 0.05 cancers)",
-                    labels={hr_col: "Hazard Ratio (CD46-High vs Low)", "neg_log_p": "-log₁₀(p)"},
+                    labels={hr_col: "Hazard Ratio (CD46-High vs Low)", "neg_log_p": "-logâ‚â‚€(p)"},
                 )
                 fig_surv.add_vline(x=1.0, line_dash="dash", line_color="#64748b")
                 fig_surv.update_traces(textposition="top center", textfont_size=9)
@@ -499,24 +504,24 @@ with tab3:
                     title_font=dict(color="#e2e8f0", size=13),
                     margin=dict(l=10, r=10, t=40, b=10),
                 )
-                st.plotly_chart(fig_surv, width='stretch')
-                st.caption("HR > 1.0 = CD46-High associated with worse prognosis → stronger therapeutic need")
+                st.plotly_chart(fig_surv, use_container_width=True)
+                st.caption("HR > 1.0 = CD46-High associated with worse prognosis â†’ stronger therapeutic need")
 
     st.info(
-        "💡 AR-V7 expression, while conferring resistance to enzalutamide, actually maintains or "
+        "ðŸ’¡ AR-V7 expression, while conferring resistance to enzalutamide, actually maintains or "
         "upregulates CD46 surface expression, meaning AR-V7+ patients remain excellent candidates "
         "for 225Ac-CD46 therapy. TP53-null tumours may show reduced DNA damage response."
     )
 
 # ===========================================================================
-# TAB 4 — COMPLEMENT PATHWAY
+# TAB 4 â€” COMPLEMENT PATHWAY
 # ===========================================================================
 with tab4:
     st.markdown(
         "<div style='background:#1e293b;border-left:3px solid #818cf8;padding:12px 16px;"
         "border-radius:6px;margin-bottom:14px;'>"
         "<b style='color:#818cf8;'>Complement Regulatory Protein Network</b><br>"
-        "<span style='color:#94a3b8;'>CD46 (MCP) · CD55 (DAF) · CD59 · CR1 · CR2 — "
+        "<span style='color:#94a3b8;'>CD46 (MCP) Â· CD55 (DAF) Â· CD59 Â· CR1 Â· CR2 â€” "
         "Cancer immune evasion via complement downregulation</span>"
         "</div>",
         unsafe_allow_html=True,
@@ -575,16 +580,16 @@ with tab4:
         textposition="top center",
         textfont=dict(size=9, color="#e2e8f0"),
         hovertext=[
-            "CD46 — Primary therapeutic target · SCR domains bind C3b/C4b",
-            "CD55 (DAF) — Accelerates decay of C3/C5 convertases",
-            "CD59 — Inhibits MAC assembly · anti-apoptotic",
-            "CR1 — Complement receptor 1 · C3b/C4b binding",
-            "CR2 — B cell complement receptor · EBV receptor",
-            "C3b — Opsonin · CD46 cofactor substrate",
-            "C4b — Opsonin · CD46 cofactor substrate",
-            "Factor I — Serine protease · requires CD46 as cofactor",
-            "C3 Convertase — Target of CD55 (DAF) inhibition",
-            "MASP — Lectin pathway activator",
+            "CD46 â€” Primary therapeutic target Â· SCR domains bind C3b/C4b",
+            "CD55 (DAF) â€” Accelerates decay of C3/C5 convertases",
+            "CD59 â€” Inhibits MAC assembly Â· anti-apoptotic",
+            "CR1 â€” Complement receptor 1 Â· C3b/C4b binding",
+            "CR2 â€” B cell complement receptor Â· EBV receptor",
+            "C3b â€” Opsonin Â· CD46 cofactor substrate",
+            "C4b â€” Opsonin Â· CD46 cofactor substrate",
+            "Factor I â€” Serine protease Â· requires CD46 as cofactor",
+            "C3 Convertase â€” Target of CD55 (DAF) inhibition",
+            "MASP â€” Lectin pathway activator",
         ],
         hoverinfo="text",
         showlegend=False,
@@ -594,9 +599,9 @@ with tab4:
         xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
         yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
         margin=dict(l=10, r=10, t=30, b=10),
-        title=dict(text="Complement Regulatory Network — CD46 Central Hub", font=dict(color="#e2e8f0", size=13)),
+        title=dict(text="Complement Regulatory Network â€” CD46 Central Hub", font=dict(color="#e2e8f0", size=13)),
     )
-    st.plotly_chart(fig_comp, width='stretch')
+    st.plotly_chart(fig_comp, use_container_width=True)
 
     col_cp1, col_cp2 = st.columns(2)
     with col_cp1:
@@ -604,11 +609,11 @@ with tab4:
         st.markdown("""
         | Function | Details |
         |---|---|
-        | Complement cofactor | Binds C3b/C4b → Factor I cleavage |
+        | Complement cofactor | Binds C3b/C4b â†’ Factor I cleavage |
         | Immune co-stimulator | T cell co-stimulatory via isoform CYT-1/2 |
         | Viral receptor | Measles virus, Adenovirus 35, N. gonorrhoeae |
         | Self-recognition | Protects host cells from autologous complement |
-        | Cancer evasion | Overexpression → tumour escape from CDC |
+        | Cancer evasion | Overexpression â†’ tumour escape from CDC |
         """)
 
     with col_cp2:
@@ -621,25 +626,25 @@ with tab4:
             df_creg = pd.DataFrame({
                 "Protein": ["CD46", "CD55", "CD59", "CR1", "CR2"],
                 "Overexpressed in Cancer": ["Yes (universal)", "Yes (common)", "Yes (common)", "Moderate", "Rare"],
-                "PRAD Upregulation": ["High ↑↑", "Moderate ↑", "Moderate ↑", "Low", "Low"],
-                "Therapeutic Target": ["Primary 🎯", "Potential", "Potential", "Limited", "No"],
+                "PRAD Upregulation": ["High â†‘â†‘", "Moderate â†‘", "Moderate â†‘", "Low", "Low"],
+                "Therapeutic Target": ["Primary ðŸŽ¯", "Potential", "Potential", "Limited", "No"],
             })
             st.dataframe(df_creg, use_container_width=True, hide_index=True)
 
     st.info(
-        "💡 Tumours upregulate CD46 to evade complement-dependent cytotoxicity (CDC). "
-        "Alpha-particles from 225Ac bypass this evasion mechanism — DNA double-strand breaks "
+        "ðŸ’¡ Tumours upregulate CD46 to evade complement-dependent cytotoxicity (CDC). "
+        "Alpha-particles from 225Ac bypass this evasion mechanism â€” DNA double-strand breaks "
         "are independent of complement pathway signalling."
     )
 
 # ===========================================================================
-# TAB 5 — EVIDENCE BASE
+# TAB 5 â€” EVIDENCE BASE
 # ===========================================================================
 with tab5:
     st.markdown(
         "<div style='background:#1e293b;border-left:3px solid #38bdf8;padding:12px 16px;"
         "border-radius:6px;margin-bottom:14px;'>"
-        "<b style='color:#38bdf8;'>Curated Evidence Base — 225Ac-CD46 Research Program</b><br>"
+        "<b style='color:#38bdf8;'>Curated Evidence Base â€” 225Ac-CD46 Research Program</b><br>"
         "<span style='color:#94a3b8;'>Peer-reviewed publications with direct relevance to "
         "CD46 targeted therapy and alpha-particle radioimmunotherapy</span>"
         "</div>",
@@ -695,7 +700,7 @@ with tab5:
             "journal": "The Lancet",
             "year": 2023,
             "evidence_type": "Clinical trial",
-            "key_finding": "177Lu-PSMA617 superior PSA50 response; ~15% PSMA-low non-responders — CD46 alternative crucial",
+            "key_finding": "177Lu-PSMA617 superior PSA50 response; ~15% PSMA-low non-responders â€” CD46 alternative crucial",
             "doi_url": "https://doi.org/10.1016/S0140-6736(22)02826-8",
         },
         {
@@ -711,7 +716,7 @@ with tab5:
         {
             "pmid": "31375513",
             "title": "Pan-cancer analysis of complement regulatory gene expression and association with clinical outcomes",
-            "authors": "Roumenina LT, Daugan MV, Noé R",
+            "authors": "Roumenina LT, Daugan MV, NoÃ© R",
             "journal": "Cancer Immunology Research",
             "year": 2019,
             "evidence_type": "Bioinformatics",
@@ -780,9 +785,9 @@ with tab5:
             unsafe_allow_html=True,
         )
         col_pm, col_doi, _ = st.columns([1.2, 1.2, 4])
-        col_pm.link_button(f"PubMed ↗", pubmed_url)
+        col_pm.link_button(f"PubMed â†—", pubmed_url)
         if paper.get("doi_url"):
-            col_doi.link_button("DOI ↗", paper["doi_url"])
+            col_doi.link_button("DOI â†—", paper["doi_url"])
 
     st.markdown("---")
     st.markdown("**Live PubMed Search**")
@@ -792,7 +797,7 @@ with tab5:
         placeholder="e.g., 225Ac alpha therapy prostate",
         key="pubmed_search_input",
     )
-    if st.button("🔍 Search PubMed", key="search_pubmed_btn"):
+    if st.button("ðŸ” Search PubMed", key="search_pubmed_btn"):
         with st.spinner("Fetching from NCBI PubMed..."):
             try:
                 from src.agent.pubmed_search import fetch_pubmed
@@ -814,33 +819,33 @@ with tab5:
                             unsafe_allow_html=True,
                         )
                         if art.get("url"):
-                            st.link_button(f"View on PubMed ↗", art["url"])
+                            st.link_button(f"View on PubMed â†—", art["url"])
                 else:
-                    st.info("No results found — try a different search term.")
+                    st.info("No results found â€” try a different search term.")
             except Exception as e:
                 st.error(f"PubMed search failed: {e}")
 
 # ===========================================================================
-# TAB 6 — PATIENT SCORING CALCULATOR
+# TAB 6 â€” PATIENT SCORING CALCULATOR
 # ===========================================================================
 with tab6:
     st.markdown(
         "<div style='background:#1e293b;border-left:3px solid #fb923c;padding:12px 16px;"
         "border-radius:6px;margin-bottom:14px;'>"
         "<b style='color:#fb923c;'>225Ac-CD46 Patient Suitability Scoring Calculator</b><br>"
-        "<span style='color:#94a3b8;'>Composite multi-biomarker score (0–100) for clinical "
+        "<span style='color:#94a3b8;'>Composite multi-biomarker score (0â€“100) for clinical "
         "decision support. Integrates expression, genomic, and clinical factors.</span>"
         "</div>",
         unsafe_allow_html=True,
     )
 
     st.info(
-        "⚠️ **Research use only.** This scoring tool is not validated for clinical decisions. "
+        "âš ï¸ **Research use only.** This scoring tool is not validated for clinical decisions. "
         "All recommendations require physician interpretation and institutional review."
     )
 
     # ---- Two-patient comparison toggle -------
-    compare_mode = st.checkbox("⚖️ Compare two patient profiles side-by-side", value=False)
+    compare_mode = st.checkbox("âš–ï¸ Compare two patient profiles side-by-side", value=False)
     n_profiles = 2 if compare_mode else 1
     profile_labels = ["Patient A", "Patient B"] if compare_mode else ["Patient"]
 
@@ -857,10 +862,10 @@ with tab6:
             with col_s1:
                 st.markdown("**Target Expression**")
                 cd46_expr = st.slider(
-                    "CD46 log₂ TPM",
+                    "CD46 logâ‚‚ TPM",
                     min_value=0.0, max_value=15.0,
                     value=10.5 if _pi == 0 else 8.0, step=0.5,
-                    help="Log₂ TPM > 10.5 = 75th percentile across TCGA. High expression = better target.",
+                    help="Logâ‚‚ TPM > 10.5 = 75th percentile across TCGA. High expression = better target.",
                     key=f"cd46_expr_{_pi}",
                 )
                 psma_status = st.select_slider(
@@ -871,7 +876,7 @@ with tab6:
                     key=f"psma_{_pi}",
                 )
                 folh1_expression = st.slider(
-                    "FOLH1 mRNA (log₂ TPM)", 0.0, 15.0,
+                    "FOLH1 mRNA (logâ‚‚ TPM)", 0.0, 15.0,
                     value=6.0 if _pi == 0 else 11.0, step=0.5,
                     help="FOLH1 RNA level (distinct from IHC PSMA status). High = Lu-PSMA preferred.",
                     key=f"folh1_{_pi}",
@@ -884,7 +889,7 @@ with tab6:
                 )
                 psa_doubling = st.selectbox(
                     "PSA Doubling Time",
-                    ["< 3 months", "3–6 months", "6–12 months", "> 12 months"],
+                    ["< 3 months", "3â€“6 months", "6â€“12 months", "> 12 months"],
                     index=0 if _pi == 0 else 2,
                     help="Short PSADT reflects more aggressive disease biology.",
                     key=f"psadt_{_pi}",
@@ -892,7 +897,7 @@ with tab6:
                 ldh = st.number_input(
                     "LDH (U/L)",
                     min_value=0, max_value=5000, value=280 if _pi == 0 else 180,
-                    help="Elevated LDH ≥ ULN signals high disease burden.",
+                    help="Elevated LDH â‰¥ ULN signals high disease burden.",
                     key=f"ldh_{_pi}",
                 )
 
@@ -900,7 +905,7 @@ with tab6:
                 st.markdown("**Genomic Alterations**")
                 ar_amplification = st.checkbox(
                     "AR Amplification", value=False if _pi == 0 else True,
-                    help="AR CNA gain — upregulates CD46 expression.", key=f"ar_{_pi}")
+                    help="AR CNA gain â€” upregulates CD46 expression.", key=f"ar_{_pi}")
                 tp53_loss = st.checkbox(
                     "TP53 biallelic loss", value=False,
                     help="Reduces DSB response, slightly reduces alpha efficacy.", key=f"tp53_{_pi}")
@@ -915,13 +920,13 @@ with tab6:
                     help="HRD may synergise with DSB-rich alpha radiation.", key=f"brca2_{_pi}")
                 atm_mut = st.checkbox(
                     "ATM mutation", value=False,
-                    help="ATM loss (HR pathway) — similar synergy to BRCA2.", key=f"atm_{_pi}")
+                    help="ATM loss (HR pathway) â€” similar synergy to BRCA2.", key=f"atm_{_pi}")
                 cdk12_loss = st.checkbox(
                     "CDK12 biallelic loss", value=False,
-                    help="Immune-hot tumour phenotype — may respond well to combinatorial.", key=f"cdk12_{_pi}")
+                    help="Immune-hot tumour phenotype â€” may respond well to combinatorial.", key=f"cdk12_{_pi}")
                 pten_loss = st.checkbox(
                     "PTEN loss (PI3K activated)", value=False,
-                    help="PI3K pathway resistance — co-target potential.", key=f"pten_{_pi}")
+                    help="PI3K pathway resistance â€” co-target potential.", key=f"pten_{_pi}")
                 myc_amp = st.checkbox(
                     "MYC amplification", value=False,
                     help="Co-amplified with AR in 27% mCRPC; drives proliferation.", key=f"myc_{_pi}")
@@ -934,7 +939,7 @@ with tab6:
             with ccol1:
                 ecog_ps = st.selectbox(
                     "ECOG PS",
-                    ["0 — Fully active", "1 — Restricted strenuous", "2 — Ambulatory >50%", "3 — Limited self-care"],
+                    ["0 â€” Fully active", "1 â€” Restricted strenuous", "2 â€” Ambulatory >50%", "3 â€” Limited self-care"],
                     index=1 if _pi == 0 else 0,
                     key=f"ecog_{_pi}",
                 )
@@ -944,16 +949,16 @@ with tab6:
                     "Prior ARSI lines",
                     ["0 (ARSI-naive)", "1 (1 line failed)", "2+ (2+ lines failed)"],
                     index=1,
-                    help="Enzalutamide/abiraterone lines — more = higher CD46 expression expected.",
+                    help="Enzalutamide/abiraterone lines â€” more = higher CD46 expression expected.",
                     key=f"arsi_{_pi}",
                 )
             with ccol2:
                 prior_lupsma = st.checkbox(
                     "Prior 177Lu-PSMA failed", value=False if _pi == 0 else True,
-                    help="Failed PSMA-directed RLT → CD46 is rescue strategy.", key=f"lupsma_{_pi}")
+                    help="Failed PSMA-directed RLT â†’ CD46 is rescue strategy.", key=f"lupsma_{_pi}")
                 prior_chemo = st.checkbox(
                     "Prior docetaxel/cabazitaxel", value=False, key=f"chemo_{_pi}",
-                    help="Prior taxane use — progression = higher priority.")
+                    help="Prior taxane use â€” progression = higher priority.")
                 bone_mets = st.checkbox(
                     "Bone metastases", value=True, key=f"bone_{_pi}",
                     help="Alpha emission ideal for bone-adjacent tumour microenvironment.")
@@ -971,14 +976,14 @@ with tab6:
             ):
                 s = 0
 
-                # ---- CD46 expression (30 pts — primary target driver) ----
+                # ---- CD46 expression (30 pts â€” primary target driver) ----
                 if cd46 >= 12.0:   s += 30
                 elif cd46 >= 10.5: s += 24
                 elif cd46 >= 9.0:  s += 15
                 elif cd46 >= 7.5:  s += 6
                 else:              s += 0
 
-                # ---- PSMA / FOLH1 (12 pts — inverse: low PSMA = CD46 is priority) ----
+                # ---- PSMA / FOLH1 (12 pts â€” inverse: low PSMA = CD46 is priority) ----
                 psma_pts = {"Absent": 12, "Low": 10, "Moderate": 6, "High": 2, "Very High": 0}
                 s += psma_pts.get(psma, 0)
                 # FOLH1 mRNA adjusts PSMA score refinement
@@ -986,26 +991,26 @@ with tab6:
                 elif folh1 < 9.0: s += 1
 
                 # ---- PSA trajectory (6 pts) ----
-                psadt_pts = {"< 3 months": 6, "3–6 months": 4, "6–12 months": 2, "> 12 months": 0}
+                psadt_pts = {"< 3 months": 6, "3â€“6 months": 4, "6â€“12 months": 2, "> 12 months": 0}
                 s += psadt_pts.get(psadt, 0)
                 if psa >= 100:  s += 2  # Very high PSA = high burden = priority
                 elif psa >= 20: s += 1
 
                 # ---- LDH (disease burden, 4 pts) ----
-                if ldh >= 460:         s += 0   # above ULN x2 — toxicity concern
+                if ldh >= 460:         s += 0   # above ULN x2 â€” toxicity concern
                 elif ldh >= 230:       s += 2   # ULN = ~230 U/L (mild elevation)
                 else:                  s += 4   # Normal range = best safety profile
 
                 # ---- Genomic alterations ----
-                if ar_amp:  s += 5    # AR amp upregulates CD46 — strong bonus
-                if arv7:    s += 4    # AR-V7 = ARSI resistance → CD46 priority
-                if tp53:    s -= 5    # TP53 loss — reduced DNA repair, slight alpha concern
+                if ar_amp:  s += 5    # AR amp upregulates CD46 â€” strong bonus
+                if arv7:    s += 4    # AR-V7 = ARSI resistance â†’ CD46 priority
+                if tp53:    s -= 5    # TP53 loss â€” reduced DNA repair, slight alpha concern
                 if rb1:     s -= 6    # NCRPC risk
                 if brca2:   s += 3    # HRD synergy with DSBs
                 if atm:     s += 2    # HR deficiency (lesser than BRCA2)
-                if cdk12:   s += 2    # Immune-hot — combinatorial potential
+                if cdk12:   s += 2    # Immune-hot â€” combinatorial potential
                 if pten:    s -= 3    # PI3K resistance pathway
-                if myc:     s += 1    # Proliferative — more target antigen cycling
+                if myc:     s += 1    # Proliferative â€” more target antigen cycling
                 if spop:    s += 2    # Favourable SPOP mutation (+2 prognosis)
 
                 # ---- Prior therapies (5 pts) ----
@@ -1096,19 +1101,19 @@ with tab6:
     # Score gauge
     if final_score >= 65:
         score_color = "#22c55e"
-        recommendation = "✅ STRONG CANDIDATE — Proceed with 225Ac-CD46 workup"
+        recommendation = "âœ… STRONG CANDIDATE â€” Proceed with 225Ac-CD46 workup"
         tier = "Tier 1"
     elif final_score >= 45:
         score_color = "#fbbf24"
-        recommendation = "⚡ CONSIDER — Multidisciplinary review recommended"
+        recommendation = "âš¡ CONSIDER â€” Multidisciplinary review recommended"
         tier = "Tier 2"
     elif final_score >= 25:
         score_color = "#f97316"
-        recommendation = "🔶 BORDERLINE — Alternative targets preferred"
+        recommendation = "ðŸ”¶ BORDERLINE â€” Alternative targets preferred"
         tier = "Tier 3"
     else:
         score_color = "#ef4444"
-        recommendation = "❌ NOT SUITABLE — CD46 RIT not indicated"
+        recommendation = "âŒ NOT SUITABLE â€” CD46 RIT not indicated"
         tier = "Tier 4"
 
     # ---- Render Score Gauge ----
@@ -1147,7 +1152,7 @@ with tab6:
             font=dict(color="#e2e8f0"),
             margin=dict(l=20, r=20, t=30, b=20),
         )
-        st.plotly_chart(fig_gauge, width='stretch')
+        st.plotly_chart(fig_gauge, use_container_width=True)
 
     with col_rec:
         st.markdown(f"<br><br>", unsafe_allow_html=True)
@@ -1162,14 +1167,14 @@ with tab6:
         )
 
     # Score breakdown table (15 biomarkers)
-    st.markdown("**Score Breakdown — 15-Biomarker Framework**")
+    st.markdown("**Score Breakdown â€” 15-Biomarker Framework**")
     psma_pts = {"Absent": 12, "Low": 10, "Moderate": 6, "High": 2, "Very High": 0}
-    psadt_pts = {"< 3 months": 6, "3–6 months": 4, "6–12 months": 2, "> 12 months": 0}
+    psadt_pts = {"< 3 months": 6, "3â€“6 months": 4, "6â€“12 months": 2, "> 12 months": 0}
     arsi_pts  = {"0 (ARSI-naive)": 0, "1 (1 line failed)": 3, "2+ (2+ lines failed)": 5}
     breakdown = [
-        ("CD46 mRNA Expression",         f"{cd46_expr:.1f} log₂ TPM",    30 if cd46_expr >= 12 else 24 if cd46_expr >= 10.5 else 15 if cd46_expr >= 9 else 6 if cd46_expr >= 7.5 else 0),
+        ("CD46 mRNA Expression",         f"{cd46_expr:.1f} logâ‚‚ TPM",    30 if cd46_expr >= 12 else 24 if cd46_expr >= 10.5 else 15 if cd46_expr >= 9 else 6 if cd46_expr >= 7.5 else 0),
         ("PSMA IHC Status (inverse)",    psma_status,                     psma_pts.get(psma_status, 0)),
-        ("FOLH1 mRNA (inverse)",         f"{folh1_expression:.1f} log₂",  3 if folh1_expression < 6 else 1 if folh1_expression < 9 else 0),
+        ("FOLH1 mRNA (inverse)",         f"{folh1_expression:.1f} logâ‚‚",  3 if folh1_expression < 6 else 1 if folh1_expression < 9 else 0),
         ("PSA Doubling Time",            psa_doubling,                    psadt_pts.get(psa_doubling, 0)),
         ("PSA Level",                    f"{psa_level:.0f} ng/mL",        2 if psa_level >= 100 else 1 if psa_level >= 20 else 0),
         ("LDH",                          f"{ldh} U/L",                    0 if ldh >= 460 else 2 if ldh >= 230 else 4),
@@ -1193,7 +1198,7 @@ with tab6:
     ]
     df_breakdown = pd.DataFrame(breakdown, columns=["Factor", "Value", "Points"])
     df_breakdown["Impact"] = df_breakdown["Points"].apply(
-        lambda p: f"✅ +{p}" if p > 0 else (f"⚠️ {p}" if p < 0 else "— 0")
+        lambda p: f"âœ… +{p}" if p > 0 else (f"âš ï¸ {p}" if p < 0 else "â€” 0")
     )
     df_breakdown["Category"] = [
         "Target Expression", "Target Expression", "Target Expression",
@@ -1210,12 +1215,12 @@ with tab6:
     # ---- Side-by-side comparison card (compare mode) ----
     if compare_mode and len(profile_results) == 2:
         st.markdown("---")
-        st.markdown("### ⚖️ Profile Comparison")
+        st.markdown("### âš–ï¸ Profile Comparison")
         cmp_c1, cmp_c2 = st.columns(2)
         for _i, _pr in enumerate(profile_results):
             _sc = _pr["score"]
             _col = "#22c55e" if _sc >= 65 else "#fbbf24" if _sc >= 45 else "#f97316" if _sc >= 25 else "#ef4444"
-            _tier = "Tier 1 — Strong Candidate" if _sc >= 65 else "Tier 2 — Consider" if _sc >= 45 else "Tier 3 — Borderline" if _sc >= 25 else "Tier 4 — Not Suitable"
+            _tier = "Tier 1 â€” Strong Candidate" if _sc >= 65 else "Tier 2 â€” Consider" if _sc >= 45 else "Tier 3 â€” Borderline" if _sc >= 25 else "Tier 4 â€” Not Suitable"
             [cmp_c1, cmp_c2][_i].markdown(
                 f"<div style='background:{_col}22;border:2px solid {_col};padding:16px;border-radius:10px;text-align:center;'>"
                 f"<div style='font-size:1.5em;font-weight:700;color:{_col};'>{_pr['label']}</div>"
@@ -1223,10 +1228,10 @@ with tab6:
                 f"<div style='color:{_col};font-size:0.9em;margin-top:4px;'>{_tier}</div>"
                 f"<hr style='border-color:{_col}44;'>"
                 f"<table style='width:100%;font-size:0.8em;color:#94a3b8;text-align:left;'>"
-                f"<tr><td>CD46</td><td style='color:#e2e8f0;'>{_pr['cd46_expr']:.1f} log₂</td></tr>"
+                f"<tr><td>CD46</td><td style='color:#e2e8f0;'>{_pr['cd46_expr']:.1f} logâ‚‚</td></tr>"
                 f"<tr><td>PSMA</td><td style='color:#e2e8f0;'>{_pr['psma']}</td></tr>"
                 f"<tr><td>PSA</td><td style='color:#e2e8f0;'>{_pr['psa']:.0f} ng/mL</td></tr>"
-                f"<tr><td>AR-V7</td><td style='color:#e2e8f0;'>{'+'if _pr['arv7'] else '−'}</td></tr>"
+                f"<tr><td>AR-V7</td><td style='color:#e2e8f0;'>{'+'if _pr['arv7'] else 'âˆ’'}</td></tr>"
                 f"<tr><td>Prior Lu-PSMA</td><td style='color:#e2e8f0;'>{'Yes' if _pr['prior_lupsma'] else 'No'}</td></tr>"
                 f"</table></div>",
                 unsafe_allow_html=True,
@@ -1241,7 +1246,7 @@ with tab6:
             therapy  = (8 if pr["prior_lupsma"] else 0) + ({"0 (ARSI-naive)": 0, "1 (1 line failed)": 3, "2+ (2+ lines failed)": 5}.get(pr["prior_arsi"], 0))
             ecog_n   = int(pr["ecog"][0])
             perf     = max(0, 10 - ecog_n * 3)
-            psa_sc   = ({"< 3 months": 6, "3–6 months": 4, "6–12 months": 2, "> 12 months": 0}.get(pr["psadt"], 0))
+            psa_sc   = ({"< 3 months": 6, "3â€“6 months": 4, "6â€“12 months": 2, "> 12 months": 0}.get(pr["psadt"], 0))
             vals = [
                 min(30, 30 if pr["cd46_expr"] >= 12 else 24 if pr["cd46_expr"] >= 10.5 else 15 if pr["cd46_expr"] >= 9 else 6),
                 psma_map.get(pr["psma"], 0),
@@ -1272,16 +1277,16 @@ with tab6:
             height=380, margin=dict(l=40, r=40, t=40, b=40),
             title=dict(text="Multi-Dimensional Profile Radar", font=dict(color="#e2e8f0", size=13)),
         )
-        st.plotly_chart(fig_radar, width='stretch')
+        st.plotly_chart(fig_radar, use_container_width=True)
 
     # ---- Population Percentile ----
     st.markdown("---")
-    st.markdown("### 📊 Population Context & Expected Outcomes")
+    st.markdown("### ðŸ“Š Population Context & Expected Outcomes")
 
     # Simulate a patient score distribution based on real CD46 expression distribution
     if not df_expr.empty:
         import numpy as _np2
-        # Proxy population scores from real CD46 expression data (scaled 0–100)
+        # Proxy population scores from real CD46 expression data (scaled 0â€“100)
         _cd46_vals = df_expr["cd46_log2_tpm"].dropna().values
         # Score distribution approximated from CD46 expression alone (simplified proxy)
         _pop_scores = _np2.clip((_cd46_vals - 6.0) / (14.0 - 6.0) * 70 + 15, 0, 100)
@@ -1312,7 +1317,7 @@ with tab6:
             title=dict(text="Score Distribution vs. TCGA Population (11,069 patients, proxy model)",
                        font=dict(color="#e2e8f0", size=12)),
         )
-        st.plotly_chart(fig_dist, width='stretch')
+        st.plotly_chart(fig_dist, use_container_width=True)
 
         # ---- Expected Outcomes by Tier (from survival CSV) ----
         import pathlib as _pl2
@@ -1321,17 +1326,17 @@ with tab6:
             _surv_df = pd.read_csv(_surv_path)
             _os_df = _surv_df[_surv_df["endpoint"] == "OS"].dropna(subset=["hazard_ratio"])
             if not _os_df.empty:
-                st.markdown("**📈 Historical Outcomes by Tier — from Survival Analysis**")
+                st.markdown("**ðŸ“ˆ Historical Outcomes by Tier â€” from Survival Analysis**")
                 st.caption(f"Based on {len(_os_df)} OS endpoints across TCGA cohorts; showing what tier the CD46-high group achieved.")
-                _tier_thresholds = {"Tier 1 (≥65)": _os_df[_os_df["hazard_ratio"] >= 1.5], "Tier 2 (45-64)": _os_df[(_os_df["hazard_ratio"] >= 1.2) & (_os_df["hazard_ratio"] < 1.5)], "Others": _os_df[_os_df["hazard_ratio"] < 1.2]}
+                _tier_thresholds = {"Tier 1 (â‰¥65)": _os_df[_os_df["hazard_ratio"] >= 1.5], "Tier 2 (45-64)": _os_df[(_os_df["hazard_ratio"] >= 1.2) & (_os_df["hazard_ratio"] < 1.5)], "Others": _os_df[_os_df["hazard_ratio"] < 1.2]}
                 for _tt, _tdf in _tier_thresholds.items():
                     if not _tdf.empty:
-                        with st.expander(f"{_tt} — {len(_tdf)} matching cohorts"):
+                        with st.expander(f"{_tt} â€” {len(_tdf)} matching cohorts"):
                             st.dataframe(_tdf[["cancer_type","hazard_ratio","p_value","n_high","n_low"]].rename(columns={"cancer_type":"Cancer","hazard_ratio":"HR (CD46-High)","p_value":"p-value","n_high":"N High","n_low":"N Low"}).head(10), use_container_width=True, hide_index=True)
 
     # ---- Sensitivity analysis: what changes the score most? ----
     st.markdown("---")
-    st.markdown("### 🎯 Score Sensitivity Analysis — What Would Change the Score?")
+    st.markdown("### ðŸŽ¯ Score Sensitivity Analysis â€” What Would Change the Score?")
     st.caption("Shows how much each biomarker change would move the score if flipped from its current value.")
 
     _sens_items = [
@@ -1343,13 +1348,13 @@ with tab6:
         ("Remove: RB1 loss",              6 if rb1_loss else 0,                   rb1_loss),
         ("Remove: Visceral mets",         5 if visceral_mets else 0,              visceral_mets),
         ("Remove: PTEN loss",             3 if pten_loss else 0,                  pten_loss),
-        ("Increase CD46 to ≥12.0",        max(0, 30 - (30 if cd46_expr >= 12 else 24 if cd46_expr >= 10.5 else 15 if cd46_expr >= 9 else 6)), cd46_expr < 12.0),
+        ("Increase CD46 to â‰¥12.0",        max(0, 30 - (30 if cd46_expr >= 12 else 24 if cd46_expr >= 10.5 else 15 if cd46_expr >= 9 else 6)), cd46_expr < 12.0),
         ("Improve PSADT to < 3 months",   max(0, 6 - psadt_pts.get(psa_doubling, 0)), psa_doubling != "< 3 months"),
         ("Add: 2+ prior ARSI lines",      max(0, 5 - arsi_pts.get(prior_arsi_lines, 0)), prior_arsi_lines != "2+ (2+ lines failed)"),
         ("Add: CDK12 biallelic loss",     2 if not cdk12_loss else 0,             not cdk12_loss),
     ]
     _sens_df = pd.DataFrame(
-        [(item, delta, f"{'⬆️ +' if delta > 0 else '⬇️ ' if delta < 0 else '—'}{abs(delta)}", final_score + delta)
+        [(item, delta, f"{'â¬†ï¸ +' if delta > 0 else 'â¬‡ï¸ ' if delta < 0 else 'â€”'}{abs(delta)}", final_score + delta)
          for item, delta, condition in _sens_items if condition and delta != 0],
         columns=["Change", "Delta", "Effect", "New Score"],
     )
@@ -1357,17 +1362,17 @@ with tab6:
         _sens_df = _sens_df.sort_values("Delta", ascending=False)
         st.dataframe(_sens_df, use_container_width=True, hide_index=True)
     else:
-        st.info("Score is near maximum — no further improvements identified.")
+        st.info("Score is near maximum â€” no further improvements identified.")
 
     st.markdown("---")
     # ===================================================================
-    # PATIENT COHORT BUILDER — DYNAMIC COMPUTATION FROM REAL DATA
+    # PATIENT COHORT BUILDER â€” DYNAMIC COMPUTATION FROM REAL DATA
     # ===================================================================
     st.markdown(
         "<div style='background:#1e293b;border-left:3px solid #a78bfa;padding:12px 16px;"
         "border-radius:6px;margin-bottom:14px;'>"
-        "<b style='color:#a78bfa;'>🏥 Patient Cohort Builder — Live Population Analysis</b><br>"
-        "<span style='color:#94a3b8;'>Define molecular criteria → system computes cohort size "
+        "<b style='color:#a78bfa;'>ðŸ¥ Patient Cohort Builder â€” Live Population Analysis</b><br>"
+        "<span style='color:#94a3b8;'>Define molecular criteria â†’ system computes cohort size "
         "and survival profile live from 11,069 TCGA patient records. "
         "Each run can reveal a new clinical discovery.</span>"
         "</div>",
@@ -1385,13 +1390,13 @@ with tab6:
             )
             cb_endpoint = st.radio("Endpoint", ["OS", "PFI"], horizontal=True, key="cb6_ep")
         with cb_c2:
-            cb_threshold = st.slider("CD46 log₂ TPM threshold", 8.0, 14.5, 12.5, 0.1, key="cb6_thr")
-            st.caption(f"Patients with CD46 ≥ {cb_threshold:.1f} → CD46-High group")
+            cb_threshold = st.slider("CD46 logâ‚‚ TPM threshold", 8.0, 14.5, 12.5, 0.1, key="cb6_thr")
+            st.caption(f"Patients with CD46 â‰¥ {cb_threshold:.1f} â†’ CD46-High group")
         with cb_c3:
             cb_breakdown = st.checkbox("Per-cancer breakdown", value=True, key="cb6_brk")
             cb_download = st.checkbox("Enable CSV download", value=True, key="cb6_dl")
 
-        if st.button("🔬 Build & Analyse Cohort", type="primary", use_container_width=True, key="cb6_run"):
+        if st.button("ðŸ”¬ Build & Analyse Cohort", type="primary", use_container_width=True, key="cb6_run"):
             with st.spinner("Computing from patient-level data..."):
                 df_cb = df_expr.copy()
                 if cb_cancers:
@@ -1446,12 +1451,12 @@ with tab6:
                     fig_dist.update_layout(
                         barmode="overlay", height=300,
                         paper_bgcolor="#0f172a", plot_bgcolor="#0f172a",
-                        xaxis=dict(title="CD46 log₂ TPM", color="#94a3b8", gridcolor="#1e293b"),
+                        xaxis=dict(title="CD46 logâ‚‚ TPM", color="#94a3b8", gridcolor="#1e293b"),
                         yaxis=dict(title="Patients", color="#94a3b8", gridcolor="#1e293b"),
                         legend=dict(bgcolor="#1e293b", font=dict(color="#e2e8f0")),
                         margin=dict(l=10, r=10, t=10, b=10),
                     )
-                    st.plotly_chart(fig_dist, width='stretch')
+                    st.plotly_chart(fig_dist, use_container_width=True)
 
                 # Landmark survival comparison
                 with vc2:
@@ -1474,8 +1479,8 @@ with tab6:
                             legend=dict(bgcolor="#1e293b", font=dict(color="#e2e8f0")),
                             margin=dict(l=10, r=10, t=10, b=10),
                         )
-                        st.plotly_chart(fig_lm, width='stretch')
-                        st.caption("Landmark analysis — patients with follow-up past each timepoint")
+                        st.plotly_chart(fig_lm, use_container_width=True)
+                        st.caption("Landmark analysis â€” patients with follow-up past each timepoint")
 
                 # Per-cancer breakdown
                 if cb_breakdown and (not cb_cancers or len(cb_cancers) > 1):
@@ -1499,12 +1504,12 @@ with tab6:
                             f"Median {os_c} High,{f'{med_hi:.1f} mo' if med_hi else 'N/A'}\n"
                             f"Median {os_c} Low,{f'{med_lo:.1f} mo' if med_lo else 'N/A'}\n"
                         )
-                        st.download_button("📥 Cohort Summary CSV", csv_sum,
+                        st.download_button("ðŸ“¥ Cohort Summary CSV", csv_sum,
                                            "cd46_cohort_summary.csv", "text/csv", key="cb6_dl1")
                     with dl2:
                         cols_exp = [c for c in ["sample","cancer_type","cd46_log2_tpm","OS","OS.time","PFI","PFI.time"]
                                     if c in df_hi.columns]
-                        st.download_button("📥 CD46-High Patient List CSV",
+                        st.download_button("ðŸ“¥ CD46-High Patient List CSV",
                                            df_hi[cols_exp].to_csv(index=False),
                                            "cd46_high_patients.csv", "text/csv", key="cb6_dl2")
 
@@ -1514,15 +1519,15 @@ with tab6:
                     f"**Cohort Summary:** {n_hi:,} CD46-High patients ({pct_cb:.1f}% of "
                     f"{'  '.join(cb_cancers) if cb_cancers else 'pan-cancer'} cohort). "
                     f"Median {os_c} is **{f'{med_hi:.1f} mo' if med_hi else 'N/A'}** (High) vs "
-                    f"**{f'{med_lo:.1f} mo' if med_lo else 'N/A'}** (Low) → {direction} survival. "
-                    f"{'CD46-High associated with worse prognosis — strongest justification for CD46-directed therapy.' if direction == 'shorter' else 'CD46-High not associated with worse prognosis in this cohort at this threshold — consider adjusting threshold or reviewing endpoint.'}"
+                    f"**{f'{med_lo:.1f} mo' if med_lo else 'N/A'}** (Low) â†’ {direction} survival. "
+                    f"{'CD46-High associated with worse prognosis â€” strongest justification for CD46-directed therapy.' if direction == 'shorter' else 'CD46-High not associated with worse prognosis in this cohort at this threshold â€” consider adjusting threshold or reviewing endpoint.'}"
                 )
 
     st.markdown("---")
     st.markdown(
-        "<div style='color:#64748b;font-size:0.78em;'>Data: TCGA Pan-Cancer (11,069 primary tumour records) · "
-        "SU2C mCRPC 2019 cohort · Human Protein Atlas · cBioPortal GENIE. "
-        "⚠️ Research use only — not validated for clinical decisions.</div>",
+        "<div style='color:#64748b;font-size:0.78em;'>Data: TCGA Pan-Cancer (11,069 primary tumour records) Â· "
+        "SU2C mCRPC 2019 cohort Â· Human Protein Atlas Â· cBioPortal GENIE. "
+        "âš ï¸ Research use only â€” not validated for clinical decisions.</div>",
         unsafe_allow_html=True,
     )
 
@@ -1556,7 +1561,7 @@ with tab6:
             height=260, paper_bgcolor="#0f172a",
             margin=dict(l=20, r=20, t=30, b=10),
         )
-        st.plotly_chart(fig_gauge, width='stretch')
+        st.plotly_chart(fig_gauge, use_container_width=True)
 
     with col_sc2:
         st.markdown(
@@ -1566,7 +1571,7 @@ with tab6:
             f"<div style='font-size:1.0em;color:#e2e8f0;margin:6px 0;'>{recommendation}</div>"
             f"<hr style='border-color:#334155;margin:10px 0;'>"
             f"<table style='font-size:0.84em;color:#94a3b8;width:100%;'>"
-            f"<tr><td>CD46 Expression</td><td style='color:#e2e8f0;'>{cd46_expr:.1f} log₂ TPM</td></tr>"
+            f"<tr><td>CD46 Expression</td><td style='color:#e2e8f0;'>{cd46_expr:.1f} logâ‚‚ TPM</td></tr>"
             f"<tr><td>PSMA Status</td><td style='color:#e2e8f0;'>{psma_status}</td></tr>"
             f"<tr><td>AR Amplification</td><td style='color:#e2e8f0;'>{'Yes' if ar_amplification else 'No'}</td></tr>"
             f"<tr><td>TP53 Loss</td><td style='color:#e2e8f0;'>{'Yes (-5)' if tp53_loss else 'No'}</td></tr>"
@@ -1595,11 +1600,11 @@ with tab6:
             "Gleason": gleason_score,
             "Bone_mets": bone_mets,
             "Visceral_mets": visceral_mets,
-            "Note": "RESEARCH USE ONLY — Not for clinical decision-making",
+            "Note": "RESEARCH USE ONLY â€” Not for clinical decision-making",
         }
         report_csv = "Field,Value\n" + "\n".join(f"{k},{v}" for k, v in report_data.items())
         st.download_button(
-            "📥 Download Scoring Report (CSV)",
+            "ðŸ“¥ Download Scoring Report (CSV)",
             data=report_csv,
             file_name="cd46_patient_score_report.csv",
             mime="text/csv",
@@ -1608,10 +1613,11 @@ with tab6:
 st.markdown("---")
 st.markdown(
     "<div style='color:#64748b; font-size:0.78em;'>"
-    "Data sources: TCGA Pan-Cancer (n=11,160) · SU2C mCRPC cohort (n=444) · "
-    "Human Protein Atlas · cBioPortal · PubMed / NCBI E-utilities<br>"
-    "⚠️ For research and drug discovery use only. Clinical decisions require validated IVD-grade assays, "
+    "Data sources: TCGA Pan-Cancer (n=11,160) Â· SU2C mCRPC cohort (n=444) Â· "
+    "Human Protein Atlas Â· cBioPortal Â· PubMed / NCBI E-utilities<br>"
+    "âš ï¸ For research and drug discovery use only. Clinical decisions require validated IVD-grade assays, "
     "MDT review, and institutional ethics approval."
     "</div>",
     unsafe_allow_html=True,
 )
+
