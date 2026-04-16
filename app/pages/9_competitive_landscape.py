@@ -1,4 +1,4 @@
-"""Page 9 — Competitive Landscape: CD46 vs PSMA vs FAP in Solid Tumours."""
+﻿"""Page 9 — Competitive Landscape: CD46 vs PSMA vs FAP in Solid Tumours."""
 import sys
 from pathlib import Path
 
@@ -39,7 +39,6 @@ _PLOTLY_LAYOUT = dict(
     paper_bgcolor=_BG,
     plot_bgcolor=_BG,
     font=dict(family="Inter", color=_TEXT),
-    margin=dict(l=10, r=20, t=20, b=40),
 )
 
 # ── Data ───────────────────────────────────────────────────────────────────────

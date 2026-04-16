@@ -1,4 +1,4 @@
-"""Page 3 — Survival Outcomes: forest plot, Cox PH, KM interpretation."""
+﻿"""Page 3 — Survival Outcomes: forest plot, Cox PH, KM interpretation."""
 import sys
 from pathlib import Path
 
@@ -29,7 +29,6 @@ _PLOTLY_LAYOUT = dict(
     paper_bgcolor=_BG,
     plot_bgcolor=_BG,
     font=dict(family="Inter", color=_TEXT),
-    margin=dict(l=10, r=20, t=20, b=40),
 )
 
 # ---------------------------------------------------------------------------
@@ -177,6 +176,7 @@ with tab1:
         fig_fp.update_layout(
             **_PLOTLY_LAYOUT,
             height=max(380, len(fp_data) * 22),
+            margin=dict(l=180, r=20, t=20, b=40),
             xaxis=dict(
                 title="Hazard Ratio (log scale) — CD46-High vs CD46-Low",
                 gridcolor=_LINE, color=_TEXT, type="log",
@@ -509,7 +509,6 @@ _PLOTLY_LAYOUT = dict(
     paper_bgcolor=_BG,
     plot_bgcolor=_BG,
     font=dict(family="Inter", color=_TEXT),
-    margin=dict(l=10, r=20, t=20, b=40),
 )
 
 # ---------------------------------------------------------------------------
@@ -664,6 +663,7 @@ with tab1:
         fig_fp.update_layout(
             **_PLOTLY_LAYOUT,
             height=max(380, len(fp_data) * 22),
+            margin=dict(l=180, r=20, t=20, b=40),
             xaxis=dict(
                 title="Hazard Ratio (CD46-High vs CD46-Low)",
                 gridcolor=_LINE, color=_TEXT, zeroline=False,

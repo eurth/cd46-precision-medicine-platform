@@ -1,4 +1,4 @@
-"""Page 4 — Biomedical Knowledge Graph: network explorer, Cypher queries, protein deep-dive."""
+﻿"""Page 4 — Biomedical Knowledge Graph: network explorer, Cypher queries, protein deep-dive."""
 import json
 import math
 import os
@@ -44,7 +44,6 @@ _PLOTLY_LAYOUT = dict(
     paper_bgcolor="#0f172a",
     plot_bgcolor="#0f172a",
     font=dict(family="Inter", color=_TEXT),
-    margin=dict(l=10, r=20, t=20, b=40),
 )
 
 # ---------------------------------------------------------------------------

@@ -34,7 +34,6 @@ _PLOTLY_LAYOUT = dict(
     paper_bgcolor=_BG,
     plot_bgcolor=_BG,
     font=dict(family="Inter", color=_TEXT),
-    margin=dict(l=10, r=20, t=20, b=40),
 )
 
 # ---------------------------------------------------------------------------
@@ -324,6 +323,7 @@ with tab1:
                 )
                 fig_comp.update_layout(
                     **_PLOTLY_LAYOUT, height=380,
+                    margin=dict(l=10, r=20, t=20, b=40),
                     xaxis=dict(color=_LIGHT),
                     yaxis=dict(title="% of Cancer Type", gridcolor=_LINE, color=_TEXT),
                     legend=dict(bgcolor="rgba(0,0,0,0)", font=dict(color=_TEXT, size=10)),
@@ -441,6 +441,7 @@ with tab2:
                 ))
                 fig_sens.update_layout(
                     **_PLOTLY_LAYOUT, height=280,
+                    margin=dict(l=10, r=20, t=20, b=40),
                     xaxis=dict(color=_LIGHT),
                     yaxis=dict(title="% CD46-High", gridcolor=_LINE, color=_TEXT),
                 )
@@ -528,6 +529,7 @@ with tab3:
         fig_ar.update_layout(
             **_PLOTLY_LAYOUT,
             height=300,
+            margin=dict(l=10, r=20, t=20, b=40),
             xaxis=dict(color=_LIGHT, tickfont=dict(size=11)),
             yaxis=dict(title="Relative CD46 expression", gridcolor=_LINE, color=_TEXT),
         )

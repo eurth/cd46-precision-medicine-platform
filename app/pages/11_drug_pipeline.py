@@ -1,4 +1,4 @@
-"""Page 11 — Drug Pipeline: CD46-targeting and RLT therapeutic landscape.
+﻿"""Page 11 — Drug Pipeline: CD46-targeting and RLT therapeutic landscape.
 
 Static curated dataset — no KG dependency required.
 Data: ClinicalTrials.gov · PubMed · FDA · ChEMBL (CC BY-SA 4.0)
@@ -30,7 +30,6 @@ _PLOTLY_LAYOUT = dict(
     paper_bgcolor=_BG,
     plot_bgcolor=_BG,
     font=dict(family="Inter", color=_TEXT),
-    margin=dict(l=10, r=20, t=20, b=40),
 )
 
 # ── Pipeline data (curated, public sources) ────────────────────────────────────

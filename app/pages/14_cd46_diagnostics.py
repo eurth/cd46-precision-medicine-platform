@@ -1,4 +1,4 @@
-"""Page 14 — CD46 Diagnostics & Early Detection.
+﻿"""Page 14 — CD46 Diagnostics & Early Detection.
 
 Evidence framework for CD46 as a clinical detection, monitoring
 and companion-diagnostic biomarker.
@@ -48,7 +48,6 @@ _PLOTLY_LAYOUT = dict(
     paper_bgcolor=_BG,
     plot_bgcolor=_BG,
     font=dict(family="Inter", color=_TEXT),
-    margin=dict(l=10, r=20, t=20, b=40),
 )
 
 # ── Static fallback data ──────────────────────────────────────────────────────

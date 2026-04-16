@@ -1,4 +1,4 @@
-"""Page 12 — Dosimetry & Safety Index
+﻿"""Page 12 — Dosimetry & Safety Index
 CD46 expression in normal vs tumour tissues — the Phase I safety argument.
 Data: Human Protein Atlas (HPA) IHC H-scores · 225Ac dosimetry physics
 """
@@ -39,7 +39,6 @@ _PLOTLY_LAYOUT = dict(
     paper_bgcolor=_BG,
     plot_bgcolor=_BG,
     font=dict(family="Inter", color=_TEXT),
-    margin=dict(l=10, r=20, t=20, b=40),
 )
 
 # ── Static HPA fallback ───────────────────────────────────────────────────────

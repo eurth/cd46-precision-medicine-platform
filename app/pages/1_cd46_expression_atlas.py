@@ -1,4 +1,4 @@
-"""Page 1 — CD46 Expression Atlas: pan-cancer mRNA, protein, safety, and CRISPR evidence."""
+﻿"""Page 1 — CD46 Expression Atlas: pan-cancer mRNA, protein, safety, and CRISPR evidence."""
 import sys
 from pathlib import Path
 
@@ -28,7 +28,6 @@ _PLOTLY_LAYOUT = dict(
     paper_bgcolor=_BG,
     plot_bgcolor=_BG,
     font=dict(family="Inter", color=_TEXT),
-    margin=dict(l=10, r=20, t=20, b=40),
 )
 
 # ---------------------------------------------------------------------------
@@ -176,6 +175,7 @@ with tab1:
         fig1.update_layout(
             **_PLOTLY_LAYOUT,
             height=520,
+            margin=dict(l=10, r=20, t=20, b=40),
             xaxis=dict(title="CD46 Median Expression", gridcolor=_LINE, color=_TEXT, zeroline=False),
             yaxis=dict(color=_LIGHT, tickfont=dict(size=11)),
         )
@@ -376,6 +376,7 @@ with tab3:
             fig_dep.update_layout(
                 **_PLOTLY_LAYOUT,
                 height=580,
+                margin=dict(l=10, r=20, t=20, b=40),
                 xaxis=dict(title="Mean CRISPR score", gridcolor=_LINE, color=_TEXT),
                 yaxis=dict(color=_LIGHT, tickfont=dict(size=10)),
             )

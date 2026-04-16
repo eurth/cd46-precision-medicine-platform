@@ -1,4 +1,4 @@
-"""Page 13 — Clinical Strategy Engine
+﻿"""Page 13 — Clinical Strategy Engine
 End-to-end development narrative: Target → Drug → Patient → Trial → Outcome.
 The single investor/CAB-ready artifact that connects all platform evidence.
 """
@@ -39,7 +39,6 @@ _PLOTLY_LAYOUT = dict(
     paper_bgcolor=_BG,
     plot_bgcolor=_BG,
     font=dict(family="Inter", color=_TEXT),
-    margin=dict(l=10, r=20, t=20, b=40),
 )
 
 # ── Phase-pill banner CSS (kept as HTML — bespoke progress tracker) ───────────

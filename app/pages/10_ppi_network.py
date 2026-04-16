@@ -1,4 +1,4 @@
-"""Page 10 — CD46 PPI Network Explorer.
+﻿"""Page 10 — CD46 PPI Network Explorer.
 
 Visualises the STRING DB v12.0 high-confidence PPI network centred on CD46.
 Live data from AuraDB; falls back to curated static STRING data when KG unavailable.
@@ -47,7 +47,6 @@ _PLOTLY_LAYOUT = dict(
     paper_bgcolor=_BG,
     plot_bgcolor=_BG,
     font=dict(family="Inter", color=_TEXT),
-    margin=dict(l=10, r=20, t=20, b=40),
 )
 
 # ── PPI data maps ──────────────────────────────────────────────────────────────
