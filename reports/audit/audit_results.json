@@ -1,0 +1,421 @@
+[
+  {
+    "id": "overview",
+    "label": "Platform Overview",
+    "url": "https://oncobridge.eurthtech.com/",
+    "load_time_s": 8.94,
+    "status": "OK",
+    "errors": [],
+    "empty_charts": [],
+    "blank_tab_panels": [],
+    "empty_dataframes": [],
+    "console_errors": [
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 ()"
+      }
+    ],
+    "metrics_count": 0,
+    "charts_count": 0,
+    "tabs_count": 0,
+    "screenshot": "C:\\Users\\GuestUser\\Documents\\PlatformIO\\Ayutara\\cd46_precision_medicine_platform\\reports\\audit\\overview.png"
+  },
+  {
+    "id": "p1_atlas",
+    "label": "Expression Atlas",
+    "url": "https://oncobridge.eurthtech.com/cd46_expression_atlas",
+    "load_time_s": 9.24,
+    "status": "OK",
+    "errors": [],
+    "empty_charts": [],
+    "blank_tab_panels": [],
+    "empty_dataframes": [],
+    "console_errors": [
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 ()"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 ()"
+      }
+    ],
+    "metrics_count": 4,
+    "charts_count": 3,
+    "tabs_count": 4,
+    "screenshot": "C:\\Users\\GuestUser\\Documents\\PlatformIO\\Ayutara\\cd46_precision_medicine_platform\\reports\\audit\\p1_atlas.png"
+  },
+  {
+    "id": "p2_selection",
+    "label": "Patient Selection",
+    "url": "https://oncobridge.eurthtech.com/patient_selection",
+    "load_time_s": 7.93,
+    "status": "OK",
+    "errors": [],
+    "empty_charts": [],
+    "blank_tab_panels": [],
+    "empty_dataframes": [],
+    "console_errors": [
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 ()"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 ()"
+      }
+    ],
+    "metrics_count": 10,
+    "charts_count": 8,
+    "tabs_count": 6,
+    "screenshot": "C:\\Users\\GuestUser\\Documents\\PlatformIO\\Ayutara\\cd46_precision_medicine_platform\\reports\\audit\\p2_selection.png"
+  },
+  {
+    "id": "p3_survival",
+    "label": "Survival Outcomes",
+    "url": "https://oncobridge.eurthtech.com/survival_outcomes",
+    "load_time_s": 5.87,
+    "status": "OK",
+    "errors": [],
+    "empty_charts": [],
+    "blank_tab_panels": [],
+    "empty_dataframes": [],
+    "console_errors": [
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 ()"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 ()"
+      }
+    ],
+    "metrics_count": 4,
+    "charts_count": 2,
+    "tabs_count": 3,
+    "screenshot": "C:\\Users\\GuestUser\\Documents\\PlatformIO\\Ayutara\\cd46_precision_medicine_platform\\reports\\audit\\p3_survival.png"
+  },
+  {
+    "id": "p4_kg",
+    "label": "Knowledge Graph",
+    "url": "https://oncobridge.eurthtech.com/biomedical_knowledge_graph",
+    "load_time_s": 5.15,
+    "status": "OK",
+    "errors": [],
+    "empty_charts": [],
+    "blank_tab_panels": [],
+    "empty_dataframes": [],
+    "console_errors": [
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 ()"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 ()"
+      },
+      {
+        "type": "warning",
+        "text": "Hotjar not launching due to suspicious userAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+      }
+    ],
+    "metrics_count": 6,
+    "charts_count": 2,
+    "tabs_count": 9,
+    "screenshot": "C:\\Users\\GuestUser\\Documents\\PlatformIO\\Ayutara\\cd46_precision_medicine_platform\\reports\\audit\\p4_kg.png"
+  },
+  {
+    "id": "p5_assistant",
+    "label": "Research Assistant",
+    "url": "https://oncobridge.eurthtech.com/research_assistant",
+    "load_time_s": 5.55,
+    "status": "OK",
+    "errors": [],
+    "empty_charts": [],
+    "blank_tab_panels": [],
+    "empty_dataframes": [],
+    "console_errors": [
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 ()"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 ()"
+      }
+    ],
+    "metrics_count": 0,
+    "charts_count": 0,
+    "tabs_count": 0,
+    "screenshot": "C:\\Users\\GuestUser\\Documents\\PlatformIO\\Ayutara\\cd46_precision_medicine_platform\\reports\\audit\\p5_assistant.png"
+  },
+  {
+    "id": "p6_biomarker",
+    "label": "Biomarker Panel",
+    "url": "https://oncobridge.eurthtech.com/biomarker_panel",
+    "load_time_s": 6.94,
+    "status": "OK",
+    "errors": [],
+    "empty_charts": [],
+    "blank_tab_panels": [],
+    "empty_dataframes": [],
+    "console_errors": [
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 ()"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 ()"
+      }
+    ],
+    "metrics_count": 12,
+    "charts_count": 10,
+    "tabs_count": 6,
+    "screenshot": "C:\\Users\\GuestUser\\Documents\\PlatformIO\\Ayutara\\cd46_precision_medicine_platform\\reports\\audit\\p6_biomarker.png"
+  },
+  {
+    "id": "p7_kgquery",
+    "label": "KG Query Explorer",
+    "url": "https://oncobridge.eurthtech.com/kg_query_explorer",
+    "load_time_s": 4.53,
+    "status": "OK",
+    "errors": [],
+    "empty_charts": [],
+    "blank_tab_panels": [],
+    "empty_dataframes": [],
+    "console_errors": [
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 ()"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 ()"
+      }
+    ],
+    "metrics_count": 0,
+    "charts_count": 0,
+    "tabs_count": 4,
+    "screenshot": "C:\\Users\\GuestUser\\Documents\\PlatformIO\\Ayutara\\cd46_precision_medicine_platform\\reports\\audit\\p7_kgquery.png"
+  },
+  {
+    "id": "p8_eligibility",
+    "label": "Patient Eligibility (old)",
+    "url": "https://oncobridge.eurthtech.com/patient_eligibility",
+    "load_time_s": 5.81,
+    "status": "ERROR",
+    "errors": [
+      {
+        "selector": "div[data-testid='stException']",
+        "summary": "KeyError: \"['expression_rank'] not in index\"",
+        "full": "KeyError: \"['expression_rank'] not in index\"\nTraceback:\nFile \"/app/app/streamlit_app.py\", line 115, in <module>\n    pg.run()\n    ~~~~~~^^\nFile \"/usr/local/lib/python3.13/site-packages/streamlit/navigation/page.py\", line 490, in run\n    exec(code, module.__dict__)  # noqa: S102\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^\nFile \"/app/app/pages/8_patient_eligibility.py\", line 599, in <module>\n    df_display = df_sim[list(display_cols.keys())].rename(columns=display_cols).copy()\n                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^\nFile \"/usr/local/lib/python3.13/site-packages/pandas/core/frame.py\", line 4119, in __getitem__\n    indexer = self.columns._get_indexer_strict(key, \"columns\")[1]\n              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^\nFile \"/usr/local/lib/python3.13/site-packages/pandas/core/indexes/base.py\", line 6212, in _get_indexer_strict\n    self._raise_if_missing(keyarr, indexer, axis_name)\n    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nFile \"/usr/local/lib/python3.13/site-p"
+      },
+      {
+        "selector": ".stException",
+        "summary": "KeyError: \"['expression_rank'] not in index\"",
+        "full": "KeyError: \"['expression_rank'] not in index\"\nTraceback:\nFile \"/app/app/streamlit_app.py\", line 115, in <module>\n    pg.run()\n    ~~~~~~^^\nFile \"/usr/local/lib/python3.13/site-packages/streamlit/navigation/page.py\", line 490, in run\n    exec(code, module.__dict__)  # noqa: S102\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^\nFile \"/app/app/pages/8_patient_eligibility.py\", line 599, in <module>\n    df_display = df_sim[list(display_cols.keys())].rename(columns=display_cols).copy()\n                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^\nFile \"/usr/local/lib/python3.13/site-packages/pandas/core/frame.py\", line 4119, in __getitem__\n    indexer = self.columns._get_indexer_strict(key, \"columns\")[1]\n              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^\nFile \"/usr/local/lib/python3.13/site-packages/pandas/core/indexes/base.py\", line 6212, in _get_indexer_strict\n    self._raise_if_missing(keyarr, indexer, axis_name)\n    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nFile \"/usr/local/lib/python3.13/site-p"
+      }
+    ],
+    "empty_charts": [],
+    "blank_tab_panels": [],
+    "empty_dataframes": [],
+    "console_errors": [
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 ()"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 ()"
+      }
+    ],
+    "metrics_count": 7,
+    "charts_count": 3,
+    "tabs_count": 3,
+    "screenshot": "C:\\Users\\GuestUser\\Documents\\PlatformIO\\Ayutara\\cd46_precision_medicine_platform\\reports\\audit\\p8_eligibility.png"
+  },
+  {
+    "id": "p9_competitive",
+    "label": "Competitive Landscape",
+    "url": "https://oncobridge.eurthtech.com/competitive_landscape",
+    "load_time_s": 5.45,
+    "status": "OK",
+    "errors": [],
+    "empty_charts": [],
+    "blank_tab_panels": [],
+    "empty_dataframes": [],
+    "console_errors": [
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 ()"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 ()"
+      }
+    ],
+    "metrics_count": 0,
+    "charts_count": 2,
+    "tabs_count": 4,
+    "screenshot": "C:\\Users\\GuestUser\\Documents\\PlatformIO\\Ayutara\\cd46_precision_medicine_platform\\reports\\audit\\p9_competitive.png"
+  },
+  {
+    "id": "p10_ppi",
+    "label": "PPI Network",
+    "url": "https://oncobridge.eurthtech.com/ppi_network",
+    "load_time_s": 5.23,
+    "status": "OK",
+    "errors": [],
+    "empty_charts": [],
+    "blank_tab_panels": [],
+    "empty_dataframes": [],
+    "console_errors": [
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 ()"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 ()"
+      }
+    ],
+    "metrics_count": 5,
+    "charts_count": 4,
+    "tabs_count": 4,
+    "screenshot": "C:\\Users\\GuestUser\\Documents\\PlatformIO\\Ayutara\\cd46_precision_medicine_platform\\reports\\audit\\p10_ppi.png"
+  },
+  {
+    "id": "p11_drug",
+    "label": "Drug Pipeline",
+    "url": "https://oncobridge.eurthtech.com/drug_pipeline",
+    "load_time_s": 6.31,
+    "status": "OK",
+    "errors": [],
+    "empty_charts": [],
+    "blank_tab_panels": [],
+    "empty_dataframes": [],
+    "console_errors": [
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 ()"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 ()"
+      }
+    ],
+    "metrics_count": 5,
+    "charts_count": 2,
+    "tabs_count": 5,
+    "screenshot": "C:\\Users\\GuestUser\\Documents\\PlatformIO\\Ayutara\\cd46_precision_medicine_platform\\reports\\audit\\p11_drug.png"
+  },
+  {
+    "id": "p12_dosimetry",
+    "label": "Dosimetry & Safety",
+    "url": "https://oncobridge.eurthtech.com/dosimetry_safety",
+    "load_time_s": 5.39,
+    "status": "OK",
+    "errors": [],
+    "empty_charts": [],
+    "blank_tab_panels": [],
+    "empty_dataframes": [],
+    "console_errors": [
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 ()"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 ()"
+      }
+    ],
+    "metrics_count": 0,
+    "charts_count": 3,
+    "tabs_count": 5,
+    "screenshot": "C:\\Users\\GuestUser\\Documents\\PlatformIO\\Ayutara\\cd46_precision_medicine_platform\\reports\\audit\\p12_dosimetry.png"
+  },
+  {
+    "id": "p13_clinical",
+    "label": "Clinical Strategy Engine",
+    "url": "https://oncobridge.eurthtech.com/clinical_strategy_engine",
+    "load_time_s": 5.68,
+    "status": "OK",
+    "errors": [],
+    "empty_charts": [],
+    "blank_tab_panels": [],
+    "empty_dataframes": [],
+    "console_errors": [
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 ()"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 ()"
+      }
+    ],
+    "metrics_count": 1,
+    "charts_count": 4,
+    "tabs_count": 0,
+    "screenshot": "C:\\Users\\GuestUser\\Documents\\PlatformIO\\Ayutara\\cd46_precision_medicine_platform\\reports\\audit\\p13_clinical.png"
+  },
+  {
+    "id": "p14_diagnostics",
+    "label": "CD46 Diagnostics",
+    "url": "https://oncobridge.eurthtech.com/cd46_diagnostics",
+    "load_time_s": 4.74,
+    "status": "OK",
+    "errors": [],
+    "empty_charts": [],
+    "blank_tab_panels": [],
+    "empty_dataframes": [],
+    "console_errors": [
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 ()"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 ()"
+      }
+    ],
+    "metrics_count": 8,
+    "charts_count": 5,
+    "tabs_count": 7,
+    "screenshot": "C:\\Users\\GuestUser\\Documents\\PlatformIO\\Ayutara\\cd46_precision_medicine_platform\\reports\\audit\\p14_diagnostics.png"
+  },
+  {
+    "id": "pt_eligibility",
+    "label": "Eligibility Scorer",
+    "url": "https://oncobridge.eurthtech.com/eligibility_scorer",
+    "load_time_s": 5.63,
+    "status": "OK",
+    "errors": [],
+    "empty_charts": [],
+    "blank_tab_panels": [],
+    "empty_dataframes": [],
+    "console_errors": [
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 ()"
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 ()"
+      },
+      {
+        "type": "error",
+        "text": "The page that you have requested does not seem to exist. Running the app's main page."
+      },
+      {
+        "type": "error",
+        "text": "Failed to load resource: the server responded with a status of 404 ()"
+      }
+    ],
+    "metrics_count": 0,
+    "charts_count": 0,
+    "tabs_count": 0,
+    "screenshot": "C:\\Users\\GuestUser\\Documents\\PlatformIO\\Ayutara\\cd46_precision_medicine_platform\\reports\\audit\\pt_eligibility.png"
+  }
+]

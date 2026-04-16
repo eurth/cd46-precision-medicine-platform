@@ -600,13 +600,17 @@ with tab_sim:
             .sort_values("priority_score", ascending=False)
             .head(5)
         )
-        display_cols = {
-            "cancer_type": "Cancer Type",
-            "expression_rank": "CD46 Rank",
-            "cd46_median": "Median log₂ TPM",
+        # "expression_rank" lives in cd46_by_cancer.csv, not priority_score.csv.
+        # Use priority_rank (already present) as the ranking column instead.
+        display_cols_candidate = {
+            "cancer_type":    "Cancer Type",
+            "priority_rank":  "CD46 Rank",
+            "cd46_median":    "Median log₂ TPM",
             "priority_score": "Priority Score",
             "priority_label": "Category",
         }
+        # Only keep columns that actually exist in df_sim
+        display_cols = {k: v for k, v in display_cols_candidate.items() if k in df_sim.columns}
         df_display = df_sim[list(display_cols.keys())].rename(columns=display_cols).copy()
         df_display["Cancer Type"] = df_display["Cancer Type"].apply(
             lambda c: f"{c} — {CANCER_LABELS.get(c, c)}"
