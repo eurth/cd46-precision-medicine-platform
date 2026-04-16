@@ -410,35 +410,77 @@ with tab4:
         "clinical trial activity (ClinicalTrials.gov)"
     )
 
-    pri_col, exp_col = st.columns(2)
-
-    with pri_col:
-        st.markdown("##### 🏆 Validated Priority Candidates")
+    if expr_df is not None:
+        # Build full priority ranking for all cancers from expression rank
+        _n_ct = len(expr_df)
+        _full_pri = expr_df.copy().sort_values("expression_rank")
+        _full_pri["priority_score"] = (
+            1.0 - (_full_pri["expression_rank"] - 1) / max(_n_ct - 1, 1)
+        )
+        # Override with multi-dimensional scores where available
         if priority_df is not None and len(priority_df) > 0:
-            disp_pri = priority_df[[
-                "cancer_type", "cd46_median", "priority_score", "priority_label", "priority_rank"
-            ]].rename(columns={
-                "cancer_type":    "Cancer",
-                "cd46_median":    "mRNA",
-                "priority_score": "Score",
-                "priority_label": "Tier",
-                "priority_rank":  "Rank",
-            }).sort_values("Rank")
-            st.dataframe(disp_pri, use_container_width=True, hide_index=True)
-            st.caption(
-                "Full multi-dimensional scoring available for PRAD and OV. "
-                "Additional cancers pending analysis pipeline expansion."
-            )
-        else:
-            st.info(
-                "Priority scoring pending. Run `python scripts/run_pipeline.py --mode analyze` "
-                "to compute scores for all 25 cancer types."
+            _md = priority_df.set_index("cancer_type")["priority_score"].to_dict()
+            _full_pri["priority_score"] = _full_pri.apply(
+                lambda r: _md.get(r["cancer_type"], r["priority_score"]), axis=1
             )
 
-        st.markdown("---")
-        st.markdown("**Priority Score Dimensions**")
-        st.markdown(
-            """
+        def _tier(s):
+            if s >= 0.70:
+                return "HIGH"
+            if s >= 0.50:
+                return "MODERATE"
+            if s >= 0.30:
+                return "EXPLORATORY"
+            return "LOW"
+
+        _full_pri["tier"] = _full_pri["priority_score"].map(_tier)
+        _full_pri = _full_pri.sort_values("priority_score", ascending=False).reset_index(drop=True)
+        _full_pri["rank"] = _full_pri.index + 1
+
+        _TIER_COL = {"HIGH": _GREEN, "MODERATE": _INDIGO, "EXPLORATORY": _AMBER, "LOW": _SLATE}
+        _chart_h = max(500, _n_ct * 20)
+
+        pri_col, exp_col = st.columns(2)
+
+        with pri_col:
+            st.markdown("##### 🏆 Priority Ranking — All Cancers")
+            _fig_pri = go.Figure(go.Bar(
+                x=_full_pri["priority_score"],
+                y=_full_pri["cancer_type"],
+                orientation="h",
+                marker_color=[_TIER_COL[t] for t in _full_pri["tier"]],
+                text=[f"{s:.2f}" for s in _full_pri["priority_score"]],
+                textposition="outside",
+                textfont=dict(color=_LIGHT, size=10),
+                customdata=_full_pri[["tier", "cd46_median", "rank"]].values,
+                hovertemplate=(
+                    "<b>%{y}</b><br>"
+                    "Rank: %{customdata[2]}<br>"
+                    "Score: %{x:.3f}<br>"
+                    "Tier: %{customdata[0]}<br>"
+                    "CD46 mRNA: %{customdata[1]:.2f}"
+                    "<extra></extra>"
+                ),
+            ))
+            _fig_pri.update_layout(
+                **_PLOTLY_LAYOUT,
+                height=_chart_h,
+                margin=dict(l=10, r=70, t=10, b=40),
+                xaxis=dict(
+                    title="Priority Score (0–1)",
+                    gridcolor=_LINE, color=_TEXT,
+                    range=[0, 1.2],
+                ),
+                yaxis=dict(
+                    color=_LIGHT, tickfont=dict(size=10),
+                    autorange="reversed",
+                ),
+            )
+            st.plotly_chart(_fig_pri, use_container_width=True)
+
+            st.markdown("**Priority Score Dimensions**")
+            st.markdown(
+                """
 | Dimension | Weight | Data Source |
 |-----------|-------:|-------------|
 | mRNA expression rank | 25% | TCGA via UCSC Xena |
@@ -447,29 +489,44 @@ with tab4:
 | Survival impact | 20% | Kaplan–Meier (page 3) |
 | Clinical trial activity | 15% | ClinicalTrials.gov |
 """
-        )
+            )
 
-    with exp_col:
-        st.markdown("##### 📊 Expression Ranking — All Cancers")
-        if expr_df is not None:
-            ranked = (
-                expr_df.sort_values("cd46_median", ascending=False)
-                .reset_index(drop=True)
+        with exp_col:
+            st.markdown("##### 📊 Expression Ranking — All Cancers")
+            _ranked_expr = expr_df.sort_values("cd46_median", ascending=False).reset_index(drop=True)
+            _fig_expr = go.Figure(go.Bar(
+                x=_ranked_expr["cd46_median"],
+                y=_ranked_expr["cancer_type"],
+                orientation="h",
+                marker_color=_TEAL,
+                text=[f"{v:.2f}" for v in _ranked_expr["cd46_median"]],
+                textposition="outside",
+                textfont=dict(color=_LIGHT, size=10),
+                customdata=_ranked_expr[["n_samples", "cd46_mean", "cd46_std"]].values,
+                hovertemplate=(
+                    "<b>%{y}</b><br>"
+                    "Median log₂(TPM+1): %{x:.3f}<br>"
+                    "Mean: %{customdata[1]:.3f}<br>"
+                    "Std Dev: %{customdata[2]:.3f}<br>"
+                    "Samples: %{customdata[0]}"
+                    "<extra></extra>"
+                ),
+            ))
+            _fig_expr.update_layout(
+                **_PLOTLY_LAYOUT,
+                height=_chart_h,
+                margin=dict(l=10, r=70, t=10, b=40),
+                xaxis=dict(
+                    title="CD46 Median log₂(TPM+1)",
+                    gridcolor=_LINE, color=_TEXT,
+                ),
+                yaxis=dict(
+                    color=_LIGHT, tickfont=dict(size=10),
+                    autorange="reversed",
+                ),
             )
-            ranked.index = ranked.index + 1
-            ranked.index.name = "Rank"
-            st.dataframe(
-                ranked[["cancer_type", "cd46_median", "cd46_mean", "cd46_std", "n_samples"]]
-                .rename(columns={
-                    "cancer_type": "Cancer",
-                    "cd46_median": "Median",
-                    "cd46_mean":   "Mean",
-                    "cd46_std":    "Std Dev",
-                    "n_samples":   "Samples",
-                }),
-                use_container_width=True,
-                height=440,
-            )
+            st.plotly_chart(_fig_expr, use_container_width=True)
+
             st.download_button(
                 "⬇ Download expression CSV",
                 data=expr_df.to_csv(index=False),
@@ -484,8 +541,11 @@ with tab4:
                     mime="text/csv",
                     key="dl_depmap",
                 )
-        else:
-            st.info("Run the analysis pipeline to generate expression data.")
+    else:
+        st.info(
+            "Priority scoring pending. Run `python scripts/run_pipeline.py --mode analyze` "
+            "to compute scores for all 25 cancer types."
+        )
 
 st.markdown("---")
 st.caption(
