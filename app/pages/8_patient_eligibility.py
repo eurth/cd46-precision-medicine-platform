@@ -441,35 +441,24 @@ with tab_ev:
 
     # Survival data table
     if not df_surv.empty:
-        surv_cancer = df_surv[df_surv["cancer_type"] == cancer_sel][
-            [
-                "endpoint",
-                "n_high",
-                "n_low",
-                "hazard_ratio",
-                "hr_lower_95",
-                "hr_upper_95",
-                "p_value",
-                "significant",
-            ]
-        ].copy()
+        surv_cancer = df_surv[df_surv["cancer_type"] == cancer_sel].copy()
         if not surv_cancer.empty:
             st.markdown("**Full Survival Data**")
-            surv_cancer.columns = [
-                "Endpoint",
-                "N (CD46-high)",
-                "N (CD46-low)",
-                "Hazard Ratio",
-                "HR 95% CI Lower",
-                "HR 95% CI Upper",
-                "p-value",
-                "Significant",
-            ]
-            st.dataframe(
-                surv_cancer.reset_index(drop=True),
-                use_container_width=True,
-                hide_index=True,
-            )
+            for _, sr in surv_cancer.iterrows():
+                ep = sr.get("endpoint", "OS")
+                hr = sr.get("hazard_ratio")
+                lo = sr.get("hr_lower_95")
+                hi = sr.get("hr_upper_95")
+                pv = sr.get("p_value")
+                sig = bool(sr.get("significant", False))
+                hr_txt = f"{hr:.3f}" if pd.notna(hr) else "N/A"
+                ci_txt = (f"95% CI: {lo:.3f}–{hi:.3f}" if pd.notna(lo) and pd.notna(hi) else "CI not available")
+                pv_txt = f"{pv:.4f}" if pd.notna(pv) else "N/A"
+                sig_txt = "✅ Significant (p<0.05)" if sig else "— Not significant"
+                c1, c2, c3 = st.columns(3)
+                c1.metric(f"{ep} Hazard Ratio", hr_txt, ci_txt)
+                c2.metric(f"{ep} p-value", pv_txt)
+                c3.metric("Significance", sig_txt)
 
 with tab_genie:
     st.markdown("#### AACR Project GENIE 19.0 — Cohort Context")
@@ -594,34 +583,69 @@ with tab_sim:
         "**Top 5 similar indications by CD46 evidence profile** "
         "(ranked by composite priority score across expression + survival dimensions)"
     )
-    if not df_priority.empty:
-        df_sim = (
-            df_priority[df_priority["cancer_type"] != cancer_sel]
+    if not df_expr.empty:
+        # Compute priority for all cancers from expression rank
+        _sim_df = df_expr.copy().sort_values("expression_rank")
+        _n_ct = len(_sim_df)
+        _sim_df["priority_score"] = (
+            1.0 - (_sim_df["expression_rank"] - 1) / max(_n_ct - 1, 1)
+        )
+        # Overlay multi-dimensional scores where available
+        if not df_priority.empty:
+            _md = df_priority.set_index("cancer_type")["priority_score"].to_dict()
+            _sim_df["priority_score"] = _sim_df.apply(
+                lambda r: _md.get(r["cancer_type"], r["priority_score"]), axis=1
+            )
+        # Filter out the currently selected cancer, take top 5
+        _sim_top = (
+            _sim_df[_sim_df["cancer_type"] != cancer_sel]
             .sort_values("priority_score", ascending=False)
             .head(5)
+            .reset_index(drop=True)
         )
-        # "expression_rank" lives in cd46_by_cancer.csv, not priority_score.csv.
-        # Use priority_rank (already present) as the ranking column instead.
-        display_cols_candidate = {
-            "cancer_type":    "Cancer Type",
-            "priority_rank":  "CD46 Rank",
-            "cd46_median":    "Median log₂ TPM",
-            "priority_score": "Priority Score",
-            "priority_label": "Category",
-        }
-        # Only keep columns that actually exist in df_sim
-        display_cols = {k: v for k, v in display_cols_candidate.items() if k in df_sim.columns}
-        df_display = df_sim[list(display_cols.keys())].rename(columns=display_cols).copy()
-        df_display["Cancer Type"] = df_display["Cancer Type"].apply(
+        _sim_top["cancer_label"] = _sim_top["cancer_type"].apply(
             lambda c: f"{c} — {CANCER_LABELS.get(c, c)}"
         )
-        df_display["Priority Score"] = df_display["Priority Score"].round(3)
-        df_display["Median log₂ TPM"] = df_display["Median log₂ TPM"].round(3)
-        st.dataframe(
-            df_display.reset_index(drop=True),
-            use_container_width=True,
-            hide_index=True,
+        _TIER_COL = {"HIGH": "#34D399", "MODERATE": "#818CF8", "EXPLORATORY": "#FBBF24", "LOW": "#4E637A"}
+        def _tier(s):
+            if s >= 0.70: return "HIGH"
+            if s >= 0.50: return "MODERATE"
+            if s >= 0.30: return "EXPLORATORY"
+            return "LOW"
+        _sim_top["tier"] = _sim_top["priority_score"].map(_tier)
+
+        _fig_sim = go.Figure(go.Bar(
+            x=_sim_top["priority_score"],
+            y=_sim_top["cancer_label"],
+            orientation="h",
+            marker_color=[_TIER_COL[t] for t in _sim_top["tier"]],
+            text=[f"{v:.2f}" for v in _sim_top["priority_score"]],
+            textposition="outside",
+            textfont=dict(color="#CBD5E1", size=11),
+            customdata=_sim_top[["tier", "cd46_median", "n_samples"]].values,
+            hovertemplate=(
+                "<b>%{y}</b><br>"
+                "Priority Score: %{x:.3f}<br>"
+                "Tier: %{customdata[0]}<br>"
+                "CD46 Median: %{customdata[1]:.2f}<br>"
+                "TCGA Samples: %{customdata[2]}"
+                "<extra></extra>"
+            ),
+        ))
+        _fig_sim.update_layout(
+            paper_bgcolor="#0D1829",
+            plot_bgcolor="#0D1829",
+            font=dict(family="Inter", color="#94A3B8"),
+            height=300,
+            margin=dict(l=10, r=80, t=20, b=40),
+            xaxis=dict(
+                title="Priority Score (0–1)",
+                gridcolor="#16243C", color="#94A3B8",
+                range=[0, 1.3],
+            ),
+            yaxis=dict(color="#CBD5E1", tickfont=dict(size=10), autorange="reversed"),
         )
+        st.plotly_chart(_fig_sim, use_container_width=True)
     else:
         st.info("Priority score data unavailable.")
 
