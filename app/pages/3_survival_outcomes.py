@@ -1,4 +1,4 @@
-﻿"""Page 3 — Survival Outcomes: forest plot, Cox PH, KM interpretation."""
+"""Page 3 — Survival Outcomes: forest plot, Cox PH, KM interpretation."""
 import sys
 from pathlib import Path
 
@@ -9,6 +9,10 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 from components.styles import page_hero
+from components.targets import render_stub_gate
+
+if render_stub_gate(module="Survival Outcomes"):
+    st.stop()
 
 # ---------------------------------------------------------------------------
 # Theme constants

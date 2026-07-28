@@ -21,6 +21,10 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 from components.styles import page_hero
+from components.targets import render_stub_gate
+
+if render_stub_gate(module="PPI Network Explorer"):
+    st.stop()
 
 for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
     try:

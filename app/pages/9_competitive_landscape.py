@@ -11,6 +11,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 from components.styles import page_hero
+from components.targets import render_stub_gate
 from dotenv import load_dotenv
 
 load_dotenv(Path(__file__).resolve().parents[2] / ".env")
@@ -21,6 +22,9 @@ for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
             os.environ[_k] = st.secrets[_k]
     except Exception:
         pass
+
+if render_stub_gate(module="Competitive Landscape"):
+    st.stop()
 
 DATA_DIR = Path("data/processed")
 

@@ -13,6 +13,10 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 from components.styles import page_hero
+from components.targets import render_stub_gate
+
+if render_stub_gate(module="Drug Pipeline"):
+    st.stop()
 
 # ── Theme ──────────────────────────────────────────────────────────────────────
 _BG      = "#0D1829"

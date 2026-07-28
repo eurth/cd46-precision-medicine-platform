@@ -12,6 +12,7 @@ load_dotenv(Path(__file__).resolve().parents[2] / ".env")
 
 import streamlit as st
 from components.styles import page_hero
+from components.targets import get_active_symbol, render_stub_gate
 
 # Inject Streamlit Cloud secrets into os.environ
 for _k in (
@@ -28,6 +29,11 @@ for _k in (
             os.environ[_k] = st.secrets[_k]
     except Exception:
         pass
+
+if render_stub_gate(module="Research Assistant"):
+    st.stop()
+
+_GENE = get_active_symbol()
 
 
 @st.cache_resource(ttl=300)
@@ -77,23 +83,21 @@ _LIGHT = "#CBD5E1"
 # Preset / CAB questions (inline — no fragile orchestrator import required)
 # ---------------------------------------------------------------------------
 PRESET_QUESTIONS = [
-    "Which cancers have the strongest combination of CD46 over-expression and survival impact?",
-    "What is the current CD46-targeted drug pipeline and which agents are in clinical trials?",
-    "How does CD46 regulate complement evasion in tumour cells?",
-    "What DepMap evidence supports CD46 as a cancer dependency?",
-    "Summarise CD46 expression across TCGA cancer types with hazard ratios.",
-    "What are the CD46 isoforms and which are most relevant for therapeutic targeting?",
+    f"Which cancers have the strongest combination of {_GENE} over-expression and survival impact?",
+    f"What is the current {_GENE}-targeted drug pipeline and which agents are in clinical trials?",
+    f"How does {_GENE} regulate complement evasion in tumour cells?" if _GENE == "CD46"
+    else f"What is the therapeutic rationale for targeting {_GENE} in solid tumours?",
+    f"What DepMap evidence supports {_GENE} as a cancer dependency?",
+    f"Summarise {_GENE} expression across TCGA cancer types with hazard ratios.",
+    f"What are the {_GENE} isoforms and which are most relevant for therapeutic targeting?",
 ]
 
 CAB_QUESTIONS = [
-    "Which cancers have the strongest case for 225Ac-CD46 RLT based on expression and survival?",
-    "What is the optimal biomarker strategy for CD46 patient selection in a Phase I trial?",
-    "How does CD46 compare to PSMA as a therapeutic target in mCRPC?",
-    "Design a Phase I dose-escalation trial for 225Ac-CD46 RLT in mCRPC — key elements?",
-    "What is the complement evasion mechanism of CD46 and how does it drive tumour immune escape?",
-    "Which CD46 isoforms are most relevant for antibody targeting and why does isoform selection matter?",
-    "How does PTEN loss affect CD46 expression and what does that mean for patient selection?",
-    "What clinical trial evidence exists for anti-CD46 therapies and what are the emerging readouts?",
+    f"Which cancers have the strongest case for {_GENE}-targeted RLT based on expression and survival?",
+    f"What is the optimal biomarker strategy for {_GENE} patient selection in a Phase I trial?",
+    f"How does {_GENE} compare to PSMA as a therapeutic target in mCRPC?",
+    f"Design a Phase I dose-escalation trial for {_GENE}-targeted RLT in mCRPC — key elements?",
+    f"What clinical trial evidence exists for anti-{_GENE} therapies and what are the emerging readouts?",
 ]
 
 # ---------------------------------------------------------------------------

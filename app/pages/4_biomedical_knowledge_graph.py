@@ -1,4 +1,4 @@
-﻿"""Page 4 — Biomedical Knowledge Graph: network explorer, Cypher queries, protein deep-dive."""
+"""Page 4 — Biomedical Knowledge Graph: network explorer, Cypher queries, protein deep-dive."""
 import json
 import math
 import os
@@ -16,6 +16,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 from components.styles import page_hero
+from components.targets import render_stub_gate
 
 # Inject Streamlit Cloud secrets into os.environ
 for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
@@ -24,6 +25,9 @@ for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
             os.environ[_k] = st.secrets[_k]
     except Exception:
         pass
+
+if render_stub_gate(module="Knowledge Graph"):
+    st.stop()
 
 # ---------------------------------------------------------------------------
 # Theme constants

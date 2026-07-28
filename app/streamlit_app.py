@@ -43,10 +43,13 @@ with st.sidebar:
         '<div style="'
         'font-size:10px;color:#4E637A;letter-spacing:0.08em;'
         'text-transform:uppercase;font-weight:600;'
-        '">CD46 Intelligence</div>'
+        '">Theranostics Research</div>'
         '</div>',
         unsafe_allow_html=True,
     )
+    from components.targets import render_sidebar_target_selector
+
+    render_sidebar_target_selector()
     st.markdown('<span></span>', unsafe_allow_html=True)
 
 # ---------------------------------------------------------------------------

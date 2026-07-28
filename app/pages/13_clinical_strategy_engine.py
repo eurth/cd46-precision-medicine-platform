@@ -12,6 +12,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 from components.styles import page_hero
+from components.targets import render_stub_gate
 
 # ── Streamlit Cloud secret injection ─────────────────────────────────────────
 for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
@@ -20,6 +21,9 @@ for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
             os.environ[_k] = st.secrets[_k]
     except Exception:
         pass
+
+if render_stub_gate(module="Clinical Strategy Engine"):
+    st.stop()
 
 # ── Theme ─────────────────────────────────────────────────────────────────────
 _BG     = "#0D1829"

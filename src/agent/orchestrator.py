@@ -87,6 +87,15 @@ def _classify_intent(question: str) -> str:
 # Context loaders (call tools.py functions)
 # ---------------------------------------------------------------------------
 
+def _active_gene() -> str:
+    """Prefer Streamlit session target; fall back to CD46."""
+    try:
+        from components.targets import get_active_symbol
+        return get_active_symbol()
+    except Exception:
+        return "CD46"
+
+
 def _load_context_for_intent(intent: str, question: str) -> tuple[str, list[str]]:
     """Load relevant data context based on intent. Returns (context_str, sources)."""
     from src.agent.tools import (
@@ -97,6 +106,7 @@ def _load_context_for_intent(intent: str, question: str) -> tuple[str, list[str]
         search_pubmed,
     )
 
+    gene = _active_gene()
     contexts = []
     sources = []
 
@@ -129,8 +139,8 @@ def _load_context_for_intent(intent: str, question: str) -> tuple[str, list[str]
         sources += ["ChEMBL", "cBioPortal", "cd46_combination_biomarkers.csv"]
 
     elif intent == "trial":
-        result = search_trials("CD46")
-        contexts.append(f"Relevant clinical trials:\n{result}")
+        result = search_trials(gene)
+        contexts.append(f"Relevant clinical trials ({gene}):\n{result}")
         sources += ["ClinicalTrials.gov"]
 
     elif intent == "knowledge_graph":
@@ -145,34 +155,34 @@ def _load_context_for_intent(intent: str, question: str) -> tuple[str, list[str]
 
     elif intent == "biomarker":
         result = load_csv_data("combination", top_n=20)
-        contexts.append(f"CD46 combination biomarker correlations:\n{result}")
+        contexts.append(f"{gene} combination biomarker correlations:\n{result}")
         result2 = run_analysis_summary("priority")
         contexts.append(f"Cancer priority scores with biomarker context:\n{result2}")
         result3 = load_csv_data("by_cancer", top_n=15)
-        contexts.append(f"CD46 expression by cancer type:\n{result3}")
+        contexts.append(f"{gene} expression by cancer type:\n{result3}")
         sources += ["cd46_combination_biomarkers.csv", "TCGA", "SU2C mCRPC"]
 
     elif intent == "protein":
         result = load_csv_data("hpa", top_n=30)
-        contexts.append(f"CD46 protein expression (Human Protein Atlas):\n{result}")
+        contexts.append(f"{gene} protein expression (Human Protein Atlas):\n{result}")
         result2 = load_csv_data("combination", top_n=15)
         contexts.append(f"Protein interaction biomarkers:\n{result2}")
-        sources += ["Human Protein Atlas", "UniProt P15529", "AlphaFold EBI"]
+        sources += ["Human Protein Atlas", "UniProt", "AlphaFold EBI"]
 
     elif intent == "literature":
-        pubmed_result = search_pubmed(f"CD46 {question[:80]}")
+        pubmed_result = search_pubmed(f"{gene} {question[:80]}")
         contexts.append(f"PubMed literature:\n{pubmed_result}")
         sources += ["PubMed / NCBI"]
 
     else:  # general
         result = run_analysis_summary("priority")
-        contexts.append(f"CD46 priority overview:\n{result}")
+        contexts.append(f"{gene} priority overview:\n{result}")
         sources += ["All datasets"]
 
     # Always append fresh PubMed context for non-literature intents
     if intent != "literature":
         try:
-            pubmed_query = f"CD46 {intent} prostate cancer 225Ac therapy"
+            pubmed_query = f"{gene} {intent} cancer theranostics"
             pub_raw = search_pubmed(pubmed_query, max_results=4)
             import json as _json
             pub_data = _json.loads(pub_raw)
