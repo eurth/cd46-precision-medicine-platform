@@ -337,6 +337,33 @@ Never hardcode credentials. Never call `os.environ["KEY"]` without a fallback un
 
 > Variables set in Coolify are injected at container runtime as real OS environment variables — no `.env` file is written to disk on the server.
 
+### OncoBridge — Aura Free keepalive
+
+AuraDB **Free** pauses after **72 hours with no write queries** (reads do not count). A paused Free instance is **deleted after 30 days**.
+
+OncoBridge uses a Coolify **Scheduled Task** (no extra container):
+
+| Field | Value |
+|-------|--------|
+| Name | `aura-keepalive` |
+| Command | `python scripts/aura_keepalive.py` |
+| Frequency | `0 6 * * *` (daily 06:00 UTC) |
+| Script | [`scripts/aura_keepalive.py`](scripts/aura_keepalive.py) — `MERGE` on `:_KeepAlive` |
+
+Verify:
+
+```bash
+# One-shot inside the running container
+ssh eurthtech "docker exec \$(docker ps -qf name=gq03pdvpvvtkzugkdmw8j2z3) python scripts/aura_keepalive.py"
+
+# Log on the volume (if writable)
+ssh eurthtech "tail -5 /data/oncobridge-data/aura_keepalive.log"
+```
+
+In Aura Browser / Cypher: `MATCH (k:_KeepAlive {id:'oncobridge'}) RETURN k.last_ping`.
+
+Keepalive prevents idle pause; it is not a backup. If Free is deleted anyway, rebuild from processed CSVs + loaders.
+
 ---
 
 ## 9. Persistent Storage (Volumes)
@@ -587,7 +614,7 @@ Track all deployed services here so there are no port conflicts or subdomain cla
 | Service | Subdomain | Internal Port | Volume | Status |
 |---------|-----------|--------------|--------|--------|
 | **PondWatch** | `pondwatch.eurthtech.com` | `8503` | `/data/pondwatch-data` | ✅ LIVE |
-| **OncoBridge Intelligence** | `oncobridge.eurthtech.com` | `8504` | `/data/oncobridge-data` | 🔧 DEPLOY READY |
+| **OncoBridge Intelligence** | `oncobridge.eurthtech.com` | `8504` | `/data/oncobridge-data` | LIVE (Aura keepalive cron) |
 | *(next service)* | `*.eurthtech.com` | `8505+` | `/data/*-data` | — |
 
 ### Port assignment rule
