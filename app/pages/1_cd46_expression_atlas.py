@@ -513,6 +513,21 @@ with tab4:
         with exp_col:
             st.markdown("##### 📊 Expression Ranking — All Cancers")
             _ranked_expr = expr_df.sort_values("median_expr", ascending=False).reset_index(drop=True)
+            # Gene-parameterized mean/std columns (cd46_* or {gene}_* or gene_*)
+            _mean_col = next(
+                (c for c in (f"{_PREFIX}_mean", "gene_mean", "cd46_mean") if c in _ranked_expr.columns),
+                None,
+            )
+            _std_col = next(
+                (c for c in (f"{_PREFIX}_std", "gene_std", "cd46_std") if c in _ranked_expr.columns),
+                None,
+            )
+            if _mean_col is None:
+                _ranked_expr = _ranked_expr.assign(_mean=_ranked_expr["median_expr"])
+                _mean_col = "_mean"
+            if _std_col is None:
+                _ranked_expr = _ranked_expr.assign(_std=0.0)
+                _std_col = "_std"
             _fig_expr = go.Figure(go.Bar(
                 x=_ranked_expr["median_expr"],
                 y=_ranked_expr["cancer_type"],
@@ -521,7 +536,7 @@ with tab4:
                 text=[f"{v:.2f}" for v in _ranked_expr["median_expr"]],
                 textposition="outside",
                 textfont=dict(color=_LIGHT, size=10),
-                customdata=_ranked_expr[["n_samples", "cd46_mean", "cd46_std"]].values,
+                customdata=_ranked_expr[["n_samples", _mean_col, _std_col]].values,
                 hovertemplate=(
                     "<b>%{y}</b><br>"
                     "Median log₂(TPM+1): %{x:.3f}<br>"
@@ -536,7 +551,7 @@ with tab4:
                 height=_chart_h,
                 margin=dict(l=10, r=70, t=10, b=40),
                 xaxis=dict(
-                    title="CD46 Median log₂(TPM+1)",
+                    title=f"{_GENE} Median log₂(TPM+1)",
                     gridcolor=_LINE, color=_TEXT,
                 ),
                 yaxis=dict(
