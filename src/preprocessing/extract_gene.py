@@ -48,10 +48,17 @@ def extract_gene_expression(symbol: str, ensembl_id: str) -> pd.DataFrame:
     sample_ids = sample_ids[1:]
     n = min(len(sample_ids), len(values))
     col = f"{symbol.lower()}_log2_tpm"
+
+    def _to_float(v: str) -> float:
+        s = str(v).strip()
+        if not s or s.upper() in {"NA", "NAN", "NULL", "."}:
+            return float("nan")
+        return float(s)
+
     return pd.DataFrame(
         {
             "sample": sample_ids[:n],
-            col: [float(v) if str(v).strip() else float("nan") for v in values[:n]],
+            col: [_to_float(v) for v in values[:n]],
         }
     )
 

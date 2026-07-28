@@ -1,6 +1,5 @@
 # Gene / target registry for OncoBridge.
-# Phase 1: CD46 is loaded in Aura + processed CSVs.
-# Other targets are ID stubs for Phase 2–4 parameterization (kg_status: stub).
+# All five theranostic seeds are thin-slice loaded (Phase 4).
 
 default_target: CD46
 
@@ -14,7 +13,7 @@ targets:
     chembl_target_id: CHEMBL2176
     aliases: [MCP, MIC10, TLX]
     modality_tags: [surface_antigen, complement, alpha_RLT]
-    kg_status: loaded          # present in Aura + data/processed
+    kg_status: loaded
     case_study: true
 
   FOLH1:
@@ -35,9 +34,10 @@ targets:
     ensembl_id: ENSG00000078098
     uniprot_id: Q12884
     entrez_id: 2191
+    string_ensp: "9606.ENSP00000188790"
     aliases: [FAPA, DPPIV, SIMP]
     modality_tags: [surface_antigen, CAF, FAPI, radioligand]
-    kg_status: stub
+    kg_status: loaded
     case_study: false
 
   SSTR2:
@@ -46,9 +46,10 @@ targets:
     ensembl_id: ENSG00000180616
     uniprot_id: P30874
     entrez_id: 6752
+    string_ensp: "9606.ENSP00000350198"
     aliases: [SSR2]
     modality_tags: [GPCR, radioligand, NET]
-    kg_status: stub
+    kg_status: loaded
     case_study: false
 
   GRPR:
@@ -58,7 +59,8 @@ targets:
     ensembl_id: ENSG00000126010
     uniprot_id: P30550
     entrez_id: 2925
+    string_ensp: "9606.ENSP00000369643"
     aliases: [BB2, BB2R, BRS2]
     modality_tags: [GPCR, radioligand]
-    kg_status: stub
+    kg_status: loaded
     case_study: false
