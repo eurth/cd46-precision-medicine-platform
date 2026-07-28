@@ -242,7 +242,6 @@ with tab_gtex:
         yaxis=dict(title=None, color=_LIGHT, autorange=True),
         height=bar_height,
         margin=dict(l=10, r=80, t=40, b=40),
-        font=dict(size=11),
         hoverlabel=dict(bgcolor=_LINE, font=dict(color=_LIGHT)),
     )
     st.plotly_chart(fig_gtex, use_container_width=True)
