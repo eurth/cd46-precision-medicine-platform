@@ -1,19 +1,14 @@
 # OncoBridge Intelligence
 
-**By EurthTech Research** | **Target:** CD46 (Membrane Cofactor Protein, MCP) | **Focus:** Pan-Cancer Knowledge Graph + AI Research Platform | **Case Study:** ²²⁵Ac-CD46 Targeted Alpha Therapy
+**By EurthTech Research** | **Open theranostics / surface-antigen research workbench** | **Case study:** CD46 · ²²⁵Ac α-RLT | **License:** Apache-2.0
 
 ---
 
 ## Overview
 
-A fully automated bioinformatics platform for CD46-based precision oncology research. The platform integrates pan-cancer expression data, survival analysis, patient eligibility stratification, knowledge graph construction, and an AI-powered Q&A assistant.
+OncoBridge Intelligence is a research platform for querying a biomedical knowledge graph, inspecting expression and trial evidence, and exploring radioligand / surface-antigen case studies. **CD46 α-RLT is the first case study** — not the product identity. Bulk open data is sliced on a laptop; only summaries ship to the hosted UI; the graph lives in Neo4j Aura Free.
 
-**Key Findings (Phase 1):**
-- CD46 is **significantly overexpressed** in PRAD, OV, BLCA, BRCA, and COAD vs. normal tissue
-- **44% of mCRPC patients** (219/497) are eligible for ²²⁵Ac-CD46 therapy at the 75th-percentile expression threshold
-- CD46 high expression shows **poor overall survival** in PRAD (log-rank p < 0.05)
-- **PSMA-CD46 co-expression** (ρ ≈ 0.42 in PRAD) supports combination targeting
-- Knowledge graph: ~3,912 nodes / 14,880 relationships across 12 node types
+See `NOTICE` for third-party data attribution and `config/data_freeze.yaml` for the current freeze.
 
 ---
 

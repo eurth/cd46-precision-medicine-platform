@@ -3,9 +3,9 @@
 
 project:
   name: "OncoBridge Intelligence"
-  version: "1.0.0"
+  version: "1.1.0"
   author: "EurthTech Research"
-  description: "Pan-cancer target intelligence platform · CD46 case study · Knowledge Graph + AI"
+  description: "Open theranostics / surface-antigen research workbench · knowledge graph + AI · CD46 case study"
 
 # CD46 gene identifiers
 cd46:

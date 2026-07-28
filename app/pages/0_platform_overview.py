@@ -11,6 +11,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import streamlit as st
 from dotenv import load_dotenv
+from components.data_freeze import render_data_freeze_banner
 
 load_dotenv(Path(__file__).resolve().parents[2] / ".env")
 
@@ -64,32 +65,41 @@ _kg_rels = f"{_stats['total_rels']:,}" if _stats else "2,517"
 _trial_count = str(_stats["active_trials"]) if _stats else "14"
 
 # ---------------------------------------------------------------------------
-# Hero — no eyebrow (duplicates topbar), just headline + sub + stats bar
+# Hero — research workbench orientation (CD46 is a case study, not the product)
 # ---------------------------------------------------------------------------
 st.markdown(
     '<h1 class="lp-headline">OncoBridge<br>Intelligence</h1>'
     '<p class="lp-sub">'
-    'A multi-modal research platform integrating TCGA, HPA, STRING, ChEMBL, '
-    'OpenTargets and Neo4j to accelerate CD46-targeted alpha-radioligand therapy '
-    'from biomarker discovery to clinical strategy.'
+    'Open research workbench for <strong style="color:#CBD5E1;">surface-antigen and '
+    'radioligand (theranostics)</strong> target intelligence. Query a biomedical '
+    'knowledge graph, inspect expression and trial evidence, and explore curated '
+    'case studies — starting with CD46 α-RLT.'
     '</p>',
     unsafe_allow_html=True,
 )
 
+render_data_freeze_banner(compact=False)
+
 st.markdown(
     '<div class="lp-stats">'
-    '<div class="lp-stat"><span class="lp-stat-val">33</span>'
-    '<span class="lp-stat-lbl">Cancer Types</span></div>'
+    '<div class="lp-stat"><span class="lp-stat-val">5</span>'
+    '<span class="lp-stat-lbl">Registry Targets</span></div>'
     f'<div class="lp-stat"><span class="lp-stat-val">{_kg_nodes}</span>'
     '<span class="lp-stat-lbl">KG Nodes</span></div>'
+    f'<div class="lp-stat"><span class="lp-stat-val">{_kg_rels}</span>'
+    '<span class="lp-stat-lbl">KG Edges</span></div>'
     f'<div class="lp-stat"><span class="lp-stat-val">{_trial_count}</span>'
-    '<span class="lp-stat-lbl">Active Trials</span></div>'
-    '<div class="lp-stat"><span class="lp-stat-val">15</span>'
-    '<span class="lp-stat-lbl">Modules</span></div>'
-    '<div class="lp-stat"><span class="lp-stat-val">225Ac</span>'
-    '<span class="lp-stat-lbl">Alpha Emitter</span></div>'
+    '<span class="lp-stat-lbl">Trial Nodes</span></div>'
+    '<div class="lp-stat"><span class="lp-stat-val">Research</span>'
+    '<span class="lp-stat-lbl">Use Only</span></div>'
     '</div>',
     unsafe_allow_html=True,
+)
+
+st.info(
+    "**How to start:** open **KG Query Explorer** or **Research Assistant** for graph-backed "
+    "queries. CD46-focused clinical modules below are the first **case study** — more surface "
+    "targets (PSMA, FAP, SSTR2, GRPR) are registered and will load as data slices land."
 )
 
 
@@ -161,9 +171,35 @@ def _grid(*cards: str) -> str:
 
 
 # ---------------------------------------------------------------------------
-# Section 1 — Research Modules (pages 1–7)
+# Section 1 — Research Hub (primary scientific surface)
 # ---------------------------------------------------------------------------
-_section_header("Research Modules", "ind")
+_section_header("Research Hub", "ind")
+
+st.markdown(_grid(
+    _image_card(
+        "\U0001f578\ufe0f", "Knowledge Graph",
+        "Neo4j AuraDB integrating genes, proteins, diseases, drugs and clinical trials into a live graph.",
+        [f"{_kg_nodes} Nodes", f"{_kg_rels} Edges", "Aura Free"],
+        "ind", "/4_biomedical_knowledge_graph",
+    ),
+    _image_card(
+        "\U0001f50d", "KG Query Explorer",
+        "Live Cypher interface with templates spanning the graph schema — primary research query surface.",
+        ["Templates", "Cypher", "NL\u2192Cypher"],
+        "ind", "/7_kg_query_explorer",
+    ),
+    _image_card(
+        "\U0001f916", "Research Assistant",
+        "LLM assistant with knowledge-graph and literature context for research Q&A.",
+        ["OpenRouter / Gemma", "KG Context", "PubMed"],
+        "ind", "/5_research_assistant",
+    ),
+), unsafe_allow_html=True)
+
+# ---------------------------------------------------------------------------
+# Section 2 — Evidence modules (currently CD46-loaded data)
+# ---------------------------------------------------------------------------
+_section_header("Evidence Modules", "sky")
 
 # HPA CD46 IHC image (public, CC-BY Human Protein Atlas)
 _HPA_CD46 = "https://www.proteinatlas.org/images/2702/ihc_hpa007568_prostate.jpg"
@@ -177,133 +213,92 @@ st.markdown(_grid(
         "\U0001f4ca", "Expression Atlas",
         "Pan-cancer mRNA + protein expression across TCGA (33 cancers) and Human Protein Atlas (30 tissues).",
         ["33 Cancer Types", "Top: PRAD", "log\u2082\u22652.5"],
-        "ind", "/1_cd46_expression_atlas",
+        "sky", "/1_cd46_expression_atlas",
         bg_url=_HPA_CD46,
     ),
     _image_card(
         "\U0001f3af", "Patient Selection",
-        "225Ac-CD46 \u03b1-RLT eligibility \u2014 PSMA-low/CD46-high enrichment and AR-driven upregulation.",
+        "Eligibility stratification patterns (currently CD46 case-study cohort views).",
         ["PSMA-low ~35%", "AR Effect \u21912\u20133\u00d7", "PRAD 75th: 40"],
-        "ind", "/2_patient_selection",
+        "sky", "/2_patient_selection",
     ),
     _image_card(
         "\U0001f4c8", "Survival Outcomes",
-        "CD46-High vs CD46-Low Kaplan-Meier curves and Cox hazard ratios across 33 TCGA cancers.",
+        "High vs low expression Kaplan-Meier and Cox hazard ratios across TCGA cancers.",
         ["3 Significant", "PRAD HR: 0.77", "OS + PFI"],
-        "ind", "/3_survival_outcomes",
+        "sky", "/3_survival_outcomes",
     ),
 ), unsafe_allow_html=True)
 
-st.markdown(_grid(
-    _image_card(
-        "\U0001f578\ufe0f", "Knowledge Graph",
-        "Neo4j AuraDB integrating genes, proteins, diseases, drugs and clinical trials into a live graph.",
-        [f"{_kg_nodes} Nodes", f"{_kg_rels} Edges", "10 Drug Nodes"],
-        "ind", "/4_biomedical_knowledge_graph",
-    ),
-    _image_card(
-        "\U0001f916", "Research Assistant",
-        "GPT-4o natural language interface with integrated knowledge-graph context and data-grounded answers.",
-        ["Gemma OR Primary", "GPT-4o / Gemini", f"{_kg_nodes} Nodes"],
-        "ind", "/5_research_assistant",
-    ),
-    _image_card(
+st.markdown(
+    '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:8px;">'
+    + _image_card(
         "\U0001f9ec", "Biomarker Panel",
-        "Clinical decision support for 225Ac-CD46 \u03b1-RLT with multi-biomarker scoring — mCRPC cohort.",
+        "Multi-biomarker clinical decision support views (CD46 case-study mCRPC cohort).",
         ["5 Biomarkers", "226 mCRPC Pts", "9,251 GENIE pts"],
-        "ind", "/6_biomarker_panel",
-    ),
-), unsafe_allow_html=True)
-
-# Row 3: only 1 card — spans 1/3 width; use single-column grid
-st.markdown(
-    '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:8px;">'
+        "sky", "/6_biomarker_panel",
+    )
     + _image_card(
-        "\U0001f50d", "KG Query Explorer",
-        "Live Cypher interface to CD46 AuraDB with 10 pre-built query templates spanning 12 node labels.",
-        ["10 Templates", "12 Node Labels", "15+ Rel Types"],
-        "ind", "/7_kg_query_explorer",
+        "\U0001f578\ufe0f", "PPI Network Explorer",
+        "Protein–protein interaction network from STRING DB (seeded on case-study target).",
+        ["STRING", "Partners", "CC BY 4.0"],
+        "sky", "/10_ppi_network",
+        bg_url=_STRING_CD46,
     )
     + '</div>',
     unsafe_allow_html=True,
 )
 
 # ---------------------------------------------------------------------------
-# Section 2 — Clinical Tools (pages 8–9)
+# Section 3 — Case Study: CD46 α-RLT
 # ---------------------------------------------------------------------------
-_section_header("Clinical Tools", "sky")
-
-st.markdown(
-    '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:8px;">'
-    + _image_card(
-        "\U0001f3af", "Eligibility Scorer",
-        "Evidence-based candidate assessment for 225Ac-CD46 RLT across 25 TCGA cancer types (~2,800 patients).",
-        ["25 Cancer Types", "~2,800 Patients", "PRAD: 44%"],
-        "sky", "/8_patient_eligibility",
-    )
-    + _image_card(
-        "\U0001f3c6", "Competitive Landscape",
-        "CD46 vs PSMA vs FAP \u2014 expression prevalence, clinical trial activity and differentiation.",
-        ["3 Targets", "14 CD46 Trials", "vs Pluvicto"],
-        "sky", "/9_competitive_landscape",
-    )
-    + '</div>',
-    unsafe_allow_html=True,
-)
-
-# ---------------------------------------------------------------------------
-# Section 3 — Biology & Pipeline (pages 10–12)
-# ---------------------------------------------------------------------------
-_section_header("Biology & Pipeline", "eme")
+_section_header("Case Study · CD46 α-RLT", "amb")
 
 st.markdown(_grid(
     _image_card(
-        "\U0001f578\ufe0f", "PPI Network Explorer",
-        "CD46 protein\u2013protein interaction network from STRING DB v12 \u2014 30 partners, 103 interactions.",
-        ["30 Partners", "103 Interactions", "STRING \u22650.7"],
-        "eme", "/10_ppi_network",
-        bg_url=_STRING_CD46,
+        "\U0001f3af", "Eligibility Scorer",
+        "Evidence-based candidate assessment for 225Ac-CD46 RLT across TCGA cancer types.",
+        ["25 Cancer Types", "~2,800 Patients", "PRAD: 44%"],
+        "amb", "/8_patient_eligibility",
+    ),
+    _image_card(
+        "\U0001f3c6", "Competitive Landscape",
+        "CD46 vs PSMA vs FAP — expression prevalence, trial activity and differentiation.",
+        ["3 Targets", "14 CD46 Trials", "vs Pluvicto"],
+        "amb", "/9_competitive_landscape",
     ),
     _image_card(
         "\U0001f48a", "Drug Pipeline Explorer",
-        "CD46-targeting landscape \u2014 ADC, radioimmunotherapy and complement inhibitors across all stages.",
+        "CD46-targeting landscape — ADC, radioimmunotherapy and complement inhibitors.",
         ["10 Agents", "3 Drug Classes", "2 FDA Approved"],
-        "eme", "/11_drug_pipeline",
+        "amb", "/11_drug_pipeline",
         bg_url=_PDB_CD46,
     ),
+), unsafe_allow_html=True)
+
+st.markdown(_grid(
     _image_card(
         "\u2697\ufe0f", "Dosimetry & Safety Index",
-        "Therapeutic index for 225Ac-CD46 \u03b1-RLT \u2014 normal vs tumour CD46 from 81 HPA tissues.",
-        ["81 HPA Tissues", "Tumour:Normal >3:1", "FOR46 n=56"],
-        "eme", "/12_dosimetry_safety",
+        "Therapeutic index framing for 225Ac-CD46 α-RLT — normal vs tumour CD46 (HPA).",
+        ["81 HPA Tissues", "Tumour:Normal", "FOR46 n=56"],
+        "amb", "/12_dosimetry_safety",
+    ),
+    _image_card(
+        "\U0001f52c", "Clinical Strategy Engine",
+        "End-to-end narrative: Target → Drug → Patient → Trial → Outcome (case study).",
+        ["5 Stages", "14 Trials", "Target: 2030"],
+        "amb", "/13_clinical_strategy_engine",
+    ),
+    _image_card(
+        "\U0001f9ec", "Diagnostics & Early Detection",
+        "CD46 companion-diagnostic framing — GTEx, ClinVar, cBioPortal, PET imaging.",
+        ["54 GTEx Tissues", "500 ClinVar Vars", "PET: Active"],
+        "amb", "/14_cd46_diagnostics",
     ),
 ), unsafe_allow_html=True)
 
 # ---------------------------------------------------------------------------
-# Section 4 — Clinical Strategy (pages 13–14)
-# ---------------------------------------------------------------------------
-_section_header("Clinical Strategy", "amb")
-
-st.markdown(
-    '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:8px;">'
-    + _image_card(
-        "\U0001f52c", "Clinical Strategy Engine",
-        "End-to-end narrative: Target \u2192 Drug \u2192 Patient \u2192 Trial \u2192 Outcome. 5 stages, 14 trials.",
-        ["5 Stages", "14 Trials", "Target: 2030"],
-        "amb", "/13_clinical_strategy_engine",
-    )
-    + _image_card(
-        "\U0001f9ec", "Diagnostics & Early Detection",
-        "CD46 from biomarker discovery to companion diagnostic \u2014 GTEx, ClinVar, cBioPortal, PET imaging.",
-        ["54 GTEx Tissues", "500 ClinVar Vars", "PET: Active"],
-        "amb", "/14_cd46_diagnostics",
-    )
-    + '</div>',
-    unsafe_allow_html=True,
-)
-
-# ---------------------------------------------------------------------------
-# Drug development pipeline stepper
+# Case-study pipeline stepper (CD46)
 # ---------------------------------------------------------------------------
 st.markdown("<br>", unsafe_allow_html=True)
 
@@ -338,7 +333,7 @@ st.markdown(
     '<div style="margin:40px 0 28px;border-top:1px solid #16243C;padding-top:36px;">'
     '<div style="font-family:\'Space Grotesk\',sans-serif;font-size:11px;font-weight:700;'
     'letter-spacing:0.14em;text-transform:uppercase;color:#4E637A;margin-bottom:20px;">'
-    'Drug Development Pipeline</div>'
+    'Case Study Pipeline · CD46 α-RLT</div>'
     f'<div style="display:flex;align-items:stretch;gap:0;overflow-x:auto;">{_s}</div>'
     '</div>',
     unsafe_allow_html=True,

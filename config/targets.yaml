@@ -1,0 +1,63 @@
+# Gene / target registry for OncoBridge.
+# Phase 1: CD46 is loaded in Aura + processed CSVs.
+# Other targets are ID stubs for Phase 2–4 parameterization (kg_status: stub).
+
+default_target: CD46
+
+targets:
+  CD46:
+    symbol: CD46
+    name: Membrane cofactor protein
+    ensembl_id: ENSG00000117335
+    uniprot_id: P15529
+    entrez_id: 4179
+    chembl_target_id: CHEMBL2176
+    aliases: [MCP, MIC10, TLX]
+    modality_tags: [surface_antigen, complement, alpha_RLT]
+    kg_status: loaded          # present in Aura + data/processed
+    case_study: true
+
+  FOLH1:
+    symbol: FOLH1
+    name: Folate hydrolase 1 (PSMA)
+    ensembl_id: ENSG00000086205
+    uniprot_id: Q04609
+    entrez_id: 2346
+    aliases: [PSMA, GCPII, NAALAD1, FOLH]
+    modality_tags: [surface_antigen, radioligand, PSMA]
+    kg_status: stub
+    case_study: false
+
+  FAP:
+    symbol: FAP
+    name: Fibroblast activation protein alpha
+    ensembl_id: ENSG00000078098
+    uniprot_id: Q12884
+    entrez_id: 2191
+    aliases: [FAPA, DPPIV, SIMP]
+    modality_tags: [surface_antigen, CAF, FAPI, radioligand]
+    kg_status: stub
+    case_study: false
+
+  SSTR2:
+    symbol: SSTR2
+    name: Somatostatin receptor 2
+    ensembl_id: ENSG00000180616
+    uniprot_id: P30874
+    entrez_id: 6752
+    aliases: [SSR2]
+    modality_tags: [GPCR, radioligand, NET]
+    kg_status: stub
+    case_study: false
+
+  GRPR:
+    symbol: GRPR
+    name: Gastrin-releasing peptide receptor
+    # Verified Ensembl (Phase 0: ENSG00000164825 wrongly resolved to DEFB1)
+    ensembl_id: ENSG00000126010
+    uniprot_id: P30550
+    entrez_id: 2925
+    aliases: [BB2, BB2R, BRS2]
+    modality_tags: [GPCR, radioligand]
+    kg_status: stub
+    case_study: false

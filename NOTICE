@@ -1,0 +1,43 @@
+OncoBridge Intelligence — third-party data notices
+=================================================
+
+This platform aggregates publicly available scientific datasets.
+Downstream users must respect each source's license and citation requirements.
+OncoBridge is a research tool and is not medical advice or a clinical device.
+
+Open Targets Platform
+  Source: https://platform.opentargets.org / AWS Open Data
+           s3://open-targets-public-data-releases/
+  Access: GraphQL API and open S3 releases
+  Cite:   Open Targets Platform publication (latest)
+
+The Cancer Genome Atlas (TCGA) / UCSC Xena
+  Source: Genomic Data Commons / Xena browser; open tier also on AWS
+           s3://tcga-2-open/
+  Cite:   TCGA Research Network; Xena as used
+
+Human Protein Atlas (HPA)
+  License: CC BY-SA 3.0 (check current HPA terms)
+  Cite:   Uhlén et al. / Human Protein Atlas
+
+GTEx
+  Cite:   GTEx Consortium publications; dbGaP policies for controlled data
+           (this platform uses summary/public extracts only)
+
+STRING
+  License: CC BY 4.0
+  Cite:   Szklarczyk et al., STRING database
+
+ChEMBL
+  License: CC BY-SA 3.0
+  Cite:   Gaulton / Zdrazil et al., ChEMBL
+
+ClinicalTrials.gov / PubMed / UniProt / ClinVar / DepMap
+  Cite each source's current attribution guidance when publishing results.
+
+Neo4j AuraDB
+  Hosted graph database service used for the knowledge graph layer.
+
+Software
+  Application code: Apache License 2.0 (see LICENSE).
+  Copyright 2024-2026 EurthTech Research.

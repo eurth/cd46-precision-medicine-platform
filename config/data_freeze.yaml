@@ -1,0 +1,24 @@
+# Data freeze metadata shown in the UI banner.
+# Update access_date / notes whenever ETL refreshes processed artifacts or Aura.
+
+platform_version: "1.1.0"
+freeze_id: "2026-07-28-phase1"
+freeze_label: "Phase 1 foundation freeze"
+
+sources:
+  - name: Neo4j AuraDB (OncoBridge KG)
+    access_date: "2026-07-28"
+    notes: "~3,069 nodes / ~2,517 relationships · CD46 case study graph · Aura Free"
+  - name: Open Targets Platform
+    access_date: "2026-07-28"
+    notes: "GraphQL API 26.6.x · data version 26.06 · AWS Open Data s3://open-targets-public-data-releases/"
+  - name: TCGA / UCSC Xena (processed extracts)
+    access_date: "pipeline-local"
+    notes: "Gene-sliced CSVs under data/processed/ · raw TCGA not deployed to host"
+  - name: HPA / GTEx / ClinVar / DepMap / STRING / ChEMBL / ClinicalTrials.gov
+    access_date: "pipeline-local"
+    notes: "See NOTICE for licenses · summaries only on web host"
+
+disclaimer: >
+  Research use only. Not a medical device and not clinical advice.
+  Always verify primary sources before publication or clinical decisions.

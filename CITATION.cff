@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+title: "OncoBridge Intelligence"
+message: "If you use this software or its curated outputs, please cite it."
+type: software
+authors:
+  - name: "EurthTech Research"
+version: "1.1.0"
+date-released: "2026-07-28"
+license: Apache-2.0
+abstract: >
+  Open research workbench for surface-antigen and radioligand (theranostics)
+  target intelligence: knowledge graph, expression evidence, and AI-assisted
+  querying. CD46 α-RLT is the first published case study.
+keywords:
+  - theranostics
+  - radioligand therapy
+  - knowledge graph
+  - oncology
+  - Open Targets
+  - Neo4j
