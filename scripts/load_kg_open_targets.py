@@ -157,14 +157,40 @@ def load_open_targets(driver, data_path: Path):
 
 
 def main():
-    data_path = Path(__file__).resolve().parents[1] / "data" / "raw" / "apis" / "open_targets_cd46.json"
-    if not data_path.exists():
-        print(f"ERROR: {data_path} not found")
-        sys.exit(1)
+    import argparse
+
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+    from src.knowledge_graph.target_slice import fetch_open_targets, get_target, load_ot_associations, merge_gene_protein
+
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--symbol", default="CD46")
+    ap.add_argument("--from-cache", action="store_true", help="Use data/raw/apis/open_targets_{symbol}.json")
+    ap.add_argument("--size", type=int, default=200)
+    args = ap.parse_args()
+    symbol = args.symbol.upper()
+    t = get_target(symbol)
+
+    cache = Path(__file__).resolve().parents[1] / "data" / "raw" / "apis" / f"open_targets_{symbol.lower()}.json"
+    if args.from_cache and cache.exists():
+        raw = json.loads(cache.read_text(encoding="utf-8"))
+    elif symbol == "CD46" and (Path(__file__).resolve().parents[1] / "data" / "raw" / "apis" / "open_targets_cd46.json").exists() and args.from_cache:
+        raw = json.loads(
+            (Path(__file__).resolve().parents[1] / "data" / "raw" / "apis" / "open_targets_cd46.json").read_text(
+                encoding="utf-8"
+            )
+        )
+    else:
+        raw = fetch_open_targets(t["ensembl_id"], size=args.size)
+        cache.parent.mkdir(parents=True, exist_ok=True)
+        cache.write_text(json.dumps(raw, indent=2), encoding="utf-8")
+        print(f"Saved {cache}")
 
     driver = get_driver()
     try:
-        load_open_targets(driver, data_path)
+        with driver.session() as session:
+            merge_gene_protein(session, t)
+            d, r = load_ot_associations(session, symbol, raw, top_n=50)
+            print(f"✅ {symbol}: top diseases≈{d}, ASSOCIATED_WITH upserts={r}")
     finally:
         driver.close()
 

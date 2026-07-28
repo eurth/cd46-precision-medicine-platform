@@ -13,6 +13,7 @@ load_dotenv(Path(__file__).resolve().parents[2] / ".env")
 import streamlit as st
 from components.styles import page_hero
 from components.targets import get_active_symbol, render_stub_gate
+from components.data_freeze import render_data_freeze_banner
 
 # Inject Streamlit Cloud secrets into os.environ
 for _k in (
@@ -133,6 +134,7 @@ st.markdown(
     ),
     unsafe_allow_html=True,
 )
+render_data_freeze_banner(compact=True)
 st.markdown("---")
 
 # ---------------------------------------------------------------------------

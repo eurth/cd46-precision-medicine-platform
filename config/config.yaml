@@ -3,7 +3,7 @@
 
 project:
   name: "OncoBridge Intelligence"
-  version: "1.1.0"
+  version: "1.2.0"
   author: "EurthTech Research"
   description: "Open theranostics / surface-antigen research workbench · knowledge graph + AI · CD46 case study"
 

@@ -22,6 +22,13 @@ import plotly.graph_objects as go
 import streamlit as st
 from components.styles import page_hero
 from components.targets import get_active_symbol, is_loaded
+from components.data_freeze import render_data_freeze_banner
+from components.export_pack import (
+    ROW_CAP,
+    QUERY_TIMEOUT_S,
+    build_export_pack,
+    ensure_cypher_limit,
+)
 from dotenv import load_dotenv
 
 load_dotenv(Path(__file__).resolve().parents[2] / ".env")
@@ -78,7 +85,7 @@ def get_header_stats():
 
 
 def run_cypher(cypher: str, params: dict | None = None) -> list[dict]:
-    """Execute read-only Cypher and return list of row dicts."""
+    """Execute read-only Cypher and return list of row dicts (capped)."""
     driver = get_driver()
     if driver is None:
         return []
@@ -87,14 +94,40 @@ def run_cypher(cypher: str, params: dict | None = None) -> list[dict]:
     if any(_upper.startswith(f) or f" {f}" in _upper for f in _forbidden):
         st.error("Write operations are not permitted. Use read-only MATCH queries.")
         return []
+    # EXPLAIN plans stay uncapped
+    is_explain = _upper.startswith("EXPLAIN") or _upper.startswith("PROFILE")
+    q = cypher if is_explain else ensure_cypher_limit(cypher, ROW_CAP)
     try:
+        from neo4j import Query
+
         with driver.session() as s:
-            result = s.run(cypher, **(params or {}))
-            return [dict(r) for r in result]
+            result = s.run(Query(q, timeout=float(QUERY_TIMEOUT_S)), **(params or {}))
+            rows = [dict(r) for r in result]
+            if not is_explain and len(rows) >= ROW_CAP:
+                st.warning(
+                    f"Result capped at {ROW_CAP} rows / {QUERY_TIMEOUT_S}s timeout. "
+                    "Add an explicit LIMIT or narrow the MATCH."
+                )
+            return rows[:ROW_CAP] if not is_explain else rows
     except Exception as e:
         st.error(f"Cypher error: {e}")
         return []
 
+
+def _download_export_pack(df: pd.DataFrame, *, key: str, stem: str) -> None:
+    pack = build_export_pack(
+        df,
+        active_target=get_active_symbol(),
+        result_name=f"{stem}.csv",
+    )
+    st.download_button(
+        "📥 Download export pack (ZIP)",
+        pack,
+        f"{stem}_{int(time.time())}.zip",
+        "application/zip",
+        key=key,
+        help="CSV results + data_freeze.yaml + NOTICE + CITATION.cff",
+    )
 
 def get_schema() -> dict:
     """Return dict of {label: [properties], ...} and relationship types."""
@@ -322,6 +355,8 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+render_data_freeze_banner(compact=True)
+
 if not is_loaded(_ACTIVE):
     st.info(
         f"**{_ACTIVE}** is a stub target — gene-parameterized templates only. "
@@ -411,14 +446,7 @@ with tab_builder:
 
             st.dataframe(df_result, use_container_width=True, hide_index=True)
 
-            # Download button
-            st.download_button(
-                "📥 Download CSV",
-                df_result.to_csv(index=False),
-                f"kg_query_{int(time.time())}.csv",
-                "text/csv",
-                key="dl_tpl",
-            )
+            _download_export_pack(df_result, key="dl_tpl", stem="kg_query")
 
             # Auto-plot if result has a good chart structure
             if "cancer" in df_result.columns and len(numeric_cols) >= 1:
@@ -502,13 +530,7 @@ LIMIT 25
             st.success(f"✅ {len(rows)} rows · {elapsed:.2f}s")
             df_cyp = pd.DataFrame(rows)
             st.dataframe(df_cyp, use_container_width=True, hide_index=True)
-            st.download_button(
-                "📥 Download CSV",
-                df_cyp.to_csv(index=False),
-                f"cypher_result_{int(time.time())}.csv",
-                "text/csv",
-                key="dl_cyp",
-            )
+            _download_export_pack(df_cyp, key="dl_cyp", stem="cypher_result")
         else:
             st.info("Query returned no results.")
 
@@ -651,8 +673,7 @@ Cypher:"""
                         st.success(f"✅ {len(rows)} results")
                         df_nl = pd.DataFrame(rows)
                         st.dataframe(df_nl, use_container_width=True, hide_index=True)
-                        st.download_button("📥 CSV", df_nl.to_csv(index=False),
-                                           f"nl_result_{int(time.time())}.csv", "text/csv", key="dl_nl")
+                        _download_export_pack(df_nl, key="dl_nl", stem="nl_result")
                     else:
                         st.info("No results returned.")
                 if col_nl2.button("📋 Copy to Cypher Editor", key="nl_to_editor"):

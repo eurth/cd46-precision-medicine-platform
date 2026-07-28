@@ -135,9 +135,10 @@ def format_gene_cypher(cypher: str, symbol: str | None = None) -> str:
 
 
 def assert_phase2_targets() -> None:
-    """ponytail: one check — registry + GRPR id + CD46 loaded."""
+    """ponytail: one check — registry + GRPR id + CD46/FOLH1 loaded."""
     assert default_symbol() == "CD46"
     assert is_loaded("CD46")
+    assert is_loaded("FOLH1")
     assert not is_loaded("FAP")
     assert get_target("GRPR")["ensembl_id"] == "ENSG00000126010"
     sample = format_gene_cypher("MATCH (g:Gene {symbol: '{symbol}'}) RETURN g")

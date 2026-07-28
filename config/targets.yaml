@@ -23,9 +23,10 @@ targets:
     ensembl_id: ENSG00000086205
     uniprot_id: Q04609
     entrez_id: 2346
+    string_ensp: "9606.ENSP00000256999"
     aliases: [PSMA, GCPII, NAALAD1, FOLH]
     modality_tags: [surface_antigen, radioligand, PSMA]
-    kg_status: stub
+    kg_status: loaded
     case_study: false
 
   FAP:

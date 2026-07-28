@@ -164,17 +164,31 @@ def load_into_kg(driver, edges: list, annotations: dict) -> tuple[int, int]:
 
 
 def main():
+    import argparse
+
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--symbol", default="CD46")
+    args = ap.parse_args()
+    symbol = args.symbol.upper()
+
+    global SEED_STRING_ID, RAW_OUT
+    if symbol != "CD46":
+        sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+        from src.knowledge_graph.target_slice import get_target, resolve_string_ensp
+
+        t = get_target(symbol)
+        SEED_STRING_ID = t.get("string_ensp") or resolve_string_ensp(symbol)
+        RAW_OUT = Path(f"data/raw/apis/string_{symbol.lower()}.json")
+
     print("=== STRING DB → KG Loader ===")
-    print(f"Seed: CD46  ({SEED_STRING_ID})")
+    print(f"Seed: {symbol}  ({SEED_STRING_ID})")
     print(f"Min score: {MIN_SCORE} (high confidence)  |  Max edges: {EDGE_LIMIT}\n")
 
-    # ── 1. Fetch CD46's direct interaction neighbourhood ─────────────────────
-    print("1. Fetching CD46 interaction network from STRING DB...")
+    print(f"1. Fetching {symbol} interaction network from STRING DB...")
     edges = fetch_interactions(SEED_STRING_ID, limit=EDGE_LIMIT)
     print(f"   Retrieved {len(edges)} edges")
     time.sleep(0.5)
 
-    # ── 2. Collect all unique STRING IDs for annotation lookup ────────────────
     all_ids = set()
     for e in edges:
         all_ids.add(e.get("stringId_A", ""))
@@ -182,26 +196,22 @@ def main():
     all_ids.discard("")
     print(f"   Unique proteins in network: {len(all_ids)}")
 
-    # ── 3. Fetch annotations (names, descriptions) ────────────────────────────
     print("2. Fetching protein annotations...")
-    # STRING limit: batch up to 100 IDs per call
     all_ids_list = list(all_ids)
     annotations: dict = {}
     for i in range(0, len(all_ids_list), 100):
-        batch = all_ids_list[i:i+100]
+        batch = all_ids_list[i : i + 100]
         batch_ann = fetch_partner_annotations(batch)
         annotations.update(batch_ann)
         time.sleep(0.3)
     print(f"   Got annotations for {len(annotations)} proteins")
 
-    # ── 4. Save raw data ──────────────────────────────────────────────────────
     RAW_OUT.parent.mkdir(parents=True, exist_ok=True)
     payload = {"seed": SEED_STRING_ID, "min_score": MIN_SCORE,
                "edges": edges, "annotations": annotations}
     RAW_OUT.write_text(json.dumps(payload, indent=2))
     print(f"   Raw data saved → {RAW_OUT}  ({len(edges)} edges)")
 
-    # ── 5. Load into AuraDB ───────────────────────────────────────────────────
     print("3. Loading into AuraDB...")
     driver = get_driver()
     try:

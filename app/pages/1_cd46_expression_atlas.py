@@ -1,4 +1,4 @@
-﻿"""Page 1 — CD46 Expression Atlas: pan-cancer mRNA, protein, safety, and CRISPR evidence."""
+"""Page 1 — CD46 Expression Atlas: pan-cancer mRNA, protein, safety, and CRISPR evidence."""
 import sys
 from pathlib import Path
 
@@ -9,10 +9,13 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 from components.styles import page_hero
-from components.targets import render_stub_gate
+from components.targets import get_active_symbol, render_stub_gate
 
 if render_stub_gate(module="Expression Atlas"):
     st.stop()
+
+_GENE = get_active_symbol()
+_PREFIX = _GENE.lower()
 
 # ---------------------------------------------------------------------------
 # Theme constants
@@ -38,9 +41,19 @@ _PLOTLY_LAYOUT = dict(
 # Data loaders
 # ---------------------------------------------------------------------------
 @st.cache_data
-def load_expression():
-    p = Path("data/processed/cd46_by_cancer.csv")
-    return pd.read_csv(p) if p.exists() else None
+def load_by_cancer(symbol: str):
+    p = Path(f"data/processed/{symbol.lower()}_by_cancer.csv")
+    if not p.exists():
+        return None
+    df = pd.read_csv(p)
+    # Normalize median column for charts
+    if "gene_median" in df.columns:
+        df["median_expr"] = df["gene_median"]
+    elif f"{symbol.lower()}_median" in df.columns:
+        df["median_expr"] = df[f"{symbol.lower()}_median"]
+    elif "cd46_median" in df.columns:
+        df["median_expr"] = df["cd46_median"]
+    return df
 
 @st.cache_data
 def load_hpa():
@@ -62,24 +75,24 @@ def load_depmap():
     p = Path("data/processed/depmap_cd46_essentiality.csv")
     return pd.read_csv(p) if p.exists() else None
 
-expr_df    = load_expression()
-hpa_df     = load_hpa()
-priority_df = load_priority()
-gtex_df    = load_gtex()
-depmap_df  = load_depmap()
+expr_df    = load_by_cancer(_GENE)
+hpa_df     = load_hpa() if _GENE == "CD46" else None
+priority_df = load_priority() if _GENE == "CD46" else None
+gtex_df    = load_gtex() if _GENE == "CD46" else None
+depmap_df  = load_depmap() if _GENE == "CD46" else None
 
 # ---------------------------------------------------------------------------
 # Derived KPI values
 # ---------------------------------------------------------------------------
 n_cancers  = len(expr_df) if expr_df is not None else 25
 top_cancer = (
-    expr_df.sort_values("cd46_median", ascending=False).iloc[0]["cancer_type"]
-    if expr_df is not None else "COAD"
+    expr_df.sort_values("median_expr", ascending=False).iloc[0]["cancer_type"]
+    if expr_df is not None and "median_expr" in expr_df.columns else "—"
 )
-n_lines  = len(depmap_df) if depmap_df is not None else 1186
+n_lines  = len(depmap_df) if depmap_df is not None else 0
 pct_safe = (
     (1 - depmap_df["cd46_is_dependency"].mean()) * 100
-    if depmap_df is not None else 97.5
+    if depmap_df is not None else None
 )
 
 # ---------------------------------------------------------------------------
@@ -90,16 +103,16 @@ st.markdown(
         icon="📊",
         module_name="Expression Atlas",
         purpose=(
-            "Pan-cancer CD46 mRNA expression · protein IHC tissue safety · "
-            "normal-tissue GTEx profile · DepMap CRISPR essentiality screen"
+            f"Pan-cancer **{_GENE}** mRNA (TCGA/Xena)"
+            + (" · protein IHC · GTEx · DepMap" if _GENE == "CD46" else " · thin Phase 4 slice")
         ),
         kpi_chips=[
+            ("Active Target", _GENE),
             ("Cancers Profiled", str(n_cancers)),
-            ("Top by mRNA", top_cancer),
-            ("Cell Lines Screened", f"{n_lines:,}"),
-            ("Not a Dependency", f"{pct_safe:.1f}%"),
+            ("Top by mRNA", str(top_cancer)),
+            ("Not a Dependency", f"{pct_safe:.1f}%" if pct_safe is not None else "n/a"),
         ],
-        source_badges=["TCGA", "HPA", "GTEx", "DepMap"],
+        source_badges=["TCGA", "HPA", "GTEx", "DepMap"] if _GENE == "CD46" else ["TCGA", "OpenTargets", "STRING"],
     ),
     unsafe_allow_html=True,
 )
@@ -109,9 +122,13 @@ st.markdown(
 # ---------------------------------------------------------------------------
 k1, k2, k3, k4 = st.columns(4)
 k1.metric("Cancers Profiled", str(n_cancers), "TCGA RNA-seq cohort")
-k2.metric("mRNA Leader", top_cancer, "Highest CD46 median")
-k3.metric("Cell Lines", f"{n_lines:,}", "DepMap CRISPR screen")
-k4.metric("Non-dependency", f"{pct_safe:.1f}%", "Safe surface target")
+k2.metric("mRNA Leader", top_cancer, f"Highest {_GENE} median")
+k3.metric("Cell Lines", f"{n_lines:,}" if n_lines else "—", "DepMap (CD46 case study)")
+k4.metric(
+    "Non-dependency",
+    f"{pct_safe:.1f}%" if pct_safe is not None else "—",
+    "Safe surface target" if pct_safe is not None else f"{_GENE} thin slice",
+)
 st.markdown("---")
 
 # ---------------------------------------------------------------------------
@@ -126,19 +143,15 @@ tab1, tab2, tab3, tab4 = st.tabs([
 
 # ── Tab 1 : Pan-Cancer mRNA ─────────────────────────────────────────────────
 with tab1:
-    st.markdown("#### CD46 mRNA Expression — TCGA Pan-Cancer Survey")
+    st.markdown(f"#### {_GENE} mRNA Expression — TCGA Pan-Cancer Survey")
     st.caption(
         "TCGA RNA-seq via UCSC Xena · sorted by median expression · "
         f"{expr_df['n_samples'].sum():,} patients across {n_cancers} cancer types"
         if expr_df is not None else "TCGA RNA-seq via UCSC Xena"
     )
 
-    if expr_df is None:
-        st.warning("⚠️ Data not found — run `python scripts/run_pipeline.py --mode analyze`")
-        st.info(
-            "CD46 is overexpressed in colorectal (COAD), lung adeno (LUAD), prostate (PRAD), "
-            "and breast (BRCA) cancers. Threshold for radioligand eligibility: log₂ ≥ 2.5."
-        )
+    if expr_df is None or "median_expr" not in expr_df.columns:
+        st.warning(f"⚠️ No by-cancer CSV for {_GENE} — run `python scripts/load_target_slice.py --symbol {_GENE}`")
     else:
         ctrl_col, info_col = st.columns([3, 1])
         with ctrl_col:
@@ -156,16 +169,16 @@ with tab1:
             )
 
         df_plot = (
-            expr_df.sort_values("cd46_median", ascending=True)
+            expr_df.sort_values("median_expr", ascending=True)
             if sort_by == "Median expression ↓"
             else expr_df.sort_values("cancer_type", ascending=False)
         )
-        q75 = df_plot["cd46_median"].quantile(0.75)
-        bar_colors = [_INDIGO if v >= q75 else _SLATE for v in df_plot["cd46_median"]]
+        q75 = df_plot["median_expr"].quantile(0.75)
+        bar_colors = [_INDIGO if v >= q75 else _SLATE for v in df_plot["median_expr"]]
 
         fig1 = go.Figure()
         fig1.add_trace(go.Bar(
-            x=df_plot["cd46_median"],
+            x=df_plot["median_expr"],
             y=df_plot["cancer_type"],
             orientation="h",
             marker_color=bar_colors,
@@ -180,22 +193,24 @@ with tab1:
             **_PLOTLY_LAYOUT,
             height=520,
             margin=dict(l=10, r=20, t=20, b=40),
-            xaxis=dict(title="CD46 Median Expression", gridcolor=_LINE, color=_TEXT, zeroline=False),
+            xaxis=dict(title=f"{_GENE} Median Expression", gridcolor=_LINE, color=_TEXT, zeroline=False),
             yaxis=dict(color=_LIGHT, tickfont=dict(size=11)),
         )
         st.plotly_chart(fig1, use_container_width=True)
 
-        top3 = df_plot.nlargest(3, "cd46_median")["cancer_type"].tolist()
+        top3 = df_plot.nlargest(3, "median_expr")["cancer_type"].tolist()
         st.info(
             f"**Top 3 by median expression:** {', '.join(top3)}  \n"
-            "Highlighted bars (top 25% — indigo) represent the strongest candidates for "
-            "CD46-targeted radioligand therapy. Expression values are log₂(TPM+1); higher "
-            "values indicate greater target density accessible to an antibody-based vector."
+            f"log₂(TPM+1) for **{_GENE}**. Indigo bars = top quartile."
         )
 
 # ── Tab 2 : Protein & Safety ────────────────────────────────────────────────
 with tab2:
-    st.markdown("#### Protein Expression & Normal-Tissue Safety Profile")
+    if _GENE != "CD46":
+        st.info(
+            f"Protein / GTEx safety panels are CD46 case-study depth. "
+            f"**{_GENE}** thin slice: use Pan-Cancer mRNA + KG Query Explorer."
+        )
     st.caption(
         "Human Protein Atlas IHC H-score (0–300: tumour vs normal) · "
         "GTEx v8 normal-tissue mRNA (54 tissue sites)"
@@ -456,7 +471,7 @@ with tab4:
                 text=[f"{s:.2f}" for s in _full_pri["priority_score"]],
                 textposition="outside",
                 textfont=dict(color=_LIGHT, size=10),
-                customdata=_full_pri[["tier", "cd46_median", "rank"]].values,
+                customdata=_full_pri[["tier", "median_expr", "rank"]].values,
                 hovertemplate=(
                     "<b>%{y}</b><br>"
                     "Rank: %{customdata[2]}<br>"
@@ -497,13 +512,13 @@ with tab4:
 
         with exp_col:
             st.markdown("##### 📊 Expression Ranking — All Cancers")
-            _ranked_expr = expr_df.sort_values("cd46_median", ascending=False).reset_index(drop=True)
+            _ranked_expr = expr_df.sort_values("median_expr", ascending=False).reset_index(drop=True)
             _fig_expr = go.Figure(go.Bar(
-                x=_ranked_expr["cd46_median"],
+                x=_ranked_expr["median_expr"],
                 y=_ranked_expr["cancer_type"],
                 orientation="h",
                 marker_color=_TEAL,
-                text=[f"{v:.2f}" for v in _ranked_expr["cd46_median"]],
+                text=[f"{v:.2f}" for v in _ranked_expr["median_expr"]],
                 textposition="outside",
                 textfont=dict(color=_LIGHT, size=10),
                 customdata=_ranked_expr[["n_samples", "cd46_mean", "cd46_std"]].values,
