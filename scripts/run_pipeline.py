@@ -234,7 +234,7 @@ def run_agent_demo() -> None:
 
     except Exception as e:
         logger.error("Agent demo failed: %s", e)
-        logger.error("Check OPENAI_API_KEY or GEMINI_API_KEY in .env")
+        logger.error("Check OPENROUTER_API_KEY, OPENAI_API_KEY, or GEMINI_API_KEY in .env")
 
     logger.info("Phase 4 complete")
 

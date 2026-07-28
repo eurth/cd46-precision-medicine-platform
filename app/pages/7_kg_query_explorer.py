@@ -25,7 +25,15 @@ from dotenv import load_dotenv
 
 load_dotenv(Path(__file__).resolve().parents[2] / ".env")
 
-for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD", "OPENAI_API_KEY", "GEMINI_API_KEY"):
+for _k in (
+    "NEO4J_URI",
+    "NEO4J_USERNAME",
+    "NEO4J_PASSWORD",
+    "OPENROUTER_API_KEY",
+    "OPENROUTER_MODEL",
+    "OPENAI_API_KEY",
+    "GEMINI_API_KEY",
+):
     try:
         if _k in st.secrets and not os.environ.get(_k):
             os.environ[_k] = st.secrets[_k]
@@ -45,6 +53,27 @@ def get_driver():
     if not uri or not pwd:
         return None
     return GraphDatabase.driver(uri, auth=(user, pwd))
+
+
+@st.cache_data(ttl=300)
+def get_header_stats():
+    driver = get_driver()
+    if driver is None:
+        return None
+    try:
+        with driver.session() as sess:
+            total_nodes = sess.run("MATCH (n) RETURN count(n) AS c").single()["c"]
+            total_rels = sess.run("MATCH ()-[r]->() RETURN count(r) AS c").single()["c"]
+            label_count = len(list(sess.run("CALL db.labels() YIELD label RETURN label")))
+            rel_type_count = len(list(sess.run("CALL db.relationshipTypes() YIELD relationshipType RETURN relationshipType")))
+        return {
+            "total_nodes": total_nodes,
+            "total_rels": total_rels,
+            "label_count": label_count,
+            "rel_type_count": rel_type_count,
+        }
+    except Exception:
+        return None
 
 
 def run_cypher(cypher: str, params: dict | None = None) -> list[dict]:
@@ -247,6 +276,7 @@ LIMIT 30
 # Page layout
 # ---------------------------------------------------------------------------
 
+header_stats = get_header_stats()
 
 st.markdown(
     page_hero(
@@ -255,9 +285,9 @@ st.markdown(
         purpose="Live research interface to the CD46 AuraDB knowledge graph · pre-built queries · Cypher editor · natural language → Cypher",
         kpi_chips=[
             ("Query Templates", "10"),
-            ("KG Nodes", "3,047"),
-            ("Node Labels", "12"),
-            ("Rel Types", "15+"),
+            ("KG Nodes", f"{header_stats['total_nodes']:,}" if header_stats else "3,068"),
+            ("Node Labels", str(header_stats["label_count"]) if header_stats else "14"),
+            ("Rel Types", str(header_stats["rel_type_count"]) if header_stats else "10+"),
         ],
         source_badges=["UniProt", "OpenTargets", "ClinicalTrials", "STRING"],
     ),
@@ -737,8 +767,13 @@ LIMIT 50
             st.info("No graph data returned.")
 
 st.markdown("---")
+_footer_stats = (
+    f"AuraDB: {header_stats['total_nodes']:,} nodes · {header_stats['total_rels']:,} relationships · "
+    if header_stats
+    else "AuraDB: 3,068 nodes · 2,517 relationships · "
+)
 st.markdown(
-    "<div style='color:#64748b;font-size:0.78em;'>AuraDB: 3,047 nodes · 2,552 relationships · "
+    f"<div style='color:#64748b;font-size:0.78em;'>{_footer_stats}"
     "Labels: Disease, SurvivalResult, Publication, ClinicalTrial, PatientGroup, Drug, Gene, Protein, Pathway, CellLine, Tissue · "
     "Read/Write access · Research use only.</div>",
     unsafe_allow_html=True,

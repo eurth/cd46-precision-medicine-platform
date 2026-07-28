@@ -14,12 +14,56 @@ import streamlit as st
 from components.styles import page_hero
 
 # Inject Streamlit Cloud secrets into os.environ
-for _k in ("OPENAI_API_KEY", "GEMINI_API_KEY", "NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
+for _k in (
+    "OPENROUTER_API_KEY",
+    "OPENROUTER_MODEL",
+    "OPENAI_API_KEY",
+    "GEMINI_API_KEY",
+    "NEO4J_URI",
+    "NEO4J_USERNAME",
+    "NEO4J_PASSWORD",
+):
     try:
         if _k in st.secrets and not os.environ.get(_k):
             os.environ[_k] = st.secrets[_k]
     except Exception:
         pass
+
+
+@st.cache_resource(ttl=300)
+def _get_kg_driver():
+    from neo4j import GraphDatabase
+
+    uri = os.getenv("NEO4J_URI")
+    user = os.getenv("NEO4J_USERNAME", "neo4j")
+    password = os.getenv("NEO4J_PASSWORD")
+    if not uri or not password:
+        return None
+    try:
+        driver = GraphDatabase.driver(uri, auth=(user, password))
+        driver.verify_connectivity()
+        return driver
+    except Exception:
+        return None
+
+
+@st.cache_data(ttl=300)
+def _kg_counts():
+    driver = _get_kg_driver()
+    if driver is None:
+        return None
+    try:
+        with driver.session() as sess:
+            total_nodes = sess.run("MATCH (n) RETURN count(n) AS c").single()["c"]
+            total_rels = sess.run("MATCH ()-[r]->() RETURN count(r) AS c").single()["c"]
+        return {"nodes": total_nodes, "rels": total_rels}
+    except Exception:
+        return None
+
+
+_kg = _kg_counts()
+_kg_nodes = f"{_kg['nodes']:,}" if _kg else "~3,068"
+_kg_rels = f"{_kg['rels']:,}" if _kg else "~2,517"
 
 # ---------------------------------------------------------------------------
 # Theme constants
@@ -71,14 +115,14 @@ st.markdown(
         icon="🤖",
         module_name="AI Research Assistant",
         purpose=(
-            "KG-grounded RAG · GPT-4o primary · Gemini 2.5 Flash fallback · "
-            "retrieves structured evidence from 3,912-node Neo4j knowledge graph "
+            "KG-grounded RAG · OpenRouter Gemma primary · GPT-4o / Gemini fallback · "
+            f"retrieves structured evidence from {_kg_nodes}-node Neo4j knowledge graph "
             "before every answer — not generic AI"
         ),
         kpi_chips=[
-            ("Primary Model",  "GPT-4o"),
-            ("Fallback",       "Gemini 2.5"),
-            ("KG Nodes",       "~3,912"),
+            ("Primary Model",  "Gemma (OR)"),
+            ("Fallback",       "GPT-4o / Gemini"),
+            ("KG Nodes",       _kg_nodes),
             ("Evidence Types", "8 sources"),
         ],
         source_badges=["TCGA", "HPA", "OpenTargets", "ChEMBL", "DepMap", "PubMed"],
@@ -104,7 +148,7 @@ with tab_chat:
     col_prov, col_temp = st.columns([2, 1])
     with col_prov:
         provider = st.selectbox(
-            "LLM Provider", ["auto", "openai", "gemini"], index=0,
+            "LLM Provider", ["auto", "openrouter", "openai", "gemini"], index=0,
             key="provider_sel",
         )
     with col_temp:
@@ -118,11 +162,17 @@ with tab_chat:
     if agent_error:
         st.warning(
             f"Agent unavailable: {agent_error}  \n"
-            "Add OPENAI_API_KEY or GEMINI_API_KEY to `.env` to enable live answers.  \n"
+            "Add OPENROUTER_API_KEY, OPENAI_API_KEY, or GEMINI_API_KEY to `.env` to enable live answers.  \n"
             "Preset questions and the chat input are shown below for reference."
         )
     else:
-        st.success("Agent ready — GPT-4o connected with Knowledge Graph context")
+        _labels = {
+            "auto": "auto (OpenRouter → OpenAI → Gemini)",
+            "openrouter": "OpenRouter Gemma",
+            "openai": "OpenAI GPT-4o",
+            "gemini": "Gemini Flash",
+        }
+        st.success(f"Agent ready — {_labels.get(provider, provider)} with Knowledge Graph context")
 
     # Session state
     if "messages" not in st.session_state:
@@ -147,7 +197,7 @@ with tab_chat:
             st.markdown(q)
         with st.chat_message("assistant"):
             if agent is None:
-                st.error("Agent not available — set OPENAI_API_KEY or GEMINI_API_KEY in .env")
+                st.error("Agent not available — set OPENROUTER_API_KEY, OPENAI_API_KEY, or GEMINI_API_KEY in .env")
             else:
                 with st.spinner("Retrieving KG context + generating answer..."):
                     ph = st.empty()
@@ -238,7 +288,7 @@ with tab_chat:
     st.markdown("---")
     st.markdown(
         "<div style='color:#64748b;font-size:0.78em;'>"
-        "LLM: GPT-4o (OpenAI) primary · Gemini 2.5 Flash (Google) fallback · "
+        "LLM: OpenRouter Gemma primary · GPT-4o / Gemini fallback · "
         "Orchestrated via LangGraph + LiteLLM<br>"
         "Context sources: TCGA · HPA · cBioPortal · DepMap · ClinicalTrials.gov · AuraDB KG<br>"
         "<b>For research purposes only. Not for clinical decision-making.</b>"
@@ -269,7 +319,7 @@ with tab_arch:
         "padding:16px 20px;border-radius:8px;margin-bottom:24px;'>"
         "<b style='color:#4ade80;font-size:1.05em;'>This System: Grounded AI</b><br><br>"
         "<span style='color:#cbd5e1;'>Before the LLM writes a single word, "
-        "the system queries the Neo4j knowledge graph — 3,912 biology-specific nodes — "
+        f"the system queries the Neo4j knowledge graph — {_kg_nodes} biology-specific nodes — "
         "and retrieves structured, verified facts relevant to the question. "
         "The LLM then writes <i>around those facts</i>. "
         "Every claim is traceable to a node: TCGA, HPA, ClinicalTrials.gov, PubMed, DepMap.</span>"
@@ -288,7 +338,7 @@ with tab_arch:
             "<div style='font-size:2em;margin-bottom:10px;'>🔍</div>"
             "<b style='color:#38bdf8;font-size:1.05em;'>Step 1 — Graph Retrieval</b><br>"
             "<span style='color:#94a3b8;font-size:0.9em;margin-top:8px;display:block;'>"
-            "Question → semantic search across 3,912 KG nodes → "
+            f"Question → semantic search across {_kg_nodes} KG nodes → "
             "retrieve 10–30 relevant nodes and relationships as structured JSON context"
             "</span></div>",
             unsafe_allow_html=True,
@@ -355,15 +405,15 @@ with tab_arch:
     tc1, tc2, tc3 = st.columns(3)
     tc1.markdown(
         "**LLM Layer**\n"
-        "- GPT-4o (OpenAI) — primary\n"
-        "- Gemini 2.5 Flash — fallback\n"
+        "- OpenRouter Gemma — primary\n"
+        "- GPT-4o / Gemini — fallback\n"
         "- Routed via LiteLLM\n"
         "- Orchestrated by LangGraph"
     )
     tc2.markdown(
         "**Knowledge Graph**\n"
         "- Neo4j AuraDB (cloud)\n"
-        "- ~3,912 nodes, ~14,880 edges\n"
+        f"- {_kg_nodes} nodes, {_kg_rels} edges\n"
         "- Cypher query interface\n"
         "- Typed biological relationships"
     )

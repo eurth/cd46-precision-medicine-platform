@@ -89,8 +89,8 @@ def _live_stats():
 
 stats = _live_stats()
 
-_total_nodes = f"{stats['total_nodes']:,}"            if stats else "~3,912"
-_total_rels  = f"{stats['total_rels']:,}"             if stats else "~14,880"
+_total_nodes = f"{stats['total_nodes']:,}"            if stats else "~3,068"
+_total_rels  = f"{stats['total_rels']:,}"             if stats else "~2,517"
 _drug_count  = str(stats["counts"].get("Drug", 10))   if stats else "10"
 _disease_ct  = str(stats["counts"].get("Disease",797)) if stats else "797"
 

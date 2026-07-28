@@ -4,11 +4,64 @@
 Image-card grid layout. inject_global_css() is NOT called here;
 streamlit_app.py calls it once per render.
 """
+import os
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import streamlit as st
+from dotenv import load_dotenv
+
+load_dotenv(Path(__file__).resolve().parents[2] / ".env")
+
+for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
+    try:
+        if _k in st.secrets and not os.environ.get(_k):
+            os.environ[_k] = st.secrets[_k]
+    except Exception:
+        pass
+
+
+@st.cache_resource(ttl=300)
+def _get_driver():
+    from neo4j import GraphDatabase
+
+    uri = os.getenv("NEO4J_URI")
+    user = os.getenv("NEO4J_USERNAME", "neo4j")
+    password = os.getenv("NEO4J_PASSWORD")
+    if not uri or not password:
+        return None
+    try:
+        driver = GraphDatabase.driver(uri, auth=(user, password))
+        driver.verify_connectivity()
+        return driver
+    except Exception:
+        return None
+
+
+@st.cache_data(ttl=300)
+def _kg_stats():
+    driver = _get_driver()
+    if driver is None:
+        return None
+    try:
+        with driver.session() as sess:
+            total_nodes = sess.run("MATCH (n) RETURN count(n) AS c").single()["c"]
+            total_rels = sess.run("MATCH ()-[r]->() RETURN count(r) AS c").single()["c"]
+            active_trials = sess.run("MATCH (t:ClinicalTrial) RETURN count(t) AS c").single()["c"]
+        return {
+            "total_nodes": total_nodes,
+            "total_rels": total_rels,
+            "active_trials": active_trials,
+        }
+    except Exception:
+        return None
+
+
+_stats = _kg_stats()
+_kg_nodes = f"{_stats['total_nodes']:,}" if _stats else "3,068"
+_kg_rels = f"{_stats['total_rels']:,}" if _stats else "2,517"
+_trial_count = str(_stats["active_trials"]) if _stats else "14"
 
 # ---------------------------------------------------------------------------
 # Hero — no eyebrow (duplicates topbar), just headline + sub + stats bar
@@ -27,9 +80,9 @@ st.markdown(
     '<div class="lp-stats">'
     '<div class="lp-stat"><span class="lp-stat-val">33</span>'
     '<span class="lp-stat-lbl">Cancer Types</span></div>'
-    '<div class="lp-stat"><span class="lp-stat-val">3,047</span>'
+    f'<div class="lp-stat"><span class="lp-stat-val">{_kg_nodes}</span>'
     '<span class="lp-stat-lbl">KG Nodes</span></div>'
-    '<div class="lp-stat"><span class="lp-stat-val">14</span>'
+    f'<div class="lp-stat"><span class="lp-stat-val">{_trial_count}</span>'
     '<span class="lp-stat-lbl">Active Trials</span></div>'
     '<div class="lp-stat"><span class="lp-stat-val">15</span>'
     '<span class="lp-stat-lbl">Modules</span></div>'
@@ -145,13 +198,13 @@ st.markdown(_grid(
     _image_card(
         "\U0001f578\ufe0f", "Knowledge Graph",
         "Neo4j AuraDB integrating genes, proteins, diseases, drugs and clinical trials into a live graph.",
-        ["3,047 Nodes", "2,552 Edges", "10 Drug Nodes"],
+        [f"{_kg_nodes} Nodes", f"{_kg_rels} Edges", "10 Drug Nodes"],
         "ind", "/4_biomedical_knowledge_graph",
     ),
     _image_card(
         "\U0001f916", "Research Assistant",
         "GPT-4o natural language interface with integrated knowledge-graph context and data-grounded answers.",
-        ["GPT-4o Primary", "Gemini 2.5 Fallback", "3,047 Nodes"],
+        ["Gemma OR Primary", "GPT-4o / Gemini", f"{_kg_nodes} Nodes"],
         "ind", "/5_research_assistant",
     ),
     _image_card(

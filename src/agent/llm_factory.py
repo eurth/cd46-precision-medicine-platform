@@ -1,10 +1,13 @@
-"""LiteLLM-based LLM factory — GPT-4o primary, Gemini Flash fallback."""
+"""LiteLLM-based LLM factory — OpenRouter Gemma primary, GPT-4o / Gemini fallback."""
 from __future__ import annotations
 
 import logging
 import os
 
 logger = logging.getLogger(__name__)
+
+# Default free Gemma on OpenRouter (override with OPENROUTER_MODEL)
+_DEFAULT_OPENROUTER_MODEL = "openrouter/google/gemma-4-31b-it:free"
 
 _SYSTEM_PROMPT = """You are an expert AI research assistant for OncoBridge Intelligence,
 an EurthTech pan-cancer target intelligence platform demonstrating Knowledge Graph + AI-driven
@@ -42,8 +45,8 @@ def get_llm(provider: str = "auto", temperature: float = 0.1) -> "LiteLLMWrapper
     Get a configured LLM instance.
 
     Args:
-        provider: "openai" | "gemini" | "ollama" | "auto"
-                  "auto" tries OpenAI first, falls back to Gemini.
+        provider: "openrouter" | "openai" | "gemini" | "ollama" | "auto"
+                  "auto" prefers OpenRouter → OpenAI → Gemini.
         temperature: Sampling temperature (default 0.1 for factual precision).
 
     Returns:
@@ -52,18 +55,26 @@ def get_llm(provider: str = "auto", temperature: float = 0.1) -> "LiteLLMWrapper
     from litellm import completion  # deferred import so module loads without litellm
 
     if provider == "auto":
-        if os.getenv("OPENAI_API_KEY"):
+        if os.getenv("OPENROUTER_API_KEY"):
+            provider = "openrouter"
+            logger.info("LLM factory: using OpenRouter Gemma (primary)")
+        elif os.getenv("OPENAI_API_KEY"):
             provider = "openai"
-            logger.info("LLM factory: using OpenAI GPT-4o (primary)")
+            logger.info("LLM factory: using OpenAI GPT-4o")
         elif os.getenv("GEMINI_API_KEY"):
             provider = "gemini"
-            logger.info("LLM factory: using Gemini Flash (fallback — OpenAI key not set)")
+            logger.info("LLM factory: using Gemini Flash (fallback)")
         else:
             raise RuntimeError(
-                "No LLM API key found. Set OPENAI_API_KEY or GEMINI_API_KEY in .env"
+                "No LLM API key found. Set OPENROUTER_API_KEY, OPENAI_API_KEY, or GEMINI_API_KEY in .env"
             )
 
+    openrouter_model = os.getenv("OPENROUTER_MODEL", _DEFAULT_OPENROUTER_MODEL)
+    if openrouter_model and not openrouter_model.startswith("openrouter/"):
+        openrouter_model = f"openrouter/{openrouter_model}"
+
     model_map = {
+        "openrouter": openrouter_model,
         "openai": "gpt-4o",
         "gemini": "gemini/gemini-2.5-flash",
         "ollama": "ollama/llama3",
@@ -71,7 +82,9 @@ def get_llm(provider: str = "auto", temperature: float = 0.1) -> "LiteLLMWrapper
 
     model = model_map.get(provider)
     if model is None:
-        raise ValueError(f"Unknown provider '{provider}'. Choose: openai, gemini, ollama, auto")
+        raise ValueError(
+            f"Unknown provider '{provider}'. Choose: openrouter, openai, gemini, ollama, auto"
+        )
 
     return LiteLLMWrapper(
         model=model,
