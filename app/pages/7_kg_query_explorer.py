@@ -21,7 +21,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 from components.styles import page_hero
-from components.targets import get_active_symbol, is_loaded
+from components.targets import get_active_symbol, is_loaded, is_case_study
 from components.data_freeze import render_data_freeze_banner
 from components.export_pack import (
     ROW_CAP,
@@ -148,29 +148,34 @@ def get_schema() -> dict:
 # ---------------------------------------------------------------------------
 
 def _build_query_templates(symbol: str) -> dict:
-    """Gene-parameterized templates. Properties named cd46_* are case-study schema."""
+    """Gene-parameterized templates.
+
+    For non-CD46 targets we rely on graph relationship properties (gene-aware)
+    instead of CD46-only `Disease.cd46_*` properties.
+    """
     s = symbol
     return {
         f"🎯 Expression: Which cancers have highest {s}?": {
-            "description": f"Disease nodes sorted by {s} median TPM (CD46 schema property names until Phase 4 rename).",
-            "cypher": """
-MATCH (d:Disease)
-WHERE d.cd46_median_tpm_log2 IS NOT NULL
+            "description": f"Gene-aware expression using (:Gene {{symbol: '{s}'}})-[:EXPRESSED_IN_CANCER]->(d:Disease).",
+            "cypher": f"""
+MATCH (g:Gene {{symbol: '{s}'}})-[r:EXPRESSED_IN_CANCER]->(d:Disease)
+WHERE r.median_tpm_log2 IS NOT NULL
 RETURN d.tcga_code AS cancer_type,
-       round(d.cd46_median_tpm_log2, 3) AS target_median_log2,
+       round(r.median_tpm_log2, 3) AS target_median_log2,
        d.tcga_sample_count AS n_samples,
-       d.cd46_prognostic AS prognostic_significance
-ORDER BY d.cd46_median_tpm_log2 DESC
+       r.expression_rank AS expression_rank
+ORDER BY r.median_tpm_log2 DESC
 LIMIT 25
 """,
             "params": {},
-            "requires_cd46_schema": True,
+            "requires_cd46_schema": False,
         },
         f"📈 Survival: Which cancers show {s}-High = worse prognosis?": {
-            "description": f"SurvivalResult nodes with HR > 1.0 and p < 0.05 for {s}-high framing.",
-            "cypher": """
+            "description": f"Gene-aware Cox survival: sr.gene_symbol='{s}' · endpoint=OS · hazard_ratio>1 · p<0.05.",
+            "cypher": f"""
 MATCH (d:Disease)-[:HAS_SURVIVAL_RESULT]->(sr:SurvivalResult)
-WHERE sr.hazard_ratio > 1.0
+WHERE sr.gene_symbol = '{s}'
+  AND sr.hazard_ratio > 1.0
   AND sr.p_value < 0.05
   AND sr.endpoint = 'OS'
 RETURN d.tcga_code AS cancer,
@@ -181,7 +186,7 @@ RETURN d.tcga_code AS cancer,
 ORDER BY sr.hazard_ratio DESC
 """,
             "params": {},
-            "requires_cd46_schema": True,
+            "requires_cd46_schema": False,
         },
         f"📚 Publications: Evidence for {s} as a target in PRAD?": {
             "description": "Publications linked to PRAD via SUPPORTS relationship.",
@@ -322,8 +327,9 @@ LIMIT 30
 
 _ACTIVE = get_active_symbol()
 _ALL_TEMPLATES = _build_query_templates(_ACTIVE)
-# Stub targets: hide CD46-schema property templates (no bleed of empty case-study props as "data")
-if is_loaded(_ACTIVE):
+# Case-study targets only: hide CD46-only property templates for non-CD46.
+# (Loaded=true for thin/medium slices; CD46 schema props are missing for other targets.)
+if is_case_study(_ACTIVE):
     QUERY_TEMPLATES = _ALL_TEMPLATES
 else:
     QUERY_TEMPLATES = {
