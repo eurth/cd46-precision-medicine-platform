@@ -221,17 +221,18 @@ ORDER BY d.cd46_median_tpm_log2 DESC
             "requires_cd46_schema": True,
         },
         f"🧪 Clinical Trials: Trials investigating {s} / related diseases?": {
-            "description": "ClinicalTrial nodes with investigational diseases.",
-            "cypher": """
-MATCH (t:ClinicalTrial)-[:INVESTIGATES]->(d:Disease)
+            "description": f"ClinicalTrial nodes linked to {s} via TARGETS_GENE (Step 3 open-data load).",
+            "cypher": f"""
+MATCH (t:ClinicalTrial)-[:TARGETS_GENE]->(g:Gene {{symbol: '{s}'}})
+OPTIONAL MATCH (t)-[:INVESTIGATES]->(d:Disease)
 RETURN t.nct_id AS nct_id,
        t.phase AS phase,
        t.sponsor AS sponsor,
        t.status AS status,
-       d.tcga_code AS cancer,
-       t.target AS target,
-       t.updated_at AS last_updated
+       collect(DISTINCT d.tcga_code) AS cancers,
+       t.title AS title
 ORDER BY t.phase
+LIMIT 40
 """,
             "params": {},
             "requires_cd46_schema": False,

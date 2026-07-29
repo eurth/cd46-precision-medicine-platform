@@ -1,0 +1,12 @@
+tissue,type,ntpm,staining_intensity,data_source
+brain,normal,17.7,,HPA_rna
+Distal convoluted tubule cells,single_cell,1.5,,HPA_rna
+Early spermatids,single_cell,1.7,,HPA_rna
+Fibroblasts,single_cell,2.6,,HPA_rna
+Late spermatids,single_cell,2.3,,HPA_rna
+Loop of henle epithelial cells,single_cell,2.7,,HPA_rna
+Neuroendocrine cells,single_cell,3.5,,HPA_rna
+Papillary tip epithelial cells,single_cell,5.3,,HPA_rna
+Pericytes,single_cell,3.2,,HPA_rna
+Proximal tubule cells,single_cell,12.2,,HPA_rna
+Renal collecting duct principal cells,single_cell,4.6,,HPA_rna

@@ -1,0 +1,6 @@
+tissue,type,ntpm,staining_intensity,data_source
+Esophageal apical cells,single_cell,974.8,,HPA_rna
+Salivary acinar cells,single_cell,736.1,,HPA_rna
+basophil,blood,301.2,,HPA_rna
+eosinophil,blood,387.4,,HPA_rna
+neutrophil,blood,404.1,,HPA_rna

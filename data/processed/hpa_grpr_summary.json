@@ -1,0 +1,8 @@
+{
+  "gene": "GRPR",
+  "ensembl": "ENSG00000126010",
+  "rna_tissue_specificity": "Tissue enriched",
+  "rna_tissue_distribution": "Detected in some",
+  "rna_cancer_specificity": "Cancer enriched",
+  "protein_class": "G-protein coupled receptors;Predicted membrane proteins"
+}

@@ -1,0 +1,8 @@
+{
+  "gene": "FOLH1",
+  "ensembl": "ENSG00000086205",
+  "rna_tissue_specificity": "Tissue enhanced",
+  "rna_tissue_distribution": "Detected in many",
+  "rna_cancer_specificity": "Cancer enriched",
+  "protein_class": "Cancer-related genes;Enzymes;FDA approved drug targets;Plasma proteins;Predicted intracellular proteins;Predicted membrane proteins"
+}

@@ -1,0 +1,8 @@
+tissue,type,ntpm,staining_intensity,data_source
+endometrium 1,normal,29.4,,HPA_rna
+Decidual stromal cells,single_cell,126.0,,HPA_rna
+Endometrial stromal cells,single_cell,155.2,,HPA_rna
+Fibro-adipogenic progenitors,single_cell,234.0,,HPA_rna
+Fibroblasts,single_cell,70.9,,HPA_rna
+Müller glia,single_cell,202.8,,HPA_rna
+Pancreatic islet cells,single_cell,213.1,,HPA_rna

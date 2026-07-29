@@ -1,0 +1,11 @@
+tissue,type,ntpm,staining_intensity,data_source
+pancreas,normal,19.1,,HPA_rna
+Brain inhibitory neurons,single_cell,3.1,,HPA_rna
+Breast hormone-responsive cells,single_cell,3.0,,HPA_rna
+Cone photoreceptor cells,single_cell,2.1,,HPA_rna
+Neuroendocrine cells,single_cell,3.6,,HPA_rna
+Oocytes,single_cell,13.8,,HPA_rna
+Pancreatic acinar cells,single_cell,10.8,,HPA_rna
+Retinal pigment epithelial cells,single_cell,4.3,,HPA_rna
+Sertoli cells,single_cell,2.5,,HPA_rna
+Thyrotrophs,single_cell,3.4,,HPA_rna

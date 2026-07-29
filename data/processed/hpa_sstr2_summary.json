@@ -1,0 +1,8 @@
+{
+  "gene": "SSTR2",
+  "ensembl": "ENSG00000180616",
+  "rna_tissue_specificity": "Tissue enhanced",
+  "rna_tissue_distribution": "Detected in many",
+  "rna_cancer_specificity": "Low cancer specificity",
+  "protein_class": "FDA approved drug targets;G-protein coupled receptors;Predicted membrane proteins"
+}

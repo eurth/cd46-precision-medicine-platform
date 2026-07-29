@@ -216,9 +216,12 @@ def search_trials(query: str = "CD46", status: Optional[str] = None) -> str:
     Returns:
         JSON string with matching trials.
     """
-    trials_path = RAW_DIR / "apis" / "clinicaltrials_cd46.json"
+    gene = _active_gene()
+    gene_path = RAW_DIR / "apis" / f"clinicaltrials_{gene.lower()}.json"
+    fallback = RAW_DIR / "apis" / "clinicaltrials_cd46.json"
+    trials_path = gene_path if gene_path.exists() else fallback
 
-    # Curated trials always available
+    # Curated trials always available (CD46 / PSMA case-study seeds)
     curated = [
         {"nct_id": "NCT04768608", "title": "ABBV-CLS-484 (anti-CD46 ADC) in mCRPC",
          "phase": "Phase I/II", "status": "Active, not recruiting", "sponsor": "AbbVie"},
@@ -237,17 +240,18 @@ def search_trials(query: str = "CD46", status: Optional[str] = None) -> str:
     results = [
         t for t in curated
         if query_lower in t["title"].lower() or query_lower in t.get("intervention", "").lower()
+        or gene.lower() in t["title"].lower()
     ]
 
     if status:
         results = [t for t in results if t.get("status", "").lower() == status.lower()]
 
-    # Also load from API file if available
+    # Also load from API file if available (prefer active gene cache)
     if trials_path.exists():
-        with open(trials_path) as f:
+        with open(trials_path, encoding="utf-8") as f:
             data = json.load(f)
         studies = data if isinstance(data, list) else data.get("studies", [])
-        for study in studies[:20]:
+        for study in studies[:30]:
             try:
                 ps = study.get("protocolSection", {})
                 nct_id = ps.get("identificationModule", {}).get("nctId", "")
@@ -255,14 +259,23 @@ def search_trials(query: str = "CD46", status: Optional[str] = None) -> str:
                 st_raw = ps.get("statusModule", {}).get("overallStatus", "")
                 # Normalize ClinicalTrials.gov v2 uppercase codes (e.g. RECRUITING → Recruiting)
                 st = st_raw.replace("_", " ").title()
-                if query_lower in title.lower():
-                    if not status or st.lower() == status.lower():
-                        if nct_id not in {r["nct_id"] for r in results}:
-                            results.append({"nct_id": nct_id, "title": title, "status": st})
+                if not status or st.lower() == status.lower():
+                    if nct_id not in {r["nct_id"] for r in results}:
+                        results.append(
+                            {
+                                "nct_id": nct_id,
+                                "title": title,
+                                "status": st,
+                                "source_file": trials_path.name,
+                            }
+                        )
             except Exception:
                 continue
 
-    return json.dumps(results[:10], indent=2)
+    return json.dumps(
+        {"active_gene": gene, "file": trials_path.name if trials_path.exists() else None, "trials": results[:15]},
+        indent=2,
+    )
 
 
 # ---------------------------------------------------------------------------

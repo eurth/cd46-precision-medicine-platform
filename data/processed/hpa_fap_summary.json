@@ -1,0 +1,8 @@
+{
+  "gene": "FAP",
+  "ensembl": "ENSG00000078098",
+  "rna_tissue_specificity": "Tissue enhanced",
+  "rna_tissue_distribution": "Detected in many",
+  "rna_cancer_specificity": "Low cancer specificity",
+  "protein_class": "Cancer-related genes;Enzymes;Plasma proteins;Predicted intracellular proteins;Predicted secreted proteins"
+}

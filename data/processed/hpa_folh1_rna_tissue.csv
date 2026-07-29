@@ -1,0 +1,5 @@
+tissue,type,ntpm,staining_intensity,data_source
+intestine,normal,250.9,,HPA_rna
+prostate,normal,71.4,,HPA_rna
+Oligodendrocytes,single_cell,498.6,,HPA_rna
+Prostatic glandular cells,single_cell,1456.5,,HPA_rna
