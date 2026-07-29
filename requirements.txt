@@ -30,7 +30,11 @@ neo4j>=5.18
 gspread>=6.0
 
 # Streamlit web app
-streamlit>=1.32
+streamlit>=1.32,<2.0
+streamlit-shadcn-ui>=0.1.19
+streamlit-extras>=0.4.0
+streamlit-antd-components>=0.3.2
+networkx>=3.0
 
 # LLM / AI
 openai>=1.25

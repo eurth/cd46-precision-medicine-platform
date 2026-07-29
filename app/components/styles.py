@@ -116,25 +116,6 @@ details[data-testid="stExpander"] > summary span {
 [data-testid="stCaptionContainer"] p { color: #4E637A !important; font-size: 11px !important; }
 [data-testid="stAlert"] { background: #0D1829 !important; border-color: #16243C !important; }
 
-[data-testid="stPageLink"] a {
-    display: inline-flex !important; align-items: center !important; justify-content: center !important;
-    min-height: 40px !important;
-    color: #C7D2FE !important; font-size: 13px !important; font-weight: 650 !important;
-    text-decoration: none !important; border: 1px solid rgba(129,140,248,0.55) !important;
-    border-radius: 7px !important; padding: 8px 14px !important;
-    margin-top: 8px !important; background: #0D1829 !important;
-    transition: all 0.15s !important;
-}
-[data-testid="stPageLink"] a:hover {
-    background: #172554 !important;
-    border-color: #A5B4FC !important; color: #FFFFFF !important;
-    transform: translateY(-1px);
-}
-[data-testid="stPageLink"] a:focus-visible {
-    outline: 3px solid #38BDF8 !important;
-    outline-offset: 2px !important;
-}
-
 [data-testid="stSidebar"] {
     background: #040913 !important; border-right: 1px solid #16243C !important;
     min-width: 270px !important; max-width: 270px !important;

@@ -99,50 +99,6 @@ def _tier_help(tier: str) -> str:
     }.get(tier, tier)
 
 
-def render_dimension_chrome(current_path: str = "") -> None:
-    """Top dimension grid — page_link entry points (all existing pages stay reachable)."""
-    st.markdown(
-        '<div class="ob-tb-label" style="margin-top:0.25rem;">Explore by dimension</div>',
-        unsafe_allow_html=True,
-    )
-    dims = [
-        ("pages/0_platform_overview.py", "Home"),
-        ("pages/1_cd46_expression_atlas.py", "Target / Cancer"),
-        ("pages/9_competitive_landscape.py", "Compare"),
-        ("pages/6_biomarker_panel.py", "Biomarkers"),
-        ("pages/10_ppi_network.py", "Proteins"),
-        ("pages/2_patient_selection.py", "Patients"),
-        ("pages/11_drug_pipeline.py", "Drugs"),
-        ("pages/3_survival_outcomes.py", "Survival"),
-        ("pages/7_kg_query_explorer.py", "Graph"),
-        ("pages/5_research_assistant.py", "Ask AI"),
-    ]
-    active_href = current_path.lstrip("/")
-    st.markdown(
-        f"""
-        <style>
-        [data-testid="stMain"] [data-testid="stPageLink"] a[href="{active_href}"] {{
-            color: #FFFFFF !important;
-            background: #3730A3 !important;
-            border-color: #818CF8 !important;
-            box-shadow: 0 0 0 1px rgba(129,140,248,0.35) !important;
-            font-weight: 700 !important;
-        }}
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
-    # ponytail: four columns keep full labels readable at 1024px; the final pair
-    # is centred. Upgrade to a custom responsive component only if mobile needs it.
-    for start in range(0, len(dims), 4):
-        row = dims[start : start + 4]
-        cols = st.columns(4)
-        offset = 1 if len(row) == 2 else 0
-        for col, (path, label) in zip(cols[offset:], row):
-            with col:
-                st.page_link(path, label=label, use_container_width=True)
-
-
 def render_main_target_bar() -> str:
     """Sticky main-area target switcher — always visible above page content."""
     ensure_session_target()
@@ -158,26 +114,39 @@ def render_main_target_bar() -> str:
             '<div class="ob-tb-label">Research target</div>',
             unsafe_allow_html=True,
         )
-        # Keep widget state aligned with session active_target
-        if st.session_state.get("target_segmented") not in symbols:
-            st.session_state["target_segmented"] = current
+        choice = current
         try:
-            choice = st.segmented_control(
-                "Research target",
-                options=symbols,
-                key="target_segmented",
-                label_visibility="collapsed",
+            import streamlit_antd_components as sac
+
+            idx = symbols.index(current) if current in symbols else 0
+            choice = sac.segmented(
+                items=symbols,
+                index=idx,
+                size="sm",
+                color="indigo",
+                use_container_width=True,
+                key="target_sac",
             )
-        except Exception:
-            if st.session_state.get("target_radio") not in symbols:
-                st.session_state["target_radio"] = current
-            choice = st.radio(
-                "Research target",
-                options=symbols,
-                horizontal=True,
-                key="target_radio",
-                label_visibility="collapsed",
-            )
+        except ImportError:
+            if st.session_state.get("target_segmented") not in symbols:
+                st.session_state["target_segmented"] = current
+            try:
+                choice = st.segmented_control(
+                    "Research target",
+                    options=symbols,
+                    key="target_segmented",
+                    label_visibility="collapsed",
+                )
+            except Exception:
+                if st.session_state.get("target_radio") not in symbols:
+                    st.session_state["target_radio"] = current
+                choice = st.radio(
+                    "Research target",
+                    options=symbols,
+                    horizontal=True,
+                    key="target_radio",
+                    label_visibility="collapsed",
+                )
         if choice and choice != current:
             set_active_symbol(str(choice))
             st.rerun()

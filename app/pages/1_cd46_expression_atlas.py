@@ -10,6 +10,7 @@ import plotly.graph_objects as go
 import streamlit as st
 from components.styles import page_hero
 from components.targets import get_active_symbol, render_stub_gate
+from components.ui_kit import metric_row, section_tabs
 
 if render_stub_gate(module="Expression Atlas"):
     st.stop()
@@ -138,16 +139,36 @@ st.markdown(
 )
 
 # ---------------------------------------------------------------------------
-# KPI metric strip
+# KPI metric strip (shadcn pilot)
 # ---------------------------------------------------------------------------
-k1, k2, k3, k4 = st.columns(4)
-k1.metric("Cancers Profiled", str(n_cancers), "TCGA RNA-seq cohort")
-k2.metric("mRNA Leader", top_cancer, f"Highest {_GENE} median")
-k3.metric("Cell Lines", f"{n_lines:,}" if n_lines else "—", f"DepMap ({_GENE})")
-k4.metric(
-    "Non-dependency",
-    f"{pct_safe:.1f}%" if pct_safe is not None else "—",
-    "Safe surface target" if pct_safe is not None else f"No DepMap slice for {_GENE}",
+metric_row(
+    [
+        {
+            "title": "Cancers Profiled",
+            "content": str(n_cancers),
+            "description": "TCGA RNA-seq cohort",
+        },
+        {
+            "title": "mRNA Leader",
+            "content": str(top_cancer),
+            "description": f"Highest {_GENE} median",
+        },
+        {
+            "title": "Cell Lines",
+            "content": f"{n_lines:,}" if n_lines else "—",
+            "description": f"DepMap ({_GENE})",
+        },
+        {
+            "title": "Non-dependency",
+            "content": f"{pct_safe:.1f}%" if pct_safe is not None else "—",
+            "description": (
+                "Safe surface target"
+                if pct_safe is not None
+                else f"No DepMap slice for {_GENE}"
+            ),
+        },
+    ],
+    key_prefix="expr_kpi",
 )
 st.markdown("---")
 
@@ -163,17 +184,18 @@ except Exception:
     pass
 
 # ---------------------------------------------------------------------------
-# Tabs
+# Tabs (shadcn pilot)
 # ---------------------------------------------------------------------------
-tab1, tab2, tab3, tab4 = st.tabs([
-    "🗺 Pan-Cancer mRNA",
-    "🔬 Protein & Safety",
-    "⚡ Functional Screen",
-    "🏆 Priority & Data",
-])
+_TAB_LABELS = [
+    "Pan-Cancer mRNA",
+    "Protein & Safety",
+    "Functional Screen",
+    "Priority & Data",
+]
+_active_tab = section_tabs(_TAB_LABELS, key="expr_atlas_tabs")
 
 # ── Tab 1 : Pan-Cancer mRNA ─────────────────────────────────────────────────
-with tab1:
+if _active_tab == _TAB_LABELS[0]:
     st.markdown(f"#### {_GENE} mRNA Expression — TCGA Pan-Cancer Survey")
     st.caption(
         "TCGA RNA-seq via UCSC Xena · sorted by median expression · "
@@ -236,7 +258,7 @@ with tab1:
         )
 
 # ── Tab 2 : Protein & Safety ────────────────────────────────────────────────
-with tab2:
+elif _active_tab == _TAB_LABELS[1]:
     if hpa_df is None and gtex_df is None:
         st.info(
             f"No HPA/GTEx processed slice for **{_GENE}** yet. "
@@ -389,7 +411,7 @@ with tab2:
     )
 
 # ── Tab 3 : Functional Screen (DepMap) ──────────────────────────────────────
-with tab3:
+elif _active_tab == _TAB_LABELS[2]:
     st.markdown(f"#### {_GENE} CRISPR Essentiality — DepMap Screen")
     st.caption(
         f"Cancer Dependency Map (DepMap) CRISPR-Cas9 screen · "
@@ -485,7 +507,7 @@ with tab3:
         )
 
 # ── Tab 4 : Priority Ranking & Downloads ────────────────────────────────────
-with tab4:
+elif _active_tab == _TAB_LABELS[3]:
     st.markdown("#### CD46 Cancer Priority Ranking")
     st.caption(
         "Priority score (0–1) combines: mRNA expression rank · protein evidence (HPA) · "

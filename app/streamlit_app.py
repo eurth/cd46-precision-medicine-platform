@@ -14,6 +14,7 @@ sys.path.insert(0, str(_HERE))         # app/ dir (for utils.tracker etc.)
 import streamlit as st
 from utils.tracker import log_page_visit
 from components.styles import inject_global_css
+from components.ui_kit import apply_theme
 
 st.set_page_config(
     page_title="OncoBridge Intelligence",
@@ -23,6 +24,7 @@ st.set_page_config(
 )
 
 inject_global_css()
+apply_theme()
 
 # ---------------------------------------------------------------------------
 # Research target — PRIMARY control (main area, sticky). Sidebar is a mirror.
@@ -30,7 +32,6 @@ inject_global_css()
 from components.targets import (
     render_main_target_bar,
     render_sidebar_target_selector,
-    render_dimension_chrome,
 )
 from components.feedback import render_sidebar_feedback
 
@@ -112,7 +113,6 @@ pg = st.navigation(
 )
 
 render_main_target_bar()
-render_dimension_chrome(pg.url_path)
 
 # Hide admin page from sidebar nav (accessible via direct URL only)
 st.markdown(
