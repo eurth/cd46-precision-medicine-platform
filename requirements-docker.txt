@@ -1,0 +1,52 @@
+# Production Docker image — leaner than requirements.txt (no pytest, no unused kaleido).
+# streamlit-extras is pulled transitively by streamlit-shadcn-ui.
+
+# Core data processing
+polars>=0.20
+pandas>=2.2
+pyarrow>=15
+numpy>=1.26
+
+# HTTP / API calls
+requests>=2.31
+tqdm>=4.66
+httpx>=0.27
+
+# Bioinformatics / statistics
+lifelines>=0.28
+scikit-learn>=1.4
+scipy>=1.12
+statsmodels>=0.14
+
+# Biological databases
+biopython>=1.83
+
+# Visualization
+plotly>=5.20
+pyvis>=0.3.2
+
+# Knowledge graph / Neo4j
+neo4j>=5.18
+networkx>=3.0
+
+# Visitor tracking — Google Sheets
+gspread>=6.0
+
+# Streamlit web app + Phase 0 UI kit (pinned for reproducible Docker builds)
+streamlit>=1.32,<2.0
+streamlit-shadcn-ui==0.1.19
+streamlit-antd-components==0.3.2
+
+# LLM / AI
+openai>=1.25
+google-generativeai>=0.5
+langchain>=0.2
+langchain-openai>=0.1
+langchain-google-genai>=0.0.6
+langgraph>=0.1
+litellm>=1.35
+
+# Configuration and utilities
+python-dotenv>=1.0
+pyyaml>=6.0
+rich>=13.7

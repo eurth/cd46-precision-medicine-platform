@@ -78,10 +78,13 @@ Evaluate Panel → Dash → Next.js+FastAPI.
 
 ## Dependencies (new)
 
+**Local dev:** `requirements.txt` (includes pytest)
+
+**Docker / Coolify:** `requirements-docker.txt` (no pytest, no unused kaleido, pinned UI packages)
+
 ```
-streamlit-shadcn-ui>=0.1.19
-streamlit-extras>=0.4.0
-streamlit-antd-components>=0.3.2
+streamlit-shadcn-ui==0.1.19
+streamlit-antd-components==0.3.2
 networkx>=3.0
 ```
 

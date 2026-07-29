@@ -12,9 +12,11 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies first (leverages Docker layer cache)
-COPY requirements.txt .
+COPY requirements-docker.txt .
 RUN pip install --no-cache-dir --upgrade pip \
-    && pip install --no-cache-dir --timeout 120 -r requirements.txt
+    && pip install --no-cache-dir --timeout 300 -r requirements-docker.txt \
+    && pip cache purge \
+    && find /usr/local/lib/python3.13 -type d -name __pycache__ -prune -exec rm -rf {} + 2>/dev/null || true
 
 # Copy application code
 COPY . .
