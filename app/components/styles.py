@@ -210,6 +210,46 @@ details[data-testid="stExpander"] > summary span {
     background: #34D399; display: inline-block; flex-shrink: 0;
 }
 
+/* Primary research-target bar (main column — not buried under nav) */
+#ob-target-bar {
+    position: sticky; top: 46px; z-index: 998;
+    background: #0D1829;
+    border: 1px solid #16243C;
+    border-radius: 8px;
+    padding: 10px 14px 6px;
+    margin-bottom: 14px;
+}
+.ob-tb-label {
+    font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: #64748B; font-weight: 600; margin-bottom: 4px;
+}
+.ob-tb-meta {
+    font-size: 12px; color: #94A3B8; line-height: 1.45;
+    padding-top: 4px;
+}
+.ob-tb-meta strong { color: #E2E8F0; font-size: 13px; }
+.ob-tb-tier {
+    display: inline-block; margin-top: 2px;
+    padding: 1px 7px; border-radius: 4px;
+    background: rgba(129,140,248,0.15); color: #A5B4FC;
+    font-size: 11px; font-weight: 600;
+}
+.ob-tb-ens { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #64748B; }
+.ob-side-target {
+    padding: 10px 14px; margin: 8px 8px 4px;
+    border: 1px solid #16243C; border-radius: 8px;
+    background: #0A1628;
+}
+.ob-side-target-kicker {
+    font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: #64748B; font-weight: 600;
+}
+.ob-side-target-sym {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 18px; font-weight: 700; color: #E2E8F0; margin: 2px 0;
+}
+.ob-side-target-sub { font-size: 11px; color: #64748B; }
+
 .lp-eyebrow {
     font-size: 11px; font-weight: 700; letter-spacing: 0.18em;
     text-transform: uppercase; color: #818CF8; display: block; margin-bottom: 14px;
@@ -372,12 +412,13 @@ details[data-testid="stExpander"] > summary span {
 def inject_global_css() -> None:
     """Inject platform CSS + top app bar. Call once after set_page_config."""
     st.markdown(_GLOBAL_CSS, unsafe_allow_html=True)
+    # Active target filled after session init in streamlit_app (avoid import cycle)
     st.markdown(
         '<div id="ob-topbar">'
-        '<span class="ob-tb-brand">🔬 OncoBridge Intelligence</span>'
-        '<span class="ob-tb-ctx">CD46 Precision Medicine · EurthTech Research</span>'
+        '<span class="ob-tb-brand">OncoBridge Intelligence</span>'
+        '<span class="ob-tb-ctx">Open theranostics research · multi-target workbench</span>'
         '<span class="ob-tb-spacer"></span>'
-        '<span class="ob-tb-live"><span class="ob-tb-dot"></span>Research Data Live</span>'
+        '<span class="ob-tb-live"><span class="ob-tb-dot"></span>Research data live</span>'
         '</div>',
         unsafe_allow_html=True,
     )

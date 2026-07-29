@@ -122,13 +122,13 @@ def _load_context_for_intent(intent: str, question: str) -> tuple[str, list[str]
         contexts.append(f"Significant survival associations:\n{result}")
         result2 = load_csv_data("survival", top_n=10)
         contexts.append(f"Survival data sample:\n{result2}")
-        sources += ["cd46_survival_results.csv", "TCGA KM/Cox"]
+        sources += [f"{gene.lower()}_survival_results.csv", "TCGA KM/Cox"]
 
     elif intent == "expression":
         result = load_csv_data("by_cancer", top_n=33)
-        contexts.append(f"Pan-cancer expression:\n{result}")
+        contexts.append(f"Pan-cancer expression ({gene}):\n{result}")
         result2 = load_csv_data("hpa", top_n=30)
-        contexts.append(f"HPA protein expression:\n{result2}")
+        contexts.append(f"HPA protein expression ({gene}):\n{result2}")
         sources += ["TCGA/Xena", "Human Protein Atlas"]
 
     elif intent == "drug":
@@ -146,11 +146,10 @@ def _load_context_for_intent(intent: str, question: str) -> tuple[str, list[str]
     elif intent == "knowledge_graph":
         from src.agent.tools import query_kg
         result = query_kg(
-            "MATCH (g:Gene)-[:EXPRESSED_IN]->(d:Disease) "
-            "RETURN d.tcga_code AS cancer, d.cd46_priority_score AS priority "
-            "ORDER BY priority DESC LIMIT 10"
+            f"MATCH (g:Gene {{symbol: '{gene}'}})-[:ASSOCIATED_WITH]->(d:Disease) "
+            "RETURN d.name AS disease, d.mondo_id AS mondo LIMIT 10"
         )
-        contexts.append(f"KG priority scores:\n{result}")
+        contexts.append(f"KG associations for {gene}:\n{result}")
         sources += ["AuraDB Knowledge Graph"]
 
     elif intent == "biomarker":

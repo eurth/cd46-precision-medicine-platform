@@ -12,6 +12,9 @@ _ROOT = Path(__file__).resolve().parents[2]
 _TARGETS_PATH = _ROOT / "config" / "targets.yaml"
 _SESSION_KEY = "active_target"
 
+# Honest depth labels (not “loaded” which lied once everything was thin-sliced)
+_VALID_TIERS = frozenset({"stub", "thin", "medium", "full"})
+
 
 @lru_cache(maxsize=1)
 def load_registry() -> dict[str, Any]:
@@ -23,8 +26,7 @@ def load_registry() -> dict[str, Any]:
 
 
 def list_symbols() -> list[str]:
-    reg = load_registry()
-    return list(reg["targets"].keys())
+    return list(load_registry()["targets"].keys())
 
 
 def default_symbol() -> str:
@@ -39,13 +41,29 @@ def get_target(symbol: str | None = None) -> dict[str, Any]:
     return {"symbol": sym, **targets[sym]}
 
 
-def is_loaded(symbol: str | None = None) -> bool:
+def data_tier(symbol: str | None = None) -> str:
+    """stub | thin | medium | full — prefers data_tier, falls back to kg_status."""
     t = get_target(symbol)
-    return str(t.get("kg_status", "stub")).lower() == "loaded"
+    raw = str(t.get("data_tier") or "").lower().strip()
+    if raw in _VALID_TIERS:
+        return raw
+    # legacy: kg_status loaded → treat as thin unless case_study (then full)
+    status = str(t.get("kg_status", "stub")).lower()
+    if status == "loaded":
+        return "full" if t.get("case_study") else "thin"
+    return "stub"
+
+
+def is_loaded(symbol: str | None = None) -> bool:
+    """True if any graph/CSV slice exists (thin+)."""
+    return data_tier(symbol) != "stub"
+
+
+def is_case_study(symbol: str | None = None) -> bool:
+    return bool(get_target(symbol).get("case_study"))
 
 
 def get_active_symbol() -> str:
-    """Prefer Streamlit session; fall back to default."""
     try:
         sym = st.session_state.get(_SESSION_KEY)
         if sym and sym in load_registry()["targets"]:
@@ -69,63 +87,133 @@ def ensure_session_target() -> str:
     return str(st.session_state[_SESSION_KEY])
 
 
-def render_sidebar_target_selector() -> str:
-    """Sidebar control — call from streamlit_app.py inside st.sidebar."""
+def _tier_help(tier: str) -> str:
+    return {
+        "stub": "Registered only — no open-data slice yet",
+        "thin": "Starter open data (expression + OT/STRING sample)",
+        "medium": "Broader open data in the graph",
+        "full": "Deep case-study depth (CD46 reference)",
+    }.get(tier, tier)
+
+
+def render_main_target_bar() -> str:
+    """Sticky main-area target switcher — always visible above page content."""
     ensure_session_target()
     symbols = list_symbols()
-    labels = []
-    for s in symbols:
-        t = get_target(s)
-        tag = "loaded" if is_loaded(s) else "stub"
-        labels.append(f"{s} ({tag})")
     current = get_active_symbol()
-    try:
-        idx = symbols.index(current)
-    except ValueError:
-        idx = 0
-    choice = st.selectbox(
-        "Research target",
-        options=symbols,
-        index=idx,
-        format_func=lambda s: f"{s} · {'loaded' if is_loaded(s) else 'stub'}",
-        help="Loaded = data in Aura + processed CSVs. Stub = registered, not sliced yet.",
-        key="target_selector_box",
+    t = get_target(current)
+    tier = data_tier(current)
+
+    st.markdown('<div id="ob-target-bar">', unsafe_allow_html=True)
+    left, right = st.columns([3, 2], gap="small")
+    with left:
+        st.markdown(
+            '<div class="ob-tb-label">Research target</div>',
+            unsafe_allow_html=True,
+        )
+        # Keep widget state aligned with session active_target
+        if st.session_state.get("target_segmented") not in symbols:
+            st.session_state["target_segmented"] = current
+        try:
+            choice = st.segmented_control(
+                "Research target",
+                options=symbols,
+                key="target_segmented",
+                label_visibility="collapsed",
+            )
+        except Exception:
+            if st.session_state.get("target_radio") not in symbols:
+                st.session_state["target_radio"] = current
+            choice = st.radio(
+                "Research target",
+                options=symbols,
+                horizontal=True,
+                key="target_radio",
+                label_visibility="collapsed",
+            )
+        if choice and choice != current:
+            set_active_symbol(str(choice))
+            st.rerun()
+        active = get_active_symbol()
+        t = get_target(active)
+        tier = data_tier(active)
+    with right:
+        tags = ", ".join(t.get("modality_tags") or []) or "—"
+        case = " · CD46 deep case study" if is_case_study(active) else ""
+        st.markdown(
+            f'<div class="ob-tb-meta">'
+            f'<strong>{t.get("name", active)}</strong><br/>'
+            f'<span class="ob-tb-tier">Data: {tier}</span>'
+            f'{case}<br/>'
+            f'<span class="ob-tb-ens">{t.get("ensembl_id", "")}</span>'
+            f' · {tags}'
+            f"</div>",
+            unsafe_allow_html=True,
+        )
+        st.caption(_tier_help(tier))
+    st.markdown("</div>", unsafe_allow_html=True)
+    return get_active_symbol()
+
+
+def render_sidebar_target_selector() -> str:
+    """Compact sidebar mirror (nav can bury this — main bar is primary)."""
+    ensure_session_target()
+    current = get_active_symbol()
+    t = get_target(current)
+    tier = data_tier(current)
+    st.markdown(
+        f'<div class="ob-side-target">'
+        f'<div class="ob-side-target-kicker">Active target</div>'
+        f'<div class="ob-side-target-sym">{current}</div>'
+        f'<div class="ob-side-target-sub">{t.get("name", "")} · {tier}</div>'
+        f"</div>",
+        unsafe_allow_html=True,
     )
-    if choice != current:
-        set_active_symbol(choice)
-        st.rerun()
-    t = get_target(choice)
-    st.caption(f"{t.get('name', choice)} · {t.get('ensembl_id', '')}")
-    return choice
+    st.caption("Switch target in the bar above the page.")
+    return current
 
 
 def render_stub_gate(*, module: str = "This module") -> bool:
-    """
-    If active target is not loaded, show empty state and return True (caller should stop).
-    """
+    """Stop if active target has no data slice yet."""
     sym = get_active_symbol()
     if is_loaded(sym):
         return False
     t = get_target(sym)
     st.warning(
-        f"**{module}** — target **{sym}** is registered but not loaded yet "
-        f"(`kg_status: {t.get('kg_status', 'stub')}`)."
+        f"**{module}** — target **{sym}** is registered but has no open-data slice yet "
+        f"(tier `{data_tier(sym)}`)."
     )
     st.info(
         f"Ensembl `{t.get('ensembl_id')}` · UniProt `{t.get('uniprot_id')}`. "
-        "Switch the sidebar **Research target** back to **CD46** for live case-study data, "
-        "or wait until Phase 4 ETL slices land for this gene."
+        "Pick another target in the **Research target** bar, or wait until this gene is sliced."
     )
-    st.markdown(
-        "- No CD46 CSV/graph bleed-through for stub targets.\n"
-        "- KG Query Explorer still allows free Cypher; gene templates use this symbol "
-        "(expect empty results until the gene is in Aura)."
+    return True
+
+
+def render_case_study_gate(*, module: str = "This module") -> bool:
+    """
+    Stop when this module is still CD46-depth only and user selected another gene.
+    Return True → caller should st.stop().
+    """
+    sym = get_active_symbol()
+    if is_case_study(sym):
+        return False
+    st.warning(
+        f"**{module}** is still built on the **CD46 deep case study** "
+        f"(the first full open-data recipe). It is not yet wired for **{sym}**."
+    )
+    st.info(
+        f"What you can do now for **{sym}** (tier `{data_tier(sym)}`):\n"
+        "- **Expression Atlas** / **Survival Outcomes** / **Compare Targets** — gene-aware reports\n"
+        "- **Research Assistant** — asks using this target’s CSVs where they exist\n"
+        "- **KG Query Explorer** — Cypher with this gene symbol\n\n"
+        "Switch the Research target bar to **CD46** to open this case-study module, "
+        "or wait until we copy the CD46 open-data recipe to the other targets."
     )
     return True
 
 
 def format_gene_cypher(cypher: str, symbol: str | None = None) -> str:
-    """Replace {symbol} / {SYMBOL} placeholders in Cypher templates."""
     sym = symbol or get_active_symbol()
     return (
         cypher.replace("{symbol}", sym)
@@ -135,13 +223,17 @@ def format_gene_cypher(cypher: str, symbol: str | None = None) -> str:
 
 
 def assert_phase2_targets() -> None:
-    """ponytail: registry — five loaded seeds + GRPR Ensembl correct."""
+    """ponytail: registry honesty — tiers + GRPR Ensembl + case_study flag."""
     assert default_symbol() == "CD46"
-    for sym in ("CD46", "FOLH1", "FAP", "SSTR2", "GRPR"):
-        assert is_loaded(sym), sym
+    assert data_tier("CD46") == "full"
+    assert is_case_study("CD46")
+    for sym in ("FOLH1", "FAP", "SSTR2", "GRPR"):
+        assert data_tier(sym) == "thin", sym
+        assert not is_case_study(sym), sym
     assert get_target("GRPR")["ensembl_id"] == "ENSG00000126010"
-    sample = format_gene_cypher("MATCH (g:Gene {symbol: '{symbol}'}) RETURN g")
-    assert "CD46" in sample or "{symbol}" not in sample
+    assert "FOLH1" in format_gene_cypher(
+        "MATCH (g:Gene {symbol: '{symbol}'}) RETURN g", "FOLH1"
+    )
 
 
 if __name__ == "__main__":

@@ -25,8 +25,12 @@ st.set_page_config(
 inject_global_css()
 
 # ---------------------------------------------------------------------------
-# Sidebar branding
+# Research target — PRIMARY control (main area, sticky). Sidebar is a mirror.
 # ---------------------------------------------------------------------------
+from components.targets import render_main_target_bar, render_sidebar_target_selector
+from components.feedback import render_sidebar_feedback
+
+render_main_target_bar()
 
 with st.sidebar:
     st.markdown(
@@ -39,7 +43,7 @@ with st.sidebar:
         'font-family:\'Space Grotesk\',sans-serif;'
         'font-size:15px;font-weight:700;color:#E2E8F0;'
         'letter-spacing:-0.2px;margin-bottom:2px;'
-        '">🔬 OncoBridge</div>'
+        '">OncoBridge</div>'
         '<div style="'
         'font-size:10px;color:#4E637A;letter-spacing:0.08em;'
         'text-transform:uppercase;font-weight:600;'
@@ -47,9 +51,6 @@ with st.sidebar:
         '</div>',
         unsafe_allow_html=True,
     )
-    from components.targets import render_sidebar_target_selector
-    from components.feedback import render_sidebar_feedback
-
     render_sidebar_target_selector()
     render_sidebar_feedback()
     st.markdown('<span></span>', unsafe_allow_html=True)

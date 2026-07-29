@@ -1,5 +1,6 @@
 # Gene / target registry for OncoBridge.
-# All five theranostic seeds are thin-slice loaded (Phase 4).
+# data_tier: stub | thin | medium | full  (honest depth — not a boolean "loaded")
+# case_study: true = deep CD46 reference modules still apply
 
 default_target: CD46
 
@@ -14,6 +15,7 @@ targets:
     aliases: [MCP, MIC10, TLX]
     modality_tags: [surface_antigen, complement, alpha_RLT]
     kg_status: loaded
+    data_tier: full
     case_study: true
 
   FOLH1:
@@ -26,6 +28,7 @@ targets:
     aliases: [PSMA, GCPII, NAALAD1, FOLH]
     modality_tags: [surface_antigen, radioligand, PSMA]
     kg_status: loaded
+    data_tier: thin
     case_study: false
 
   FAP:
@@ -38,6 +41,7 @@ targets:
     aliases: [FAPA, DPPIV, SIMP]
     modality_tags: [surface_antigen, CAF, FAPI, radioligand]
     kg_status: loaded
+    data_tier: thin
     case_study: false
 
   SSTR2:
@@ -50,6 +54,7 @@ targets:
     aliases: [SSR2]
     modality_tags: [GPCR, radioligand, NET]
     kg_status: loaded
+    data_tier: thin
     case_study: false
 
   GRPR:
@@ -63,4 +68,5 @@ targets:
     aliases: [BB2, BB2R, BRS2]
     modality_tags: [GPCR, radioligand]
     kg_status: loaded
+    data_tier: thin
     case_study: false

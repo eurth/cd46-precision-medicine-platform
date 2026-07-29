@@ -14,9 +14,13 @@ DATA_DIR = Path("data/processed")
 RAW_DIR = Path("data/raw")
 
 
-# ---------------------------------------------------------------------------
-# Helper — safe CSV loader
-# ---------------------------------------------------------------------------
+def _active_gene() -> str:
+    try:
+        from components.targets import get_active_symbol
+        return get_active_symbol()
+    except Exception:
+        return "CD46"
+
 
 def _load_csv(filename: str) -> Optional[pd.DataFrame]:
     path = DATA_DIR / filename
@@ -24,6 +28,21 @@ def _load_csv(filename: str) -> Optional[pd.DataFrame]:
         logger.warning("Tool data file not found: %s", path)
         return None
     return pd.read_csv(path)
+
+
+def _gene_file_map(gene: str) -> dict[str, str]:
+    g = gene.lower()
+    return {
+        "expression": f"{g}_expression.csv",
+        "by_cancer": f"{g}_by_cancer.csv",
+        "priority": "priority_score.csv",
+        "survival": f"{g}_survival_results.csv",
+        "eligibility": "patient_groups.csv",
+        "hpa": f"hpa_{g}_protein.csv",
+        "depmap": f"depmap_{g}_essentiality.csv",
+        "cbioportal": "cbioportal_mcrpc.csv",
+        "combination": f"{g}_combination_biomarkers.csv",
+    }
 
 
 # ---------------------------------------------------------------------------
@@ -86,17 +105,10 @@ def load_csv_data(dataset: str, cancer_type: Optional[str] = None, top_n: int = 
     Returns:
         JSON string with data summary.
     """
-    file_map = {
-        "expression": "cd46_expression.csv",
-        "by_cancer": "cd46_by_cancer.csv",
-        "priority": "priority_score.csv",
-        "survival": "cd46_survival_results.csv",
-        "eligibility": "patient_groups.csv",
-        "hpa": "hpa_cd46_protein.csv",
-        "depmap": "depmap_cd46_essentiality.csv",
-        "cbioportal": "cbioportal_mcrpc.csv",
-        "combination": "cd46_combination_biomarkers.csv",
-    }
+    gene = _active_gene()
+    file_map = _gene_file_map(gene)
+    # Case-study-only datasets: clear error if missing for non-CD46
+    case_only = {"hpa", "depmap", "combination", "eligibility", "priority", "cbioportal"}
 
     filename = file_map.get(dataset.lower())
     if not filename:
@@ -105,8 +117,17 @@ def load_csv_data(dataset: str, cancer_type: Optional[str] = None, top_n: int = 
 
     df = _load_csv(filename)
     if df is None:
+        hint = ""
+        if dataset.lower() in case_only and gene.upper() != "CD46":
+            hint = (
+                f" Dataset '{dataset}' is still CD46 case-study depth only. "
+                f"For {gene} use expression/by_cancer/survival where CSVs exist."
+            )
         return json.dumps(
-            {"error": f"File not found: data/processed/{filename}. Run pipeline first."}
+            {
+                "error": f"File not found: data/processed/{filename}.{hint}",
+                "active_gene": gene,
+            }
         )
 
     if cancer_type and "cancer_type" in df.columns:
@@ -115,6 +136,8 @@ def load_csv_data(dataset: str, cancer_type: Optional[str] = None, top_n: int = 
     return json.dumps(
         {
             "dataset": dataset,
+            "active_gene": gene,
+            "file": filename,
             "cancer_type_filter": cancer_type,
             "total_rows": len(df),
             "columns": list(df.columns),
@@ -273,16 +296,22 @@ def run_analysis_summary(analysis: str = "priority") -> str:
         )
 
     elif analysis == "survival_significant":
-        df = _load_csv("cd46_survival_results.csv")
+        gene = _active_gene()
+        fname = f"{gene.lower()}_survival_results.csv"
+        df = _load_csv(fname)
         if df is None:
-            return json.dumps({"error": "cd46_survival_results.csv not found"})
-        if "log_rank_p" in df.columns:
-            sig = df[df["log_rank_p"] < 0.05]
+            return json.dumps({"error": f"{fname} not found", "active_gene": gene})
+        # Cox rows use p_value; KM rows use log_rank_p
+        pcol = "p_value" if "p_value" in df.columns else "log_rank_p"
+        if pcol in df.columns:
+            sig = df[df[pcol].notna() & (df[pcol] < 0.05)]
+            cols = [c for c in ["cancer_type", "endpoint", "hazard_ratio", pcol, "log_rank_p"] if c in sig.columns]
             return json.dumps(
                 {
-                    "analysis": "Significant survival associations (p<0.05)",
+                    "analysis": f"Significant survival associations for {gene} (p<0.05)",
+                    "active_gene": gene,
                     "n_significant": len(sig),
-                    "results": sig[["cancer_type", "endpoint", "hazard_ratio", "log_rank_p"]].to_dict(orient="records"),
+                    "results": sig[cols].to_dict(orient="records"),
                 },
                 default=str,
                 indent=2,

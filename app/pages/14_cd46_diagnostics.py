@@ -21,7 +21,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 from components.styles import page_hero
-from components.targets import render_stub_gate
+from components.targets import render_stub_gate, render_case_study_gate
 
 # ── Streamlit Cloud secret injection ─────────────────────────────────────────
 for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
@@ -32,6 +32,8 @@ for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
         pass
 
 if render_stub_gate(module="Diagnostics & Early Detection"):
+    st.stop()
+if render_case_study_gate(module="Diagnostics & Early Detection"):
     st.stop()
 
 # ── Theme ─────────────────────────────────────────────────────────────────────

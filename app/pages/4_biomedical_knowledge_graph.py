@@ -16,7 +16,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 from components.styles import page_hero
-from components.targets import render_stub_gate
+from components.targets import get_active_symbol, is_case_study, render_stub_gate
 
 # Inject Streamlit Cloud secrets into os.environ
 for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
@@ -28,6 +28,14 @@ for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
 
 if render_stub_gate(module="Knowledge Graph"):
     st.stop()
+
+if not is_case_study():
+    _sym = get_active_symbol()
+    st.info(
+        f"**Honesty note:** curated KG dashboards and presets are still the **CD46 case study**. "
+        f"Active target is **{_sym}** (thin slice in Aura). Use free Cypher or "
+        f"**KG Query Explorer** for {_sym}; switch to CD46 for the full curated views."
+    )
 
 # ---------------------------------------------------------------------------
 # Theme constants

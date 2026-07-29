@@ -10,9 +10,11 @@ import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
 from components.styles import page_hero
-from components.targets import render_stub_gate
+from components.targets import render_stub_gate, render_case_study_gate
 
 if render_stub_gate(module="Patient Selection"):
+    st.stop()
+if render_case_study_gate(module="Patient Selection"):
     st.stop()
 
 # ---------------------------------------------------------------------------
