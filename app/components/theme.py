@@ -45,28 +45,31 @@ C_MID = TEXT_FAINT
 C_INDIGO = CHART_HIGHLIGHT
 
 
+def _deep_merge(base: dict, overrides: dict) -> dict:
+    """Merge Plotly layout dicts (nested xaxis/yaxis/font/legend/margin)."""
+    out = dict(base)
+    for key, val in overrides.items():
+        if key in out and isinstance(out[key], dict) and isinstance(val, dict):
+            out[key] = _deep_merge(out[key], val)
+        else:
+            out[key] = val
+    return out
+
+
 def plotly_layout(**overrides) -> dict:
-    """Default Plotly layout for Clinical Slate."""
+    """Default Plotly layout for Clinical Slate; pass page overrides as kwargs."""
     base = {
         "paper_bgcolor": SURFACE,
         "plot_bgcolor": SURFACE_2,
         "font": {"family": "Inter, sans-serif", "color": TEXT_MUTED},
-        "margin": {"l": 48, "r": 24, "t": 48, "b": 48},
-        "xaxis": {
-            "gridcolor": CHART_GRID,
-            "linecolor": BORDER,
-            "color": TEXT_MUTED,
-            "zerolinecolor": BORDER,
-        },
-        "yaxis": {
-            "gridcolor": CHART_GRID,
-            "linecolor": BORDER,
-            "color": TEXT_MUTED,
-            "zerolinecolor": BORDER,
-        },
     }
-    base.update(overrides)
-    return base
+    return _deep_merge(base, overrides)
+
+
+def apply_plotly_layout(fig, **overrides):
+    """ponytail: one safe entry — avoids **base + duplicate margin/xaxis kwargs."""
+    fig.update_layout(**plotly_layout(**overrides))
+    return fig
 
 
 def assert_theme_smoke() -> None:

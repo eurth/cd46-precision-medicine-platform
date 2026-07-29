@@ -71,7 +71,7 @@ _trial_count = str(_stats["active_trials"]) if _stats else "14"
 st.markdown(
     '<h1 class="lp-headline">OncoBridge<br>Intelligence</h1>'
     '<p class="lp-sub">'
-    'Open research workbench for <strong style="color:#CBD5E1;">surface-antigen and '
+    'Open research workbench for <strong style="color:#1E293B;">surface-antigen and '
     'radioligand (theranostics)</strong> target intelligence. Query a biomedical '
     'knowledge graph, inspect expression and trial evidence, and explore curated '
     'case studies — starting with CD46 α-RLT.'
@@ -135,7 +135,7 @@ def _image_card(
     # Overlay so emoji is always readable
     overlay = (
         '<div style="position:absolute;inset:0;'
-        f'background:rgba(7,16,31,0.55);"></div>'
+        'background:rgba(255,255,255,0.35);"></div>'
     )
     return (
         f'<div class="mc-img-card">'
@@ -298,37 +298,29 @@ st.markdown(_grid(
 st.markdown("<br>", unsafe_allow_html=True)
 
 _stages = [
-    ("\U0001f3af", "Target ID",    "#818CF8", "CD46 overexpression \u00b7 Pan-cancer validated"),
-    ("\u269b\ufe0f",  "Drug Design", "#38BDF8", "225Ac \u03b1-emitter \u00b7 FOR46 antibody"),
-    ("\U0001f9ea", "Preclinical",  "#34D399", "Dosimetry \u00b7 FOR46 in vitro/in vivo"),
-    ("\U0001f3e5", "Phase I",      "#FBBF24", "FOR46 trial \u00b7 n=56 \u00b7 Safety"),
-    ("\U0001f4ca", "Phase II/III", "#F87171", "Expansion trials \u00b7 Efficacy"),
+    ("\U0001f3af", "Target ID",    "#2563EB", "CD46 overexpression \u00b7 Pan-cancer validated"),
+    ("\u269b\ufe0f",  "Drug Design", "#0284C7", "225Ac \u03b1-emitter \u00b7 FOR46 antibody"),
+    ("\U0001f9ea", "Preclinical",  "#059669", "Dosimetry \u00b7 FOR46 in vitro/in vivo"),
+    ("\U0001f3e5", "Phase I",      "#D97706", "FOR46 trial \u00b7 n=56 \u00b7 Safety"),
+    ("\U0001f4ca", "Phase II/III", "#E11D48", "Expansion trials \u00b7 Efficacy"),
 ]
 
 _s = ""
 for i, (ico, stage, col, detail) in enumerate(_stages):
     _s += (
         f'<div style="flex:1;min-width:110px;">'
-        f'<div style="background:#0D1829;border-radius:8px;padding:16px 14px;'
-        f'border:1px solid #16243C;height:100%;box-sizing:border-box;">'
+        f'<div class="ob-pipeline-step">'
         f'<div style="font-size:22px;margin-bottom:10px;">{ico}</div>'
-        f'<div style="font-size:10px;font-weight:700;text-transform:uppercase;'
-        f'letter-spacing:0.1em;color:{col};margin-bottom:6px;">{stage}</div>'
-        f'<div style="font-size:11.5px;color:#7A90AB;line-height:1.5;">{detail}</div>'
+        f'<div class="ob-pipeline-step-title" style="color:{col};">{stage}</div>'
+        f'<div class="ob-pipeline-step-detail">{detail}</div>'
         f'</div></div>'
     )
     if i < len(_stages) - 1:
-        # Visible arrow
-        _s += (
-            '<div style="color:#4E637A;font-size:18px;padding:0 6px;'
-            'align-self:center;flex-shrink:0;">\u2192</div>'
-        )
+        _s += '<div class="ob-pipeline-arrow">\u2192</div>'
 
 st.markdown(
-    '<div style="margin:40px 0 28px;border-top:1px solid #16243C;padding-top:36px;">'
-    '<div style="font-family:\'Space Grotesk\',sans-serif;font-size:11px;font-weight:700;'
-    'letter-spacing:0.14em;text-transform:uppercase;color:#4E637A;margin-bottom:20px;">'
-    'Case Study Pipeline · CD46 α-RLT</div>'
+    f'<div class="ob-pipeline-wrap">'
+    f'<div class="ob-pipeline-label">Case Study Pipeline \u00b7 CD46 \u03b1-RLT</div>'
     f'<div style="display:flex;align-items:stretch;gap:0;overflow-x:auto;">{_s}</div>'
     '</div>',
     unsafe_allow_html=True,

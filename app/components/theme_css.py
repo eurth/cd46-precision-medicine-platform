@@ -10,6 +10,7 @@ from components.theme import (
     PRIMARY,
     PRIMARY_SOFT,
     PRIMARY_TEXT,
+    ROSE,
     SIDEBAR_BG,
     SURFACE,
     SURFACE_2,
@@ -379,6 +380,65 @@ details[data-testid="stExpander"] > summary span {{
     font-size: 10px; font-weight: 700; text-transform: uppercase;
     letter-spacing: 0.08em; color: {TEXT_FAINT}; margin-bottom: 4px;
 }}
+
+/* Tab / section intros (replaces dark #1e293b callouts) */
+.ob-tab-intro {{
+    padding: 12px 16px; border-radius: 6px; margin-bottom: 14px;
+    font-size: 14px; line-height: 1.55;
+}}
+.ob-tab-intro-info {{ background: #EFF6FF; border-left: 3px solid {PRIMARY}; color: {PRIMARY_TEXT}; }}
+.ob-tab-intro-success {{ background: #ECFDF5; border-left: 3px solid {GREEN}; color: #065F46; }}
+.ob-tab-intro-warning {{ background: #FFFBEB; border-left: 3px solid {AMBER}; color: #92400E; }}
+.ob-tab-intro-violet {{ background: #F5F3FF; border-left: 3px solid #7C3AED; color: #5B21B6; }}
+.ob-tab-intro-error {{ background: #FEF2F2; border-left: 4px solid {ROSE}; color: #991B1B; padding: 12px 16px; border-radius: 6px; margin-bottom: 14px; }}
+.ob-tab-intro-neutral {{ background: {SURFACE}; border: 1px solid {BORDER}; color: {TEXT_SECONDARY}; padding: 12px 16px; border-radius: 6px; }}
+
+/* Research target segmented bar — uniform light chips */
+#ob-target-bar .ant-segmented {{
+    background: {SURFACE_2} !important; padding: 3px !important;
+    border-radius: 8px !important; border: 1px solid {BORDER} !important;
+}}
+#ob-target-bar .ant-segmented-item {{
+    color: {TEXT_SECONDARY} !important; background: transparent !important;
+    font-weight: 500 !important;
+}}
+#ob-target-bar .ant-segmented-item-selected {{
+    background: {SURFACE} !important; color: {PRIMARY} !important;
+    font-weight: 600 !important;
+    box-shadow: 0 1px 2px rgba(15,23,42,0.08) !important;
+}}
+#ob-target-bar [data-baseweb="button-group"] button {{
+    background: transparent !important; color: {TEXT_SECONDARY} !important;
+    border-color: {BORDER} !important;
+}}
+#ob-target-bar [data-baseweb="button-group"] button[aria-pressed="true"] {{
+    background: {PRIMARY_SOFT} !important; color: {PRIMARY} !important;
+    border-color: {PRIMARY} !important;
+}}
+
+/* Filter expander header — light, not dark */
+details[data-testid="stExpander"] > summary {{
+    background: {SURFACE_2} !important; border-radius: 6px !important;
+}}
+details[data-testid="stExpander"] > summary span {{
+    color: {TEXT_SECONDARY} !important;
+}}
+
+/* Case-study pipeline stepper (overview) */
+.ob-pipeline-wrap {{ margin: 40px 0 28px; border-top: 1px solid {BORDER}; padding-top: 36px; }}
+.ob-pipeline-label {{
+    font-family: 'IBM Plex Sans', sans-serif; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase; color: {TEXT_MUTED}; margin-bottom: 20px;
+}}
+.ob-pipeline-step {{
+    background: {SURFACE}; border-radius: 8px; padding: 16px 14px;
+    border: 1px solid {BORDER}; height: 100%; box-sizing: border-box;
+    box-shadow: 0 1px 2px rgba(15,23,42,0.04);
+}}
+.ob-pipeline-step-title {{ font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }}
+.ob-pipeline-step-detail {{ font-size: 11.5px; color: {TEXT_MUTED}; line-height: 1.5; }}
+.ob-pipeline-arrow {{ color: {TEXT_FAINT}; font-size: 18px; padding: 0 6px; align-self: center; flex-shrink: 0; }}
+
 @media print {{
     #ob-topbar, #ob-target-bar, .ob-dim-rail, .ob-crumb, .ob-recent,
     [data-testid="stSidebar"], header[data-testid="stHeader"] {{ display: none !important; }}

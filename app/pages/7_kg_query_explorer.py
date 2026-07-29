@@ -382,7 +382,7 @@ with st.sidebar:
         schema = get_schema()
         for lbl in schema.get("labels", []):
             cnt = schema["counts"].get(lbl, 0)
-            st.markdown(f"<span style='color:#38bdf8;'>●</span> `{lbl}`: **{cnt:,}**", unsafe_allow_html=True)
+            st.markdown(f"<span style='color:#2563EB;'>●</span> `{lbl}`: **{cnt:,}**", unsafe_allow_html=True)
         st.markdown("**Relationship types:**")
         for rt in schema.get("rel_types", []):
             st.markdown(f"<span style='color:#4ade80;'>→</span> `{rt}`", unsafe_allow_html=True)
@@ -401,8 +401,8 @@ if _active_kgqx == _KGQX_TABS[0]:
     st.markdown(
         "<div style='background:#1e293b;border-left:3px solid #38bdf8;padding:12px 16px;"
         "border-radius:6px;margin-bottom:14px;'>"
-        "<b style='color:#38bdf8;'>Pre-Built Research Queries</b><br>"
-        "<span style='color:#94a3b8;'>10 curated Cypher queries covering the key research questions. "
+        "<b style='color:#2563EB;'>Pre-Built Research Queries</b><br>"
+        "<span style='color:#64748B;'>10 curated Cypher queries covering the key research questions. "
         "Select → run → see results. Designed to reveal the most clinically important graph patterns.</span>"
         "</div>",
         unsafe_allow_html=True,
@@ -461,7 +461,7 @@ if _active_kgqx == _KGQX_TABS[0]:
                         textposition="outside",
                     ))
                     fig.update_layout(
-                        height=350, paper_bgcolor="#0f172a", plot_bgcolor="#0f172a",
+                        height=350, paper_bgcolor="#FFFFFF", plot_bgcolor="#EEF2F7",
                         xaxis=dict(color="#94a3b8"),
                         yaxis=dict(title=chart_col.replace("_", " "), color="#94a3b8", gridcolor="#E2E8F0"),
                         margin=dict(l=10, r=10, t=30, b=10),
@@ -478,7 +478,7 @@ elif _active_kgqx == _KGQX_TABS[1]:
         "<div style='background:#1e293b;border-left:3px solid #4ade80;padding:12px 16px;"
         "border-radius:6px;margin-bottom:14px;'>"
         "<b style='color:#4ade80;'>Direct Cypher Query Editor</b><br>"
-        "<span style='color:#94a3b8;'>Write read-only Cypher queries against the live AuraDB instance. "
+        "<span style='color:#64748B;'>Write read-only Cypher queries against the live AuraDB instance. "
         "Use MATCH, WHERE, RETURN, ORDER BY, LIMIT. Write operations are blocked.</span>"
         "</div>",
         unsafe_allow_html=True,
@@ -564,7 +564,7 @@ elif _active_kgqx == _KGQX_TABS[2]:
         "<div style='background:#1e293b;border-left:3px solid #fbbf24;padding:12px 16px;"
         "border-radius:6px;margin-bottom:14px;'>"
         "<b style='color:#fbbf24;'>Natural Language → Cypher Translation</b><br>"
-        "<span style='color:#94a3b8;'>Ask research questions in plain English. "
+        "<span style='color:#64748B;'>Ask research questions in plain English. "
         "The AI translates to Cypher, runs it against AuraDB, and explains the results. "
         f"Active target: {_ACTIVE}.</span>"
         "</div>",
@@ -705,7 +705,7 @@ elif _active_kgqx == _KGQX_TABS[3]:
         "<div style='background:#1e293b;border-left:3px solid #818cf8;padding:12px 16px;"
         "border-radius:6px;margin-bottom:14px;'>"
         "<b style='color:#818cf8;'>Graph Network Visualizer</b><br>"
-        "<span style='color:#94a3b8;'>Renders query results as an interactive network graph. "
+        "<span style='color:#64748B;'>Renders query results as an interactive network graph. "
         "Select a view preset or run a path query to see the relationship structure.</span>"
         "</div>",
         unsafe_allow_html=True,
@@ -813,10 +813,10 @@ LIMIT 50
                 ))
 
             fig_g.update_layout(
-                height=500, paper_bgcolor="#0f172a", plot_bgcolor="#0f172a",
+                height=500, paper_bgcolor="#FFFFFF", plot_bgcolor="#EEF2F7",
                 xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
                 yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-                legend=dict(bgcolor="#FFFFFF", font=dict(color="#e2e8f0")),
+                legend=dict(bgcolor="#FFFFFF", font=dict(color="#64748B")),
                 margin=dict(l=10, r=10, t=10, b=10),
                 title=dict(text=f"Graph: {preset_sel}", font=dict(color="#e2e8f0", size=13)),
             )

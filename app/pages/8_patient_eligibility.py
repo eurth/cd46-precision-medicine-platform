@@ -390,7 +390,7 @@ with col_output:
     fig_gauge.update_layout(
         height=270,
         margin={"t": 40, "b": 10, "l": 20, "r": 20},
-        paper_bgcolor="#0f172a",
+        paper_bgcolor="#FFFFFF",
         font=dict(family="Inter", color="#94A3B8"),
     )
     st.plotly_chart(fig_gauge, use_container_width=True)
@@ -426,8 +426,8 @@ with col_output:
         margin={"t": 10, "b": 10, "l": 10, "r": 50},
         xaxis={"range": [0, 42], "title": "Points", "color": "#94A3B8", "gridcolor": "#1e293b"},
         yaxis={"title": "", "color": "#94A3B8"},
-        plot_bgcolor="#0f172a",
-        paper_bgcolor="#0f172a",
+        plot_bgcolor="#EEF2F7",
+        paper_bgcolor="#FFFFFF",
         showlegend=False,
         font=dict(family="Inter", color="#94A3B8"),
     )
@@ -573,8 +573,8 @@ elif _active_elig == _ELIG_TABS[1]:
                     xaxis_tickangle=-35,
                     yaxis_title="% of Patients",
                     margin=dict(t=10, b=80, l=10, r=10),
-                    paper_bgcolor="#0f172a",
-                    plot_bgcolor="#0f172a",
+                    paper_bgcolor="#FFFFFF",
+                    plot_bgcolor="#EEF2F7",
                     font=dict(family="Inter", color="#94A3B8"),
                     xaxis=dict(color="#94A3B8", gridcolor="#E2E8F0"),
                     yaxis=dict(color="#94A3B8", gridcolor="#E2E8F0"),

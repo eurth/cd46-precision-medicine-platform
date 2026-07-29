@@ -179,7 +179,7 @@ if _active_bio == _BIO_TABS[0]:
             fig1.add_vline(x=p75_val, line_dash="dot", line_color="#f87171",
                            annotation_text="75th pct threshold", annotation_font_color="#f87171")
             fig1.update_layout(
-                height=420, paper_bgcolor="#0f172a", plot_bgcolor="#0f172a",
+                height=420, paper_bgcolor="#FFFFFF", plot_bgcolor="#EEF2F7",
                 xaxis=dict(title=f"{_GENE} log₂ TPM", color="#94a3b8", gridcolor="#E2E8F0"),
                 yaxis=dict(color="#e2e8f0", tickfont=dict(size=9)),
                 margin=dict(l=10, r=80, t=30, b=10),
@@ -248,7 +248,7 @@ if _active_bio == _BIO_TABS[0]:
             fig_thr.add_vline(x=50, line_dash="dot", line_color="#f87171",
                               annotation_text="50%", annotation_font_color="#f87171")
         fig_thr.update_layout(
-            height=440, paper_bgcolor="#0f172a", plot_bgcolor="#0f172a",
+            height=440, paper_bgcolor="#FFFFFF", plot_bgcolor="#EEF2F7",
             xaxis=dict(title="% Eligible" if show_axis=="% Eligible" else "N Patients",
                        color="#94a3b8", gridcolor="#E2E8F0"),
             yaxis=dict(color="#e2e8f0", tickfont=dict(size=9)),
@@ -322,7 +322,7 @@ elif _active_bio == _BIO_TABS[1]:
             ))
             fig_g1.update_layout(
                 barmode="group", height=420,
-                paper_bgcolor="#0f172a", plot_bgcolor="#0f172a",
+                paper_bgcolor="#FFFFFF", plot_bgcolor="#EEF2F7",
                 font=dict(color="#94a3b8"),
                 margin=dict(l=10, r=80, t=10, b=10),
                 xaxis=dict(title="% Patients Altered", color="#94a3b8", gridcolor="#E2E8F0"),
@@ -384,7 +384,7 @@ elif _active_bio == _BIO_TABS[1]:
                     textfont=dict(color="#f8fafc"))
                 fig_g2.update_layout(
                     margin=dict(t=10, b=10, l=10, r=10), height=420, showlegend=False,
-                    paper_bgcolor="#0f172a", font=dict(color="#e2e8f0")
+                    paper_bgcolor="#FFFFFF", font=dict(color="#e2e8f0")
                 )
                 st.plotly_chart(fig_g2, use_container_width=True)
                 n_g = len(prad_g)
@@ -460,7 +460,7 @@ elif _active_bio == _BIO_TABS[2]:
         )
         fig_resist.update_traces(texttemplate="%{text}%", textposition="outside")
         fig_resist.update_layout(
-            height=360, paper_bgcolor="#0f172a", plot_bgcolor="#0f172a",
+            height=360, paper_bgcolor="#FFFFFF", plot_bgcolor="#EEF2F7",
             xaxis=dict(color="#94a3b8"), yaxis=dict(color="#94a3b8", gridcolor="#E2E8F0"),
             coloraxis_showscale=False,
             title_font=dict(color="#e2e8f0", size=13),
@@ -511,7 +511,7 @@ elif _active_bio == _BIO_TABS[2]:
                 fig_surv.add_vline(x=1.0, line_dash="dash", line_color="#64748b")
                 fig_surv.update_traces(textposition="top center", textfont_size=9)
                 fig_surv.update_layout(
-                    height=360, paper_bgcolor="#0f172a", plot_bgcolor="#0f172a",
+                    height=360, paper_bgcolor="#FFFFFF", plot_bgcolor="#EEF2F7",
                     xaxis=dict(color="#94a3b8", gridcolor="#E2E8F0"),
                     yaxis=dict(color="#94a3b8", gridcolor="#E2E8F0"),
                     coloraxis_showscale=False,
@@ -607,7 +607,7 @@ elif _active_bio == _BIO_TABS[3]:
         showlegend=False,
     ))
     fig_comp.update_layout(
-        height=440, paper_bgcolor="#0f172a", plot_bgcolor="#0f172a",
+        height=440, paper_bgcolor="#FFFFFF", plot_bgcolor="#EEF2F7",
         xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
         yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
         margin=dict(l=10, r=10, t=30, b=10),
@@ -1156,7 +1156,7 @@ elif _active_bio == _BIO_TABS[5]:
         ))
         fig_gauge.update_layout(
             height=280,
-            paper_bgcolor="#0f172a",
+            paper_bgcolor="#FFFFFF",
             font=dict(color="#e2e8f0"),
             margin=dict(l=20, r=20, t=30, b=20),
         )
@@ -1281,7 +1281,7 @@ elif _active_bio == _BIO_TABS[5]:
                 angularaxis=dict(color="#94a3b8"),
                 bgcolor="#FFFFFF",
             ),
-            paper_bgcolor="#0f172a", legend=dict(font=dict(color="#e2e8f0")),
+            paper_bgcolor="#FFFFFF", legend=dict(font=dict(color="#e2e8f0")),
             height=380, margin=dict(l=40, r=40, t=40, b=40),
             title=dict(text="Multi-Dimensional Profile Radar", font=dict(color="#e2e8f0", size=13)),
         )
@@ -1318,7 +1318,7 @@ elif _active_bio == _BIO_TABS[5]:
         for thr, col, lbl in [(65, "#22c55e", "Tier 1"), (45, "#fbbf24", "Tier 2"), (25, "#f97316", "Tier 3")]:
             fig_dist.add_vline(x=thr, line_color=col, line_width=1.5, line_dash="dot", annotation_text=lbl, annotation_font_color=col, annotation_position="top left")
         fig_dist.update_layout(
-            height=280, paper_bgcolor="#0f172a", plot_bgcolor="#0f172a",
+            height=280, paper_bgcolor="#FFFFFF", plot_bgcolor="#EEF2F7",
             xaxis=dict(title="Suitability Score", color="#94a3b8", range=[0, 100], gridcolor="#E2E8F0"),
             yaxis=dict(title="# Patients", color="#94a3b8", gridcolor="#E2E8F0"),
             legend=dict(font=dict(color="#e2e8f0")), margin=dict(l=10, r=10, t=30, b=10),
@@ -1458,7 +1458,7 @@ elif _active_bio == _BIO_TABS[5]:
                                        annotation_font_color="#fbbf24")
                     fig_dist.update_layout(
                         barmode="overlay", height=300,
-                        paper_bgcolor="#0f172a", plot_bgcolor="#0f172a",
+                        paper_bgcolor="#FFFFFF", plot_bgcolor="#EEF2F7",
                         xaxis=dict(title="CD46 log₂ TPM", color="#94a3b8", gridcolor="#E2E8F0"),
                         yaxis=dict(title="Patients", color="#94a3b8", gridcolor="#E2E8F0"),
                         legend=dict(bgcolor="#FFFFFF", font=dict(color="#e2e8f0")),
@@ -1481,7 +1481,7 @@ elif _active_bio == _BIO_TABS[5]:
                         fig_lm.add_trace(go.Scatter(x=lbl_pts, y=pct_lo, name=f"CD46-Low",
                             mode="lines+markers", line=dict(color="#38bdf8", width=2, dash="dash"), marker_size=7))
                         fig_lm.update_layout(
-                            height=300, paper_bgcolor="#0f172a", plot_bgcolor="#0f172a",
+                            height=300, paper_bgcolor="#FFFFFF", plot_bgcolor="#EEF2F7",
                             xaxis=dict(title="Time", color="#94a3b8", gridcolor="#E2E8F0"),
                             yaxis=dict(title="% with follow-up data", color="#94a3b8", gridcolor="#E2E8F0"),
                             legend=dict(bgcolor="#FFFFFF", font=dict(color="#e2e8f0")),
@@ -1560,13 +1560,13 @@ elif _active_bio == _BIO_TABS[5]:
                     {"range": [65, 100], "color": "#14532d"},
                 ],
                 "threshold": {"line": {"color": "#f87171", "width": 2}, "thickness": 0.8, "value": 65},
-                "bgcolor": "#0f172a",
+                "bgcolor": "#FFFFFF",
                 "bordercolor": "#334155",
             },
             number={"font": {"color": score_color, "size": 42}},
         ))
         fig_gauge.update_layout(
-            height=260, paper_bgcolor="#0f172a",
+            height=260, paper_bgcolor="#FFFFFF",
             margin=dict(l=20, r=20, t=30, b=10),
         )
         st.plotly_chart(fig_gauge, use_container_width=True)

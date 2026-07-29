@@ -123,7 +123,7 @@ def render_main_target_bar() -> str:
                 items=symbols,
                 index=idx,
                 size="sm",
-                color="indigo",
+                color="blue",
                 use_container_width=True,
                 key="target_sac",
             )

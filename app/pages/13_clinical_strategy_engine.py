@@ -202,10 +202,10 @@ page_header(
 
 # ── Pipeline progress banner ──────────────────────────────────────────────────
 st.markdown("""
-<div style='background:#0D1829;border:1px solid #16243C;border-radius:10px;
+<div class="ob-pipeline-step" style="border-radius:10px;
             padding:1rem 1.5rem;margin:.5rem 0 1rem 0;'>
   <div style='display:flex;align-items:center;gap:1.2rem;flex-wrap:wrap;'>
-    <span style='color:#94A3B8;font-size:.82rem;font-weight:600;'>DEVELOPMENT STAGE →</span>
+    <span style='color:#64748B;font-size:.82rem;font-weight:600;'>DEVELOPMENT STAGE →</span>
     <span class='phase-pill pill-pre'>PRECLINICAL ✅</span>
     <span style='color:#4E637A'>──</span>
     <span class='phase-pill pill-p1'>PHASE I ▶ Active</span>

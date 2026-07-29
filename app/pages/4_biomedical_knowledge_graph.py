@@ -246,12 +246,12 @@ UniProt IDs, ClinicalTrials NCT numbers, DepMap scores.
 
                 net = Network(
                     height="560px", width="100%",
-                    bgcolor="#0B1120", font_color="#F8FAFC", directed=True,
+                    bgcolor="#F4F6F9", font_color="#1E293B", directed=True,
                 )
                 net.set_options(
                     '{"physics":{"barnesHut":{"gravitationalConstant":-6000,"springLength":120},'
                     '"stabilization":{"iterations":120}},'
-                    '"nodes":{"font":{"size":11,"face":"Inter, sans-serif","color":"#F8FAFC"},'
+                    '"nodes":{"font":{"size":11,"face":"Inter, sans-serif","color":"#1E293B"},'
                     '"borderWidth":2},'
                     '"edges":{"color":{"color":"#1E293B"},"smooth":{"type":"continuous"},'
                     '"arrows":{"to":{"enabled":true,"scaleFactor":0.5}}}}'
@@ -628,9 +628,9 @@ elif _active_kg == _KG_TABS[2]:
         st.markdown(
             "<div style='background:#1e293b;border-left:3px solid #38bdf8;"
             "padding:14px 18px;border-radius:8px;margin-bottom:18px;'>"
-            "<span style='font-size:1.1em;font-weight:700;color:#38bdf8;'>"
+            "<span style='font-size:1.1em;font-weight:700;color:#2563EB;'>"
             "CD46 — Membrane Cofactor Protein (MCP)</span>"
-            "&nbsp;&nbsp;<span style='background:#0f172a;color:#94a3b8;"
+            "&nbsp;&nbsp;<span style='background:#EEF2F7;color:#64748B;"
             "font-size:0.78em;padding:2px 9px;border-radius:12px;'>"
             "UniProt P15529 · Homo sapiens</span></div>",
             unsafe_allow_html=True,
@@ -661,10 +661,9 @@ elif _active_kg == _KG_TABS[2]:
 
         if func_text:
             st.markdown(
-                f"<div style='background:#0f172a;border:1px solid #334155;"
-                f"padding:12px 16px;border-radius:6px;color:#cbd5e1;"
-                f"font-size:0.88em;line-height:1.6;'>"
-                f"<b style='color:#38bdf8;'>Function:</b> {func_text}</div>",
+                f'<div class="ob-tab-intro ob-tab-intro-neutral" style="padding:12px 16px;'
+                f'border-radius:6px;color:#475569;font-size:0.88em;line-height:1.6;">'
+                f"<b style='color:#2563EB;'>Function:</b> {func_text}</div>",
                 unsafe_allow_html=True,
             )
 
@@ -693,7 +692,7 @@ elif _active_kg == _KG_TABS[2]:
         dom_fig.update_layout(
             barmode="stack", height=120,
             margin=dict(l=0, r=0, t=10, b=30),
-            paper_bgcolor="#0f172a", plot_bgcolor="#0f172a",
+            paper_bgcolor="#FFFFFF", plot_bgcolor="#EEF2F7",
             xaxis=dict(title="Residue position", color=_TEXT, gridcolor=_LINE, range=[0, seq_len + 5]),
             yaxis=dict(showticklabels=False, showgrid=False),
             legend=dict(
@@ -774,7 +773,7 @@ elif _active_kg == _KG_TABS[2]:
             ot_fig.update_layout(
                 height=max(380, len(top25) * 18),
                 margin=dict(l=0, r=0, t=10, b=0),
-                paper_bgcolor="#0f172a", plot_bgcolor="#0f172a",
+                paper_bgcolor="#FFFFFF", plot_bgcolor="#EEF2F7",
                 xaxis=dict(title="Overall Association Score", color=_TEXT, gridcolor=_LINE, range=[0, 1]),
                 yaxis=dict(color=_LIGHT, tickfont=dict(size=10), autorange="reversed"),
             )
@@ -809,7 +808,7 @@ elif _active_kg == _KG_TABS[2]:
             ))
             plddt_fig.update_layout(
                 height=200, margin=dict(l=0, r=0, t=10, b=0),
-                paper_bgcolor="#0f172a", plot_bgcolor="#0f172a",
+                paper_bgcolor="#FFFFFF", plot_bgcolor="#EEF2F7",
                 xaxis=dict(title="Residue index", color=_TEXT, showgrid=False),
                 yaxis=dict(title="pLDDT", color=_TEXT, range=[0, 100], gridcolor=_LINE),
             )
@@ -833,7 +832,7 @@ elif _active_kg == _KG_TABS[2]:
             "<div style='background:#1e293b;border-left:3px solid #818cf8;"
             "padding:12px 16px;border-radius:6px;margin-bottom:14px;'>"
             "<b style='color:#818cf8;'>CD46 Protein Interaction Network — STRING DB</b><br>"
-            "<span style='color:#94a3b8;'>Homo sapiens (taxid: 9606) · "
+            "<span style='color:#64748B;'>Homo sapiens (taxid: 9606) · "
             "Combined score > 400 · Physical + functional interactions</span>"
             "</div>",
             unsafe_allow_html=True,
@@ -895,7 +894,7 @@ elif _active_kg == _KG_TABS[2]:
                             "#f87171" if p in COMPLEMENT_GENES else "#818cf8"
                             for p in pnames
                         ],
-                        line=dict(width=1, color="#0f172a"),
+                        line=dict(width=1, color="#E2E8F0"),
                     ),
                     text=["CD46"] + pnames,
                     textposition="top center",
@@ -908,7 +907,7 @@ elif _active_kg == _KG_TABS[2]:
                     hoverinfo="text", showlegend=False,
                 ))
                 fig_str.update_layout(
-                    height=440, paper_bgcolor="#0f172a", plot_bgcolor="#0f172a",
+                    height=440, paper_bgcolor="#FFFFFF", plot_bgcolor="#EEF2F7",
                     margin=dict(l=10, r=10, t=30, b=10),
                     xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
                     yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
@@ -941,7 +940,7 @@ elif _active_kg == _KG_TABS[2]:
             "<div style='background:#1e293b;border-left:3px solid #4ade80;"
             "padding:12px 16px;border-radius:6px;margin-bottom:14px;'>"
             "<b style='color:#4ade80;'>Curated CD46 Evidence Base</b><br>"
-            "<span style='color:#94a3b8;'>Peer-reviewed publications from AuraDB "
+            "<span style='color:#64748B;'>Peer-reviewed publications from AuraDB "
             "knowledge graph — foundational papers for 225Ac-CD46 program</span>"
             "</div>",
             unsafe_allow_html=True,
@@ -987,18 +986,17 @@ elif _active_kg == _KG_TABS[2]:
                 authors  = pub.get("authors", "")
                 auth_str = ", ".join(authors) if isinstance(authors, list) else authors
                 st.markdown(
-                    f"<div style='background:#1e293b;border:1px solid #334155;"
-                    f"border-left:4px solid {ev_color};"
-                    f"padding:14px 16px;margin:8px 0;border-radius:6px;'>"
+                    f'<div class="ob-tab-intro ob-tab-intro-neutral" style="border-left:4px solid {ev_color};'
+                    f'padding:14px 16px;margin:8px 0;border-radius:6px;">'
                     f"<span style='background:{ev_color}22;color:{ev_color};"
                     f"font-size:0.75em;padding:2px 8px;border-radius:12px;font-weight:600;'>"
                     f"{pub.get('evidence_type','').upper()}</span>"
                     f"<b style='color:#e2e8f0;display:block;margin-top:8px;'>"
                     f"{pub.get('title','')}</b>"
-                    f"<span style='color:#94a3b8;font-size:0.84em;'>{auth_str}</span><br>"
+                    f"<span style='color:#64748B;font-size:0.84em;'>{auth_str}</span><br>"
                     f"<span style='color:#64748b;font-size:0.82em;'>"
                     f"{pub.get('journal','')} &middot; {pub.get('year','')}</span><br>"
-                    f"<span style='color:#38bdf8;font-size:0.84em;"
+                    f"<span style='color:#2563EB;font-size:0.84em;"
                     f"margin-top:6px;display:block;'>"
                     f"-> {pub.get('key_finding','')}</span>"
                     f"</div>",

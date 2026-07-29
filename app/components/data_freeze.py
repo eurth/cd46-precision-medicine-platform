@@ -26,6 +26,8 @@ def load_data_freeze() -> dict:
 
 def render_data_freeze_banner(*, compact: bool = True) -> None:
     """Render a short provenance strip (call near top of research pages)."""
+    from components.theme import BORDER, PRIMARY_SOFT, PRIMARY_TEXT, SURFACE, TEXT_MUTED
+
     freeze = load_data_freeze()
     label = freeze.get("freeze_label") or freeze.get("freeze_id") or "unknown"
     version = freeze.get("platform_version") or ""
@@ -35,19 +37,19 @@ def render_data_freeze_banner(*, compact: bool = True) -> None:
         f"{s.get('name', '?')} ({s.get('access_date', 'n/a')})" for s in sources[:3]
     )
     parts = [
-        f'<strong style="color:#CBD5E1;">Data freeze</strong> · {label}',
+        f'<strong style="color:{PRIMARY_TEXT};">Data freeze</strong> · {label}',
     ]
     if version:
         parts[0] += f" · v{version}"
     if src_bits and not compact:
         parts.append(src_bits)
     if disclaimer:
-        parts.append(f'<span style="color:#4E637A;">{disclaimer}</span>')
+        parts.append(f'<span style="color:{TEXT_MUTED};">{disclaimer}</span>')
     inner = "<br/>".join(parts)
     st.markdown(
-        '<div style="margin:8px 0 18px;padding:10px 14px;border:1px solid #16243C;'
-        'border-radius:8px;background:#0B1526;font-size:12px;line-height:1.45;color:#7A90AB;">'
-        f"{inner}</div>",
+        f'<div style="margin:8px 0 18px;padding:10px 14px;border:1px solid {BORDER};'
+        f'border-radius:8px;background:{PRIMARY_SOFT};font-size:12px;'
+        f'line-height:1.45;color:{PRIMARY_TEXT};">{inner}</div>',
         unsafe_allow_html=True,
     )
 
