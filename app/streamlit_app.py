@@ -48,8 +48,10 @@ with st.sidebar:
         unsafe_allow_html=True,
     )
     from components.targets import render_sidebar_target_selector
+    from components.feedback import render_sidebar_feedback
 
     render_sidebar_target_selector()
+    render_sidebar_feedback()
     st.markdown('<span></span>', unsafe_allow_html=True)
 
 # ---------------------------------------------------------------------------

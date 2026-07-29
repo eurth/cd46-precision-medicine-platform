@@ -6,6 +6,7 @@ URL: /admin_logs
 import csv
 import io
 import ipaddress
+import json
 import os
 import sys
 from pathlib import Path
@@ -53,8 +54,8 @@ if not st.session_state.admin_authed:
     st.stop()
 
 # ---- Header -----------------------------------------------------------------
-st.title("Visitor Analytics")
-st.caption("CD46 Platform - GitHub Gist log")
+st.title("Admin")
+st.caption("Visitor analytics (Gist) · Feedback inbox (volume JSONL)")
 
 c1, c2, c3 = st.columns([1, 1, 8])
 with c1:
@@ -66,6 +67,28 @@ with c2:
         st.rerun()
 
 st.divider()
+
+# ---- Feedback inbox (volume) ------------------------------------------------
+with st.expander("Feedback inbox", expanded=True):
+    from components.feedback import feedback_path, load_feedback
+    from components.llm_rate_limit import daily_cap, usage_today
+
+    st.caption(f"`{feedback_path()}` · LLM today: {usage_today()}/{daily_cap()} (UTC)")
+    rows = load_feedback()
+    if not rows:
+        st.info("No feedback yet.")
+    else:
+        fdf = pd.DataFrame(rows)
+        st.dataframe(fdf.iloc[::-1], use_container_width=True, height=280)
+        st.download_button(
+            "Download feedback JSONL",
+            "\n".join(json.dumps(r, ensure_ascii=False) for r in rows) + "\n",
+            file_name="feedback.jsonl",
+            mime="application/x-ndjson",
+            key="btn_dl_fb",
+        )
+
+st.subheader("Visitor Analytics")
 
 # ---- Secrets check ----------------------------------------------------------
 token   = st.secrets.get("github_gist", {}).get("token", "") or os.environ.get("GITHUB_GIST_TOKEN", "")

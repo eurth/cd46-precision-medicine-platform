@@ -9,10 +9,12 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 from components.styles import page_hero
-from components.targets import render_stub_gate
+from components.targets import get_active_symbol, render_stub_gate
 
 if render_stub_gate(module="Survival Outcomes"):
     st.stop()
+
+_GENE = get_active_symbol()
 
 # ---------------------------------------------------------------------------
 # Theme constants
@@ -39,11 +41,11 @@ _PLOTLY_LAYOUT = dict(
 # Data loader
 # ---------------------------------------------------------------------------
 @st.cache_data
-def load_survival():
-    p = Path("data/processed/cd46_survival_results.csv")
+def load_survival(symbol: str):
+    p = Path(f"data/processed/{symbol.lower()}_survival_results.csv")
     return pd.read_csv(p) if p.exists() else None
 
-survival_df = load_survival()
+survival_df = load_survival(_GENE)
 
 # ---------------------------------------------------------------------------
 # Prepare sub-frames: Cox rows and log-rank rows
@@ -77,8 +79,8 @@ st.markdown(
         icon="📈",
         module_name="Survival Outcomes",
         purpose=(
-            "Cox proportional hazard analysis · TCGA 24 cancer types · "
-            "CD46-High vs CD46-Low OS & PFI endpoints · Forest plot + significance table"
+            f"Cox proportional hazard analysis · TCGA · "
+            f"{_GENE}-High vs {_GENE}-Low OS & PFI · Forest plot + significance table"
         ),
         kpi_chips=[
             ("Cancers Tested", str(n_cancers)),
@@ -94,8 +96,8 @@ st.markdown(
 k1, k2, k3, k4 = st.columns(4)
 k1.metric("Cancers Tested", str(n_cancers), "TCGA OS + PFI endpoints")
 k2.metric("Cox Significant", str(n_sig), "p < 0.05 (Cox PH)")
-k3.metric("Strongest Positive", top_pos_txt, "CD46-High → worse OS")
-k4.metric("Strongest Inverse", top_neg_txt, "CD46-High → better OS")
+k3.metric("Strongest Positive", top_pos_txt, f"{_GENE}-High → worse OS")
+k4.metric("Strongest Inverse", top_neg_txt, f"{_GENE}-High → better OS")
 st.markdown("---")
 
 # ---------------------------------------------------------------------------
@@ -109,9 +111,9 @@ tab1, tab2, tab3 = st.tabs([
 
 # ── Tab 1 : Forest Plot ──────────────────────────────────────────────────────
 with tab1:
-    st.markdown("#### Cox PH Forest Plot — CD46-High vs CD46-Low")
+    st.markdown(f"#### Cox PH Forest Plot — {_GENE}-High vs {_GENE}-Low")
     st.caption(
-        "Hazard ratio > 1 → CD46-High predicts worse survival.  "
+        f"Hazard ratio > 1 → {_GENE}-High predicts worse survival.  "
         "Error bars = 95% CI.  Stars = p < 0.05.  "
         "Dashed line = HR 1.0 (null hypothesis)."
     )
@@ -182,7 +184,7 @@ with tab1:
             height=max(380, len(fp_data) * 22),
             margin=dict(l=180, r=20, t=20, b=40),
             xaxis=dict(
-                title="Hazard Ratio (log scale) — CD46-High vs CD46-Low",
+                title=f"Hazard Ratio (log scale) — {_GENE}-High vs {_GENE}-Low",
                 gridcolor=_LINE, color=_TEXT, type="log",
             ),
             yaxis=dict(
@@ -195,25 +197,31 @@ with tab1:
         st.plotly_chart(fig_fp, use_container_width=True)
 
         leg1, leg2, leg3 = st.columns(3)
-        leg1.error("🔴 Significant — CD46-High → worse outcome (p<0.05)")
-        leg2.success("🟢 Significant — CD46-High → better outcome (p<0.05)")
+        leg1.error(f"🔴 Significant — {_GENE}-High → worse outcome (p<0.05)")
+        leg2.success(f"🟢 Significant — {_GENE}-High → better outcome (p<0.05)")
         leg3.info("⬜ Not significant at p<0.05")
 
         st.markdown("---")
-        interp1, interp2 = st.columns(2)
-        with interp1:
-            st.markdown(
-                "**HR > 1.0 (right of dashed line):** CD46 overexpression associates with "
-                "worse survival. These are cancers where CD46 may be **functionally driving "
-                "immune evasion** — protecting tumour cells from complement attack. "
-                "CESC (HR 3.42) and LGG (HR 1.94) are the strongest positive associations at p < 0.05."
-            )
-        with interp2:
-            st.markdown(
-                "**HR < 1.0 (left of dashed line):** CD46 overexpression associates with "
-                "better survival. SKCM (melanoma, HR 0.59) and KIRC (kidney, HR 0.44) show "
-                "this inverse pattern — likely reflecting high CD46 as a marker of "
-                "immunologically active tumours, not complement evasion dominance."
+        if _GENE == "CD46":
+            interp1, interp2 = st.columns(2)
+            with interp1:
+                st.markdown(
+                    "**HR > 1.0 (right of dashed line):** CD46 overexpression associates with "
+                    "worse survival. These are cancers where CD46 may be **functionally driving "
+                    "immune evasion** — protecting tumour cells from complement attack. "
+                    "CESC (HR 3.42) and LGG (HR 1.94) are the strongest positive associations at p < 0.05."
+                )
+            with interp2:
+                st.markdown(
+                    "**HR < 1.0 (left of dashed line):** CD46 overexpression associates with "
+                    "better survival. SKCM (melanoma, HR 0.59) and KIRC (kidney, HR 0.44) show "
+                    "this inverse pattern — likely reflecting high CD46 as a marker of "
+                    "immunologically active tumours, not complement evasion dominance."
+                )
+        else:
+            st.caption(
+                f"Interpretation vignettes are CD46 case-study notes. "
+                f"Read {_GENE} associations from the forest plot and significance table."
             )
 
 # ── Tab 2 : Significance Table & KM Context ─────────────────────────────────
@@ -261,106 +269,124 @@ with tab2:
             st.download_button(
                 "⬇ Download Cox results CSV",
                 data=tbl_data.to_csv(index=False),
-                file_name="cd46_cox_survival_results.csv",
+                file_name=f"{_GENE.lower()}_cox_survival_results.csv",
                 mime="text/csv",
             )
 
     with interp_col:
-        st.markdown("**Key Findings**")
-        st.error(
-            "**CESC (Cervical) — HR 3.42, p=0.0015**  \n"
-            "CD46-High: 3.4× higher risk of death. HPV+ tumours "
-            "selectively upregulate CD46 to escape innate immunity."
-        )
-        st.error(
-            "**LGG (Low-Grade Glioma) — HR 1.94, p=0.021**  \n"
-            "Nearly 2× worse OS. IDH-mutant gliomas that upregulate "
-            "CD46 show more aggressive progression patterns."
-        )
-        st.success(
-            "**SKCM (Melanoma) — HR 0.59, p=0.0007**  \n"
-            "Protective. CD46-High likely marks immunologically inflamed "
-            "tumours with better checkpoint therapy response."
-        )
-        st.success(
-            "**KIRC (Kidney) — HR 0.44, p=0.018**  \n"
-            "Strong protective. High CD46 in KIRC reflects physiological "
-            "renal expression (confirmed by GTEx — page 1)."
-        )
-        st.markdown("---")
-        st.info(
-            "**225Ac-CD46 implications:**  \n"
-            "PRAD, OV, BLCA — the primary clinical indications — are not "
-            "significant in this TCGA primary cohort. However, **mCRPC/treatment-"
-            "refractory cohorts** show much stronger CD46 associations by IHC. "
-            "TCGA captures early-stage disease where CD46 is not maximally "
-            "upregulated. This does not weaken the therapeutic case."
-        )
+        if _GENE != "CD46":
+            st.markdown(f"**{_GENE} key findings**")
+            if cox_df.empty:
+                st.info(f"No Cox results for {_GENE} yet.")
+            else:
+                top = cox_df.nsmallest(4, "p_value")
+                for _, r in top.iterrows():
+                    hr, pv = r.get("hazard_ratio"), r.get("p_value")
+                    if pd.isna(hr) or pd.isna(pv):
+                        continue
+                    label = f"**{r['cancer_type']} ({r['endpoint']}) — HR {hr:.2f}, p={pv:.4f}**"
+                    if hr >= 1:
+                        st.error(label)
+                    else:
+                        st.success(label)
+            st.caption("Narrative vignettes below are CD46 case-study only.")
+        else:
+            st.markdown("**Key Findings**")
+            st.error(
+                "**CESC (Cervical) — HR 3.42, p=0.0015**  \n"
+                "CD46-High: 3.4× higher risk of death. HPV+ tumours "
+                "selectively upregulate CD46 to escape innate immunity."
+            )
+            st.error(
+                "**LGG (Low-Grade Glioma) — HR 1.94, p=0.021**  \n"
+                "Nearly 2× worse OS. IDH-mutant gliomas that upregulate "
+                "CD46 show more aggressive progression patterns."
+            )
+            st.success(
+                "**SKCM (Melanoma) — HR 0.59, p=0.0007**  \n"
+                "Protective. CD46-High likely marks immunologically inflamed "
+                "tumours with better checkpoint therapy response."
+            )
+            st.success(
+                "**KIRC (Kidney) — HR 0.44, p=0.018**  \n"
+                "Strong protective. High CD46 in KIRC reflects physiological "
+                "renal expression (confirmed by GTEx — page 1)."
+            )
+            st.markdown("---")
+            st.info(
+                "**225Ac-CD46 implications:**  \n"
+                "PRAD, OV, BLCA — the primary clinical indications — are not "
+                "significant in this TCGA primary cohort. However, **mCRPC/treatment-"
+                "refractory cohorts** show much stronger CD46 associations by IHC. "
+                "TCGA captures early-stage disease where CD46 is not maximally "
+                "upregulated. This does not weaken the therapeutic case."
+            )
 
     st.markdown("---")
-    st.markdown("#### Kaplan-Meier Schematic — Key Cancer Types")
-    km1, km2, km3 = st.columns(3)
-    _t = list(range(0, 100, 10))
+    if _GENE == "CD46":
+        st.markdown("#### Kaplan-Meier Schematic — Key Cancer Types")
+        km1, km2, km3 = st.columns(3)
+        _t = list(range(0, 100, 10))
 
-    with km1:
-        st.markdown("**CESC — CD46-High vs Low**")
-        _fig = go.Figure()
-        _fig.add_trace(go.Scatter(
-            x=_t, y=[1.0, 0.90, 0.78, 0.63, 0.50, 0.38, 0.29, 0.22, 0.17, 0.13],
-            mode="lines", name="CD46-High", line=dict(color=_RED, width=2)
-        ))
-        _fig.add_trace(go.Scatter(
-            x=_t, y=[1.0, 0.95, 0.88, 0.80, 0.73, 0.67, 0.61, 0.57, 0.53, 0.50],
-            mode="lines", name="CD46-Low", line=dict(color=_INDIGO, width=2)
-        ))
-        _fig.update_layout(
-            **_PLOTLY_LAYOUT, height=200, margin=dict(l=0, r=0, t=10, b=30),
-            xaxis=dict(title="Months", gridcolor=_LINE, color=_TEXT),
-            yaxis=dict(title="OS prob.", gridcolor=_LINE, color=_TEXT, range=[0, 1]),
-            legend=dict(bgcolor="rgba(0,0,0,0)", font=dict(color=_TEXT, size=10)),
-        )
-        st.plotly_chart(_fig, use_container_width=True)
-        st.caption("HR 3.42 · p=0.0015 · schematic based on Cox HR")
+        with km1:
+            st.markdown("**CESC — CD46-High vs Low**")
+            _fig = go.Figure()
+            _fig.add_trace(go.Scatter(
+                x=_t, y=[1.0, 0.90, 0.78, 0.63, 0.50, 0.38, 0.29, 0.22, 0.17, 0.13],
+                mode="lines", name="CD46-High", line=dict(color=_RED, width=2)
+            ))
+            _fig.add_trace(go.Scatter(
+                x=_t, y=[1.0, 0.95, 0.88, 0.80, 0.73, 0.67, 0.61, 0.57, 0.53, 0.50],
+                mode="lines", name="CD46-Low", line=dict(color=_INDIGO, width=2)
+            ))
+            _fig.update_layout(
+                **_PLOTLY_LAYOUT, height=200, margin=dict(l=0, r=0, t=10, b=30),
+                xaxis=dict(title="Months", gridcolor=_LINE, color=_TEXT),
+                yaxis=dict(title="OS prob.", gridcolor=_LINE, color=_TEXT, range=[0, 1]),
+                legend=dict(bgcolor="rgba(0,0,0,0)", font=dict(color=_TEXT, size=10)),
+            )
+            st.plotly_chart(_fig, use_container_width=True)
+            st.caption("HR 3.42 · p=0.0015 · schematic based on Cox HR")
 
-    with km2:
-        st.markdown("**LGG — CD46-High vs Low**")
-        _fig2 = go.Figure()
-        _fig2.add_trace(go.Scatter(
-            x=_t, y=[1.0, 0.96, 0.90, 0.82, 0.72, 0.60, 0.49, 0.39, 0.30, 0.22],
-            mode="lines", name="CD46-High", line=dict(color=_RED, width=2)
-        ))
-        _fig2.add_trace(go.Scatter(
-            x=_t, y=[1.0, 0.98, 0.95, 0.91, 0.85, 0.79, 0.72, 0.65, 0.58, 0.52],
-            mode="lines", name="CD46-Low", line=dict(color=_INDIGO, width=2)
-        ))
-        _fig2.update_layout(
-            **_PLOTLY_LAYOUT, height=200, margin=dict(l=0, r=0, t=10, b=30),
-            xaxis=dict(title="Months", gridcolor=_LINE, color=_TEXT),
-            yaxis=dict(title="OS prob.", gridcolor=_LINE, color=_TEXT, range=[0, 1]),
-            legend=dict(bgcolor="rgba(0,0,0,0)", font=dict(color=_TEXT, size=10)),
-        )
-        st.plotly_chart(_fig2, use_container_width=True)
-        st.caption("HR 1.94 · p=0.021 · schematic based on Cox HR")
+        with km2:
+            st.markdown("**LGG — CD46-High vs Low**")
+            _fig2 = go.Figure()
+            _fig2.add_trace(go.Scatter(
+                x=_t, y=[1.0, 0.96, 0.90, 0.82, 0.72, 0.60, 0.49, 0.39, 0.30, 0.22],
+                mode="lines", name="CD46-High", line=dict(color=_RED, width=2)
+            ))
+            _fig2.add_trace(go.Scatter(
+                x=_t, y=[1.0, 0.98, 0.95, 0.91, 0.85, 0.79, 0.72, 0.65, 0.58, 0.52],
+                mode="lines", name="CD46-Low", line=dict(color=_INDIGO, width=2)
+            ))
+            _fig2.update_layout(
+                **_PLOTLY_LAYOUT, height=200, margin=dict(l=0, r=0, t=10, b=30),
+                xaxis=dict(title="Months", gridcolor=_LINE, color=_TEXT),
+                yaxis=dict(title="OS prob.", gridcolor=_LINE, color=_TEXT, range=[0, 1]),
+                legend=dict(bgcolor="rgba(0,0,0,0)", font=dict(color=_TEXT, size=10)),
+            )
+            st.plotly_chart(_fig2, use_container_width=True)
+            st.caption("HR 1.94 · p=0.021 · schematic based on Cox HR")
 
-    with km3:
-        st.markdown("**SKCM — Inverse pattern**")
-        _fig3 = go.Figure()
-        _fig3.add_trace(go.Scatter(
-            x=_t, y=[1.0, 0.96, 0.90, 0.84, 0.77, 0.71, 0.65, 0.59, 0.54, 0.49],
-            mode="lines", name="CD46-High", line=dict(color=_GREEN, width=2)
-        ))
-        _fig3.add_trace(go.Scatter(
-            x=_t, y=[1.0, 0.92, 0.81, 0.70, 0.60, 0.50, 0.41, 0.33, 0.26, 0.20],
-            mode="lines", name="CD46-Low", line=dict(color=_SLATE, width=2)
-        ))
-        _fig3.update_layout(
-            **_PLOTLY_LAYOUT, height=200, margin=dict(l=0, r=0, t=10, b=30),
-            xaxis=dict(title="Months", gridcolor=_LINE, color=_TEXT),
-            yaxis=dict(title="OS prob.", gridcolor=_LINE, color=_TEXT, range=[0, 1]),
-            legend=dict(bgcolor="rgba(0,0,0,0)", font=dict(color=_TEXT, size=10)),
-        )
-        st.plotly_chart(_fig3, use_container_width=True)
-        st.caption("HR 0.59 · p=0.0007 · INVERSE — schematic")
+        with km3:
+            st.markdown("**SKCM — Inverse pattern**")
+            _fig3 = go.Figure()
+            _fig3.add_trace(go.Scatter(
+                x=_t, y=[1.0, 0.96, 0.90, 0.84, 0.77, 0.71, 0.65, 0.59, 0.54, 0.49],
+                mode="lines", name="CD46-High", line=dict(color=_GREEN, width=2)
+            ))
+            _fig3.add_trace(go.Scatter(
+                x=_t, y=[1.0, 0.92, 0.81, 0.70, 0.60, 0.50, 0.41, 0.33, 0.26, 0.20],
+                mode="lines", name="CD46-Low", line=dict(color=_SLATE, width=2)
+            ))
+            _fig3.update_layout(
+                **_PLOTLY_LAYOUT, height=200, margin=dict(l=0, r=0, t=10, b=30),
+                xaxis=dict(title="Months", gridcolor=_LINE, color=_TEXT),
+                yaxis=dict(title="OS prob.", gridcolor=_LINE, color=_TEXT, range=[0, 1]),
+                legend=dict(bgcolor="rgba(0,0,0,0)", font=dict(color=_TEXT, size=10)),
+            )
+            st.plotly_chart(_fig3, use_container_width=True)
+            st.caption("HR 0.59 · p=0.0007 · INVERSE — schematic")
 
 # ── Tab 3 : Cancer Explorer ──────────────────────────────────────────────────
 with tab3:
@@ -449,7 +475,7 @@ with tab3:
 
         with ctx_col:
             st.markdown("**Clinical Context**")
-            if cancer_pick in CANCER_CONTEXT:
+            if _GENE == "CD46" and cancer_pick in CANCER_CONTEXT:
                 st.info(CANCER_CONTEXT[cancer_pick])
             else:
                 cox_os = cox_row[cox_row["endpoint"] == "OS"]
@@ -459,26 +485,26 @@ with tab3:
                     if pd.notna(hr) and pd.notna(pv):
                         if hr > 1.3 and pv < 0.05:
                             st.error(
-                                f"CD46-High in **{cancer_pick}** associates with significantly worse OS "
-                                f"(HR {hr:.2f}, p={pv:.4f}). Warrants investigation as a CD46-targeted "
+                                f"{_GENE}-High in **{cancer_pick}** associates with significantly worse OS "
+                                f"(HR {hr:.2f}, p={pv:.4f}). Warrants investigation as a {_GENE}-targeted "
                                 "therapy candidate."
                             )
                         elif hr < 0.75 and pv < 0.05:
                             st.success(
-                                f"CD46-High in **{cancer_pick}** shows protective association (HR {hr:.2f}, "
-                                f"p={pv:.4f}). CD46 likely reflects favourable tumour immunology here."
+                                f"{_GENE}-High in **{cancer_pick}** shows protective association (HR {hr:.2f}, "
+                                f"p={pv:.4f}). {_GENE} likely reflects favourable tumour immunology here."
                             )
                         else:
                             pv_str = f"{pv:.3f}" if pd.notna(pv) else "N/A"
                             st.info(
-                                f"CD46-High vs Low shows HR {hr:.2f} in **{cancer_pick}** (p={pv_str}). "
+                                f"{_GENE}-High vs Low shows HR {hr:.2f} in **{cancer_pick}** (p={pv_str}). "
                                 "No statistically significant survival association in the TCGA primary cohort."
                             )
 
 st.markdown("---")
 st.caption(
     "Methods: Cox proportional hazard model + Kaplan-Meier log-rank test (lifelines).  "
-    "CD46 median split: high vs low expression groups.  "
+    f"{_GENE} median split: high vs low expression groups.  "
     "Endpoints: Overall Survival (OS), Progression-Free Interval (PFI).  "
-    "Source: TCGA clinical data via UCSC Xena (24 cancer types analysed)."
+    "Source: TCGA clinical data via UCSC Xena."
 )

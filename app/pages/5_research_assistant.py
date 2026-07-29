@@ -198,6 +198,13 @@ with tab_chat:
     # Shared response runner
     # -----------------------------------------------------------------------
     def _run_question(q: str) -> None:
+        from components.llm_rate_limit import check_and_increment
+
+        allowed, cap_msg = check_and_increment("global")
+        if not allowed:
+            st.warning(cap_msg)
+            return
+
         st.session_state.messages.append({"role": "user", "content": q})
         with st.chat_message("user"):
             st.markdown(q)
@@ -205,6 +212,7 @@ with tab_chat:
             if agent is None:
                 st.error("Agent not available — set OPENROUTER_API_KEY, OPENAI_API_KEY, or GEMINI_API_KEY in .env")
             else:
+                st.caption(cap_msg)
                 with st.spinner("Retrieving KG context + generating answer..."):
                     ph = st.empty()
                     full = ""
@@ -219,7 +227,7 @@ with tab_chat:
                 st.session_state.messages.append({"role": "assistant", "content": full})
                 try:
                     from src.agent.pubmed_search import fetch_pubmed
-                    arts = fetch_pubmed(f"CD46 {q[:80]}", max_results=5)
+                    arts = fetch_pubmed(f"{_GENE} {q[:80]}", max_results=5)
                     st.session_state.citations[len(st.session_state.messages) - 1] = arts
                 except Exception:
                     pass
