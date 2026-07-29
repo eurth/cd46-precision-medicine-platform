@@ -1,0 +1,7 @@
+{
+  "gene": "CD46",
+  "protein_tissue_specificity": "Low tissue specificity",
+  "protein_tissue_distribution": "Detected in many",
+  "protein_cell_type_specificity": "Cell type enriched",
+  "n_intensity_rows": 1
+}

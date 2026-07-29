@@ -1,0 +1,6 @@
+tissue,type,intensity_score,data_source
+cerebral cortex,normal,161119.5,HPA_protein_intensity
+Astrocytes and Neuropil,cell_type,62994.7,HPA_protein_intensity
+Microglia and Neuropil,cell_type,153709.7,HPA_protein_intensity
+Neurons,cell_type,98376.1,HPA_protein_intensity
+Pancreatic islets,cell_type,149158.5,HPA_protein_intensity

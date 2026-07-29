@@ -1,0 +1,55 @@
+tissue_site_detail,tissue_site,tissue_site_id,median_tpm,mean_tpm,q1_tpm,q3_tpm,n_samples,unit,dataset,gene_symbol,gencode_id
+Brain - Spinal cord (cervical c-1),Brain,Brain_Spinal_cord_cervical_c-1,60.73,62.9578,37.31,86.39,159,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Prostate,Prostate,Prostate,50.96,79.0315,13.62,108.7,245,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Brain - Substantia nigra,Brain,Brain_Substantia_nigra,21.56,30.3402,15.62,41.28,139,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Brain - Hippocampus,Brain,Brain_Hippocampus,17.18,23.2216,10.06,30.6,197,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Minor Salivary Gland,Salivary Gland,Minor_Salivary_Gland,14.09,15.7368,8.489,21.59,162,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Brain - Putamen (basal ganglia),Brain,Brain_Putamen_basal_ganglia,13.21,15.2927,7.984,20.8,205,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Brain - Amygdala,Brain,Brain_Amygdala,10.95,13.3818,7.124,17.09,152,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Brain - Caudate (basal ganglia),Brain,Brain_Caudate_basal_ganglia,9.827,11.6946,6.329,15.43,246,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Nerve - Tibial,Nerve,Nerve_Tibial,9.481,10.3696,5.819,13.71,619,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Brain - Hypothalamus,Brain,Brain_Hypothalamus,8.679,14.6194,4.582,17.51,202,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Brain - Nucleus accumbens (basal ganglia),Brain,Brain_Nucleus_accumbens_basal_ganglia,5.176,8.8231,3.029,10.31,246,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Liver,Liver,Liver,4.945,6.1198,2.778,8.586,226,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Brain - Frontal Cortex (BA9),Brain,Brain_Frontal_Cortex_BA9,4.667,7.4703,2.667,8.358,209,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Brain - Cortex,Brain,Brain_Cortex,4.666,7.6016,2.89,8.077,255,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Spleen,Spleen,Spleen,2.683,2.8892,1.742,3.744,241,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Brain - Anterior cingulate cortex (BA24),Brain,Brain_Anterior_cingulate_cortex_BA24,2.678,5.0953,1.495,5.642,176,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Fallopian Tube,Fallopian Tube,Fallopian_Tube,2.586,2.6084,1.251,2.966,9,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Brain - Cerebellum,Brain,Brain_Cerebellum,2.363,2.9692,1.373,3.855,241,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Kidney - Cortex,Kidney,Kidney_Cortex,2.32,3.1867,1.388,4.332,85,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Brain - Cerebellar Hemisphere,Brain,Brain_Cerebellar_Hemisphere,2.204,2.7752,1.158,3.438,215,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Lung,Lung,Lung,1.904,2.2826,1.163,3.064,578,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Kidney - Medulla,Kidney,Kidney_Medulla,1.862,2.1938,1.591,4.144,4,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Cervix - Endocervix,Cervix Uteri,Cervix_Endocervix,1.8,1.4823,0.9871,2.034,10,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Breast - Mammary Tissue,Breast,Breast_Mammary_Tissue,1.671,2.6977,0.5669,3.644,459,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Skin - Sun Exposed (Lower leg),Skin,Skin_Sun_Exposed_Lower_leg,1.342,1.4922,0.8739,1.96,701,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Adipose - Visceral (Omentum),Adipose Tissue,Adipose_Visceral_Omentum,1.274,1.5134,0.7554,2.043,541,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Esophagus - Mucosa,Esophagus,Esophagus_Mucosa,1.03,1.2534,0.7117,1.536,555,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Testis,Testis,Testis,0.9858,1.0306,0.7906,1.21,361,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Skin - Not Sun Exposed (Suprapubic),Skin,Skin_Not_Sun_Exposed_Suprapubic,0.9455,1.1671,0.589,1.587,604,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Thyroid,Thyroid,Thyroid,0.939,1.0574,0.585,1.388,653,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Ovary,Ovary,Ovary,0.9145,1.1233,0.519,1.45,180,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Cervix - Ectocervix,Cervix Uteri,Cervix_Ectocervix,0.911,0.8936,0.6086,1.175,9,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Small Intestine - Terminal Ileum,Small Intestine,Small_Intestine_Terminal_Ileum,0.7986,1.8696,0.4522,1.336,187,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Esophagus - Gastroesophageal Junction,Esophagus,Esophagus_Gastroesophageal_Junction,0.7899,1.0099,0.4764,1.325,375,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Colon - Sigmoid,Colon,Colon_Sigmoid,0.7114,1.1018,0.4205,1.25,373,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Bladder,Bladder,Bladder,0.6803,1.4782,0.5035,1.28,21,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Artery - Coronary,Blood Vessel,Artery_Coronary,0.6459,0.8215,0.3323,1.105,240,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Esophagus - Muscularis,Esophagus,Esophagus_Muscularis,0.6274,0.8684,0.3967,1.11,515,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Vagina,Vagina,Vagina,0.59,0.8644,0.2425,1.311,156,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Artery - Aorta,Blood Vessel,Artery_Aorta,0.5874,1.0657,0.3519,0.9924,432,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Uterus,Uterus,Uterus,0.5152,0.722,0.3048,0.9093,142,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Colon - Transverse,Colon,Colon_Transverse,0.4935,0.9831,0.2252,1.181,406,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Artery - Tibial,Blood Vessel,Artery_Tibial,0.4221,0.5888,0.1966,0.7361,663,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Heart - Atrial Appendage,Heart,Heart_Atrial_Appendage,0.374,0.5282,0.199,0.7028,429,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Adipose - Subcutaneous,Adipose Tissue,Adipose_Subcutaneous,0.2491,0.5549,0.1152,0.5537,663,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Adrenal Gland,Adrenal Gland,Adrenal_Gland,0.2247,0.2778,0.1402,0.3656,258,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Stomach,Stomach,Stomach,0.2075,0.4081,0.0819,0.5151,359,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Pituitary,Pituitary,Pituitary,0.1085,0.2231,0.0531,0.2135,283,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Pancreas,Pancreas,Pancreas,0.0758,0.1015,0.0454,0.1358,328,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Heart - Left Ventricle,Heart,Heart_Left_Ventricle,0.0525,0.0764,0.022,0.0941,432,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Muscle - Skeletal,Muscle,Muscle_Skeletal,0.0298,0.0529,0.0,0.0647,803,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Cells - EBV-transformed lymphocytes,Blood Vessel,Cells_EBV-transformed_lymphocytes,0.0082,0.0194,0.0,0.0284,174,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Whole Blood,Blood,Whole_Blood,0.0,0.0207,0.0,0.0255,755,TPM,gtex_v8,FOLH1,ENSG00000086205.16
+Cells - Cultured fibroblasts,Skin,Cells_Cultured_fibroblasts,0.0,0.0277,0.0,0.0348,504,TPM,gtex_v8,FOLH1,ENSG00000086205.16

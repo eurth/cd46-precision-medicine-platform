@@ -36,11 +36,11 @@ python scripts/load_gene_trials_hpa.py --symbol CD46
 
 ## Still later
 
-- DepMap parameterized for non-CD46
-- Fuller HPA IHC (bulk TSV / dedicated columns)
-- UniProt + GTEx denser tissue (Step 3c)
 - GENIE (Pro + DUA)
+- Aura Pro fill-to-200k
+- Fuller classic HPA IHC TSV (beyond protein-intensity dicts)
 
 ## Done next
 
-- Step 3b: PubMed + ChEMBL per gene → see `reports/step3b_pubmed_chembl.md`
+- Step 3b: PubMed + ChEMBL → `reports/step3b_pubmed_chembl.md`
+- Step 3c: UniProt + GTEx + DepMap + HPA protein intensity → `reports/step3c_uniprot_gtex_depmap.md`

@@ -1,0 +1,12 @@
+{
+  "symbol": "CD46",
+  "uniprot_id": "P15529",
+  "gtex_tissues": 52,
+  "depmap_depends_on": 30,
+  "hpa_protein_tissues": 1,
+  "uniprot": {
+    "protein": 1,
+    "isoforms": 10,
+    "variants": 13
+  }
+}

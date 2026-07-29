@@ -1,0 +1,12 @@
+{
+  "symbol": "SSTR2",
+  "uniprot_id": "P30874",
+  "gtex_tissues": 52,
+  "depmap_depends_on": 7,
+  "hpa_protein_tissues": 5,
+  "uniprot": {
+    "protein": 1,
+    "isoforms": 2,
+    "variants": 0
+  }
+}

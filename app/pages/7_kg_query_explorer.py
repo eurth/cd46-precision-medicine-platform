@@ -310,19 +310,18 @@ ORDER BY sr.hazard_ratio DESC
             "requires_cd46_schema": True,
         },
         f"📊 Cell lines: Which lines depend on {s}?": {
-            "description": f"DepMap cell lines flagged as {s} dependency (case-study property names).",
-            "cypher": """
-MATCH (cl:CellLine)
-WHERE cl.cd46_is_dependency = true
+            "description": f"DepMap CellLine-[:DEPENDS_ON]->Gene for {s} (Step 3c; CRISPR < -0.5).",
+            "cypher": f"""
+MATCH (cl:CellLine)-[r:DEPENDS_ON]->(g:Gene {{symbol: '{s}'}})
 RETURN cl.name AS cell_line,
        cl.cancer_type AS cancer_type,
-       round(cl.cd46_crispr_score, 4) AS crispr_score,
-       round(cl.cd46_expression_tpm, 3) AS target_expression_tpm
-ORDER BY cl.cd46_crispr_score
+       round(r.crispr_score, 4) AS crispr_score,
+       r.source AS source
+ORDER BY r.crispr_score
 LIMIT 30
 """,
             "params": {},
-            "requires_cd46_schema": True,
+            "requires_cd46_schema": False,
         },
     }
 

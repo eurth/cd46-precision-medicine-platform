@@ -1,0 +1,12 @@
+{
+  "symbol": "FAP",
+  "uniprot_id": "Q12884",
+  "gtex_tissues": 52,
+  "depmap_depends_on": 0,
+  "hpa_protein_tissues": 3,
+  "uniprot": {
+    "protein": 1,
+    "isoforms": 2,
+    "variants": 1
+  }
+}

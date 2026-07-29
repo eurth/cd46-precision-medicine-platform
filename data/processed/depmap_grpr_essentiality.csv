@@ -1,0 +1,1187 @@
+depmap_id,crispr_score,cell_line_name,cancer_type,lineage,is_dependency,gene_symbol
+ACH-000015,-0.1229120674439362,NCI-H1581,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000045,-0.1200281991764967,MV4-11,Acute Myeloid Leukemia,Myeloid,False,GRPR
+ACH-000094,0.2360939542281971,HPAF-II,Pancreatic Adenocarcinoma,Pancreas,False,GRPR
+ACH-000096,0.0326693180136848,G-401,Rhabdoid Cancer,Kidney,False,GRPR
+ACH-000099,-0.0369191504439336,SIMA,Neuroblastoma,Peripheral Nervous System,False,GRPR
+ACH-000167,-0.0596964177736744,KE-97,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-000178,-0.2207949492535095,Hs 766T,Pancreatic Adenocarcinoma,Pancreas,False,GRPR
+ACH-000213,0.2366198674919398,HUP-T4,Pancreatic Adenocarcinoma,Pancreas,False,GRPR
+ACH-000216,0.0976115408320852,JH-EsoAd1,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,GRPR
+ACH-000223,0.0399163264299093,HCC1937,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-000247,-0.1464796312024304,OCUM-1,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,GRPR
+ACH-000261,-0.0741431417513202,RERF-LC-AI,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000262,-0.2024339496395377,UOK101,Renal Cell Carcinoma,Kidney,False,GRPR
+ACH-000286,0.3253389101009961,SNU-1033,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-000312,0.073399004418362,SK-N-BE(2),Neuroblastoma,Peripheral Nervous System,False,GRPR
+ACH-000320,0.0759913355049455,PSN1,Pancreatic Adenocarcinoma,Pancreas,False,GRPR
+ACH-000341,-0.0563388447938691,SK-N-FI,Neuroblastoma,Peripheral Nervous System,False,GRPR
+ACH-000354,-0.0749026016724639,Capan-1,Pancreatic Adenocarcinoma,Pancreas,False,GRPR
+ACH-000373,0.0063592419538625,SKM-1,Acute Myeloid Leukemia,Myeloid,False,GRPR
+ACH-000402,-0.1208085480780643,BL-70,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-000416,0.0381407142921804,NCI-H838,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000435,-0.1567043047325085,EFE-184,Endometrial Carcinoma,Uterus,False,GRPR
+ACH-000437,0.0160700063469223,SW 1088,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000450,0.0845760943618318,MEL-HO,Melanoma,Skin,False,GRPR
+ACH-000478,0.0455834106913858,SNU-387,Hepatocellular Carcinoma,Liver,False,GRPR
+ACH-000483,0.0906643979840513,SNU-182,Hepatocellular Carcinoma,Liver,False,GRPR
+ACH-000493,0.1674194397282616,SNU-423,Hepatocellular Carcinoma,Liver,False,GRPR
+ACH-000514,0.1422587629502379,NCI-H1092,Lung Neuroendocrine Tumor,Lung,False,GRPR
+ACH-000516,0.0581934173790564,CAL-78,Chondrosarcoma,Bone,False,GRPR
+ACH-000535,-0.0001899738682379,BxPC-3,Pancreatic Adenocarcinoma,Pancreas,False,GRPR
+ACH-000544,0.0516657736634149,OE21,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,GRPR
+ACH-000563,0.0117197075080124,EBC-1,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000592,0.0076148502027072,TM-31,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000599,-0.0699222181569932,PA-TU-8902,Pancreatic Adenocarcinoma,Pancreas,False,GRPR
+ACH-000614,-0.0286835902932317,RVH-421,Melanoma,Skin,False,GRPR
+ACH-000618,-0.1059999638353713,SNU-1041,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-000652,0.031661494451794,SUIT-2,Pancreatic Adenocarcinoma,Pancreas,False,GRPR
+ACH-000656,0.1060813173599565,SU-DHL-8,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-000695,0.1561446380981546,COR-L47,Lung Neuroendocrine Tumor,Lung,False,GRPR
+ACH-000717,-0.0599574940556883,COLO-680N,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,GRPR
+ACH-000719,-0.0061060390174965,RMG-I,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-000748,0.0550172313146991,SJSA-1,Osteosarcoma,Bone,False,GRPR
+ACH-000777,0.009606480212135,KYSE-30,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,GRPR
+ACH-000784,-0.0813710814909181,KYSE-70,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,GRPR
+ACH-000793,0.057648143664647,KATO III,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,GRPR
+ACH-000798,0.2129761551233411,CL-40,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-000820,-0.2420870630325997,SW403,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-000839,0.0015938421186091,SCaBER,Bladder Squamous Cell Carcinoma,Bladder/Urinary Tract,False,GRPR
+ACH-000862,0.0275375002216892,KMBC-2,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,GRPR
+ACH-000872,-0.0868801873527134,HCC515,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000876,-0.1124734508083854,MDA-MB-415,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-000888,0.0104090023380798,NCI-H1793,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000906,0.0620066873947328,ES-2,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-000912,0.097974525122318,NCI-H2286,Lung Neuroendocrine Tumor,Lung,False,GRPR
+ACH-000913,-0.0273567335044815,ESS-1,Uterine Sarcoma/Mesenchymal,Uterus,False,GRPR
+ACH-000922,-0.0443960356800018,RCH-ACV,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,False,GRPR
+ACH-000928,-0.2020628109796137,JHUEM-1,Endometrial Carcinoma,Uterus,False,GRPR
+ACH-000934,-0.0143456941969282,MDA-MB-361,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-000937,0.0368293100430426,PF-382,T-Lymphoblastic Leukemia/Lymphoma,Lymphoid,False,GRPR
+ACH-000943,-0.0782380435641563,RKO,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-000950,-0.2045674530278956,LoVo,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-000953,0.0078781695858944,SUP-T1,T-Lymphoblastic Leukemia/Lymphoma,Lymphoid,False,GRPR
+ACH-000957,0.0550139630292918,LS 180,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-000960,0.0459764021111562,Reh,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,False,GRPR
+ACH-000969,0.0484554916272304,KM12,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-000994,-0.2641907746646623,HEC-59,Endometrial Carcinoma,Uterus,False,GRPR
+ACH-001228,0.0313243296788029,UPCI-SCC-152,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-001329,0.0694117162152692,ANGM-CSS,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-001374,0.0762249708443703,PA-1 [PA1],Ovarian Germ Cell Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-001393,0.1448962079811122,SUM-190PT,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-001418,-0.0097887165425681,UWB1.289,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-001419,-0.1477306575090038,VP229,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-001497,-0.1410654669795066,ESO51,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,GRPR
+ACH-001513,0.1703993266901353,HCA-1,Cervical Adenocarcinoma,Cervix,False,GRPR
+ACH-001539,0.1658560768381543,KML-1,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-001544,-0.0459013165919224,KYAE-1,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,GRPR
+ACH-001570,0.1140155689970496,MM426,Melanoma,Skin,False,GRPR
+ACH-001603,-0.1207036570338173,NH-12,Neuroblastoma,Peripheral Nervous System,False,GRPR
+ACH-001650,-0.0338951347034222,SISO,Cervical Adenocarcinoma,Cervix,False,GRPR
+ACH-001675,0.0609613252308246,TR146,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-001794,0.039246660859117,93T449,Liposarcoma,Soft Tissue,False,GRPR
+ACH-001802,0.0237327387008294,LPS853,Liposarcoma,Soft Tissue,False,GRPR
+ACH-001972,0.111150987956462,MM473,Melanoma,Skin,False,GRPR
+ACH-001993,-0.0124279685645174,NALM-16,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,False,GRPR
+ACH-002002,0.0711552857684728,A375 SKIN CJ2,Melanoma,Skin,False,GRPR
+ACH-002052,0.0089429402934986,Lu-139,Lung Neuroendocrine Tumor,Lung,False,GRPR
+ACH-002055,-0.0375064091443155,TL-1,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-002161,0.0890939760980792,MKN28,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,GRPR
+ACH-002263,-0.0987599394747074,KYSE-220,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,GRPR
+ACH-002284,-0.0646730198705642,NB6,Neuroblastoma,Peripheral Nervous System,False,GRPR
+ACH-002463,-0.3139531338793032,RPE1-ss77,Non-Cancerous,Eye,False,GRPR
+ACH-002471,-0.0401606769731218,OS052,Osteosarcoma,Bone,False,GRPR
+ACH-002511,0.1458731305264903,M104325,Melanoma,Skin,False,GRPR
+ACH-002512,-0.0120696588618521,MM160113,Melanoma,Skin,False,GRPR
+ACH-002654,0.0415770575179683,JVE-015,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-002780,-0.0973150035100261,NCC-ES1-C1,Ewing Sarcoma,Bone,False,GRPR
+ACH-002784,0.0241485412885908,NCC-UPS2-C1,Undifferentiated Pleomorphic Sarcoma/Malignant Fibrous Histiocytoma/High-Grade Spindle Cell Sarcoma,Soft Tissue,False,GRPR
+ACH-002799,0.1412654999501709,NCC-MPNST1-C1,Nerve Sheath Tumor,Peripheral Nervous System,False,GRPR
+ACH-002806,0.0747687251191316,TB096,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000018,-0.0564838465200699,T24,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,GRPR
+ACH-000029,0.0840886418115567,HCC-827-GR5,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000036,0.1296304068365396,U343,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000048,0.1332042142129144,TOV-112D,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-000053,0.0557057337244643,KARPAS-299,Mature T and NK Neoplasms,Lymphoid,False,GRPR
+ACH-000087,0.1576286216646971,SK-ES-1,Ewing Sarcoma,Bone,False,GRPR
+ACH-000097,-0.0068048715981791,ZR-75-1,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-000108,0.0284924636094695,KP-3,Adenosquamous Carcinoma of the Pancreas,Pancreas,False,GRPR
+ACH-000120,0.0595486828122351,CHP-212,Neuroblastoma,Peripheral Nervous System,False,GRPR
+ACH-000143,-0.0989496179975983,HCC2429,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000183,0.0989709539994065,L-363,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-000190,-0.1482778164009093,HD-MY-Z,Acute Myeloid Leukemia,Myeloid,False,GRPR
+ACH-000195,0.0870249149573376,Set-2,Acute Myeloid Leukemia,Myeloid,False,GRPR
+ACH-000198,-0.059656225499768,EOL-1,Acute Myeloid Leukemia,Myeloid,False,GRPR
+ACH-000235,0.0086728747052952,Panc 04.03,Pancreatic Adenocarcinoma,Pancreas,False,GRPR
+ACH-000255,0.0598435632683341,LMSU,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,GRPR
+ACH-000258,-0.1670364365340103,Du4475,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-000304,0.1512430232933545,WM-115,Melanoma,Skin,False,GRPR
+ACH-000311,0.0326603960641185,NCI-H2122,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000339,-0.0071875400183024,HCC-461,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000350,-0.0652817148748845,COLO-678,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-000361,-0.1294523120195423,SK-HEP-1,Hepatocellular Carcinoma,Liver,False,GRPR
+ACH-000375,-0.1185052785305167,G-402,Rhabdoid Cancer,Kidney,False,GRPR
+ACH-000389,0.0155218536584232,H4,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000391,0.018349403456816,MHH-ES-1,Ewing Sarcoma,Bone,False,GRPR
+ACH-000411,0.0128481395564887,769-P,Renal Cell Carcinoma,Kidney,False,GRPR
+ACH-000421,-0.0885436683241798,SW837,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-000427,-0.0625524779258164,NCI-N87,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,GRPR
+ACH-000434,0.0740756358125735,NCI-H1915,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000441,-0.1055013149233216,SH-4,Melanoma,Skin,False,GRPR
+ACH-000444,-0.1722486990807157,LU99,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000467,-0.0759697704454528,HCC-56,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-000471,0.1043252066965897,Li-7,Hepatocellular Carcinoma,Liver,False,GRPR
+ACH-000486,-0.0862740258081358,KU-19-19,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,GRPR
+ACH-000490,0.152903790871566,SF767,Cervical Squamous Cell Carcinoma,Cervix,False,GRPR
+ACH-000496,-0.031312607590919,NCI-H1792,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000533,-0.1133096533946615,NCI-H2004 RT,Rhabdoid Cancer,Kidney,False,GRPR
+ACH-000542,-0.0133645021117664,Hey-A8,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-000546,0.1463145058588293,HSC-4,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-000551,0.205036344650729,K-562,Myeloproliferative Neoplasms,Myeloid,False,GRPR
+ACH-000558,-0.0436294238313002,A-172,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000576,-0.0285330399696881,KMS-27,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-000579,-0.1729881524391023,UACC-257,Melanoma,Skin,False,GRPR
+ACH-000588,0.0777040755827815,KMS-26,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-000624,0.0066002084457412,HCC1806,Breast Ductal Carcinoma In Situ,Breast,False,GRPR
+ACH-000638,-0.0171817433084614,NCI-H441,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000646,0.0911725441305202,OVMANA,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-000654,0.0290224647600863,Raji,Non-Hodgkin Lymphoma,Lymphoid,False,GRPR
+ACH-000738,0.1391916886401192,GB-1,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000764,0.346927619441982,SH-10-TC,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,GRPR
+ACH-000773,0.060907113821017,Ki-JK,Mature T and NK Neoplasms,Lymphoid,False,GRPR
+ACH-000807,0.1133743419720725,SNU-738,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000811,0.0241640378164785,SK-OV-3,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-000843,0.071012006135714,HARA,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000849,-0.0214837491475678,MDA-MB-468,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-000865,0.0106882206878015,KYSE-450,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,GRPR
+ACH-000890,0.0734187497545886,SW 1271,SMARCA4-deficient undifferentiated tumor,Lung,False,GRPR
+ACH-000894,-0.0497605115132477,NCI-H1869,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000907,0.1251384782250863,SNU-349,Renal Cell Carcinoma,Kidney,False,GRPR
+ACH-000917,0.0634514322159362,TE-4,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,GRPR
+ACH-000932,-0.0439916905002005,SNU-1,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,GRPR
+ACH-000966,-0.0667926255551699,IGROV1,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-000974,0.0217266122704988,SNG-M,Endometrial Carcinoma,Uterus,False,GRPR
+ACH-001031,0.0822333730305374,CHLA-266,Embryonal Tumor,CNS/Brain,False,GRPR
+ACH-001338,0.0638342637619001,CHP-134,Neuroblastoma,Peripheral Nervous System,False,GRPR
+ACH-001407,-0.0010332538641783,UM-UC-13,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,GRPR
+ACH-001409,-0.0780795209191599,UM-UC-16,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,GRPR
+ACH-001454,-0.098905248097858,C10,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-001511,0.1121085422750189,H413,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-001518,0.0960946189784609,HEC-116,Endometrial Carcinoma,Uterus,False,GRPR
+ACH-001522,0.0358869617154158,HMY-1,Melanoma,Skin,False,GRPR
+ACH-001536,-0.1153077200297968,KKU-100,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,GRPR
+ACH-001551,-0.0791726691802441,MCC14/2,Merkel Cell Carcinoma,Skin,False,GRPR
+ACH-001554,-0.0069005471512552,mel-202,Ocular Melanoma,Eye,False,GRPR
+ACH-001555,-0.0732297481905296,Mero-14,Pleural Mesothelioma,Pleura,False,GRPR
+ACH-001557,0.0235192566156042,Mero-41,Pleural Mesothelioma,Pleura,False,GRPR
+ACH-001563,0.0156105487567466,MM127,Melanoma,Skin,False,GRPR
+ACH-001574,-0.1106377547538268,MOLM-14,Acute Myeloid Leukemia,Myeloid,False,GRPR
+ACH-001607,0.146915479745276,NOZ,Intracholecystic Papillary Neoplasm,Biliary Tract,False,GRPR
+ACH-001655,0.2855996386264122,SKN,Uterine Sarcoma/Mesenchymal,Uterus,False,GRPR
+ACH-001674,-0.0264170311141041,TGW,Neuroblastoma,Peripheral Nervous System,False,GRPR
+ACH-001687,-0.056528991065803,UM-RC-3,Renal Cell Carcinoma,Kidney,False,GRPR
+ACH-001695,0.1246879231747216,UPCI-SCC-099,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-001696,0.0277895471417127,UPCI-SCC-111,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-001699,0.0756496994053798,UPCI-SCC-131,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-001737,0.1006543024109321,CTV-1-DM,T-Lymphoblastic Leukemia/Lymphoma,Lymphoid,False,GRPR
+ACH-001819,0.0885043763874806,MFM-223,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-001843,0.1132753389985359,MGH-ECC4,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,GRPR
+ACH-002040,-0.1419052367794889,HMV-II,Mucosal Melanoma of the Vulva/Vagina,Vulva/Vagina,False,GRPR
+ACH-002043,0.0734573798517379,Ca9-22,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-002051,-0.0913050824801027,Lu-134-A,Lung Neuroendocrine Tumor,Lung,False,GRPR
+ACH-002060,0.1128054232877835,MY,Acute Leukemias of Ambiguous Lineage,Myeloid,False,GRPR
+ACH-002141,-0.0779614593142142,HSC-39,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,GRPR
+ACH-002233,-0.0822880825695742,DIFI,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-002247,-0.0893474571322923,IM-9,Non-Cancerous,Myeloid,False,GRPR
+ACH-002257,0.0827653361821411,KINGS-1,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-002500,0.0189860813834853,Z-138,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-002530,0.1633361898800407,SNU-977,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-003191,0.1448853807920946,NRH-GCT2,Giant Cell Tumor of Bone,Bone,False,GRPR
+ACH-000005,0.3057349512043613,HEL 92.1.7,Acute Myeloid Leukemia,Myeloid,False,GRPR
+ACH-000011,0.1639017673017123,253J,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,GRPR
+ACH-000067,0.1523657656347484,Hs 683,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000076,-0.0610808864303924,NCO2,Myeloproliferative Neoplasms,Myeloid,False,GRPR
+ACH-000093,-0.2940871990433646,Panc 05.04,Pancreatic Adenocarcinoma,Pancreas,False,GRPR
+ACH-000095,0.011856807411581,D341 Med,Embryonal Tumor,CNS/Brain,False,GRPR
+ACH-000098,0.1002002490399597,GAMG,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000115,0.0716385554177782,VCaP,Prostate Adenocarcinoma,Prostate,False,GRPR
+ACH-000116,0.1404075339848689,OAW28,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-000132,0.1699512190345957,JHOS-2,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-000139,0.2087460472443374,Panc 03.27,Pancreatic Adenocarcinoma,Pancreas,False,GRPR
+ACH-000159,-0.0313915833651597,OS-RC-2,Renal Cell Carcinoma,Kidney,False,GRPR
+ACH-000172,0.1415336851941157,TM-87,Rhabdoid Cancer,Soft Tissue,False,GRPR
+ACH-000174,0.0098946358326995,CAL-62,Anaplastic Thyroid Cancer,Thyroid,False,GRPR
+ACH-000182,0.1175596697493202,SNU-869,Ampullary Carcinoma,Ampulla of Vater,False,GRPR
+ACH-000212,0.1729313900047675,CAL-120,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-000226,0.2551496105659209,SUP-M2,Mature T and NK Neoplasms,Lymphoid,False,GRPR
+ACH-000228,0.0743612580224956,BICR 31,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-000233,0.060891458165258,DEL,Mature T and NK Neoplasms,Lymphoid,False,GRPR
+ACH-000234,0.0319290009202196,Caki-2,Renal Cell Carcinoma,Kidney,False,GRPR
+ACH-000260,0.0692606328011477,SK-N-AS,Neuroblastoma,Peripheral Nervous System,False,GRPR
+ACH-000264,0.1184838907776017,Calu-6,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000277,0.1132757456236185,HCC1419,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-000293,-0.2011004686813464,KLE,Endometrial Carcinoma,Uterus,False,GRPR
+ACH-000294,-0.0568905615929697,NB-4,Acute Myeloid Leukemia,Myeloid,False,GRPR
+ACH-000335,0.1552815572115468,MSTO-211H,Pleural Mesothelioma,Pleura,False,GRPR
+ACH-000344,0.0525553645622278,SNU-668,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,GRPR
+ACH-000371,0.0746872377188792,RL,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-000376,0.0357754091910574,SF-295,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000381,-0.1097795222055289,T84,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-000403,-0.0404292205420441,NCI-H747,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-000404,-0.0907964730195712,K029AX,Melanoma,Skin,False,GRPR
+ACH-000503,0.135320885131072,BICR 16,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-000504,0.2060196295528107,SNB75,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000547,0.0451487202850615,HT-1197,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,GRPR
+ACH-000548,0.0323424835550378,BHY,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-000549,-0.0872524448500993,SNU-1076,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-000584,0.023643890929985,JHOS-4,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-000616,0.2021899936455274,Hs 746T,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,GRPR
+ACH-000620,-0.036821472745053,JHH-1,Hepatocellular Carcinoma,Liver,False,GRPR
+ACH-000663,-0.183251141316189,OVTOKO,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-000746,0.0880338662861453,GSS,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,GRPR
+ACH-000753,0.0603347391144756,JMSU-1,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,GRPR
+ACH-000756,-0.0519826820129468,GI-1,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000823,-0.0302890383865406,KYSE-140,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,GRPR
+ACH-000831,-0.0468491927131165,HEC-50B,Endometrial Carcinoma,Uterus,False,GRPR
+ACH-000853,0.1326590359384792,NCI-H661,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000860,0.0650189967470106,NCI-H358,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000864,-0.0762103565509104,COLO 684,Endometrial Carcinoma,Uterus,False,GRPR
+ACH-000882,0.064981146003686,IGR-1,Melanoma,Skin,False,GRPR
+ACH-000919,-0.1148669471819896,IM95,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,GRPR
+ACH-000924,0.0857299244257081,NCI-H2172,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000926,-0.0631922698301326,HT-55,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-000970,0.049049549159444,SNU-C5,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-000980,0.1006554762625403,NCI-H1155,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000983,0.0150616290534519,KCL-22,Myeloproliferative Neoplasms,Myeloid,False,GRPR
+ACH-001020,-0.0953750066027283,BT-16,Embryonal Tumor,CNS/Brain,False,GRPR
+ACH-001054,-0.0665161669254697,D458,Embryonal Tumor,CNS/Brain,False,GRPR
+ACH-001111,0.2050501285800662,L82,Mature T and NK Neoplasms,Lymphoid,False,GRPR
+ACH-001128,0.0708331638457156,MON,Rhabdoid Cancer,Soft Tissue,False,GRPR
+ACH-001134,-0.0105565442905709,MYLA,Non-Hodgkin Lymphoma,Lymphoid,False,GRPR
+ACH-001137,0.2473216062863485,NCI-H1993,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-001172,0.0589232780649205,U-251 MG DM,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-001275,0.1371151414734412,SYO-1,Osteosarcoma,Bone,False,GRPR
+ACH-001279,0.0555956787624713,SCCOHT-1,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-001280,0.2560573733395218,SCS-214,Synovial Sarcoma,Soft Tissue,False,GRPR
+ACH-001310,0.0250023860889676,HA1E,Non-Cancerous,Kidney,False,GRPR
+ACH-001340,0.0155076126232752,COV413A,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-001386,0.0142149882240799,SCLC-22H,Lung Neuroendocrine Tumor,Lung,False,GRPR
+ACH-001390,-0.0394469532512403,SUM-149PT,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-001396,0.0972685714252353,SUM-52PE,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-001398,0.1965975514011488,SW 156,Renal Cell Carcinoma,Kidney,False,GRPR
+ACH-001422,0.0891826995063259,WPE1-NA22,Non-Cancerous,Prostate,False,GRPR
+ACH-001460,-0.0857431093198993,C84,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-001533,0.1736556433426971,KARPAS 1718,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-001542,0.0523245475421561,KON,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-001547,0.0083086241707162,LO68,Pleural Mesothelioma,Pleura,False,GRPR
+ACH-001548,-0.100321573713259,LS,Neuroblastoma,Peripheral Nervous System,False,GRPR
+ACH-001558,-0.0897163600081165,Mero-48a,Pleural Mesothelioma,Pleura,False,GRPR
+ACH-001608,-0.0059016080636029,NP 2,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-001619,0.0242682874443209,OCUG-1,Intracholecystic Papillary Neoplasm,Biliary Tract,False,GRPR
+ACH-001625,0.0203867397756912,OSC-19,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-001642,-0.0730642561699669,SCC-3,Non-Hodgkin Lymphoma,Lymphoid,False,GRPR
+ACH-001691,0.0711589853769716,UPCI-SCC-029A,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-001692,-0.0164916864779435,UPCI-SCC-040,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-001842,0.0734743864364171,MGH-ICC2,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,GRPR
+ACH-001850,0.0439493358719334,G415,Intracholecystic Papillary Neoplasm,Biliary Tract,False,GRPR
+ACH-001853,0.0896007974944391,KMCH-1,Hepatocellular Carcinoma plus Intrahepatic Cholangiocarcinoma,Liver,False,GRPR
+ACH-001970,0.0908261258159453,MM253,Melanoma,Skin,False,GRPR
+ACH-001991,-0.0058544046392788,NZOV9,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-002030,0.0383305314142192,Sa3,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-002044,-0.0038474935285974,HSQ-89,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-002062,-0.1112074548111886,SLVL,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-002116,0.0406506123672009,EW-22,Ewing Sarcoma,Bone,False,GRPR
+ACH-002210,-0.0855314981737556,ARH-77,Non-Cancerous,Myeloid,False,GRPR
+ACH-002464,0.0199609233446728,RPE1-ss6,Non-Cancerous,Eye,False,GRPR
+ACH-002647,0.0307189277529268,CCC-5,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,GRPR
+ACH-002680,-0.0192318816918938,170-MG-BA,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-003176,0.0273376760294654,NRH-GCT1,Osteosarcoma,Bone,False,GRPR
+ACH-000014,0.2189552507897228,Hs 294T,Melanoma,Skin,False,GRPR
+ACH-000019,-0.000952413917796,MCF7,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-000035,0.0014534468021088,NCI-H1650,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000042,0.0984318304112917,Panc 02.03,Pancreatic Adenocarcinoma,Pancreas,False,GRPR
+ACH-000074,0.2948445781762892,KU812,Myeloproliferative Neoplasms,Myeloid,False,GRPR
+ACH-000114,0.1037302959224898,SU.86.86,Pancreatic Adenocarcinoma,Pancreas,False,GRPR
+ACH-000127,0.0672786657754859,SLR 20,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,GRPR
+ACH-000128,0.0011563724993778,LN-319,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000133,0.1766412342380336,Hs 729,Non-Cancerous,Fibroblast,False,GRPR
+ACH-000153,0.1304697589280246,NCI-H2052,Pleural Mesothelioma,Pleura,False,GRPR
+ACH-000164,0.0484443324102786,PANC-1,Pancreatic Adenocarcinoma,Pancreas,False,GRPR
+ACH-000176,0.0096236308810282,LOU-NH91,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000189,0.2174835374283964,RCC10RGB,Renal Cell Carcinoma,Kidney,False,GRPR
+ACH-000208,0.167108054199128,U-178,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000210,-0.1925758994577076,CADO-ES1,Ewing Sarcoma,Bone,False,GRPR
+ACH-000242,0.2786352286171604,RT4,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,GRPR
+ACH-000251,-0.0723328298312762,NCI-H2887,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000288,0.0608799522361226,BT-549,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-000325,-0.0526853673748021,SNU-620,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,GRPR
+ACH-000331,-0.0072333363353581,IST-MES2,Pleural Mesothelioma,Pleura,False,GRPR
+ACH-000356,0.0360278485102657,MKN-45,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,GRPR
+ACH-000398,0.024342619041129,RI-1,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-000470,-0.1715393035590339,SW1463,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-000476,0.1956831546575293,JHH-4,Hepatocellular Carcinoma,Liver,False,GRPR
+ACH-000480,0.100281927388057,HuH-7,Hepatocellular Carcinoma,Liver,False,GRPR
+ACH-000489,0.0990737174734286,SW1116,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-000545,-0.0017296844178845,VM-CUB1,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,GRPR
+ACH-000556,0.0770192784056957,SIHA,Cervical Squamous Cell Carcinoma,Cervix,False,GRPR
+ACH-000580,0.0131515255942612,C32,Melanoma,Skin,False,GRPR
+ACH-000596,0.0813245044504737,LCLC-97TM1,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000597,-0.0260916752013501,TTC-709,Rhabdoid Cancer,Soft Tissue,False,GRPR
+ACH-000665,0.1176032146120927,SK-MES-1,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000671,0.1881302495872676,HuH-6,Hepatoblastoma,Liver,False,GRPR
+ACH-000747,0.008082337621518,NCI-H1703,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000763,0.0040163034144235,MM1-S,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-000765,0.0294632755866749,WM983B,Melanoma,Skin,False,GRPR
+ACH-000785,0.1408591196677932,NCI-H2126,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000817,0.0183513323803335,RPMI 8226,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-000821,0.1216964335638406,EJM,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-000851,0.0934791588410797,MOR/CPR,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000880,-0.0657687624600199,AGS,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,GRPR
+ACH-000914,0.004949221697385,HT,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-000941,0.2111371203774859,HEC-1-B,Endometrial Carcinoma,Uterus,False,GRPR
+ACH-000963,-0.1444425011449359,CCK-81,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-000973,0.0327483952816669,639-V,Urethral Cancer,Bladder/Urinary Tract,False,GRPR
+ACH-000984,0.0877915447534962,HEC-6,Endometrial Carcinoma,Uterus,False,GRPR
+ACH-001041,0.1261218781257635,CHL-1-DM,Melanoma,Skin,False,GRPR
+ACH-001048,-0.0606759063626633,COV504,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-001067,0.2784748647698253,F5,Meningothelial Tumor,CNS/Brain,False,GRPR
+ACH-001081,0.2590963070658789,HCC2998,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-001119,0.0004681497105031,Mac-2A,Mature T and NK Neoplasms,Lymphoid,False,GRPR
+ACH-001145,0.0745246506807932,OC 316,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-001184,-0.0969071339673936,SCMC-RM2,Rhabdomyosarcoma,Soft Tissue,False,GRPR
+ACH-001274,0.0289760281583942,SW982,Synovial Sarcoma,Soft Tissue,False,GRPR
+ACH-001333,0.138015234788497,C-33 A,Cervical Squamous Cell Carcinoma,Cervix,False,GRPR
+ACH-001335,0.1616951567247553,C-4 II,Cervical Squamous Cell Carcinoma,Cervix,False,GRPR
+ACH-001376,0.0216026991939264,PACADD-135,Pancreatic Adenocarcinoma,Pancreas,False,GRPR
+ACH-001379,0.0254155817185382,PACADD-161,Pancreatic Adenocarcinoma,Pancreas,False,GRPR
+ACH-001389,0.0660960320335887,SUM-1315MO2,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-001401,-0.0375216094133433,SW-13,Adrenocortical Carcinoma,Adrenal Gland,False,GRPR
+ACH-001403,0.15604023806711,TO14,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-001413,0.0657325781101806,UM-UC-11,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,GRPR
+ACH-001498,0.1347630423149361,Farage,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-001521,-0.0511890098903062,HKA-1,Cutaneous Squamous Cell Carcinoma,Skin,False,GRPR
+ACH-001525,0.1481452115628909,HT-3,Cervical Adenocarcinoma,Cervix,False,GRPR
+ACH-001526,0.1034987471113258,HuO9,Osteosarcoma,Bone,False,GRPR
+ACH-001529,0.0958431656795975,JAR,Gestational Trophoblastic Disease,Uterus,False,GRPR
+ACH-001552,0.0042466800367491,MCC26,Merkel Cell Carcinoma,Skin,False,GRPR
+ACH-001566,0.0273901902255706,MM370,Melanoma,Skin,False,GRPR
+ACH-001605,0.1188013596468242,no.10,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-001618,0.0128627871514045,OCI-M2,Acute Myeloid Leukemia,Myeloid,False,GRPR
+ACH-001627,-0.0290990887167696,P4E6,Non-Cancerous,Prostate,False,GRPR
+ACH-001639,0.1309833454490357,ROS-50,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-001649,0.0422663901449588,Shmac 5,Non-Cancerous,Prostate,False,GRPR
+ACH-001652,0.0556767326539508,SKG-II,Cervical Squamous Cell Carcinoma,Cervix,False,GRPR
+ACH-001669,0.046992895038539,TANOUE,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,False,GRPR
+ACH-001677,0.1466074559422928,U-2904,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-001711,0.4006030175270273,PFSK-1,Embryonal Tumor,CNS/Brain,False,GRPR
+ACH-001740,0.2991663851212386,RH28,Rhabdomyosarcoma,Soft Tissue,False,GRPR
+ACH-001795,0.0552048338987806,94T778,Liposarcoma,Soft Tissue,False,GRPR
+ACH-001796,0.0551053232117813,95T1000,Liposarcoma,Soft Tissue,False,GRPR
+ACH-001799,0.1535400679861502,LPS141,Liposarcoma,Soft Tissue,False,GRPR
+ACH-001836,0.141343577487042,MGH-ICC10-8,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,GRPR
+ACH-001849,0.0725953481152421,MGH-ICC9,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,GRPR
+ACH-001857,0.0069840146391872,SG231,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,GRPR
+ACH-001862,0.1469476692333816,TGBC52TKB,Ampullary Carcinoma,Ampulla of Vater,False,GRPR
+ACH-001997,0.1099049031472555,MGH-AOVC1,Ampullary Carcinoma,Ampulla of Vater,False,GRPR
+ACH-002003,-0.1190969296371196,A375 SKIN CJ3,Melanoma,Skin,False,GRPR
+ACH-002019,0.0348710425637063,HOKUG,Glassy Cell Carcinoma of the Cervix,Cervix,False,GRPR
+ACH-002023,0.0810355209232413,TGBC18TKB,Ampullary Carcinoma,Ampulla of Vater,False,GRPR
+ACH-002265,0.1059545174249639,LB771-HNC,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-002298,-0.1139194622973249,PCI-6A,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-002305,-0.1546695319293912,SKN-3,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-002470,-0.0277217437176493,OS186,Osteosarcoma,Bone,False,GRPR
+ACH-002705,0.0333270758570253,IS076P,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,GRPR
+ACH-002706,0.0296920777004301,IS076A,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,GRPR
+ACH-002778,0.1176872893883665,NCC-OS1-X2-C1,Osteosarcoma,Bone,False,GRPR
+ACH-002800,0.0726181453428129,NCC-MPNST2-C1,Nerve Sheath Tumor,Peripheral Nervous System,False,GRPR
+ACH-002801,-0.0251066718910969,NCC-MPNST3-C1,Nerve Sheath Tumor,Peripheral Nervous System,False,GRPR
+ACH-000001,0.0697297162823043,NIH:OVCAR-3,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-000007,-0.1669611729163147,LS513,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-000013,0.1357950206644934,ONCO-DG-1,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-000024,0.1175093767767029,OPM-2,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-000026,0.2861875671246002,253J-BV,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,GRPR
+ACH-000078,0.1203664425018182,MHH-NB-11,Neuroblastoma,Peripheral Nervous System,False,GRPR
+ACH-000100,0.0979414633595528,RH-41,Rhabdomyosarcoma,Soft Tissue,False,GRPR
+ACH-000103,0.0264597337310418,Caov-4,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-000123,-0.0729590743712333,COV434,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-000142,-0.1466253109944101,CAL-29,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,GRPR
+ACH-000155,-0.0593450235119355,SW 1990,Pancreatic Adenocarcinoma,Pancreas,False,GRPR
+ACH-000163,0.3118547631019427,SW579,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-000168,-0.303949321041344,NOMO-1,Acute Myeloid Leukemia,Myeloid,False,GRPR
+ACH-000181,-0.113220039952562,SCC-9,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-000221,0.0389732056628676,SNU-398,Hepatocellular Carcinoma,Liver,False,GRPR
+ACH-000227,-0.0483558310029198,KP-N-YN,Neuroblastoma,Peripheral Nervous System,False,GRPR
+ACH-000250,0.0971043469867336,KMRC-20,Renal Cell Carcinoma,Kidney,False,GRPR
+ACH-000272,0.072548304572449,SLR 24,Renal Cell Carcinoma,Kidney,False,GRPR
+ACH-000310,0.1182209058860328,IMR-32,Neuroblastoma,Peripheral Nervous System,False,GRPR
+ACH-000345,0.2192833014275275,KP-N-RT-BM-1,Neuroblastoma,Peripheral Nervous System,False,GRPR
+ACH-000365,-0.0077836703157375,SU-DHL-4,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-000378,0.0067188973402644,NCI-H647,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000383,-0.0101955929774847,OE33,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,GRPR
+ACH-000387,0.0631075147891266,TF-1,Acute Myeloid Leukemia,Myeloid,False,GRPR
+ACH-000395,0.1090094508031654,NCI-H520,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000422,0.1053195097210144,SNU-475,Hepatocellular Carcinoma,Liver,False,GRPR
+ACH-000458,0.0778213796873139,CJM,Melanoma,Skin,False,GRPR
+ACH-000460,0.1080887919642957,SNU-8,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-000466,0.0848402506023285,SNU-216,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,GRPR
+ACH-000501,0.0559638863551167,LS123,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-000512,0.1337987470992367,INA6,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-000520,0.1906056343981627,59M,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-000571,0.1691294610510275,T98G,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000583,0.1475553444398717,MC116,Non-Hodgkin Lymphoma,Lymphoid,False,GRPR
+ACH-000595,0.0590132270516138,LN-229,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000607,-0.1574876943635913,KYM-1,Rhabdoid Cancer,Kidney,False,GRPR
+ACH-000648,0.2473409202855277,NCI-H28,Pleural Mesothelioma,Pleura,False,GRPR
+ACH-000664,0.0601478528043598,SU-DHL-1,Mature T and NK Neoplasms,Lymphoid,False,GRPR
+ACH-000713,-0.0877014457967353,Caov-3,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-000724,-0.1255954074352727,HT-1376,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,GRPR
+ACH-000757,0.005988848768328,A427,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000762,-0.0889611414854387,YD-38,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-000767,-0.029316666520944,NCI-H526,Lung Neuroendocrine Tumor,Lung,False,GRPR
+ACH-000774,0.1089206499364119,RERF-LC-Ad2,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000778,-0.0164173467168329,HSC-3,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-000782,0.0492400230914038,SEM,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,False,GRPR
+ACH-000799,0.2193151758536845,Hs 695T,Melanoma,Skin,False,GRPR
+ACH-000840,0.1710551709227539,HCC-366,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000841,-0.0059433212439115,NCI-H2087,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000847,-0.0397764031595859,HGC-27,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,GRPR
+ACH-000885,0.0082980449295378,TOV-21G,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-000886,0.0829074300188651,NCI-H2009,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000921,0.1150615864407256,NCI-H157-DM,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000929,0.0941072095883329,NCI-H2110,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000945,0.1292154957301963,NCI-H650,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000956,-0.1824578037574715,22Rv1,Prostate Adenocarcinoma,Prostate,False,GRPR
+ACH-000975,0.029821746312816,HCC2450,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000986,0.0260528697469527,HT115,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-001036,0.0456250599411974,CMK-11-5,Acute Myeloid Leukemia,Myeloid,False,GRPR
+ACH-001061,-0.0304025876273986,DLD-1,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-001098,0.0128152620093453,KCI-MOH1,Pancreatic Adenocarcinoma,Pancreas,False,GRPR
+ACH-001183,-0.2051674457569617,RT112/84,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,GRPR
+ACH-001295,0.1736497345856947,Y-79,Retinoblastoma,Eye,False,GRPR
+ACH-001334,-0.0247483431595374,C-4 I,Cervical Squamous Cell Carcinoma,Cervix,False,GRPR
+ACH-001370,0.2574815562657983,OCI-P5x,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-001442,0.1099673696543048,A388,Cutaneous Squamous Cell Carcinoma,Skin,False,GRPR
+ACH-001443,0.0624078212561555,ASH-3,Anaplastic Thyroid Cancer,Thyroid,False,GRPR
+ACH-001484,0.0335047087059201,CI,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-001495,-0.0188914859188762,EMTOKA,Endometrial Carcinoma,Uterus,False,GRPR
+ACH-001502,-0.1121303114704094,GCT-27,Non-Seminomatous Germ Cell Tumor,Testis,False,GRPR
+ACH-001523,-0.0282904818684501,HSC-1,Cutaneous Squamous Cell Carcinoma,Skin,False,GRPR
+ACH-001550,-0.0496150916867381,MCC13,Merkel Cell Carcinoma,Skin,False,GRPR
+ACH-001559,-0.0085256555923548,Mero-82,Pleural Mesothelioma,Pleura,False,GRPR
+ACH-001560,-0.0566717062370533,Mero-83,Pleural Mesothelioma,Pleura,False,GRPR
+ACH-001606,0.0424892401176329,no.11,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-001623,0.040159123113664,Onda 8,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-001626,-0.2809582619809638,OSC-20,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-001643,0.0093895815572793,SCCH-196,Ewing Sarcoma,Bone,False,GRPR
+ACH-001645,0.0826624868805261,SEKI,Melanoma,Skin,False,GRPR
+ACH-001648,0.0429213943638614,Shmac 4,Non-Cancerous,Prostate,False,GRPR
+ACH-001688,0.1012892801275424,UM-RC-7,Renal Cell Carcinoma,Kidney,False,GRPR
+ACH-001694,0.0070973986712379,UPCI-SCC-074,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-001701,-0.0495365858717845,UPCI-SCC-200,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-001702,0.0351484428618271,VA-ES-BJ,Epithelioid Sarcoma,Soft Tissue,False,GRPR
+ACH-001715,0.048939802674351,CAL-72,Osteosarcoma,Bone,False,GRPR
+ACH-001838,-0.0102521224183251,MGH-ICC12,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,GRPR
+ACH-002041,0.1463385405080403,HOTHC,Anaplastic Thyroid Cancer,Thyroid,False,GRPR
+ACH-002143,0.0756828906714313,IST-MEL1,Melanoma,Skin,False,GRPR
+ACH-002160,-0.0106767848322097,MC-IXC,Ewing Sarcoma,Bone,False,GRPR
+ACH-002198,-0.3046919244097587,SCH,Extra Gonadal Germ Cell Tumor,Other,False,GRPR
+ACH-002291,0.0422169702684351,NTERA-2 cl.D1,Non-Seminomatous Germ Cell Tumor,Testis,False,GRPR
+ACH-002400,0.0350226407584584,21MT-1,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-002465,-0.0757890059355084,RPE1-ss119,Non-Cancerous,Eye,False,GRPR
+ACH-002475,-0.1192799050132283,HAP1,Myeloproliferative Neoplasms,Myeloid,False,GRPR
+ACH-002508,-0.0330372635160592,WM3211,Melanoma,Skin,False,GRPR
+ACH-002522,-0.0360657127495899,SNU-2292,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-002524,0.0541569020915791,SNU-251,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-002544,0.0399019386193517,SNU-1750,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,GRPR
+ACH-003177,0.1315712665654604,NRH-UPS1,Undifferentiated Pleomorphic Sarcoma/Malignant Fibrous Histiocytoma/High-Grade Spindle Cell Sarcoma,Soft Tissue,False,GRPR
+ACH-000012,0.0794355709233121,HCC-827,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000039,0.0153935474425453,SK-N-MC,Ewing Sarcoma,Bone,False,GRPR
+ACH-000055,-0.1057921160518561,D283 Med,Embryonal Tumor,CNS/Brain,False,GRPR
+ACH-000070,0.1011340566388367,697,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,False,GRPR
+ACH-000085,-0.0650498162063715,T3M-4,Pancreatic Adenocarcinoma,Pancreas,False,GRPR
+ACH-000106,0.1173219636036786,JVM-2,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-000124,-0.0943590449607999,OCI-LY-19,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-000141,0.0392901215331854,SNU-308,Intracholecystic Papillary Neoplasm,Biliary Tract,False,GRPR
+ACH-000161,0.0655186804879099,COR-L105,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000187,0.2104555469790401,COR-L311,Lung Neuroendocrine Tumor,Lung,False,GRPR
+ACH-000202,-0.0962349307343914,COLO-320,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-000222,0.351918726600147,AsPC-1,Pancreatic Adenocarcinoma,Pancreas,False,GRPR
+ACH-000239,0.0735477170091683,HuG1-N,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,GRPR
+ACH-000249,0.1243289315514594,CL-11,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-000253,0.0864794618888998,COLO 201,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-000280,-0.1490353551829597,SNU-840,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-000291,0.1096245563080399,OV-90,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-000302,0.0640182903496774,SNU-1077,Endometrial Carcinoma,Uterus,False,GRPR
+ACH-000318,-0.0093074284556446,TE-10,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,GRPR
+ACH-000323,0.0311700271920477,42-MG-BA,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000326,0.1937071257775585,JURL-MK1,Myeloproliferative Neoplasms,Myeloid,False,GRPR
+ACH-000329,0.0238043391422286,CCF-STTG1,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000330,0.0173761347202309,EFM-19,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-000366,-0.0067163260249363,SK-N-DZ,Neuroblastoma,Peripheral Nervous System,False,GRPR
+ACH-000377,0.055613757936251,SNU-478,Ampullary Carcinoma,Ampulla of Vater,False,GRPR
+ACH-000406,0.1431610784485023,U-937,Acute Myeloid Leukemia,Myeloid,False,GRPR
+ACH-000430,0.045639350704424,TYK-nu,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-000433,0.1699575797259782,Caki-1,Renal Cell Carcinoma,Kidney,False,GRPR
+ACH-000454,-0.2795700182488202,HCC-95,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000456,0.1240403953206511,B-CPAP,Poorly Differentiated Thyroid Cancer,Thyroid,False,GRPR
+ACH-000464,-0.0564118367256209,CAS-1,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000475,0.1724622518106171,huH-1,Hepatocellular Carcinoma,Liver,False,GRPR
+ACH-000484,0.0274323869813644,VMRC-RCW,Renal Cell Carcinoma,Kidney,False,GRPR
+ACH-000488,0.0279788665823392,TE-11,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,GRPR
+ACH-000554,-0.0463874589627032,UACC-893,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-000565,-0.0044129042114355,RCM-1,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-000570,0.0555324929527642,YKG1,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000573,-0.2515451012295544,MDA-MB-436,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-000602,0.0438657998266338,M-07e,Acute Myeloid Leukemia,Myeloid,False,GRPR
+ACH-000606,-0.0512636435631233,PE/CA-PJ34 (clone C12),Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-000651,-0.0289180250157495,SW 620,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-000653,0.1428371035170839,JJN-3,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-000672,0.3042373864901984,IA-LM,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000677,0.0887847486074915,SW 1573,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000693,0.0041786382428991,KYSE-180,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,GRPR
+ACH-000699,-0.0638271429306732,HCC1395,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-000766,-0.0805049343477848,NCI-H1648,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000771,0.1629627919306965,BICR 56,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-000866,0.0774943700409533,NCI-H1048,Lung Neuroendocrine Tumor,Lung,False,GRPR
+ACH-000903,0.0011044997548686,FTC-133,Well-Differentiated Thyroid Cancer,Thyroid,False,GRPR
+ACH-000920,0.2529944136979694,CML-T1,Myeloproliferative Neoplasms,Myeloid,False,GRPR
+ACH-000938,0.0032570303819747,NALM-6,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,False,GRPR
+ACH-000958,0.1558517639512863,SW48,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-000968,0.0246992328968399,COLO 792,Melanoma,Skin,False,GRPR
+ACH-000991,0.0868609532037987,SNU-81,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-000995,0.0620474916808574,JURKAT,T-Lymphoblastic Leukemia/Lymphoma,Lymphoid,False,GRPR
+ACH-000996,0.0866956680633554,HEC-251,Endometrial Carcinoma,Uterus,False,GRPR
+ACH-000997,0.1242590618931673,HCT-15,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-001033,0.1675986311434801,CHLA-57,Embryonal Tumor,CNS/Brain,False,GRPR
+ACH-001163,0.0643979981895519,CCLF_PEDS_0001_T,Renal Cell Carcinoma,Kidney,False,GRPR
+ACH-001164,0.4607587592998176,CCLF_PEDS_0003_T,Undifferentiated Pleomorphic Sarcoma/Malignant Fibrous Histiocytoma/High-Grade Spindle Cell Sarcoma,Soft Tissue,False,GRPR
+ACH-001188,0.034554293153059,SH-SY5Y,Neuroblastoma,Peripheral Nervous System,False,GRPR
+ACH-001270,0.0886238644455008,1273/99,Synovial Sarcoma,Soft Tissue,False,GRPR
+ACH-001353,-0.0025208704496611,JOPACA-1,Pancreatic Adenocarcinoma,Pancreas,False,GRPR
+ACH-001356,0.2853457606122422,MB-1,Anaplastic Thyroid Cancer,Thyroid,False,GRPR
+ACH-001368,0.0792669655962081,OAC-M5.1,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,GRPR
+ACH-001394,0.0666021008664073,SUM-229PE,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-001400,-0.0807358469745843,SW 954,Squamous Cell Carcinoma of the Vulva/Vagina,Vulva/Vagina,False,GRPR
+ACH-001416,-0.0429307408863977,UM-UC9,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,GRPR
+ACH-001515,0.0778579866696313,HCS-2,Cervical Squamous Cell Carcinoma,Cervix,False,GRPR
+ACH-001528,0.0411757314592921,IHH-4,Well-Differentiated Thyroid Cancer,Thyroid,False,GRPR
+ACH-001577,-0.040229304370985,MUTZ-8,Acute Myeloid Leukemia,Myeloid,False,GRPR
+ACH-001622,0.0855533233515723,Onda 7,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-001653,0.0559469917021868,SK-GT-2,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,GRPR
+ACH-001654,0.0665552823386164,SK-GT-4,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,GRPR
+ACH-001676,-0.0307510069792869,Ty-82,"Head and Neck Carcinoma, Other",Head and Neck,False,GRPR
+ACH-001709,0.0486504072692506,WSU-NHL,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-001736,0.0321544218967606,HB1119,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,False,GRPR
+ACH-001745,0.3628105340463192,RhJT,Rhabdomyosarcoma,Soft Tissue,False,GRPR
+ACH-001858,0.0712977955505207,SSP-25,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,GRPR
+ACH-001863,-0.0218993473333956,TKKK,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,GRPR
+ACH-001864,0.1097880553808928,YSCCC,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,GRPR
+ACH-001959,0.0943978019424802,CC-LP-1,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,GRPR
+ACH-001992,0.0133564940954569,ONE58,Pleural Mesothelioma,Pleura,False,GRPR
+ACH-002021,0.0916952411352387,T3M-3,Gestational Trophoblastic Disease,Uterus,False,GRPR
+ACH-002025,-0.0693571582863603,TT1TKB,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-002033,0.0428239477126655,HMMME,Pleural Mesothelioma,Pleura,False,GRPR
+ACH-002048,0.0461272559008244,RMS-YM,Rhabdomyosarcoma,Soft Tissue,False,GRPR
+ACH-002080,0.1308352086572724,TN-2,Neuroblastoma,Peripheral Nervous System,False,GRPR
+ACH-002105,0.1463399563692839,ES4,Ewing Sarcoma,Bone,False,GRPR
+ACH-002119,-0.1582449498435817,EW-7,Ewing Sarcoma,Bone,False,GRPR
+ACH-002156,0.2690573666314415,LC-1-sq,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-002230,0.148134287838174,D-542MG,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-002234,-0.0930491654920099,DOK,"Head and Neck Carcinoma, Other",Head and Neck,False,GRPR
+ACH-002250,-0.0574774309725445,JHU-022,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-002251,0.1740206874345223,JHU-029,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-002461,0.1699188031997716,RVH421 SKIN FV1,Melanoma,Skin,False,GRPR
+ACH-002709,-0.0403005319584728,CMS,Acute Myeloid Leukemia,Myeloid,False,GRPR
+ACH-002925,-0.0123793453790331,UPMM3,Ocular Melanoma,Eye,False,GRPR
+ACH-000030,0.08417614211369,PC-14,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000054,0.2112749056496424,HT-1080,Fibrosarcoma,Soft Tissue,False,GRPR
+ACH-000082,0.1169582865000909,"G-292, clone A141B1",Osteosarcoma,Bone,False,GRPR
+ACH-000118,0.1467200496951234,HUP-T3,Pancreatic Adenocarcinoma,Pancreas,False,GRPR
+ACH-000152,0.0336452393364625,M059K,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000188,0.0362237939654681,SCC-25,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-000192,-0.0474724430934327,MFE-280,Endometrial Carcinoma,Uterus,False,GRPR
+ACH-000200,-0.0566041170166103,NMC-G1,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000203,0.2902688338087209,NH-6,Neuroblastoma,Peripheral Nervous System,False,GRPR
+ACH-000209,0.0082121715672178,SNU-1079,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,GRPR
+ACH-000271,0.0110241645272382,SU-DHL-10,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-000274,0.0240646297072337,Hs 852.T,Melanoma,Skin,False,GRPR
+ACH-000305,-0.0223126942503668,EC-GI-10,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,GRPR
+ACH-000313,0.0217241338919612,KMRC-3,Renal Cell Carcinoma,Kidney,False,GRPR
+ACH-000374,0.0018062041385069,HCC1143,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-000396,0.088258813657874,J82,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,GRPR
+ACH-000410,0.1186214010113941,Saos-2,Osteosarcoma,Bone,False,GRPR
+ACH-000425,0.0879212792318608,UACC-62,Melanoma,Skin,False,GRPR
+ACH-000442,-0.031123054212859,RERF-LC-Sq1,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000448,0.1058955384376731,NCI-H1666,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000452,0.0132765218671276,TE-8,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,GRPR
+ACH-000459,0.1625610623574468,TUHR10TKB,Renal Cell Carcinoma,Kidney,False,GRPR
+ACH-000463,-0.0099426479374543,NCI-H460,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000472,0.1377684623930659,HSC-2,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-000510,0.0817630111792632,NCI-H1299,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000519,-0.0075703545224477,PEER,T-Lymphoblastic Leukemia/Lymphoma,Lymphoid,False,GRPR
+ACH-000525,0.1164420412624449,NCI-H2171,Lung Neuroendocrine Tumor,Lung,False,GRPR
+ACH-000557,-0.0721794342220593,AML-193,Acute Myeloid Leukemia,Myeloid,False,GRPR
+ACH-000577,0.198864871457991,JHH-2,Hepatocellular Carcinoma,Liver,False,GRPR
+ACH-000587,0.0702758420100964,NCI-H1975,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000589,0.0498418054351703,NCI-H1437,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000627,0.0816250042902503,LCLC-103H,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000631,-0.011013084548364,KS-1,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000637,0.0533399321704388,KYSE-520,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,GRPR
+ACH-000647,-0.0309688583754131,TE-1,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,GRPR
+ACH-000660,-0.0168277115144195,SU-DHL-5,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-000667,0.1185175657375224,HCC-44,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000676,0.0959023176101697,LN-464,Melanoma,Skin,False,GRPR
+ACH-000700,-0.0205371431083588,NCI-H2882,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000704,0.1491459881206696,OAW42,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-000706,0.065769468278981,EKVX,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000718,0.2375030555499834,NCI-H2291,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000722,0.1463155901789379,SNU-C1,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-000740,-0.0736381985202819,A-253,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-000760,0.0726848927588934,LNZ308,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000776,0.302010001638588,ONS-76,Embryonal Tumor,CNS/Brain,False,GRPR
+ACH-000787,-0.0009105584968058,LXF-289,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000829,0.2096477202721948,HuNS1,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-000834,0.1806004925073045,UM-UC-1,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,GRPR
+ACH-000837,0.1958072817101455,NCI-H322,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000859,0.0938814495404217,HCC1954,Breast Ductal Carcinoma In Situ,Breast,False,GRPR
+ACH-000884,0.0470825007089301,MDA-MB-435S,Melanoma,Skin,False,GRPR
+ACH-000896,-0.0152638617013396,647-V,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,GRPR
+ACH-000911,0.1098382782993985,NUGC-3,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,GRPR
+ACH-000916,0.087351575417677,NCI-H1573,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000947,-0.0673214232329595,OVK18,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-000993,-0.0787591221948346,JHUEM-7,Endometrial Carcinoma,Uterus,False,GRPR
+ACH-001029,0.0742134490661502,CHLA-10,Ewing Sarcoma,Bone,False,GRPR
+ACH-001190,0.1320930085215013,SK-MEL-2,Melanoma,Skin,False,GRPR
+ACH-001194,0.085797978125589,SK-RC-31,Renal Cell Carcinoma,Kidney,False,GRPR
+ACH-001278,0.0444015567772806,BIN-67,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-001300,0.1921959507778259,CHLA-15,Neuroblastoma,Peripheral Nervous System,False,GRPR
+ACH-001318,-0.1124633115154797,PLC/PRF/5,Hepatocellular Carcinoma,Liver,False,GRPR
+ACH-001375,0.1139966687512395,PACADD-119,Pancreatic Adenocarcinoma,Pancreas,False,GRPR
+ACH-001532,-0.0222792521413491,JMU-RTK-2,Rhabdoid Cancer,Kidney,False,GRPR
+ACH-001568,-0.1480760669559822,MM386,Melanoma,Skin,False,GRPR
+ACH-001578,0.0548670381373927,NCCIT,Non-Seminomatous Germ Cell Tumor,Testis,False,GRPR
+ACH-001610,0.1889574222781638,NP 5,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-001611,0.0326179207869772,NP 8,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-001624,0.161552380220966,Onda 9,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-001632,-0.0053853764399365,PEO4,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-001656,-0.1332897489563977,SKNO-1,Acute Myeloid Leukemia,Myeloid,False,GRPR
+ACH-001707,0.0555785543015601,WA-OSEL,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-001735,-0.0801036738064754,SEMK2,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,False,GRPR
+ACH-001804,0.0985024842734495,LPS510,Liposarcoma,Soft Tissue,False,GRPR
+ACH-001835,0.0580170047313131,MGH-ICC10-6,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,GRPR
+ACH-001841,0.1588814370871367,MGH-ECC3,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,GRPR
+ACH-001844,-0.0477316760172014,MGH-ICC4,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,GRPR
+ACH-001986,0.1065753638761054,NZM42,Melanoma,Skin,False,GRPR
+ACH-001999,0.0068045938459409,950-5-BIK,Pancreatic Adenocarcinoma,Pancreas,False,GRPR
+ACH-002001,0.1602261926603815,A375 SKIN CJ1,Melanoma,Skin,False,GRPR
+ACH-002004,0.0581240748184192,UACC62 SKIN CJ1,Melanoma,Skin,False,GRPR
+ACH-002014,0.2643802278876913,Mel270,Ocular Melanoma,Eye,False,GRPR
+ACH-002042,-0.1012404455092406,T3M-5,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-002061,0.0159724626333749,P2UR/K-562,Myeloproliferative Neoplasms,Myeloid,False,GRPR
+ACH-002077,0.1021685597744935,Lu-165,Lung Neuroendocrine Tumor,Lung,False,GRPR
+ACH-002106,-0.0125562393751172,ES5,Ewing Sarcoma,Bone,False,GRPR
+ACH-002110,-0.1030658171397527,EW-1,Ewing Sarcoma,Bone,False,GRPR
+ACH-002150,0.0654334278288093,LB1047-RCC,Renal Cell Carcinoma,Kidney,False,GRPR
+ACH-002183,0.0293737096859515,OVMIU,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-002186,0.0208638315674218,PL4,Pancreatic Adenocarcinoma,Pancreas,False,GRPR
+ACH-002229,-0.1179947426830972,D-502MG,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-002239,-0.0016792543199653,H3118,Salivary Carcinoma,Head and Neck,False,GRPR
+ACH-002399,0.0153170904567691,21NT,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-002538,0.0609969688074733,SNU-1235,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-002650,0.0230733982767366,ETCC-016,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-002690,0.0305244737435921,OS526,Osteosarcoma,Bone,False,GRPR
+ACH-002710,0.113171155352644,MPNST-724,Nerve Sheath Tumor,Peripheral Nervous System,False,GRPR
+ACH-002711,0.1831959217855956,UM-HACC-2A,Salivary Carcinoma,Head and Neck,False,GRPR
+ACH-000017,-0.0660143703813742,SK-BR-3,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-000040,0.0999972154615548,U-118 MG,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000041,-0.0861853772792839,RD-ES,Ewing Sarcoma,Bone,False,GRPR
+ACH-000086,0.0442827866184003,ACC-MESO-1,Pleural Mesothelioma,Pleura,False,GRPR
+ACH-000090,-0.0444700483691572,PC-3,Prostate Adenocarcinoma,Prostate,False,GRPR
+ACH-000151,0.0757191406745222,JM1,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,False,GRPR
+ACH-000206,-0.1203560994126833,C8166,Non-Cancerous,Lymphoid,False,GRPR
+ACH-000207,0.0949350722771873,Detroit 562,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-000219,0.0468932674319276,A-375,Melanoma,Skin,False,GRPR
+ACH-000231,-0.003375916680772,KALS-1,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000244,0.0357359370582982,DK-MG,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000246,0.1442353556664423,SLR 23,Renal Cell Carcinoma,Kidney,False,GRPR
+ACH-000259,0.088393549292938,KELLY,Neuroblastoma,Peripheral Nervous System,False,GRPR
+ACH-000279,0.0121428427733295,EWS502,Ewing Sarcoma,Bone,False,GRPR
+ACH-000295,-0.0528061341307671,EM-2,Myeloproliferative Neoplasms,Myeloid,False,GRPR
+ACH-000296,0.1081930642082389,OUMS-23,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-000316,0.1456378814574239,SNU-886,Hepatocellular Carcinoma,Liver,False,GRPR
+ACH-000336,-0.009014459775292,OCI-AML3,Acute Myeloid Leukemia,Myeloid,False,GRPR
+ACH-000367,-0.010404571265341,NCI-H226,Pleural Mesothelioma,Pleura,False,GRPR
+ACH-000368,0.0970345299084863,SNU-1105,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000397,0.1162106206753456,TEN,Endometrial Carcinoma,Uterus,False,GRPR
+ACH-000420,0.1142419585813306,SNU-449,Hepatocellular Carcinoma,Liver,False,GRPR
+ACH-000431,0.16604418678743,NCI-H1694,Lung Neuroendocrine Tumor,Lung,False,GRPR
+ACH-000455,0.1660591997048328,LN-428,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000515,0.0541656620642117,HCC-33,Lung Neuroendocrine Tumor,Lung,False,GRPR
+ACH-000518,-0.020173483579099,CAL-33,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-000527,0.0336480087326028,OVISE,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-000552,0.0951155814599557,HT-29,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-000559,0.091422437123466,NCI-H1836,Lung Neuroendocrine Tumor,Lung,False,GRPR
+ACH-000567,-0.0511261805663452,ST486,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-000623,0.0223220324947868,SNU-201,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000632,0.0849573169860768,Hs 944.T,Melanoma,Skin,False,GRPR
+ACH-000639,0.0805054715465302,NCI-H211,Lung Neuroendocrine Tumor,Lung,False,GRPR
+ACH-000661,0.1174264408579809,WM1799,Melanoma,Skin,False,GRPR
+ACH-000702,0.2012220923257431,L-1236,Hodgkin Lymphoma,Lymphoid,False,GRPR
+ACH-000709,0.0222723550158486,KMRC-2,Renal Cell Carcinoma,Kidney,False,GRPR
+ACH-000732,-0.0905088082474144,PE/CA-PJ41 (clone D2),Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-000749,0.1959155044620397,DMS 273,Lung Neuroendocrine Tumor,Lung,False,GRPR
+ACH-000796,-0.0907536006782675,MCAS,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-000809,-0.0092604772062339,KYSE-410,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,GRPR
+ACH-000819,0.0718375590803099,LN-18,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000832,-0.0209892862586263,CAL 27,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-000867,0.0646185377982732,ChaGo-K-1,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000879,-0.2190081410864479,MFE-296,Endometrial Carcinoma,Uterus,False,GRPR
+ACH-000889,-0.0095390155746347,KMM-1,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-000948,0.0695787066472475,23132/87,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,GRPR
+ACH-000959,0.1746371380206757,SNU-C4,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-000972,0.0210548252584119,HEC-151,Endometrial Carcinoma,Uterus,False,GRPR
+ACH-000978,0.1098142097093671,EN,Endometrial Carcinoma,Uterus,False,GRPR
+ACH-000979,0.0115795569390275,DU 145,Prostate Adenocarcinoma,Prostate,False,GRPR
+ACH-001001,-0.0264339310298198,143B,Osteosarcoma,Bone,False,GRPR
+ACH-001099,0.1091570273001022,KD,Rhabdoid Cancer,Soft Tissue,False,GRPR
+ACH-001129,0.2149968360858989,MONO-MAC-1,Acute Myeloid Leukemia,Myeloid,False,GRPR
+ACH-001192,0.0865376731714738,SK-NEP-1,Ewing Sarcoma,Bone,False,GRPR
+ACH-001205,-0.0078471299629081,TC-32,Ewing Sarcoma,Bone,False,GRPR
+ACH-001229,-0.0508659514342406,UPCI-SCC-154,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-001233,0.0367914762023214,VMRC-LCD,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-001302,0.2585435978935304,COG-N-305,Neuroblastoma,Peripheral Nervous System,False,GRPR
+ACH-001328,0.1206589393560628,A-431,Cutaneous Squamous Cell Carcinoma,Skin,False,GRPR
+ACH-001331,0.1221904656752841,BICR 10,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-001332,0.0603696302631857,BICR 78,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-001341,0.1005607465731124,DoTc2 4510,Mixed Cervical Carcinoma,Cervix,False,GRPR
+ACH-001354,0.1501432868514942,LAN-2,Neuroblastoma,Peripheral Nervous System,False,GRPR
+ACH-001366,-0.0490034649042056,NGP,Neuroblastoma,Peripheral Nervous System,False,GRPR
+ACH-001377,0.1223317940486569,PACADD-137,Pancreatic Adenocarcinoma,Pancreas,False,GRPR
+ACH-001391,0.0754002154658665,SUM-159PT,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-001399,-0.0254790784820433,SW 626,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-001408,0.3051913597525358,UM-UC-14,Urethral Cancer,Bladder/Urinary Tract,False,GRPR
+ACH-001411,-0.0053667669394587,UM-UC-5,Bladder Squamous Cell Carcinoma,Bladder/Urinary Tract,False,GRPR
+ACH-001430,0.1047846606358996,TC-138,Ewing Sarcoma,Bone,False,GRPR
+ACH-001436,0.0521560701128493,1411H,Non-Seminomatous Germ Cell Tumor,Testis,False,GRPR
+ACH-001549,0.0936974025475167,Lu-135,Lung Neuroendocrine Tumor,Lung,False,GRPR
+ACH-001634,0.1334455576943892,PGA-1,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-001641,0.0492884384052323,SAT,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-001664,0.1034209791727778,SNU-638,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,GRPR
+ACH-001750,0.2015268055092279,TTC442,Rhabdomyosarcoma,Soft Tissue,False,GRPR
+ACH-001791,0.0454329596902598,LPS6,Liposarcoma,Soft Tissue,False,GRPR
+ACH-001839,-0.1212263990741653,MGH-ICC13-7,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,GRPR
+ACH-001852,0.1072900830032206,HKGZ-CC,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,GRPR
+ACH-001861,0.1579650507305466,TGBC1TKB,Intracholecystic Papillary Neoplasm,Biliary Tract,False,GRPR
+ACH-001990,-0.0297923749503915,NZM7,Melanoma,Skin,False,GRPR
+ACH-002020,0.0424046304270445,SKG-IIIa,Cervical Squamous Cell Carcinoma,Cervix,False,GRPR
+ACH-002067,-0.1589765002970693,NOS-1,Osteosarcoma,Bone,False,GRPR
+ACH-002070,-0.1018631027883731,HKBMM,Meningothelial Tumor,CNS/Brain,False,GRPR
+ACH-002083,0.0989712993535022,NB69,Neuroblastoma,Peripheral Nervous System,False,GRPR
+ACH-002114,-0.011189055284483,EW-16,Ewing Sarcoma,Bone,False,GRPR
+ACH-002179,0.1860096291031054,OCUB-M,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-002212,0.0247584678983652,BB30-HNC,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-002243,-0.2474610024644519,HCE-4,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,GRPR
+ACH-002261,0.0281086506444243,KP-N-YS,Neuroblastoma,Peripheral Nervous System,False,GRPR
+ACH-002304,-0.0231594477358455,SK-MG-1,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-002401,-0.0283281196356609,21MT-2,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-002458,0.0341383535993263,HT144 SKIN FV1,Melanoma,Skin,False,GRPR
+ACH-002467,-0.0233307652553623,RPE1-ss51,Non-Cancerous,Eye,False,GRPR
+ACH-002499,-0.1151930506448058,UACC-3199,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-002531,0.0459200283742725,SNU-2535,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-002533,0.1202536353979606,SNU-482,Renal Cell Carcinoma,Kidney,False,GRPR
+ACH-002681,0.0673118713413881,538-MG-BA,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-002847,0.0105480306176672,YUHOIN,Melanoma,Skin,False,GRPR
+ACH-000023,0.0605209736243806,PA-TU-8988T,Pancreatic Adenocarcinoma,Pancreas,False,GRPR
+ACH-000028,-0.0692289352942508,KPL-1,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-000047,-0.0544709675327507,GCIY,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,GRPR
+ACH-000060,0.1153898312106111,Panc 10.05,Pancreatic Adenocarcinoma,Pancreas,False,GRPR
+ACH-000092,-0.002961996983215,NCI-H2452,Pleural Mesothelioma,Pleura,False,GRPR
+ACH-000137,0.1064628130191124,8-MG-BA,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000145,0.0484042894056317,SK-LMS-1,Leiomyosarcoma,Soft Tissue,False,GRPR
+ACH-000146,0.0835071459414472,THP-1,Acute Myeloid Leukemia,Myeloid,False,GRPR
+ACH-000147,-0.0590938182725155,T-47D,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-000204,-0.0779402199721311,LP-1,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-000237,-0.0423429719112858,JHOM-1,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-000238,0.1249007408204582,SCC-4,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-000276,0.2194965790257705,HCC38,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-000334,0.256202815555471,DB,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-000337,0.104636444193239,NCI-H3122,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000343,0.1082056106481549,NCI-H522,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000352,0.0491310755089186,HCC1428,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-000385,0.162799528437542,SK-RC-52,Renal Cell Carcinoma,Kidney,False,GRPR
+ACH-000415,0.0315863478684198,BICR 6,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-000436,0.0181890049879008,OCI-My7,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-000438,0.0742355425618658,Lu-65,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000461,0.1648878155523238,SNU-1196,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,GRPR
+ACH-000469,0.057832338123781,YH-13,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000477,-0.1051562335571455,Malme-3M,Melanoma,Skin,False,GRPR
+ACH-000487,0.1269244422427856,F-36P,Acute Myeloid Leukemia,Myeloid,False,GRPR
+ACH-000498,0.0812990930715168,KO52,Acute Myeloid Leukemia,Myeloid,False,GRPR
+ACH-000499,0.1480196539638877,EW8,Ewing Sarcoma,Bone,False,GRPR
+ACH-000521,-0.0979767109676339,NCI-H2030,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000585,0.0007923136031087,EPLC-272H,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000601,0.0571009232541058,MIA PaCa-2,Pancreatic Adenocarcinoma,Pancreas,False,GRPR
+ACH-000630,0.1718505702533245,YD-8,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-000649,-0.0716683075525883,786-O,Renal Cell Carcinoma,Kidney,False,GRPR
+ACH-000655,0.2396644653562301,SF268,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000682,0.113853912969471,SNU-1066,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-000701,-0.0981459178549015,RMUG-S,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-000736,0.0349043617677112,SNU-601,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,GRPR
+ACH-000741,0.0298509859654098,U-BLC1,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,GRPR
+ACH-000781,0.1132241009411113,NCI-H2023,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000792,0.0747653489415426,BFTC-909,Renal Cell Carcinoma,Kidney,False,GRPR
+ACH-000794,0.1649495347218589,BICR 22,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-000801,-0.3326227755160252,Hs 936.T,Melanoma,Skin,False,GRPR
+ACH-000810,0.0913665470723383,SK-MEL-30,Melanoma,Skin,False,GRPR
+ACH-000822,0.0576426693091119,SK-MEL-24,Melanoma,Skin,False,GRPR
+ACH-000835,0.0301603598064133,GCT,Undifferentiated Pleomorphic Sarcoma/Malignant Fibrous Histiocytoma/High-Grade Spindle Cell Sarcoma,Soft Tissue,False,GRPR
+ACH-000855,0.1282089078101963,KYSE-150,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,GRPR
+ACH-000874,-0.0102212887810957,RS4;11,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,False,GRPR
+ACH-000878,-0.0001532285617402,HCC-15,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000900,0.0674959313486874,NCI-H23,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000905,0.0596051357605649,5637,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,GRPR
+ACH-000977,-0.1180528651129456,LNCaP clone FGC,Prostate Adenocarcinoma,Prostate,False,GRPR
+ACH-001065,0.0575675804831615,Evsa-T,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-001193,0.1215969168789976,SK-PN-DW,Ewing Sarcoma,Bone,False,GRPR
+ACH-001232,0.091357848718698,UW228,Embryonal Tumor,CNS/Brain,False,GRPR
+ACH-001303,-0.1748520971737857,NB-1643,Neuroblastoma,Peripheral Nervous System,False,GRPR
+ACH-001307,-0.0496396344860736,8505C,Anaplastic Thyroid Cancer,Thyroid,False,GRPR
+ACH-001322,-0.0075160322107864,CME-1,Synovial Sarcoma,Soft Tissue,False,GRPR
+ACH-001347,0.0886959715016886,H157,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-001382,0.0626421376646499,PACADD-188,Pancreatic Adenocarcinoma,Pancreas,False,GRPR
+ACH-001385,-0.0294517907541914,RPMI 2650,"Head and Neck Carcinoma, Other",Head and Neck,False,GRPR
+ACH-001414,-0.0029564789530333,UM-UC-6,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,GRPR
+ACH-001431,0.0665755096596807,TC-205,Ewing Sarcoma,Bone,False,GRPR
+ACH-001459,0.2031619403234493,C80,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-001461,-0.0330758266205511,C99,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-001481,0.0686604033253565,CHLA-90,Neuroblastoma,Peripheral Nervous System,False,GRPR
+ACH-001508,0.1397264532650195,H314,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-001520,-0.1787102025140311,HG-3,Non-Cancerous,Lymphoid,False,GRPR
+ACH-001567,0.0872777554021454,MM383,Melanoma,Skin,False,GRPR
+ACH-001630,0.046419494812189,PEO1,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-001647,0.0268692753148498,SHI-1,Acute Myeloid Leukemia,Myeloid,False,GRPR
+ACH-001683,0.1073551460908328,ACC-3133,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-001793,0.1839381667337478,LPS27,Liposarcoma,Soft Tissue,False,GRPR
+ACH-001814,0.3616890386399363,OS252,Osteosarcoma,Bone,False,GRPR
+ACH-001856,0.0896057168456666,RBE,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,GRPR
+ACH-001961,-0.0217179290419143,MGH-GB2,Intracholecystic Papillary Neoplasm,Biliary Tract,False,GRPR
+ACH-001975,-0.2093291401255419,MM576,Melanoma,Skin,False,GRPR
+ACH-001982,0.0800404205253528,NZM3,Melanoma,Skin,False,GRPR
+ACH-002026,0.1454702602482789,HHUA,Endometrial Carcinoma,Uterus,False,GRPR
+ACH-002039,0.0214503707477553,PK-8,Pancreatic Adenocarcinoma,Pancreas,False,GRPR
+ACH-002109,0.1579323705105585,ES8,Ewing Sarcoma,Bone,False,GRPR
+ACH-002278,-0.0898007296210422,NB10,Neuroblastoma,Peripheral Nervous System,False,GRPR
+ACH-002280,0.0863755719960515,NB13,Neuroblastoma,Peripheral Nervous System,False,GRPR
+ACH-002283,0.0451018681735585,NB5,Neuroblastoma,Peripheral Nervous System,False,GRPR
+ACH-002294,0.0303920176488404,PCI-15A,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-002296,-0.0579304114968341,PCI-38,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-002297,-0.0542703198709573,PCI-4B,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-002460,0.2701197517790624,HT144 SKIN FV2,Melanoma,Skin,False,GRPR
+ACH-002462,-0.023667246477927,RPE1-ss48,Non-Cancerous,Eye,False,GRPR
+ACH-002478,0.0513023539316816,BC-2,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-002486,0.0969657994526355,MES-OV,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-002510,0.0109834452266665,M040416,Melanoma,Skin,False,GRPR
+ACH-002523,0.0265181846587569,SNU-739,Hepatocellular Carcinoma,Liver,False,GRPR
+ACH-002535,-0.0950218882768691,SNU-254,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-002662,0.1660010115473426,JVE-207,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-002669,-0.0435334399120498,KP-363T,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-002677,-0.0562886922397051,U-2946,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-002678,0.2702376776194491,WILL-1,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-002693,0.1068206636636193,S462,Nerve Sheath Tumor,Peripheral Nervous System,False,GRPR
+ACH-002834,0.0604132169166473,OS384,Osteosarcoma,Bone,False,GRPR
+ACH-002928,0.0349289301252686,MM100511,Melanoma,Skin,False,GRPR
+ACH-000077,-0.0087522203141623,MJ,Non-Hodgkin Lymphoma,Lymphoid,False,GRPR
+ACH-000101,-0.1173519646679961,KE-37,T-Lymphoblastic Leukemia/Lymphoma,Lymphoid,False,GRPR
+ACH-000111,0.1465375159759906,HCC1187,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-000144,0.1166984221282462,RERF-GC-1B,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,GRPR
+ACH-000148,-0.0229960606377664,Hs 578T,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-000160,-0.0268740094189849,BT-12,Embryonal Tumor,CNS/Brain,False,GRPR
+ACH-000191,-0.0394428212288099,BHT-101,Anaplastic Thyroid Cancer,Thyroid,False,GRPR
+ACH-000248,-0.0386720010213045,AU565,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-000252,-0.0246008151851929,LS1034,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-000257,-0.2393720569971076,COR-L279,Lung Neuroendocrine Tumor,Lung,False,GRPR
+ACH-000266,0.0675444937115873,SNU-213,Pancreatic Adenocarcinoma,Pancreas,False,GRPR
+ACH-000290,0.0593320727388725,NCI-H209,Lung Neuroendocrine Tumor,Lung,False,GRPR
+ACH-000292,0.0440117160242398,NCI-H841,SMARCA4-deficient undifferentiated tumor,Lung,False,GRPR
+ACH-000319,0.2075202776474203,MPP 89,Pleural Mesothelioma,Pleura,False,GRPR
+ACH-000348,0.1473336816299587,RPMI-7951,Melanoma,Skin,False,GRPR
+ACH-000359,-0.0885089906952901,MG-63,Osteosarcoma,Bone,False,GRPR
+ACH-000363,-0.0320989892240303,SK-MM-2,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-000414,0.06169950314914,NCI-H1944,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000424,0.0292592027027002,TC-71,Ewing Sarcoma,Bone,False,GRPR
+ACH-000426,-0.1263131399219658,KMS-20,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-000445,0.3052739087472343,KNS-60,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000446,-0.0634301350467581,KP-N-SI9s,Neuroblastoma,Peripheral Nervous System,False,GRPR
+ACH-000468,0.1761853783310505,PK-45H,Pancreatic Adenocarcinoma,Pancreas,False,GRPR
+ACH-000479,0.1583323745656868,KNS-81,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000485,0.0436712292238421,GSU,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,GRPR
+ACH-000502,0.0328087597313396,TCC-PAN2,Pancreatic Adenocarcinoma,Pancreas,False,GRPR
+ACH-000505,0.1049651555381984,RKN,Leiomyosarcoma,Soft Tissue,False,GRPR
+ACH-000507,0.0518373436963208,KE-39,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,GRPR
+ACH-000511,0.2034995985049029,Calu-1,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000522,0.1179990145488624,UM-UC-3,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,GRPR
+ACH-000524,0.0788036170529033,KURAMOCHI,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-000528,-0.0035408918854363,ABC-1,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000537,0.1355515183273264,SNU-761,Hepatocellular Carcinoma,Liver,False,GRPR
+ACH-000569,0.1632630137248976,IST-MES1,Pleural Mesothelioma,Pleura,False,GRPR
+ACH-000581,-0.0637337689259883,SNU-16,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,GRPR
+ACH-000593,-0.0152233237095818,BC-3C,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,GRPR
+ACH-000604,-0.0541562803428693,KYO-1,Myeloproliferative Neoplasms,Myeloid,False,GRPR
+ACH-000605,-0.1631380880435026,TE-6,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,GRPR
+ACH-000608,-0.0718537348039435,COV644,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-000609,0.1251782928522821,SF126,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000634,0.1197869430431733,LN-340,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000662,0.0958034072077545,COR-L23,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000666,-0.0346924737138219,NCI-H1355,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000681,-0.192836782564559,A549,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000685,0.1881307074202688,L3.3,Adenosquamous Carcinoma of the Pancreas,Pancreas,False,GRPR
+ACH-000697,0.0452498851302891,A3/KAW,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-000714,-0.0143911465188836,KMS-11,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-000768,-0.0734120588569542,MDA-MB-231,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-000788,0.0066026184091805,A2058,Melanoma,Skin,False,GRPR
+ACH-000790,0.2020021963861552,SHP-77,Lung Neuroendocrine Tumor,Lung,False,GRPR
+ACH-000800,0.1843290734068772,NCI-H446,Lung Neuroendocrine Tumor,Lung,False,GRPR
+ACH-000826,0.1233579126833943,CAL-12T,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000845,0.0249035440148722,NCI-H1373,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000846,-0.1073451936075169,FaDu,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-000863,-0.180309494411171,DBTRG-05MG,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000871,0.0321728398012142,NCI-H510,Lung Neuroendocrine Tumor,Lung,False,GRPR
+ACH-000873,-0.1094262237337066,KYSE-270,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,GRPR
+ACH-000939,0.0616330189154197,SK-UT-1,Uterine Sarcoma/Mesenchymal,Uterus,False,GRPR
+ACH-000961,-0.024549785734892,Ishikawa (Heraklio) 02 ER-,Endometrial Carcinoma,Uterus,False,GRPR
+ACH-000971,-0.0571513888940456,HCT 116,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-000985,0.0956535722794754,LS411N,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-001028,0.1193903879478955,CHLA-06-ATRT,Embryonal Tumor,CNS/Brain,False,GRPR
+ACH-001075,-0.0589166423912535,NCI-H292,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-001096,0.1559784428293467,JR,Rhabdomyosarcoma,Soft Tissue,False,GRPR
+ACH-001126,-0.1302461377577129,MOG-G-UVW,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-001227,-0.0580496302381533,UPCI-SCC-090,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-001283,0.3225078018049109,TC-106,Ewing Sarcoma,Bone,False,GRPR
+ACH-001289,0.1457104472654867,COG-AR-359,Embryonal Tumor,CNS/Brain,False,GRPR
+ACH-001306,0.12324276262192,8305C,Anaplastic Thyroid Cancer,Thyroid,False,GRPR
+ACH-001336,0.0943183880670293,Ca Ski,Cervical Squamous Cell Carcinoma,Cervix,False,GRPR
+ACH-001346,0.1073056625518658,H103,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-001380,0.0523280002590955,PACADD-165,Pancreatic Adenocarcinoma,Pancreas,False,GRPR
+ACH-001402,-0.1256649001200084,SW756,Cervical Squamous Cell Carcinoma,Cervix,False,GRPR
+ACH-001433,0.1964482103751875,CCLF_PEDS_0008_T,Epithelioid Sarcoma,Soft Tissue,False,GRPR
+ACH-001451,0.0322321970270365,BOKU,Cervical Squamous Cell Carcinoma,Cervix,False,GRPR
+ACH-001453,-0.0133800407608364,BPH-1,Non-Cancerous,Prostate,False,GRPR
+ACH-001524,-0.0417347841662602,HSC-5,Cutaneous Squamous Cell Carcinoma,Skin,False,GRPR
+ACH-001628,-0.0202389689801926,PEA1,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-001673,0.0022629166644142,TFK-1,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,GRPR
+ACH-001690,0.0685767038039388,UPCI-SCC-026,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-001698,0.0403447566513871,UPCI-SCC-116,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-001834,0.1263483691556059,MGH-ICC10,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,GRPR
+ACH-001960,0.0650995834792551,CC-SW-1,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,GRPR
+ACH-001973,0.0416116672049948,MM485,Melanoma,Skin,False,GRPR
+ACH-002005,-0.1708396495629726,SK-MEL-19,Melanoma,Skin,False,GRPR
+ACH-002015,0.1219838841341442,Mel285,Ocular Melanoma,Eye,False,GRPR
+ACH-002016,-0.04626264284614,Mel290,Ocular Melanoma,Eye,False,GRPR
+ACH-002027,0.0485715651990701,HOUA-I,Endometrial Carcinoma,Uterus,False,GRPR
+ACH-002084,0.2389519867240528,MMAc,Melanoma,Skin,False,GRPR
+ACH-002140,0.0295910026754967,Hey,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-002181,0.06306697505475,OVCA420,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-002189,0.0849813759632897,RCC-FG2,Renal Cell Carcinoma,Kidney,False,GRPR
+ACH-002214,0.1776619425278514,BC-1,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-002228,0.2027574510746431,D-423MG,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-002446,0.0444881882256253,CCLF_UPGI_0005_T,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,GRPR
+ACH-002688,0.2162724432007086,OS457,Osteosarcoma,Bone,False,GRPR
+ACH-002926,0.1108041447138753,UPMD1,Ocular Melanoma,Eye,False,GRPR
+ACH-003180,0.1856811304796561,NRH-UPS2,Undifferentiated Pleomorphic Sarcoma/Malignant Fibrous Histiocytoma/High-Grade Spindle Cell Sarcoma,Soft Tissue,False,GRPR
+ACH-003184,-0.0320100944032933,NRH-LMS2,Leiomyosarcoma,Soft Tissue,False,GRPR
+ACH-000004,0.1792930237748878,HEL,Acute Myeloid Leukemia,Myeloid,False,GRPR
+ACH-000022,0.2029361087814171,PA-TU-8988S,Pancreatic Adenocarcinoma,Pancreas,False,GRPR
+ACH-000052,0.2651240801971752,A-673,Ewing Sarcoma,Bone,False,GRPR
+ACH-000113,-0.042309808582734,OCI-AML2,Acute Myeloid Leukemia,Myeloid,False,GRPR
+ACH-000149,-0.0164147843316118,SK-N-SH,Neuroblastoma,Peripheral Nervous System,False,GRPR
+ACH-000169,0.1177199021425127,RD,Rhabdomyosarcoma,Soft Tissue,False,GRPR
+ACH-000217,0.0602064395389023,JHH-6,Hepatocellular Carcinoma,Liver,False,GRPR
+ACH-000243,0.1432479703022849,DAN-G,Pancreatic Adenocarcinoma,Pancreas,False,GRPR
+ACH-000263,0.1565488146210927,KASUMI-1,Acute Myeloid Leukemia,Myeloid,False,GRPR
+ACH-000278,-0.0146596603339228,COV362,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-000303,-0.0168233432086523,SNU-5,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,GRPR
+ACH-000308,-0.0381093959369895,EFO-21,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-000322,0.1646085181985084,HT-144,Melanoma,Skin,False,GRPR
+ACH-000332,0.0508292357109424,YAPC,Pancreatic Adenocarcinoma,Pancreas,False,GRPR
+ACH-000338,0.0071097474953933,SR-786,Mature T and NK Neoplasms,Lymphoid,False,GRPR
+ACH-000370,-0.0693084954753827,SNU-626,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000390,0.0028318502358871,LUDLU-1,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000393,0.1003712314678881,HLF,Hepatocellular Carcinoma,Liver,False,GRPR
+ACH-000407,0.0644824430453052,SNU-685,Endometrial Carcinoma,Uterus,False,GRPR
+ACH-000417,0.0902058077300978,Panc 08.13,Pancreatic Adenocarcinoma,Pancreas,False,GRPR
+ACH-000473,0.0356321349915909,RT-112,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,GRPR
+ACH-000491,-0.0676356523512516,NCI-H716,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-000495,0.2116479636217191,TUHR4TKB,Renal Cell Carcinoma,Kidney,False,GRPR
+ACH-000532,0.0757895563794233,SNU-61,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-000561,0.1867752282947895,T.T,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,GRPR
+ACH-000619,0.0313137171133771,PE/CA-PJ15,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-000622,0.0372539862520147,KNS-42,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000633,0.0973113359888923,FU97,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,GRPR
+ACH-000657,-0.0129298099039629,A2780,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-000668,0.2863959796529249,HCC70,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-000683,-0.0159848590085218,SNU-503,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-000688,-0.0463833212212701,OV7,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-000694,0.0494753725012397,TE-9,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,GRPR
+ACH-000711,0.126667121031907,JIMT-1,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-000716,-0.0022257126728668,TT2609-C02,Well-Differentiated Thyroid Cancer,Thyroid,False,GRPR
+ACH-000720,0.160251843522984,TCCSUP,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,GRPR
+ACH-000721,0.0406705467262545,HMC-1-8,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-000735,0.1041774341213845,PE/CA-PJ49,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-000739,0.1452636069297407,Hep G2,Hepatoblastoma,Liver,False,GRPR
+ACH-000770,0.2733709635128425,P31/FUJ,Acute Myeloid Leukemia,Myeloid,False,GRPR
+ACH-000775,-0.0338744149378694,NCI-H727,Lung Neuroendocrine Tumor,Lung,False,GRPR
+ACH-000783,-0.0395104555676211,CAMA-1,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-000791,0.019460279232116,RERF-LC-Ad1,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000805,0.0053561072732664,COLO-679,Melanoma,Skin,False,GRPR
+ACH-000824,0.0921570273486901,KYSE-510,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,GRPR
+ACH-000827,0.0491124334814344,WM793,Melanoma,Skin,False,GRPR
+ACH-000838,0.1619765308584553,AMO-1,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-000848,0.0218380759386405,JHH-7,Hepatocellular Carcinoma,Liver,False,GRPR
+ACH-000858,0.1064953932550677,KNS-62,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000861,0.0713004533066487,HOP-62,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000881,-0.0417247632488541,MEL-JUSO,Melanoma,Skin,False,GRPR
+ACH-000899,0.0589174753083605,WM88,Melanoma,Skin,False,GRPR
+ACH-000910,0.0382493765081924,MDA-MB-453,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-000915,-0.1150633121778498,IPC-298,Melanoma,Skin,False,GRPR
+ACH-000935,0.0208960874619983,MDST8,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-000936,0.0551023826497102,EFO-27,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-000944,0.0087043021449938,NAMALWA,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-000962,0.3638486310111889,OC 314,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-000965,5.155275072850352e-05,RL95-2,Endometrial Carcinoma,Uterus,False,GRPR
+ACH-000988,0.2275945345427526,MFE-319,Endometrial Carcinoma,Uterus,False,GRPR
+ACH-001038,0.0105951031825715,COG-E-352,Ewing Sarcoma,Bone,False,GRPR
+ACH-001050,0.1322059156974591,CW9019,Rhabdomyosarcoma,Soft Tissue,False,GRPR
+ACH-001053,0.1974699141229943,D425,Embryonal Tumor,CNS/Brain,False,GRPR
+ACH-001151,0.0556400393335666,OVCAR-5,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-001211,0.2666885715880841,TTC-549,Rhabdoid Cancer,Soft Tissue,False,GRPR
+ACH-001239,-0.0255323869435614,WM-266-4,Melanoma,Skin,False,GRPR
+ACH-001277,-0.1597710479897686,Yamato,Synovial Sarcoma,Soft Tissue,False,GRPR
+ACH-001367,0.2046133803351117,NMB,Neuroblastoma,Peripheral Nervous System,False,GRPR
+ACH-001392,-0.0337740954204698,SUM-185PE,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-001412,0.1527447726480028,UM-UC-10,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,GRPR
+ACH-001458,0.1545547237595957,C75,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-001510,0.1356858717500993,H376,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-001530,0.1334315945201836,JEG-3,Gestational Trophoblastic Disease,Uterus,False,GRPR
+ACH-001556,-0.0258710419354823,Mero-25,Pleural Mesothelioma,Pleura,False,GRPR
+ACH-001562,0.0805077136458287,Mero-95,Pleural Mesothelioma,Pleura,False,GRPR
+ACH-001609,0.0286490449388337,NP 3,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-001670,0.1717885188763286,TASK1,Embryonal Tumor,CNS/Brain,False,GRPR
+ACH-002024,-0.012394093570379,ECC4,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-002029,-0.0377961594210745,SAS,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-002035,0.2583289433420261,LCAM1,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-002045,0.2139859610244149,HO-1-u-1,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-002046,0.0859475392573176,HTMMT,Endometrial Carcinoma,Uterus,False,GRPR
+ACH-002059,0.3297489854932392,P30/OHK,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,False,GRPR
+ACH-002066,0.0620931008024445,HS-Sch-2,Nerve Sheath Tumor,Peripheral Nervous System,False,GRPR
+ACH-002142,0.0290028047990463,HuO-3N1,Osteosarcoma,Bone,False,GRPR
+ACH-002215,0.1238709284293487,BC-3,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-002249,-0.0695682512302943,JHU-011,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-002282,0.1104040136962562,NB17,Neuroblastoma,Peripheral Nervous System,False,GRPR
+ACH-002295,0.0162194835724971,PCI-30,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-002485,0.115784347445343,MAVER-1,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-002526,0.0456984807666335,SNU-1327,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-002528,0.0528956327944362,SNU-267,Renal Cell Carcinoma,Kidney,False,GRPR
+ACH-002659,0.0587364367425486,JVE-127,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-002660,-0.001721636356154,JVE-187,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-002664,0.0509669689488864,JVE-253,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-002672,0.0439231641033453,MAPAC-HS-77,Pancreatic Adenocarcinoma,Pancreas,False,GRPR
+ACH-002792,0.0362856723733323,NCC-CCS1B-C1,Clear Cell Sarcoma,Soft Tissue,False,GRPR
+ACH-002922,0.0001865539391437,SK-N-MM,Neuroblastoma,Peripheral Nervous System,False,GRPR
+ACH-000009,0.0031993038918456,C2BBe1,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-000021,0.1255059138445499,NCI-H1693,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000025,0.1490833717135614,CH-157MN,Meningothelial Tumor,CNS/Brain,False,GRPR
+ACH-000037,0.2287090702222945,S-117,"Sarcoma, NOS",Soft Tissue,False,GRPR
+ACH-000075,-0.0105219997976186,U-87 MG,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000138,0.1185645507520482,CFPAC-1,Pancreatic Adenocarcinoma,Pancreas,False,GRPR
+ACH-000211,-0.0034113159853562,Daoy,Embryonal Tumor,CNS/Brain,False,GRPR
+ACH-000215,0.1179237865030484,LN382,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000232,-0.1045287025553972,U-251 MG,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000256,0.0202215509323686,COV318,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-000265,0.0807395890431983,KP-4,Pancreatic Adenocarcinoma,Pancreas,False,GRPR
+ACH-000268,-0.0480670250746149,SNU-245,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,GRPR
+ACH-000269,0.2082117413829225,AM-38,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000273,0.1443911490317643,SF539,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000281,-0.1793618352619907,KP-2,Pancreatic Adenocarcinoma,Pancreas,False,GRPR
+ACH-000307,0.0898215103914491,PK-1,Pancreatic Adenocarcinoma,Pancreas,False,GRPR
+ACH-000315,-0.0979407103511278,KARPAS-422,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-000317,0.0917091128181769,TUHR14TKB,Renal Cell Carcinoma,Kidney,False,GRPR
+ACH-000324,-0.0064963615293348,JHOC-5,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-000346,0.1227030997354524,JVM-3,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-000355,0.1044375961593068,NCI-H82,Lung Neuroendocrine Tumor,Lung,False,GRPR
+ACH-000362,-0.031430723417841,MOLM-13,Acute Myeloid Leukemia,Myeloid,False,GRPR
+ACH-000364,0.1223319511312912,U-2 OS,Osteosarcoma,Bone,False,GRPR
+ACH-000401,0.2473063010200256,COLO-800,Melanoma,Skin,False,GRPR
+ACH-000405,-0.0323199191433846,MEC-1,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-000408,-0.1761844689728277,TE-5,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,GRPR
+ACH-000481,-0.0503908637947036,NCI-H2170,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000500,-0.0143818144902227,SNU-46,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-000517,0.161438866031141,SNU-410,Pancreatic Adenocarcinoma,Pancreas,False,GRPR
+ACH-000541,-0.0654771410932621,KMS-34,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-000550,-0.0720307876124211,IGR-39,Melanoma,Skin,False,GRPR
+ACH-000562,-0.0485623025685445,HCC-78,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000591,-0.0012066853781238,LN-235,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000621,0.068924613666631,MDA-MB-157,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-000645,0.0487174444840353,JL-1,Pleural Mesothelioma,Pleura,False,GRPR
+ACH-000673,0.1124198203053747,LN-443,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000684,-0.0743073544885974,KMRC-1,Renal Cell Carcinoma,Kidney,False,GRPR
+ACH-000696,0.0231586991826938,OVCAR-8,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-000698,-0.0029301393124408,DMS 53,Lung Neuroendocrine Tumor,Lung,False,GRPR
+ACH-000725,0.1773434201022455,HCC202,Breast Ductal Carcinoma In Situ,Breast,False,GRPR
+ACH-000734,-0.1175872979604327,JHH-5,Hepatocellular Carcinoma,Liver,False,GRPR
+ACH-000754,-0.1472084207838266,L-428,Hodgkin Lymphoma,Lymphoid,False,GRPR
+ACH-000758,0.0586966250324004,MKN74,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,GRPR
+ACH-000769,0.1206311277565704,LK-2,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000802,0.1230698652565039,BFTC-905,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,GRPR
+ACH-000804,0.1627889635063064,NB-1,Neuroblastoma,Peripheral Nervous System,False,GRPR
+ACH-000833,0.2043755491877359,RH-30,Rhabdomyosarcoma,Soft Tissue,False,GRPR
+ACH-000836,-0.0720293879092722,YD-15,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-000856,-0.0297881406750609,CAL-51,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-000869,0.1129458602469831,NCI-H1568,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000887,0.071298102719299,SF-172,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-000898,0.0443772431342973,SNU-719,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,GRPR
+ACH-000901,0.0858196968828687,HCC-1359,Non-Small Cell Lung Cancer,Lung,False,GRPR
+ACH-000946,-0.0041355129842944,HEC-265,Endometrial Carcinoma,Uterus,False,GRPR
+ACH-000976,-0.026870200746225,HuCCT1,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,GRPR
+ACH-001016,0.1664545760514319,Becker,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-001039,-0.0128502543070229,COLO 205,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-001107,0.1615118929579964,KP-1N,Pancreatic Adenocarcinoma,Pancreas,False,GRPR
+ACH-001196,0.0882203737792031,SMS-CTR,Rhabdomyosarcoma,Soft Tissue,False,GRPR
+ACH-001197,0.1442176077606982,SMZ-1,Non-Hodgkin Lymphoma,Lymphoid,False,GRPR
+ACH-001301,0.0315552407187809,COG-N-278,Neuroblastoma,Peripheral Nervous System,False,GRPR
+ACH-001344,0.2081532767334031,GI-ME-N,Neuroblastoma,Peripheral Nervous System,False,GRPR
+ACH-001345,0.0134005246341429,GP5d,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-001360,-0.0294601261625266,MS751,Cervical Squamous Cell Carcinoma,Cervix,False,GRPR
+ACH-001388,-0.076338835904849,SUM-102PT,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-001415,0.1609755415528052,UM-UC7,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,GRPR
+ACH-001421,0.0298239662292103,WERI-Rb-1,Retinoblastoma,Eye,False,GRPR
+ACH-001450,0.1792844626124029,BLUE-1,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-001494,0.0573237606307229,EGI-1,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,GRPR
+ACH-001496,0.1036683677065186,ESO26,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,GRPR
+ACH-001500,-0.0084234232829741,FLO-1,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,GRPR
+ACH-001509,-0.0328840034627749,H357,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-001517,0.1427265487966755,HEC-1,Endometrial Carcinoma,Uterus,False,GRPR
+ACH-001538,0.1842711150850471,KKU-213,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,GRPR
+ACH-001543,-0.1136946306088577,KOSC-2,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,GRPR
+ACH-001613,-0.1217046630404538,OCI-AML4,Acute Myeloid Leukemia,Myeloid,False,GRPR
+ACH-001616,0.0213068590357752,OCI-LY18,Mature B-Cell Neoplasms,Lymphoid,False,GRPR
+ACH-001651,0.0276344908766115,SKG-I,Cervical Squamous Cell Carcinoma,Cervix,False,GRPR
+ACH-001662,-0.1101706685657269,SNU-2372,Invasive Breast Carcinoma,Breast,False,GRPR
+ACH-001668,0.1306752577088409,SUSA,Non-Seminomatous Germ Cell Tumor,Testis,False,GRPR
+ACH-001685,0.113056162365666,U-HO1,Hodgkin Lymphoma,Lymphoid,False,GRPR
+ACH-001719,0.0023189872214009,OCI-C4P,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,GRPR
+ACH-001765,0.0842776467240732,Rh4,Rhabdomyosarcoma,Soft Tissue,False,GRPR
+ACH-001786,-0.2337416608575799,SNU-1544,Colorectal Adenocarcinoma,Bowel,False,GRPR
+ACH-001820,-0.1424428459031088,COLO 824,"Breast Neoplasm, NOS",Breast,False,GRPR
+ACH-001848,0.0575966534846236,MGH-ICC8,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,GRPR
+ACH-001977,0.0415094719192886,NO36,Pleural Mesothelioma,Pleura,False,GRPR
+ACH-002018,-0.0080820792002184,Omm2.5,Ocular Melanoma,Eye,False,GRPR
+ACH-002069,0.0787444752837061,HS-Os-1,Osteosarcoma,Bone,False,GRPR
+ACH-002202,-0.0636528144516271,TMK-1,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,GRPR
+ACH-002269,0.0045947834844651,LNZTA3WT4,Diffuse Glioma,CNS/Brain,False,GRPR
+ACH-002285,0.0091828243906849,NB7,Neuroblastoma,Peripheral Nervous System,False,GRPR
+ACH-002490,-0.0365213708539758,NCI-H1882,Lung Neuroendocrine Tumor,Lung,False,GRPR
+ACH-002687,-0.1018687814723061,WM3772F,Ocular Melanoma,Eye,False,GRPR
+ACH-002708,0.2429422310466211,DL-221,Liposarcoma,Soft Tissue,False,GRPR
+ACH-002782,-0.0436492056676454,NCC-UPS1-C1,Undifferentiated Pleomorphic Sarcoma/Malignant Fibrous Histiocytoma/High-Grade Spindle Cell Sarcoma,Soft Tissue,False,GRPR
+ACH-002785,0.1171031410829902,NCC-LMS1-C1,Leiomyosarcoma,Soft Tissue,False,GRPR
+ACH-003012,-0.115518868721846,A549_CRAF_KD,Non-Small Cell Lung Cancer,Lung,False,GRPR

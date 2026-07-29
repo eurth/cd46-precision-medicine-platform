@@ -1,0 +1,6 @@
+tissue,type,intensity_score,data_source
+intestine,normal,9397246.8,HPA_protein_intensity
+salivary gland,normal,18920755.3,HPA_protein_intensity
+Astrocytes and Neuropil,cell_type,4648679.7,HPA_protein_intensity
+Glomeruli,cell_type,7486228.4,HPA_protein_intensity
+Proximal tubules,cell_type,7499972.9,HPA_protein_intensity
