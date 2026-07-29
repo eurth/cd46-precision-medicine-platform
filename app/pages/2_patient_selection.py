@@ -1,4 +1,4 @@
-﻿"""Page 2 â€” Patient Selection: GENIE landscape, eligibility thresholds, PSMA/AR context."""
+"""Page 2 — Patient Selection: GENIE landscape, eligibility thresholds, PSMA/AR context."""
 import sys
 from pathlib import Path
 
@@ -81,17 +81,17 @@ if eligibility_df is not None:
 # ---------------------------------------------------------------------------
 st.markdown(
     page_hero(
-        icon="ðŸŽ¯",
+        icon="🎯",
         module_name="Patient Selection",
         purpose=(
-            "AACR GENIE 271,837 real-world patients Â· 8-segment molecular landscape Â· "
-            "CD46 eligibility thresholds Â· PSMA & AR therapeutic context"
+            "AACR GENIE 271,837 real-world patients · 8-segment molecular landscape · "
+            "CD46 eligibility thresholds · PSMA & AR therapeutic context"
         ),
         kpi_chips=[
             ("GENIE Patients", "271,837"),
             ("PRAD CD46-High", f"{prad75_pct}%"),
             ("PSMA-low / Unmet", "~35%"),
-            ("AR Blockade Effect", "â†‘ 2â€“3Ã—"),
+            ("AR Blockade Effect", "↑ 2–3×"),
         ],
         source_badges=["GENIE", "TCGA", "cBioPortal"],
     ),
@@ -103,7 +103,7 @@ k1, k2, k3, k4 = st.columns(4)
 k1.metric("GENIE Patients", "271,837", "Real-world sequencing registry")
 k2.metric("PRAD CD46-High", f"{prad75_pct}%", "at 75th percentile threshold")
 k3.metric("PSMA-Ineligible", "~35%", "Unmet mCRPC population")
-k4.metric("AR Blockade Effect", "â†‘ 2â€“3Ã—", "CD46 post-castration")
+k4.metric("AR Blockade Effect", "↑ 2–3×", "CD46 post-castration")
 st.markdown("---")
 
 # ---------------------------------------------------------------------------
@@ -144,20 +144,20 @@ def _classify_segment(row):
     return "No Detected Driver"
 
 # ---------------------------------------------------------------------------
-# Tabs â€” most-important-first ordering
+# Tabs — most-important-first ordering
 # ---------------------------------------------------------------------------
 tab1, tab2, tab3, tab4 = st.tabs([
-    "ðŸŒ GENIE Real-World Landscape",
-    "ðŸŽ¯ Eligibility & Thresholds",
-    "ðŸ”— Therapeutic Context",
-    "ðŸ“‹ Data & Downloads",
+    "🌍 GENIE Real-World Landscape",
+    "🎯 Eligibility & Thresholds",
+    "🔗 Therapeutic Context",
+    "📋 Data & Downloads",
 ])
 
 # â”€â”€ Tab 1 : GENIE Real-World Landscape â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 with tab1:
-    st.markdown("#### AACR Project GENIE â€” 271,837 Real-World Sequenced Patients")
+    st.markdown("#### AACR Project GENIE — 271,837 Real-World Sequenced Patients")
     st.info(
-        "**CD46 is an expression-level target** â€” it overexpresses at the protein/RNA level, "
+        "**CD46 is an expression-level target** — it overexpresses at the protein/RNA level, "
         "not through genomic mutation or amplification. GENIE tracks **AR, PTEN, and TP53** "
         "driver alterations that define which patient populations carry the highest CD46 protein expression. "
         "This is the most representative public cancer sequencing registry in the world."
@@ -187,7 +187,7 @@ with tab1:
 
         with col_bar:
             st.markdown("##### Pan-Cancer Driver Alteration Rates")
-            st.caption("AR, PTEN, TP53 frequency Â· GENIE cancers with â‰¥1,000 patients")
+            st.caption("AR, PTEN, TP53 frequency · GENIE cancers with ≥1,000 patients")
 
             top_n = genie_df.groupby("CANCER_TYPE").size().reset_index(name="n")
             top_n = top_n[top_n["n"] >= 1000].sort_values("n", ascending=False).head(10)
@@ -233,8 +233,8 @@ with tab1:
             st.plotly_chart(fig_bar, use_container_width=True)
 
         with col_donut:
-            st.markdown("##### Prostate Cancer â€” 8-Segment Molecular Landscape")
-            st.caption(f"GENIE Prostate Cancer n={len(prad_sub):,} Â· AR / PTEN / TP53 combinations")
+            st.markdown("##### Prostate Cancer — 8-Segment Molecular Landscape")
+            st.caption(f"GENIE Prostate Cancer n={len(prad_sub):,} · AR / PTEN / TP53 combinations")
 
             prad_c = prad_sub.copy()
             prad_c["Segment"] = prad_c.apply(_classify_segment, axis=1)
@@ -301,7 +301,7 @@ with tab1:
             st.dataframe(fdf[show_cols].head(300), use_container_width=True, height=320)
 
         # â”€â”€ Segment comparison: prostate vs other cancers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-        st.markdown("#### Segment Comparison â€” Any-Cancer View")
+        st.markdown("#### Segment Comparison — Any-Cancer View")
         with st.expander("Compare molecular segments across selected cancer types", expanded=False):
             cancer_opts = genie_df["CANCER_TYPE"].value_counts()
             cancer_opts = cancer_opts[cancer_opts >= 500].index.tolist()
@@ -336,17 +336,17 @@ with tab1:
 
 # â”€â”€ Tab 2 : Eligibility & Thresholds â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 with tab2:
-    st.markdown("#### CD46 Expression Eligibility â€” TCGA Cohort Analysis")
+    st.markdown("#### CD46 Expression Eligibility — TCGA Cohort Analysis")
 
     THRESHOLD_LABELS = {
         "median":       "Median split (top 50%)",
         "75th_pct":     "75th percentile (top 25%)",
-        "log2tpm_2.5":  "logâ‚‚(TPM+1) â‰¥ 2.5 absolute",
-        "log2tpm_3.0":  "logâ‚‚(TPM+1) â‰¥ 3.0 absolute",
+        "log2tpm_2.5":  "log₂(TPM+1) ≥ 2.5 absolute",
+        "log2tpm_3.0":  "log₂(TPM+1) ≥ 3.0 absolute",
     }
 
     if eligibility_df is None:
-        st.warning("Eligibility data not found â€” run `python scripts/run_pipeline.py --mode analyze`")
+        st.warning("Eligibility data not found — run `python scripts/run_pipeline.py --mode analyze`")
     else:
         t_ctrl, t_note = st.columns([3, 1])
         with t_ctrl:
@@ -419,7 +419,7 @@ with tab2:
             st.plotly_chart(fig_cnt, use_container_width=True)
 
         st.markdown("---")
-        st.markdown("##### Threshold Sensitivity â€” PRAD")
+        st.markdown("##### Threshold Sensitivity — PRAD")
         st.caption(
             "Effect of selecting different CD46 expression cut-offs on the PRAD patient fraction "
             "eligible for 225Ac-CD46 therapy (TCGA PRAD primary cohort)."
@@ -458,12 +458,12 @@ with tab2:
 |-----------|----------|
 | Median | Broad Phase 1 |
 | **75th pct** | **Recommended** |
-| logâ‚‚ â‰¥ 2.5 | Biomarker expansion |
-| logâ‚‚ â‰¥ 3.0 | Companion Dx |
+| log₂ ≥ 2.5 | Biomarker expansion |
+| log₂ ≥ 3.0 | Companion Dx |
 """
                 )
                 st.caption(
-                    "In mCRPC, CD46 expression is 2â€“3Ã— higher than TCGA primary data â€” "
+                    "In mCRPC, CD46 expression is 2–3× higher than TCGA primary data — "
                     "so real-world eligible fractions exceed these TCGA estimates."
                 )
         else:
@@ -473,18 +473,18 @@ with tab2:
 with tab3:
     st.markdown("#### CD46 Complements PSMA and AR-Targeted Therapy")
     st.caption(
-        "CD46 fills the therapeutic gaps left by PSMA Lutetium and androgen deprivation â€” "
+        "CD46 fills the therapeutic gaps left by PSMA Lutetium and androgen deprivation — "
         "targeting patients who cannot benefit from those treatments."
     )
 
     col_psma, col_ar = st.columns(2)
 
     with col_psma:
-        st.markdown("##### ðŸ”— PSMAâ€“CD46 Complementarity")
+        st.markdown("##### 🔗 PSMA–CD46 Complementarity")
         st.markdown(
             """
-            - **177Lu-PSMA-617** approved for mCRPC â€” but **~35% of patients are PSMA-low**
-            - These PSMA-low patients are **CD46-high** (inverse correlation Ï â‰ˆ âˆ’0.42)
+            - **177Lu-PSMA-617** approved for mCRPC — but **~35% of patients are PSMA-low**
+            - These PSMA-low patients are **CD46-high** (inverse correlation Ï ≈ âˆ’0.42)
             - 225Ac-CD46 directly addresses this unmet population
             - Combined PSMA + CD46 dual-targeting covers **>85% of mCRPC**
             """
@@ -493,7 +493,7 @@ with tab3:
             y=[
                 "mCRPC patients (total)",
                 "PSMA-eligible (177Lu-PSMA)",
-                "PSMA-low â€” unmet need",
+                "PSMA-low — unmet need",
                 "CD46-high in PSMA-low",
             ],
             x=[1183, 769, 414, 345],
@@ -513,13 +513,13 @@ with tab3:
         )
 
     with col_ar:
-        st.markdown("##### âš—ï¸ AR Blockade â†’ CD46 Upregulation")
+        st.markdown("##### âš—ï¸ AR Blockade → CD46 Upregulation")
         st.markdown(
             """
-            - ADT/enzalutamide suppresses AR â†’ **CD46 promoter is AR-repressed**
-            - AR blockade â†’ CD46 rises **2â€“3Ã—** above baseline
-            - Patients who fail ADT â†’ **highest CD46 expression** â†’ ideal 225Ac candidates
-            - Natural sequence: ADT first â†’ 225Ac-CD46 second
+            - ADT/enzalutamide suppresses AR → **CD46 promoter is AR-repressed**
+            - AR blockade → CD46 rises **2–3×** above baseline
+            - Patients who fail ADT → **highest CD46 expression** → ideal 225Ac candidates
+            - Natural sequence: ADT first → 225Ac-CD46 second
             """
         )
         fig_ar = go.Figure(go.Bar(
@@ -558,7 +558,7 @@ with tab3:
         })
         st.dataframe(disp_comb, use_container_width=True, hide_index=True)
         st.caption(
-            "FOLH1 = PSMA gene (negative correlation â†’ PSMA-low = CD46-high). "
+            "FOLH1 = PSMA gene (negative correlation → PSMA-low = CD46-high). "
             "Significant correlations survive FDR correction."
         )
     else:
@@ -566,24 +566,24 @@ with tab3:
             """
 | Biomarker | Ï | p-value | Therapeutic Implication |
 |-----------|---|---------|------------------------|
-| PSMA (FOLH1) | **âˆ’0.42** | <0.01 | PSMA-low â†’ CD46-high |
-| AR | **âˆ’0.31** | <0.05 | AR blockade â†’ CD46 upregulation |
+| PSMA (FOLH1) | **âˆ’0.42** | <0.01 | PSMA-low → CD46-high |
+| AR | **âˆ’0.31** | <0.05 | AR blockade → CD46 upregulation |
 | MYC | +0.28 | <0.05 | Co-amplified in aggressive CRPC |
 | PD-L1 (CD274) | +0.18 | 0.09 | Checkpoint combination hypothesis |
-| RB1 | âˆ’0.22 | 0.03 | Loss â†’ treatment resistance marker |
+| RB1 | âˆ’0.22 | 0.03 | Loss → treatment resistance marker |
 """
         )
 
     st.info(
         "**Key clinical message:** CD46 expression is highest precisely when standard therapies are "
-        "failing â€” after AR signalling is blocked, in PSMA-negative disease, in TP53-altered "
+        "failing — after AR signalling is blocked, in PSMA-negative disease, in TP53-altered "
         "treatment-refractory tumours. This makes 225Ac-CD46 a natural **second/third-line** agent "
         "inserted into existing treatment sequences."
     )
 
 # â”€â”€ Tab 4 : Data & Downloads â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 with tab4:
-    st.markdown("#### Eligibility Data Table â€” All Cancer Types & Thresholds")
+    st.markdown("#### Eligibility Data Table — All Cancer Types & Thresholds")
     if eligibility_df is not None:
         display_cols = [c for c in [
             "cancer_type", "threshold_method", "n_eligible", "n_total",
@@ -621,7 +621,7 @@ with tab4:
 
 st.markdown("---")
 st.caption(
-    "Sources: AACR Project GENIE 19.0-public (Synapse syn72382128) Â· "
-    "TCGA via UCSC Xena Â· SU2C mCRPC cohort Â· "
+    "Sources: AACR Project GENIE 19.0-public (Synapse syn72382128) · "
+    "TCGA via UCSC Xena · SU2C mCRPC cohort · "
     "Human Protein Atlas IHC"
 )
