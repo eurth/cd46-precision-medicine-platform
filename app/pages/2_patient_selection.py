@@ -9,9 +9,9 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
-from components.styles import page_hero
+from components.theme import plotly_layout
 from components.targets import get_active_symbol, render_stub_gate, render_case_study_gate
-from components.ui_kit import info_banner, metric_row, section_tabs
+from components.ui_kit import filter_bar, info_banner, page_header, section_tabs
 
 if render_stub_gate(module="Patient Selection"):
     st.stop()
@@ -41,11 +41,7 @@ _MID    = "#4E637A"
 _TEXT   = "#94A3B8"
 _LIGHT  = "#CBD5E1"
 
-_PLOTLY_LAYOUT = dict(
-    paper_bgcolor=_BG,
-    plot_bgcolor=_BG,
-    font=dict(family="Inter", color=_TEXT),
-)
+_PLOTLY_LAYOUT = plotly_layout()
 
 # ---------------------------------------------------------------------------
 # Data loaders
@@ -94,8 +90,7 @@ if eligibility_df is not None:
 # Page hero
 # ---------------------------------------------------------------------------
 _prad_kpi = f"{prad75_pct}%" if prad75_pct is not None else "—"
-st.markdown(
-    page_hero(
+page_header(
         icon="🎯",
         module_name="Patient Selection",
         purpose=(
@@ -109,27 +104,8 @@ st.markdown(
             ("AR Blockade Effect", "↑ 2–3×"),
         ],
         source_badges=["GENIE", "TCGA", "cBioPortal"],
-    ),
-    unsafe_allow_html=True,
-)
+    )
 
-metric_row(
-    [
-        {"title": "GENIE Patients", "content": "271,837", "description": "Real-world sequencing registry"},
-        {
-            "title": f"PRAD {_GENE}-High",
-            "content": _prad_kpi,
-            "description": (
-                "at 75th percentile threshold"
-                if _IS_CD46
-                else "eligibility CSV is CD46 case-study depth"
-            ),
-        },
-        {"title": "PSMA-Ineligible", "content": "~35%", "description": "Unmet mCRPC population"},
-        {"title": "AR Blockade Effect", "content": "↑ 2–3×", "description": "CD46 post-castration (case study)"},
-    ],
-    key_prefix="pat_sel_kpi",
-)
 if not _IS_CD46:
     info_banner(
         f"Eligibility thresholds / combination biomarkers are CD46 case-study slices. "
@@ -307,7 +283,7 @@ if _active_pat == _PAT_TABS[0]:
 
         # â”€â”€ Cohort explorer â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         st.markdown("#### Real-World Cohort Explorer")
-        with st.expander("Filter 271,837 GENIE patients", expanded=False):
+        with filter_bar("Filter 271,837 GENIE patients", expanded=False):
             fe1, fe2, fe3 = st.columns(3)
             cancer_sel = fe1.selectbox(
                 "Cancer Type", ["All"] + sorted(genie_df["CANCER_TYPE"].unique().tolist())

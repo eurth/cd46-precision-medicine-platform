@@ -11,8 +11,8 @@ from dotenv import load_dotenv
 load_dotenv(Path(__file__).resolve().parents[2] / ".env")
 
 import streamlit as st
-from components.styles import page_hero
 from components.targets import get_active_symbol, render_stub_gate
+from components.ui_kit import page_header, section_tabs
 from components.data_freeze import render_data_freeze_banner
 
 # Inject Streamlit Cloud secrets into os.environ
@@ -115,41 +115,32 @@ def _get_agent(provider: str):
 # ---------------------------------------------------------------------------
 # Hero
 # ---------------------------------------------------------------------------
-st.markdown(
-    page_hero(
-        icon="🤖",
-        module_name="AI Research Assistant",
-        purpose=(
-            "KG-grounded RAG · OpenRouter Gemma primary · GPT-4o / Gemini fallback · "
-            f"retrieves structured evidence from {_kg_nodes}-node Neo4j knowledge graph "
-            "before every answer — not generic AI"
-        ),
-        kpi_chips=[
-            ("Primary Model",  "Gemma (OR)"),
-            ("Fallback",       "GPT-4o / Gemini"),
-            ("KG Nodes",       _kg_nodes),
-            ("Evidence Types", "8 sources"),
-        ],
-        source_badges=["TCGA", "HPA", "OpenTargets", "ChEMBL", "DepMap", "PubMed"],
+page_header(
+    icon="🤖",
+    module_name="AI Research Assistant",
+    purpose=(
+        "KG-grounded RAG · OpenRouter Gemma primary · GPT-4o / Gemini fallback · "
+        f"retrieves structured evidence from {_kg_nodes}-node Neo4j knowledge graph "
+        "before every answer — not generic AI"
     ),
-    unsafe_allow_html=True,
+    kpi_chips=[
+        ("Primary Model", "Gemma (OR)"),
+        ("Fallback", "GPT-4o / Gemini"),
+        ("KG Nodes", _kg_nodes),
+        ("Evidence Types", "8 sources"),
+    ],
+    source_badges=["TCGA", "HPA", "OpenTargets", "ChEMBL", "DepMap", "PubMed"],
 )
 render_data_freeze_banner(compact=True)
-st.markdown("---")
 
 # ---------------------------------------------------------------------------
 # Tabs
 # ---------------------------------------------------------------------------
-tab_chat, tab_arch, tab_evidence = st.tabs([
-    "Research Assistant",
-    "How It Works",
-    "Evidence Context",
-])
+_ASST_TABS = ["Research Assistant", "How It Works", "Evidence Context"]
+_active_asst = section_tabs(_ASST_TABS, key="research_assistant_tabs")
 
-# ==========================================================================
 # TAB 1 — Research Assistant (chat interface)
-# ==========================================================================
-with tab_chat:
+if _active_asst == _ASST_TABS[0]:
     # Provider controls
     col_prov, col_temp = st.columns([2, 1])
     with col_prov:
@@ -310,10 +301,8 @@ with tab_chat:
         unsafe_allow_html=True,
     )
 
-# ==========================================================================
 # TAB 2 — How It Works (RAG architecture)
-# ==========================================================================
-with tab_arch:
+elif _active_asst == _ASST_TABS[1]:
     st.markdown("#### Retrieval-Augmented Generation on a Structured Scientific Knowledge Graph")
 
     # Grounded AI vs Generic AI comparison
@@ -447,10 +436,8 @@ with tab_arch:
         "registrations, the assistant answers differently tomorrow."
     )
 
-# ==========================================================================
-# TAB 3 — Evidence Context (what data the agent has access to)
-# ==========================================================================
-with tab_evidence:
+# TAB 3 — Evidence Context
+elif _active_asst == _ASST_TABS[2]:
     st.markdown("#### Knowledge Graph Evidence Base — What the Agent Knows")
     st.caption(
         "The following evidence is pre-loaded into the Neo4j knowledge graph "

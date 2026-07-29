@@ -11,9 +11,8 @@ import os
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
-from components.styles import page_hero
 from components.targets import get_active_symbol, render_stub_gate, render_case_study_gate
-from components.ui_kit import section_tabs
+from components.ui_kit import page_header, section_tabs
 from dotenv import load_dotenv
 
 load_dotenv(Path(__file__).resolve().parents[2] / ".env")
@@ -37,8 +36,7 @@ _IS_CD46 = _GENE == "CD46"
 DATA_DIR = Path("data/processed")
 
 
-st.markdown(
-    page_hero(
+page_header(
         icon="🎯",
         module_name="Patient Eligibility Scorer",
         purpose=(
@@ -52,9 +50,7 @@ st.markdown(
             ("Threshold Method", "75th pct"),
         ],
         source_badges=["TCGA", "GENIE", "HPA"],
-    ),
-    unsafe_allow_html=True,
-)
+    )
 
 # ---------------------------------------------------------------------------
 # Data loaders

@@ -12,9 +12,8 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
-from components.styles import page_hero
 from components.targets import get_active_symbol, render_stub_gate, render_case_study_gate
-from components.ui_kit import info_banner, metric_row, section_tabs
+from components.ui_kit import info_banner, page_header, section_tabs
 
 from dotenv import load_dotenv
 load_dotenv(Path(__file__).resolve().parents[2] / ".env")
@@ -39,8 +38,7 @@ _IS_CD46 = _GENE == "CD46"
 DATA_DIR = Path("data/processed")
 
 
-st.markdown(
-    page_hero(
+page_header(
         icon="🧬",
         module_name="Biomarker Panel",
         purpose=(
@@ -54,9 +52,7 @@ st.markdown(
             ("Driver Segments", "8"),
         ],
         source_badges=["TCGA", "GENIE", "cBioPortal", "mCRPC"],
-    ),
-    unsafe_allow_html=True,
-)
+    )
 
 # ---------------------------------------------------------------------------
 # Data loaders
@@ -120,45 +116,11 @@ df_expr = df_expr_raw[df_expr_raw["sample_type"] == "Primary Tumor"].copy() if n
 ALL_CANCERS = sorted(df_expr["cancer_type"].dropna().unique().tolist()) if not df_expr.empty else []
 _EXPR_COL = _median_col(df_cancer, _GENE) if not df_cancer.empty else None
 
-# ---------------------------------------------------------------------------
-# Key stats header
-# ---------------------------------------------------------------------------
-
-_bio_kpi: list[dict[str, str]] = (
-    [
-        {"title": "mCRPC CD46 Altered", "content": "43%", "description": "+34% vs localised"},
-        {"title": "Localised PRAD", "content": "9%", "description": "baseline"},
-        {"title": "PSMA-Low Patients", "content": "~35%", "description": "eligible for CD46 RIT"},
-    ]
-    if _IS_CD46
-    else [
-        {"title": "Active Target", "content": _GENE, "description": "open-data pack"},
-        {
-            "title": "By-cancer rows",
-            "content": str(len(df_cancer)) if not df_cancer.empty else "—",
-            "description": f"{_PREFIX}_by_cancer",
-        },
-        {
-            "title": "Cox rows",
-            "content": str(len(df_survival)) if not df_survival.empty else "—",
-            "description": f"{_PREFIX}_survival",
-        },
-    ]
-)
-_bio_kpi.extend(
-    [
-        {"title": "SU2C Cohort Size", "content": "444", "description": "patients"},
-        {"title": "TCGA Pan-Cancer", "content": "33 cancers", "description": "11,160 patients"},
-    ]
-)
-metric_row(_bio_kpi, key_prefix="bio_kpi")
 if not _IS_CD46:
     info_banner(
         f"Co-targeting / complement / GENIE scoring panels retain CD46 case-study depth. "
         f"Target inclusion + survival use **{_GENE}** CSVs where present."
     )
-
-st.markdown("---")
 
 # ---------------------------------------------------------------------------
 # 6 Tabs

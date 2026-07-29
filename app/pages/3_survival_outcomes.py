@@ -8,9 +8,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
-from components.styles import page_hero
+from components.theme import plotly_layout
 from components.targets import get_active_symbol, list_symbols, render_stub_gate
-from components.ui_kit import metric_row, section_tabs
+from components.ui_kit import export_research_pack, filter_bar, page_header, section_tabs
 
 if render_stub_gate(module="Survival Outcomes"):
     st.stop()
@@ -32,11 +32,7 @@ _TEXT   = "#94A3B8"
 _LIGHT  = "#CBD5E1"
 _RED    = "#F87171"
 
-_PLOTLY_LAYOUT = dict(
-    paper_bgcolor=_BG,
-    plot_bgcolor=_BG,
-    font=dict(family="Inter", color=_TEXT),
-)
+_PLOTLY_LAYOUT = plotly_layout()
 
 # ---------------------------------------------------------------------------
 # Data loader
@@ -62,23 +58,24 @@ def load_survival_multi(symbols: tuple[str, ...]) -> pd.DataFrame:
     return pd.concat(frames, ignore_index=True) if frames else pd.DataFrame()
 
 
-# Interactive filters (Sprint 3) — defaults to active research target
+# Interactive filters — defaults to active research target
 _all_syms = list_symbols()
 _default_genes = [_GENE] if _GENE in _all_syms else _all_syms[:1]
-fc1, fc2, fc3 = st.columns([2, 2, 1])
-with fc1:
-    _selected_genes = st.multiselect(
-        "Gene markers",
-        options=_all_syms,
-        default=_default_genes,
-        key="surv_genes",
-        help="Load Cox/log-rank results for one or more registry genes.",
-    )
-with fc2:
-    _endpoint_opts = ["All", "OS", "PFI", "DSS", "DFI"]
-    _endpoint = st.selectbox("Endpoint", _endpoint_opts, index=0, key="surv_endpoint")
-with fc3:
-    st.caption("Filters apply to all three tabs below.")
+with filter_bar("Gene & endpoint filters"):
+    fc1, fc2, fc3 = st.columns([2, 2, 1])
+    with fc1:
+        _selected_genes = st.multiselect(
+            "Gene markers",
+            options=_all_syms,
+            default=_default_genes,
+            key="surv_genes",
+            help="Load Cox/log-rank results for one or more registry genes.",
+        )
+    with fc2:
+        _endpoint_opts = ["All", "OS", "PFI", "DSS", "DFI"]
+        _endpoint = st.selectbox("Endpoint", _endpoint_opts, index=0, key="surv_endpoint")
+    with fc3:
+        st.caption("Filters apply to all tabs below.")
 
 if not _selected_genes:
     _selected_genes = [_GENE]
@@ -136,8 +133,7 @@ _DISPLAY = _GENE_LABEL
 # ---------------------------------------------------------------------------
 # Page hero
 # ---------------------------------------------------------------------------
-st.markdown(
-    page_hero(
+page_header(
         icon="📈",
         module_name="Survival Outcomes",
         purpose=(
@@ -151,28 +147,7 @@ st.markdown(
             ("Strongest Inverse", top_neg_txt),
         ],
         source_badges=["TCGA"],
-    ),
-    unsafe_allow_html=True,
-)
-
-metric_row(
-    [
-        {"title": "Cancers Tested", "content": str(n_cancers), "description": "TCGA OS + PFI endpoints"},
-        {"title": "Cox Significant", "content": str(n_sig), "description": "p < 0.05 (Cox PH)"},
-        {
-            "title": "Strongest Positive",
-            "content": top_pos_txt,
-            "description": f"{_DISPLAY}-High → worse OS",
-        },
-        {
-            "title": "Strongest Inverse",
-            "content": top_neg_txt,
-            "description": f"{_DISPLAY}-High → better OS",
-        },
-    ],
-    key_prefix="surv_kpi",
-)
-st.markdown("---")
+    )
 
 try:
     from components.tooltip_generator import render_entity_popover
@@ -361,6 +336,7 @@ elif _active_surv == _SURV_TABS[1]:
                 file_name=_dl,
                 mime="text/csv",
             )
+            export_research_pack(tbl_data, key="surv_export_pack", result_name=_dl)
 
     with interp_col:
         if _GENE != "CD46":

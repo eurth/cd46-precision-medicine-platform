@@ -8,9 +8,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
-from components.styles import page_hero
 from components.targets import get_active_symbol, render_stub_gate
-from components.ui_kit import metric_row, section_tabs
+from components.theme import CHART_HIGHLIGHT, CHART_MUTED, plotly_layout
+from components.ui_kit import export_research_pack, filter_bar, page_header, section_tabs
 
 if render_stub_gate(module="Expression Atlas"):
     st.stop()
@@ -18,25 +18,17 @@ if render_stub_gate(module="Expression Atlas"):
 _GENE = get_active_symbol()
 _PREFIX = _GENE.lower()
 
-# ---------------------------------------------------------------------------
-# Theme constants
-# ---------------------------------------------------------------------------
-_BG    = "#0D1829"
-_LINE  = "#16243C"
-_INDIGO = "#818CF8"
-_TEAL   = "#2DD4BF"
-_AMBER  = "#FBBF24"
-_GREEN  = "#34D399"
-_ROSE   = "#F472B6"
-_SLATE  = "#4E637A"
-_TEXT   = "#94A3B8"
-_LIGHT  = "#CBD5E1"
+# Chart colors (Clinical Slate)
+_INDIGO = CHART_HIGHLIGHT
+_SLATE = CHART_MUTED
+_TEAL = "#0D9488"
+_AMBER = "#D97706"
+_GREEN = "#059669"
+_ROSE = "#E11D48"
+_TEXT = "#64748B"
+_LINE = "#E2E8F0"
 
-_PLOTLY_LAYOUT = dict(
-    paper_bgcolor=_BG,
-    plot_bgcolor=_BG,
-    font=dict(family="Inter", color=_TEXT),
-)
+_PLOTLY_LAYOUT = plotly_layout()
 
 # ---------------------------------------------------------------------------
 # Data loaders
@@ -119,8 +111,7 @@ pct_safe = (
 # ---------------------------------------------------------------------------
 # Page hero
 # ---------------------------------------------------------------------------
-st.markdown(
-    page_hero(
+page_header(
         icon="📊",
         module_name="Expression Atlas",
         purpose=(
@@ -134,43 +125,7 @@ st.markdown(
             ("Not a Dependency", f"{pct_safe:.1f}%" if pct_safe is not None else "n/a"),
         ],
         source_badges=["TCGA", "HPA", "GTEx", "DepMap"],
-    ),
-    unsafe_allow_html=True,
-)
-
-# ---------------------------------------------------------------------------
-# KPI metric strip (shadcn pilot)
-# ---------------------------------------------------------------------------
-metric_row(
-    [
-        {
-            "title": "Cancers Profiled",
-            "content": str(n_cancers),
-            "description": "TCGA RNA-seq cohort",
-        },
-        {
-            "title": "mRNA Leader",
-            "content": str(top_cancer),
-            "description": f"Highest {_GENE} median",
-        },
-        {
-            "title": "Cell Lines",
-            "content": f"{n_lines:,}" if n_lines else "—",
-            "description": f"DepMap ({_GENE})",
-        },
-        {
-            "title": "Non-dependency",
-            "content": f"{pct_safe:.1f}%" if pct_safe is not None else "—",
-            "description": (
-                "Safe surface target"
-                if pct_safe is not None
-                else f"No DepMap slice for {_GENE}"
-            ),
-        },
-    ],
-    key_prefix="expr_kpi",
-)
-st.markdown("---")
+    )
 
 # Entity card (Sprint 7) — click for AlphaFold / UniProt
 try:
@@ -206,20 +161,21 @@ if _active_tab == _TAB_LABELS[0]:
     if expr_df is None or "median_expr" not in expr_df.columns:
         st.warning(f"⚠️ No by-cancer CSV for {_GENE} — run `python scripts/load_target_slice.py --symbol {_GENE}`")
     else:
-        ctrl_col, info_col = st.columns([3, 1])
-        with ctrl_col:
-            sort_by = st.radio(
-                "Sort by",
-                ["Median expression ↓", "Cancer type A–Z"],
-                horizontal=True,
-                key="t1_sort",
-            )
-        with info_col:
-            st.caption(
-                f"Showing **{n_cancers} cancers**  \n"
-                f"Highest: **{top_cancer}**  \n"
-                f"Top quartile = indigo"
-            )
+        with filter_bar("Chart options"):
+            ctrl_col, info_col = st.columns([3, 1])
+            with ctrl_col:
+                sort_by = st.radio(
+                    "Sort by",
+                    ["Median expression ↓", "Cancer type A–Z"],
+                    horizontal=True,
+                    key="t1_sort",
+                )
+            with info_col:
+                st.caption(
+                    f"Showing **{n_cancers} cancers**  \n"
+                    f"Highest: **{top_cancer}**  \n"
+                    f"Top quartile = indigo"
+                )
 
         df_plot = (
             expr_df.sort_values("median_expr", ascending=True)
@@ -652,6 +608,11 @@ elif _active_tab == _TAB_LABELS[3]:
                 data=expr_df.to_csv(index=False),
                 file_name=f"{_GENE.lower()}_expression_by_cancer.csv",
                 mime="text/csv",
+            )
+            export_research_pack(
+                expr_df,
+                key="expr_export_pack",
+                result_name=f"{_GENE.lower()}_expression_by_cancer.csv",
             )
             if depmap_df is not None:
                 st.download_button(

@@ -14,7 +14,7 @@ sys.path.insert(0, str(_HERE))         # app/ dir (for utils.tracker etc.)
 import streamlit as st
 from utils.tracker import log_page_visit
 from components.styles import inject_global_css
-from components.ui_kit import apply_theme
+from components.ui_kit import apply_theme, breadcrumb, dimension_rail, render_recent_modules, track_recent_page
 
 st.set_page_config(
     page_title="OncoBridge Intelligence",
@@ -37,24 +37,16 @@ from components.feedback import render_sidebar_feedback
 
 with st.sidebar:
     st.markdown(
-        '<div style="'
-        'padding:16px 18px 14px;'
-        'border-bottom:1px solid #0A1628;'
-        'margin-bottom:4px;'
-        '">'
-        '<div style="'
-        'font-family:\'Space Grotesk\',sans-serif;'
-        'font-size:15px;font-weight:700;color:#E2E8F0;'
-        'letter-spacing:-0.2px;margin-bottom:2px;'
-        '">OncoBridge</div>'
-        '<div style="'
-        'font-size:10px;color:#4E637A;letter-spacing:0.08em;'
-        'text-transform:uppercase;font-weight:600;'
-        '">Theranostics Research</div>'
+        '<div style="padding:16px 18px 14px;border-bottom:1px solid #E2E8F0;margin-bottom:4px;">'
+        '<div style="font-family:\'IBM Plex Sans\',sans-serif;font-size:15px;font-weight:700;'
+        'color:#1E293B;letter-spacing:-0.2px;margin-bottom:2px;">OncoBridge</div>'
+        '<div style="font-size:10px;color:#64748B;letter-spacing:0.08em;'
+        'text-transform:uppercase;font-weight:600;">Theranostics Research</div>'
         '</div>',
         unsafe_allow_html=True,
     )
     render_sidebar_target_selector()
+    render_recent_modules()
     render_sidebar_feedback()
     st.markdown('<span></span>', unsafe_allow_html=True)
 
@@ -113,6 +105,9 @@ pg = st.navigation(
 )
 
 render_main_target_bar()
+dimension_rail()
+breadcrumb(pg.title)
+track_recent_page(pg.title)
 
 # Hide admin page from sidebar nav (accessible via direct URL only)
 st.markdown(

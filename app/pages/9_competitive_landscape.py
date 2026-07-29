@@ -10,9 +10,9 @@ import os
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
-from components.styles import page_hero
+from components.theme import plotly_layout
 from components.targets import list_symbols, is_loaded
-from components.ui_kit import metric_row, section_tabs
+from components.ui_kit import page_header, section_tabs
 from dotenv import load_dotenv
 
 load_dotenv(Path(__file__).resolve().parents[2] / ".env")
@@ -47,11 +47,7 @@ _GENE_COLORS = {
     "GRPR": _VIOLET,
 }
 
-_PLOTLY_LAYOUT = dict(
-    paper_bgcolor=_BG,
-    plot_bgcolor=_BG,
-    font=dict(family="Inter", color=_TEXT),
-)
+_PLOTLY_LAYOUT = plotly_layout()
 
 # ── Data ───────────────────────────────────────────────────────────────────────
 @st.cache_data(ttl=3600)
@@ -172,8 +168,7 @@ PSMA_MEDIANS = {
 }
 
 # ── Page hero ─────────────────────────────────────────────────────────────────
-st.markdown(
-    page_hero(
+page_header(
         icon="🏆",
         module_name="Compare Targets",
         purpose=(
@@ -187,20 +182,7 @@ st.markdown(
             ("Unmet Need", "PSMA-low"),
         ],
         source_badges=["TCGA", "ClinicalTrials", "OpenTargets"],
-    ),
-    unsafe_allow_html=True,
-)
-
-metric_row(
-    [
-        {"title": "Loaded Targets", "content": str(len(_LOADED)), "description": "Phase 4 thin slices"},
-        {"title": "CD46 Active Trials", "content": "14", "description": "100% early-phase · whitespace"},
-        {"title": "PSMA-low mCRPC", "content": "~30–40%", "description": "Unserved by Pluvicto"},
-        {"title": "Aura Headroom", "content": "~1.8%", "description": "of Free 200k nodes used"},
-    ],
-    key_prefix="cmp_kpi",
-)
-st.markdown("---")
+    )
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
 _CMP_TABS = [

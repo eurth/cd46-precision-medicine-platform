@@ -1,6 +1,6 @@
 # OncoBridge UI Migration Plan
 
-**Status:** Phase 3a–3c complete — ready for local verify before commit/deploy  
+**Status:** Phases 4–8 complete — bundled commit & deploy  
 **Stack:** Streamlit (keep) + streamlit-shadcn-ui + streamlit-extras + streamlit-antd-components (nav only)
 
 ## Problem statement
@@ -20,7 +20,7 @@
 
 | Library | Role |
 |---|---|
-| [streamlit-shadcn-ui](https://github.com/ObservedObserver/streamlit-shadcn-ui) | Primary: `metric_card`, `tabs`, `card`, `alert`, `badges` |
+| [streamlit-shadcn-ui](https://github.com/ObservedObserver/streamlit-shadcn-ui) | **Phase 4: bypass iframes** — use native themed components instead |
 | [streamlit-extras](https://github.com/arnaudmiribel/streamlit-extras) | Scoped CSS via `stylable_container` |
 | [streamlit-antd-components](https://pypi.org/project/streamlit-antd-components/) | Nav only: `segmented`, optional `menu` |
 
@@ -56,23 +56,55 @@ app/components/targets.py  ← SAC segmented target bar; dimension chrome remove
 
 ### Phase 2 — Shared UI kit (3–4 days)
 
-- [ ] `page_header()` replaces `page_hero()` gradually
+- [x] `page_header()` replaces `page_hero()` on 3d pages (+ gradual rollout started)
 - [x] `info_banner()`, `metric_row()`, `section_tabs()` stable APIs
+- [x] `filter_bar()` on Survival Outcomes
 
 ### Phase 3 — Page rollout (2–3 weeks)
 
 | Sprint | Pages | Status |
 |---|---|---|
-| 3a | Overview, Survival, Compare Targets | **Done** (+ Expression Atlas pilot) |
+| 3a | Overview, Survival, Compare Targets | **Done** |
 | 3b | Patient Selection, Eligibility, Biomarker Panel | **Done** |
 | 3c | Drug Pipeline, PPI, Diagnostics, Dosimetry | **Done** |
-| 3d | KG, Query Explorer, Assistant, Strategy |
+| 3d | KG, Query Explorer, Assistant, Strategy | **Done** |
 
-### Phase 4 — CSS debt paydown
+### Phase 4 — Theme pivot & shadcn fix (P0)
 
-Target: `styles.py` ≤80 lines; theme in `ui_kit.apply_theme()`.
+- [x] Clinical Slate light theme tokens (`theme.py`)
+- [x] Remove white shadcn iframes
+- [x] Global CSS rewritten for light clinical shell
+- [x] Deduplicate hero chips + metric row on analytical pages
+- [x] Shared Plotly light theme on all chart pages
+- [ ] Deploy + visual QA (bundled with final push)
 
-### Phase 5 — Contingency (only if Phase 3 fails)
+### Phase 5 — Chrome v2 & dimension rail
+
+- [x] `dimension_rail()` — compact grouped nav under target bar
+- [x] `page_header()` on all module pages
+- [ ] Mobile header toggle verified on live site
+
+### Phase 6 — Page rollout completion (3d + polish)
+
+| Sprint | Pages | Status |
+|---|---|---|
+| 3d | KG, Query Explorer, Assistant, Strategy | **Done** |
+| 6b | `filter_bar()` on Expression, Patient Selection, Survival | **Done** |
+
+### Phase 7 — CSS debt paydown
+
+- [x] `styles.py` ≤120 lines (61 lines); tokens in `theme.py`
+- [x] Global CSS extracted to `theme_css.py`
+- [x] Zero shadcn iframes
+
+### Phase 8 — Research UX backlog
+
+- [x] Breadcrumbs (`breadcrumb()`)
+- [x] Recent modules sidebar (`track_recent_page`, `render_recent_modules`)
+- [x] Export bundle helper (`export_research_pack`)
+- [x] Print stylesheet in `theme_css.py`
+
+### Phase 9 — Contingency (only if theme pivot fails)
 
 Evaluate Panel → Dash → Next.js+FastAPI.
 
@@ -92,7 +124,7 @@ networkx>=3.0
 
 | Risk | Mitigation |
 |---|---|
-| shadcn iframe perf | Pilot biomarker panel in Phase 3b; cap iframes per page |
+| shadcn iframe white cards on dark shell | Phase 4: native themed metrics/tabs; Clinical Slate light theme |
 | shadcn + SAC visual mismatch | SAC for nav only |
 | Streamlit upgrade breaks CSS | Pin `streamlit>=1.32,<2.0` |
 

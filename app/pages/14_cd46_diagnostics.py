@@ -20,9 +20,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
-from components.styles import page_hero
+from components.theme import plotly_layout
 from components.targets import get_active_symbol, render_stub_gate, render_case_study_gate
-from components.ui_kit import metric_row, section_tabs
+from components.ui_kit import page_header, section_tabs
 
 # ── Streamlit Cloud secret injection ─────────────────────────────────────────
 for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
@@ -54,11 +54,7 @@ _SLATE  = "#4E637A"
 _TEXT   = "#94A3B8"
 _LIGHT  = "#CBD5E1"
 
-_PLOTLY_LAYOUT = dict(
-    paper_bgcolor=_BG,
-    plot_bgcolor=_BG,
-    font=dict(family="Inter", color=_TEXT),
-)
+_PLOTLY_LAYOUT = plotly_layout()
 
 # ── Static fallback data ──────────────────────────────────────────────────────
 _GTEX_FALLBACK = pd.DataFrame([
@@ -155,8 +151,7 @@ if mut_df.empty and _IS_CD46:
     mut_df = _MUTATION_FALLBACK
 
 # ── Page hero ─────────────────────────────────────────────────────────────────
-st.markdown(
-    page_hero(
+page_header(
         icon="🔬",
         module_name="Diagnostics & Early Detection",
         purpose=(
@@ -170,45 +165,7 @@ st.markdown(
             ("IHC / Intensity", str(len(hpa_df)) if not hpa_df.empty else "—"),
         ],
         source_badges=["HPA", "TCGA", "ClinicalTrials", "GTEx"],
-    ),
-    unsafe_allow_html=True,
-)
-
-_diag_kpi: list[dict[str, str]] = [
-    {"title": "GTEx Tissues Profiled", "content": str(len(gtex_df)), "description": f"normal {_GENE} baseline"},
-]
-if _IS_CD46:
-    _diag_kpi.extend(
-        [
-            {"title": "ClinVar Variants", "content": "500", "description": "mostly benign / VUS"},
-            {"title": "YS5 PET Trials", "content": "2", "description": "NCT05892393, NCT05245006"},
-            {"title": "CD46 IHC H-score (mCRPC)", "content": "300 / 300", "description": "maximum expression"},
-            {"title": "Eligible PSMA-low mCRPC", "content": "~20%", "description": "of all mCRPC patients"},
-        ]
     )
-else:
-    _diag_kpi.extend(
-        [
-            {
-                "title": "ClinVar Variants",
-                "content": str(len(clinvar_df)) if not clinvar_df.empty else "—",
-                "description": f"{_GENE} slice",
-            },
-            {
-                "title": "Mutation Rows",
-                "content": str(len(mut_df)) if not mut_df.empty else "—",
-                "description": f"{_GENE} slice",
-            },
-            {
-                "title": "HPA Protein Rows",
-                "content": str(len(hpa_df)) if not hpa_df.empty else "—",
-                "description": "intensity / IHC",
-            },
-            {"title": "Active Target", "content": _GENE, "description": "medium open-data pack"},
-        ]
-    )
-metric_row(_diag_kpi, key_prefix="diag_kpi")
-st.markdown("---")
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
 _DIAG_TABS = [

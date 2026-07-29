@@ -15,8 +15,9 @@ load_dotenv(Path(__file__).resolve().parents[2] / ".env")
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
-from components.styles import page_hero
+from components.theme import plotly_layout
 from components.targets import get_active_symbol, is_case_study, render_stub_gate
+from components.ui_kit import page_header, section_tabs
 
 # Inject Streamlit Cloud secrets into os.environ
 for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
@@ -52,11 +53,7 @@ _TEXT   = "#94A3B8"
 _LIGHT  = "#CBD5E1"
 _RED    = "#F87171"
 
-_PLOTLY_LAYOUT = dict(
-    paper_bgcolor="#0f172a",
-    plot_bgcolor="#0f172a",
-    font=dict(family="Inter", color=_TEXT),
-)
+_PLOTLY_LAYOUT = plotly_layout()
 
 # ---------------------------------------------------------------------------
 # Neo4j connection
@@ -109,23 +106,20 @@ _disease_ct  = str(stats["counts"].get("Disease",797)) if stats else "797"
 # ---------------------------------------------------------------------------
 # Page hero
 # ---------------------------------------------------------------------------
-st.markdown(
-    page_hero(
-        icon="🕸️",
-        module_name="Biomedical Knowledge Graph",
-        purpose=(
-            "Neo4j AuraDB · genes, proteins, diseases, drugs, clinical trials, patient cohorts "
-            "· interactive force-directed graph + Cypher interface + protein structural biology"
-        ),
-        kpi_chips=[
-            ("KG Nodes",      _total_nodes),
-            ("KG Edges",      _total_rels),
-            ("Drug Nodes",    _drug_count),
-            ("Disease Links", _disease_ct),
-        ],
-        source_badges=["UniProt", "OpenTargets", "ChEMBL", "STRING", "ClinicalTrials"],
+page_header(
+    icon="🕸️",
+    module_name="Biomedical Knowledge Graph",
+    purpose=(
+        "Neo4j AuraDB · genes, proteins, diseases, drugs, clinical trials, patient cohorts "
+        "· interactive force-directed graph + Cypher interface + protein structural biology"
     ),
-    unsafe_allow_html=True,
+    kpi_chips=[
+        ("KG Nodes", _total_nodes),
+        ("KG Edges", _total_rels),
+        ("Drug Nodes", _drug_count),
+        ("Disease Links", _disease_ct),
+    ],
+    source_badges=["UniProt", "OpenTargets", "ChEMBL", "STRING", "ClinicalTrials"],
 )
 
 if conn_error:
@@ -136,26 +130,14 @@ if conn_error:
 else:
     st.success("Connected to AuraDB knowledge graph")
 
-k1, k2, k3, k4 = st.columns(4)
-k1.metric("Total Nodes",         _total_nodes, "genes, proteins, diseases, drugs")
-k2.metric("Total Relationships", _total_rels,  "typed biological edges")
-k3.metric("Drug Nodes",          _drug_count,  "CD46-targeting agents")
-k4.metric("Disease Nodes",       _disease_ct,  "linked to CD46")
-st.markdown("---")
-
-# ---------------------------------------------------------------------------
-# Tabs
-# ---------------------------------------------------------------------------
-tab_net, tab_query, tab_protein = st.tabs([
+_KG_TABS = [
     "Network Explorer",
     "Cypher Query Explorer",
     "Protein and Evidence",
-])
+]
+_active_kg = section_tabs(_KG_TABS, key="biomedical_kg_tabs")
 
-# ==========================================================================
-# TAB 1 — Network Explorer
-# ==========================================================================
-with tab_net:
+if _active_kg == _KG_TABS[0]:
     st.markdown("#### Biomedical Knowledge Graph — Force-Directed Network")
     st.caption(
         "Select a biological dimension, then click Load Network to render the live graph. "
@@ -393,7 +375,7 @@ UniProt IDs, ClinicalTrials NCT numbers, DepMap scores.
 # ==========================================================================
 # TAB 2 — Cypher Query Explorer
 # ==========================================================================
-with tab_query:
+elif _active_kg == _KG_TABS[1]:
     st.markdown("#### Cypher Query Explorer — Live Biological Reasoning")
     st.caption(
         "Select a pre-built query or write your own. "
@@ -574,7 +556,7 @@ with tab_query:
 # ==========================================================================
 # TAB 3 — Protein and Evidence
 # ==========================================================================
-with tab_protein:
+elif _active_kg == _KG_TABS[2]:
     af_sub, str_sub, pub_sub = st.tabs([
         "AlphaFold Structure",
         "STRING Network",

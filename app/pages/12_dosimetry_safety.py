@@ -11,9 +11,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
-from components.styles import page_hero
+from components.theme import plotly_layout
 from components.targets import get_active_symbol, render_stub_gate, render_case_study_gate
-from components.ui_kit import metric_row, section_tabs
+from components.ui_kit import page_header, section_tabs
 
 # ── Streamlit Cloud secret injection ─────────────────────────────────────────
 for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
@@ -45,11 +45,7 @@ _SLATE  = "#4E637A"
 _TEXT   = "#94A3B8"
 _LIGHT  = "#CBD5E1"
 
-_PLOTLY_LAYOUT = dict(
-    paper_bgcolor=_BG,
-    plot_bgcolor=_BG,
-    font=dict(family="Inter", color=_TEXT),
-)
+_PLOTLY_LAYOUT = plotly_layout()
 
 # ── Static HPA fallback ───────────────────────────────────────────────────────
 # Human Protein Atlas CD46 IHC H-scores (publicly available at proteinatlas.org)
@@ -166,8 +162,7 @@ if not paired.empty:
     paired = paired.sort_values("Tumour H-score", ascending=False).reset_index(drop=True)
 
 # ── Page hero ─────────────────────────────────────────────────────────────────
-st.markdown(
-    page_hero(
+page_header(
         icon="⚗️",
         module_name="Dosimetry & Safety Index",
         purpose="Therapeutic index for 225Ac-CD46 α-RLT · normal vs tumour CD46 expression · "
@@ -179,25 +174,7 @@ st.markdown(
             ("Alpha Range", "2–3 cells"),
         ],
         source_badges=["HPA", "TCGA", "ClinicalTrials"],
-    ),
-    unsafe_allow_html=True,
-)
-
-metric_row(
-    [
-        {"title": "HPA Normal Tissues", "content": str(len(normal_df)), "description": "IHC H-score"},
-        {"title": "225Ac Half-Life", "content": "9.9 days", "description": "optimal solid tumour dosing"},
-        {"title": "Alpha Path Length", "content": "2–3 cells", "description": "40–100 µm"},
-        {"title": "Prostate TI", "content": "1.5×", "description": "300 vs 200 H-score"},
-        {
-            "title": "High-Risk Tissues",
-            "content": str(int((paired["Normal H-score"] >= 250).sum())),
-            "description": "require Phase I monitoring",
-        },
-    ],
-    key_prefix="dose_kpi",
-)
-st.markdown("---")
+    )
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
 _DOSE_TABS = [

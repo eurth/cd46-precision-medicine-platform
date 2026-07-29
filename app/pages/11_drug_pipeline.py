@@ -12,9 +12,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
-from components.styles import page_hero
+from components.theme import plotly_layout
 from components.targets import get_active_symbol, render_stub_gate, render_case_study_gate
-from components.ui_kit import info_banner, metric_row, section_tabs
+from components.ui_kit import info_banner, page_header, section_tabs
 import json
 
 if render_stub_gate(module="Drug Pipeline"):
@@ -38,11 +38,7 @@ _SLATE   = "#4E637A"
 _TEXT    = "#94A3B8"
 _LIGHT   = "#CBD5E1"
 
-_PLOTLY_LAYOUT = dict(
-    paper_bgcolor=_BG,
-    plot_bgcolor=_BG,
-    font=dict(family="Inter", color=_TEXT),
-)
+_PLOTLY_LAYOUT = plotly_layout()
 
 # ── Pipeline data (curated, public sources) ────────────────────────────────────
 PIPELINE = pd.DataFrame([
@@ -247,8 +243,7 @@ elif not _chembl_df.empty and not _IS_CD46:
 PIPELINE_VIEW = PIPELINE_ACTIVE if not PIPELINE_ACTIVE.empty else PIPELINE.iloc[0:0]
 
 # ── Page hero ─────────────────────────────────────────────────────────────────
-st.markdown(
-    page_hero(
+page_header(
         icon="💊",
         module_name="Drug Pipeline Explorer",
         purpose=(
@@ -262,35 +257,10 @@ st.markdown(
             ("225Ac Programmes", str(len(PIPELINE[PIPELINE["Isotope / Payload"].str.contains("225Ac", na=False)]))),
         ],
         source_badges=["ClinicalTrials", "ChEMBL", "FDA"],
-    ),
-    unsafe_allow_html=True,
-)
+    )
 
-metric_row(
-    [
-        {"title": f"{_GENE} Agents", "content": str(len(PIPELINE_VIEW)), "description": "curated + ChEMBL"},
-        {
-            "title": "CD46-Targeting",
-            "content": str(len(PIPELINE[PIPELINE["Drug Class"] == "CD46-Targeted"])),
-            "description": "case-study curated",
-        },
-        {
-            "title": "FDA Approved",
-            "content": str(len(PIPELINE[PIPELINE["Phase Label"] == "FDA Approved"])),
-            "description": "PSMA + complement",
-        },
-        {"title": "Modalities", "content": str(PIPELINE["Modality"].nunique()), "description": "ADC · RLT · mAb"},
-        {
-            "title": "225Ac Programmes",
-            "content": str(len(PIPELINE[PIPELINE["Isotope / Payload"].str.contains("225Ac", na=False)])),
-            "description": "alpha-emitter frontier",
-        },
-    ],
-    key_prefix="drug_kpi",
-)
 if PIPELINE_VIEW.empty:
     info_banner(f"No curated / ChEMBL pipeline rows for **{_GENE}** yet.")
-st.markdown("---")
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
 _DRUG_TABS = [

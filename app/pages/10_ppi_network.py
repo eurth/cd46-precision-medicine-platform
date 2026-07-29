@@ -20,9 +20,9 @@ import networkx as nx
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
-from components.styles import page_hero
+from components.theme import plotly_layout
 from components.targets import get_active_symbol, render_stub_gate, render_case_study_gate
-from components.ui_kit import metric_row, section_tabs
+from components.ui_kit import page_header, section_tabs
 
 if render_stub_gate(module="PPI Network Explorer"):
     st.stop()
@@ -54,11 +54,7 @@ _SLATE  = "#4E637A"   # structural
 _TEXT   = "#94A3B8"
 _LIGHT  = "#CBD5E1"
 
-_PLOTLY_LAYOUT = dict(
-    paper_bgcolor=_BG,
-    plot_bgcolor=_BG,
-    font=dict(family="Inter", color=_TEXT),
-)
+_PLOTLY_LAYOUT = plotly_layout()
 
 # ── PPI data maps ──────────────────────────────────────────────────────────────
 PATHWAY_MAP: dict[str, str] = {
@@ -310,8 +306,7 @@ def load_ppi(symbol: str) -> tuple[list, list, str]:
 
 
 # ── Page hero ─────────────────────────────────────────────────────────────────
-st.markdown(
-    page_hero(
+page_header(
         icon="\U0001f578\ufe0f",
         module_name="PPI Network Explorer",
         purpose=f"{_GENE} protein–protein interaction network · STRING · live Aura or gene JSON",
@@ -322,9 +317,7 @@ st.markdown(
             ("Hub", _GENE),
         ],
         source_badges=["STRING", "UniProt"],
-    ),
-    unsafe_allow_html=True,
-)
+    )
 
 # ── Load data ─────────────────────────────────────────────────────────────────
 kg_nodes, kg_edges, _data_label = load_ppi(_GENE)
@@ -343,28 +336,6 @@ if not kg_edges:
 if not _IS_CD46:
     PATHWAY_MAP.setdefault(_GENE, f"{_GENE} (Hub)")
     COLORS.setdefault(f"{_GENE} (Hub)", _ORANGE)
-
-# ── KPI metric strip ──────────────────────────────────────────────────────────
-_complement_n = sum(1 for n in kg_nodes if PATHWAY_MAP.get(n["symbol"]) == "Complement System")
-_edge_scores  = [e["score"] for e in kg_edges]
-metric_row(
-    [
-        {"title": "Interaction Partners", "content": str(max(0, len(kg_nodes) - 1)), "description": "direct interactors"},
-        {"title": "Total Edges", "content": str(len(kg_edges)), "description": "score ≥ 0.70"},
-        {
-            "title": "Complement Genes",
-            "content": str(_complement_n),
-            "description": "immune evasion cluster" if _IS_CD46 else "pathway tags (CD46 map)",
-        },
-        {
-            "title": "Top Confidence",
-            "content": f"{max(_edge_scores):.3f}" if _edge_scores else "n/a",
-            "description": _data_label,
-        },
-    ],
-    key_prefix="ppi_kpi",
-)
-st.markdown("---")
 
 # ── Inline network controls ───────────────────────────────────────────────────
 with st.expander("\u2699\ufe0f Network Controls", expanded=False):

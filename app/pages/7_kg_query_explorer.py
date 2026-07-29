@@ -20,8 +20,8 @@ import time
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
-from components.styles import page_hero
 from components.targets import get_active_symbol, is_loaded, is_case_study
+from components.ui_kit import page_header, section_tabs
 from components.data_freeze import render_data_freeze_banner
 from components.export_pack import (
     ROW_CAP,
@@ -343,23 +343,20 @@ else:
 
 header_stats = get_header_stats()
 
-st.markdown(
-    page_hero(
-        icon="🔍",
-        module_name="KG Query Explorer",
-        purpose=(
-            f"Live Cypher against Aura · active target **{_ACTIVE}** · "
-            "templates · editor · natural language → Cypher"
-        ),
-        kpi_chips=[
-            ("Query Templates", str(len(QUERY_TEMPLATES))),
-            ("KG Nodes", f"{header_stats['total_nodes']:,}" if header_stats else "3,068"),
-            ("Active Target", _ACTIVE),
-            ("Rel Types", str(header_stats["rel_type_count"]) if header_stats else "10+"),
-        ],
-        source_badges=["UniProt", "OpenTargets", "ClinicalTrials", "STRING"],
+page_header(
+    icon="🔍",
+    module_name="KG Query Explorer",
+    purpose=(
+        f"Live Cypher against Aura · active target **{_ACTIVE}** · "
+        "templates · editor · natural language → Cypher"
     ),
-    unsafe_allow_html=True,
+    kpi_chips=[
+        ("Query Templates", str(len(QUERY_TEMPLATES))),
+        ("KG Nodes", f"{header_stats['total_nodes']:,}" if header_stats else "3,068"),
+        ("Active Target", _ACTIVE),
+        ("Rel Types", str(header_stats["rel_type_count"]) if header_stats else "10+"),
+    ],
+    source_badges=["UniProt", "OpenTargets", "ClinicalTrials", "STRING"],
 )
 
 render_data_freeze_banner(compact=True)
@@ -392,18 +389,15 @@ with st.sidebar:
     except Exception:
         st.markdown("*Connect to graph to view schema*")
 
-# Tabs
-tab_builder, tab_cypher, tab_nl, tab_graph = st.tabs([
-    "📋 Query Templates",
-    "💻 Cypher Editor",
-    "🤖 Natural Language",
-    "🕸️ Graph Visualizer",
-])
+_KGQX_TABS = [
+    "Query Templates",
+    "Cypher Editor",
+    "Natural Language",
+    "Graph Visualizer",
+]
+_active_kgqx = section_tabs(_KGQX_TABS, key="kg_query_explorer_tabs")
 
-# ===========================================================================
-# TAB 1 — QUERY TEMPLATES
-# ===========================================================================
-with tab_builder:
+if _active_kgqx == _KGQX_TABS[0]:
     st.markdown(
         "<div style='background:#1e293b;border-left:3px solid #38bdf8;padding:12px 16px;"
         "border-radius:6px;margin-bottom:14px;'>"
@@ -479,7 +473,7 @@ with tab_builder:
 # ===========================================================================
 # TAB 2 — CYPHER EDITOR
 # ===========================================================================
-with tab_cypher:
+elif _active_kgqx == _KGQX_TABS[1]:
     st.markdown(
         "<div style='background:#1e293b;border-left:3px solid #4ade80;padding:12px 16px;"
         "border-radius:6px;margin-bottom:14px;'>"
@@ -565,7 +559,7 @@ LIMIT 25
 # ===========================================================================
 # TAB 3 — NATURAL LANGUAGE → CYPHER
 # ===========================================================================
-with tab_nl:
+elif _active_kgqx == _KGQX_TABS[2]:
     st.markdown(
         "<div style='background:#1e293b;border-left:3px solid #fbbf24;padding:12px 16px;"
         "border-radius:6px;margin-bottom:14px;'>"
@@ -706,7 +700,7 @@ Cypher:"""
 # ===========================================================================
 # TAB 4 — GRAPH VISUALIZER
 # ===========================================================================
-with tab_graph:
+elif _active_kgqx == _KGQX_TABS[3]:
     st.markdown(
         "<div style='background:#1e293b;border-left:3px solid #818cf8;padding:12px 16px;"
         "border-radius:6px;margin-bottom:14px;'>"

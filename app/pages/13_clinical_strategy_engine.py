@@ -11,8 +11,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
-from components.styles import page_hero
+from components.theme import plotly_layout
 from components.targets import get_active_symbol, render_stub_gate, render_case_study_gate
+from components.ui_kit import page_header
 
 # ── Streamlit Cloud secret injection ─────────────────────────────────────────
 for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
@@ -44,11 +45,7 @@ _SLATE  = "#4E637A"
 _TEXT   = "#94A3B8"
 _LIGHT  = "#CBD5E1"
 
-_PLOTLY_LAYOUT = dict(
-    paper_bgcolor=_BG,
-    plot_bgcolor=_BG,
-    font=dict(family="Inter", color=_TEXT),
-)
+_PLOTLY_LAYOUT = plotly_layout()
 
 # ── Phase-pill banner CSS (kept as HTML — bespoke progress tracker) ───────────
 st.markdown("""
@@ -189,31 +186,19 @@ _FALLBACK_TRIALS = [
 ]
 
 # ── Page hero ──────────────────────────────────────────────────────────────────
-st.markdown(
-    page_hero(
-        icon="🔬",
-        module_name="Clinical Strategy Engine",
-        purpose="End-to-end development narrative: Target → Drug → Patient → Trial → Outcome · "
-                "all platform evidence synthesised into one investor-ready programme plan",
-        kpi_chips=[
-            ("Stages", "5"),
-            ("CD46 Trials", "14"),
-            ("mCRPC Cohort", f"{mcrpc_n:,}"),
-            ("Target Approval", "2030"),
-        ],
-        source_badges=["TCGA", "ClinicalTrials", "HPA", "mCRPC"],
-    ),
-    unsafe_allow_html=True,
+page_header(
+    icon="🔬",
+    module_name="Clinical Strategy Engine",
+    purpose="End-to-end development narrative: Target → Drug → Patient → Trial → Outcome · "
+            "all platform evidence synthesised into one investor-ready programme plan",
+    kpi_chips=[
+        ("Stages", "5"),
+        ("CD46 Trials", "14"),
+        ("mCRPC Cohort", f"{mcrpc_n:,}"),
+        ("Target Approval", "2030"),
+    ],
+    source_badges=["TCGA", "ClinicalTrials", "HPA", "mCRPC"],
 )
-
-# ── KPI metric strip ──────────────────────────────────────────────────────────
-k1, k2, k3, k4, k5 = st.columns(5)
-k1.metric("Development Stages", "5", "Target → Approval")
-k2.metric("CD46 Indexed Trials", "14", "ClinicalTrials.gov")
-k3.metric("mCRPC Cohort", f"{mcrpc_n:,}", "SU2C 2019+2015")
-k4.metric("CD46-High Prevalence", "44%", "TCGA PRAD")
-k5.metric("Target Approval", "2030", "PSMA-low mCRPC")
-st.markdown("---")
 
 # ── Pipeline progress banner ──────────────────────────────────────────────────
 st.markdown("""
