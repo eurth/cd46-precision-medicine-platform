@@ -27,17 +27,17 @@ for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
 DATA_DIR = Path("data/processed")
 
 # ── Theme ──────────────────────────────────────────────────────────────────────
-_BG     = "#0D1829"
-_LINE   = "#16243C"
-_INDIGO = "#818CF8"   # CD46 primary
+_BG     = "#FFFFFF"
+_LINE   = "#E2E8F0"
+_INDIGO = "#2563EB"   # CD46 primary
 _AMBER  = "#FBBF24"   # PSMA / FOLH1
 _GREEN  = "#34D399"   # FAP
 _TEAL   = "#2DD4BF"
 _ROSE   = "#F472B6"   # SSTR2
 _VIOLET = "#A78BFA"   # GRPR
 _SLATE  = "#4E637A"
-_TEXT   = "#94A3B8"
-_LIGHT  = "#CBD5E1"
+_TEXT   = "#64748B"
+_LIGHT  = "#1E293B"
 
 _GENE_COLORS = {
     "CD46": _INDIGO,

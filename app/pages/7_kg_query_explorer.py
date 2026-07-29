@@ -463,7 +463,7 @@ if _active_kgqx == _KGQX_TABS[0]:
                     fig.update_layout(
                         height=350, paper_bgcolor="#0f172a", plot_bgcolor="#0f172a",
                         xaxis=dict(color="#94a3b8"),
-                        yaxis=dict(title=chart_col.replace("_", " "), color="#94a3b8", gridcolor="#1e293b"),
+                        yaxis=dict(title=chart_col.replace("_", " "), color="#94a3b8", gridcolor="#E2E8F0"),
                         margin=dict(l=10, r=10, t=30, b=10),
                     )
                     st.plotly_chart(fig, use_container_width=True)
@@ -816,7 +816,7 @@ LIMIT 50
                 height=500, paper_bgcolor="#0f172a", plot_bgcolor="#0f172a",
                 xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
                 yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-                legend=dict(bgcolor="#1e293b", font=dict(color="#e2e8f0")),
+                legend=dict(bgcolor="#FFFFFF", font=dict(color="#e2e8f0")),
                 margin=dict(l=10, r=10, t=10, b=10),
                 title=dict(text=f"Graph: {preset_sel}", font=dict(color="#e2e8f0", size=13)),
             )

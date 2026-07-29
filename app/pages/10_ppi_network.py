@@ -41,18 +41,18 @@ for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
         pass
 
 # ── Theme ──────────────────────────────────────────────────────────────────────
-_BG     = "#0D1829"
-_LINE   = "#16243C"
+_BG     = "#FFFFFF"
+_LINE   = "#E2E8F0"
 _ORANGE = "#FB923C"   # CD46 hub
-_INDIGO = "#818CF8"   # complement system
+_INDIGO = "#2563EB"   # complement system
 _GREEN  = "#34D399"   # immune / T-cell
 _VIOLET = "#A78BFA"   # viral entry receptor
 _ROSE   = "#F472B6"   # notch / oncogenic
 _RED    = "#EF4444"   # coagulation crosstalk
 _CYAN   = "#22D3EE"   # cell surface / adhesion
 _SLATE  = "#4E637A"   # structural
-_TEXT   = "#94A3B8"
-_LIGHT  = "#CBD5E1"
+_TEXT   = "#64748B"
+_LIGHT  = "#1E293B"
 
 _PLOTLY_LAYOUT = plotly_layout()
 

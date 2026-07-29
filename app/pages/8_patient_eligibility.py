@@ -371,7 +371,7 @@ with col_output:
             gauge={
                 "axis": {"range": [0, 100], "tickwidth": 1, "tickcolor": "#64748b"},
                 "bar": {"color": cat_colour, "thickness": 0.25},
-                "bgcolor": "#1e293b",
+                "bgcolor": "#FFFFFF",
                 "steps": [
                     {"range": [0, 45], "color": "#3b1a1a"},
                     {"range": [45, 70], "color": "#3b2e0a"},
@@ -576,8 +576,8 @@ elif _active_elig == _ELIG_TABS[1]:
                     paper_bgcolor="#0f172a",
                     plot_bgcolor="#0f172a",
                     font=dict(family="Inter", color="#94A3B8"),
-                    xaxis=dict(color="#94A3B8", gridcolor="#1e293b"),
-                    yaxis=dict(color="#94A3B8", gridcolor="#1e293b"),
+                    xaxis=dict(color="#94A3B8", gridcolor="#E2E8F0"),
+                    yaxis=dict(color="#94A3B8", gridcolor="#E2E8F0"),
                 )
                 st.plotly_chart(bar_p8, use_container_width=True)
 
@@ -666,8 +666,8 @@ elif _active_elig == _ELIG_TABS[2]:
             ),
         ))
         _fig_sim.update_layout(
-            paper_bgcolor="#0D1829",
-            plot_bgcolor="#0D1829",
+            paper_bgcolor="#FFFFFF",
+            plot_bgcolor="#EEF2F7",
             font=dict(family="Inter", color="#94A3B8"),
             height=300,
             margin=dict(l=10, r=80, t=20, b=40),

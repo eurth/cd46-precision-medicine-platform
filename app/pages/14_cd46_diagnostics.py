@@ -41,9 +41,9 @@ _GENE = get_active_symbol()
 _PREFIX = _GENE.lower()
 _IS_CD46 = _GENE == "CD46"
 # ── Theme ─────────────────────────────────────────────────────────────────────
-_BG     = "#0D1829"
-_LINE   = "#16243C"
-_INDIGO = "#818CF8"
+_BG     = "#FFFFFF"
+_LINE   = "#E2E8F0"
+_INDIGO = "#2563EB"
 _TEAL   = "#2DD4BF"
 _AMBER  = "#FBBF24"
 _GREEN  = "#34D399"
@@ -51,8 +51,8 @@ _ROSE   = "#F472B6"
 _ORANGE = "#FB923C"
 _RED    = "#F87171"
 _SLATE  = "#4E637A"
-_TEXT   = "#94A3B8"
-_LIGHT  = "#CBD5E1"
+_TEXT   = "#64748B"
+_LIGHT  = "#1E293B"
 
 _PLOTLY_LAYOUT = plotly_layout()
 

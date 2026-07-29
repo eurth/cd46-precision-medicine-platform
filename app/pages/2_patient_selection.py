@@ -25,9 +25,9 @@ _IS_CD46 = _GENE == "CD46"
 # ---------------------------------------------------------------------------
 # Theme constants (consistent with page 1)
 # ---------------------------------------------------------------------------
-_BG     = "#0D1829"
-_LINE   = "#16243C"
-_INDIGO = "#818CF8"
+_BG     = "#FFFFFF"
+_LINE   = "#E2E8F0"
+_INDIGO = "#2563EB"
 _VIOLET = "#7C3AED"
 _BLUE   = "#3B82F6"
 _SKY    = "#38BDF8"
@@ -36,10 +36,10 @@ _ORANGE = "#F97316"
 _RED    = "#F87171"
 _GREEN  = "#34D399"
 _ROSE   = "#F472B6"
-_SLATE  = "#475569"
-_MID    = "#4E637A"
-_TEXT   = "#94A3B8"
-_LIGHT  = "#CBD5E1"
+_SLATE  = "#CBD5E1"
+_MID    = "#94A3B8"
+_TEXT   = "#64748B"
+_LIGHT  = "#1E293B"
 
 _PLOTLY_LAYOUT = plotly_layout()
 

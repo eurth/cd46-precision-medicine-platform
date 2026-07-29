@@ -27,16 +27,16 @@ _PREFIX = _GENE.lower()
 _IS_CD46 = _GENE == "CD46"
 _IS_FOLH1 = _GENE in ("FOLH1", "PSMA")
 # ── Theme ──────────────────────────────────────────────────────────────────────
-_BG      = "#0D1829"
-_LINE    = "#16243C"
+_BG     = "#FFFFFF"
+_LINE   = "#E2E8F0"
 _ORANGE  = "#FB923C"   # CD46-targeted
-_INDIGO  = "#818CF8"   # PSMA-targeted
+_INDIGO = "#2563EB"   # PSMA-targeted
 _GREEN   = "#34D399"   # Complement inhibitor
 _AMBER   = "#FBBF24"
 _TEAL    = "#2DD4BF"
 _SLATE   = "#4E637A"
-_TEXT    = "#94A3B8"
-_LIGHT   = "#CBD5E1"
+_TEXT   = "#64748B"
+_LIGHT  = "#1E293B"
 
 _PLOTLY_LAYOUT = plotly_layout()
 

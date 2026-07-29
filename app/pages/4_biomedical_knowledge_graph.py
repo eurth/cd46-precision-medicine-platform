@@ -41,16 +41,16 @@ if not is_case_study():
 # ---------------------------------------------------------------------------
 # Theme constants
 # ---------------------------------------------------------------------------
-_BG     = "#0D1829"
-_LINE   = "#16243C"
-_INDIGO = "#818CF8"
+_BG     = "#FFFFFF"
+_LINE   = "#E2E8F0"
+_INDIGO = "#2563EB"
 _ROSE   = "#F472B6"
 _GREEN  = "#34D399"
 _AMBER  = "#FBBF24"
-_SLATE  = "#475569"
-_MID    = "#4E637A"
-_TEXT   = "#94A3B8"
-_LIGHT  = "#CBD5E1"
+_SLATE  = "#CBD5E1"
+_MID    = "#94A3B8"
+_TEXT   = "#64748B"
+_LIGHT  = "#1E293B"
 _RED    = "#F87171"
 
 _PLOTLY_LAYOUT = plotly_layout()

@@ -180,7 +180,7 @@ if _active_bio == _BIO_TABS[0]:
                            annotation_text="75th pct threshold", annotation_font_color="#f87171")
             fig1.update_layout(
                 height=420, paper_bgcolor="#0f172a", plot_bgcolor="#0f172a",
-                xaxis=dict(title=f"{_GENE} log₂ TPM", color="#94a3b8", gridcolor="#1e293b"),
+                xaxis=dict(title=f"{_GENE} log₂ TPM", color="#94a3b8", gridcolor="#E2E8F0"),
                 yaxis=dict(color="#e2e8f0", tickfont=dict(size=9)),
                 margin=dict(l=10, r=80, t=30, b=10),
                 title=dict(text=f"Pan-Cancer {_GENE} mRNA Expression (TCGA)", font=dict(color="#e2e8f0", size=13)),
@@ -250,7 +250,7 @@ if _active_bio == _BIO_TABS[0]:
         fig_thr.update_layout(
             height=440, paper_bgcolor="#0f172a", plot_bgcolor="#0f172a",
             xaxis=dict(title="% Eligible" if show_axis=="% Eligible" else "N Patients",
-                       color="#94a3b8", gridcolor="#1e293b"),
+                       color="#94a3b8", gridcolor="#E2E8F0"),
             yaxis=dict(color="#e2e8f0", tickfont=dict(size=9)),
             margin=dict(l=10, r=70, t=10, b=10),
         )
@@ -325,7 +325,7 @@ elif _active_bio == _BIO_TABS[1]:
                 paper_bgcolor="#0f172a", plot_bgcolor="#0f172a",
                 font=dict(color="#94a3b8"),
                 margin=dict(l=10, r=80, t=10, b=10),
-                xaxis=dict(title="% Patients Altered", color="#94a3b8", gridcolor="#1e293b"),
+                xaxis=dict(title="% Patients Altered", color="#94a3b8", gridcolor="#E2E8F0"),
                 yaxis=dict(color="#e2e8f0", tickfont=dict(size=9)),
                 legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1, font=dict(color="#e2e8f0"))
             )
@@ -461,7 +461,7 @@ elif _active_bio == _BIO_TABS[2]:
         fig_resist.update_traces(texttemplate="%{text}%", textposition="outside")
         fig_resist.update_layout(
             height=360, paper_bgcolor="#0f172a", plot_bgcolor="#0f172a",
-            xaxis=dict(color="#94a3b8"), yaxis=dict(color="#94a3b8", gridcolor="#1e293b"),
+            xaxis=dict(color="#94a3b8"), yaxis=dict(color="#94a3b8", gridcolor="#E2E8F0"),
             coloraxis_showscale=False,
             title_font=dict(color="#e2e8f0", size=13),
             margin=dict(l=10, r=10, t=40, b=10),
@@ -512,8 +512,8 @@ elif _active_bio == _BIO_TABS[2]:
                 fig_surv.update_traces(textposition="top center", textfont_size=9)
                 fig_surv.update_layout(
                     height=360, paper_bgcolor="#0f172a", plot_bgcolor="#0f172a",
-                    xaxis=dict(color="#94a3b8", gridcolor="#1e293b"),
-                    yaxis=dict(color="#94a3b8", gridcolor="#1e293b"),
+                    xaxis=dict(color="#94a3b8", gridcolor="#E2E8F0"),
+                    yaxis=dict(color="#94a3b8", gridcolor="#E2E8F0"),
                     coloraxis_showscale=False,
                     title_font=dict(color="#e2e8f0", size=13),
                     margin=dict(l=10, r=10, t=40, b=10),
@@ -1139,7 +1139,7 @@ elif _active_bio == _BIO_TABS[5]:
                 "axis": {"range": [0, 100], "tickcolor": "#64748b",
                           "tickfont": {"color": "#94a3b8"}},
                 "bar": {"color": score_color, "thickness": 0.25},
-                "bgcolor": "#1e293b",
+                "bgcolor": "#FFFFFF",
                 "borderwidth": 0,
                 "steps": [
                     {"range": [0, 25],  "color": "rgba(239, 68, 68, 0.15)"},
@@ -1279,7 +1279,7 @@ elif _active_bio == _BIO_TABS[5]:
             polar=dict(
                 radialaxis=dict(visible=True, range=[0, 10], color="#64748b"),
                 angularaxis=dict(color="#94a3b8"),
-                bgcolor="#1e293b",
+                bgcolor="#FFFFFF",
             ),
             paper_bgcolor="#0f172a", legend=dict(font=dict(color="#e2e8f0")),
             height=380, margin=dict(l=40, r=40, t=40, b=40),
@@ -1319,8 +1319,8 @@ elif _active_bio == _BIO_TABS[5]:
             fig_dist.add_vline(x=thr, line_color=col, line_width=1.5, line_dash="dot", annotation_text=lbl, annotation_font_color=col, annotation_position="top left")
         fig_dist.update_layout(
             height=280, paper_bgcolor="#0f172a", plot_bgcolor="#0f172a",
-            xaxis=dict(title="Suitability Score", color="#94a3b8", range=[0, 100], gridcolor="#1e293b"),
-            yaxis=dict(title="# Patients", color="#94a3b8", gridcolor="#1e293b"),
+            xaxis=dict(title="Suitability Score", color="#94a3b8", range=[0, 100], gridcolor="#E2E8F0"),
+            yaxis=dict(title="# Patients", color="#94a3b8", gridcolor="#E2E8F0"),
             legend=dict(font=dict(color="#e2e8f0")), margin=dict(l=10, r=10, t=30, b=10),
             title=dict(text="Score Distribution vs. TCGA Population (11,069 patients, proxy model)",
                        font=dict(color="#e2e8f0", size=12)),
@@ -1459,9 +1459,9 @@ elif _active_bio == _BIO_TABS[5]:
                     fig_dist.update_layout(
                         barmode="overlay", height=300,
                         paper_bgcolor="#0f172a", plot_bgcolor="#0f172a",
-                        xaxis=dict(title="CD46 log₂ TPM", color="#94a3b8", gridcolor="#1e293b"),
-                        yaxis=dict(title="Patients", color="#94a3b8", gridcolor="#1e293b"),
-                        legend=dict(bgcolor="#1e293b", font=dict(color="#e2e8f0")),
+                        xaxis=dict(title="CD46 log₂ TPM", color="#94a3b8", gridcolor="#E2E8F0"),
+                        yaxis=dict(title="Patients", color="#94a3b8", gridcolor="#E2E8F0"),
+                        legend=dict(bgcolor="#FFFFFF", font=dict(color="#e2e8f0")),
                         margin=dict(l=10, r=10, t=10, b=10),
                     )
                     st.plotly_chart(fig_dist, use_container_width=True)
@@ -1482,9 +1482,9 @@ elif _active_bio == _BIO_TABS[5]:
                             mode="lines+markers", line=dict(color="#38bdf8", width=2, dash="dash"), marker_size=7))
                         fig_lm.update_layout(
                             height=300, paper_bgcolor="#0f172a", plot_bgcolor="#0f172a",
-                            xaxis=dict(title="Time", color="#94a3b8", gridcolor="#1e293b"),
-                            yaxis=dict(title="% with follow-up data", color="#94a3b8", gridcolor="#1e293b"),
-                            legend=dict(bgcolor="#1e293b", font=dict(color="#e2e8f0")),
+                            xaxis=dict(title="Time", color="#94a3b8", gridcolor="#E2E8F0"),
+                            yaxis=dict(title="% with follow-up data", color="#94a3b8", gridcolor="#E2E8F0"),
+                            legend=dict(bgcolor="#FFFFFF", font=dict(color="#e2e8f0")),
                             margin=dict(l=10, r=10, t=10, b=10),
                         )
                         st.plotly_chart(fig_lm, use_container_width=True)

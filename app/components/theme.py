@@ -36,6 +36,14 @@ CHART_MID = "#64748B"
 CHART_MUTED = "#CBD5E1"
 CHART_GRID = "#E2E8F0"
 
+# Legacy page aliases — maps old dark-theme vars to Clinical Slate (keep during migration)
+C_BG = SURFACE
+C_LINE = CHART_GRID
+C_TEXT = TEXT_MUTED
+C_LIGHT = TEXT
+C_MID = TEXT_FAINT
+C_INDIGO = CHART_HIGHLIGHT
+
 
 def plotly_layout(**overrides) -> dict:
     """Default Plotly layout for Clinical Slate."""

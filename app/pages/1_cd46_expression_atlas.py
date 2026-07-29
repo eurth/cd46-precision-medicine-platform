@@ -9,7 +9,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 from components.targets import get_active_symbol, render_stub_gate
-from components.theme import CHART_HIGHLIGHT, CHART_MUTED, plotly_layout
+from components.theme import CHART_GRID, CHART_HIGHLIGHT, CHART_MUTED, TEXT, TEXT_MUTED, plotly_layout
 from components.ui_kit import export_research_pack, filter_bar, page_header, section_tabs
 
 if render_stub_gate(module="Expression Atlas"):
@@ -25,8 +25,9 @@ _TEAL = "#0D9488"
 _AMBER = "#D97706"
 _GREEN = "#059669"
 _ROSE = "#E11D48"
-_TEXT = "#64748B"
-_LINE = "#E2E8F0"
+_TEXT = TEXT_MUTED
+_LINE = CHART_GRID
+_LIGHT = TEXT
 
 _PLOTLY_LAYOUT = plotly_layout()
 
