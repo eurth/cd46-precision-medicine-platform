@@ -117,16 +117,22 @@ details[data-testid="stExpander"] > summary span {
 [data-testid="stAlert"] { background: #0D1829 !important; border-color: #16243C !important; }
 
 [data-testid="stPageLink"] a {
-    display: inline-flex !important; align-items: center !important;
-    color: #818CF8 !important; font-size: 12px !important; font-weight: 600 !important;
-    text-decoration: none !important; border: 1px solid rgba(129,140,248,0.3) !important;
-    border-radius: 6px !important; padding: 6px 14px !important;
-    margin-top: 8px !important; background: transparent !important;
+    display: inline-flex !important; align-items: center !important; justify-content: center !important;
+    min-height: 40px !important;
+    color: #C7D2FE !important; font-size: 13px !important; font-weight: 650 !important;
+    text-decoration: none !important; border: 1px solid rgba(129,140,248,0.55) !important;
+    border-radius: 7px !important; padding: 8px 14px !important;
+    margin-top: 8px !important; background: #0D1829 !important;
     transition: all 0.15s !important;
 }
 [data-testid="stPageLink"] a:hover {
-    background: rgba(129,140,248,0.1) !important;
-    border-color: rgba(129,140,248,0.65) !important; color: #A5B4FC !important;
+    background: #172554 !important;
+    border-color: #A5B4FC !important; color: #FFFFFF !important;
+    transform: translateY(-1px);
+}
+[data-testid="stPageLink"] a:focus-visible {
+    outline: 3px solid #38BDF8 !important;
+    outline-offset: 2px !important;
 }
 
 [data-testid="stSidebar"] {
@@ -404,6 +410,23 @@ details[data-testid="stExpander"] > summary span {
     display: inline-flex; align-items: center;
     padding: 0 12px 0 0; font-size: 11px;
     color: #4E637A; background: transparent; border: none; font-weight: 500;
+}
+
+@media (max-width: 768px) {
+    header[data-testid="stHeader"] {
+        display: flex !important;
+        background: #07101F !important;
+    }
+    [data-testid="stSidebarCollapsedControl"],
+    button[data-testid="stBaseButton-headerNoPadding"] {
+        display: flex !important;
+    }
+    .block-container {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+    .ob-tb-ctx, .ob-tb-live { display: none !important; }
+    .ob-tb-brand { border-right: 0; padding-left: 3rem; }
 }
 </style>
 """

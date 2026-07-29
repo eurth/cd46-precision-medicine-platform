@@ -19,7 +19,7 @@ st.set_page_config(
     page_title="OncoBridge Intelligence",
     page_icon="🔬",
     layout="wide",
-    initial_sidebar_state="expanded",
+    initial_sidebar_state="auto",
 )
 
 inject_global_css()
@@ -33,9 +33,6 @@ from components.targets import (
     render_dimension_chrome,
 )
 from components.feedback import render_sidebar_feedback
-
-render_main_target_bar()
-render_dimension_chrome()
 
 with st.sidebar:
     st.markdown(
@@ -113,6 +110,9 @@ pg = st.navigation(
         ],
     }
 )
+
+render_main_target_bar()
+render_dimension_chrome(pg.url_path)
 
 # Hide admin page from sidebar nav (accessible via direct URL only)
 st.markdown(

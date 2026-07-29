@@ -99,8 +99,8 @@ def _tier_help(tier: str) -> str:
     }.get(tier, tier)
 
 
-def render_dimension_chrome() -> None:
-    """Top dimension strip — page_link entry points (all existing pages stay reachable)."""
+def render_dimension_chrome(current_path: str = "") -> None:
+    """Top dimension grid — page_link entry points (all existing pages stay reachable)."""
     st.markdown(
         '<div class="ob-tb-label" style="margin-top:0.25rem;">Explore by dimension</div>',
         unsafe_allow_html=True,
@@ -117,13 +117,30 @@ def render_dimension_chrome() -> None:
         ("pages/7_kg_query_explorer.py", "Graph"),
         ("pages/5_research_assistant.py", "Ask AI"),
     ]
-    cols = st.columns(len(dims))
-    for col, (path, label) in zip(cols, dims):
-        with col:
-            try:
+    active_href = current_path.lstrip("/")
+    st.markdown(
+        f"""
+        <style>
+        [data-testid="stMain"] [data-testid="stPageLink"] a[href="{active_href}"] {{
+            color: #FFFFFF !important;
+            background: #3730A3 !important;
+            border-color: #818CF8 !important;
+            box-shadow: 0 0 0 1px rgba(129,140,248,0.35) !important;
+            font-weight: 700 !important;
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+    # ponytail: four columns keep full labels readable at 1024px; the final pair
+    # is centred. Upgrade to a custom responsive component only if mobile needs it.
+    for start in range(0, len(dims), 4):
+        row = dims[start : start + 4]
+        cols = st.columns(4)
+        offset = 1 if len(row) == 2 else 0
+        for col, (path, label) in zip(cols[offset:], row):
+            with col:
                 st.page_link(path, label=label, use_container_width=True)
-            except Exception:
-                st.caption(label)
 
 
 def render_main_target_bar() -> str:

@@ -203,8 +203,6 @@ st.markdown(_grid(
 # ---------------------------------------------------------------------------
 _section_header("Evidence Modules", "sky")
 
-# HPA CD46 IHC image (public, CC-BY Human Protein Atlas)
-_HPA_CD46 = "https://www.proteinatlas.org/images/2702/ihc_hpa007568_prostate.jpg"
 # RCSB PDB CD46 structure (PDB 2QRM, public domain)
 _PDB_CD46 = "https://cdn.rcsb.org/images/structures/qr/2qrm/2qrm_assembly-1.jpeg"
 # STRING network image for CD46
@@ -216,7 +214,6 @@ st.markdown(_grid(
         "Pan-cancer mRNA + protein expression across TCGA (33 cancers) and Human Protein Atlas (30 tissues).",
         ["33 Cancer Types", "Top: PRAD", "log\u2082\u22652.5"],
         "sky", "/1_cd46_expression_atlas",
-        bg_url=_HPA_CD46,
     ),
     _image_card(
         "\U0001f3af", "Patient Selection",

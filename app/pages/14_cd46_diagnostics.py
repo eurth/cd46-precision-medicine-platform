@@ -175,11 +175,17 @@ st.markdown(
 
 # ── KPI metric strip ──────────────────────────────────────────────────────────
 k1, k2, k3, k4, k5 = st.columns(5)
-k1.metric("GTEx Tissues Profiled", len(gtex_df), "normal CD46 baseline")
-k2.metric("ClinVar Variants", "500", "mostly benign / VUS")
-k3.metric("YS5 PET Trials", "2", "NCT05892393, NCT05245006")
-k4.metric("CD46 IHC H-score (mCRPC)", "300 / 300", "maximum expression")
-k5.metric("Eligible PSMA-low mCRPC", "~20%", "of all mCRPC patients")
+k1.metric("GTEx Tissues Profiled", len(gtex_df), f"normal {_GENE} baseline")
+if _IS_CD46:
+    k2.metric("ClinVar Variants", "500", "mostly benign / VUS")
+    k3.metric("YS5 PET Trials", "2", "NCT05892393, NCT05245006")
+    k4.metric("CD46 IHC H-score (mCRPC)", "300 / 300", "maximum expression")
+    k5.metric("Eligible PSMA-low mCRPC", "~20%", "of all mCRPC patients")
+else:
+    k2.metric("ClinVar Variants", len(clinvar_df) if not clinvar_df.empty else "—", f"{_GENE} slice")
+    k3.metric("Mutation Rows", len(mut_df) if not mut_df.empty else "—", f"{_GENE} slice")
+    k4.metric("HPA Protein Rows", len(hpa_df) if not hpa_df.empty else "—", "intensity / IHC")
+    k5.metric("Active Target", _GENE, "medium open-data pack")
 st.markdown("---")
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
