@@ -80,7 +80,7 @@ pg = st.navigation(
         ],
         "Clinical Tools": [
             st.Page("pages/8_patient_eligibility.py", title="Eligibility Scorer", icon="🎯"),
-            st.Page("pages/9_competitive_landscape.py", title="Competitive Landscape", icon="🏆"),
+            st.Page("pages/9_competitive_landscape.py", title="Compare Targets", icon="🏆"),
         ],
         "Biology & Pipeline": [
             st.Page("pages/10_ppi_network.py", title="PPI Network Explorer", icon="🕸️"),

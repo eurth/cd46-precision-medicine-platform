@@ -1,4 +1,4 @@
-﻿"""Page 9 — Competitive Landscape: CD46 vs PSMA vs FAP in Solid Tumours."""
+"""Page 9 — Compare Targets: live multi-gene TCGA expression + competitive context."""
 import sys
 from pathlib import Path
 
@@ -11,7 +11,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 from components.styles import page_hero
-from components.targets import render_stub_gate
+from components.targets import list_symbols, is_loaded
 from dotenv import load_dotenv
 
 load_dotenv(Path(__file__).resolve().parents[2] / ".env")
@@ -23,21 +23,28 @@ for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
     except Exception:
         pass
 
-if render_stub_gate(module="Competitive Landscape"):
-    st.stop()
-
 DATA_DIR = Path("data/processed")
 
 # ── Theme ──────────────────────────────────────────────────────────────────────
 _BG     = "#0D1829"
 _LINE   = "#16243C"
 _INDIGO = "#818CF8"   # CD46 primary
-_AMBER  = "#FBBF24"   # PSMA
+_AMBER  = "#FBBF24"   # PSMA / FOLH1
 _GREEN  = "#34D399"   # FAP
 _TEAL   = "#2DD4BF"
+_ROSE   = "#F472B6"   # SSTR2
+_VIOLET = "#A78BFA"   # GRPR
 _SLATE  = "#4E637A"
 _TEXT   = "#94A3B8"
 _LIGHT  = "#CBD5E1"
+
+_GENE_COLORS = {
+    "CD46": _INDIGO,
+    "FOLH1": _AMBER,
+    "FAP": _GREEN,
+    "SSTR2": _ROSE,
+    "GRPR": _VIOLET,
+}
 
 _PLOTLY_LAYOUT = dict(
     paper_bgcolor=_BG,
@@ -47,11 +54,37 @@ _PLOTLY_LAYOUT = dict(
 
 # ── Data ───────────────────────────────────────────────────────────────────────
 @st.cache_data(ttl=3600)
-def load_by_cancer() -> pd.DataFrame:
-    p = DATA_DIR / "cd46_by_cancer.csv"
+def load_by_cancer(symbol: str) -> pd.DataFrame:
+    p = DATA_DIR / f"{symbol.lower()}_by_cancer.csv"
     return pd.read_csv(p) if p.exists() else pd.DataFrame()
 
-df_expr = load_by_cancer()
+
+@st.cache_data(ttl=3600)
+def load_compare_matrix(symbols: tuple[str, ...]) -> pd.DataFrame:
+    """Wide table: cancer_type x gene median expression."""
+    frames = []
+    for sym in symbols:
+        df = load_by_cancer(sym)
+        if df.empty:
+            continue
+        med = "gene_median" if "gene_median" in df.columns else f"{sym.lower()}_median"
+        if med not in df.columns and "cd46_median" in df.columns:
+            med = "cd46_median"
+        if med not in df.columns:
+            continue
+        part = df[["cancer_type", med]].rename(columns={med: sym})
+        frames.append(part)
+    if not frames:
+        return pd.DataFrame()
+    out = frames[0]
+    for part in frames[1:]:
+        out = out.merge(part, on="cancer_type", how="outer")
+    return out.sort_values("cancer_type").reset_index(drop=True)
+
+
+_LOADED = tuple(s for s in list_symbols() if is_loaded(s))
+df_compare = load_compare_matrix(_LOADED)
+df_expr = load_by_cancer("CD46")  # legacy tab charts still reference CD46
 
 # ── Curated reference data (public sources, March 2026) ───────────────────────
 TRIAL_DATA = pd.DataFrame({
@@ -141,44 +174,115 @@ PSMA_MEDIANS = {
 st.markdown(
     page_hero(
         icon="🏆",
-        module_name="Competitive Landscape",
-        purpose="CD46 vs PSMA vs FAP · pan-tumour expression prevalence · "
-                "clinical trial activity · 225Ac-CD46 differentiation strategy",
+        module_name="Compare Targets",
+        purpose=(
+            f"Live TCGA medians for {', '.join(_LOADED) or '—'} · "
+            "trial context · CD46 case-study differentiation"
+        ),
         kpi_chips=[
-            ("Targets Compared", "3"),
+            ("Targets Loaded", str(len(_LOADED))),
+            ("Cancers", str(len(df_compare)) if not df_compare.empty else "—"),
             ("CD46 Trials", "14"),
-            ("Approved Comparator", "Pluvicto"),
             ("Unmet Need", "PSMA-low"),
         ],
-        source_badges=["TCGA", "ClinicalTrials", "ChEMBL"],
+        source_badges=["TCGA", "ClinicalTrials", "OpenTargets"],
     ),
     unsafe_allow_html=True,
 )
 
 # ── KPI metric strip ──────────────────────────────────────────────────────────
 k1, k2, k3, k4 = st.columns(4)
-k1.metric("PSMA Active Trials", "183", "FDA-approved + pipeline crowded")
+k1.metric("Loaded Targets", str(len(_LOADED)), "Phase 4 thin slices")
 k2.metric("CD46 Active Trials", "14", "100% early-phase · whitespace")
 k3.metric("PSMA-low mCRPC", "~30–40%", "Unserved by Pluvicto")
-k4.metric("CD46 Approvals", "0", "First-mover opportunity open")
+k4.metric("Aura Headroom", "~1.8%", "of Free 200k nodes used")
 st.markdown("---")
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
-tab1, tab2, tab3, tab4 = st.tabs([
-    "📊 Expression Prevalence",
+tab0, tab1, tab2, tab3, tab4 = st.tabs([
+    "🔬 Live Expression Compare",
+    "📊 CD46 vs PSMA (legacy)",
     "📈 Trial Activity & Funnel",
     "🧬 Target Biology",
     "✅ Why CD46 Adds Value",
 ])
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Tab 1 — Expression Prevalence
+# Tab 0 — Live multi-gene compare (Phase 4)
+# ─────────────────────────────────────────────────────────────────────────────
+with tab0:
+    st.markdown("#### Pan-cancer median expression — all loaded targets")
+    st.caption(
+        "TCGA/Xena gene extracts · log₂(TPM+1) medians · "
+        f"{len(_LOADED)} loaded targets from `data/processed/*_by_cancer.csv`"
+    )
+    if df_compare.empty:
+        st.warning("No by-cancer CSVs found. Run `python scripts/load_target_slice.py --symbol <GENE>`.")
+    else:
+        genes = [c for c in df_compare.columns if c != "cancer_type"]
+        pick = st.multiselect(
+            "Genes to compare",
+            options=genes,
+            default=genes,
+            key="cmp_genes",
+        )
+        if not pick:
+            st.info("Select at least one gene.")
+        else:
+            view = df_compare[["cancer_type"] + pick].dropna(how="all", subset=pick)
+            # Heatmap-style: cancers as y, genes as grouped bars for top cancers by max
+            sort_gene = st.selectbox("Sort cancers by", pick, index=0, key="cmp_sort")
+            view = view.sort_values(sort_gene, ascending=True)
+
+            fig = go.Figure()
+            for g in pick:
+                fig.add_trace(go.Bar(
+                    name=g,
+                    x=view[g],
+                    y=view["cancer_type"],
+                    orientation="h",
+                    marker_color=_GENE_COLORS.get(g, _TEAL),
+                    hovertemplate=f"<b>%{{y}}</b><br>{g}: %{{x:.2f}}<extra></extra>",
+                ))
+            fig.update_layout(
+                **_PLOTLY_LAYOUT,
+                barmode="group",
+                height=max(420, 22 * len(view)),
+                margin=dict(l=10, r=20, t=30, b=40),
+                legend=dict(orientation="h", y=1.02),
+                xaxis=dict(title="Median log₂(TPM+1)", gridcolor=_LINE, color=_TEXT),
+                yaxis=dict(color=_LIGHT, tickfont=dict(size=11)),
+            )
+            st.plotly_chart(fig, use_container_width=True)
+
+            # Rank table: top cancer per gene
+            cols = st.columns(len(pick))
+            for i, g in enumerate(pick):
+                top = view.nlargest(1, g)
+                if len(top):
+                    cols[i].metric(
+                        f"{g} leader",
+                        str(top.iloc[0]["cancer_type"]),
+                        f"median {top.iloc[0][g]:.2f}",
+                    )
+
+            with st.expander("Download compare matrix"):
+                st.download_button(
+                    "📥 CSV",
+                    view.to_csv(index=False),
+                    "target_expression_compare.csv",
+                    "text/csv",
+                    key="dl_cmp",
+                )
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Tab 1 — Expression Prevalence (legacy CD46 vs static PSMA)
 # ─────────────────────────────────────────────────────────────────────────────
 with tab1:
     st.markdown("#### CD46 mRNA Expression — TCGA Pan-Cancer Survey vs PSMA (FOLH1)")
     st.caption(
-        f"TCGA RNA-seq via UCSC Xena · {len(df_expr) if not df_expr.empty else '25'} cancer types · "
-        "PSMA estimates: published TCGA representative medians · sorted by CD46 expression"
+        f"Legacy view · for live FOLH1/FAP/SSTR2/GRPR use **Live Expression Compare**. "
+        f"TCGA · {len(df_expr) if not df_expr.empty else '25'} cancer types"
     )
 
     if df_expr.empty:
