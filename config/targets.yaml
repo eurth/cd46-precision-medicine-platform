@@ -28,7 +28,7 @@ targets:
     aliases: [PSMA, GCPII, NAALAD1, FOLH]
     modality_tags: [surface_antigen, radioligand, PSMA]
     kg_status: loaded
-    data_tier: thin
+    data_tier: medium
     case_study: false
 
   FAP:
@@ -41,7 +41,7 @@ targets:
     aliases: [FAPA, DPPIV, SIMP]
     modality_tags: [surface_antigen, CAF, FAPI, radioligand]
     kg_status: loaded
-    data_tier: thin
+    data_tier: medium
     case_study: false
 
   SSTR2:
@@ -54,7 +54,7 @@ targets:
     aliases: [SSR2]
     modality_tags: [GPCR, radioligand, NET]
     kg_status: loaded
-    data_tier: thin
+    data_tier: medium
     case_study: false
 
   GRPR:
@@ -68,5 +68,5 @@ targets:
     aliases: [BB2, BB2R, BRS2]
     modality_tags: [GPCR, radioligand]
     kg_status: loaded
-    data_tier: thin
+    data_tier: medium
     case_study: false

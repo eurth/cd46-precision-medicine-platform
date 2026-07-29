@@ -91,7 +91,7 @@ def _tier_help(tier: str) -> str:
     return {
         "stub": "Registered only — no open-data slice yet",
         "thin": "Starter open data (expression + OT/STRING sample)",
-        "medium": "Broader open data in the graph",
+        "medium": "Expression + survival in graph + expanded OT/STRING",
         "full": "Deep case-study depth (CD46 reference)",
     }.get(tier, tier)
 
@@ -205,10 +205,10 @@ def render_case_study_gate(*, module: str = "This module") -> bool:
     st.info(
         f"What you can do now for **{sym}** (tier `{data_tier(sym)}`):\n"
         "- **Expression Atlas** / **Survival Outcomes** / **Compare Targets** — gene-aware reports\n"
-        "- **Research Assistant** — asks using this target’s CSVs where they exist\n"
-        "- **KG Query Explorer** — Cypher with this gene symbol\n\n"
-        "Switch the Research target bar to **CD46** to open this case-study module, "
-        "or wait until we copy the CD46 open-data recipe to the other targets."
+        "- **Research Assistant** — uses this target’s CSVs + graph expression links\n"
+        "- **KG Query Explorer** — Cypher with this gene (`EXPRESSED_IN_CANCER`, `HAS_SURVIVAL`, OT)\n\n"
+        "Switch the Research target bar to **CD46** to open this deep case-study module, "
+        "or continue Step 2+ data work (HPA, DepMap, trials) for parity."
     )
     return True
 
@@ -228,7 +228,7 @@ def assert_phase2_targets() -> None:
     assert data_tier("CD46") == "full"
     assert is_case_study("CD46")
     for sym in ("FOLH1", "FAP", "SSTR2", "GRPR"):
-        assert data_tier(sym) == "thin", sym
+        assert data_tier(sym) == "medium", sym
         assert not is_case_study(sym), sym
     assert get_target("GRPR")["ensembl_id"] == "ENSG00000126010"
     assert "FOLH1" in format_gene_cypher(

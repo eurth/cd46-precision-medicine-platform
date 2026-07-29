@@ -146,10 +146,11 @@ def _load_context_for_intent(intent: str, question: str) -> tuple[str, list[str]
     elif intent == "knowledge_graph":
         from src.agent.tools import query_kg
         result = query_kg(
-            f"MATCH (g:Gene {{symbol: '{gene}'}})-[:ASSOCIATED_WITH]->(d:Disease) "
-            "RETURN d.name AS disease, d.mondo_id AS mondo LIMIT 10"
+            f"MATCH (g:Gene {{symbol: '{gene}'}})-[r:EXPRESSED_IN_CANCER]->(d:Disease) "
+            "RETURN d.tcga_code AS cancer, r.median_tpm_log2 AS median, r.expression_rank AS rank "
+            "ORDER BY r.expression_rank ASC LIMIT 15"
         )
-        contexts.append(f"KG associations for {gene}:\n{result}")
+        contexts.append(f"KG TCGA expression for {gene}:\n{result}")
         sources += ["AuraDB Knowledge Graph"]
 
     elif intent == "biomarker":

@@ -33,8 +33,8 @@ if not is_case_study():
     _sym = get_active_symbol()
     st.info(
         f"**Honesty note:** curated KG dashboards and presets are still the **CD46 case study**. "
-        f"Active target is **{_sym}** (thin slice in Aura). Use free Cypher or "
-        f"**KG Query Explorer** for {_sym}; switch to CD46 for the full curated views."
+        f"Active target is **{_sym}** (data tier medium: expression, survival, OT/STRING in Aura). "
+        f"Use free Cypher or **KG Query Explorer** for {_sym}; switch to CD46 for curated views."
     )
 
 # ---------------------------------------------------------------------------

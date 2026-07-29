@@ -1,44 +1,26 @@
-# Phase 4 thin slice — FOLH1
+# Target open-data slice — FOLH1
 
-Generated: 2026-07-28T18:10:00.927729+00:00
+Generated: 2026-07-29T07:20:44.920550+00:00
 
 | Metric | Value |
 |--------|-------|
 | `symbol` | FOLH1 |
 | `ensembl_id` | ENSG00000086205 |
+| `started_utc` | 2026-07-29T07:16:46.821894+00:00 |
+| `ot_size` | 500 |
+| `ot_top` | 200 |
+| `edge_limit` | 200 |
 | `string_ensp` | 9606.ENSP00000256999 |
-| `ot_assoc_count` | 759 (API) / 200 loaded |
-| `nodes_before` | 3069 |
-| `rels_before` | 2517 |
-| `nodes_after` | 3254 |
-| `rels_after` | 2767 |
-| `nodes_delta` | **+185** |
-| `rels_delta` | **+250** |
-| Aura headroom | ~196.7k nodes remaining (Free 200k) |
+| `ot_json` | data\raw\apis\open_targets_folh1.json (refetch) |
+| `ot_assoc_count` | 759 |
+| `nodes_before` | 3864 |
+| `rels_before` | 4192 |
+| `ot_disease_nodes_top` | 200 |
+| `ot_assoc_rels` | 500 |
+| `string_rels` | 49 |
+| `nodes_after` | 4061 |
+| `rels_after` | 4492 |
+| `nodes_delta` | 197 |
+| `rels_delta` | 300 |
+| `finished_utc` | 2026-07-29T07:20:44.920550+00:00 |
 
-## Artifacts
-
-- `data/processed/folh1_by_cancer.csv` (25 cancers) — UI
-- `data/processed/folh1_expression.csv` (per-sample) — laptop/local
-- Aura: Gene/Protein FOLH1 + OT ASSOCIATED_WITH + STRING INTERACTS_WITH
-
-## Runbook — add next gene
-
-```bash
-# From repo root, with .env Neo4j creds and project venv:
-.\.venv\Scripts\python.exe scripts/load_target_slice.py --symbol FAP
-
-# After counts look sane (<100k nodes total):
-# 1. Set FAP.kg_status: loaded in config/targets.yaml
-# 2. Commit data/processed/fap_by_cancer.csv (+ code if any)
-# 3. Push for Coolify
-```
-
-Same command works for `SSTR2` and `GRPR` (GRPR Ensembl must remain `ENSG00000126010`).
-
-## Exit check (FOLH1)
-
-- [x] Aura nodes still << 100k
-- [x] `folh1_by_cancer.csv` non-empty (PRAD leads)
-- [x] `kg_status: loaded` for FOLH1
-- [ ] UI: select FOLH1 → Expression Atlas pan-cancer chart (verify after deploy)

@@ -42,7 +42,7 @@ def _counts(session) -> tuple[int, int]:
     return int(n), int(r)
 
 
-def _string_load(session, symbol: str, string_id: str, *, edge_limit: int = 50) -> int:
+def _string_load(session, symbol: str, string_id: str, *, edge_limit: int = 200) -> int:
     """Fetch STRING neighborhood and MERGE INTERACTS_WITH (reuse load_kg_string pattern)."""
     import urllib.parse
     import urllib.request
@@ -97,7 +97,15 @@ def _string_load(session, symbol: str, string_id: str, *, edge_limit: int = 50) 
     return rels
 
 
-def load_slice(symbol: str, *, skip_extract: bool = False, ot_size: int = 200) -> dict:
+def load_slice(
+    symbol: str,
+    *,
+    skip_extract: bool = False,
+    ot_size: int = 500,
+    ot_top: int = 200,
+    edge_limit: int = 200,
+    refresh_ot: bool = False,
+) -> dict:
     t = get_target(symbol)
     uri = os.getenv("NEO4J_URI")
     user = os.getenv("NEO4J_USERNAME", "neo4j")
@@ -109,6 +117,9 @@ def load_slice(symbol: str, *, skip_extract: bool = False, ot_size: int = 200) -
         "symbol": symbol,
         "ensembl_id": t["ensembl_id"],
         "started_utc": datetime.now(timezone.utc).isoformat(),
+        "ot_size": ot_size,
+        "ot_top": ot_top,
+        "edge_limit": edge_limit,
     }
 
     # 1) Expression extract (laptop)
@@ -125,16 +136,24 @@ def load_slice(symbol: str, *, skip_extract: bool = False, ot_size: int = 200) -
     else:
         report["string_ensp"] = string_id
 
-    # 3) Open Targets fetch (prefer cache)
+    # 3) Open Targets fetch (prefer cache unless refresh / too small)
     ot_path = _ROOT / "data" / "raw" / "apis" / f"open_targets_{symbol.lower()}.json"
-    if ot_path.exists():
+    use_cache = ot_path.exists() and not refresh_ot
+    if use_cache:
         ot = json.loads(ot_path.read_text(encoding="utf-8"))
+        cached_rows = (
+            ot.get("data", {}).get("target", {}).get("associatedDiseases", {}).get("rows")
+            or []
+        )
+        if len(cached_rows) < min(ot_size, 50):
+            use_cache = False
+    if use_cache:
         report["ot_json"] = str(ot_path.relative_to(_ROOT)) + " (cache)"
     else:
         ot = fetch_open_targets(t["ensembl_id"], size=ot_size)
         ot_path.parent.mkdir(parents=True, exist_ok=True)
         ot_path.write_text(json.dumps(ot, indent=2), encoding="utf-8")
-        report["ot_json"] = str(ot_path.relative_to(_ROOT))
+        report["ot_json"] = str(ot_path.relative_to(_ROOT)) + " (refetch)"
     ot_count = (
         ot.get("data", {}).get("target", {}).get("associatedDiseases", {}).get("count", 0)
     )
@@ -148,11 +167,11 @@ def load_slice(symbol: str, *, skip_extract: bool = False, ot_size: int = 200) -
             report["nodes_before"], report["rels_before"] = before
 
             merge_gene_protein(session, t)
-            diseases, rels = load_ot_associations(session, symbol, ot, top_n=50)
+            diseases, rels = load_ot_associations(session, symbol, ot, top_n=ot_top)
             report["ot_disease_nodes_top"], report["ot_assoc_rels"] = diseases, rels
 
             time.sleep(0.5)
-            string_rels = _string_load(session, symbol, string_id)
+            string_rels = _string_load(session, symbol, string_id, edge_limit=edge_limit)
             report["string_rels"] = string_rels
 
             after = _counts(session)
@@ -171,15 +190,25 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--symbol", required=True, help="Registry symbol e.g. FOLH1")
     ap.add_argument("--skip-extract", action="store_true")
-    ap.add_argument("--ot-size", type=int, default=200)
+    ap.add_argument("--ot-size", type=int, default=500)
+    ap.add_argument("--ot-top", type=int, default=200, help="Disease nodes MERGE'd from OT")
+    ap.add_argument("--edge-limit", type=int, default=200, help="STRING neighborhood size")
+    ap.add_argument("--refresh-ot", action="store_true", help="Ignore OT JSON cache")
     args = ap.parse_args()
     symbol = args.symbol.upper()
-    report = load_slice(symbol, skip_extract=args.skip_extract, ot_size=args.ot_size)
+    report = load_slice(
+        symbol,
+        skip_extract=args.skip_extract,
+        ot_size=args.ot_size,
+        ot_top=args.ot_top,
+        edge_limit=args.edge_limit,
+        refresh_ot=args.refresh_ot,
+    )
 
     out = _ROOT / "reports" / f"phase4_{symbol.lower()}_load.md"
     out.parent.mkdir(parents=True, exist_ok=True)
     lines = [
-        f"# Phase 4 thin slice — {symbol}",
+        f"# Target open-data slice — {symbol}",
         "",
         f"Generated: {report.get('finished_utc')}",
         "",
@@ -188,17 +217,7 @@ def main() -> None:
     ]
     for k, v in report.items():
         lines.append(f"| `{k}` | {v} |")
-    lines += [
-        "",
-        "## Next gene",
-        "",
-        "```bash",
-        f"python scripts/load_target_slice.py --symbol FAP",
-        "```",
-        "",
-        "Then set `kg_status: loaded` in `config/targets.yaml` after UI verification.",
-        "",
-    ]
+    lines += ["", ""]
     out.write_text("\n".join(lines), encoding="utf-8")
     print(json.dumps(report, indent=2))
     print(f"Wrote {out}")

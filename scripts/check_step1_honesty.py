@@ -22,6 +22,7 @@ def main() -> None:
     assert_phase2_targets()
     assert data_tier("CD46") == "full"
     assert is_case_study("CD46") and not is_case_study("FOLH1")
+    assert data_tier("FOLH1") == "medium"
     m = _gene_file_map("FOLH1")
     assert m["by_cancer"] == "folh1_by_cancer.csv"
     assert m["survival"] == "folh1_survival_results.csv"
