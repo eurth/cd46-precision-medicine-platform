@@ -1,0 +1,24 @@
+{
+  "symbol": "FAP",
+  "pubmed_count": 25,
+  "chembl_target_id": "CHEMBL4683",
+  "drug_names": [
+    "CHEMBL186482",
+    "CHEMBL183418",
+    "CHEMBL182223",
+    "CHEMBL183060",
+    "CHEMBL184346",
+    "CHEMBL435882",
+    "CHEMBL364102",
+    "CHEMBL183289",
+    "CHEMBL381200",
+    "CHEMBL382980",
+    "CHEMBL371429",
+    "CHEMBL371130",
+    "CHEMBL382974",
+    "CHEMBL196267",
+    "CHEMBL373269",
+    "68Ga-FAPI-46",
+    "177Lu-FAPI-46"
+  ]
+}

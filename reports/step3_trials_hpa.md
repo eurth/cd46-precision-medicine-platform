@@ -38,5 +38,9 @@ python scripts/load_gene_trials_hpa.py --symbol CD46
 
 - DepMap parameterized for non-CD46
 - Fuller HPA IHC (bulk TSV / dedicated columns)
-- ChEMBL / PubMed packs per gene
+- UniProt + GTEx denser tissue (Step 3c)
 - GENIE (Pro + DUA)
+
+## Done next
+
+- Step 3b: PubMed + ChEMBL per gene → see `reports/step3b_pubmed_chembl.md`

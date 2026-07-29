@@ -188,10 +188,10 @@ ORDER BY sr.hazard_ratio DESC
             "params": {},
             "requires_cd46_schema": False,
         },
-        f"📚 Publications: Evidence for {s} as a target in PRAD?": {
-            "description": "Publications linked to PRAD via SUPPORTS relationship.",
-            "cypher": """
-MATCH (pub:Publication)-[:SUPPORTS]->(d:Disease {tcga_code: 'PRAD'})
+        f"📚 Publications: Evidence linked to {s}?": {
+            "description": f"Publications linked to {s} via SUPPORTS (Step 3b PubMed load).",
+            "cypher": f"""
+MATCH (pub:Publication)-[:SUPPORTS]->(g:Gene {{symbol: '{s}'}})
 RETURN pub.title AS title,
        pub.authors AS authors,
        pub.journal AS journal,
@@ -199,26 +199,27 @@ RETURN pub.title AS title,
        pub.evidence_type AS evidence_type,
        pub.pubmed_id AS pmid
 ORDER BY pub.year DESC
+LIMIT 40
 """,
             "params": {},
             "requires_cd46_schema": False,
         },
-        f"💊 Drugs: Therapies for {s}-expressing cancers?": {
-            "description": f"Drugs indicated for diseases in the current graph (expression fields are {s} case-study schema).",
-            "cypher": """
-MATCH (drug:Drug)-[:INDICATED_FOR]->(d:Disease)
-OPTIONAL MATCH (d)-[:HAS_SURVIVAL_RESULT]->(sr:SurvivalResult {endpoint: 'OS'})
+        f"💊 Drugs: Agents targeting {s}?": {
+            "description": f"Drug nodes linked to {s} via TARGETS (ChEMBL + curated theranostics, Step 3b).",
+            "cypher": f"""
+MATCH (drug:Drug)-[:TARGETS]->(g:Gene {{symbol: '{s}'}})
 RETURN drug.name AS drug,
        drug.drug_type AS type,
-       drug.payload AS payload,
+       drug.max_phase AS max_phase,
+       drug.isotope AS isotope,
+       drug.chembl_id AS chembl_id,
        drug.developer AS developer,
-       d.tcga_code AS cancer,
-       d.cd46_median_tpm_log2 AS target_expression,
-       CASE WHEN sr IS NOT NULL THEN round(sr.hazard_ratio, 3) ELSE null END AS hr_high
-ORDER BY d.cd46_median_tpm_log2 DESC
+       drug.mechanism AS mechanism
+ORDER BY coalesce(drug.max_phase, 0) DESC, drug.name
+LIMIT 40
 """,
             "params": {},
-            "requires_cd46_schema": True,
+            "requires_cd46_schema": False,
         },
         f"🧪 Clinical Trials: Trials investigating {s} / related diseases?": {
             "description": f"ClinicalTrial nodes linked to {s} via TARGETS_GENE (Step 3 open-data load).",

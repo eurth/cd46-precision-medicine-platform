@@ -1,0 +1,24 @@
+{
+  "symbol": "SSTR2",
+  "pubmed_count": 25,
+  "chembl_target_id": "CHEMBL1804",
+  "drug_names": [
+    "CHEMBL309948",
+    "CHEMBL420948",
+    "CHEMBL452157",
+    "SOMATOSTATIN",
+    "CHEMBL1824055",
+    "CHEMBL2371070",
+    "CHEMBL2371100",
+    "CHEMBL3350037",
+    "CHEMBL3350357",
+    "CHEMBL3350888",
+    "CHEMBL3350896",
+    "CHEMBL3350901",
+    "CHEMBL3350902",
+    "CHEMBL3350907",
+    "CHEMBL3350913",
+    "177Lu-DOTATATE (Lutathera)",
+    "68Ga-DOTATATE (Netspot)"
+  ]
+}

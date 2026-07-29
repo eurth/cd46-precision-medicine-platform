@@ -11,7 +11,7 @@ targets:
     ensembl_id: ENSG00000117335
     uniprot_id: P15529
     entrez_id: 4179
-    chembl_target_id: CHEMBL2176
+    # No ChEMBL SINGLE PROTEIN target (antibody/biologic); curated agents only
     aliases: [MCP, MIC10, TLX]
     modality_tags: [surface_antigen, complement, alpha_RLT]
     kg_status: loaded
@@ -24,6 +24,7 @@ targets:
     ensembl_id: ENSG00000086205
     uniprot_id: Q04609
     entrez_id: 2346
+    chembl_target_id: CHEMBL1892
     string_ensp: "9606.ENSP00000256999"
     aliases: [PSMA, GCPII, NAALAD1, FOLH]
     modality_tags: [surface_antigen, radioligand, PSMA]
@@ -37,6 +38,7 @@ targets:
     ensembl_id: ENSG00000078098
     uniprot_id: Q12884
     entrez_id: 2191
+    chembl_target_id: CHEMBL4683
     string_ensp: "9606.ENSP00000188790"
     aliases: [FAPA, DPPIV, SIMP]
     modality_tags: [surface_antigen, CAF, FAPI, radioligand]
@@ -50,6 +52,7 @@ targets:
     ensembl_id: ENSG00000180616
     uniprot_id: P30874
     entrez_id: 6752
+    chembl_target_id: CHEMBL1804
     string_ensp: "9606.ENSP00000350198"
     aliases: [SSR2]
     modality_tags: [GPCR, radioligand, NET]
@@ -64,6 +67,7 @@ targets:
     ensembl_id: ENSG00000126010
     uniprot_id: P30550
     entrez_id: 2925
+    chembl_target_id: CHEMBL4959
     string_ensp: "9606.ENSP00000369643"
     aliases: [BB2, BB2R, BRS2]
     modality_tags: [GPCR, radioligand]
