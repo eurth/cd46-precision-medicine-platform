@@ -14,6 +14,7 @@ import plotly.graph_objects as go
 import streamlit as st
 from components.styles import page_hero
 from components.targets import get_active_symbol, render_stub_gate, render_case_study_gate
+from components.ui_kit import info_banner, metric_row, section_tabs
 import json
 
 if render_stub_gate(module="Drug Pipeline"):
@@ -265,32 +266,44 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# ── KPI metric strip ──────────────────────────────────────────────────────────
-m1, m2, m3, m4, m5 = st.columns(5)
-m1.metric(f"{_GENE} Agents", len(PIPELINE_VIEW), "curated + ChEMBL")
-m2.metric("CD46-Targeting", len(PIPELINE[PIPELINE["Drug Class"] == "CD46-Targeted"]),
-          "case-study curated")
-m3.metric("FDA Approved", len(PIPELINE[PIPELINE["Phase Label"] == "FDA Approved"]),
-          "PSMA + complement")
-m4.metric("Modalities", PIPELINE["Modality"].nunique(), "ADC · RLT · mAb")
-m5.metric("225Ac Programmes", len(PIPELINE[PIPELINE["Isotope / Payload"].str.contains("225Ac", na=False)]),
-          "alpha-emitter frontier")
+metric_row(
+    [
+        {"title": f"{_GENE} Agents", "content": str(len(PIPELINE_VIEW)), "description": "curated + ChEMBL"},
+        {
+            "title": "CD46-Targeting",
+            "content": str(len(PIPELINE[PIPELINE["Drug Class"] == "CD46-Targeted"])),
+            "description": "case-study curated",
+        },
+        {
+            "title": "FDA Approved",
+            "content": str(len(PIPELINE[PIPELINE["Phase Label"] == "FDA Approved"])),
+            "description": "PSMA + complement",
+        },
+        {"title": "Modalities", "content": str(PIPELINE["Modality"].nunique()), "description": "ADC · RLT · mAb"},
+        {
+            "title": "225Ac Programmes",
+            "content": str(len(PIPELINE[PIPELINE["Isotope / Payload"].str.contains("225Ac", na=False)])),
+            "description": "alpha-emitter frontier",
+        },
+    ],
+    key_prefix="drug_kpi",
+)
 if PIPELINE_VIEW.empty:
-    st.info(f"No curated / ChEMBL pipeline rows for **{_GENE}** yet.")
+    info_banner(f"No curated / ChEMBL pipeline rows for **{_GENE}** yet.")
 st.markdown("---")
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
-tab_overview, tab_cd46, tab_psma, tab_complement, tab_rationale = st.tabs([
-    "📊 Pipeline Overview",
-    f"🎯 {_GENE} Agents" if not _IS_CD46 else "🎯 CD46 Agents",
-    "☢️ PSMA Competitive",
-    "🧬 Complement Context",
-    "🔬 Combination Rationale",
-])
-# ─────────────────────────────────────────────────────────────────────────────
+_DRUG_TABS = [
+    "Pipeline Overview",
+    f"{_GENE} Agents" if not _IS_CD46 else "CD46 Agents",
+    "PSMA Competitive",
+    "Complement Context",
+    "Combination Rationale",
+]
+_active_drug = section_tabs(_DRUG_TABS, key="drug_pipeline_tabs")
+
 # TAB 1 — Pipeline Overview (swim-lane chart)
-# ─────────────────────────────────────────────────────────────────────────────
-with tab_overview:
+if _active_drug == _DRUG_TABS[0]:
     st.markdown("#### Clinical Development Landscape — Swim-Lane View")
     st.caption("Each marker = one agent · hover for mechanism detail · colour = drug class · shape = modality")
 
@@ -390,7 +403,7 @@ with tab_overview:
 # ─────────────────────────────────────────────────────────────────────────────
 # TAB 2 — CD46 Agents Detail
 # ─────────────────────────────────────────────────────────────────────────────
-with tab_cd46:
+elif _active_drug == _DRUG_TABS[1]:
     st.markdown(f"#### {_GENE}-Targeting Therapeutic Agents")
     df_cd46 = PIPELINE_VIEW.sort_values("Phase_num", ascending=False) if not PIPELINE_VIEW.empty else PIPELINE.iloc[0:0]
     if df_cd46.empty:
@@ -434,7 +447,7 @@ with tab_cd46:
 # ─────────────────────────────────────────────────────────────────────────────
 # TAB 3 — PSMA Competitive Reference
 # ─────────────────────────────────────────────────────────────────────────────
-with tab_psma:
+elif _active_drug == _DRUG_TABS[2]:
     st.markdown("#### PSMA-Targeted RLT — Competitive Reference & Whitespace Map")
 
     df_psma = PIPELINE[PIPELINE["Drug Class"] == "PSMA-Targeted"]
@@ -529,7 +542,7 @@ with tab_psma:
 # ─────────────────────────────────────────────────────────────────────────────
 # TAB 4 — Complement Inhibitors
 # ─────────────────────────────────────────────────────────────────────────────
-with tab_complement:
+elif _active_drug == _DRUG_TABS[3]:
     st.markdown("#### Complement Pathway Inhibitors — Mechanistic Context")
     st.markdown(
         "Complement inhibitors are not CD46-targeting agents — they validate the **complement pathway as "
@@ -603,7 +616,7 @@ C1 → C4 → C2                     C3 → CFB → CFD
 # ─────────────────────────────────────────────────────────────────────────────
 # TAB 5 — Combination Rationale
 # ─────────────────────────────────────────────────────────────────────────────
-with tab_rationale:
+elif _active_drug == _DRUG_TABS[4]:
     st.markdown("#### Combination Strategy Rationale")
     st.markdown(
         "KG traversal (Drug → Gene → Pathway → Disease) surfaces biologically motivated "

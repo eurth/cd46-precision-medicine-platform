@@ -13,6 +13,7 @@ import plotly.graph_objects as go
 import streamlit as st
 from components.styles import page_hero
 from components.targets import get_active_symbol, render_stub_gate, render_case_study_gate
+from components.ui_kit import metric_row, section_tabs
 
 # ── Streamlit Cloud secret injection ─────────────────────────────────────────
 for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
@@ -182,28 +183,34 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# ── KPI metric strip ──────────────────────────────────────────────────────────
-k1, k2, k3, k4, k5 = st.columns(5)
-k1.metric("HPA Normal Tissues", len(normal_df), "IHC H-score")
-k2.metric("225Ac Half-Life", "9.9 days", "optimal solid tumour dosing")
-k3.metric("Alpha Path Length", "2–3 cells", "40–100 µm")
-k4.metric("Prostate TI", "1.5×", "300 vs 200 H-score")
-k5.metric("High-Risk Tissues", int((paired["Normal H-score"] >= 250).sum()), "require Phase I monitoring")
+metric_row(
+    [
+        {"title": "HPA Normal Tissues", "content": str(len(normal_df)), "description": "IHC H-score"},
+        {"title": "225Ac Half-Life", "content": "9.9 days", "description": "optimal solid tumour dosing"},
+        {"title": "Alpha Path Length", "content": "2–3 cells", "description": "40–100 µm"},
+        {"title": "Prostate TI", "content": "1.5×", "description": "300 vs 200 H-score"},
+        {
+            "title": "High-Risk Tissues",
+            "content": str(int((paired["Normal H-score"] >= 250).sum())),
+            "description": "require Phase I monitoring",
+        },
+    ],
+    key_prefix="dose_kpi",
+)
 st.markdown("---")
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
-tab_overview, tab_ti, tab_risk, tab_mcrc, tab_interp = st.tabs([
-    "🗂️ Tumour vs Normal Overview",
-    "📊 Therapeutic Index Ranking",
-    "⚠️ Risk Tissue Monitor",
-    "🎯 mCRPC Safety Argument",
-    "📖 Clinical Interpretation",
-])
+_DOSE_TABS = [
+    "Tumour vs Normal Overview",
+    "Therapeutic Index Ranking",
+    "Risk Tissue Monitor",
+    "mCRPC Safety Argument",
+    "Clinical Interpretation",
+]
+_active_dose = section_tabs(_DOSE_TABS, key="dosimetry_tabs")
 
-# ─────────────────────────────────────────────────────────────────────────────
 # TAB 1 — Tumour vs Normal Overview
-# ─────────────────────────────────────────────────────────────────────────────
-with tab_overview:
+if _active_dose == _DOSE_TABS[0]:
     st.markdown("#### CD46 H-Score: Normal Tissue Landscape")
     st.caption(
         "H-score = staining intensity (0–3) × fraction positive, max 300. "
@@ -286,7 +293,7 @@ with tab_overview:
 # ─────────────────────────────────────────────────────────────────────────────
 # TAB 2 — Therapeutic Index Ranking
 # ─────────────────────────────────────────────────────────────────────────────
-with tab_ti:
+elif _active_dose == _DOSE_TABS[1]:
     st.markdown("#### Tumour vs Normal CD46 — Therapeutic Index by Tissue")
     st.caption(
         "Therapeutic Index (TI) = Tumour H-score ÷ Normal H-score. "
@@ -364,7 +371,7 @@ with tab_ti:
 # ─────────────────────────────────────────────────────────────────────────────
 # TAB 3 — Risk Tissue Monitor
 # ─────────────────────────────────────────────────────────────────────────────
-with tab_risk:
+elif _active_dose == _DOSE_TABS[2]:
     st.markdown("#### High-Risk Normal Tissue Monitor")
     st.markdown(
         "Tissues with H-score ≥ 150 in normal state — these require **clinical monitoring** "
@@ -440,7 +447,7 @@ with tab_risk:
 # ─────────────────────────────────────────────────────────────────────────────
 # TAB 4 — mCRPC Safety Argument
 # ─────────────────────────────────────────────────────────────────────────────
-with tab_mcrc:
+elif _active_dose == _DOSE_TABS[3]:
     st.markdown("#### The mCRPC Safety Argument — Investor-Ready Summary")
     st.markdown(
         "A concise synthesis of why 225Ac-CD46 has a **manageable safety profile** as a first-in-class "
@@ -525,7 +532,7 @@ with tab_mcrc:
 # ─────────────────────────────────────────────────────────────────────────────
 # TAB 5 — Clinical Interpretation
 # ─────────────────────────────────────────────────────────────────────────────
-with tab_interp:
+elif _active_dose == _DOSE_TABS[4]:
     st.markdown("#### Clinical Interpretation & Regulatory Context")
 
     with st.container(border=True):

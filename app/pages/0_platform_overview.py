@@ -12,6 +12,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import streamlit as st
 from dotenv import load_dotenv
 from components.data_freeze import render_data_freeze_banner
+from components.ui_kit import info_banner, metric_row
 
 load_dotenv(Path(__file__).resolve().parents[2] / ".env")
 
@@ -80,28 +81,23 @@ st.markdown(
 
 render_data_freeze_banner(compact=False)
 
-st.markdown(
-    '<div class="lp-stats">'
-    '<div class="lp-stat"><span class="lp-stat-val">5</span>'
-    '<span class="lp-stat-lbl">Registry Targets</span></div>'
-    f'<div class="lp-stat"><span class="lp-stat-val">{_kg_nodes}</span>'
-    '<span class="lp-stat-lbl">KG Nodes</span></div>'
-    f'<div class="lp-stat"><span class="lp-stat-val">{_kg_rels}</span>'
-    '<span class="lp-stat-lbl">KG Edges</span></div>'
-    f'<div class="lp-stat"><span class="lp-stat-val">{_trial_count}</span>'
-    '<span class="lp-stat-lbl">Trial Nodes</span></div>'
-    '<div class="lp-stat"><span class="lp-stat-val">Research</span>'
-    '<span class="lp-stat-lbl">Use Only</span></div>'
-    '</div>',
-    unsafe_allow_html=True,
+metric_row(
+    [
+        {"title": "Registry Targets", "content": "5", "description": "CD46, FOLH1, FAP, SSTR2, GRPR"},
+        {"title": "KG Nodes", "content": _kg_nodes, "description": "Neo4j knowledge graph"},
+        {"title": "KG Edges", "content": _kg_rels, "description": "Relationships"},
+        {"title": "Trial Nodes", "content": _trial_count, "description": "Clinical trial records"},
+        {"title": "Use", "content": "Research", "description": "Not for clinical decisions"},
+    ],
+    key_prefix="overview_kpi",
 )
 
-st.info(
-    "**How to start:** pick a **Research target** above, then enter by **dimension** "
-    "(Target/Cancer, Biomarkers, Patients, Drugs, Survival, Graph, Ask AI). "
-    "All five registry markers (CD46, FOLH1/PSMA, FAP, SSTR2, GRPR) are open — "
-    "CD46 remains the deepest **case-study** narrative; medium targets use the "
-    "open-data pack (expression, survival, trials, drugs, GTEx, DepMap)."
+info_banner(
+    "**How to start:** pick a **Research target** in the bar above, then open a module from the "
+    "sidebar (expression, survival, trials, drugs, graph, Ask AI). All five registry markers "
+    "(CD46, FOLH1/PSMA, FAP, SSTR2, GRPR) are open — CD46 remains the deepest **case-study** "
+    "narrative; medium targets use the open-data pack (expression, survival, trials, drugs, "
+    "GTEx, DepMap).",
 )
 
 

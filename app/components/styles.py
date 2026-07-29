@@ -252,22 +252,6 @@ details[data-testid="stExpander"] > summary span {
     font-size: 16px; color: #7A90AB;
     max-width: 640px; line-height: 1.75; margin-bottom: 36px; font-weight: 400;
 }
-.lp-stats {
-    display: flex; flex-wrap: wrap; gap: 0;
-    padding: 22px 0; margin-bottom: 48px;
-    border-top: 1px solid #16243C; border-bottom: 1px solid #16243C;
-}
-.lp-stat { flex: 1; min-width: 110px; padding: 0 32px; }
-.lp-stat:first-child { padding-left: 0; }
-.lp-stat + .lp-stat { border-left: 1px solid #16243C; }
-.lp-stat-val {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 30px; font-weight: 800; color: #F1F5F9; line-height: 1;
-}
-.lp-stat-lbl {
-    font-size: 10px; text-transform: uppercase;
-    letter-spacing: 0.1em; color: #4E637A; margin-top: 7px; display: block;
-}
 
 .lp-sec {
     display: flex; align-items: center; gap: 14px; margin: 48px 0 22px;

@@ -12,6 +12,7 @@ import plotly.graph_objects as go
 import streamlit as st
 from components.styles import page_hero
 from components.targets import list_symbols, is_loaded
+from components.ui_kit import metric_row, section_tabs
 from dotenv import load_dotenv
 
 load_dotenv(Path(__file__).resolve().parents[2] / ".env")
@@ -190,27 +191,29 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# ── KPI metric strip ──────────────────────────────────────────────────────────
-k1, k2, k3, k4 = st.columns(4)
-k1.metric("Loaded Targets", str(len(_LOADED)), "Phase 4 thin slices")
-k2.metric("CD46 Active Trials", "14", "100% early-phase · whitespace")
-k3.metric("PSMA-low mCRPC", "~30–40%", "Unserved by Pluvicto")
-k4.metric("Aura Headroom", "~1.8%", "of Free 200k nodes used")
+metric_row(
+    [
+        {"title": "Loaded Targets", "content": str(len(_LOADED)), "description": "Phase 4 thin slices"},
+        {"title": "CD46 Active Trials", "content": "14", "description": "100% early-phase · whitespace"},
+        {"title": "PSMA-low mCRPC", "content": "~30–40%", "description": "Unserved by Pluvicto"},
+        {"title": "Aura Headroom", "content": "~1.8%", "description": "of Free 200k nodes used"},
+    ],
+    key_prefix="cmp_kpi",
+)
 st.markdown("---")
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
-tab0, tab1, tab2, tab3, tab4 = st.tabs([
-    "🔬 Live Expression Compare",
-    "📊 CD46 vs PSMA (legacy)",
-    "📈 Trial Activity & Funnel",
-    "🧬 Target Biology",
-    "✅ Why CD46 Adds Value",
-])
+_CMP_TABS = [
+    "Live Expression Compare",
+    "CD46 vs PSMA (legacy)",
+    "Trial Activity & Funnel",
+    "Target Biology",
+    "Why CD46 Adds Value",
+]
+_active_cmp = section_tabs(_CMP_TABS, key="cmp_landscape_tabs")
 
-# ─────────────────────────────────────────────────────────────────────────────
 # Tab 0 — Live multi-gene compare (Phase 4)
-# ─────────────────────────────────────────────────────────────────────────────
-with tab0:
+if _active_cmp == _CMP_TABS[0]:
     st.markdown("#### Pan-cancer median expression — all loaded targets")
     st.caption(
         "TCGA/Xena gene extracts · log₂(TPM+1) medians · "
@@ -277,8 +280,7 @@ with tab0:
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Tab 1 — Expression Prevalence (legacy CD46 vs static PSMA)
-# ─────────────────────────────────────────────────────────────────────────────
-with tab1:
+elif _active_cmp == _CMP_TABS[1]:
     st.markdown("#### CD46 mRNA Expression — TCGA Pan-Cancer Survey vs PSMA (FOLH1)")
     st.caption(
         f"Legacy view · for live FOLH1/FAP/SSTR2/GRPR use **Live Expression Compare**. "
@@ -376,8 +378,7 @@ with tab1:
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Tab 2 — Trial Activity & Funnel
-# ─────────────────────────────────────────────────────────────────────────────
-with tab2:
+elif _active_cmp == _CMP_TABS[2]:
     st.markdown("#### Clinical Trial Landscape — Target Comparison & Radiopharmaceutical Funnel")
 
     col_funnel, col_ph = st.columns([1, 1.2])
@@ -477,8 +478,7 @@ with tab2:
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Tab 3 — Target Biology
-# ─────────────────────────────────────────────────────────────────────────────
-with tab3:
+elif _active_cmp == _CMP_TABS[3]:
     st.markdown("#### Target Biology Comparison — CD46 vs PSMA vs FAP")
     st.caption("Curated from UniProt \u00b7 KEGG \u00b7 published preclinical and clinical literature")
 
@@ -519,8 +519,7 @@ with tab3:
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Tab 4 — Why CD46 Adds Value
-# ─────────────────────────────────────────────────────────────────────────────
-with tab4:
+elif _active_cmp == _CMP_TABS[4]:
     st.markdown("#### Why CD46 as a Radiopharmaceutical Target?")
     st.markdown(
         "177Lu-Pluvicto (PSMA-617) validated that **radioligand therapy works in mCRPC**. "

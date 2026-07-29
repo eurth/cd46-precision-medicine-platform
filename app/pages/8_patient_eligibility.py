@@ -13,6 +13,7 @@ import plotly.graph_objects as go
 import streamlit as st
 from components.styles import page_hero
 from components.targets import get_active_symbol, render_stub_gate, render_case_study_gate
+from components.ui_kit import section_tabs
 from dotenv import load_dotenv
 
 load_dotenv(Path(__file__).resolve().parents[2] / ".env")
@@ -443,9 +444,14 @@ with col_output:
 st.divider()
 st.subheader("Evidence & Context")
 
-tab_ev, tab_genie, tab_sim = st.tabs(["Evidence Summary", "🌍 GENIE Real-World Context", "Similar Indications"])
+_ELIG_TABS = [
+    "Evidence Summary",
+    "GENIE Real-World Context",
+    "Similar Indications",
+]
+_active_elig = section_tabs(_ELIG_TABS, key="eligibility_evidence_tabs")
 
-with tab_ev:
+if _active_elig == _ELIG_TABS[0]:
     ev1, ev2 = st.columns(2)
 
     with ev1:
@@ -491,7 +497,7 @@ with tab_ev:
                 c2.metric(f"{ep} p-value", pv_txt)
                 c3.metric("Significance", sig_txt)
 
-with tab_genie:
+elif _active_elig == _ELIG_TABS[1]:
     st.markdown("#### AACR Project GENIE 19.0 — Cohort Context")
     if df_genie.empty:
         st.warning("GENIE data not found. Run the extraction pipeline.")
@@ -609,7 +615,7 @@ with tab_genie:
         else:
             st.write(f"No direct GENIE broad cancer type mapping available for TCGA {cancer_sel}.")
 
-with tab_sim:
+elif _active_elig == _ELIG_TABS[2]:
     st.markdown(
         "**Top 5 similar indications by CD46 evidence profile** "
         "(ranked by composite priority score across expression + survival dimensions)"

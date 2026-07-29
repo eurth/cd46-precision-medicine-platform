@@ -1,6 +1,6 @@
 # OncoBridge UI Migration Plan
 
-**Status:** Phase 0 in progress (2026-07-29)  
+**Status:** Phase 3a–3c complete — ready for local verify before commit/deploy  
 **Stack:** Streamlit (keep) + streamlit-shadcn-ui + streamlit-extras + streamlit-antd-components (nav only)
 
 ## Problem statement
@@ -50,22 +50,22 @@ app/components/targets.py  ← SAC segmented target bar; dimension chrome remove
 
 ### Phase 1 — Chrome surgery (3–5 days)
 
-- Sidebar cleanup (remove redundant target mirror caption)
-- Trim `styles.py` dead CSS
-- Mobile header toggle verified
+- [x] Sidebar cleanup (remove redundant target mirror caption)
+- [x] Trim `styles.py` dead CSS (removed unused `.lp-stats` block)
+- [ ] Mobile header toggle verified on live site
 
 ### Phase 2 — Shared UI kit (3–4 days)
 
-- `page_header()` replaces `page_hero()` gradually
-- `info_banner()`, `metric_row()`, `section_tabs()` stable APIs
+- [ ] `page_header()` replaces `page_hero()` gradually
+- [x] `info_banner()`, `metric_row()`, `section_tabs()` stable APIs
 
 ### Phase 3 — Page rollout (2–3 weeks)
 
-| Sprint | Pages |
-|---|---|
-| 3a | Overview, Survival, Compare Targets |
-| 3b | Patient Selection, Eligibility, Biomarker Panel |
-| 3c | Drug Pipeline, PPI, Diagnostics, Dosimetry |
+| Sprint | Pages | Status |
+|---|---|---|
+| 3a | Overview, Survival, Compare Targets | **Done** (+ Expression Atlas pilot) |
+| 3b | Patient Selection, Eligibility, Biomarker Panel | **Done** |
+| 3c | Drug Pipeline, PPI, Diagnostics, Dosimetry | **Done** |
 | 3d | KG, Query Explorer, Assistant, Strategy |
 
 ### Phase 4 — CSS debt paydown

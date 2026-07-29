@@ -22,6 +22,7 @@ import plotly.graph_objects as go
 import streamlit as st
 from components.styles import page_hero
 from components.targets import get_active_symbol, render_stub_gate, render_case_study_gate
+from components.ui_kit import metric_row, section_tabs
 
 # ── Streamlit Cloud secret injection ─────────────────────────────────────────
 for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
@@ -173,36 +174,56 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# ── KPI metric strip ──────────────────────────────────────────────────────────
-k1, k2, k3, k4, k5 = st.columns(5)
-k1.metric("GTEx Tissues Profiled", len(gtex_df), f"normal {_GENE} baseline")
+_diag_kpi: list[dict[str, str]] = [
+    {"title": "GTEx Tissues Profiled", "content": str(len(gtex_df)), "description": f"normal {_GENE} baseline"},
+]
 if _IS_CD46:
-    k2.metric("ClinVar Variants", "500", "mostly benign / VUS")
-    k3.metric("YS5 PET Trials", "2", "NCT05892393, NCT05245006")
-    k4.metric("CD46 IHC H-score (mCRPC)", "300 / 300", "maximum expression")
-    k5.metric("Eligible PSMA-low mCRPC", "~20%", "of all mCRPC patients")
+    _diag_kpi.extend(
+        [
+            {"title": "ClinVar Variants", "content": "500", "description": "mostly benign / VUS"},
+            {"title": "YS5 PET Trials", "content": "2", "description": "NCT05892393, NCT05245006"},
+            {"title": "CD46 IHC H-score (mCRPC)", "content": "300 / 300", "description": "maximum expression"},
+            {"title": "Eligible PSMA-low mCRPC", "content": "~20%", "description": "of all mCRPC patients"},
+        ]
+    )
 else:
-    k2.metric("ClinVar Variants", len(clinvar_df) if not clinvar_df.empty else "—", f"{_GENE} slice")
-    k3.metric("Mutation Rows", len(mut_df) if not mut_df.empty else "—", f"{_GENE} slice")
-    k4.metric("HPA Protein Rows", len(hpa_df) if not hpa_df.empty else "—", "intensity / IHC")
-    k5.metric("Active Target", _GENE, "medium open-data pack")
+    _diag_kpi.extend(
+        [
+            {
+                "title": "ClinVar Variants",
+                "content": str(len(clinvar_df)) if not clinvar_df.empty else "—",
+                "description": f"{_GENE} slice",
+            },
+            {
+                "title": "Mutation Rows",
+                "content": str(len(mut_df)) if not mut_df.empty else "—",
+                "description": f"{_GENE} slice",
+            },
+            {
+                "title": "HPA Protein Rows",
+                "content": str(len(hpa_df)) if not hpa_df.empty else "—",
+                "description": "intensity / IHC",
+            },
+            {"title": "Active Target", "content": _GENE, "description": "medium open-data pack"},
+        ]
+    )
+metric_row(_diag_kpi, key_prefix="diag_kpi")
 st.markdown("---")
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
-tab_gtex, tab_pet, tab_ihc, tab_mut, tab_lbx, tab_early, tab_cobx = st.tabs([
-    "🧪 Normal-Tissue Safety (GTEx)",
-    "☢️ Theranostic PET Imaging",
-    "🔬 IHC Companion Diagnostic",
-    "🧬 Somatic Mutation Landscape",
-    "💉 Liquid Biopsy & CTCs",
-    "🦠 Early Detection Science",
-    "📋 Co-Biomarker Strategy",
-])
+_DIAG_TABS = [
+    "Normal-Tissue Safety (GTEx)",
+    "Theranostic PET Imaging",
+    "IHC Companion Diagnostic",
+    "Somatic Mutation Landscape",
+    "Liquid Biopsy & CTCs",
+    "Early Detection Science",
+    "Co-Biomarker Strategy",
+]
+_active_diag = section_tabs(_DIAG_TABS, key="diagnostics_tabs")
 
-# ═══════════════════════════════════════════════════════════════════════════════
 # TAB 1 — GTEx Normal-Tissue Safety
-# ═══════════════════════════════════════════════════════════════════════════════
-with tab_gtex:
+if _active_diag == _DIAG_TABS[0]:
     st.markdown(f"#### {_GENE} mRNA Expression in Normal Human Tissues — GTEx v8")
     st.caption(
         f"Understanding {_GENE} in normal tissues predicts on-target/off-tumour toxicity. "
@@ -285,7 +306,7 @@ with tab_gtex:
 # ═══════════════════════════════════════════════════════════════════════════════
 # TAB 2 — Theranostic PET Imaging
 # ═══════════════════════════════════════════════════════════════════════════════
-with tab_pet:
+elif _active_diag == _DIAG_TABS[1]:
     st.markdown("#### CD46-Targeted Theranostic Imaging Strategy")
     st.markdown(
         "The theranostic model pairs a **diagnostic PET probe** with a **therapeutic radiolabelled agent** "
@@ -387,7 +408,7 @@ with tab_pet:
 # ═══════════════════════════════════════════════════════════════════════════════
 # TAB 3 — IHC Companion Diagnostic
 # ═══════════════════════════════════════════════════════════════════════════════
-with tab_ihc:
+elif _active_diag == _DIAG_TABS[2]:
     st.markdown("#### CD46 IHC — Companion Diagnostic Framework")
     st.markdown(
         "Immunohistochemistry (IHC) on tumour biopsy is the primary tissue-based companion diagnostic. "
@@ -502,7 +523,7 @@ with tab_ihc:
 # ═══════════════════════════════════════════════════════════════════════════════
 # TAB 4 — Somatic Mutation Landscape
 # ═══════════════════════════════════════════════════════════════════════════════
-with tab_mut:
+elif _active_diag == _DIAG_TABS[3]:
     st.markdown("#### CD46 Somatic Mutation Landscape (TCGA Pan-Cancer)")
     st.markdown(
         "CD46 somatic mutations are **rare in solid tumours (<3% any cancer type)**, confirming that "
@@ -602,7 +623,7 @@ with tab_mut:
 # ═══════════════════════════════════════════════════════════════════════════════
 # TAB 5 — Liquid Biopsy & CTCs
 # ═══════════════════════════════════════════════════════════════════════════════
-with tab_lbx:
+elif _active_diag == _DIAG_TABS[4]:
     st.markdown("#### Soluble CD46 & CTCs — Liquid Biopsy Evidence")
 
     c1, c2 = st.columns(2)
@@ -665,7 +686,7 @@ with tab_lbx:
 # ═══════════════════════════════════════════════════════════════════════════════
 # TAB 6 — Early Detection Science
 # ═══════════════════════════════════════════════════════════════════════════════
-with tab_early:
+elif _active_diag == _DIAG_TABS[5]:
     st.markdown("#### CD46 in Pre-Malignant and Early-Stage Disease")
     st.markdown(
         "CD46 upregulation is not exclusively a late-stage event. Evidence from multiple cancers "
@@ -738,7 +759,7 @@ with tab_early:
 # ═══════════════════════════════════════════════════════════════════════════════
 # TAB 7 — Co-Biomarker Strategy
 # ═══════════════════════════════════════════════════════════════════════════════
-with tab_cobx:
+elif _active_diag == _DIAG_TABS[6]:
     st.markdown("#### Multi-Analyte Co-Biomarker Patient Selection Strategy")
     st.markdown(
         "No single biomarker is sufficient. The CD46 companion diagnostic uses a "

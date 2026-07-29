@@ -22,6 +22,7 @@ import plotly.graph_objects as go
 import streamlit as st
 from components.styles import page_hero
 from components.targets import get_active_symbol, render_stub_gate, render_case_study_gate
+from components.ui_kit import metric_row, section_tabs
 
 if render_stub_gate(module="PPI Network Explorer"):
     st.stop()
@@ -346,11 +347,23 @@ if not _IS_CD46:
 # ── KPI metric strip ──────────────────────────────────────────────────────────
 _complement_n = sum(1 for n in kg_nodes if PATHWAY_MAP.get(n["symbol"]) == "Complement System")
 _edge_scores  = [e["score"] for e in kg_edges]
-k1, k2, k3, k4 = st.columns(4)
-k1.metric("Interaction Partners", str(max(0, len(kg_nodes) - 1)), "direct interactors")
-k2.metric("Total Edges", str(len(kg_edges)), f"score \u2265 0.70")
-k3.metric("Complement Genes", str(_complement_n), "immune evasion cluster" if _IS_CD46 else "pathway tags (CD46 map)")
-k4.metric("Top Confidence", f"{max(_edge_scores):.3f}" if _edge_scores else "n/a", _data_label)
+metric_row(
+    [
+        {"title": "Interaction Partners", "content": str(max(0, len(kg_nodes) - 1)), "description": "direct interactors"},
+        {"title": "Total Edges", "content": str(len(kg_edges)), "description": "score ≥ 0.70"},
+        {
+            "title": "Complement Genes",
+            "content": str(_complement_n),
+            "description": "immune evasion cluster" if _IS_CD46 else "pathway tags (CD46 map)",
+        },
+        {
+            "title": "Top Confidence",
+            "content": f"{max(_edge_scores):.3f}" if _edge_scores else "n/a",
+            "description": _data_label,
+        },
+    ],
+    key_prefix="ppi_kpi",
+)
 st.markdown("---")
 
 # ── Inline network controls ───────────────────────────────────────────────────
@@ -384,17 +397,16 @@ n_nodes = G.number_of_nodes()
 n_edges = G.number_of_edges()
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
-tab_net, tab_table, tab_pathway, tab_biology = st.tabs([
-    "\U0001f578\ufe0f Network Graph",
-    "\U0001f4cb Partner Table",
-    "\U0001f4ca Pathway Breakdown",
-    "\U0001f52c Biology Narrative",
-])
+_PPI_TABS = [
+    "Network Graph",
+    "Partner Table",
+    "Pathway Breakdown",
+    "Biology Narrative",
+]
+_active_ppi = section_tabs(_PPI_TABS, key="ppi_network_tabs")
 
-# ─────────────────────────────────────────────────────────────────────────────
 # Tab 1 — Network Graph
-# ─────────────────────────────────────────────────────────────────────────────
-with tab_net:
+if _active_ppi == _PPI_TABS[0]:
     if n_nodes == 0:
         st.warning("No nodes match current filters. Try lowering the minimum score or expanding category selection.")
     else:
@@ -472,7 +484,7 @@ with tab_net:
 # ─────────────────────────────────────────────────────────────────────────────
 # Tab 2 — Partner Table
 # ─────────────────────────────────────────────────────────────────────────────
-with tab_table:
+elif _active_ppi == _PPI_TABS[1]:
     st.markdown(f"#### {_GENE} Direct Interaction Partners")
     direct = [
         {
@@ -527,7 +539,7 @@ with tab_table:
 # ─────────────────────────────────────────────────────────────────────────────
 # Tab 3 — Pathway Breakdown
 # ─────────────────────────────────────────────────────────────────────────────
-with tab_pathway:
+elif _active_ppi == _PPI_TABS[2]:
     col_donut, col_bar = st.columns(2)
 
     with col_donut:
@@ -644,7 +656,7 @@ with tab_pathway:
 # ─────────────────────────────────────────────────────────────────────────────
 # Tab 4 — Biology Narrative
 # ─────────────────────────────────────────────────────────────────────────────
-with tab_biology:
+elif _active_ppi == _PPI_TABS[3]:
     if not _IS_CD46:
         st.markdown(f"#### {_GENE} PPI context")
         st.info(

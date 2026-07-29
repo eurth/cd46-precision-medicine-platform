@@ -185,7 +185,6 @@ def render_sidebar_target_selector() -> str:
         f"</div>",
         unsafe_allow_html=True,
     )
-    st.caption("Switch target in the bar above the page.")
     return current
 
 

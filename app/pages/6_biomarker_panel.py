@@ -14,6 +14,7 @@ import plotly.graph_objects as go
 import streamlit as st
 from components.styles import page_hero
 from components.targets import get_active_symbol, render_stub_gate, render_case_study_gate
+from components.ui_kit import info_banner, metric_row, section_tabs
 
 from dotenv import load_dotenv
 load_dotenv(Path(__file__).resolve().parents[2] / ".env")
@@ -123,19 +124,36 @@ _EXPR_COL = _median_col(df_cancer, _GENE) if not df_cancer.empty else None
 # Key stats header
 # ---------------------------------------------------------------------------
 
-col_m1, col_m2, col_m3, col_m4, col_m5 = st.columns(5)
-if _IS_CD46:
-    col_m1.metric("mCRPC CD46 Altered", "43%", "+34% vs localised", delta_color="inverse")
-    col_m2.metric("Localised PRAD", "9%", "baseline")
-    col_m3.metric("PSMA-Low Patients", "~35%", "eligible for CD46 RIT")
-else:
-    col_m1.metric("Active Target", _GENE, "open-data pack")
-    col_m2.metric("By-cancer rows", str(len(df_cancer)) if not df_cancer.empty else "—", f"{_PREFIX}_by_cancer")
-    col_m3.metric("Cox rows", str(len(df_survival)) if not df_survival.empty else "—", f"{_PREFIX}_survival")
-col_m4.metric("SU2C Cohort Size", "444", "patients")
-col_m5.metric("TCGA Pan-Cancer", "33 cancers", "11,160 patients")
+_bio_kpi: list[dict[str, str]] = (
+    [
+        {"title": "mCRPC CD46 Altered", "content": "43%", "description": "+34% vs localised"},
+        {"title": "Localised PRAD", "content": "9%", "description": "baseline"},
+        {"title": "PSMA-Low Patients", "content": "~35%", "description": "eligible for CD46 RIT"},
+    ]
+    if _IS_CD46
+    else [
+        {"title": "Active Target", "content": _GENE, "description": "open-data pack"},
+        {
+            "title": "By-cancer rows",
+            "content": str(len(df_cancer)) if not df_cancer.empty else "—",
+            "description": f"{_PREFIX}_by_cancer",
+        },
+        {
+            "title": "Cox rows",
+            "content": str(len(df_survival)) if not df_survival.empty else "—",
+            "description": f"{_PREFIX}_survival",
+        },
+    ]
+)
+_bio_kpi.extend(
+    [
+        {"title": "SU2C Cohort Size", "content": "444", "description": "patients"},
+        {"title": "TCGA Pan-Cancer", "content": "33 cancers", "description": "11,160 patients"},
+    ]
+)
+metric_row(_bio_kpi, key_prefix="bio_kpi")
 if not _IS_CD46:
-    st.info(
+    info_banner(
         f"Co-targeting / complement / GENIE scoring panels retain CD46 case-study depth. "
         f"Target inclusion + survival use **{_GENE}** CSVs where present."
     )
@@ -146,19 +164,18 @@ st.markdown("---")
 # 6 Tabs
 # ---------------------------------------------------------------------------
 
-tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
-    "🎯 Target Inclusion",
-    "🔗 Co-targeting",
-    "⚠️ Resistance Markers",
-    "🧬 Complement Pathway",
-    "📚 Evidence Base",
-    "📋 Patient Scoring",
-])
+_BIO_TABS = [
+    "Target Inclusion",
+    "Co-targeting",
+    "Resistance Markers",
+    "Complement Pathway",
+    "Evidence Base",
+    "Patient Scoring",
+]
+_active_bio = section_tabs(_BIO_TABS, key="biomarker_panel_tabs")
 
-# ===========================================================================
 # TAB 1 — CD46 INCLUSION BIOMARKERS
-# ===========================================================================
-with tab1:
+if _active_bio == _BIO_TABS[0]:
     st.markdown(
         "<div style='background:#1e293b;border-left:3px solid #38bdf8;padding:12px 16px;"
         "border-radius:6px;margin-bottom:14px;'>"
@@ -288,10 +305,8 @@ with tab1:
     else:
         st.info("Run `python scripts/run_pipeline.py` to enable live threshold exploration.")
 
-# ===========================================================================
 # TAB 2 — CO-TARGETING & COMPLEMENTARITY (AACR GENIE)
-# ===========================================================================
-with tab2:
+elif _active_bio == _BIO_TABS[1]:
     st.markdown(
         "<div style='background:#1e293b;border-left:3px solid #4ade80;padding:12px 16px;"
         "border-radius:6px;margin-bottom:14px;'>"
@@ -448,10 +463,8 @@ with tab2:
         "making it the primary rescue target for this population."
     )
 
-# ===========================================================================
 # TAB 3 — RESISTANCE PREDICTORS
-# ===========================================================================
-with tab3:
+elif _active_bio == _BIO_TABS[2]:
     st.markdown(
         "<div style='background:#1e293b;border-left:3px solid #fbbf24;padding:12px 16px;"
         "border-radius:6px;margin-bottom:14px;'>"
@@ -552,10 +565,8 @@ with tab3:
         "for 225Ac-CD46 therapy. TP53-null tumours may show reduced DNA damage response."
     )
 
-# ===========================================================================
 # TAB 4 — COMPLEMENT PATHWAY
-# ===========================================================================
-with tab4:
+elif _active_bio == _BIO_TABS[3]:
     st.markdown(
         "<div style='background:#1e293b;border-left:3px solid #818cf8;padding:12px 16px;"
         "border-radius:6px;margin-bottom:14px;'>"
@@ -676,10 +687,8 @@ with tab4:
         "are independent of complement pathway signalling."
     )
 
-# ===========================================================================
 # TAB 5 — EVIDENCE BASE
-# ===========================================================================
-with tab5:
+elif _active_bio == _BIO_TABS[4]:
     st.markdown(
         "<div style='background:#1e293b;border-left:3px solid #38bdf8;padding:12px 16px;"
         "border-radius:6px;margin-bottom:14px;'>"
@@ -864,10 +873,8 @@ with tab5:
             except Exception as e:
                 st.error(f"PubMed search failed: {e}")
 
-# ===========================================================================
 # TAB 6 — PATIENT SCORING CALCULATOR
-# ===========================================================================
-with tab6:
+elif _active_bio == _BIO_TABS[5]:
     st.markdown(
         "<div style='background:#1e293b;border-left:3px solid #fb923c;padding:12px 16px;"
         "border-radius:6px;margin-bottom:14px;'>"

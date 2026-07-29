@@ -11,6 +11,7 @@ import plotly.graph_objects as go
 import streamlit as st
 from components.styles import page_hero
 from components.targets import get_active_symbol, render_stub_gate, render_case_study_gate
+from components.ui_kit import info_banner, metric_row, section_tabs
 
 if render_stub_gate(module="Patient Selection"):
     st.stop()
@@ -112,18 +113,25 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# KPI strip
-k1, k2, k3, k4 = st.columns(4)
-k1.metric("GENIE Patients", "271,837", "Real-world sequencing registry")
-k2.metric(
-    f"PRAD {_GENE}-High",
-    _prad_kpi,
-    "at 75th percentile threshold" if _IS_CD46 else f"eligibility CSV is CD46 case-study depth",
+metric_row(
+    [
+        {"title": "GENIE Patients", "content": "271,837", "description": "Real-world sequencing registry"},
+        {
+            "title": f"PRAD {_GENE}-High",
+            "content": _prad_kpi,
+            "description": (
+                "at 75th percentile threshold"
+                if _IS_CD46
+                else "eligibility CSV is CD46 case-study depth"
+            ),
+        },
+        {"title": "PSMA-Ineligible", "content": "~35%", "description": "Unmet mCRPC population"},
+        {"title": "AR Blockade Effect", "content": "↑ 2–3×", "description": "CD46 post-castration (case study)"},
+    ],
+    key_prefix="pat_sel_kpi",
 )
-k3.metric("PSMA-Ineligible", "~35%", "Unmet mCRPC population")
-k4.metric("AR Blockade Effect", "↑ 2–3×", "CD46 post-castration (case study)")
 if not _IS_CD46:
-    st.info(
+    info_banner(
         f"Eligibility thresholds / combination biomarkers are CD46 case-study slices. "
         f"GENIE molecular landscape stays open for all targets. "
         f"Use Expression / Survival for **{_GENE}** open-data depth"
@@ -171,15 +179,16 @@ def _classify_segment(row):
 # ---------------------------------------------------------------------------
 # Tabs — most-important-first ordering
 # ---------------------------------------------------------------------------
-tab1, tab2, tab3, tab4 = st.tabs([
-    "🌍 GENIE Real-World Landscape",
-    "🎯 Eligibility & Thresholds",
-    "🔗 Therapeutic Context",
-    "📋 Data & Downloads",
-])
+_PAT_TABS = [
+    "GENIE Real-World Landscape",
+    "Eligibility & Thresholds",
+    "Therapeutic Context",
+    "Data & Downloads",
+]
+_active_pat = section_tabs(_PAT_TABS, key="patient_selection_tabs")
 
-# â”€â”€ Tab 1 : GENIE Real-World Landscape â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-with tab1:
+# Tab 1 : GENIE Real-World Landscape
+if _active_pat == _PAT_TABS[0]:
     st.markdown("#### AACR Project GENIE — 271,837 Real-World Sequenced Patients")
     st.info(
         "**CD46 is an expression-level target** — it overexpresses at the protein/RNA level, "
@@ -359,8 +368,8 @@ with tab1:
                 )
                 st.plotly_chart(fig_comp, use_container_width=True)
 
-# â”€â”€ Tab 2 : Eligibility & Thresholds â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-with tab2:
+# Tab 2 : Eligibility & Thresholds
+elif _active_pat == _PAT_TABS[1]:
     st.markdown("#### CD46 Expression Eligibility — TCGA Cohort Analysis")
 
     THRESHOLD_LABELS = {
@@ -494,8 +503,8 @@ with tab2:
         else:
             st.info("PRAD threshold data not available in eligibility file.")
 
-# â”€â”€ Tab 3 : Therapeutic Context â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-with tab3:
+# Tab 3 : Therapeutic Context
+elif _active_pat == _PAT_TABS[2]:
     st.markdown("#### CD46 Complements PSMA and AR-Targeted Therapy")
     st.caption(
         "CD46 fills the therapeutic gaps left by PSMA Lutetium and androgen deprivation — "
@@ -606,8 +615,8 @@ with tab3:
         "inserted into existing treatment sequences."
     )
 
-# â”€â”€ Tab 4 : Data & Downloads â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-with tab4:
+# Tab 4 : Data & Downloads
+elif _active_pat == _PAT_TABS[3]:
     st.markdown("#### Eligibility Data Table — All Cancer Types & Thresholds")
     if eligibility_df is not None:
         display_cols = [c for c in [

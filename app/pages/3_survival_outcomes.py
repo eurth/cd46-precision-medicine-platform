@@ -10,6 +10,7 @@ import plotly.graph_objects as go
 import streamlit as st
 from components.styles import page_hero
 from components.targets import get_active_symbol, list_symbols, render_stub_gate
+from components.ui_kit import metric_row, section_tabs
 
 if render_stub_gate(module="Survival Outcomes"):
     st.stop()
@@ -154,11 +155,23 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-k1, k2, k3, k4 = st.columns(4)
-k1.metric("Cancers Tested", str(n_cancers), "TCGA OS + PFI endpoints")
-k2.metric("Cox Significant", str(n_sig), "p < 0.05 (Cox PH)")
-k3.metric("Strongest Positive", top_pos_txt, f"{_DISPLAY}-High → worse OS")
-k4.metric("Strongest Inverse", top_neg_txt, f"{_DISPLAY}-High → better OS")
+metric_row(
+    [
+        {"title": "Cancers Tested", "content": str(n_cancers), "description": "TCGA OS + PFI endpoints"},
+        {"title": "Cox Significant", "content": str(n_sig), "description": "p < 0.05 (Cox PH)"},
+        {
+            "title": "Strongest Positive",
+            "content": top_pos_txt,
+            "description": f"{_DISPLAY}-High → worse OS",
+        },
+        {
+            "title": "Strongest Inverse",
+            "content": top_neg_txt,
+            "description": f"{_DISPLAY}-High → better OS",
+        },
+    ],
+    key_prefix="surv_kpi",
+)
 st.markdown("---")
 
 try:
@@ -170,14 +183,15 @@ except Exception:
 # ---------------------------------------------------------------------------
 # Tabs
 # ---------------------------------------------------------------------------
-tab1, tab2, tab3 = st.tabs([
-    "🌲 Forest Plot — All Cancers",
-    "📊 Significance Table & KM Context",
-    "🔬 Cancer Explorer",
-])
+_SURV_TABS = [
+    "Forest Plot — All Cancers",
+    "Significance Table & KM Context",
+    "Cancer Explorer",
+]
+_active_surv = section_tabs(_SURV_TABS, key="surv_outcomes_tabs")
 
 # ── Tab 1 : Forest Plot ──────────────────────────────────────────────────────
-with tab1:
+if _active_surv == _SURV_TABS[0]:
     st.markdown(f"#### Cox PH Forest Plot — {_DISPLAY}-High vs {_DISPLAY}-Low")
     st.caption(
         f"Hazard ratio > 1 → high expression predicts worse survival.  "
@@ -292,7 +306,7 @@ with tab1:
             )
 
 # ── Tab 2 : Significance Table & KM Context ─────────────────────────────────
-with tab2:
+elif _active_surv == _SURV_TABS[1]:
     st.markdown("#### Significant Survival Associations — Cox PH Results")
 
     tbl_col, interp_col = st.columns([3, 2])
@@ -464,7 +478,7 @@ with tab2:
             st.caption("HR 0.59 · p=0.0007 · INVERSE — schematic")
 
 # ── Tab 3 : Cancer Explorer ──────────────────────────────────────────────────
-with tab3:
+elif _active_surv == _SURV_TABS[2]:
     st.markdown("#### Cancer-Type Explorer — Per-Cancer Cox PH Statistics")
     st.caption("Select any cancer type to see its full survival statistics and clinical context.")
 
