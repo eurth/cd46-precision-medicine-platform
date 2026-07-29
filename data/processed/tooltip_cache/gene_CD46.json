@@ -1,0 +1,17 @@
+{
+  "term_id": "gene:CD46",
+  "canonical_name": "CD46",
+  "uniprot_id": "P15529",
+  "alphafold_entry_id": "AF-P15529-F1",
+  "alphafold_entry_url": "https://alphafold.ebi.ac.uk/entry/AF-P15529-F1",
+  "summary_short": "Membrane cofactor protein; complement regulator and oncology surface antigen.",
+  "alphafold_pae_image_url": "https://alphafold.ebi.ac.uk/files/AF-P15529-F1-predicted_aligned_error_v6.png",
+  "alphafold_pdb_url": "https://alphafold.ebi.ac.uk/files/AF-P15529-F1-model_v6.pdb",
+  "globalMetricValue": 82.12,
+  "raw_entry": {
+    "entryId": "AF-P15529-F1",
+    "uniprotAccession": "P15529",
+    "uniprotDescription": "Membrane cofactor protein",
+    "modelCreatedDate": "2025-08-01T00:00:00Z"
+  }
+}

@@ -13,7 +13,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
 from components.styles import page_hero
-from components.targets import render_stub_gate, render_case_study_gate
+from components.targets import get_active_symbol, render_stub_gate, render_case_study_gate
 
 from dotenv import load_dotenv
 load_dotenv(Path(__file__).resolve().parents[2] / ".env")
@@ -31,6 +31,10 @@ if render_stub_gate(module="Biomarker Panel"):
 if render_case_study_gate(module="Biomarker Panel"):
     st.stop()
 
+_GENE = get_active_symbol()
+_PREFIX = _GENE.lower()
+_IS_CD46 = _GENE == "CD46"
+
 DATA_DIR = Path("data/processed")
 
 
@@ -38,9 +42,12 @@ st.markdown(
     page_hero(
         icon="🧬",
         module_name="Biomarker Panel",
-        purpose="Clinical decision support for 225Ac-CD46 α-RLT · multi-biomarker scoring · co-targeting analysis · mCRPC cohort data",
+        purpose=(
+            f"Clinical decision support for **{_GENE}**-targeted therapy · "
+            "multi-biomarker scoring · co-targeting · mCRPC cohort (CD46 depth where noted)"
+        ),
         kpi_chips=[
-            ("Biomarkers Tracked", "5"),
+            ("Active Target", _GENE),
             ("mCRPC Cohort", "226 pts"),
             ("GENIE Prostate", "9,251 pts"),
             ("Driver Segments", "8"),
@@ -55,13 +62,13 @@ st.markdown(
 # ---------------------------------------------------------------------------
 
 @st.cache_data(ttl=3600)
-def load_by_cancer():
-    p = DATA_DIR / "cd46_by_cancer.csv"
+def load_by_cancer(symbol: str):
+    p = DATA_DIR / f"{symbol.lower()}_by_cancer.csv"
     return pd.read_csv(p) if p.exists() else pd.DataFrame()
 
 @st.cache_data(ttl=3600)
-def load_expression():
-    p = DATA_DIR / "cd46_expression.csv"
+def load_expression(symbol: str):
+    p = DATA_DIR / f"{symbol.lower()}_expression.csv"
     return pd.read_csv(p) if p.exists() else pd.DataFrame()
 
 @st.cache_data(ttl=3600)
@@ -75,8 +82,8 @@ def load_priority():
     return pd.read_csv(p) if p.exists() else pd.DataFrame()
 
 @st.cache_data(ttl=3600)
-def load_survival():
-    p = DATA_DIR / "cd46_survival_results.csv"
+def load_survival(symbol: str):
+    p = DATA_DIR / f"{symbol.lower()}_survival_results.csv"
     return pd.read_csv(p) if p.exists() else pd.DataFrame()
 
 @st.cache_data(ttl=3600)
@@ -85,31 +92,53 @@ def load_genie_cohort():
     return pd.read_parquet(p) if p.exists() else pd.DataFrame()
 
 @st.cache_data(ttl=3600)
-def load_hpa():
-    p = DATA_DIR / "hpa_cd46_protein.csv"
-    return pd.read_csv(p) if p.exists() else pd.DataFrame()
+def load_hpa(symbol: str):
+    # Prefer H-score IHC; else protein intensity (step 3c)
+    for name in (f"hpa_{symbol.lower()}_protein.csv", f"hpa_{symbol.lower()}_protein_intensity.csv"):
+        p = DATA_DIR / name
+        if p.exists():
+            return pd.read_csv(p)
+    return pd.DataFrame()
 
-# Load all datasets upfront
-df_cancer = load_by_cancer()
-df_combination = load_combination()
-df_priority = load_priority()
-df_survival = load_survival()
-df_genie = load_genie_cohort()
-df_hpa = load_hpa()
-df_expr_raw = load_expression()  # 11,069 patient rows with OS/PFI survival data
-df_expr = df_expr_raw[df_expr_raw["sample_type"] == "Primary Tumor"].copy() if not df_expr_raw.empty else df_expr_raw
+def _median_col(df: pd.DataFrame, symbol: str) -> str | None:
+    pref = symbol.lower()
+    for c in ("gene_median", f"{pref}_median", "cd46_median", f"{pref}_mean", "cd46_mean"):
+        if c in df.columns:
+            return c
+    return None
+
+# Load all datasets upfront — never substitute CD46 files for another gene
+df_cancer = load_by_cancer(_GENE)
+df_combination = load_combination() if _IS_CD46 else pd.DataFrame()
+df_priority = load_priority() if _IS_CD46 else pd.DataFrame()
+df_survival = load_survival(_GENE)
+df_genie = load_genie_cohort()  # molecular landscape shared
+df_hpa = load_hpa(_GENE)
+df_expr_raw = load_expression(_GENE)
+df_expr = df_expr_raw[df_expr_raw["sample_type"] == "Primary Tumor"].copy() if not df_expr_raw.empty and "sample_type" in df_expr_raw.columns else df_expr_raw
 ALL_CANCERS = sorted(df_expr["cancer_type"].dropna().unique().tolist()) if not df_expr.empty else []
+_EXPR_COL = _median_col(df_cancer, _GENE) if not df_cancer.empty else None
 
 # ---------------------------------------------------------------------------
 # Key stats header
 # ---------------------------------------------------------------------------
 
 col_m1, col_m2, col_m3, col_m4, col_m5 = st.columns(5)
-col_m1.metric("mCRPC CD46 Altered", "43%", "+34% vs localised", delta_color="inverse")
-col_m2.metric("Localised PRAD", "9%", "baseline")
-col_m3.metric("PSMA-Low Patients", "~35%", "eligible for CD46 RIT")
+if _IS_CD46:
+    col_m1.metric("mCRPC CD46 Altered", "43%", "+34% vs localised", delta_color="inverse")
+    col_m2.metric("Localised PRAD", "9%", "baseline")
+    col_m3.metric("PSMA-Low Patients", "~35%", "eligible for CD46 RIT")
+else:
+    col_m1.metric("Active Target", _GENE, "open-data pack")
+    col_m2.metric("By-cancer rows", str(len(df_cancer)) if not df_cancer.empty else "—", f"{_PREFIX}_by_cancer")
+    col_m3.metric("Cox rows", str(len(df_survival)) if not df_survival.empty else "—", f"{_PREFIX}_survival")
 col_m4.metric("SU2C Cohort Size", "444", "patients")
 col_m5.metric("TCGA Pan-Cancer", "33 cancers", "11,160 patients")
+if not _IS_CD46:
+    st.info(
+        f"Co-targeting / complement / GENIE scoring panels retain CD46 case-study depth. "
+        f"Target inclusion + survival use **{_GENE}** CSVs where present."
+    )
 
 st.markdown("---")
 
@@ -118,7 +147,7 @@ st.markdown("---")
 # ---------------------------------------------------------------------------
 
 tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
-    "🎯 CD46 Inclusion",
+    "🎯 Target Inclusion",
     "🔗 Co-targeting",
     "⚠️ Resistance Markers",
     "🧬 Complement Pathway",
@@ -133,15 +162,19 @@ with tab1:
     st.markdown(
         "<div style='background:#1e293b;border-left:3px solid #38bdf8;padding:12px 16px;"
         "border-radius:6px;margin-bottom:14px;'>"
-        "<b style='color:#38bdf8;'>CD46 Expression — Inclusion Biomarker for 225Ac Radioimmunotherapy</b><br>"
-        "<span style='color:#94a3b8;'>High CD46 expression = increased alpha-particle target density. "
-        "Threshold: top 25th percentile per cancer type. Data: TCGA Pan-Cancer (n=11,160).</span>"
+        f"<b style='color:#38bdf8;'>{_GENE} Expression — Inclusion Biomarker</b><br>"
+        f"<span style='color:#94a3b8;'>High {_GENE} expression = increased target density. "
+        "Threshold: top 25th percentile per cancer type. Data: TCGA Pan-Cancer.</span>"
         "</div>",
         unsafe_allow_html=True,
     )
 
     if not df_cancer.empty:
-        expr_col = next((c for c in ["cd46_mean", "cd46_mean_tpm_log2", "mean_log2_tpm", "mean_expression", "mean_log2", "cd46_median"] if c in df_cancer.columns), None)
+        expr_col = _EXPR_COL or next(
+            (c for c in ["cd46_mean", "cd46_mean_tpm_log2", "mean_log2_tpm", "mean_expression", "mean_log2", "cd46_median", "gene_median"]
+             if c in df_cancer.columns),
+            None,
+        )
         cancer_col = next((c for c in ["cancer_type", "tcga_code", "cancer"] if c in df_cancer.columns), None)
 
         if expr_col and cancer_col:
@@ -168,43 +201,43 @@ with tab1:
                            annotation_text="75th pct threshold", annotation_font_color="#f87171")
             fig1.update_layout(
                 height=420, paper_bgcolor="#0f172a", plot_bgcolor="#0f172a",
-                xaxis=dict(title="CD46 log₂ TPM", color="#94a3b8", gridcolor="#1e293b"),
+                xaxis=dict(title=f"{_GENE} log₂ TPM", color="#94a3b8", gridcolor="#1e293b"),
                 yaxis=dict(color="#e2e8f0", tickfont=dict(size=9)),
                 margin=dict(l=10, r=80, t=30, b=10),
-                title=dict(text="Pan-Cancer CD46 mRNA Expression (TCGA)", font=dict(color="#e2e8f0", size=13)),
+                title=dict(text=f"Pan-Cancer {_GENE} mRNA Expression (TCGA)", font=dict(color="#e2e8f0", size=13)),
             )
             st.plotly_chart(fig1, use_container_width=True)
             st.caption("🔴 PRAD · 🟠 BLCA · 🟡 OV highlighted as priority targets · Dashed = pan-cancer mean · Dotted = 75th pct threshold")
+            st.markdown("**Clinical Expression Tiers**")
+            tiers = pd.DataFrame({
+                "Tier": ["🟢 High", "🟡 Moderate", "🟠 Low", "🔴 Absent"],
+                f"{_GENE} Level": ["> 75th percentile", "50th–75th percentile", "25th–50th percentile", "< 25th percentile"],
+                "Mean log₂ TPM": ["> 10.5", "9.0–10.5", "7.5–9.0", "< 7.5"],
+                "Suitability": ["Strong candidate ✅", "Consider ⚡", "Borderline 🔷", "Not suitable ❌"],
+                "Estimated Eligible %": ["25%", "25%", "25%", "25%"],
+            })
+            st.dataframe(tiers, use_container_width=True, hide_index=True)
         else:
-            st.info("Expression column not found — run `python scripts/run_pipeline.py` to generate.")
-
-        # Clinical decision tiers table
-        st.markdown("**Clinical Expression Tiers**")
-        tiers = pd.DataFrame({
-            "Tier": ["🟢 High", "🟡 Moderate", "🟠 Low", "🔴 Absent"],
-            "CD46 Level": ["> 75th percentile", "50th–75th percentile", "25th–50th percentile", "< 25th percentile"],
-            "Mean log₂ TPM": ["> 10.5", "9.0–10.5", "7.5–9.0", "< 7.5"],
-            "225Ac-CD46 Suitability": ["Strong candidate ✅", "Consider ⚡", "Borderline 🔷", "Not suitable ❌"],
-            "Estimated Eligible %": ["25%", "25%", "25%", "25%"],
-        })
-        st.dataframe(tiers, use_container_width=True, hide_index=True)
-
+            st.info(f"Expression column not found for {_GENE} — check `data/processed/{_PREFIX}_by_cancer.csv`.")
     else:
-        st.warning("cd46_by_cancer.csv not found — run pipeline first.")
+        st.info(f"No by-cancer CSV for {_GENE}.")
 
-    st.info(
-        "💡 CD46 expression is androgen-regulated: ADT upregulates CD46, explaining its enrichment "
-        "in CRPC. Expression persists across PSMA-low subgroups, making CD46 an ideal rescue target "
-        "for patients who progress on 177Lu-PSMA therapy."
-    )
+    if _IS_CD46:
+        st.info(
+            "💡 CD46 expression is androgen-regulated: ADT upregulates CD46, explaining its enrichment "
+            "in CRPC. Expression persists across PSMA-low subgroups, making CD46 an ideal rescue target "
+            "for patients who progress on 177Lu-PSMA therapy."
+        )
+    else:
+        st.caption(f"Androgen / CRPC narrative is CD46 case-study depth; inclusion chart above uses **{_GENE}**.")
 
     # ---- DYNAMIC THRESHOLD EXPLORER ----
     st.markdown("---")
-    st.markdown("**🎯 Interactive Threshold Explorer — Live Eligibility from 11,069 TCGA Patients**")
+    st.markdown(f"**🎯 Interactive Threshold Explorer — {_GENE} TCGA eligibility**")
     if not df_expr.empty:
         t_col1, t_col2 = st.columns([1, 3])
         with t_col1:
-            thr_val = st.slider("CD46 log₂ TPM threshold", 8.0, 14.5, 12.5, 0.1, key="tab1_thr",
+            thr_val = st.slider(f"{_GENE} log₂ TPM threshold", 8.0, 14.5, 12.5, 0.1, key="tab1_thr",
                                 help="Drag to recompute eligibility across all TCGA cancer types")
             focus_cancers = st.multiselect("Highlight cancers", ALL_CANCERS,
                                            default=[c for c in ["PRAD","BLCA","OV"] if c in ALL_CANCERS],

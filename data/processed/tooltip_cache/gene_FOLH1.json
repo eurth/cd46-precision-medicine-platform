@@ -1,0 +1,17 @@
+{
+  "term_id": "gene:FOLH1",
+  "canonical_name": "FOLH1",
+  "uniprot_id": "Q04609",
+  "alphafold_entry_id": "AF-Q04609-F1",
+  "alphafold_entry_url": "https://alphafold.ebi.ac.uk/entry/AF-Q04609-F1",
+  "summary_short": "Folate hydrolase 1 (PSMA); prostate radioligand therapy target.",
+  "alphafold_pae_image_url": "https://alphafold.ebi.ac.uk/files/AF-Q04609-F1-predicted_aligned_error_v6.png",
+  "alphafold_pdb_url": "https://alphafold.ebi.ac.uk/files/AF-Q04609-F1-model_v6.pdb",
+  "globalMetricValue": 93.81,
+  "raw_entry": {
+    "entryId": "AF-Q04609-F1",
+    "uniprotAccession": "Q04609",
+    "uniprotDescription": "Glutamate carboxypeptidase 2",
+    "modelCreatedDate": "2025-08-01T00:00:00Z"
+  }
+}

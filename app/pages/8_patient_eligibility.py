@@ -12,7 +12,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 from components.styles import page_hero
-from components.targets import render_stub_gate, render_case_study_gate
+from components.targets import get_active_symbol, render_stub_gate, render_case_study_gate
 from dotenv import load_dotenv
 
 load_dotenv(Path(__file__).resolve().parents[2] / ".env")
@@ -29,6 +29,10 @@ if render_stub_gate(module="Eligibility Scorer"):
 if render_case_study_gate(module="Eligibility Scorer"):
     st.stop()
 
+_GENE = get_active_symbol()
+_PREFIX = _GENE.lower()
+_IS_CD46 = _GENE == "CD46"
+
 DATA_DIR = Path("data/processed")
 
 
@@ -36,11 +40,14 @@ st.markdown(
     page_hero(
         icon="🎯",
         module_name="Patient Eligibility Scorer",
-        purpose="Evidence-based candidate assessment for 225Ac-CD46 RLT · 25 TCGA cancer types · n > 2,800 patients",
+        purpose=(
+            f"Evidence-based candidate assessment for **{_GENE}**-targeted therapy · "
+            "TCGA cancer types · threshold explorer"
+        ),
         kpi_chips=[
-            ("Cancer Types", "25"),
+            ("Active Target", _GENE),
             ("Total Patients", "~2,800"),
-            ("PRAD CD46-High", "44%"),
+            (f"PRAD {_GENE}-High", "44%" if _IS_CD46 else "—"),
             ("Threshold Method", "75th pct"),
         ],
         source_badges=["TCGA", "GENIE", "HPA"],
@@ -54,14 +61,14 @@ st.markdown(
 
 
 @st.cache_data(ttl=3600)
-def load_by_cancer() -> pd.DataFrame:
-    p = DATA_DIR / "cd46_by_cancer.csv"
+def load_by_cancer(symbol: str) -> pd.DataFrame:
+    p = DATA_DIR / f"{symbol.lower()}_by_cancer.csv"
     return pd.read_csv(p) if p.exists() else pd.DataFrame()
 
 
 @st.cache_data(ttl=3600)
-def load_survival() -> pd.DataFrame:
-    p = DATA_DIR / "cd46_survival_results.csv"
+def load_survival(symbol: str) -> pd.DataFrame:
+    p = DATA_DIR / f"{symbol.lower()}_survival_results.csv"
     return pd.read_csv(p) if p.exists() else pd.DataFrame()
 
 
@@ -75,6 +82,21 @@ def load_genie() -> pd.DataFrame:
     p = DATA_DIR / "genie_full_cohort.parquet"
     return pd.read_parquet(p) if p.exists() else pd.DataFrame()
 
+
+def _median_col(df: pd.DataFrame, symbol: str) -> str | None:
+    pref = symbol.lower()
+    for c in ("gene_median", f"{pref}_median", "cd46_median", f"{pref}_mean", "cd46_mean"):
+        if c in df.columns:
+            return c
+    return None
+
+
+def _std_col(df: pd.DataFrame, symbol: str) -> str | None:
+    pref = symbol.lower()
+    for c in ("gene_std", f"{pref}_std", "cd46_std"):
+        if c in df.columns:
+            return c
+    return None
 # ---------------------------------------------------------------------------
 # Scoring logic
 # ---------------------------------------------------------------------------
@@ -250,14 +272,17 @@ def classify(score: float) -> tuple[str, str, str, str]:
 # Load data
 # ---------------------------------------------------------------------------
 
-df_expr = load_by_cancer()
-df_surv = load_survival()
-df_priority = load_priority()
+df_expr = load_by_cancer(_GENE)
+df_surv = load_survival(_GENE)
+df_priority = load_priority() if _IS_CD46 else pd.DataFrame()
 df_genie = load_genie()
 
 if df_expr.empty:
-    st.error("Expression data unavailable — check data/processed/cd46_by_cancer.csv")
+    st.error(f"Expression data unavailable — check data/processed/{_PREFIX}_by_cancer.csv")
     st.stop()
+
+_MED_COL = _median_col(df_expr, _GENE) or "gene_median"
+_STD_COL = _std_col(df_expr, _GENE)
 
 cancer_types = df_expr["cancer_type"].tolist()
 default_idx = cancer_types.index("PRAD") if "PRAD" in cancer_types else 0
@@ -279,11 +304,11 @@ with col_input:
         )
 
         st.caption(
-            "Patient CD46 expression level (log₂ TPM) — adjust to match biopsy result "
+            f"Patient {_GENE} expression level (log₂ TPM) — adjust to match biopsy result "
             "or leave at 12.0 to use TCGA population average."
         )
         cd46_level = st.slider(
-            "CD46 expression level (log₂ TPM)",
+            f"{_GENE} expression level (log₂ TPM)",
             min_value=0.0,
             max_value=16.0,
             value=12.0,
@@ -319,10 +344,10 @@ with col_input:
 
 expr_row = df_expr[df_expr["cancer_type"] == cancer_sel]
 if not expr_row.empty:
-    expression_rank = int(expr_row["expression_rank"].iloc[0])
-    cancer_median = float(expr_row["cd46_median"].iloc[0])
-    cancer_std = float(expr_row["cd46_std"].iloc[0])
-    n_samples = int(expr_row["n_samples"].iloc[0])
+    expression_rank = int(expr_row["expression_rank"].iloc[0]) if "expression_rank" in expr_row.columns else 13
+    cancer_median = float(expr_row[_MED_COL].iloc[0]) if _MED_COL in expr_row.columns else 12.0
+    cancer_std = float(expr_row[_STD_COL].iloc[0]) if _STD_COL and _STD_COL in expr_row.columns else 0.6
+    n_samples = int(expr_row["n_samples"].iloc[0]) if "n_samples" in expr_row.columns else 0
 else:
     expression_rank, cancer_median, cancer_std, n_samples = 13, 12.0, 0.6, 0
 

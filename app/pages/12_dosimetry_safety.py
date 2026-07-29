@@ -12,7 +12,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 from components.styles import page_hero
-from components.targets import render_stub_gate, render_case_study_gate
+from components.targets import get_active_symbol, render_stub_gate, render_case_study_gate
 
 # ── Streamlit Cloud secret injection ─────────────────────────────────────────
 for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
@@ -27,6 +27,9 @@ if render_stub_gate(module="Dosimetry & Safety Index"):
 if render_case_study_gate(module="Dosimetry & Safety Index"):
     st.stop()
 
+_GENE = get_active_symbol()
+_PREFIX = _GENE.lower()
+_IS_CD46 = _GENE == "CD46"
 # ── Theme ─────────────────────────────────────────────────────────────────────
 _BG     = "#0D1829"
 _LINE   = "#16243C"
@@ -96,45 +99,70 @@ _HPA_TUMOUR = [
 
 
 @st.cache_data
-def load_hpa() -> tuple[pd.DataFrame, pd.DataFrame]:
-    """Load HPA data from CSV or fall back to static curated dataset."""
-    fp_candidates = [
-        Path("data/processed/hpa_cd46_protein.csv"),
-        Path(__file__).resolve().parents[2] / "data/processed/hpa_cd46_protein.csv",
-    ]
-    for fp in fp_candidates:
+def load_hpa(symbol: str) -> tuple[pd.DataFrame, pd.DataFrame, str]:
+    """Load HPA H-score if present; else intensity; CD46 static only for CD46."""
+    root = Path(__file__).resolve().parents[2]
+    pref = symbol.lower()
+    hscore = root / "data" / "processed" / f"hpa_{pref}_protein.csv"
+    for fp in (hscore, Path(f"data/processed/hpa_{pref}_protein.csv")):
         if fp.exists():
             df = pd.read_csv(fp)
-            normal = df[df["type"] == "normal"].rename(columns={"h_score_approx": "h_normal"})
-            tumour = df[df["type"] == "tumor"].rename(columns={"h_score_approx": "h_tumor"})
-            return normal, tumour
-    # Static fallback
-    normal = pd.DataFrame(_HPA_NORMAL).rename(columns={"h_score_approx": "h_normal"})
-    tumour = pd.DataFrame(_HPA_TUMOUR)
-    return normal, tumour
+            if "type" in df.columns and "h_score_approx" in df.columns:
+                normal = df[df["type"] == "normal"].rename(columns={"h_score_approx": "h_normal"})
+                tumour = df[df["type"] == "tumor"].rename(columns={"h_score_approx": "h_tumor"})
+                return normal, tumour, "hpa_hscore"
+    intensity = root / "data" / "processed" / f"hpa_{pref}_protein_intensity.csv"
+    if intensity.exists():
+        df = pd.read_csv(intensity)
+        # Approximate TI chart from intensity scores (not H-score — label honestly)
+        if "tissue" in df.columns and "intensity_score" in df.columns:
+            normal = df[df.get("type", "normal") == "normal"].copy() if "type" in df.columns else df.copy()
+            normal = normal.rename(columns={"intensity_score": "h_normal"})
+            normal["staining_intensity"] = "Intensity"
+            normal["fraction_positive"] = 1.0
+            tumour = normal.rename(columns={"h_normal": "h_tumor"})[["tissue", "h_tumor"]].copy()
+            return normal, tumour, "hpa_intensity"
+    if symbol == "CD46":
+        normal = pd.DataFrame(_HPA_NORMAL).rename(columns={"h_score_approx": "h_normal"})
+        tumour = pd.DataFrame(_HPA_TUMOUR)
+        return normal, tumour, "static_cd46"
+    return pd.DataFrame(), pd.DataFrame(), "none"
 
 
-normal_df, tumour_df = load_hpa()
+normal_df, tumour_df, _hpa_src = load_hpa(_GENE)
+if _hpa_src == "none":
+    st.info(
+        f"No HPA H-score / intensity slice for **{_GENE}**. "
+        f"Expected `hpa_{_PREFIX}_protein.csv` or `hpa_{_PREFIX}_protein_intensity.csv`."
+    )
+    normal_df = pd.DataFrame(columns=["tissue", "h_normal", "staining_intensity", "fraction_positive"])
+    tumour_df = pd.DataFrame(columns=["tissue", "h_tumor"])
+elif _hpa_src == "hpa_intensity":
+    st.caption(f"Showing HPA protein **intensity** (not IHC H-score) for {_GENE}.")
 
 # Build paired table
-paired = normal_df[["tissue", "h_normal", "staining_intensity", "fraction_positive"]].copy()
-paired.columns = ["Tissue", "Normal H-score", "Normal Intensity", "Normal Fraction"]
-paired = paired.merge(
-    tumour_df[["tissue", "h_tumor"]].rename(columns={"h_tumor": "Tumour H-score", "tissue": "Tissue"}),
-    on="Tissue", how="left",
-)
-paired["Tumour H-score"] = paired["Tumour H-score"].fillna(0)
-paired["Therapeutic Index"] = (
-    paired["Tumour H-score"] / paired["Normal H-score"].clip(lower=10)
-).clip(upper=6.0).round(2)
+if normal_df.empty:
+    paired = pd.DataFrame(columns=["Tissue", "Normal H-score", "Normal Intensity", "Normal Fraction", "Tumour H-score", "Therapeutic Index", "Risk"])
+else:
+    paired = normal_df[["tissue", "h_normal", "staining_intensity", "fraction_positive"]].copy()
+    paired.columns = ["Tissue", "Normal H-score", "Normal Intensity", "Normal Fraction"]
+    paired = paired.merge(
+        tumour_df[["tissue", "h_tumor"]].rename(columns={"h_tumor": "Tumour H-score", "tissue": "Tissue"}),
+        on="Tissue", how="left",
+    )
+    paired["Tumour H-score"] = paired["Tumour H-score"].fillna(0)
+    paired["Therapeutic Index"] = (
+        paired["Tumour H-score"] / paired["Normal H-score"].clip(lower=10)
+    ).clip(upper=6.0).round(2)
 
 def risk_cat(h):
     if h >= 250: return "HIGH"
     if h >= 150: return "MODERATE"
     return "LOW"
 
-paired["Normal Risk"] = paired["Normal H-score"].apply(risk_cat)
-paired = paired.sort_values("Tumour H-score", ascending=False).reset_index(drop=True)
+paired["Normal Risk"] = paired["Normal H-score"].apply(risk_cat) if not paired.empty and "Normal H-score" in paired.columns else []
+if not paired.empty:
+    paired = paired.sort_values("Tumour H-score", ascending=False).reset_index(drop=True)
 
 # ── Page hero ─────────────────────────────────────────────────────────────────
 st.markdown(

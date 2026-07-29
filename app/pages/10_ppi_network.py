@@ -21,12 +21,16 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 from components.styles import page_hero
-from components.targets import render_stub_gate, render_case_study_gate
+from components.targets import get_active_symbol, render_stub_gate, render_case_study_gate
 
 if render_stub_gate(module="PPI Network Explorer"):
     st.stop()
 if render_case_study_gate(module="PPI Network Explorer"):
     st.stop()
+
+_GENE = get_active_symbol()
+_PREFIX = _GENE.lower()
+_IS_CD46 = _GENE == "CD46"
 
 for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
     try:
@@ -236,35 +240,72 @@ def get_driver():
         return None
 
 
-@st.cache_data(ttl=3600, show_spinner="Loading PPI network from knowledge graph...")
-def load_ppi_from_kg() -> tuple[list, list]:
+@st.cache_data(ttl=3600, show_spinner="Loading PPI network...")
+def load_ppi(symbol: str) -> tuple[list, list, str]:
+    """Prefer gene STRING JSON; CD46 may use curated static / KG hub filter."""
+    import json
+
+    raw = Path(__file__).resolve().parents[2] / "data" / "raw" / "apis" / f"string_{symbol.lower()}.json"
+    if raw.exists():
+        try:
+            payload = json.loads(raw.read_text(encoding="utf-8"))
+            edges_raw = payload.get("edges") or []
+            # Keep edges that touch the hub gene (STRING neighborhood dumps can be wide)
+            hub = symbol.upper()
+            edges = []
+            nodes_set = {hub}
+            for e in edges_raw:
+                a = str(e.get("preferredName_A") or "").upper()
+                b = str(e.get("preferredName_B") or "").upper()
+                if not a or not b:
+                    continue
+                if a != hub and b != hub:
+                    continue
+                score = float(e.get("score") or 0)
+                edges.append({
+                    "sym_a": a, "sym_b": b, "score": score,
+                    "escore": float(e.get("escore") or 0),
+                    "tscore": float(e.get("tscore") or 0),
+                    "dscore": float(e.get("dscore") or 0),
+                })
+                nodes_set.add(a)
+                nodes_set.add(b)
+            nodes = [{"symbol": s, "annotation": "", "string_id": ""} for s in sorted(nodes_set)]
+            if edges:
+                return nodes, edges, f"STRING JSON ({raw.name})"
+        except Exception:
+            pass
+
+    # KG path — filter to neighborhood of active gene
     driver = get_driver()
-    if driver is None:
-        return _STATIC_NODES, _STATIC_EDGES
-    try:
-        with driver.session() as session:
-            node_result = session.run("""
-                MATCH (g:Gene)
-                WHERE EXISTS { (g)-[:INTERACTS_WITH]-() } OR g.symbol = 'CD46'
-                RETURN g.symbol AS symbol,
-                       COALESCE(g.annotation, '') AS annotation,
-                       COALESCE(g.string_id, '')  AS string_id
-            """)
-            nodes = [dict(r) for r in node_result]
-            edge_result = session.run("""
-                MATCH (a:Gene)-[r:INTERACTS_WITH]-(b:Gene)
-                WHERE a.symbol < b.symbol
-                RETURN a.symbol   AS sym_a,
-                       b.symbol   AS sym_b,
-                       COALESCE(r.score,  0.0) AS score,
-                       COALESCE(r.escore, 0.0) AS escore,
-                       COALESCE(r.tscore, 0.0) AS tscore,
-                       COALESCE(r.dscore, 0.0) AS dscore
-            """)
-            edges = [dict(r) for r in edge_result]
-        return (nodes, edges) if nodes and edges else (_STATIC_NODES, _STATIC_EDGES)
-    except Exception:
-        return _STATIC_NODES, _STATIC_EDGES
+    if driver is not None:
+        try:
+            with driver.session() as session:
+                edge_result = session.run(
+                    """
+                    MATCH (hub:Gene {symbol: $sym})-[r:INTERACTS_WITH]-(b:Gene)
+                    RETURN hub.symbol AS sym_a, b.symbol AS sym_b,
+                           COALESCE(r.score, 0.0) AS score,
+                           COALESCE(r.escore, 0.0) AS escore,
+                           COALESCE(r.tscore, 0.0) AS tscore,
+                           COALESCE(r.dscore, 0.0) AS dscore
+                    """,
+                    sym=symbol,
+                )
+                edges = [dict(r) for r in edge_result]
+                nodes_set = {symbol}
+                for e in edges:
+                    nodes_set.add(e["sym_a"])
+                    nodes_set.add(e["sym_b"])
+                nodes = [{"symbol": s, "annotation": "", "string_id": ""} for s in sorted(nodes_set)]
+                if edges:
+                    return nodes, edges, "AuraDB (live)"
+        except Exception:
+            pass
+
+    if symbol == "CD46":
+        return _STATIC_NODES, _STATIC_EDGES, "STRING DB v12.0 (curated static)"
+    return [], [], "none"
 
 
 # ── Page hero ─────────────────────────────────────────────────────────────────
@@ -272,13 +313,12 @@ st.markdown(
     page_hero(
         icon="\U0001f578\ufe0f",
         module_name="PPI Network Explorer",
-        purpose="CD46 protein\u2013protein interaction network \u00b7 STRING DB v12.0 \u00b7 "
-                "30 partners \u00b7 103 interactions \u00b7 live from AuraDB",
+        purpose=f"{_GENE} protein–protein interaction network · STRING · live Aura or gene JSON",
         kpi_chips=[
-            ("PPI Partners", "30"),
-            ("Interactions", "103"),
-            ("Source", "STRING v12.0"),
+            ("Active Target", _GENE),
+            ("Source", "STRING"),
             ("Confidence", "\u226570%"),
+            ("Hub", _GENE),
         ],
         source_badges=["STRING", "UniProt"],
     ),
@@ -286,17 +326,30 @@ st.markdown(
 )
 
 # ── Load data ─────────────────────────────────────────────────────────────────
-kg_nodes, kg_edges = load_ppi_from_kg()
-_live_kg = get_driver() is not None
-_data_label = "AuraDB (live)" if _live_kg else "STRING DB v12.0 (curated static)"
+kg_nodes, kg_edges, _data_label = load_ppi(_GENE)
+_live_kg = "AuraDB" in _data_label
+
+if not kg_edges:
+    st.info(
+        f"No STRING / INTERACTS_WITH slice for **{_GENE}**. "
+        f"Expected `data/raw/apis/string_{_PREFIX}.json` or KG edges."
+    )
+    # Keep tabs reachable with empty graph
+    kg_nodes = [{"symbol": _GENE, "annotation": "", "string_id": ""}]
+    kg_edges = []
+
+# Ensure hub category exists for non-CD46
+if not _IS_CD46:
+    PATHWAY_MAP.setdefault(_GENE, f"{_GENE} (Hub)")
+    COLORS.setdefault(f"{_GENE} (Hub)", _ORANGE)
 
 # ── KPI metric strip ──────────────────────────────────────────────────────────
 _complement_n = sum(1 for n in kg_nodes if PATHWAY_MAP.get(n["symbol"]) == "Complement System")
 _edge_scores  = [e["score"] for e in kg_edges]
 k1, k2, k3, k4 = st.columns(4)
-k1.metric("Interaction Partners", str(len(kg_nodes) - 1), "direct interactors")
+k1.metric("Interaction Partners", str(max(0, len(kg_nodes) - 1)), "direct interactors")
 k2.metric("Total Edges", str(len(kg_edges)), f"score \u2265 0.70")
-k3.metric("Complement Genes", str(_complement_n), "immune evasion cluster")
+k3.metric("Complement Genes", str(_complement_n), "immune evasion cluster" if _IS_CD46 else "pathway tags (CD46 map)")
 k4.metric("Top Confidence", f"{max(_edge_scores):.3f}" if _edge_scores else "n/a", _data_label)
 st.markdown("---")
 
@@ -369,7 +422,7 @@ with tab_net:
             cat_nodes = [n for n in G.nodes() if get_cat(n) == cat and n in pos]
             if not cat_nodes:
                 continue
-            sizes = [42 if n == "CD46" else max(14, min(32, G.degree(n) * 5 + 12)) for n in cat_nodes]
+            sizes = [42 if n == _GENE else max(14, min(32, G.degree(n) * 5 + 12)) for n in cat_nodes]
             hover_texts = [
                 f"<b>{n}</b><br>Category: {cat}<br>Connections: {G.degree(n)}<br>"
                 f"{'<i>' + GENE_INSIGHTS[n] + '</i><br>' if n in GENE_INSIGHTS else ''}"
@@ -420,17 +473,17 @@ with tab_net:
 # Tab 2 — Partner Table
 # ─────────────────────────────────────────────────────────────────────────────
 with tab_table:
-    st.markdown("#### CD46 Direct Interaction Partners")
+    st.markdown(f"#### {_GENE} Direct Interaction Partners")
     direct = [
         {
-            "Gene":            e["sym_b"] if e["sym_a"] == "CD46" else e["sym_a"],
-            "Category":        get_cat(e["sym_b"] if e["sym_a"] == "CD46" else e["sym_a"]),
+            "Gene":            e["sym_b"] if e["sym_a"] == _GENE else e["sym_a"],
+            "Category":        get_cat(e["sym_b"] if e["sym_a"] == _GENE else e["sym_a"]),
             "Combined Score":  round(e["score"],  3),
             "Experimental":    round(e["escore"], 3),
             "Text Mining":     round(e["tscore"], 3),
             "Database":        round(e["dscore"], 3),
         }
-        for e in kg_edges if e["sym_a"] == "CD46" or e["sym_b"] == "CD46"
+        for e in kg_edges if e["sym_a"] == _GENE or e["sym_b"] == _GENE
     ]
     if direct:
         df_p = pd.DataFrame(direct).sort_values("Combined Score", ascending=False).reset_index(drop=True)
@@ -449,12 +502,12 @@ with tab_table:
             height=380,
         )
         st.caption(
-            f"{len(df_show)} direct CD46 partners shown \u00b7 "
+            f"{len(df_show)} direct {_GENE} partners shown \u00b7 "
             "Combined Score = STRING combined confidence \u00b7 "
             "Experimental = physical binding assays \u00b7 Text Mining = co-publication"
         )
     else:
-        st.info("No direct CD46 edges available.")
+        st.info(f"No direct {_GENE} edges available.")
 
     st.markdown("---")
     st.markdown("**All Network Edges**")
@@ -538,14 +591,14 @@ with tab_pathway:
         st.plotly_chart(fig_avg, use_container_width=True)
 
     st.markdown("---")
-    st.markdown("**Evidence Type Breakdown — CD46 Direct Partners (top 15 by score)**")
+    st.markdown(f"**Evidence Type Breakdown — {_GENE} Direct Partners (top 15 by score)**")
     direct_cd46 = sorted(
-        [e for e in kg_edges if e["sym_a"] == "CD46" or e["sym_b"] == "CD46"],
+        [e for e in kg_edges if e["sym_a"] == _GENE or e["sym_b"] == _GENE],
         key=lambda x: x["score"],
         reverse=True,
     )[:15]
     if direct_cd46:
-        partner_names = [e["sym_b"] if e["sym_a"] == "CD46" else e["sym_a"] for e in direct_cd46]
+        partner_names = [e["sym_b"] if e["sym_a"] == _GENE else e["sym_a"] for e in direct_cd46]
         fig_ev = go.Figure()
         for ev, label, color in [
             ("escore", "Experimental",  _GREEN),
@@ -574,32 +627,43 @@ with tab_pathway:
             "Database = curated pathway databases (KEGG, Reactome)"
         )
     else:
-        st.info("No direct CD46 edge data available for evidence breakdown.")
+        st.info(f"No direct {_GENE} edge data available for evidence breakdown.")
 
-    st.info(
-        "**Complement System genes dominate the top-confidence cluster** "
-        "(CFI, CD55, CD59, CR1, C3 all score > 0.95).  \n"
-        "This cluster represents the tumour immune-evasion shield that CD46 anchors. "
-        "Alpha-particle RLT bypasses this shield entirely through direct DNA double-strand break induction."
-    )
+    if _IS_CD46:
+        st.info(
+            "**Complement System genes dominate the top-confidence cluster** "
+            "(CFI, CD55, CD59, CR1, C3 all score > 0.95).  \n"
+            "This cluster represents the tumour immune-evasion shield that CD46 anchors. "
+            "Alpha-particle RLT bypasses this shield entirely through direct DNA double-strand break induction."
+        )
+    else:
+        st.caption(
+            f"Pathway category map is CD46-centric; partners for {_GENE} may show as Structural until curated."
+        )
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Tab 4 — Biology Narrative
 # ─────────────────────────────────────────────────────────────────────────────
 with tab_biology:
-    st.markdown("#### Why the CD46 PPI Network Matters for Cancer Therapy")
-    st.markdown(
-        "The STRING network reveals CD46 sits at the **hub of a multi-layered complement "
-        "evasion system** that cancer cells exploit to escape immune destruction.  \n"
-        "Understanding the interaction neighbourhood defines both the therapeutic rationale "
-        "and the resistance mechanisms for any CD46-targeted approach."
-    )
+    if not _IS_CD46:
+        st.markdown(f"#### {_GENE} PPI context")
+        st.info(
+            f"Curated biology narrative is CD46 case-study depth. "
+            f"Use the Network / Partner tabs for **{_GENE}** STRING edges, or Ask AI."
+        )
+    if _IS_CD46:
+        st.markdown("#### Why the CD46 PPI Network Matters for Cancer Therapy")
+        st.markdown(
+            "The STRING network reveals CD46 sits at the **hub of a multi-layered complement "
+            "evasion system** that cancer cells exploit to escape immune destruction."
+        )
 
-    col_a, col_b = st.columns(2)
-    with col_a:
-        with st.container(border=True):
-            st.markdown("#### \U0001f6e1\ufe0f Complement Evasion Cluster")
-            st.markdown("""
+    if _IS_CD46:
+        col_a, col_b = st.columns(2)
+        with col_a:
+            with st.container(border=True):
+                st.markdown("#### \U0001f6e1\ufe0f Complement Evasion Cluster")
+                st.markdown("""
 | Gene | Function | Therapeutic Role |
 |------|----------|-----------------|
 | **CFI** | Cleaves C3b (CD46 cofactor) | Mechanistic partner — no redundancy |
@@ -613,16 +677,16 @@ with tab_biology:
 > activity \u2014 bypassing all three layers of this evasion shield simultaneously.
 """)
 
-        st.success(
-            "**Clinical implication:** Co-upregulation of CD46, CD55, and CD59 in IHC biopsies "
-            "of mCRPC tissue confirms this as a coordinated evasion programme, not incidental "
-            "expression. Targeting CD46 disrupts the anchor protein of this entire cluster."
-        )
+            st.success(
+                "**Clinical implication:** Co-upregulation of CD46, CD55, and CD59 in IHC biopsies "
+                "of mCRPC tissue confirms this as a coordinated evasion programme, not incidental "
+                "expression. Targeting CD46 disrupts the anchor protein of this entire cluster."
+            )
 
-    with col_b:
-        with st.container(border=True):
-            st.markdown("#### \U0001f9ec Immune & Receptor Co-clusters")
-            st.markdown("""
+        with col_b:
+            with st.container(border=True):
+                st.markdown("#### \U0001f9ec Immune & Receptor Co-clusters")
+                st.markdown("""
 **CD46 \u2192 T-regulatory axis**
 - CD46 ligation converts CD4+ T cells to IL-10-secreting Tr1 cells
 - Creates immune-cold TME \u2014 favours radiopharmaceutical over immunotherapy
@@ -643,15 +707,15 @@ with tab_biology:
 - Single-cell kill by alpha particle addresses heterogeneous stem-like subpopulations
 """)
 
-        st.info(
-            "**Resistance hypothesis:** If CD46 is downregulated under selection pressure, "
-            "CD55 and CD59 may compensate as secondary complement evaders. Monitoring "
-            "co-expression of all three in serial biopsies is a key translational question."
-        )
+            st.info(
+                "**Resistance hypothesis:** If CD46 is downregulated under selection pressure, "
+                "CD55 and CD59 may compensate as secondary complement evaders. Monitoring "
+                "co-expression of all three in serial biopsies is a key translational question."
+            )
 
-    st.markdown("---")
-    with st.expander("\U0001f4c1 Data Provenance & KG Architecture"):
-        st.markdown(f"""
+        st.markdown("---")
+        with st.expander("\U0001f4c1 Data Provenance & KG Architecture"):
+            st.markdown(f"""
 **Source**: STRING DB v12.0 (https://string-db.org) | CC BY 4.0
 **Seed protein**: Human CD46 / MCP (UniProt P15529 / ENSP00000313875)
 **Confidence threshold**: \u2265 0.70 (STRING high confidence)

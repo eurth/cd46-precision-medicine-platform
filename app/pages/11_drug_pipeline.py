@@ -13,13 +13,18 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 from components.styles import page_hero
-from components.targets import render_stub_gate, render_case_study_gate
+from components.targets import get_active_symbol, render_stub_gate, render_case_study_gate
+import json
 
 if render_stub_gate(module="Drug Pipeline"):
     st.stop()
 if render_case_study_gate(module="Drug Pipeline"):
     st.stop()
 
+_GENE = get_active_symbol()
+_PREFIX = _GENE.lower()
+_IS_CD46 = _GENE == "CD46"
+_IS_FOLH1 = _GENE in ("FOLH1", "PSMA")
 # ── Theme ──────────────────────────────────────────────────────────────────────
 _BG      = "#0D1829"
 _LINE    = "#16243C"
@@ -182,24 +187,76 @@ CLASS_COLORS = {
     "CD46-Targeted":      _ORANGE,
     "PSMA-Targeted":      _INDIGO,
     "Complement Inhibitor": _GREEN,
+    "ChEMBL Activity":    _TEAL,
 }
 MODALITY_SHAPES = {
     "ADC":                 "diamond",
     "RLT (α)":             "star",
     "RLT (β⁻)":            "circle",
     "Monoclonal Antibody": "square",
+    "Small molecule":      "circle",
 }
+
+def _load_chembl_rows(symbol: str) -> pd.DataFrame:
+    raw = Path(__file__).resolve().parents[2] / "data" / "raw" / "apis" / f"chembl_{symbol.lower()}.json"
+    if not raw.exists():
+        return pd.DataFrame()
+    try:
+        payload = json.loads(raw.read_text(encoding="utf-8"))
+    except Exception:
+        return pd.DataFrame()
+    drugs = payload.get("drugs") or []
+    rows = []
+    for d in drugs[:40]:
+        phase = int(d.get("max_phase") or 0)
+        phase_label = {0: "Preclinical", 1: "Phase 1", 2: "Phase 2", 3: "Phase 3", 4: "FDA Approved"}.get(phase, "Preclinical")
+        rows.append({
+            "Name": d.get("name") or d.get("chembl_id") or "—",
+            "Target": symbol,
+            "Modality": d.get("molecule_type") or d.get("drug_type") or "Small molecule",
+            "Drug Class": "ChEMBL Activity",
+            "Developer": d.get("developer") or "—",
+            "Phase": phase,
+            "Phase Label": phase_label,
+            "Indication": d.get("indication") or "—",
+            "Isotope / Payload": d.get("isotope") or "—",
+            "Mechanism": d.get("mechanism") or "—",
+            "NCT": "—",
+            "Notes": d.get("source") or "ChEMBL open data",
+            "ChEMBL": d.get("chembl_id") or "—",
+        })
+    return pd.DataFrame(rows)
+
+# Active-target view: curated rows matching gene, plus ChEMBL when curated empty
+_target_match = PIPELINE["Target"].astype(str).str.contains(_GENE, case=False, na=False)
+if _GENE == "FOLH1":
+    _target_match = _target_match | PIPELINE["Target"].astype(str).str.contains("PSMA|FOLH1", case=False, na=False)
+PIPELINE_ACTIVE = PIPELINE[_target_match].copy()
+_chembl_df = _load_chembl_rows(_GENE)
+if PIPELINE_ACTIVE.empty and not _chembl_df.empty:
+    PIPELINE_ACTIVE = _chembl_df.copy()
+    PIPELINE_ACTIVE["Phase_num"] = PIPELINE_ACTIVE["Phase Label"].map(PHASE_ORDER).fillna(0)
+elif not _chembl_df.empty and not _IS_CD46:
+    # additive open-data agents for medium targets
+    extra = _chembl_df.copy()
+    extra["Phase_num"] = extra["Phase Label"].map(PHASE_ORDER).fillna(0)
+    PIPELINE_ACTIVE = pd.concat([PIPELINE_ACTIVE, extra], ignore_index=True)
+
+# Overview swim-lane keeps full curated landscape; agent tabs use active filter
+PIPELINE_VIEW = PIPELINE_ACTIVE if not PIPELINE_ACTIVE.empty else PIPELINE.iloc[0:0]
 
 # ── Page hero ─────────────────────────────────────────────────────────────────
 st.markdown(
     page_hero(
         icon="💊",
         module_name="Drug Pipeline Explorer",
-        purpose="CD46-targeting and RLT therapeutic landscape · ADC · radioimmunotherapy · "
-                "complement inhibitors · clinical trial status",
+        purpose=(
+            f"Active target **{_GENE}** · curated RLT/ADC landscape · "
+            "ChEMBL open activities where sliced"
+        ),
         kpi_chips=[
-            ("Agents Tracked", str(len(PIPELINE))),
-            ("Drug Classes", "3"),
+            ("Active Agents", str(len(PIPELINE_VIEW))),
+            ("Curated Total", str(len(PIPELINE))),
             ("FDA Approved", str(len(PIPELINE[PIPELINE["Phase Label"] == "FDA Approved"]))),
             ("225Ac Programmes", str(len(PIPELINE[PIPELINE["Isotope / Payload"].str.contains("225Ac", na=False)]))),
         ],
@@ -210,25 +267,26 @@ st.markdown(
 
 # ── KPI metric strip ──────────────────────────────────────────────────────────
 m1, m2, m3, m4, m5 = st.columns(5)
-m1.metric("Agents Tracked", len(PIPELINE), "across 3 drug classes")
+m1.metric(f"{_GENE} Agents", len(PIPELINE_VIEW), "curated + ChEMBL")
 m2.metric("CD46-Targeting", len(PIPELINE[PIPELINE["Drug Class"] == "CD46-Targeted"]),
-          "ADC + β-RLT + α-RLT")
+          "case-study curated")
 m3.metric("FDA Approved", len(PIPELINE[PIPELINE["Phase Label"] == "FDA Approved"]),
           "PSMA + complement")
 m4.metric("Modalities", PIPELINE["Modality"].nunique(), "ADC · RLT · mAb")
 m5.metric("225Ac Programmes", len(PIPELINE[PIPELINE["Isotope / Payload"].str.contains("225Ac", na=False)]),
           "alpha-emitter frontier")
+if PIPELINE_VIEW.empty:
+    st.info(f"No curated / ChEMBL pipeline rows for **{_GENE}** yet.")
 st.markdown("---")
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
 tab_overview, tab_cd46, tab_psma, tab_complement, tab_rationale = st.tabs([
     "📊 Pipeline Overview",
-    "🎯 CD46 Agents",
+    f"🎯 {_GENE} Agents" if not _IS_CD46 else "🎯 CD46 Agents",
     "☢️ PSMA Competitive",
     "🧬 Complement Context",
     "🔬 Combination Rationale",
 ])
-
 # ─────────────────────────────────────────────────────────────────────────────
 # TAB 1 — Pipeline Overview (swim-lane chart)
 # ─────────────────────────────────────────────────────────────────────────────
@@ -333,66 +391,45 @@ with tab_overview:
 # TAB 2 — CD46 Agents Detail
 # ─────────────────────────────────────────────────────────────────────────────
 with tab_cd46:
-    st.markdown("#### CD46-Targeting Therapeutic Agents")
-
-    df_cd46 = PIPELINE[PIPELINE["Drug Class"] == "CD46-Targeted"].sort_values(
-        "Phase_num", ascending=False
-    )
-
-    # Phase timeline bar for CD46 agents
-    phase_emoji = {"Preclinical": "🔬", "Phase 1": "🧪", "Phase 2": "⚗️", "FDA Approved": "✅"}
-    for _, row in df_cd46.iterrows():
-        emoji = phase_emoji.get(row["Phase Label"], "🔬")
-        with st.expander(
-            f"{emoji} **{row['Name']}** — {row['Phase Label']} · {row['Developer']}"
-        ):
-            col_left, col_right = st.columns([2, 1])
-            with col_left:
-                st.markdown(f"**Target:** {row['Target']}  |  **Modality:** {row['Modality']}  "
-                            f"|  **Payload / Isotope:** `{row['Isotope / Payload']}`")
-                st.markdown(f"**Indication:** {row['Indication']}")
-                st.markdown("**Mechanism:**")
-                st.markdown(f"> {row['Mechanism']}")
-                if row["Notes"]:
-                    st.success(f"**Clinical significance:** {row['Notes']}")
-            with col_right:
-                st.markdown(f"**Developer:** {row['Developer']}")
-                if row["NCT"] != "—":
-                    st.markdown(f"**NCT:** `{row['NCT']}`")
-                if row["ChEMBL"] != "—":
-                    st.markdown(f"**ChEMBL:** `{row['ChEMBL']}`")
-
-    # 225Ac vs 177Lu vs 131I mechanism comparison
-    st.markdown("---")
-    st.markdown("#### Alpha vs Beta Emitter Comparison — 225Ac vs 177Lu vs 131I")
-    iso_df = pd.DataFrame([
-        {"Property": "Particle type",           "225Ac (alpha)": "Alpha particle",    "177Lu (beta)": "Beta particle",     "131I (beta)": "Beta particle"},
-        {"Property": "Path length in tissue",   "225Ac (alpha)": "40–100 µm",         "177Lu (beta)": "2–3 mm",            "131I (beta)": "0.8 mm"},
-        {"Property": "Cell diameters reached",  "225Ac (alpha)": "2–3 cells",         "177Lu (beta)": "100–200 cells",     "131I (beta)": "40–60 cells"},
-        {"Property": "Linear energy transfer",  "225Ac (alpha)": "~80 keV/µm",        "177Lu (beta)": "~0.2 keV/µm",      "131I (beta)": "~0.2 keV/µm"},
-        {"Property": "DNA double-strand breaks","225Ac (alpha)": "20× vs 177Lu",      "177Lu (beta)": "Baseline",          "131I (beta)": "Comparable"},
-        {"Property": "Best tumour context",     "225Ac (alpha)": "Micromet / bone",   "177Lu (beta)": "Macrometastasis",   "131I (beta)": "Haematological"},
-        {"Property": "CD46 programme",          "225Ac (alpha)": "225Ac-CD46-RLT",    "177Lu (beta)": "None (PSMA: Pluvicto)", "131I (beta)": "BC8-CD46"},
-        {"Property": "Clinical status (CD46)",  "225Ac (alpha)": "Preclinical",       "177Lu (beta)": "Not applicable",    "131I (beta)": "Phase 1"},
-    ])
-    st.dataframe(iso_df, use_container_width=True, hide_index=True)
-
-    st.info(
-        "**Why 225Ac for mCRPC?** Micrometastatic osseous disease in mCRPC consists of small clusters "
-        "of cells where a 2–3 mm beta-particle path overshoots the target. Actinium-225's 40–100 µm range "
-        "matches the tumour cell cluster size — maximising on-target kill and minimising "
-        "bystander toxicity in adjacent normal bone marrow."
-    )
-
-    st.markdown("---")
-    st.markdown("**CD46 Programme Comparison**")
-    cmp = ["Name", "Modality", "Phase Label", "Isotope / Payload", "Indication", "Developer"]
-    st.dataframe(df_cd46[cmp].reset_index(drop=True), use_container_width=True, hide_index=True)
-    st.success(
-        "**Three independent programmes (FOR46, BC8-CD46, 225Ac-CD46) across three distinct "
-        "delivery mechanisms** — all validating CD46 as a tractable surface target for "
-        "antibody-mediated cancer therapy."
-    )
+    st.markdown(f"#### {_GENE}-Targeting Therapeutic Agents")
+    df_cd46 = PIPELINE_VIEW.sort_values("Phase_num", ascending=False) if not PIPELINE_VIEW.empty else PIPELINE.iloc[0:0]
+    if df_cd46.empty:
+        st.info(f"No curated / ChEMBL agents for **{_GENE}**.")
+    else:
+        phase_emoji = {"Preclinical": "🔬", "Phase 1": "🧪", "Phase 2": "⚗️", "FDA Approved": "✅"}
+        for _, row in df_cd46.iterrows():
+            emoji = phase_emoji.get(row["Phase Label"], "🔬")
+            with st.expander(
+                f"{emoji} **{row['Name']}** — {row['Phase Label']} · {row['Developer']}"
+            ):
+                col_left, col_right = st.columns([2, 1])
+                with col_left:
+                    st.markdown(
+                        f"**Target:** {row['Target']}  |  **Modality:** {row['Modality']}  "
+                        f"|  **Payload / Isotope:** `{row['Isotope / Payload']}`"
+                    )
+                    st.markdown(f"**Indication:** {row['Indication']}")
+                    st.markdown("**Mechanism:**")
+                    st.markdown(f"> {row['Mechanism']}")
+                    if row["Notes"]:
+                        st.success(f"**Clinical significance:** {row['Notes']}")
+                with col_right:
+                    st.markdown(f"**Developer:** {row['Developer']}")
+                    if row["NCT"] != "—":
+                        st.markdown(f"**NCT:** `{row['NCT']}`")
+                    if row["ChEMBL"] != "—":
+                        st.markdown(f"**ChEMBL:** `{row['ChEMBL']}`")
+        cmp = ["Name", "Modality", "Phase Label", "Isotope / Payload", "Indication", "Developer"]
+        st.dataframe(df_cd46[cmp].reset_index(drop=True), use_container_width=True, hide_index=True)
+        if _IS_CD46:
+            st.markdown("---")
+            st.markdown("#### Alpha vs Beta Emitter Comparison — 225Ac vs 177Lu vs 131I")
+            iso_df = pd.DataFrame([
+                {"Property": "Particle type", "225Ac (alpha)": "Alpha particle", "177Lu (beta)": "Beta particle", "131I (beta)": "Beta particle"},
+                {"Property": "Path length in tissue", "225Ac (alpha)": "40–100 µm", "177Lu (beta)": "2–3 mm", "131I (beta)": "0.8 mm"},
+                {"Property": "Best tumour context", "225Ac (alpha)": "Micromet / bone", "177Lu (beta)": "Macrometastasis", "131I (beta)": "Haematological"},
+            ])
+            st.dataframe(iso_df, use_container_width=True, hide_index=True)
 
 # ─────────────────────────────────────────────────────────────────────────────
 # TAB 3 — PSMA Competitive Reference

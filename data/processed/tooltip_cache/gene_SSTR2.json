@@ -1,0 +1,17 @@
+{
+  "term_id": "gene:SSTR2",
+  "canonical_name": "SSTR2",
+  "uniprot_id": "P30874",
+  "alphafold_entry_id": "AF-P30874-F1",
+  "alphafold_entry_url": "https://alphafold.ebi.ac.uk/entry/AF-P30874-F1",
+  "summary_short": "Somatostatin receptor 2; NET radioligand / theranostic target.",
+  "alphafold_pae_image_url": "https://alphafold.ebi.ac.uk/files/AF-P30874-F1-predicted_aligned_error_v6.png",
+  "alphafold_pdb_url": "https://alphafold.ebi.ac.uk/files/AF-P30874-F1-model_v6.pdb",
+  "globalMetricValue": 81.31,
+  "raw_entry": {
+    "entryId": "AF-P30874-F1",
+    "uniprotAccession": "P30874",
+    "uniprotDescription": "Somatostatin receptor type 2",
+    "modelCreatedDate": "2025-08-01T00:00:00Z"
+  }
+}

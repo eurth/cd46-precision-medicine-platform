@@ -27,10 +27,15 @@ inject_global_css()
 # ---------------------------------------------------------------------------
 # Research target — PRIMARY control (main area, sticky). Sidebar is a mirror.
 # ---------------------------------------------------------------------------
-from components.targets import render_main_target_bar, render_sidebar_target_selector
+from components.targets import (
+    render_main_target_bar,
+    render_sidebar_target_selector,
+    render_dimension_chrome,
+)
 from components.feedback import render_sidebar_feedback
 
 render_main_target_bar()
+render_dimension_chrome()
 
 with st.sidebar:
     st.markdown(
@@ -56,11 +61,11 @@ with st.sidebar:
     st.markdown('<span></span>', unsafe_allow_html=True)
 
 # ---------------------------------------------------------------------------
-# Navigation — controls the left-nav labels and page routing
+# Navigation — dimension-grouped (all pages retained)
 # ---------------------------------------------------------------------------
 pg = st.navigation(
     {
-        "Overview": [
+        "Home": [
             st.Page(
                 "pages/0_platform_overview.py",
                 title="Platform Overview",
@@ -68,31 +73,39 @@ pg = st.navigation(
                 default=True,
             ),
         ],
-        "Research Modules": [
+        "Target / Cancer": [
             st.Page("pages/1_cd46_expression_atlas.py", title="Expression Atlas", icon="📊"),
+            st.Page("pages/9_competitive_landscape.py", title="Compare Targets", icon="🏆"),
+        ],
+        "Biomarkers": [
+            st.Page("pages/6_biomarker_panel.py", title="Biomarker Panel", icon="🧬"),
+        ],
+        "Proteins": [
+            st.Page("pages/10_ppi_network.py", title="PPI Network Explorer", icon="🕸️"),
+            st.Page("pages/14_cd46_diagnostics.py", title="Diagnostics & Early Detection", icon="🧪"),
+        ],
+        "Patients": [
             st.Page("pages/2_patient_selection.py", title="Patient Selection", icon="🎯"),
+            st.Page("pages/8_patient_eligibility.py", title="Eligibility Scorer", icon="🎯"),
+        ],
+        "Drugs / Safety": [
+            st.Page("pages/11_drug_pipeline.py", title="Drug Pipeline", icon="💊"),
+            st.Page("pages/12_dosimetry_safety.py", title="Dosimetry & Safety Index", icon="⚗️"),
+        ],
+        "Survival": [
             st.Page("pages/3_survival_outcomes.py", title="Survival Outcomes", icon="📈"),
+        ],
+        "Graph / Ask": [
             st.Page(
                 "pages/4_biomedical_knowledge_graph.py",
                 title="Knowledge Graph",
                 icon="🕸️",
             ),
-            st.Page("pages/5_research_assistant.py", title="Research Assistant", icon="🤖"),
-            st.Page("pages/6_biomarker_panel.py", title="Biomarker Panel", icon="🧬"),
             st.Page("pages/7_kg_query_explorer.py", title="KG Query Explorer", icon="🔍"),
+            st.Page("pages/5_research_assistant.py", title="Research Assistant", icon="🤖"),
         ],
-        "Clinical Tools": [
-            st.Page("pages/8_patient_eligibility.py", title="Eligibility Scorer", icon="🎯"),
-            st.Page("pages/9_competitive_landscape.py", title="Compare Targets", icon="🏆"),
-        ],
-        "Biology & Pipeline": [
-            st.Page("pages/10_ppi_network.py", title="PPI Network Explorer", icon="🕸️"),
-            st.Page("pages/11_drug_pipeline.py", title="Drug Pipeline", icon="💊"),
-            st.Page("pages/12_dosimetry_safety.py", title="Dosimetry & Safety Index", icon="⚗️"),
-        ],
-        "Clinical Strategy": [
+        "Strategy": [
             st.Page("pages/13_clinical_strategy_engine.py", title="Clinical Strategy Engine", icon="🔬"),
-            st.Page("pages/14_cd46_diagnostics.py", title="Diagnostics & Early Detection", icon="🧪"),
         ],
         # Zero-width-space key → invisible group header; CSS below hides the link too
         "​": [

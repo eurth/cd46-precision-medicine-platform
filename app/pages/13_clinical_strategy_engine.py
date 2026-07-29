@@ -12,7 +12,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 from components.styles import page_hero
-from components.targets import render_stub_gate, render_case_study_gate
+from components.targets import get_active_symbol, render_stub_gate, render_case_study_gate
 
 # ── Streamlit Cloud secret injection ─────────────────────────────────────────
 for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
@@ -27,6 +27,9 @@ if render_stub_gate(module="Clinical Strategy Engine"):
 if render_case_study_gate(module="Clinical Strategy Engine"):
     st.stop()
 
+_GENE = get_active_symbol()
+_PREFIX = _GENE.lower()
+_IS_CD46 = _GENE == "CD46"
 # ── Theme ─────────────────────────────────────────────────────────────────────
 _BG     = "#0D1829"
 _LINE   = "#16243C"
@@ -81,23 +84,26 @@ def get_driver():
 
 
 @st.cache_data(ttl=3600)
-def load_kg_stats() -> dict:
+def load_kg_stats(symbol: str) -> dict:
     driver = get_driver()
     if not driver:
         return {}
     stats = {}
     try:
         with driver.session() as s:
-            r = s.run("""
+            r = s.run(
+                """
                 MATCH (t:ClinicalTrial)
-                WHERE t.target = 'CD46' OR t.title CONTAINS 'CD46' OR t.title CONTAINS 'FOR46'
-                   OR t.title CONTAINS 'YS5' OR t.title CONTAINS 'FG-3246'
+                WHERE t.target = $sym OR toLower(t.title) CONTAINS toLower($sym)
                 RETURN t.nct_id AS nct, t.title AS title, t.phase AS phase,
                        t.status AS status, t.enrollment_count AS enrolled,
                        t.start_date AS start, t.primary_completion_date AS completion,
                        t.sponsor AS sponsor
                 ORDER BY t.phase
-            """)
+                LIMIT 50
+                """,
+                sym=symbol,
+            )
             stats["cd46_trials"] = [dict(rec) for rec in r]
             r2 = s.run("""
                 MATCH (pg:PatientGroup)
@@ -122,10 +128,10 @@ def load_kg_stats() -> dict:
 
 
 @st.cache_data
-def load_survival():
+def load_survival(symbol: str):
     for fp in [
-        Path("data/processed/cd46_survival_results.csv"),
-        Path(__file__).resolve().parents[2] / "data/processed/cd46_survival_results.csv",
+        Path(f"data/processed/{symbol.lower()}_survival_results.csv"),
+        Path(__file__).resolve().parents[2] / f"data/processed/{symbol.lower()}_survival_results.csv",
     ]:
         if fp.exists():
             return pd.read_csv(fp)
@@ -133,20 +139,24 @@ def load_survival():
 
 
 @st.cache_data
-def load_expression():
+def load_expression(symbol: str):
     for fp in [
-        Path("data/processed/cd46_by_cancer.csv"),
-        Path(__file__).resolve().parents[2] / "data/processed/cd46_by_cancer.csv",
+        Path(f"data/processed/{symbol.lower()}_by_cancer.csv"),
+        Path(__file__).resolve().parents[2] / f"data/processed/{symbol.lower()}_by_cancer.csv",
     ]:
         if fp.exists():
             return pd.read_csv(fp)
     return pd.DataFrame()
 
 
-surv_df  = load_survival()
-expr_df  = load_expression()
-kg_stats = load_kg_stats()
-
+surv_df  = load_survival(_GENE)
+expr_df  = load_expression(_GENE)
+kg_stats = load_kg_stats(_GENE)
+if not _IS_CD46:
+    st.info(
+        f"Stages 2–5 IND narrative is CD46 case-study depth. "
+        f"Stage charts use **{_GENE}** expression/survival/trials where available."
+    )
 # ── Defaults for missing KG / CSV ─────────────────────────────────────────────
 mcrpc_n   = kg_stats.get("mcrpc_n", 579)
 mcrpc_os  = kg_stats.get("mcrpc_mean_os", 24.0)

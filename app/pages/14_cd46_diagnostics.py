@@ -21,7 +21,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 from components.styles import page_hero
-from components.targets import render_stub_gate, render_case_study_gate
+from components.targets import get_active_symbol, render_stub_gate, render_case_study_gate
 
 # ── Streamlit Cloud secret injection ─────────────────────────────────────────
 for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
@@ -36,6 +36,9 @@ if render_stub_gate(module="Diagnostics & Early Detection"):
 if render_case_study_gate(module="Diagnostics & Early Detection"):
     st.stop()
 
+_GENE = get_active_symbol()
+_PREFIX = _GENE.lower()
+_IS_CD46 = _GENE == "CD46"
 # ── Theme ─────────────────────────────────────────────────────────────────────
 _BG     = "#0D1829"
 _LINE   = "#16243C"
@@ -135,15 +138,19 @@ def load_kg_pet_trials() -> pd.DataFrame:
         return pd.DataFrame()
 
 
-gtex_df    = load_csv("gtex_cd46_normal.csv")
-clinvar_df = load_csv("clinvar_cd46_variants.csv")
-mut_df     = load_csv("cd46_mutations_by_cancer.csv")
-hpa_df     = load_csv("hpa_cd46_protein.csv")
+gtex_df    = load_csv(f"gtex_{_PREFIX}_normal.csv")
+clinvar_df = load_csv(f"clinvar_{_PREFIX}_variants.csv")
+mut_df     = load_csv(f"{_PREFIX}_mutations_by_cancer.csv")
+hpa_df     = load_csv(f"hpa_{_PREFIX}_protein.csv")
+if hpa_df.empty:
+    hpa_df = load_csv(f"hpa_{_PREFIX}_protein_intensity.csv")
 
-# Apply fallbacks
-if gtex_df.empty:
+# Apply CD46-only fallbacks — never for other genes
+if gtex_df.empty and _IS_CD46:
     gtex_df = _GTEX_FALLBACK
-if mut_df.empty:
+elif gtex_df.empty:
+    st.info(f"No GTEx slice for **{_GENE}** (`gtex_{_PREFIX}_normal.csv`).")
+if mut_df.empty and _IS_CD46:
     mut_df = _MUTATION_FALLBACK
 
 # ── Page hero ─────────────────────────────────────────────────────────────────
@@ -151,13 +158,15 @@ st.markdown(
     page_hero(
         icon="🔬",
         module_name="Diagnostics & Early Detection",
-        purpose="Evidence framework · CD46 from biomarker discovery to clinical companion diagnostic · "
-                "GTEx · ClinVar · cBioPortal · YS5 theranostic PET",
+        purpose=(
+            f"Evidence framework · **{_GENE}** biomarker / CDx lane · "
+            "GTEx · ClinVar · cBioPortal · theranostic PET"
+        ),
         kpi_chips=[
+            ("Active Target", _GENE),
             ("GTEx Tissues", str(len(gtex_df))),
-            ("ClinVar Variants", "500"),
-            ("IHC Tissues", "81"),
-            ("PET Trials Active", "2"),
+            ("ClinVar", str(len(clinvar_df)) if not clinvar_df.empty else ("500" if _IS_CD46 else "—")),
+            ("IHC / Intensity", str(len(hpa_df)) if not hpa_df.empty else "—"),
         ],
         source_badges=["HPA", "TCGA", "ClinicalTrials", "GTEx"],
     ),
@@ -188,111 +197,84 @@ tab_gtex, tab_pet, tab_ihc, tab_mut, tab_lbx, tab_early, tab_cobx = st.tabs([
 # TAB 1 — GTEx Normal-Tissue Safety
 # ═══════════════════════════════════════════════════════════════════════════════
 with tab_gtex:
-    st.markdown("#### CD46 mRNA Expression in Normal Human Tissues — GTEx v8")
+    st.markdown(f"#### {_GENE} mRNA Expression in Normal Human Tissues — GTEx v8")
     st.caption(
-        "Understanding CD46 in normal tissues predicts on-target/off-tumour toxicity for 225Ac-CD46 RLT. "
+        f"Understanding {_GENE} in normal tissues predicts on-target/off-tumour toxicity. "
         "Lower normal-tissue expression = wider therapeutic window."
     )
-
-    g1, g2, g3, g4 = st.columns(4)
-    g1.metric("Tissues Profiled", len(gtex_df), "GTEx v8")
-
-    idx_max = gtex_df["median_tpm"].idxmax()
-    g2.metric("Highest Normal Tissue", f"{int(gtex_df['median_tpm'].max())} TPM",
-              gtex_df.loc[idx_max, "tissue_site_detail"] if "tissue_site_detail" in gtex_df.columns else "")
-
-    prostate_row = gtex_df[gtex_df["tissue_site_detail"].str.lower().str.contains("prostate", na=False)]
-    g3.metric("Prostate (normal)", f"{int(prostate_row['median_tpm'].values[0])} TPM" if len(prostate_row) else "~88 TPM",
-              "GTEx healthy donors")
-
-    brain_rows = gtex_df[gtex_df["tissue_site"].str.lower().str.contains("brain", na=False)]
-    g4.metric("Brain (lowest, safest)", f"~{int(brain_rows['median_tpm'].min())} TPM" if len(brain_rows) else "~12 TPM",
-              "critical safety margin")
-
-    st.markdown("---")
-
-    df_sorted = gtex_df.sort_values("median_tpm", ascending=True).copy()
-
-    def tissue_colour(row):
-        ts = str(row.get("tissue_site", "")).lower()
-        td = str(row.get("tissue_site_detail", "")).lower()
-        if "brain" in td:             return _INDIGO
-        if "kidney" in ts:            return _GREEN
-        if "liver" in ts:             return _ORANGE
-        if "prostate" in td:          return _RED
-        if "lung" in td:              return _TEAL
-        if "heart" in td:             return _ROSE
-        if "blood" in td or "marrow" in td: return _AMBER
-        return _SLATE
-
-    df_sorted["colour"] = df_sorted.apply(tissue_colour, axis=1)
-
-    bar_height = max(500, len(df_sorted) * 16)
-    fig_gtex = go.Figure(go.Bar(
-        y=df_sorted["tissue_site_detail"],
-        x=df_sorted["median_tpm"],
-        orientation="h",
-        marker=dict(color=df_sorted["colour"], line=dict(color=_BG, width=0.5)),
-        text=[f"{v:.0f}" for v in df_sorted["median_tpm"]],
-        textposition="outside",
-        textfont=dict(size=9, color=_TEXT),
-        customdata=df_sorted[["n_samples", "q1_tpm", "q3_tpm"]].values,
-        hovertemplate="<b>%{y}</b><br>Median: %{x:.1f} TPM<br>"
-                      "IQR: %{customdata[1]:.1f}–%{customdata[2]:.1f}<br>"
-                      "n=%{customdata[0]}<extra></extra>",
-    ))
-    fig_gtex.update_layout(
-        **_PLOTLY_LAYOUT,
-        title=dict(text="CD46 mRNA — Median TPM Across Normal Tissues (GTEx v8)", font=dict(color=_LIGHT, size=13)),
-        xaxis=dict(title="Median TPM", gridcolor=_LINE, color=_TEXT),
-        yaxis=dict(title=None, color=_LIGHT, autorange=True),
-        height=bar_height,
-        margin=dict(l=10, r=80, t=40, b=40),
-        hoverlabel=dict(bgcolor=_LINE, font=dict(color=_LIGHT)),
-    )
-    st.plotly_chart(fig_gtex, use_container_width=True)
-
-    st.markdown("---")
-    c1, c2 = st.columns(2)
-    with c1:
-        st.markdown("**Low-CD46 Tissues (Safe Bystanders for RLT)**")
-        st.markdown("""
-- **Brain regions: 12–15 TPM** ← critical CNS safety margin
-- Skeletal muscle: ~55 TPM
-- Testis: ~48 TPM
-
-Alpha particle range (50–80 µm) combined with low CNS CD46 provides
-a biological safety buffer for CNS metastasis treatment.
-        """)
-        st.success(
-            "**Brain is the safest normal tissue for 225Ac-CD46.** "
-            "Low GTEx TPM + blood-brain barrier excluded from alpha particle reach "
-            "provides a double layer of CNS protection."
+    if gtex_df.empty:
+        st.info(f"No GTEx data for {_GENE}.")
+    else:
+        g1, g2, g3, g4 = st.columns(4)
+        g1.metric("Tissues Profiled", len(gtex_df), "GTEx v8")
+        idx_max = gtex_df["median_tpm"].idxmax()
+        g2.metric(
+            "Highest Normal Tissue",
+            f"{int(gtex_df['median_tpm'].max())} TPM",
+            gtex_df.loc[idx_max, "tissue_site_detail"] if "tissue_site_detail" in gtex_df.columns else "",
         )
-    with c2:
-        st.markdown("**High-CD46 Normal Tissues (Require Dosimetry Monitoring)**")
-        st.markdown("""
-- **Kidney Cortex: ~155 TPM** ← primary dose-limiting organ
-- Adrenal Gland: ~138 TPM
-- Minor Salivary Gland: ~134 TPM
-- Lung: ~121 TPM
-
-Adrenal, salivary, and lung exposures should be monitored in Phase I
-dosimetry studies. Consistent with HPA H-score data (Page 12).
-        """)
-        st.warning(
-            "**Kidney and adrenal are the highest-expressing normal tissues** — "
-            "requiring renal function monitoring (Cr/eGFR) in Phase I dose escalation, "
-            "analogous to the 177Lu-PSMA-617 (Pluvicto) Phase I DLT protocol."
+        prostate_row = gtex_df[gtex_df["tissue_site_detail"].str.lower().str.contains("prostate", na=False)] if "tissue_site_detail" in gtex_df.columns else gtex_df.iloc[0:0]
+        g3.metric(
+            "Prostate (normal)",
+            f"{int(prostate_row['median_tpm'].values[0])} TPM" if len(prostate_row) else "—",
+            "GTEx healthy donors",
+        )
+        brain_rows = gtex_df[gtex_df["tissue_site"].str.lower().str.contains("brain", na=False)] if "tissue_site" in gtex_df.columns else gtex_df.iloc[0:0]
+        g4.metric(
+            "Brain (lowest, safest)",
+            f"~{int(brain_rows['median_tpm'].min())} TPM" if len(brain_rows) else "—",
+            "critical safety margin",
         )
 
-    with st.expander("📥 Full GTEx Data Table"):
-        st.dataframe(
-            gtex_df.sort_values("median_tpm", ascending=False)
-            [["tissue_site_detail", "tissue_site", "median_tpm", "mean_tpm",
-              "q1_tpm", "q3_tpm", "n_samples"]],
-            use_container_width=True, hide_index=True,
+        st.markdown("---")
+
+        df_sorted = gtex_df.sort_values("median_tpm", ascending=True).copy()
+
+        def tissue_colour(row):
+            ts = str(row.get("tissue_site", "")).lower()
+            td = str(row.get("tissue_site_detail", "")).lower()
+            if "brain" in td:             return _INDIGO
+            if "kidney" in ts:            return _GREEN
+            if "liver" in ts:             return _ORANGE
+            if "prostate" in td:          return _RED
+            if "lung" in td:              return _TEAL
+            if "heart" in td:             return _ROSE
+            if "blood" in td or "marrow" in td: return _AMBER
+            return _SLATE
+
+        df_sorted["colour"] = df_sorted.apply(tissue_colour, axis=1)
+
+        bar_height = max(500, len(df_sorted) * 16)
+        y_col = "tissue_site_detail" if "tissue_site_detail" in df_sorted.columns else "tissue_site"
+        fig_gtex = go.Figure(go.Bar(
+            y=df_sorted[y_col],
+            x=df_sorted["median_tpm"],
+            orientation="h",
+            marker=dict(color=df_sorted["colour"], line=dict(color=_BG, width=0.5)),
+            text=[f"{v:.0f}" for v in df_sorted["median_tpm"]],
+            textposition="outside",
+            textfont=dict(size=9, color=_TEXT),
+        ))
+        fig_gtex.update_layout(
+            **_PLOTLY_LAYOUT,
+            title=dict(text=f"{_GENE} mRNA — Median TPM Across Normal Tissues (GTEx v8)", font=dict(color=_LIGHT, size=13)),
+            xaxis=dict(title="Median TPM", gridcolor=_LINE, color=_TEXT),
+            yaxis=dict(title=None, color=_LIGHT, autorange=True),
+            height=bar_height,
+            margin=dict(l=10, r=80, t=40, b=40),
         )
+        st.plotly_chart(fig_gtex, use_container_width=True)
+        with st.expander("📥 Full GTEx Data Table"):
+            st.dataframe(gtex_df.sort_values("median_tpm", ascending=False), use_container_width=True, hide_index=True)
+        if _IS_CD46:
+            st.markdown("---")
+            c1, c2 = st.columns(2)
+            with c1:
+                st.markdown("**Low-CD46 Tissues (Safe Bystanders for RLT)**")
+                st.success("**Brain is the safest normal tissue for 225Ac-CD46.**")
+            with c2:
+                st.markdown("**High-CD46 Normal Tissues (Require Dosimetry Monitoring)**")
+                st.warning("**Kidney and adrenal are the highest-expressing normal tissues.**")
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # TAB 2 — Theranostic PET Imaging

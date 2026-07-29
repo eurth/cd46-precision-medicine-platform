@@ -9,7 +9,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 from components.styles import page_hero
-from components.targets import get_active_symbol, render_stub_gate
+from components.targets import get_active_symbol, list_symbols, render_stub_gate
 
 if render_stub_gate(module="Survival Outcomes"):
     st.stop()
@@ -43,33 +43,94 @@ _PLOTLY_LAYOUT = dict(
 @st.cache_data
 def load_survival(symbol: str):
     p = Path(f"data/processed/{symbol.lower()}_survival_results.csv")
-    return pd.read_csv(p) if p.exists() else None
+    if not p.exists():
+        return None
+    df = pd.read_csv(p)
+    df = df.copy()
+    df["gene_symbol"] = symbol
+    return df
 
-survival_df = load_survival(_GENE)
+
+@st.cache_data
+def load_survival_multi(symbols: tuple[str, ...]) -> pd.DataFrame:
+    frames = []
+    for sym in symbols:
+        df = load_survival(sym)
+        if df is not None and not df.empty:
+            frames.append(df)
+    return pd.concat(frames, ignore_index=True) if frames else pd.DataFrame()
+
+
+# Interactive filters (Sprint 3) — defaults to active research target
+_all_syms = list_symbols()
+_default_genes = [_GENE] if _GENE in _all_syms else _all_syms[:1]
+fc1, fc2, fc3 = st.columns([2, 2, 1])
+with fc1:
+    _selected_genes = st.multiselect(
+        "Gene markers",
+        options=_all_syms,
+        default=_default_genes,
+        key="surv_genes",
+        help="Load Cox/log-rank results for one or more registry genes.",
+    )
+with fc2:
+    _endpoint_opts = ["All", "OS", "PFI", "DSS", "DFI"]
+    _endpoint = st.selectbox("Endpoint", _endpoint_opts, index=0, key="surv_endpoint")
+with fc3:
+    st.caption("Filters apply to all three tabs below.")
+
+if not _selected_genes:
+    _selected_genes = [_GENE]
+
+survival_df = load_survival_multi(tuple(_selected_genes))
+_primary_gene = _selected_genes[0] if len(_selected_genes) == 1 else _GENE
 
 # ---------------------------------------------------------------------------
 # Prepare sub-frames: Cox rows and log-rank rows
 # ---------------------------------------------------------------------------
-if survival_df is not None:
+if survival_df is not None and not survival_df.empty:
+    if _endpoint != "All" and "endpoint" in survival_df.columns:
+        survival_df = survival_df[
+            survival_df["endpoint"].astype(str).str.upper() == _endpoint
+        ]
+    _cancers = sorted(survival_df["cancer_type"].dropna().unique().tolist())
+    _sel_cancers = st.multiselect(
+        "Cancers",
+        options=_cancers,
+        default=_cancers,
+        key="surv_cancers",
+    )
+    if _sel_cancers:
+        survival_df = survival_df[survival_df["cancer_type"].isin(_sel_cancers)]
+
     cox_df  = survival_df[survival_df["hazard_ratio"].notna()].copy()
     logr_df = survival_df[survival_df["log_rank_p"].notna() & survival_df["n_high"].notna()].copy()
 
-    n_cancers = cox_df["cancer_type"].nunique()
-    n_sig     = int((cox_df["p_value"] < 0.05).sum())
-    top_pos   = cox_df[cox_df["hazard_ratio"] > 1].nsmallest(1, "p_value")
-    top_neg   = cox_df[cox_df["hazard_ratio"] < 1].nsmallest(1, "p_value")
+    n_cancers = int(cox_df["cancer_type"].nunique()) if not cox_df.empty else 0
+    n_sig     = int((cox_df["p_value"] < 0.05).sum()) if not cox_df.empty else 0
+    top_pos   = cox_df[cox_df["hazard_ratio"] > 1].nsmallest(1, "p_value") if not cox_df.empty else cox_df
+    top_neg   = cox_df[cox_df["hazard_ratio"] < 1].nsmallest(1, "p_value") if not cox_df.empty else cox_df
     top_pos_txt = (
         f"{top_pos.iloc[0]['cancer_type']} HR={top_pos.iloc[0]['hazard_ratio']:.2f}"
-        if len(top_pos) > 0 else "CESC HR=3.42"
+        if len(top_pos) > 0 else "—"
     )
     top_neg_txt = (
         f"{top_neg.iloc[0]['cancer_type']} HR={top_neg.iloc[0]['hazard_ratio']:.2f}"
-        if len(top_neg) > 0 else "SKCM HR=0.59"
+        if len(top_neg) > 0 else "—"
     )
+    _GENE_LABEL = ",".join(_selected_genes) if len(_selected_genes) > 1 else _primary_gene
 else:
     cox_df = logr_df = pd.DataFrame()
-    n_cancers, n_sig = 24, 4
-    top_pos_txt, top_neg_txt = "CESC HR=3.42", "SKCM HR=0.59"
+    n_cancers, n_sig = 0, 0
+    top_pos_txt, top_neg_txt = "—", "—"
+    _GENE_LABEL = _primary_gene
+    st.warning(
+        f"No survival CSV for: {', '.join(_selected_genes)}. "
+        f"Expected `data/processed/{{gene}}_survival_results.csv`."
+    )
+
+# Use label in hero (keep _GENE for CD46 vignette branches)
+_DISPLAY = _GENE_LABEL
 
 # ---------------------------------------------------------------------------
 # Page hero
@@ -80,7 +141,7 @@ st.markdown(
         module_name="Survival Outcomes",
         purpose=(
             f"Cox proportional hazard analysis · TCGA · "
-            f"{_GENE}-High vs {_GENE}-Low OS & PFI · Forest plot + significance table"
+            f"{_DISPLAY}-High vs {_DISPLAY}-Low · Forest plot + significance table"
         ),
         kpi_chips=[
             ("Cancers Tested", str(n_cancers)),
@@ -96,9 +157,15 @@ st.markdown(
 k1, k2, k3, k4 = st.columns(4)
 k1.metric("Cancers Tested", str(n_cancers), "TCGA OS + PFI endpoints")
 k2.metric("Cox Significant", str(n_sig), "p < 0.05 (Cox PH)")
-k3.metric("Strongest Positive", top_pos_txt, f"{_GENE}-High → worse OS")
-k4.metric("Strongest Inverse", top_neg_txt, f"{_GENE}-High → better OS")
+k3.metric("Strongest Positive", top_pos_txt, f"{_DISPLAY}-High → worse OS")
+k4.metric("Strongest Inverse", top_neg_txt, f"{_DISPLAY}-High → better OS")
 st.markdown("---")
+
+try:
+    from components.tooltip_generator import render_entity_popover
+    render_entity_popover(_DISPLAY.split(",")[0].strip(), label=f"🧬 {_DISPLAY.split(',')[0].strip()} structure")
+except Exception:
+    pass
 
 # ---------------------------------------------------------------------------
 # Tabs
@@ -111,9 +178,9 @@ tab1, tab2, tab3 = st.tabs([
 
 # ── Tab 1 : Forest Plot ──────────────────────────────────────────────────────
 with tab1:
-    st.markdown(f"#### Cox PH Forest Plot — {_GENE}-High vs {_GENE}-Low")
+    st.markdown(f"#### Cox PH Forest Plot — {_DISPLAY}-High vs {_DISPLAY}-Low")
     st.caption(
-        f"Hazard ratio > 1 → {_GENE}-High predicts worse survival.  "
+        f"Hazard ratio > 1 → high expression predicts worse survival.  "
         "Error bars = 95% CI.  Stars = p < 0.05.  "
         "Dashed line = HR 1.0 (null hypothesis)."
     )
@@ -122,18 +189,9 @@ with tab1:
     fp_ep = ep_col.radio("Endpoint", ["OS", "PFI"], horizontal=True, key="fp_ep")
 
     if cox_df.empty:
-        st.info("Survival data not available — run `python scripts/run_pipeline.py --mode analyze`.")
-        st.markdown(
-            """
-**Expected findings (literature-supported):**
-
-| Cancer | HR | 95% CI | p-value |
-|--------|----|--------|---------|
-| CESC | 3.42 | 1.60–7.31 | 0.0015 |
-| LGG | 1.94 | 1.11–3.41 | 0.021 |
-| KIRC | 0.44 | 0.22–0.87 | 0.018 |
-| SKCM | 0.59 | 0.43–0.80 | 0.0007 |
-"""
+        st.info(
+            "No Cox rows for the current gene/cancer/endpoint filters. "
+            "Adjust filters above or ensure `*_survival_results.csv` exists."
         )
     else:
         fp_data = cox_df[cox_df["endpoint"] == fp_ep].sort_values("hazard_ratio")
@@ -148,7 +206,13 @@ with tab1:
             is_sig = (not pd.isna(pv)) and (pv < 0.05)
             col  = (_RED if (is_sig and hr > 1) else
                     _GREEN if (is_sig and hr < 1) else _SLATE)
-            label = f"{row['cancer_type']} ★" if is_sig else row["cancer_type"]
+            label = (
+                f"{row.get('gene_symbol', _DISPLAY)} · {row['cancer_type']}"
+                if len(_selected_genes) > 1
+                else row["cancer_type"]
+            )
+            if is_sig:
+                label = f"{label} ★"
 
             # CI line
             fig_fp.add_shape(
@@ -163,7 +227,7 @@ with tab1:
                 marker=dict(color=col, size=10, symbol="square"),
                 showlegend=False,
                 hovertemplate=(
-                    f"<b>{row['cancer_type']}</b><br>"
+                    f"<b>{label}</b><br>"
                     f"HR: {hr:.3f}<br>"
                     f"95% CI: {lo:.3f}–{hi:.3f}<br>"
                     f"p-value: {pv:.4f}<extra></extra>"
@@ -172,19 +236,22 @@ with tab1:
 
         fig_fp.add_vline(x=1.0, line_dash="dash", line_color=_MID, line_width=1.5)
 
-        y_labels = [
-            f"{row['cancer_type']} ★" if (
-                not pd.isna(row.get("p_value", 1.0)) and row.get("p_value", 1.0) < 0.05
-            ) else row["cancer_type"]
-            for _, row in fp_data.iterrows()
-        ]
+        y_labels = []
+        for _, row in fp_data.iterrows():
+            base = (
+                f"{row.get('gene_symbol', _DISPLAY)} · {row['cancer_type']}"
+                if len(_selected_genes) > 1
+                else row["cancer_type"]
+            )
+            sig = (not pd.isna(row.get("p_value", 1.0)) and row.get("p_value", 1.0) < 0.05)
+            y_labels.append(f"{base} ★" if sig else base)
 
         fig_fp.update_layout(
             **_PLOTLY_LAYOUT,
             height=max(380, len(fp_data) * 22),
-            margin=dict(l=180, r=20, t=20, b=40),
+            margin=dict(l=200, r=20, t=20, b=40),
             xaxis=dict(
-                title=f"Hazard Ratio (log scale) — {_GENE}-High vs {_GENE}-Low",
+                title=f"Hazard Ratio (log scale) — {_DISPLAY}-High vs Low",
                 gridcolor=_LINE, color=_TEXT, type="log",
             ),
             yaxis=dict(
@@ -197,8 +264,8 @@ with tab1:
         st.plotly_chart(fig_fp, use_container_width=True)
 
         leg1, leg2, leg3 = st.columns(3)
-        leg1.error(f"🔴 Significant — {_GENE}-High → worse outcome (p<0.05)")
-        leg2.success(f"🟢 Significant — {_GENE}-High → better outcome (p<0.05)")
+        leg1.error(f"🔴 Significant — {_DISPLAY}-High → worse outcome (p<0.05)")
+        leg2.success(f"🟢 Significant — {_DISPLAY}-High → better outcome (p<0.05)")
         leg3.info("⬜ Not significant at p<0.05")
 
         st.markdown("---")
@@ -250,26 +317,34 @@ with tab2:
 
             tbl_data["Sig."] = tbl_data["p_value"].apply(_sig_stars)
 
-            disp = tbl_data[[
-                "cancer_type", "endpoint", "hazard_ratio",
-                "hr_lower_95", "hr_upper_95", "p_value", "Sig."
-            ]].rename(columns={
+            _cols = ["cancer_type", "endpoint", "hazard_ratio",
+                     "hr_lower_95", "hr_upper_95", "p_value", "Sig."]
+            _rename = {
                 "cancer_type":  "Cancer",
                 "endpoint":     "Endpoint",
                 "hazard_ratio": "HR",
                 "hr_lower_95":  "95% CI low",
                 "hr_upper_95":  "95% CI high",
                 "p_value":      "p-value",
-            }).copy()
+            }
+            if "gene_symbol" in tbl_data.columns and len(_selected_genes) > 1:
+                _cols = ["gene_symbol"] + _cols
+                _rename["gene_symbol"] = "Gene"
+            disp = tbl_data[_cols].rename(columns=_rename).copy()
             for col in ["HR", "95% CI low", "95% CI high"]:
                 disp[col] = disp[col].round(3)
             disp["p-value"] = disp["p-value"].round(4)
 
             st.dataframe(disp, use_container_width=True, height=460, hide_index=True)
+            _dl = (
+                "multi_gene_cox_survival_results.csv"
+                if len(_selected_genes) > 1
+                else f"{_primary_gene.lower()}_cox_survival_results.csv"
+            )
             st.download_button(
                 "⬇ Download Cox results CSV",
                 data=tbl_data.to_csv(index=False),
-                file_name=f"{_GENE.lower()}_cox_survival_results.csv",
+                file_name=_dl,
                 mime="text/csv",
             )
 

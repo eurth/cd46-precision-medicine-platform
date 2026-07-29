@@ -289,7 +289,7 @@ with tab_chat:
     # Chat input
     # -----------------------------------------------------------------------
     if prompt := st.chat_input(
-        "Ask about CD46 expression, patient eligibility, drugs, trials, mechanisms..."
+        "Ask about expression, patient eligibility, drugs, trials, mechanisms for the active target..."
     ):
         _run_question(prompt)
 

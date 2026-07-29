@@ -97,9 +97,11 @@ st.markdown(
 )
 
 st.info(
-    "**How to start:** open **KG Query Explorer** or **Research Assistant** for graph-backed "
-    "queries. CD46-focused clinical modules below are the first **case study** — more surface "
-    "targets (PSMA, FAP, SSTR2, GRPR) are registered and will load as data slices land."
+    "**How to start:** pick a **Research target** above, then enter by **dimension** "
+    "(Target/Cancer, Biomarkers, Patients, Drugs, Survival, Graph, Ask AI). "
+    "All five registry markers (CD46, FOLH1/PSMA, FAP, SSTR2, GRPR) are open — "
+    "CD46 remains the deepest **case-study** narrative; medium targets use the "
+    "open-data pack (expression, survival, trials, drugs, GTEx, DepMap)."
 )
 
 

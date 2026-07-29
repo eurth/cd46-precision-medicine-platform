@@ -1,0 +1,17 @@
+{
+  "term_id": "gene:GRPR",
+  "canonical_name": "GRPR",
+  "uniprot_id": "P30550",
+  "alphafold_entry_id": "AF-P30550-F1",
+  "alphafold_entry_url": "https://alphafold.ebi.ac.uk/entry/AF-P30550-F1",
+  "summary_short": "Gastrin-releasing peptide receptor; GPCR radioligand target.",
+  "alphafold_pae_image_url": "https://alphafold.ebi.ac.uk/files/AF-P30550-F1-predicted_aligned_error_v6.png",
+  "alphafold_pdb_url": "https://alphafold.ebi.ac.uk/files/AF-P30550-F1-model_v6.pdb",
+  "globalMetricValue": 78.5,
+  "raw_entry": {
+    "entryId": "AF-P30550-F1",
+    "uniprotAccession": "P30550",
+    "uniprotDescription": "Gastrin-releasing peptide receptor",
+    "modelCreatedDate": "2025-08-01T00:00:00Z"
+  }
+}

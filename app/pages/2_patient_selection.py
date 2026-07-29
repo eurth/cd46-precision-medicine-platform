@@ -10,12 +10,16 @@ import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
 from components.styles import page_hero
-from components.targets import render_stub_gate, render_case_study_gate
+from components.targets import get_active_symbol, render_stub_gate, render_case_study_gate
 
 if render_stub_gate(module="Patient Selection"):
     st.stop()
 if render_case_study_gate(module="Patient Selection"):
     st.stop()
+
+_GENE = get_active_symbol()
+_PREFIX = _GENE.lower()
+_IS_CD46 = _GENE == "CD46"
 
 # ---------------------------------------------------------------------------
 # Theme constants (consistent with page 1)
@@ -47,6 +51,7 @@ _PLOTLY_LAYOUT = dict(
 # ---------------------------------------------------------------------------
 @st.cache_data
 def load_eligibility():
+    # ponytail: patient_groups is CD46 case-study depth only
     p = Path("data/processed/patient_groups.csv")
     return pd.read_csv(p) if p.exists() else None
 
@@ -55,20 +60,26 @@ def load_combination():
     p = Path("data/processed/cd46_combination_biomarkers.csv")
     return pd.read_csv(p) if p.exists() else None
 
+@st.cache_data
+def load_by_cancer(symbol: str):
+    p = Path(f"data/processed/{symbol.lower()}_by_cancer.csv")
+    return pd.read_csv(p) if p.exists() else None
+
 @st.cache_data(show_spinner=False)
 def load_genie():
     base = Path(__file__).resolve().parents[2] / "data" / "processed"
     p = base / "genie_full_cohort.parquet"
     return pd.read_parquet(p) if p.exists() else pd.DataFrame()
 
-eligibility_df  = load_eligibility()
-combination_df  = load_combination()
+eligibility_df  = load_eligibility() if _IS_CD46 else None
+combination_df  = load_combination() if _IS_CD46 else None
+by_cancer_df    = load_by_cancer(_GENE)
 
 # ---------------------------------------------------------------------------
 # Derived KPIs (from eligibility data)
 # ---------------------------------------------------------------------------
-prad75_pct = 44.1
-prad75_n   = 219
+prad75_pct = 44.1 if _IS_CD46 else None
+prad75_n   = 219 if _IS_CD46 else None
 if eligibility_df is not None:
     sub = eligibility_df[
         (eligibility_df["cancer_type"] == "PRAD") &
@@ -81,17 +92,18 @@ if eligibility_df is not None:
 # ---------------------------------------------------------------------------
 # Page hero
 # ---------------------------------------------------------------------------
+_prad_kpi = f"{prad75_pct}%" if prad75_pct is not None else "—"
 st.markdown(
     page_hero(
         icon="🎯",
         module_name="Patient Selection",
         purpose=(
-            "AACR GENIE 271,837 real-world patients · 8-segment molecular landscape · "
-            "CD46 eligibility thresholds · PSMA & AR therapeutic context"
+            f"Active target **{_GENE}** · AACR GENIE real-world landscape · "
+            f"{_GENE} eligibility where sliced · PSMA & AR therapeutic context"
         ),
         kpi_chips=[
             ("GENIE Patients", "271,837"),
-            ("PRAD CD46-High", f"{prad75_pct}%"),
+            (f"PRAD {_GENE}-High", _prad_kpi),
             ("PSMA-low / Unmet", "~35%"),
             ("AR Blockade Effect", "↑ 2–3×"),
         ],
@@ -103,9 +115,20 @@ st.markdown(
 # KPI strip
 k1, k2, k3, k4 = st.columns(4)
 k1.metric("GENIE Patients", "271,837", "Real-world sequencing registry")
-k2.metric("PRAD CD46-High", f"{prad75_pct}%", "at 75th percentile threshold")
+k2.metric(
+    f"PRAD {_GENE}-High",
+    _prad_kpi,
+    "at 75th percentile threshold" if _IS_CD46 else f"eligibility CSV is CD46 case-study depth",
+)
 k3.metric("PSMA-Ineligible", "~35%", "Unmet mCRPC population")
-k4.metric("AR Blockade Effect", "↑ 2–3×", "CD46 post-castration")
+k4.metric("AR Blockade Effect", "↑ 2–3×", "CD46 post-castration (case study)")
+if not _IS_CD46:
+    st.info(
+        f"Eligibility thresholds / combination biomarkers are CD46 case-study slices. "
+        f"GENIE molecular landscape stays open for all targets. "
+        f"Use Expression / Survival for **{_GENE}** open-data depth"
+        + (f" (`{_PREFIX}_by_cancer.csv` loaded)." if by_cancer_df is not None else ".")
+    )
 st.markdown("---")
 
 # ---------------------------------------------------------------------------

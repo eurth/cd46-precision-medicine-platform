@@ -91,9 +91,39 @@ def _tier_help(tier: str) -> str:
     return {
         "stub": "Registered only — no open-data slice yet",
         "thin": "Starter open data (expression + OT/STRING sample)",
-        "medium": "Expression + survival in graph + expanded OT/STRING",
-        "full": "Deep case-study depth (CD46 reference)",
+        "medium": (
+            "Open-data pack: expression, survival, OT/STRING, trials, PubMed, "
+            "ChEMBL/drugs, UniProt, GTEx, DepMap, HPA protein intensity"
+        ),
+        "full": "Deep case-study depth (CD46 reference modules + full narrative)",
     }.get(tier, tier)
+
+
+def render_dimension_chrome() -> None:
+    """Top dimension strip — page_link entry points (all existing pages stay reachable)."""
+    st.markdown(
+        '<div class="ob-tb-label" style="margin-top:0.25rem;">Explore by dimension</div>',
+        unsafe_allow_html=True,
+    )
+    dims = [
+        ("pages/0_platform_overview.py", "Home"),
+        ("pages/1_cd46_expression_atlas.py", "Target / Cancer"),
+        ("pages/9_competitive_landscape.py", "Compare"),
+        ("pages/6_biomarker_panel.py", "Biomarkers"),
+        ("pages/10_ppi_network.py", "Proteins"),
+        ("pages/2_patient_selection.py", "Patients"),
+        ("pages/11_drug_pipeline.py", "Drugs"),
+        ("pages/3_survival_outcomes.py", "Survival"),
+        ("pages/7_kg_query_explorer.py", "Graph"),
+        ("pages/5_research_assistant.py", "Ask AI"),
+    ]
+    cols = st.columns(len(dims))
+    for col, (path, label) in zip(cols, dims):
+        with col:
+            try:
+                st.page_link(path, label=label, use_container_width=True)
+            except Exception:
+                st.caption(label)
 
 
 def render_main_target_bar() -> str:
@@ -192,26 +222,29 @@ def render_stub_gate(*, module: str = "This module") -> bool:
 
 def render_case_study_gate(*, module: str = "This module") -> bool:
     """
-    Stop when this module is still CD46-depth only and user selected another gene.
-    Return True → caller should st.stop().
+    Depth banner only — never hard-stops.
+
+    Formerly blocked non-CD46 targets. Now all modules stay open; we warn when
+    some charts still use CD46-depth narratives while PARAM work catches up.
+    Return value kept for call-site compat (`if gate: st.stop()`); always False.
     """
     sym = get_active_symbol()
     if is_case_study(sym):
         return False
-    st.warning(
-        f"**{module}** is still built on the **CD46 deep case study** "
-        f"(the first full open-data recipe). It is not yet wired for **{sym}**."
-    )
+    tier = data_tier(sym)
     st.info(
-        f"What you can do now for **{sym}** (tier `{data_tier(sym)}`):\n"
-        "- **Expression Atlas** / **Survival Outcomes** / **Compare Targets** — gene-aware reports\n"
-        "- **Research Assistant** — uses this target’s CSVs + graph expression links\n"
-        "- **KG Query Explorer** — Cypher with this gene (`EXPRESSED_IN_CANCER`, `HAS_SURVIVAL`, OT)\n\n"
-        "Switch the Research target bar to **CD46** to open this deep case-study module, "
-        "or continue Step 2+ data work (HPA, DepMap, trials) for parity."
+        f"**{module}** is open for **{sym}** (data tier `{tier}`). "
+        f"Some panels still carry CD46 case-study depth — those stay visible "
+        f"with gene-aware data where wired; otherwise use Expression / Survival / "
+        f"KG Explorer / Ask AI for **{sym}**, or switch target to **CD46** for the "
+        f"full reference narrative."
     )
-    return True
+    return False
 
+
+def render_depth_banner(*, module: str = "This module") -> None:
+    """Explicit non-blocking depth note (preferred over gate for new code)."""
+    render_case_study_gate(module=module)
 
 def format_gene_cypher(cypher: str, symbol: str | None = None) -> str:
     sym = symbol or get_active_symbol()

@@ -1,0 +1,17 @@
+{
+  "term_id": "gene:FAP",
+  "canonical_name": "FAP",
+  "uniprot_id": "Q12884",
+  "alphafold_entry_id": "AF-Q12884-F1",
+  "alphafold_entry_url": "https://alphafold.ebi.ac.uk/entry/AF-Q12884-F1",
+  "summary_short": "Fibroblast activation protein alpha; CAF / FAPI radioligand target.",
+  "alphafold_pae_image_url": "https://alphafold.ebi.ac.uk/files/AF-Q12884-F1-predicted_aligned_error_v6.png",
+  "alphafold_pdb_url": "https://alphafold.ebi.ac.uk/files/AF-Q12884-F1-model_v6.pdb",
+  "globalMetricValue": 95.62,
+  "raw_entry": {
+    "entryId": "AF-Q12884-F1",
+    "uniprotAccession": "Q12884",
+    "uniprotDescription": "Prolyl endopeptidase FAP",
+    "modelCreatedDate": "2025-08-01T00:00:00Z"
+  }
+}

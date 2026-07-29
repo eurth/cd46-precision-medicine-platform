@@ -56,9 +56,16 @@ def load_by_cancer(symbol: str):
     return df
 
 @st.cache_data
-def load_hpa():
-    p = Path("data/processed/hpa_cd46_protein.csv")
-    return pd.read_csv(p) if p.exists() else None
+def load_hpa(symbol: str):
+    for name in (
+        f"hpa_{symbol.lower()}_protein.csv",
+        f"hpa_{symbol.lower()}_protein_intensity.csv",
+        f"hpa_{symbol.lower()}_rna_tissue.csv",
+    ):
+        p = Path("data/processed") / name
+        if p.exists():
+            return pd.read_csv(p)
+    return None
 
 @st.cache_data
 def load_priority():
@@ -66,20 +73,32 @@ def load_priority():
     return pd.read_csv(p) if p.exists() else None
 
 @st.cache_data
-def load_gtex():
-    p = Path("data/processed/gtex_cd46_normal.csv")
+def load_gtex(symbol: str):
+    p = Path(f"data/processed/gtex_{symbol.lower()}_normal.csv")
     return pd.read_csv(p) if p.exists() else None
 
 @st.cache_data
-def load_depmap():
-    p = Path("data/processed/depmap_cd46_essentiality.csv")
-    return pd.read_csv(p) if p.exists() else None
+def load_depmap(symbol: str):
+    p = Path(f"data/processed/depmap_{symbol.lower()}_essentiality.csv")
+    if not p.exists():
+        return None
+    df = pd.read_csv(p)
+    # Normalize legacy CD46 column names ↔ gene-generic Step 3c names
+    if "crispr_score" in df.columns and "cd46_crispr_score" not in df.columns:
+        df["cd46_crispr_score"] = df["crispr_score"]
+    if "is_dependency" in df.columns and "cd46_is_dependency" not in df.columns:
+        df["cd46_is_dependency"] = df["is_dependency"]
+    if "cd46_crispr_score" in df.columns and "crispr_score" not in df.columns:
+        df["crispr_score"] = df["cd46_crispr_score"]
+    if "cd46_is_dependency" in df.columns and "is_dependency" not in df.columns:
+        df["is_dependency"] = df["cd46_is_dependency"]
+    return df
 
 expr_df    = load_by_cancer(_GENE)
-hpa_df     = load_hpa() if _GENE == "CD46" else None
+hpa_df     = load_hpa(_GENE)
 priority_df = load_priority() if _GENE == "CD46" else None
-gtex_df    = load_gtex() if _GENE == "CD46" else None
-depmap_df  = load_depmap() if _GENE == "CD46" else None
+gtex_df    = load_gtex(_GENE)
+depmap_df  = load_depmap(_GENE)
 
 # ---------------------------------------------------------------------------
 # Derived KPI values
@@ -90,9 +109,10 @@ top_cancer = (
     if expr_df is not None and "median_expr" in expr_df.columns else "—"
 )
 n_lines  = len(depmap_df) if depmap_df is not None else 0
+_dep_col = "cd46_is_dependency" if depmap_df is not None and "cd46_is_dependency" in depmap_df.columns else "is_dependency"
 pct_safe = (
-    (1 - depmap_df["cd46_is_dependency"].mean()) * 100
-    if depmap_df is not None else None
+    (1 - depmap_df[_dep_col].mean()) * 100
+    if depmap_df is not None and _dep_col in depmap_df.columns else None
 )
 
 # ---------------------------------------------------------------------------
@@ -104,7 +124,7 @@ st.markdown(
         module_name="Expression Atlas",
         purpose=(
             f"Pan-cancer **{_GENE}** mRNA (TCGA/Xena)"
-            + (" · protein IHC · GTEx · DepMap" if _GENE == "CD46" else " · thin Phase 4 slice")
+            + (" · protein · GTEx · DepMap" if (hpa_df is not None or gtex_df is not None or depmap_df is not None) else "")
         ),
         kpi_chips=[
             ("Active Target", _GENE),
@@ -112,7 +132,7 @@ st.markdown(
             ("Top by mRNA", str(top_cancer)),
             ("Not a Dependency", f"{pct_safe:.1f}%" if pct_safe is not None else "n/a"),
         ],
-        source_badges=["TCGA", "HPA", "GTEx", "DepMap"] if _GENE == "CD46" else ["TCGA", "OpenTargets", "STRING"],
+        source_badges=["TCGA", "HPA", "GTEx", "DepMap"],
     ),
     unsafe_allow_html=True,
 )
@@ -123,13 +143,24 @@ st.markdown(
 k1, k2, k3, k4 = st.columns(4)
 k1.metric("Cancers Profiled", str(n_cancers), "TCGA RNA-seq cohort")
 k2.metric("mRNA Leader", top_cancer, f"Highest {_GENE} median")
-k3.metric("Cell Lines", f"{n_lines:,}" if n_lines else "—", "DepMap (CD46 case study)")
+k3.metric("Cell Lines", f"{n_lines:,}" if n_lines else "—", f"DepMap ({_GENE})")
 k4.metric(
     "Non-dependency",
     f"{pct_safe:.1f}%" if pct_safe is not None else "—",
-    "Safe surface target" if pct_safe is not None else f"{_GENE} thin slice",
+    "Safe surface target" if pct_safe is not None else f"No DepMap slice for {_GENE}",
 )
 st.markdown("---")
+
+# Entity card (Sprint 7) — click for AlphaFold / UniProt
+try:
+    from components.tooltip_generator import render_entity_popover
+    tc1, tc2 = st.columns([1, 3])
+    with tc1:
+        render_entity_popover(_GENE, label=f"🧬 {_GENE} structure")
+    with tc2:
+        st.caption("Click the gene chip for UniProt / AlphaFold / HPA links (tooltip mapping file).")
+except Exception:
+    pass
 
 # ---------------------------------------------------------------------------
 # Tabs
@@ -206,14 +237,14 @@ with tab1:
 
 # ── Tab 2 : Protein & Safety ────────────────────────────────────────────────
 with tab2:
-    if _GENE != "CD46":
+    if hpa_df is None and gtex_df is None:
         st.info(
-            f"Protein / GTEx safety panels are CD46 case-study depth. "
-            f"**{_GENE}** thin slice: use Pan-Cancer mRNA + KG Query Explorer."
+            f"No HPA/GTEx processed slice for **{_GENE}** yet. "
+            f"Pan-Cancer mRNA tab and KG Query Explorer remain available."
         )
     st.caption(
-        "Human Protein Atlas IHC H-score (0–300: tumour vs normal) · "
-        "GTEx v8 normal-tissue mRNA (54 tissue sites)"
+        "Human Protein Atlas protein/RNA intensity · "
+        "GTEx v8 normal-tissue mRNA (when gene slice exists)"
     )
 
     col_hpa, col_gtex = st.columns(2)
@@ -231,47 +262,82 @@ with tab2:
                 "- Breast normal → ~100/300"
             )
         else:
-            tumor_d  = hpa_df[hpa_df["type"] == "tumor"]
-            normal_d = hpa_df[hpa_df["type"] == "normal"]
-
-            fig_hpa = go.Figure()
-            fig_hpa.add_trace(go.Bar(
-                name="Tumour",
-                x=tumor_d["tissue"],
-                y=tumor_d["h_score_approx"],
-                marker_color=_INDIGO,
-                hovertemplate="<b>%{x}</b> (tumour)<br>H-score: %{y}<extra></extra>",
-            ))
-            fig_hpa.add_trace(go.Bar(
-                name="Normal",
-                x=normal_d["tissue"],
-                y=normal_d["h_score_approx"],
-                marker_color=_SLATE,
-                hovertemplate="<b>%{x}</b> (normal)<br>H-score: %{y}<extra></extra>",
-            ))
-            fig_hpa.update_layout(
-                **_PLOTLY_LAYOUT,
-                barmode="group",
-                height=320,
-                margin=dict(l=0, r=0, t=20, b=50),
-                xaxis=dict(color=_LIGHT, tickangle=-30),
-                yaxis=dict(title="H-score (0–300)", gridcolor=_LINE, color=_TEXT),
-                legend=dict(bgcolor="rgba(0,0,0,0)", font=dict(color=_TEXT)),
-            )
-            st.plotly_chart(fig_hpa, use_container_width=True)
-            st.caption(
-                "H-score = staining intensity × % positive cells (max 300).  \n"
-                "**Prostate tumour: 300/300** — maximal protein expression.  \n"
-                "**Kidney normal: 300/300** — primary organ at risk (dosimetry page)."
-            )
+            if "h_score_approx" in hpa_df.columns and "type" in hpa_df.columns:
+                tumor_d  = hpa_df[hpa_df["type"] == "tumor"]
+                normal_d = hpa_df[hpa_df["type"] == "normal"]
+                fig_hpa = go.Figure()
+                if not tumor_d.empty:
+                    fig_hpa.add_trace(go.Bar(
+                        name="Tumour",
+                        x=tumor_d["tissue"],
+                        y=tumor_d["h_score_approx"],
+                        marker_color=_INDIGO,
+                        hovertemplate="<b>%{x}</b> (tumour)<br>H-score: %{y}<extra></extra>",
+                    ))
+                if not normal_d.empty:
+                    fig_hpa.add_trace(go.Bar(
+                        name="Normal",
+                        x=normal_d["tissue"],
+                        y=normal_d["h_score_approx"],
+                        marker_color=_SLATE,
+                        hovertemplate="<b>%{x}</b> (normal)<br>H-score: %{y}<extra></extra>",
+                    ))
+                fig_hpa.update_layout(
+                    **_PLOTLY_LAYOUT,
+                    barmode="group",
+                    height=320,
+                    margin=dict(l=0, r=0, t=20, b=50),
+                    xaxis=dict(color=_LIGHT, tickangle=-30),
+                    yaxis=dict(title="H-score (0–300)", gridcolor=_LINE, color=_TEXT),
+                    legend=dict(bgcolor="rgba(0,0,0,0)", font=dict(color=_TEXT)),
+                )
+                st.plotly_chart(fig_hpa, use_container_width=True)
+                st.caption("H-score = staining intensity × % positive cells (max 300).")
+            elif "intensity_score" in hpa_df.columns:
+                plot_df = hpa_df.sort_values("intensity_score", ascending=True)
+                fig_hpa = go.Figure(go.Bar(
+                    x=plot_df["intensity_score"],
+                    y=plot_df["tissue"],
+                    orientation="h",
+                    marker_color=_INDIGO,
+                    hovertemplate="<b>%{y}</b><br>Intensity: %{x:.0f}<extra></extra>",
+                ))
+                fig_hpa.update_layout(
+                    **_PLOTLY_LAYOUT,
+                    height=max(280, 28 * len(plot_df)),
+                    margin=dict(l=0, r=10, t=20, b=40),
+                    xaxis=dict(title=f"{_GENE} HPA protein intensity", gridcolor=_LINE, color=_TEXT),
+                    yaxis=dict(color=_LIGHT, tickfont=dict(size=10)),
+                )
+                st.plotly_chart(fig_hpa, use_container_width=True)
+                st.caption(f"HPA protein tissue/cell-type intensity for **{_GENE}** (Step 3c).")
+            elif "ntpm" in hpa_df.columns:
+                plot_df = hpa_df.dropna(subset=["ntpm"]).sort_values("ntpm", ascending=True)
+                fig_hpa = go.Figure(go.Bar(
+                    x=plot_df["ntpm"],
+                    y=plot_df["tissue"],
+                    orientation="h",
+                    marker_color=_INDIGO,
+                ))
+                fig_hpa.update_layout(
+                    **_PLOTLY_LAYOUT,
+                    height=max(280, 28 * max(len(plot_df), 1)),
+                    margin=dict(l=0, r=10, t=20, b=40),
+                    xaxis=dict(title=f"{_GENE} HPA RNA nTPM", gridcolor=_LINE, color=_TEXT),
+                    yaxis=dict(color=_LIGHT, tickfont=dict(size=10)),
+                )
+                st.plotly_chart(fig_hpa, use_container_width=True)
+            else:
+                st.dataframe(hpa_df, use_container_width=True)
 
     with col_gtex:
         st.markdown("##### 🏥 GTEx — Normal Tissue mRNA (54 sites)")
         if gtex_df is None:
             st.warning("GTEx data not available.")
         else:
+            gtex_key = "tissue_site" if "tissue_site" in gtex_df.columns else "tissue_site_detail"
             gtex_agg = (
-                gtex_df.groupby("tissue_site")["median_tpm"]
+                gtex_df.groupby(gtex_key)["median_tpm"]
                 .mean()
                 .reset_index()
                 .sort_values("median_tpm", ascending=True)
@@ -287,7 +353,7 @@ with tab2:
             fig_gtex = go.Figure()
             fig_gtex.add_trace(go.Bar(
                 x=gtex_agg["median_tpm"],
-                y=gtex_agg["tissue_site"],
+                y=gtex_agg[gtex_key],
                 orientation="h",
                 marker_color=[_gtex_color(v) for v in gtex_agg["median_tpm"]],
                 hovertemplate="<b>%{y}</b><br>Median TPM: %{x:.1f}<extra></extra>",
@@ -324,19 +390,17 @@ with tab2:
 
 # ── Tab 3 : Functional Screen (DepMap) ──────────────────────────────────────
 with tab3:
-    st.markdown("#### CD46 CRISPR Essentiality — DepMap Screen")
+    st.markdown(f"#### {_GENE} CRISPR Essentiality — DepMap Screen")
     st.caption(
-        "Cancer Dependency Map (DepMap) CRISPR-Cas9 screen · 1,186 cancer cell lines · "
-        "Score ≈ 0 → non-essential · Score < –0.5 → cell-essential dependency"
+        f"Cancer Dependency Map (DepMap) CRISPR-Cas9 screen · "
+        f"Score ≈ 0 → non-essential · Score < –0.5 → cell-essential dependency"
     )
 
     if depmap_df is None:
-        st.warning("DepMap data not available.")
+        st.warning(f"DepMap data not available for {_GENE}.")
         st.info(
-            "DepMap CRISPR screen data across 1,186 cancer cell lines shows CD46 is NOT a "
-            "functional dependency in >97% of lines. This confirms CD46 targeting is a "
-            "surface-density strategy — not synthetic lethality — and supports safety in "
-            "normal tissues that express CD46 physiologically."
+            f"Run `python scripts/load_gene_uniprot_gtex_depmap.py --symbol {_GENE}` "
+            f"to extract CRISPR scores for this gene."
         )
     else:
         n_dep   = int(depmap_df["cd46_is_dependency"].sum())
@@ -345,7 +409,7 @@ with tab3:
 
         dm1, dm2, dm3 = st.columns(3)
         dm1.metric("Cell lines screened", f"{len(depmap_df):,}")
-        dm2.metric("CD46 dependencies", str(n_dep), f"{pct_dep:.1f}% of total")
+        dm2.metric(f"{_GENE} dependencies", str(n_dep), f"{pct_dep:.1f}% of total")
         dm3.metric("Median CRISPR score", f"{med_score:.3f}", "near 0 → not essential")
 
         lin_agg = (
@@ -564,14 +628,14 @@ with tab4:
             st.download_button(
                 "⬇ Download expression CSV",
                 data=expr_df.to_csv(index=False),
-                file_name="cd46_expression_by_cancer.csv",
+                file_name=f"{_GENE.lower()}_expression_by_cancer.csv",
                 mime="text/csv",
             )
             if depmap_df is not None:
                 st.download_button(
                     "⬇ Download DepMap CSV",
                     data=depmap_df.to_csv(index=False),
-                    file_name="depmap_cd46_essentiality.csv",
+                    file_name=f"depmap_{_GENE.lower()}_essentiality.csv",
                     mime="text/csv",
                     key="dl_depmap",
                 )
