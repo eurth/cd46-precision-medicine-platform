@@ -21,10 +21,14 @@ def inject_global_css() -> None:
     st.markdown(global_css(), unsafe_allow_html=True)
     st.markdown(
         '<div id="ob-topbar">'
+        '<div class="ob-tb-sidebar-zone">'
         '<span class="ob-tb-brand">OncoBridge Intelligence</span>'
+        '</div>'
+        '<div class="ob-tb-main-zone">'
         '<span class="ob-tb-ctx">Open theranostics research · multi-target workbench</span>'
         '<span class="ob-tb-spacer"></span>'
         '<span class="ob-tb-live"><span class="ob-tb-dot"></span>Research data live</span>'
+        '</div>'
         '</div>',
         unsafe_allow_html=True,
     )

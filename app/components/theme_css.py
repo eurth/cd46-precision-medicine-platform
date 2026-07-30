@@ -30,6 +30,14 @@ def global_css() -> str:
     return f"""
 <style>
 
+:root {{
+    --ob-sidebar-w: 270px;
+    --ob-topbar-h: 46px;
+    --ob-main-pad-x: 1.25rem;
+    --ob-rail-collapsed-w: 20px;
+    --ob-rail-expanded-w: 88px;
+}}
+
 [data-testid="stApp"],
 [data-testid="stAppViewContainer"],
 .main .block-container {{ background: {BG} !important; }}
@@ -54,12 +62,17 @@ h1, h2, h3, h4, h5, h6, [data-testid="stHeading"] {{
 }}
 
 .block-container {{
-    padding-top: 0 !important; padding-bottom: 3rem !important;
-    padding-left: 1rem !important; padding-right: 5.75rem !important;
+    padding-top: 0.5rem !important; padding-bottom: 3rem !important;
+    padding-left: var(--ob-main-pad-x) !important;
+    padding-right: calc(var(--ob-main-pad-x) + var(--ob-rail-collapsed-w) + 10px) !important;
     max-width: 1320px !important;
 }}
 .main .block-container {{
-    padding-left: 1rem !important; padding-right: 5.75rem !important;
+    padding-left: var(--ob-main-pad-x) !important;
+    padding-right: calc(var(--ob-main-pad-x) + var(--ob-rail-collapsed-w) + 10px) !important;
+}}
+section.main > div {{
+    padding-left: 0 !important; padding-right: 0 !important;
 }}
 [data-testid="stElementContainer"]:has(#ob-topbar) {{
     height: 0 !important; min-height: 0 !important; margin: 0 !important;
@@ -216,10 +229,10 @@ details[data-testid="stExpander"] > summary span {{
 
 [data-testid="stSidebar"] {{
     background: {SIDEBAR_BG} !important; border-right: 1px solid {BORDER} !important;
-    min-width: 270px !important; max-width: 270px !important;
-    box-shadow: 1px 0 0 rgba(15,23,42,0.04);
-    top: 46px !important;
-    height: calc(100vh - 46px) !important;
+    min-width: var(--ob-sidebar-w) !important; max-width: var(--ob-sidebar-w) !important;
+    box-shadow: none !important;
+    top: var(--ob-topbar-h) !important;
+    height: calc(100vh - var(--ob-topbar-h)) !important;
 }}
 [data-testid="stSidebarNavSeparator"] span,
 [data-testid="stSidebarNavSeparator"] p {{
@@ -253,26 +266,37 @@ details[data-testid="stExpander"] > summary span {{
 }}
 
 #ob-topbar {{
-    display: flex; align-items: center; height: 46px;
+    display: flex; align-items: stretch; height: var(--ob-topbar-h);
     border-bottom: 1px solid {BORDER}; background: {TOPBAR_BG};
     position: fixed; left: 0; right: 0; top: 0; width: 100vw;
     z-index: 1001; margin-bottom: 0;
-    box-shadow: 0 1px 0 rgba(15,23,42,0.06);
+    box-shadow: none;
 }}
 section[data-testid="stSidebar"] {{
-    top: 46px !important;
-    height: calc(100vh - 46px) !important;
+    top: var(--ob-topbar-h) !important;
+    height: calc(100vh - var(--ob-topbar-h)) !important;
 }}
 section.main {{
-    margin-top: 46px !important;
+    margin-top: var(--ob-topbar-h) !important;
+}}
+.ob-tb-sidebar-zone {{
+    width: var(--ob-sidebar-w); min-width: var(--ob-sidebar-w); flex-shrink: 0;
+    height: 100%; border-right: 1px solid {BORDER};
+    display: flex; align-items: center; padding: 0 16px; box-sizing: border-box;
+    background: {SIDEBAR_BG};
+}}
+.ob-tb-main-zone {{
+    flex: 1; display: flex; align-items: center; height: 100%;
+    padding-left: var(--ob-main-pad-x); padding-right: 0; min-width: 0;
+    background: {TOPBAR_BG};
 }}
 .ob-tb-brand {{
     font-family: {_FONT_HEAD};
     font-size: 14px; font-weight: 700; color: {TEXT};
-    padding: 0 16px; border-right: 1px solid {BORDER}; height: 100%;
-    display: flex; align-items: center;
+    padding: 0; border: none; height: auto;
+    display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }}
-.ob-tb-ctx {{ font-size: 12px; color: {TEXT_MUTED}; padding: 0 16px; }}
+.ob-tb-ctx {{ font-size: 12px; color: {TEXT_MUTED}; padding: 0; }}
 .ob-tb-spacer {{ flex: 1; }}
 .ob-tb-live {{
     font-size: 10px; color: {TEXT_MUTED}; display: flex; align-items: center;
@@ -294,11 +318,41 @@ section.main {{
     padding: 0 !important; overflow: visible !important;
 }}
 .ob-right-rail-dock {{
-    position: fixed; right: 12px; top: 54px; width: 96px; z-index: 1000;
-    display: flex; flex-direction: column; gap: 4px;
+    position: fixed; right: 8px; top: calc(var(--ob-topbar-h) + 8px);
+    width: var(--ob-rail-collapsed-w); z-index: 1000;
+    display: flex; flex-direction: column; gap: 0;
     background: rgba(255,255,255,0.97); backdrop-filter: blur(10px);
-    border: 1px solid {BORDER}; border-radius: 12px;
-    padding: 8px 8px 10px; box-shadow: 0 6px 28px rgba(15,23,42,0.14);
+    border: 1px solid {BORDER}; border-radius: 10px;
+    padding: 6px 2px; box-shadow: 0 4px 16px rgba(15,23,42,0.12);
+    overflow: hidden;
+    transition: width 0.22s ease, padding 0.22s ease, box-shadow 0.22s ease;
+}}
+.ob-right-rail-dock:hover,
+.ob-right-rail-dock:focus-within {{
+    width: var(--ob-rail-expanded-w);
+    padding: 8px 8px 10px;
+    box-shadow: 0 8px 28px rgba(15,23,42,0.16);
+}}
+.ob-rail-grip {{
+    width: 100%; min-height: 48px;
+    background: linear-gradient(180deg, {PRIMARY_SOFT} 0%, {SURFACE} 100%);
+    border-radius: 6px; cursor: ew-resize;
+}}
+.ob-rail-grip::after {{
+    content: "‹"; display: block; text-align: center;
+    font-size: 14px; font-weight: 700; color: {PRIMARY}; line-height: 48px;
+}}
+.ob-right-rail-dock:hover .ob-rail-grip,
+.ob-right-rail-dock:focus-within .ob-rail-grip {{
+    display: none;
+}}
+.ob-rail-body {{
+    opacity: 0; max-height: 0; overflow: hidden;
+    transition: opacity 0.18s ease;
+}}
+.ob-right-rail-dock:hover .ob-rail-body,
+.ob-right-rail-dock:focus-within .ob-rail-body {{
+    opacity: 1; max-height: 80vh; overflow: visible;
 }}
 .ob-right-rail-dock .ob-rail-kicker {{
     font-size: 8px; font-weight: 700; letter-spacing: 0.08em;
@@ -375,9 +429,25 @@ a.ob-rail-on {{
     display: none !important;
 }}
 
+/* U2 — reserved hero band (U3 imagery drops in here) */
+.lp-hero-zone {{
+    min-height: 112px; margin: 0 0 14px;
+    border-radius: 12px; border: 1px dashed {BORDER_STRONG};
+    background: linear-gradient(135deg, {SURFACE} 40%, {SURFACE_2} 100%);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 1rem var(--ob-main-pad-x); text-align: center;
+}}
+.lp-hero-zone-label {{
+    font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+    text-transform: uppercase; color: {TEXT_MUTED};
+}}
+.lp-hero-zone-hint {{
+    font-size: 11px; color: {TEXT_FAINT}; margin-top: 4px;
+}}
+
 /* U2 — target spotlight (tab panel body) */
 .lp-spotlight {{
-    margin: 0 0 12px; padding: 14px 18px 14px 0;
+    margin: 0 0 12px; padding: 14px 0;
     border-radius: 12px; border: 1px solid {BORDER};
     background: linear-gradient(135deg, {SURFACE} 0%, {PRIMARY_SOFT} 100%);
     box-shadow: 0 2px 8px rgba(15,23,42,0.06);
@@ -511,13 +581,15 @@ a.ob-rail-on {{
     }}
     [data-testid="stSidebarCollapsedControl"],
     button[data-testid="stBaseButton-headerNoPadding"] {{ display: flex !important; }}
+    .ob-tb-sidebar-zone {{ display: none !important; }}
+    .ob-tb-main-zone {{ padding-left: 3rem !important; }}
     .block-container {{ padding-left: 1rem !important; padding-right: 1rem !important; }}
     .ob-tb-ctx, .ob-tb-live {{ display: none !important; }}
     .ob-tb-brand {{ border-right: 0; padding-left: 3rem; }}
     #ob-right-rail-dock {{ display: none !important; }}
 }}
 
-.ob-crumb {{ font-size: 12px; color: {TEXT_MUTED}; margin: 0 0 10px 0; }}
+.ob-crumb {{ font-size: 12px; color: {TEXT_MUTED}; margin: 0 0 10px 0; padding-left: 0; }}
 .ob-crumb-cur {{ color: {TEXT}; font-weight: 600; }}
 .ob-recent {{ font-size: 11px; color: {TEXT_MUTED}; margin-top: 8px; }}
 .ob-recent-title {{

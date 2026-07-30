@@ -32,6 +32,17 @@ def _slide_body(sym: str) -> str:
     )
 
 
+def render_hero_zone() -> None:
+    """Reserved top band for future photography / motion (U3)."""
+    st.markdown(
+        '<div class="lp-hero-zone" role="presentation">'
+        '<div class="lp-hero-zone-label">Platform hero · visual slot</div>'
+        '<div class="lp-hero-zone-hint">Reserved for brand imagery or demo animation (U3)</div>'
+        "</div>",
+        unsafe_allow_html=True,
+    )
+
+
 def render_target_carousel() -> None:
     """Target spotlight tabs — always visible (no empty CSS carousel)."""
     symbols = list_symbols()

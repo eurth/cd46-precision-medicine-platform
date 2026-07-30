@@ -68,8 +68,9 @@ _trial_count = str(_stats["active_trials"]) if _stats else "14"
 # ---------------------------------------------------------------------------
 # U2 landing — carousel + quick start (no duplicate OncoBridge hero title)
 # ---------------------------------------------------------------------------
-from components.landing_hero import render_start_here, render_target_carousel
+from components.landing_hero import render_hero_zone, render_start_here, render_target_carousel
 
+render_hero_zone()
 render_target_carousel()
 render_start_here()
 render_data_freeze_banner(compact=True)

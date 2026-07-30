@@ -58,10 +58,13 @@ def _rail_html() -> str:
         for label, _path in dimension_links()
     )
     return (
-        f'<nav id="ob-right-rail-dock" class="ob-right-rail-dock" aria-label="Target and dimension">'
+        f'<nav id="ob-right-rail-dock" class="ob-right-rail-dock" aria-label="Target and dimension" '
+        f'title="Hover to expand target & dimension rail">'
+        f'<div class="ob-rail-grip" aria-hidden="true"></div>'
+        f'<div class="ob-rail-body">'
         f'<div class="ob-rail-kicker">Target</div>{targets}'
         f'<div class="ob-rail-kicker">Dimension</div>{dims}'
-        f"</nav>"
+        f"</div></nav>"
     )
 
 
