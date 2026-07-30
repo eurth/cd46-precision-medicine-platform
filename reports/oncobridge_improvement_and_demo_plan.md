@@ -13,14 +13,14 @@ OncoBridge is a **multi-target theranostics research workbench** for five surfac
 
 **External positioning (presentations & demos):** Treat all five targets with **equal weight**. Lead with **Compare Targets**, rotate the target bar live, and run KG templates for different genes in sequence. Do not describe the product as a “CD46 platform.”
 
-**Engineering backlog (internal — not for stakeholder decks):** Some modules still load richer CSV narratives for CD46 while PARAM depth catches up for other targets. That is a delivery gap, not the product definition. See Part 1C / Sprint RA1.
+**Engineering backlog (internal — not for stakeholder decks):** CD46 still has the deepest combination-biomarker and GENIE scoring panels; other targets now have per-gene priority + eligibility slices (P2). Combination/co-targeting depth remains CD46-first.
 
 **Top 5 improvement priorities (post-demo):**
 
 | Priority | Sprint | Status (2026-07-30) |
 |----------|--------|---------------------|
-| **P1** RA1 Multi-target agent | presets, KG retrieval all intents, `TargetResearchAgent` | **In progress — core shipped** |
-| **P2** PARAM data depth | per-gene CSV/ETL, dosimetry, eligibility | Planned (additive ETL) |
+| **P1** RA1 Multi-target agent | presets, KG retrieval all intents, `TargetResearchAgent` | **Shipped** |
+| **P2** PARAM data depth | per-gene CSV/ETL, dosimetry, eligibility | **Shipped** (additive slices + UI wiring) |
 | **P3** T1 Performance | CLS min-height, filter collapse | **Partial — CSS + survival** |
 | **P4** RA2 KG-RAG | NL→Cypher every intent, source chips | Planned |
 | **P5** Docs / README | multi-target positioning | **README updated** |

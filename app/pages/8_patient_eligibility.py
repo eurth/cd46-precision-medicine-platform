@@ -35,6 +35,10 @@ _IS_CD46 = _GENE == "CD46"
 
 DATA_DIR = Path("data/processed")
 
+from components.gene_data import prad_75th_eligibility
+
+_prad_pct, _prad_n = prad_75th_eligibility(_GENE)
+_prad_kpi_val = f"{_prad_pct}%" if _prad_pct is not None else ("44%" if _IS_CD46 else "—")
 
 page_header(
         icon="🎯",
@@ -46,7 +50,7 @@ page_header(
         kpi_chips=[
             ("Active Target", _GENE),
             ("Total Patients", "~2,800"),
-            (f"PRAD {_GENE}-High", "44%" if _IS_CD46 else "—"),
+            (f"PRAD {_GENE}-High", _prad_kpi_val),
             ("Threshold Method", "75th pct"),
         ],
         source_badges=["TCGA", "GENIE", "HPA"],
@@ -70,9 +74,9 @@ def load_survival(symbol: str) -> pd.DataFrame:
 
 
 @st.cache_data(ttl=3600)
-def load_priority() -> pd.DataFrame:
-    p = DATA_DIR / "priority_score.csv"
-    return pd.read_csv(p) if p.exists() else pd.DataFrame()
+def load_priority(symbol: str) -> pd.DataFrame:
+    from components.gene_data import load_priority_df
+    return load_priority_df(symbol)
 
 @st.cache_data(ttl=3600)
 def load_genie() -> pd.DataFrame:
@@ -271,7 +275,7 @@ def classify(score: float) -> tuple[str, str, str, str]:
 
 df_expr = load_by_cancer(_GENE)
 df_surv = load_survival(_GENE)
-df_priority = load_priority() if _IS_CD46 else pd.DataFrame()
+df_priority = load_priority(_GENE)
 df_genie = load_genie()
 
 if df_expr.empty:

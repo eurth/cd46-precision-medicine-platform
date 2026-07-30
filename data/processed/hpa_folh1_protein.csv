@@ -1,0 +1,6 @@
+tissue,type,intensity_score,data_source,h_score_approx,staining_intensity,fraction_positive
+intestine,normal,1.3,HPA_intensity_proxy,133,Weak,0.44
+salivary gland,normal,3.0,HPA_intensity_proxy,300,Strong,1.0
+Astrocytes and Neuropil,cell_type,0.5,HPA_intensity_proxy,50,Weak,0.25
+Glomeruli,cell_type,1.0,HPA_intensity_proxy,100,Weak,0.33
+Proximal tubules,cell_type,1.0,HPA_intensity_proxy,100,Weak,0.33

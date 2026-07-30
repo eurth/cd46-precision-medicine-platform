@@ -1,0 +1,6 @@
+tissue,type,intensity_score,data_source,h_score_approx,staining_intensity,fraction_positive
+cerebral cortex,normal,3.0,HPA_intensity_proxy,300,Strong,1.0
+Astrocytes and Neuropil,cell_type,0.5,HPA_intensity_proxy,50,Weak,0.25
+Microglia and Neuropil,cell_type,2.8,HPA_intensity_proxy,281,Strong,0.94
+Neurons,cell_type,1.4,HPA_intensity_proxy,140,Weak,0.47
+Pancreatic islets,cell_type,2.7,HPA_intensity_proxy,270,Strong,0.9

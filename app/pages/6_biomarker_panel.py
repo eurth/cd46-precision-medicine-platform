@@ -74,9 +74,9 @@ def load_combination():
     return pd.read_csv(p) if p.exists() else pd.DataFrame()
 
 @st.cache_data(ttl=3600)
-def load_priority():
-    p = DATA_DIR / "priority_score.csv"
-    return pd.read_csv(p) if p.exists() else pd.DataFrame()
+def load_priority(symbol: str):
+    from components.gene_data import load_priority_df
+    return load_priority_df(symbol)
 
 @st.cache_data(ttl=3600)
 def load_survival(symbol: str):
@@ -107,7 +107,7 @@ def _median_col(df: pd.DataFrame, symbol: str) -> str | None:
 # Load all datasets upfront — never substitute CD46 files for another gene
 df_cancer = load_by_cancer(_GENE)
 df_combination = load_combination() if _IS_CD46 else pd.DataFrame()
-df_priority = load_priority() if _IS_CD46 else pd.DataFrame()
+df_priority = load_priority(_GENE)
 df_survival = load_survival(_GENE)
 df_genie = load_genie_cohort()  # molecular landscape shared
 df_hpa = load_hpa(_GENE)
@@ -119,7 +119,7 @@ _EXPR_COL = _median_col(df_cancer, _GENE) if not df_cancer.empty else None
 if not _IS_CD46:
     info_banner(
         f"Co-targeting / complement / GENIE scoring panels retain CD46 case-study depth. "
-        f"Target inclusion + survival use **{_GENE}** CSVs where present."
+        f"Target inclusion + priority use **{_GENE}** PARAM slices where present."
     )
 
 # ---------------------------------------------------------------------------

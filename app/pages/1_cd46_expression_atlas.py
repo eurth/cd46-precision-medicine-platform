@@ -60,9 +60,10 @@ def load_hpa(symbol: str):
     return None
 
 @st.cache_data
-def load_priority():
-    p = Path("data/processed/priority_score.csv")
-    return pd.read_csv(p) if p.exists() else None
+def load_priority(symbol: str):
+    from components.gene_data import load_priority_df
+    df = load_priority_df(symbol)
+    return df if not df.empty else None
 
 @st.cache_data
 def load_gtex(symbol: str):
@@ -88,7 +89,7 @@ def load_depmap(symbol: str):
 
 expr_df    = load_by_cancer(_GENE)
 hpa_df     = load_hpa(_GENE)
-priority_df = load_priority() if _GENE == "CD46" else None
+priority_df = load_priority(_GENE)
 gtex_df    = load_gtex(_GENE)
 depmap_df  = load_depmap(_GENE)
 

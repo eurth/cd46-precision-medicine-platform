@@ -1,0 +1,4 @@
+tissue,type,intensity_score,data_source,h_score_approx,staining_intensity,fraction_positive
+blood vessel,normal,0.5,HPA_intensity_proxy,50,Weak,0.25
+skin,normal,0.5,HPA_intensity_proxy,51,Weak,0.25
+Pancreatic islets,cell_type,3.0,HPA_intensity_proxy,300,Strong,1.0

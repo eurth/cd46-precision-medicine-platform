@@ -37,7 +37,7 @@ def _gene_file_map(gene: str) -> dict[str, str]:
         "by_cancer": f"{g}_by_cancer.csv",
         "priority": f"{g}_priority_score.csv",
         "survival": f"{g}_survival_results.csv",
-        "eligibility": "patient_groups.csv",
+        "eligibility": f"{g}_patient_groups.csv",
         "hpa": f"hpa_{g}_protein.csv",
         "hpa_intensity": f"hpa_{g}_protein_intensity.csv",
         "depmap": f"depmap_{g}_essentiality.csv",
@@ -61,6 +61,8 @@ def _resolve_dataset_df(dataset: str, gene: str) -> tuple[Optional[pd.DataFrame]
         candidates.append(f"hpa_{g}_protein_intensity.csv")
     if key == "priority" and gene.upper() == "CD46":
         candidates.append("priority_score.csv")
+    if key == "eligibility" and gene.upper() == "CD46":
+        candidates.append("patient_groups.csv")
     if key == "combination" and gene.upper() == "CD46":
         candidates.append("cd46_combination_biomarkers.csv")
 
@@ -380,19 +382,29 @@ def run_analysis_summary(analysis: str = "priority") -> str:
             )
 
     elif analysis == "top_eligible":
-        df = _load_csv("patient_groups.csv")
+        gene = _active_gene()
+        df, src = _resolve_dataset_df("eligibility", gene)
         if df is None:
-            return json.dumps({"error": "patient_groups.csv not found"})
-        if "threshold" in df.columns:
-            df75 = df[df["threshold"] == "75th_pct"].sort_values("fraction_eligible", ascending=False)
-            return json.dumps(
-                {
-                    "analysis": "Top eligible cancers at 75th percentile threshold",
-                    "top_10": df75.head(10)[["cancer_type", "n_eligible", "n_total", "fraction_eligible"]].to_dict(orient="records"),
-                },
-                default=str,
-                indent=2,
-            )
+            return json.dumps({"error": f"eligibility slice not found for {gene}"})
+        sym = gene.upper()
+        high = f"{sym}-High" if sym != "CD46" else "CD46-High"
+        method_col = "threshold_method" if "threshold_method" in df.columns else "threshold"
+        pct_col = "pct_eligible" if "pct_eligible" in df.columns else "fraction_eligible"
+        df75 = df[
+            df[method_col].astype(str).str.contains("75th", case=False, na=False)
+            & (df.get("expression_group", high) == high)
+        ].sort_values(pct_col, ascending=False)
+        cols = [c for c in ["cancer_type", "n_eligible", "n_total", pct_col] if c in df75.columns]
+        return json.dumps(
+            {
+                "analysis": f"Top eligible cancers at 75th percentile ({gene})",
+                "active_gene": gene,
+                "source_file": src,
+                "top_10": df75.head(10)[cols].to_dict(orient="records"),
+            },
+            default=str,
+            indent=2,
+        )
 
     elif analysis == "combination_correlations":
         gene = _active_gene()

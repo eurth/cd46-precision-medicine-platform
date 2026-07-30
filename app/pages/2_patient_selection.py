@@ -45,10 +45,10 @@ _LIGHT  = "#1E293B"
 # Data loaders
 # ---------------------------------------------------------------------------
 @st.cache_data
-def load_eligibility():
-    # ponytail: patient_groups is CD46 case-study depth only
-    p = Path("data/processed/patient_groups.csv")
-    return pd.read_csv(p) if p.exists() else None
+def load_eligibility(symbol: str):
+    from components.gene_data import load_patient_groups_df
+    df = load_patient_groups_df(symbol)
+    return df if not df.empty else None
 
 @st.cache_data
 def load_combination():
@@ -66,19 +66,26 @@ def load_genie():
     p = base / "genie_full_cohort.parquet"
     return pd.read_parquet(p) if p.exists() else pd.DataFrame()
 
-eligibility_df  = load_eligibility() if _IS_CD46 else None
+eligibility_df  = load_eligibility(_GENE)
 combination_df  = load_combination() if _IS_CD46 else None
 by_cancer_df    = load_by_cancer(_GENE)
 
 # ---------------------------------------------------------------------------
 # Derived KPIs (from eligibility data)
 # ---------------------------------------------------------------------------
-prad75_pct = 44.1 if _IS_CD46 else None
-prad75_n   = 219 if _IS_CD46 else None
+from components.gene_data import prad_75th_eligibility
+
+prad75_pct, prad75_n = prad_75th_eligibility(_GENE)
+if prad75_pct is None and _IS_CD46:
+    prad75_pct = 44.1
+    prad75_n = 219
 if eligibility_df is not None:
+    sym = _GENE.upper()
+    high_labels = {f"{sym}-High", "CD46-High"} if sym == "CD46" else {f"{sym}-High"}
     sub = eligibility_df[
-        (eligibility_df["cancer_type"] == "PRAD") &
-        (eligibility_df["threshold_method"].str.contains("75th|75pct", case=False, na=False))
+        (eligibility_df["cancer_type"] == "PRAD")
+        & (eligibility_df["threshold_method"].str.contains("75th|75pct", case=False, na=False))
+        & (eligibility_df["expression_group"].isin(high_labels))
     ]
     if len(sub) > 0:
         prad75_pct = round(float(sub.iloc[0].get("pct_eligible", 44.1)), 1)
@@ -104,12 +111,16 @@ page_header(
         source_badges=["GENIE", "TCGA", "cBioPortal"],
     )
 
-if not _IS_CD46:
+if not _IS_CD46 and eligibility_df is None:
     info_banner(
-        f"Eligibility thresholds / combination biomarkers are CD46 case-study slices. "
         f"GENIE molecular landscape stays open for all targets. "
         f"Use Expression / Survival for **{_GENE}** open-data depth"
         + (f" (`{_PREFIX}_by_cancer.csv` loaded)." if by_cancer_df is not None else ".")
+    )
+elif not _IS_CD46:
+    info_banner(
+        f"Eligibility thresholds use **{_GENE}** TCGA slices (`{_PREFIX}_patient_groups.csv`). "
+        f"Combination biomarkers remain CD46 case-study depth."
     )
 st.markdown("---")
 
