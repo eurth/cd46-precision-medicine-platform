@@ -1,0 +1,19 @@
+name: Lighthouse audit
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 6 * * 1"
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Lighthouse on production URL
+        uses: treosh/lighthouse-ci-action@v11
+        with:
+          urls: |
+            https://oncobridge.eurthtech.com
+          uploadArtifacts: true
+          temporaryPublicStorage: true

@@ -22,6 +22,7 @@ import plotly.graph_objects as go
 import streamlit as st
 from components.theme import plotly_layout, apply_plotly_layout
 from components.targets import get_active_symbol, render_stub_gate, render_case_study_gate
+from components.target_narratives import diagnostics_purpose
 from components.ui_kit import page_header, section_tabs, research_table
 
 # ── Streamlit Cloud secret injection ─────────────────────────────────────────
@@ -152,10 +153,7 @@ if mut_df.empty and _IS_CD46:
 page_header(
         icon="🔬",
         module_name="Diagnostics & Early Detection",
-        purpose=(
-            f"Evidence framework · **{_GENE}** biomarker / CDx lane · "
-            "GTEx · ClinVar · cBioPortal · theranostic PET"
-        ),
+        purpose=diagnostics_purpose(_GENE),
         kpi_chips=[
             ("Active Target", _GENE),
             ("GTEx Tissues", str(len(gtex_df))),

@@ -1,0 +1,16 @@
+tissue,median_tpm,gene_symbol
+Pancreas,5.344,GRPR
+Esophagus,3.434,GRPR
+Esophagus,2.874,GRPR
+Blood Vessel,0.8528,GRPR
+Colon,0.6366,GRPR
+Breast,0.5186,GRPR
+Uterus,0.3655,GRPR
+Nerve,0.313,GRPR
+Cervix Uteri,0.3052,GRPR
+Colon,0.2869,GRPR
+Adipose Tissue,0.2752,GRPR
+Prostate,0.2696,GRPR
+Skin,0.207,GRPR
+Testis,0.1841,GRPR
+Thyroid,0.1792,GRPR

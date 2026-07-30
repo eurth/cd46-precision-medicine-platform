@@ -22,7 +22,6 @@ from typing import Any
 import requests
 import yaml
 from dotenv import load_dotenv
-from neo4j import GraphDatabase
 
 _ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(_ROOT))
@@ -45,6 +44,8 @@ def get_target(symbol: str) -> dict[str, Any]:
 
 
 def _driver():
+    from neo4j import GraphDatabase
+
     uri = os.environ.get("NEO4J_URI")
     user = os.environ.get("NEO4J_USERNAME", "neo4j")
     pwd = os.environ.get("NEO4J_PASSWORD")

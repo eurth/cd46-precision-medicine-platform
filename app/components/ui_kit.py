@@ -141,8 +141,8 @@ def dimension_rail() -> None:
 
 
 @contextmanager
-def filter_bar(title: str = "Filters", *, expanded: bool = True):
-    """Collapsible filter region for analytical pages."""
+def filter_bar(title: str = "Filters", *, expanded: bool = False):
+    """Collapsible filter region — collapsed by default (CLS / mobile)."""
     with st.expander(title, expanded=expanded):
         yield
 

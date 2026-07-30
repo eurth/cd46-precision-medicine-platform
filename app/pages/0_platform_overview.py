@@ -24,7 +24,7 @@ for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
         pass
 
 
-@st.cache_resource(ttl=300)
+@st.cache_resource(ttl=1800)
 def _get_driver():
     from neo4j import GraphDatabase
 
@@ -41,7 +41,7 @@ def _get_driver():
         return None
 
 
-@st.cache_data(ttl=300)
+@st.cache_data(ttl=1800)
 def _kg_stats():
     driver = _get_driver()
     if driver is None:

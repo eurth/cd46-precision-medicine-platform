@@ -13,7 +13,8 @@ import plotly.graph_objects as go
 import streamlit as st
 from components.theme import plotly_layout, apply_plotly_layout
 from components.targets import get_active_symbol, render_stub_gate, render_case_study_gate
-from components.ui_kit import page_header, section_tabs, research_table
+from components.target_narratives import dosimetry_purpose
+from components.gene_data import load_gtex_dosimetry
 
 # ── Streamlit Cloud secret injection ─────────────────────────────────────────
 for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
@@ -160,18 +161,19 @@ if not paired.empty:
     paired = paired.sort_values("Tumour H-score", ascending=False).reset_index(drop=True)
 
 # ── Page hero ─────────────────────────────────────────────────────────────────
+_gtex_dose = load_gtex_dosimetry(_GENE)
+
 page_header(
         icon="⚗️",
         module_name="Dosimetry & Safety Index",
-        purpose="Therapeutic index for 225Ac-CD46 α-RLT · normal vs tumour CD46 expression · "
-                "Phase I safety argument · HPA IHC data",
+        purpose=dosimetry_purpose(_GENE),
         kpi_chips=[
             ("HPA Tissues", str(len(normal_df))),
-            ("Tumour:Normal Ratio", ">1.5× prostate"),
-            ("225Ac Half-Life", "9.9 days"),
-            ("Alpha Range", "2–3 cells"),
+            ("GTEx normals", str(len(_gtex_dose)) if not _gtex_dose.empty else "—"),
+            ("Data mode", _hpa_src.replace("_", " ")),
+            ("Active Target", _GENE),
         ],
-        source_badges=["HPA", "TCGA", "ClinicalTrials"],
+        source_badges=["HPA", "GTEx", "TCGA"],
     )
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────

@@ -13,6 +13,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
 from components.targets import get_active_symbol, render_stub_gate, render_case_study_gate
+from components.gene_data import load_genie_cooccurrence
 from components.ui_kit import info_banner, page_header, section_tabs, research_table
 
 from dotenv import load_dotenv
@@ -115,6 +116,8 @@ df_expr_raw = load_expression(_GENE)
 df_expr = df_expr_raw[df_expr_raw["sample_type"] == "Primary Tumor"].copy() if not df_expr_raw.empty and "sample_type" in df_expr_raw.columns else df_expr_raw
 ALL_CANCERS = sorted(df_expr["cancer_type"].dropna().unique().tolist()) if not df_expr.empty else []
 _EXPR_COL = _median_col(df_cancer, _GENE) if not df_cancer.empty else None
+
+df_genie_cooc = load_genie_cooccurrence(_GENE)
 
 if not _IS_CD46:
     info_banner(
@@ -651,15 +654,12 @@ elif _active_bio == _BIO_TABS[3]:
 
 # TAB 5 — EVIDENCE BASE
 elif _active_bio == _BIO_TABS[4]:
-    st.markdown(
-        "<div style='background:#1e293b;border-left:3px solid #38bdf8;padding:12px 16px;"
-        "border-radius:6px;margin-bottom:14px;'>"
-        "<b style='color:#38bdf8;'>Curated Evidence Base — 225Ac-CD46 Research Program</b><br>"
-        "<span style='color:#94a3b8;'>Peer-reviewed publications with direct relevance to "
-        "CD46 targeted therapy and alpha-particle radioimmunotherapy</span>"
-        "</div>",
-        unsafe_allow_html=True,
+    info_banner(
+        f"Curated publications for **{_GENE}** · CD46 retains the deepest mCRPC evidence deck."
     )
+    if not df_genie_cooc.empty:
+        st.markdown(f"#### GENIE mutation co-occurrence ({_GENE})")
+        research_table(df_genie_cooc, use_container_width=True, hide_index=True)
 
     # Curated publications (mirrored from build_publication_nodes.py CURATED_PUBLICATIONS)
     EVIDENCE_PAPERS = [

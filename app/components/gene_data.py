@@ -32,6 +32,21 @@ def load_patient_groups_df(symbol: str) -> pd.DataFrame:
     return pd.read_csv(p) if p.exists() else pd.DataFrame()
 
 
+def load_trials_summary(symbol: str) -> pd.DataFrame:
+    p = PROC / f"{symbol.lower()}_trials_summary.csv"
+    return pd.read_csv(p) if p.exists() else pd.DataFrame()
+
+
+def load_gtex_dosimetry(symbol: str) -> pd.DataFrame:
+    p = PROC / f"{symbol.lower()}_gtex_dosimetry.csv"
+    return pd.read_csv(p) if p.exists() else pd.DataFrame()
+
+
+def load_genie_cooccurrence(symbol: str) -> pd.DataFrame:
+    p = PROC / f"{symbol.lower()}_genie_cooccurrence.csv"
+    return pd.read_csv(p) if p.exists() else pd.DataFrame()
+
+
 def prad_75th_eligibility(symbol: str) -> tuple[float | None, int | None]:
     """Return (pct_eligible, n_eligible) for PRAD 75th-pct high group."""
     df = load_patient_groups_df(symbol)

@@ -14,7 +14,8 @@ import plotly.graph_objects as go
 import streamlit as st
 from components.theme import plotly_layout, apply_plotly_layout
 from components.targets import get_active_symbol, render_stub_gate, render_case_study_gate
-from components.ui_kit import info_banner, page_header, section_tabs, research_table
+from components.gene_data import load_trials_summary
+from components.target_narratives import strategy_context
 import json
 
 if render_stub_gate(module="Drug Pipeline"):
@@ -240,19 +241,21 @@ elif not _chembl_df.empty and not _IS_CD46:
 # Overview swim-lane keeps full curated landscape; agent tabs use active filter
 PIPELINE_VIEW = PIPELINE_ACTIVE if not PIPELINE_ACTIVE.empty else PIPELINE.iloc[0:0]
 
+_trials_summary = load_trials_summary(_GENE)
+
 # ── Page hero ─────────────────────────────────────────────────────────────────
 page_header(
         icon="💊",
         module_name="Drug Pipeline Explorer",
         purpose=(
             f"Active target **{_GENE}** · curated RLT/ADC landscape · "
-            "ChEMBL open activities where sliced"
+            "ChEMBL + ClinicalTrials.gov where sliced"
         ),
         kpi_chips=[
             ("Active Agents", str(len(PIPELINE_VIEW))),
+            ("CT.gov slice", str(len(_trials_summary)) if not _trials_summary.empty else "—"),
             ("Curated Total", str(len(PIPELINE))),
-            ("FDA Approved", str(len(PIPELINE[PIPELINE["Phase Label"] == "FDA Approved"]))),
-            ("225Ac Programmes", str(len(PIPELINE[PIPELINE["Isotope / Payload"].str.contains("225Ac", na=False)]))),
+            ("Modality", strategy_context(_GENE)["modality"][:24]),
         ],
         source_badges=["ClinicalTrials", "ChEMBL", "FDA"],
     )

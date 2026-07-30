@@ -21,9 +21,10 @@ OncoBridge is a **multi-target theranostics research workbench** for five surfac
 |----------|--------|---------------------|
 | **P1** RA1 Multi-target agent | presets, KG retrieval all intents, `TargetResearchAgent` | **Shipped** |
 | **P2** PARAM data depth | per-gene CSV/ETL, dosimetry, eligibility | **Shipped** (additive slices + UI wiring) |
-| **P3** T1 Performance | CLS min-height, filter collapse, `@st.fragment` tabs | **Partial — tabs fragmented** |
-| **P4** RA2 KG-RAG | NL→Cypher + templates every intent, source chips | **Shipped (core)** |
-| **P5** Docs / site copy | multi-target positioning, overview + RA evidence | **Partial** |
+| **P3** T1 Performance | system fonts, CLS skeleton, fragment tabs, Lighthouse CI | **Shipped (core)** |
+| **P4** RA2 KG-RAG | NL→Cypher + templates every intent, source chips | **Shipped** |
+| **P5** Docs / site copy | multi-target module narratives + RA evidence | **Shipped (core)** |
+| **C2–C6** PARAM depth | trials/GTEx/GENIE slices + onboarding playbook | **Shipped (slices)** · combo biomarkers CD46-first |
 
 ---
 
@@ -149,29 +150,29 @@ OncoBridge is a **multi-target theranostics research workbench** for five surfac
 | **Home / orientation** | Platform Overview | ● | ● | ● | ● | ● |
 | **Target / cancer biology** | Expression Atlas | ● | ◐ | ◐ | ◐ | ◐ |
 | **Multi-target compare** | Compare Targets | ● | ● | ● | ● | ● |
-| **Biomarkers & co-targeting** | Biomarker Panel | ● | ○ | ○ | ○ | ○ |
+| **Biomarkers & co-targeting** | Biomarker Panel | ● | ◐ | ○ | ○ | ○ |
 | **Protein structure & PPI** | PPI Network | ● | ◐ | ◐ | ◐ | ◐ |
-| **Diagnostics / imaging** | Diagnostics & Early Detection | ● | ○ | ○ | ○ | ○ |
+| **Diagnostics / imaging** | Diagnostics & Early Detection | ● | ◐ | ○ | ○ | ○ |
 | **Patient cohorts** | Patient Selection | ● | ○ | ○ | ○ | ○ |
 | **Eligibility scoring** | Eligibility Scorer | ● | ◐ | ◐ | ◐ | ◐ |
 | **Survival & outcomes** | Survival Outcomes | ● | ◐ | ◐ | ◐ | ◐ |
 | **Drug landscape** | Drug Pipeline | ● | ◐ | ◐ | ◐ | ◐ |
-| **Radiation safety** | Dosimetry & Safety | ● | ○ | ○ | ○ | ○ |
+| **Radiation safety** | Dosimetry & Safety | ● | ◐ | ◐ | ◐ | ◐ |
 | **Knowledge graph** | Biomedical KG | ● | ◐ | ◐ | ◐ | ◐ |
 | **KG query & NL→Cypher** | KG Query Explorer | ● | ◐ | ◐ | ◐ | ◐ |
 | **AI Q&A** | Research Assistant | ● | ◐ | ◐ | ◐ | ◐ |
-| **End-to-end strategy** | Clinical Strategy Engine | ● | ○ | ○ | ○ | ○ |
+| **End-to-end strategy** | Clinical Strategy Engine | ● | ◐ | ◐ | ◐ | ◐ |
 
 ### Coverage expansion roadmap
 
-| Phase | Goal | Key ETL / code |
-|-------|------|----------------|
-| **C1** (2 wk) | PARAM prompts + UI honesty banners | `5_research_assistant.py`, `targets.py` |
-| **C2** (3 wk) | Per-gene HPA dosimetry + GTEx normal tissue for all 5 | `scripts/load_gene_uniprot_gtex_depmap.py`, `12_dosimetry_safety.py` |
-| **C3** (3 wk) | Per-gene trial + ChEMBL drug tables in KG + Drug Pipeline | `load_gene_trials_hpa.py`, `11_drug_pipeline.py` |
-| **C4** (4 wk) | GENIE co-occurrence for FOLH1/FAP (not only CD46) | `fetch_genie_*.py`, `6_biomarker_panel.py` |
-| **C5** (4 wk) | Disease-specific strategy templates (NET for SSTR2, mCRPC for PSMA, etc.) | `13_clinical_strategy_engine.py` |
-| **C6** (ongoing) | Sixth target onboarding playbook | `config/targets.yaml` + `load_target_slice.py` |
+| Phase | Goal | Key ETL / code | Status |
+|-------|------|----------------|--------|
+| **C1** (2 wk) | PARAM prompts + UI honesty banners | `5_research_assistant.py`, `targets.py` | Shipped |
+| **C2** (3 wk) | Per-gene HPA dosimetry + GTEx normal tissue for all 5 | `gene_coverage_slices.py`, `12_dosimetry_safety.py` | **Done** |
+| **C3** (3 wk) | Per-gene trial + ChEMBL drug tables in KG + Drug Pipeline | `gene_coverage_slices.py`, `11_drug_pipeline.py` | **Done** (trial CSVs; KG load via `load_gene_trials_hpa.py`) |
+| **C4** (4 wk) | GENIE co-occurrence for FOLH1/FAP (not only CD46) | `gene_coverage_slices.py`, `6_biomarker_panel.py` | **Done** (CD46 + FOLH1; GENIE lacks FAP/SSTR2/GRPR flags) |
+| **C5** (4 wk) | Disease-specific strategy templates (NET for SSTR2, mCRPC for PSMA, etc.) | `target_narratives.py`, `13_clinical_strategy_engine.py` | **Done** (dynamic stage copy per target) |
+| **C6** (ongoing) | Sixth target onboarding playbook | `docs/TARGET_ONBOARDING.md` | **Done** |
 
 ### Concept gaps — if audience asks tough questions
 

@@ -22,21 +22,24 @@ from components.theme import (
 )
 
 
+# ponytail: system stack first — no blocking @import (T1.1); webfonts optional via OS
+_FONT_BODY = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif"
+_FONT_HEAD = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+
 def global_css() -> str:
     return f"""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
 [data-testid="stApp"],
 [data-testid="stAppViewContainer"],
 .main .block-container {{ background: {BG} !important; }}
 
 body, p, li, label {{
-    font-family: 'Inter', -apple-system, sans-serif;
+    font-family: {_FONT_BODY};
     font-weight: 400; color: {TEXT_SECONDARY};
 }}
 h1, h2, h3, h4, h5, h6, [data-testid="stHeading"] {{
-    font-family: 'IBM Plex Sans', 'Inter', sans-serif !important;
+    font-family: {_FONT_HEAD} !important;
     color: {TEXT} !important; font-weight: 600 !important;
 }}
 [data-testid="stHeading"] h2 {{
@@ -75,7 +78,7 @@ button[data-testid="stBaseButton-headerNoPadding"] {{ display: none !important; 
     text-transform: uppercase; color: {TEXT_MUTED}; margin-bottom: 6px;
 }}
 .ob-kpi-value {{
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: {_FONT_HEAD};
     font-size: 26px; font-weight: 700; color: {TEXT}; line-height: 1.1;
 }}
 .ob-kpi-desc {{ font-size: 12px; color: {TEXT_FAINT}; margin-top: 4px; line-height: 1.35; }}
@@ -101,7 +104,7 @@ button[data-testid="stBaseButton-headerNoPadding"] {{ display: none !important; 
 
 [data-testid="metric-container"] [data-testid="stMetricValue"] {{
     font-size: 26px !important; font-weight: 700 !important;
-    color: {TEXT} !important; font-family: 'IBM Plex Sans', sans-serif !important;
+    color: {TEXT} !important; font-family: {_FONT_HEAD} !important;
 }}
 [data-testid="metric-container"] [data-testid="stMetricLabel"] {{
     font-size: 10px !important; font-weight: 600 !important;
@@ -239,7 +242,7 @@ details[data-testid="stExpander"] > summary span {{
     box-shadow: 0 1px 0 rgba(15,23,42,0.04);
 }}
 .ob-tb-brand {{
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: {_FONT_HEAD};
     font-size: 14px; font-weight: 700; color: {TEXT};
     padding: 0 16px; border-right: 1px solid {BORDER}; height: 100%;
     display: flex; align-items: center;
@@ -258,6 +261,7 @@ details[data-testid="stExpander"] > summary span {{
 
 #ob-target-bar {{
     position: sticky; top: 46px; z-index: 998;
+    min-height: 72px;
     background: {SURFACE}; border: 1px solid {BORDER}; border-radius: 10px;
     padding: 10px 14px 6px; margin-bottom: 14px;
     box-shadow: 0 1px 3px rgba(15,23,42,0.06);
@@ -283,7 +287,7 @@ details[data-testid="stExpander"] > summary span {{
     color: {TEXT_MUTED}; font-weight: 600;
 }}
 .ob-side-target-sym {{
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: {_FONT_HEAD};
     font-size: 18px; font-weight: 700; color: {TEXT}; margin: 2px 0;
 }}
 .ob-side-target-sub {{ font-size: 11px; color: {TEXT_MUTED}; }}
@@ -356,7 +360,7 @@ details[data-testid="stExpander"] > summary span {{
 .mc-img-label-eme {{ color: {GREEN}; }}
 .mc-img-label-amb {{ color: {AMBER}; }}
 .mc-img-title {{
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: {_FONT_HEAD};
     font-size: 15px; font-weight: 600; color: {TEXT};
     margin-bottom: 8px; line-height: 1.3;
 }}
@@ -395,7 +399,7 @@ details[data-testid="stExpander"] > summary span {{
 .hero-chip {{ display: flex; align-items: baseline; gap: 6px; padding: 0; }}
 .hero-chip + .hero-chip {{ margin-left: 18px; padding-left: 18px; border-left: 1px solid {BORDER}; }}
 .chip-val {{
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: {_FONT_HEAD};
     font-size: 17px; font-weight: 700; color: {TEXT};
 }}
 .chip-lbl {{ font-size: 11px; color: {TEXT_MUTED}; }}
@@ -481,7 +485,7 @@ details[data-testid="stExpander"] > summary span {{
 /* Case-study pipeline stepper (overview) */
 .ob-pipeline-wrap {{ margin: 40px 0 28px; border-top: 1px solid {BORDER}; padding-top: 36px; }}
 .ob-pipeline-label {{
-    font-family: 'IBM Plex Sans', sans-serif; font-size: 11px; font-weight: 700;
+    font-family: {_FONT_HEAD}; font-size: 11px; font-weight: 700;
     letter-spacing: 0.14em; text-transform: uppercase; color: {TEXT_MUTED}; margin-bottom: 20px;
 }}
 .ob-pipeline-step {{

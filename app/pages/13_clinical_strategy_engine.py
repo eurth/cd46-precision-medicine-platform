@@ -13,6 +13,7 @@ import plotly.graph_objects as go
 import streamlit as st
 from components.theme import plotly_layout, apply_plotly_layout
 from components.targets import get_active_symbol, render_stub_gate, render_case_study_gate
+from components.target_narratives import strategy_context, strategy_purpose, strategy_stage1_title
 from components.ui_kit import page_header, research_table
 
 # ── Streamlit Cloud secret injection ─────────────────────────────────────────
@@ -147,10 +148,12 @@ def load_expression(symbol: str):
 surv_df  = load_survival(_GENE)
 expr_df  = load_expression(_GENE)
 kg_stats = load_kg_stats(_GENE)
+_strat = strategy_context(_GENE)
 if not _IS_CD46:
     st.info(
         f"Stages 2–5 IND narrative is CD46 case-study depth. "
-        f"Stage charts use **{_GENE}** expression/survival/trials where available."
+        f"Stage charts use **{_GENE}** expression/survival/trials where available. "
+        f"Focus: {_strat['indication']} · {_strat['trial_focus']}."
     )
 # ── Defaults for missing KG / CSV ─────────────────────────────────────────────
 mcrpc_n   = kg_stats.get("mcrpc_n", 579)
@@ -187,13 +190,12 @@ _FALLBACK_TRIALS = [
 page_header(
     icon="🔬",
     module_name="Clinical Strategy Engine",
-    purpose="End-to-end development narrative: Target → Drug → Patient → Trial → Outcome · "
-            "all platform evidence synthesised into one investor-ready programme plan",
+    purpose=strategy_purpose(_GENE),
     kpi_chips=[
         ("Stages", "5"),
-        ("CD46 Trials", "14"),
-        ("mCRPC Cohort", f"{mcrpc_n:,}"),
-        ("Target Approval", "2030"),
+        (f"{_GENE} Trials", str(len(kg_stats.get("cd46_trials", _FALLBACK_TRIALS)))),
+        ("Focus", _strat["indication"][:28]),
+        ("Horizon", _strat["approval_target"][:20]),
     ],
     source_badges=["TCGA", "ClinicalTrials", "HPA", "mCRPC"],
 )
@@ -221,8 +223,8 @@ st.markdown("""
 # STAGE 1 — TARGET BIOLOGY
 # ═══════════════════════════════════════════════════════════════════════════════
 with st.container(border=True):
-    st.markdown(f"### 🧬 Stage 1 — Target Biology: Why CD46?")
-    st.caption("Molecular rationale grounded in pan-cancer expression, survival data, and protein atlas evidence")
+    st.markdown(f"### 🧬 {strategy_stage1_title(_GENE)}")
+    st.caption(f"Molecular rationale for **{_GENE}** — pan-cancer expression, survival, and tissue atlas evidence")
 
     col_t1, col_t2 = st.columns([3, 2])
 

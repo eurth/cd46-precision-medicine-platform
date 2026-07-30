@@ -1,0 +1,5 @@
+gene_symbol,co_gene,n_gene_positive,n_co_positive,n_both,pct_of_gene_pos
+CD46,AR,0,6313,0,0.0
+CD46,TP53,0,105270,0,0.0
+CD46,PTEN,0,18141,0,0.0
+CD46,FOLH1,0,0,0,0.0

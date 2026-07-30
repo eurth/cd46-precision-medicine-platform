@@ -1,0 +1,5 @@
+gene_symbol,co_gene,n_gene_positive,n_co_positive,n_both,pct_of_gene_pos
+FOLH1,AR,0,6313,0,0.0
+FOLH1,TP53,0,105270,0,0.0
+FOLH1,PTEN,0,18141,0,0.0
+FOLH1,CD46,0,0,0,0.0
