@@ -9,9 +9,11 @@
 
 ## Executive summary
 
-OncoBridge is a **multi-target theranostics research workbench** with **CD46 as the deep reference case study**. Five surface targets are registered (CD46, FOLH1/PSMA, FAP, SSTR2, GRPR), but **most narrative depth, eligibility logic, biomarker scoring, and Research Assistant context remain CD46-centric** even when another target is selected.
+OncoBridge is a **multi-target theranostics research workbench** for five surface targets: **FOLH1 (PSMA), FAP, SSTR2, GRPR, and CD46**. All share sixteen modules, the same dataset layer, and one Neo4j knowledge graph. The **target bar** switches the active gene across Expression, survival, KG queries, and the Research Assistant.
 
-**For tomorrow’s demo:** Lead with CD46, show multi-target switching on **Compare Targets** and **Expression Atlas**, and use **KG Query Explorer** for live graph proof. Avoid non-CD46 targets on Dosimetry, Diagnostics, Patient Selection depth, or Clinical Strategy unless you explain “medium-tier slice.”
+**External positioning (presentations & demos):** Treat all five targets with **equal weight**. Lead with **Compare Targets**, rotate the target bar live, and run KG templates for different genes in sequence. Do not describe the product as a “CD46 platform.”
+
+**Engineering backlog (internal — not for stakeholder decks):** Some modules still load richer CSV narratives for CD46 while PARAM depth catches up for other targets. That is a delivery gap, not the product definition. See Part 1C / Sprint RA1.
 
 **Top 5 improvement priorities (post-demo):**
 
@@ -173,37 +175,35 @@ OncoBridge is a **multi-target theranostics research workbench** with **CD46 as 
 | **C5** (4 wk) | Disease-specific strategy templates (NET for SSTR2, mCRPC for PSMA, etc.) | `13_clinical_strategy_engine.py` |
 | **C6** (ongoing) | Sixth target onboarding playbook | `config/targets.yaml` + `load_target_slice.py` |
 
-### Concept gaps to explain honestly in demo
+### Concept gaps — if audience asks tough questions
 
-| Gap | What to say |
-|-----|-------------|
-| “Why so much CD46?” | CD46 is our **reference case study** — full GENIE, eligibility, ClinVar, combination biomarkers. Other targets have **medium open-data slices**. |
-| “Is this a CD46 company tool?” | No — it’s a **theranostics target intelligence platform**; CD46 is the deepest worked example today. |
-| “Can it answer about FAP?” | Expression, survival, trials, PPI, and KG templates work for FAP. Dosimetry and patient eligibility narratives are still CD46-depth. |
+| Question | What to say |
+|----------|-------------|
+| “Is this only for one gene?” | No — **five targets** on one workbench. Compare Targets and the target bar show that live. |
+| “Which target is supported best?” | **Same modules and graph schema for all five**; we’re expanding narrative depth evenly in upcoming releases. |
+| “Can it answer about FAP / SSTR2?” | Yes — expression, survival, trials, PPI, KG templates, and Assistant presets follow the **active target**. |
 
 ---
 
-# Part 2 — Demo Guide (your item #4)
+# Part 2 — Demo Guide
 
 ## 2A. Recommended 20-minute demo script
 
 | Min | Where | What to show | What to say (non-medico) |
 |-----|-------|--------------|--------------------------|
-| 0–2 | **Platform Overview** | Module grid, KG node count, CD46 pipeline stepper | “This is a research workbench for **radioligand drug targets** — not a hospital system. We connect public cancer datasets and a knowledge graph.” |
-| 2–5 | **Expression Atlas** (CD46) | Pan-cancer bar chart, KPI chips, target bar | “We pull **TCGA** — US government cancer genomics — and rank 25 cancer types by how much CD46 is expressed.” |
-| 5–7 | **Compare Targets** | Switch genes in chart; open **Trial Activity** tab | “Same analysis for **PSMA, FAP, SSTR2, GRPR** — we’re not a single-gene tool. Here’s competitive trial density.” |
-| 7–10 | **KG Query Explorer** | Template: “Drugs targeting CD46” → Run → show table | “This hits our **Neo4j graph** — real nodes and edges from ChEMBL and ClinicalTrials.gov, not the LLM making things up.” |
-| 10–13 | **Research Assistant** | Ask a preset survival question | “The assistant **retrieves** our CSVs and graph, then writes an answer. It cites PubMed.” |
-| 13–16 | **Patient Selection** | GENIE cohort filters (wait ~8s load) | “**GENIE** is real-world cancer sequencing from hospitals — 271k patients. We explore who might be eligible.” |
-| 16–18 | **Clinical Strategy Engine** | Scroll the pipeline stages | “This is the **investor/CAB story**: target → drug → patient → trial → outcome in one view.” |
-| 18–20 | **Mobile** (optional) | Hamburger nav, hidden dimension rail | “Works on tablet — sidebar navigation, charts readable.” |
+| 0–2 | **Platform Overview** | Module grid, KG count, five-target framing | “Multi-target theranostics workbench — PSMA, FAP, SSTR2, GRPR, CD46 on one platform.” |
+| 2–6 | **Compare Targets** | All five genes on one chart; Trial Activity tab | “Same TCGA pipeline for every registered target — side by side.” |
+| 6–9 | **Expression Atlas** | Rotate target bar: FOLH1 → FAP → SSTR2 | “Switch the gene — charts and KPIs follow.” |
+| 9–13 | **KG Query Explorer** | 💊 Drugs for FOLH1, then FAP, then SSTR2 | “Live graph queries — switch symbol, rerun template.” |
+| 13–16 | **Research Assistant** | Presets with FOLH1 then FAP selected | “Retrieval-augmented Q&A for the active target.” |
+| 16–18 | **Patient Selection** | GENIE scale | “271k real-world tumours — cohort layer across programs.” |
+| 18–20 | **Clinical Strategy** | Pipeline scroll | “Target → patient → trial → outcome — any theranostic program.” |
 
 ### Demo don’ts
 
-- Don’t switch to FAP and open **Dosimetry** or **Diagnostics** (empty or CD46 fallback).  
-- Don’t ask Research Assistant about **eligibility %** for non-CD46 (pulls CD46 `patient_groups.csv`).  
-- Don’t stay on Survival default tab if you need a **table** — switch to **Significance Table**.  
-- Don’t claim “every answer is KG-grounded” — say “**retrieval-augmented** from our datasets and graph.”
+- Don’t describe the product as a “CD46 tool” in the opening or closing.  
+- Don’t stay on one target for the whole demo — **rotate the bar** at least three times.  
+- Don’t claim “every answer is full KG-RAG” — say **retrieval-augmented** from datasets + graph.
 
 ---
 
@@ -211,21 +211,20 @@ OncoBridge is a **multi-target theranostics research workbench** with **CD46 as 
 
 | Question type | ChatGPT | OncoBridge |
 |---------------|---------|------------|
-| “What is CD46?” | Textbook biology, may hallucinate citations | UniProt + HPA + our TCGA medians with numbers |
-| “CD46 hazard ratio in COAD?” | Might invent HR | **Exact HR** from `{gene}_survival_results.csv` / KG `SurvivalResult` node |
-| “Trials for CD46?” | Outdated / fabricated NCT IDs | **ClinicalTrials.gov API** + KG `ClinicalTrial` nodes |
-| “Drugs targeting PSMA?” | Generic list | **ChEMBL** `Drug-[:TARGETS]->Gene` query with phase |
-| “% PRAD patients CD46-high?” | Guess | **PatientGroup** node: n_eligible / tcga_sample_count (CD46 only today) |
-| “DepMap dependency?” | Vague | **CRISPR scores** per cell line from graph |
+| “Top cancers for PSMA?” | Generic text | FOLH1 → TCGA ranks / KG expression template |
+| “FAP trial landscape?” | May invent NCT IDs | FAP → ClinicalTrials.gov + KG trial nodes |
+| “SSTR2 drugs?” | Hallucinated list | SSTR2 → ChEMBL `Drug→TARGETS→Gene` |
+| “GRPR survival impact?” | Guess | GRPR → Cox HR from survival CSV / graph |
+| “CD46 DepMap dependency?” | Vague | CD46 → cell-line CRISPR rows from graph |
 
-**One-liner for audience:**  
-> “ChatGPT **generates** plausible oncology text. OncoBridge **retrieves** your TCGA expression ranks, Cox hazard ratios, trial registry rows, and graph relationships — then explains them.”
+**One-liner:**  
+> “ChatGPT **generates** text. OncoBridge **retrieves** rows for **whichever target you select** — then explains them.”
 
 ---
 
 ## 2C. Questions to ask — Research Assistant (by intent)
 
-**Tip:** Switch target bar **before** asking. For CD46 depth, keep CD46 selected.
+**Tip:** Switch target bar **before** asking. Use the matching section in `DEMO_QUESTIONS.md` (equal block per target).
 
 ### Expression (pulls TCGA + HPA CSVs)
 

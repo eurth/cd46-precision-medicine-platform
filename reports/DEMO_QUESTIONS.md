@@ -1,216 +1,171 @@
 # OncoBridge Demo Questions — Copy-Paste Bank
 
-Use these **exact strings** during the demo. Organized by module.
+**Positioning:** Five targets share the same modules. **Select the target in the bar first**, then use the questions below.
 
-**Golden rule:** Research Assistant + deep patient/biomarker questions → **CD46 only**.  
-**KG Query Explorer** → works for all five targets (CD46, FOLH1, FAP, SSTR2, GRPR).
+Symbols: **FOLH1** (PSMA) · **FAP** · **SSTR2** · **GRPR** · **CD46**
 
 ---
 
-## A. Research Assistant — click presets (safest)
+## A. Research Assistant — presets (click buttons)
 
-These appear as buttons when the chat is empty. **Click; don’t type.**
+Presets use `{active gene}` — they change when you switch the target bar.
 
-### Quick-Start (CD46 selected)
+### FOLH1 (PSMA)
+
+1. `Summarise FOLH1 expression across TCGA cancer types with hazard ratios.`
+2. `What is the current FOLH1-targeted drug pipeline and which agents are in clinical trials?`
+3. `What is the therapeutic rationale for targeting FOLH1 in solid tumours?`
+4. `What DepMap evidence supports FOLH1 as a cancer dependency?`
+5. `How does FOLH1 compare to other prostate surface targets in the trial landscape?`
+
+### FAP
+
+1. `Summarise FAP expression across TCGA cancer types with hazard ratios.`
+2. `What is the current FAP-targeted drug pipeline and which agents are in clinical trials?`
+3. `What is the therapeutic rationale for targeting FAP in solid tumours?`
+4. `What DepMap evidence supports FAP as a cancer dependency?`
+5. `What are the FAP isoforms and which are most relevant for therapeutic targeting?`
+
+### SSTR2
+
+1. `Summarise SSTR2 expression across TCGA cancer types with hazard ratios.`
+2. `What is the current SSTR2-targeted drug pipeline and which agents are in clinical trials?`
+3. `What is the therapeutic rationale for targeting SSTR2 in solid tumours?`
+4. `What DepMap evidence supports SSTR2 as a cancer dependency?`
+5. `Which cancers have the strongest combination of SSTR2 over-expression and survival impact?`
+
+### GRPR
+
+1. `Summarise GRPR expression across TCGA cancer types with hazard ratios.`
+2. `What is the current GRPR-targeted drug pipeline and which agents are in clinical trials?`
+3. `What is the therapeutic rationale for targeting GRPR in solid tumours?`
+4. `What DepMap evidence supports GRPR as a cancer dependency?`
+5. `Which cancers have the strongest combination of GRPR over-expression and survival impact?`
+
+### CD46
 
 1. `Summarise CD46 expression across TCGA cancer types with hazard ratios.`
 2. `What is the current CD46-targeted drug pipeline and which agents are in clinical trials?`
 3. `How does CD46 regulate complement evasion in tumour cells?`
 4. `What DepMap evidence supports CD46 as a cancer dependency?`
-5. `What are the CD46 isoforms and which are most relevant for therapeutic targeting?`
+5. `Which cancers have the strongest combination of CD46 over-expression and survival impact?`
 
-### CAB Focus (CD46 selected — clinical audience)
+### CAB-style (switch target to match question)
 
-1. `Which cancers have the strongest case for CD46-targeted RLT based on expression and survival?`
-2. `What is the optimal biomarker strategy for CD46 patient selection in a Phase I trial?`
-3. `How does CD46 compare to PSMA as a therapeutic target in mCRPC?`
-4. `Design a Phase I dose-escalation trial for CD46-targeted RLT in mCRPC — key elements?`
-5. `What clinical trial evidence exists for anti-CD46 therapies and what are the emerging readouts?`
-
-### Type-in questions (if presets used up)
-
-| Intent | Copy-paste question | What it retrieves |
-|--------|---------------------|-------------------|
-| Expression | `Which TCGA cancer types show the highest CD46 median expression?` | `{gene}_by_cancer.csv` |
-| Survival | `Which cancers have a significant CD46 hazard ratio for overall survival?` | `{gene}_survival_results.csv` |
-| Trials | `List active clinical trials targeting CD46.` | ClinicalTrials.gov API |
-| KG | `Show me CD46 knowledge graph expression across cancer types.` | Live Neo4j Cypher |
-| Literature | `What recent PubMed publications support CD46 as a radioligand target?` | PubMed |
-| Protein | `Summarise CD46 protein expression from the Human Protein Atlas.` | HPA CSV |
-
-### Research Assistant — avoid today (non-CD46 or thin data)
-
-- `What percentage of PRAD patients are CD46-high eligible?` — OK on CD46 only
-- `What combination biomarkers predict CD46 response with AR-V7?` — CD46 CSV only
-- Same eligibility/biomarker questions with **FAP** or **SSTR2** — thin context until post-demo fixes
+| Target | Question |
+|--------|----------|
+| FOLH1 | `Which cancers have the strongest case for FOLH1-targeted RLT based on expression and survival?` |
+| FAP | `What is the optimal biomarker strategy for FAP patient selection in a Phase I trial?` |
+| SSTR2 | `What clinical trial evidence exists for anti-SSTR2 therapies?` |
+| GRPR | `Design key elements for a Phase I GRPR-targeted RLT dose-escalation study.` |
+| CD46 | `How does CD46 compare to PSMA as a therapeutic target in mCRPC?` |
 
 ---
 
-## B. KG Query Explorer — template dropdown (best KG proof)
+## B. KG Query Explorer — templates (per target)
 
-**Path:** Graph → KG Query Explorer → Query Templates → Run Query
+**Path:** Graph → KG Query Explorer → select target → Query Templates → Run
 
-### CD46 (default target)
+Use the **same seven templates** for every target; only the symbol in the dropdown changes.
 
-| # | Select this template | Demo line |
-|---|----------------------|-----------|
-| 1 | 🎯 Expression: Which cancers have highest CD46? | “Ranked TCGA codes from our graph.” |
-| 2 | 📈 Survival: Which cancers show CD46-High = worse prognosis? | “Pre-computed Cox hazard ratios.” |
-| 3 | 💊 Drugs: Agents targeting CD46? | “ChEMBL-linked drug nodes.” |
-| 4 | 🧪 Clinical Trials: Trials investigating CD46 / related diseases? | “NCT IDs from registry.” |
-| 5 | 📊 Cell lines: Which lines depend on CD46? | “DepMap CRISPR dependency.” |
-| 6 | 🔬 Co-expression: Genes correlated with CD46 in PRAD? | “Spearman correlation in prostate cancer.” |
-| 7 | 📚 Publications: Evidence linked to CD46? | “PubMed nodes in the graph.” |
+| Template | Demo line (any target) |
+|----------|------------------------|
+| 🎯 Expression: highest cancers | “Ranked TCGA codes from our graph.” |
+| 📈 Survival: High = worse prognosis | “Pre-computed Cox hazard ratios.” |
+| 💊 Drugs: Agents targeting {gene}? | “ChEMBL-linked drug nodes.” |
+| 🧪 Clinical Trials | “NCT IDs from registry.” |
+| 📊 Cell lines: DepMap dependency | “Named cell lines + CRISPR scores.” |
+| 🔬 Co-expression in PRAD | “Spearman ρ from TCGA.” |
+| 📚 Publications | “PubMed nodes in the graph.” |
 
-### FOLH1 / PSMA (switch target bar first)
+### Suggested demo rotation (60 sec each)
 
-| # | Template |
-|---|----------|
-| 1 | 💊 Drugs: Agents targeting FOLH1? |
-| 2 | 🧪 Clinical Trials: Trials investigating FOLH1 / related diseases? |
-| 3 | 🎯 Expression: Which cancers have highest FOLH1? |
-
-**Say:** “PSMA is FOLH1 in our registry — same graph, prostate radioligand benchmark.”
-
-### FAP (switch target bar)
-
-| # | Template |
-|---|----------|
-| 1 | 💊 Drugs: Agents targeting FAP? |
-| 2 | 📊 Cell lines: Which lines depend on FAP? |
+1. **FOLH1** → 💊 Drugs  
+2. **FAP** → 🧪 Clinical Trials  
+3. **SSTR2** → 🎯 Expression  
+4. **GRPR** → 📚 Publications  
+5. **CD46** → 📈 Survival  
 
 ---
 
-## C. KG Query Explorer — Natural Language tab
+## C. Natural Language → Cypher (KG Explorer)
 
-Paste into the question box (CD46 selected):
-
-```
-Which diseases have the worst survival outcome when CD46 expression is high?
-```
-
-```
-List all drugs in the knowledge graph that target CD46 with max phase 2 or higher.
-```
-
-```
-What genes are co-expressed with CD46 in prostate cancer?
-```
-
-```
-Which cell lines are most dependent on CD46 according to DepMap?
-```
-
-**FOLH1 (switch target first):**
-
+**FOLH1:**
 ```
 What clinical trials in the knowledge graph target FOLH1?
 ```
 
+**FAP:**
+```
+Which cell lines are most dependent on FAP according to DepMap?
+```
+
+**SSTR2:**
+```
+Which diseases have the highest SSTR2 expression in the knowledge graph?
+```
+
+**GRPR:**
+```
+List drugs in the knowledge graph that target GRPR.
+```
+
+**CD46:**
+```
+Which diseases have the worst survival outcome when CD46 expression is high?
+```
+
 ---
 
-## D. KG Query Explorer — Cypher Editor (technical audience)
+## D. Cypher Editor (technical audience)
 
-Read-only queries — paste and **Run**:
+Replace `{SYMBOL}` with FOLH1, FAP, SSTR2, GRPR, or CD46:
 
-### Expression rank
 ```cypher
-MATCH (g:Gene {symbol: 'CD46'})-[r:EXPRESSED_IN_CANCER]->(d:Disease)
+MATCH (g:Gene {symbol: '{SYMBOL}'})-[r:EXPRESSED_IN_CANCER]->(d:Disease)
 RETURN d.tcga_code AS cancer, r.median_tpm_log2 AS median, r.expression_rank AS rank
 ORDER BY r.expression_rank ASC
 LIMIT 10
 ```
 
-### Survival (significant, worse prognosis)
 ```cypher
-MATCH (d:Disease)-[:HAS_SURVIVAL_RESULT]->(sr:SurvivalResult)
-WHERE sr.gene_symbol = 'CD46'
-  AND sr.hazard_ratio > 1.0
-  AND sr.p_value < 0.05
-RETURN d.tcga_code, sr.hazard_ratio, sr.p_value, sr.endpoint
-ORDER BY sr.hazard_ratio DESC
-LIMIT 15
-```
-
-### Drugs targeting gene
-```cypher
-MATCH (drug:Drug)-[:TARGETS]->(g:Gene {symbol: 'FOLH1'})
-RETURN drug.name, drug.drug_type, drug.max_phase, drug.mechanism
+MATCH (drug:Drug)-[:TARGETS]->(g:Gene {symbol: '{SYMBOL}'})
+RETURN drug.name, drug.drug_type, drug.max_phase
 ORDER BY drug.max_phase DESC
 ```
 
-### Trials
 ```cypher
-MATCH (t:ClinicalTrial)-[:TARGETS_GENE]->(g:Gene {symbol: 'CD46'})
+MATCH (t:ClinicalTrial)-[:TARGETS_GENE]->(g:Gene {symbol: '{SYMBOL}'})
 RETURN t.nct_id, t.phase, t.status, t.title
-LIMIT 20
-```
-
-### DepMap dependency
-```cypher
-MATCH (cl:CellLine)-[r:DEPENDS_ON]->(g:Gene {symbol: 'CD46'})
-RETURN cl.name, cl.cancer_type, r.crispr_score
-ORDER BY r.crispr_score ASC
 LIMIT 15
 ```
 
 ---
 
-## E. ChatGPT vs OncoBridge — side-by-side script
+## E. ChatGPT vs OncoBridge
 
-Read this if audience asks “why not ChatGPT?”
+| Generic ChatGPT | OncoBridge (any active target) |
+|-----------------|--------------------------------|
+| “Top cancers for PSMA?” | FOLH1 → Expression template or Atlas chart |
+| “FAP clinical trials?” | FAP → 🧪 Trials template |
+| “SSTR2 drugs?” | SSTR2 → 💊 Drugs template |
+| “GRPR hazard ratios?” | GRPR → 📈 Survival template |
+| “CD46 cell line dependency?” | CD46 → 📊 Cell lines template |
 
-| You ask ChatGPT | You ask OncoBridge | Difference |
-|-----------------|-------------------|------------|
-| “Top cancers for CD46 expression?” | Expression Atlas chart OR KG template 🎯 | **Numbers from TCGA**, ranked |
-| “CD46 hazard ratio in COAD?” | Research Assistant survival question | **Exact HR** from Cox CSV |
-| “CD46 clinical trials?” | KG template 🧪 or Assistant trial preset | **NCT IDs** from registry |
-| “Drugs targeting PSMA?” | KG → FOLH1 → 💊 Drugs template | **ChEMBL graph edges** |
-| “Is CD46 a dependency?” | KG → 📊 Cell lines template | **Named cell lines + CRISPR scores** |
-
-**Sound bite:**
-
-> “ChatGPT writes plausible paragraphs. OncoBridge returns **rows you can verify** — cancer codes, hazard ratios, NCT numbers, cell line names.”
+**Sound bite:** “Same platform — **switch the target**, get **verifiable rows**.”
 
 ---
 
-## F. Audience-specific question picks
+## F. Terminology (non-medico)
 
-### Investor / business (5 min AI segment only)
-
-1. Assistant preset: `How does CD46 compare to PSMA as a therapeutic target in mCRPC?`
-2. KG: 💊 Drugs targeting CD46
-3. Compare Targets → Trial Activity tab
-
-### Scientific / translational (full KG segment)
-
-1. KG: 📈 Survival CD46-High worse prognosis
-2. KG: 🔬 Co-expression PRAD
-3. Cypher: DepMap dependency query (§ D)
-4. Assistant: `What DepMap evidence supports CD46 as a cancer dependency?`
-
-### Clinical advisory board (CAB)
-
-Use all five **CAB Focus** presets in Research Assistant (§ A).
-
-### Technical / data engineer
-
-1. KG → Cypher Editor → paste § D queries
-2. Show **View Cypher** expander on templates
-3. Mention data freeze: `2026-07-28-phase4-five-targets`, Neo4j ~3,586 nodes
-
----
-
-## G. One-liner answers (if you blank on terminology)
-
-| Term | Your answer |
-|------|-------------|
-| TCGA | US government cancer genomics — tumour RNA and survival |
-| GENIE | Hospital real-world sequencing registry — 271k patients |
-| PSMA | Prostate target; our symbol is FOLH1 |
-| RLT | Radioligand therapy — radioactive molecule binds a cell-surface target |
-| HR > 1 | Higher expression linked to **worse** survival |
-| NCT | Clinical trial registry ID — verifiable on clinicaltrials.gov |
-| KG / Neo4j | Our linked database of genes, drugs, trials, papers |
-| HPA | Human Protein Atlas — where protein is found in tissues |
-| DepMap | Which cancer cell lines **need** a gene to survive |
+| Term | Plain English |
+|------|---------------|
+| FOLH1 / PSMA | Prostate surface target (Pluvicto class) |
+| FAP | Stromal marker on cancer-associated fibroblasts |
+| SSTR2 | Receptor on neuroendocrine tumours |
+| GRPR | Receptor on several solid tumours (e.g. lung) |
+| CD46 | Pan-cancer surface antigen |
+| TCGA | US government cancer genomics |
+| GENIE | Hospital real-world sequencing registry |
+| NCT | Trial ID on clinicaltrials.gov |
+| KG | Linked database (Neo4j) |

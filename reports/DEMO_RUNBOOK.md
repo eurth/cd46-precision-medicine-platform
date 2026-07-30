@@ -1,21 +1,20 @@
-# OncoBridge Demo Runbook — Tomorrow
+# OncoBridge Demo Runbook
 
 **Live site:** https://oncobridge.eurthtech.com  
 **Duration:** 20–25 minutes (+ 5 min Q&A)  
-**Rule:** Keep **CD46** selected except on **Compare Targets** and when showing **PSMA/FAP** in KG Explorer.
+**Positioning:** **Multi-target platform** — rotate FOLH1, FAP, SSTR2, GRPR, and CD46 via the target bar.
 
 ---
 
 ## Before you start (2 min)
 
 - [ ] Open Chrome (desktop, full screen)
-- [ ] Confirm target bar shows **CD46** selected
-- [ ] Have this file open on a second screen or printed
-- [ ] Optional: pre-load Patient Selection in a background tab (slow first load ~8s)
+- [ ] Have this file on a second screen
+- [ ] Know the five symbols: **FOLH1** (PSMA), **FAP**, **SSTR2**, **GRPR**, **CD46**
 
 **Opening line (memorize):**
 
-> “OncoBridge is an open research workbench for **radioligand and surface-antigen target intelligence**. It connects public cancer datasets and a knowledge graph — so we **retrieve real numbers**, not generic AI guesses. CD46 is our deepest worked example; the platform supports five theranostic targets.”
+> “OncoBridge is a **multi-target theranostics research workbench**. Five surface targets — PSMA, FAP, SSTR2, GRPR, and CD46 — share the same sixteen modules, datasets, and knowledge graph. Switch the target bar and the whole platform follows.”
 
 ---
 
@@ -25,106 +24,83 @@
 
 | Do | Say |
 |----|-----|
-| Scroll module cards slowly | “Sixteen modules across nine research dimensions — expression, patients, drugs, survival, knowledge graph, and strategy.” |
-| Point at KG node count | “About three and a half thousand nodes in our Neo4j graph — genes, trials, drugs, publications, linked together.” |
-| Point at CD46 pipeline stepper | “CD46 is our reference **alpha radioligand** case study — from target biology through trials.” |
+| Point at target bar / five-gene mention on page | “Five theranostic targets on one architecture — not a single-gene tool.” |
+| Scroll module cards | “Sixteen modules: expression, patients, drugs, survival, graph, strategy.” |
+| Point at KG node count | “Neo4j graph — genes, trials, drugs, publications linked.” |
 
-**Do not:** Click into modules yet. Set the frame.
-
----
-
-## Stop 2 — Expression Atlas (4 min)
-
-**URL:** https://oncobridge.eurthtech.com/cd46_expression_atlas
-
-| Do | Say |
-|----|-----|
-| Point at KPI chips (25 cancers, COAD top) | “TCGA pan-cancer survey — government genomics data, twenty-five cancer types profiled.” |
-| Show horizontal bar chart | “Highest median CD46 expression — colon, lung, prostate among the leaders.” |
-| Expand **Chart options** only if asked | “Filters are collapsed so the chart is above the fold.” |
-| Click tab **Protein & Safety** | “Human Protein Atlas — protein-level evidence, not just RNA.” |
-
-**If chart doesn’t load:** Refresh once. Wait 3s.
+**Do not** open with CD46-only narrative.
 
 ---
 
-## Stop 3 — Compare Targets (4 min) ⭐ multi-target moment
+## Stop 2 — Compare Targets (4 min) ⭐ lead multi-target here
 
 **URL:** https://oncobridge.eurthtech.com/competitive_landscape
 
 | Do | Say |
 |----|-----|
-| Show default **Live Expression Compare** chart | “Same TCGA pipeline for **five targets**: CD46, PSMA, FAP, SSTR2, GRPR — not a single-gene tool.” |
-| Click tab **Trial Activity & Funnel** | “Competitive trial density — PSMA is saturated; CD46 is greener field.” |
-| Scroll to **Active Competitor Pipeline** table | “Curated public pipeline — Pluvicto for PSMA, emerging CD46 agents.” |
-| Click tab **Target Biology** | “Side-by-side biology comparison matrix.” |
+| Show **Live Expression Compare** chart (all five genes) | “Same TCGA pipeline for **FOLH1, FAP, SSTR2, GRPR, CD46** — side by side.” |
+| Tab **Trial Activity & Funnel** | “Trial density — PSMA saturated, others at different maturity.” |
+| **Active Competitor Pipeline** table | “Public pipeline — Pluvicto for PSMA, FAP/SSTR2 emerging, CD46 green field.” |
+| Tab **Target Biology** | “Biology comparison matrix across all five.” |
 
 ---
 
-## Stop 4 — KG Query Explorer (5 min) ⭐ “not ChatGPT” moment
+## Stop 3 — Expression Atlas (3 min) — rotate target bar
+
+**URL:** https://oncobridge.eurthtech.com/cd46_expression_atlas
+
+| Do | Say |
+|----|-----|
+| Target bar → **FOLH1** | “Expression Atlas follows the active target — PSMA pan-cancer profile.” |
+| Note KPI chips refresh | “Twenty-five cancer types from TCGA.” |
+| Target bar → **FAP** | “Same module, different gene — stromal FAP expression landscape.” |
+| Optional → **SSTR2** | “Neuroendocrine-relevant receptor — NET context.” |
+
+Use **active gene name** in speech, not “CD46 page.”
+
+---
+
+## Stop 4 — KG Query Explorer (5 min) ⭐ graph proof — rotate targets
 
 **URL:** https://oncobridge.eurthtech.com/kg_query_explorer
 
-**Ensure CD46 is selected in target bar.**
+| Step | Target | Template | Say |
+|------|--------|----------|-----|
+| 1 | **FOLH1** | 💊 Drugs: Agents targeting FOLH1? | “ChEMBL-linked drugs — Pluvicto-era PSMA landscape.” |
+| 2 | **FAP** | 🧪 Clinical Trials | “NCT IDs from ClinicalTrials.gov — verifiable rows.” |
+| 3 | **SSTR2** | 🎯 Expression: highest cancers | “Ranked TCGA codes from the graph.” |
+| 4 | **GRPR** or **CD46** | 📊 Cell lines / Survival | “DepMap dependency or Cox HR — pre-computed, not LLM.” |
 
-| Step | Action |
-|------|--------|
-| 1 | Tab: **Query Templates** |
-| 2 | Dropdown: **💊 Drugs: Agents targeting CD46?** |
-| 3 | Click **Run Query** |
-| 4 | Point at results table (drug name, type, max phase) | |
+**Key line:**
 
-**Say:**
-
-> “This is a live Cypher query against our Aura knowledge graph — ChEMBL and curated theranostic agents. ChatGPT would invent drug names; we return **linked nodes with clinical phase**.”
-
-**Optional second query (30 sec):**
-
-- Template: **🧪 Clinical Trials: Trials investigating CD46 / related diseases?**
-- Say: “Real **NCT IDs** from ClinicalTrials.gov ingestion.”
-
-**Optional third query (switch target):**
-
-- Target bar → **FOLH1** (PSMA)
-- Template: **💊 Drugs: Agents targeting FOLH1?**
-- Say: “Same graph schema — different gene symbol. Multi-target is real at the graph layer.”
-
-**Advanced (only if audience is technical):**
-
-- Tab **Cypher Editor** → paste from `DEMO_QUESTIONS.md` § Cypher examples → Run
+> “One Cypher template set — we **switch the gene symbol** and rerun. That is multi-target at the graph layer.”
 
 ---
 
-## Stop 5 — Research Assistant (4 min)
+## Stop 5 — Research Assistant (4 min) — match active target
 
 **URL:** https://oncobridge.eurthtech.com/research_assistant
 
-**Ensure CD46 selected.**
-
 | Step | Action |
 |------|--------|
-| 1 | Click preset button (don’t type yet): **“Summarise CD46 expression across TCGA cancer types with hazard ratios.”** |
-| 2 | Wait for stream to finish (~15–30s) |
-| 3 | Expand **Sources** / citations if visible |
-| 4 | Click second preset: **“What is the current CD46-targeted drug pipeline and which agents are in clinical trials?”** |
+| 1 | Target bar → **FOLH1** |
+| 2 | Click preset: **“Summarise FOLH1 expression across TCGA cancer types with hazard ratios.”** |
+| 3 | Target bar → **FAP** |
+| 4 | Click preset: **“What DepMap evidence supports FAP as a cancer dependency?”** |
 
 **Say:**
 
-> “The assistant **classifies the question**, pulls our CSVs and graph context, then synthesizes an answer. PubMed citations are appended — retrieval-augmented, not pure generation.”
-
-**Do not ask (today):** eligibility %, combination biomarkers, or PTEN/CD46 for non-CD46 targets.
+> “Presets follow the **selected target**. Retrieval from our CSVs and graph — then the model explains.”
 
 ---
 
-## Stop 6 — Patient Selection (3 min)
+## Stop 6 — Patient Selection (2 min)
 
 **URL:** https://oncobridge.eurthtech.com/patient_selection
 
 | Do | Say |
 |----|-----|
-| Wait for load | “AACR **GENIE** — real-world sequencing from academic hospitals, two hundred seventy-one thousand patients.” |
-| Open **Filter 271,837 GENIE patients** expander briefly | “Cohort filters — cancer type, alteration context.” |
-| Show table / charts | “Who might be in scope for a precision trial — grounded in observed genomics.” |
+| Wait for load (~8s first time) | “AACR **GENIE** — 271,837 real-world sequenced tumours, target-agnostic cohort layer.” |
 
 ---
 
@@ -134,17 +110,13 @@
 
 | Do | Say |
 |----|-----|
-| Scroll top to bottom | “End-to-end narrative: target → biomarker → patient → trial → outcome — the CAB / investor view.” |
+| Scroll pipeline | “End-to-end: target → biomarker → patient → trial → outcome — for whichever target you’re developing.” |
 
 ---
 
 ## Closing (1 min)
 
-**Closing line:**
-
-> “We’re research-grade, not clinical advice. Everything traces to named datasets — TCGA, GENIE, ClinicalTrials.gov, ChEMBL, and our Neo4j graph. Happy to go deeper on any module.”
-
-**Disclaimer (if asked):** Research use only. Not a medical device.
+> “Five targets, one workbench, named datasets — TCGA, GENIE, ClinicalTrials.gov, ChEMBL, Neo4j. Research use only, not clinical advice.”
 
 ---
 
@@ -152,32 +124,25 @@
 
 | Problem | Fix |
 |---------|-----|
-| Blank table | Refresh; switch tab (Survival → Significance Table) |
-| Assistant timeout | Use KG Explorer template instead — faster, more reliable |
-| Slow Patient Selection | Skip or say “pre-loading cohort” and use Strategy instead |
-| Wrong target selected | Click **CD46** in target bar; page reruns |
-| Neo4j offline | KG Explorer shows fallback stats; use Expression Atlas + Assistant CSV intents |
+| Blank table | Refresh; Survival → **Significance Table** tab |
+| Assistant slow | KG Explorer template — faster |
+| Wrong target | Use target bar — page reruns for new gene |
 
 ---
 
-## Pages to skip in main demo
+## Pages to de-emphasize in external demo
 
-| Page | Why |
-|------|-----|
-| Dosimetry & Safety | CD46-static HPA data only |
-| Diagnostics & Early Detection | CD46-depth narrative |
-| Admin / Debug | Internal |
+Dosimetry and Diagnostics still have uneven depth per target internally — use **Compare Targets + KG Explorer + Expression rotation** instead.
 
 ---
 
-## Quick reference — dataset name-drops
+## Dataset name-drops (target-agnostic)
 
-| When you show… | Say this dataset |
-|----------------|------------------|
-| Expression chart | **TCGA** via UCSC Xena |
-| Protein tab | **Human Protein Atlas (HPA)** |
-| GENIE cohort | **AACR GENIE** real-world genomics |
-| Trial table | **ClinicalTrials.gov** |
-| Drug query in KG | **ChEMBL** + graph |
-| Survival HR | **TCGA Cox** survival results |
-| Assistant citations | **PubMed** |
+| Module | Dataset |
+|--------|---------|
+| Expression | TCGA / UCSC Xena |
+| Protein | Human Protein Atlas |
+| Cohorts | AACR GENIE |
+| Trials | ClinicalTrials.gov |
+| Drugs in KG | ChEMBL |
+| Graph | Neo4j AuraDB |
