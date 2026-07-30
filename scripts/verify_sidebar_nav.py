@@ -11,6 +11,6 @@ from components.sidebar_nav import NAV_SECTIONS, PAGE_TO_SECTION, _collapsed_sta
 
 assert len(NAV_SECTIONS) == 9
 assert PAGE_TO_SECTION["Expression Atlas"] == "Target / Cancer"
-st = _collapsed_state("Home")
-assert st["Home"] and not st["Biomarkers"]
+st = _collapsed_state()
+assert not any(st.values())
 print("OK: sidebar nav defaults")

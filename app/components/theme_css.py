@@ -244,11 +244,25 @@ details[data-testid="stExpander"] > summary span {{
     height: calc(100vh - var(--ob-topbar-h)) !important;
 }}
 [data-testid="stSidebar"] [data-testid="stSidebarContent"] {{
-    padding-top: 0 !important;
+    padding-top: 6px !important;
     padding-bottom: 0.5rem !important;
+}}
+[data-testid="stSidebarHeader"],
+[data-testid="stLogoSpacer"],
+[data-testid="stSidebarCollapseButton"] {{
+    display: none !important;
+    height: 0 !important; min-height: 0 !important;
+    margin: 0 !important; padding: 0 !important;
+    overflow: hidden !important;
 }}
 [data-testid="stSidebarNav"] {{
     padding-top: 0 !important; margin-top: 0 !important;
+}}
+[data-testid="stSidebarNavItems"] > div {{
+    margin-top: 6px !important;
+}}
+[data-testid="stSidebarNavItems"] > div:first-child {{
+    margin-top: 0 !important;
 }}
 [data-testid="stSidebarNav"] > ul,
 [data-testid="stSidebarNavItems"] {{

@@ -37,14 +37,15 @@ PAGE_TO_SECTION: dict[str, str] = {
 }
 
 
-def _collapsed_state(active_section: str) -> dict[str, bool]:
-    return {name: name == active_section for name in NAV_SECTIONS}
+def _collapsed_state() -> dict[str, bool]:
+    # ponytail: all sections collapsed on load; user expands when needed
+    return dict.fromkeys(NAV_SECTIONS, False)
 
 
 def inject_sidebar_nav_defaults(current_page: str | None) -> None:
     """Persist collapsed section state; click-collapse after nav paints."""
-    active = PAGE_TO_SECTION.get(current_page or "", "Home")
-    state_json = json.dumps(_collapsed_state(active))
+    _ = PAGE_TO_SECTION.get(current_page or "", "Home")  # reserved for future active hints
+    state_json = json.dumps(_collapsed_state())
     sections_js = json.dumps(list(NAV_SECTIONS))
     components.html(
         f"""
@@ -67,21 +68,23 @@ def inject_sidebar_nav_defaults(current_page: str | None) -> None:
   function collapseExpanded() {{
     const nav = doc.querySelector('[data-testid="stSidebarNav"]');
     if (!nav) return false;
+    let clicked = false;
     nav.querySelectorAll('[data-testid="stNavSectionHeader"]').forEach((header) => {{
       const section = header.parentElement;
       if (!section) return;
-      const hasActive = section.querySelector('[aria-current="page"]');
-      const hasLinks = section.querySelector('[data-testid="stSidebarNavLink"]');
-      if (hasLinks && !hasActive) header.click();
+      if (section.querySelector('[data-testid="stSidebarNavLink"]')) {{
+        header.click();
+        clicked = true;
+      }}
     }});
-    return true;
+    return !clicked;
   }}
 
   persistState();
   let tries = 0;
   const timer = win.setInterval(() => {{
-    if (collapseExpanded() || ++tries > 24) win.clearInterval(timer);
-  }}, 120);
+    if (collapseExpanded() || ++tries > 30) win.clearInterval(timer);
+  }}, 150);
 }})();
 </script>
         """,
@@ -92,5 +95,5 @@ def inject_sidebar_nav_defaults(current_page: str | None) -> None:
 
 if __name__ == "__main__":
     assert PAGE_TO_SECTION["Platform Overview"] == "Home"
-    assert _collapsed_state("Home")["Target / Cancer"] is False
+    assert _collapsed_state()["Target / Cancer"] is False
     print("sidebar_nav_ok")
