@@ -65,26 +65,21 @@ _AXIS = {
     "tickfont": {"color": TEXT_SECONDARY, "size": 11},
     "title": {"font": {"color": TEXT_MUTED, "size": 12}},
 }
+CHART_AXIS = _AXIS  # optional: merge into per-page xaxis/yaxis dicts
 
 
 def plotly_layout(**overrides) -> dict:
-    """Default Plotly layout for Clinical Slate; pass page overrides as kwargs."""
+    """Default Plotly layout for Clinical Slate; pass page overrides as kwargs.
+
+    Base omits xaxis/yaxis/legend/hoverlabel — pages spread ``**_PLOTLY_LAYOUT``
+    then pass those keys; including them here causes duplicate-kwarg TypeErrors.
+  Use ``plotly_layout(xaxis=..., yaxis=...)`` or ``apply_plotly_layout(fig, ...)``
+    when you need merged axis defaults from CHART_AXIS.
+    """
     base = {
         "paper_bgcolor": SURFACE,
         "plot_bgcolor": SURFACE_2,
         "font": {"family": "Inter, sans-serif", "color": TEXT_MUTED},
-        "xaxis": dict(_AXIS),
-        "yaxis": dict(_AXIS),
-        "hoverlabel": {
-            "bgcolor": SURFACE,
-            "bordercolor": BORDER,
-            "font": {"color": TEXT, "size": 12},
-        },
-        "legend": {
-            "bgcolor": "rgba(255,255,255,0.92)",
-            "bordercolor": BORDER,
-            "font": {"color": TEXT, "size": 11},
-        },
     }
     return _deep_merge(base, overrides)
 
@@ -99,6 +94,23 @@ def assert_theme_smoke() -> None:
     layout = plotly_layout()
     assert layout["paper_bgcolor"] == SURFACE
     assert PRIMARY.startswith("#")
+    # Page pattern: **_PLOTLY_LAYOUT then explicit xaxis/yaxis must not duplicate keys.
+    assert "xaxis" not in layout and "yaxis" not in layout
+    import plotly.graph_objects as go
+
+    fig = go.Figure()
+    base = plotly_layout()
+    fig.update_layout(
+        **base,
+        xaxis=dict(title="Test", color=TEXT_MUTED, gridcolor=CHART_GRID),
+        yaxis=dict(color=TEXT, tickfont=dict(size=11)),
+        legend=dict(font=dict(color=TEXT)),
+    )
+    merged = plotly_layout(
+        xaxis=_deep_merge(dict(_AXIS), {"title": "Merged"}),
+        yaxis=dict(color=TEXT),
+    )
+    assert merged["xaxis"]["title"] == "Merged"
 
 
 if __name__ == "__main__":
