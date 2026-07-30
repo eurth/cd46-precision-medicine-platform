@@ -178,6 +178,15 @@ button[data-testid="stBaseButton-headerNoPadding"] {{ display: none !important; 
 [data-testid="stTabs"] [aria-selected="true"] {{
     color: {PRIMARY} !important; border-bottom: 2px solid {PRIMARY} !important;
 }}
+[data-testid="stTabs"] [data-testid="stVerticalBlockBorderWrapper"] {{
+    padding: 0 !important; border: none !important; margin: 0 !important;
+}}
+[data-testid="stTabs"] [data-testid="stMarkdownContainer"] {{
+    margin-left: 0 !important; padding-left: 0 !important;
+}}
+[data-testid="stTabs"] [data-testid="stMarkdownContainer"] p {{
+    margin-left: 0 !important; padding-left: 0 !important;
+}}
 
 [data-testid="stDataFrame"] iframe,
 [data-testid="stDataFrame"] > div {{
@@ -233,6 +242,16 @@ details[data-testid="stExpander"] > summary span {{
     box-shadow: none !important;
     top: var(--ob-topbar-h) !important;
     height: calc(100vh - var(--ob-topbar-h)) !important;
+}}
+[data-testid="stSidebar"] [data-testid="stSidebarContent"] {{
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.75rem !important;
+}}
+[data-testid="stSidebarNav"] {{
+    padding-top: 0 !important; margin-top: 0 !important;
+}}
+[data-testid="stSidebarNav"] > ul {{
+    padding-top: 0 !important; margin-top: 0 !important;
 }}
 [data-testid="stSidebarNavSeparator"] span,
 [data-testid="stSidebarNavSeparator"] p {{
@@ -391,7 +410,7 @@ a.ob-rail-on {{
 .ob-tb-ens {{ font-family: 'JetBrains Mono', monospace; font-size: 11px; color: {TEXT_MUTED}; }}
 
 .ob-side-target {{
-    padding: 10px 14px; margin: 8px 8px 4px;
+    padding: 8px 10px; margin: 0 8px 8px;
     border: 1px solid {BORDER}; border-radius: 8px; background: {SURFACE_2};
 }}
 .ob-side-target-kicker {{
@@ -447,11 +466,15 @@ a.ob-rail-on {{
 
 /* U2 — target spotlight (tab panel body) */
 .lp-spotlight {{
-    margin: 0 0 12px; padding: 14px 0;
-    border-radius: 12px; border: 1px solid {BORDER};
+    margin: 0 0 12px; padding: 12px 14px;
+    border-radius: 12px; border: 1px solid {BORDER}; border-left: none;
     background: linear-gradient(135deg, {SURFACE} 0%, {PRIMARY_SOFT} 100%);
     box-shadow: 0 2px 8px rgba(15,23,42,0.06);
-    border-left: 4px solid {PRIMARY};
+    position: relative;
+}}
+.lp-spotlight::before {{
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+    border-radius: 12px 0 0 12px; background: {PRIMARY};
 }}
 .lp-carousel-tag {{
     font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
@@ -474,7 +497,7 @@ a.ob-rail-on {{
 
 .lp-start-label {{
     font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
-    text-transform: uppercase; color: {TEXT_MUTED}; margin: 8px 0 10px;
+    text-transform: uppercase; color: {TEXT_MUTED}; margin: 8px 0 10px; padding-left: 0;
 }}
 .lp-start-card {{
     border-radius: 10px; padding: 12px 14px; margin-bottom: 6px;

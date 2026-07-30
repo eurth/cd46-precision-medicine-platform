@@ -34,19 +34,9 @@ from components.targets import render_sidebar_target_selector
 from components.feedback import render_sidebar_feedback
 
 with st.sidebar:
-    st.markdown(
-        '<div style="padding:16px 18px 14px;border-bottom:1px solid #E2E8F0;margin-bottom:4px;">'
-        '<div style="font-family:\'IBM Plex Sans\',sans-serif;font-size:15px;font-weight:700;'
-        'color:#1E293B;letter-spacing:-0.2px;margin-bottom:2px;">OncoBridge</div>'
-        '<div style="font-size:10px;color:#64748B;letter-spacing:0.08em;'
-        'text-transform:uppercase;font-weight:600;">Theranostics Research</div>'
-        '</div>',
-        unsafe_allow_html=True,
-    )
     render_sidebar_target_selector()
     render_recent_modules()
     render_sidebar_feedback()
-    st.markdown('<span></span>', unsafe_allow_html=True)
 
 # ---------------------------------------------------------------------------
 # Navigation — dimension-grouped (all pages retained)
