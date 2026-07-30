@@ -12,7 +12,7 @@ import plotly.graph_objects as go
 import streamlit as st
 from components.theme import plotly_layout, apply_plotly_layout
 from components.targets import list_symbols, is_loaded
-from components.ui_kit import page_header, section_tabs
+from components.ui_kit import page_header, research_table, section_tabs
 from dotenv import load_dotenv
 
 load_dotenv(Path(__file__).resolve().parents[2] / ".env")
@@ -431,16 +431,7 @@ elif _active_cmp == _CMP_TABS[2]:
 
     st.markdown("---")
     st.markdown("**Active Competitor Pipeline (publicly registered)**")
-    st.dataframe(
-        COMPETITORS,
-        use_container_width=True,
-        hide_index=True,
-        column_config={
-            "Agent":  st.column_config.TextColumn("Agent", width=180),
-            "Status": st.column_config.TextColumn("Status", width=200),
-            "Notes":  st.column_config.TextColumn("Notes", width=340),
-        },
-    )
+    research_table(COMPETITORS)
     st.info(
         "**PSMA space is saturated.** With Pluvicto FDA-approved and multiple Phase 2/3 agents "
         "entering, differentiation in PSMA+ disease is increasingly difficult.  \n"
@@ -491,7 +482,7 @@ elif _active_cmp == _CMP_TABS[3]:
         {"Attribute": "Complement evasion MOA",  "CD46": "✅ Direct",       "PSMA": "❌ No",                  "FAP": "❌ No"},
         {"Attribute": "Tumour-intrinsic target", "CD46": "✅ Yes",          "PSMA": "✅ Yes",                 "FAP": "❌ Stroma only"},
     ])
-    st.dataframe(comparison_df, use_container_width=True, hide_index=True)
+    research_table(comparison_df)
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Tab 4 — Why CD46 Adds Value

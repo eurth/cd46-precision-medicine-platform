@@ -1,6 +1,6 @@
 # OncoBridge UI Migration Plan
 
-**Status:** Phases 1–8 complete (Phase 5 mobile QA done 2026-07-30) — deploy pending  
+**Status:** Phases 1–8 complete — deployed 2026-07-30 (demo-ready)  
 **Stack:** Streamlit (keep) + streamlit-shadcn-ui + streamlit-extras + streamlit-antd-components (nav only)
 
 ## Problem statement
@@ -76,7 +76,7 @@ app/components/targets.py  ← SAC segmented target bar; dimension chrome remove
 - [x] Global CSS rewritten for light clinical shell
 - [x] Deduplicate hero chips + metric row on analytical pages
 - [x] Shared Plotly light theme on all chart pages
-- [ ] Deploy + visual QA (bundled with final push)
+- [x] Deploy + visual QA (bundled with final push)
 
 ### Phase 5 — Chrome v2 & dimension rail
 

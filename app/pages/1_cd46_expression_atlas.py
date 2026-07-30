@@ -160,7 +160,7 @@ if _active_tab == _TAB_LABELS[0]:
     if expr_df is None or "median_expr" not in expr_df.columns:
         st.warning(f"⚠️ No by-cancer CSV for {_GENE} — run `python scripts/load_target_slice.py --symbol {_GENE}`")
     else:
-        with filter_bar("Chart options"):
+        with filter_bar("Chart options", expanded=False):
             ctrl_col, info_col = st.columns([3, 1])
             with ctrl_col:
                 sort_by = st.radio(
