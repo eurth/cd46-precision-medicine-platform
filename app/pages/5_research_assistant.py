@@ -12,7 +12,7 @@ load_dotenv(Path(__file__).resolve().parents[2] / ".env")
 
 import streamlit as st
 from components.targets import get_active_symbol, render_stub_gate
-from components.ui_kit import page_header, section_tabs, research_table, info_banner
+from components.ui_kit import page_header, section_tabs, research_table, info_banner, source_chips
 from components.data_freeze import render_data_freeze_banner
 from components.agent_prompts import quick_start_questions, cab_questions, evidence_demo_rows
 
@@ -200,13 +200,25 @@ if _active_asst == _ASST_TABS[0]:
                     except Exception as e:
                         full = f"Error: {e}"
                         ph.error(full)
+                sources = list(getattr(agent, "last_sources", []) or [])
+                intent = str(getattr(agent, "last_intent", "") or "")
+                if sources:
+                    source_chips(sources, intent=intent)
                 st.session_state.messages.append({"role": "assistant", "content": full})
                 try:
                     from src.agent.pubmed_search import fetch_pubmed
                     arts = fetch_pubmed(f"{_GENE} {q[:80]}", max_results=5)
-                    st.session_state.citations[len(st.session_state.messages) - 1] = arts
+                    st.session_state.citations[len(st.session_state.messages) - 1] = {
+                        "pubmed": arts,
+                        "sources": sources,
+                        "intent": intent,
+                    }
                 except Exception:
-                    pass
+                    if sources:
+                        st.session_state.citations[len(st.session_state.messages) - 1] = {
+                            "sources": sources,
+                            "intent": intent,
+                        }
         st.rerun()
 
     # -----------------------------------------------------------------------
@@ -216,7 +228,13 @@ if _active_asst == _ASST_TABS[0]:
         with st.chat_message(msg["role"]):
             st.markdown(msg["content"])
         if msg["role"] == "assistant" and idx in st.session_state.citations:
-            arts = st.session_state.citations[idx]
+            cite = st.session_state.citations[idx]
+            if isinstance(cite, dict):
+                if cite.get("sources"):
+                    source_chips(cite["sources"], intent=cite.get("intent", ""))
+                arts = cite.get("pubmed") or []
+            else:
+                arts = cite
             if arts:
                 with st.expander(f"Referenced Literature ({len(arts)} papers)", expanded=False):
                     for i, art in enumerate(arts, 1):

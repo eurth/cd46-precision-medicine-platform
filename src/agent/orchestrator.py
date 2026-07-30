@@ -122,10 +122,10 @@ def _load_context_for_intent(intent: str, question: str) -> tuple[str, list[str]
 
     if intent == "eligibility":
         result = get_eligibility("PRAD", "75th_pct")
-        contexts.append(f"PRAD eligibility (75th pct):\n{result}")
+        contexts.append(f"PRAD eligibility (75th pct, {gene}):\n{result}")
         result2 = run_analysis_summary("top_eligible")
         contexts.append(f"Top eligible cancers:\n{result2}")
-        sources += ["patient_groups.csv", "TCGA"]
+        sources += [f"{gene.lower()}_patient_groups.csv", "TCGA"]
 
     elif intent == "survival":
         result = run_analysis_summary("survival_significant")
@@ -192,9 +192,8 @@ def _load_context_for_intent(intent: str, question: str) -> tuple[str, list[str]
         contexts.append(f"Pan-cancer expression ({gene}):\n{result2}")
         sources += ["TCGA/Xena", "All datasets"]
 
-    # Additive KG context for every intent (except eligibility — patient_groups is CD46-depth)
-    if intent != "eligibility":
-        _append_kg_context(contexts, sources, intent, gene)
+    # Additive KG context for every intent (gene-aware Cypher templates)
+    _append_kg_context(contexts, sources, intent, gene)
 
     # Always append fresh PubMed context for non-literature intents
     if intent != "literature":
@@ -258,6 +257,17 @@ class TargetResearchAgent:
         from src.agent.llm_factory import get_llm
         self.llm = get_llm(provider=provider)
         self._graph = self._build_graph()
+        self.last_sources: list[str] = []
+        self.last_intent: str = ""
+
+    def retrieve(self, question: str) -> tuple[str, list[str], str]:
+        """Load RAG context without calling the LLM (for source chips + streaming)."""
+        state = route_question({"question": question, "intent": "", "context": "",
+                                "kg_results": "", "answer": "", "sources": []})
+        state = load_context(state)
+        self.last_sources = list(state.get("sources") or [])
+        self.last_intent = str(state.get("intent") or "")
+        return state["context"], self.last_sources, self.last_intent
 
     def _build_graph(self):
         try:
@@ -305,19 +315,8 @@ class TargetResearchAgent:
 
     def stream(self, question: str):
         """Stream the answer token by token (for Streamlit)."""
-        # Load context first, then stream LLM response
-        initial_state: AgentState = {
-            "question": question,
-            "intent": "",
-            "context": "",
-            "kg_results": "",
-            "answer": "",
-            "sources": [],
-        }
-        state = route_question(initial_state)
-        state = load_context(state)
-
-        yield from self.llm.stream(state["question"], context=state["context"])
+        context, sources, _intent = self.retrieve(question)
+        yield from self.llm.stream(question, context=context)
 
 
 # Back-compat alias — do not remove (pipeline + imports)

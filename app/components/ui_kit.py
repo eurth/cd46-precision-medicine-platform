@@ -270,6 +270,24 @@ def section_tabs(
     )
 
 
+def source_chips(sources: list[str], *, intent: str = "") -> None:
+    """Render retrieved data-source chips under assistant answers."""
+    if not sources:
+        return
+    uniq = list(dict.fromkeys(s for s in sources if s))
+    chips = "".join(
+        f'<span class="ob-src-chip">{html.escape(s)}</span>' for s in uniq[:12]
+    )
+    intent_html = (
+        f'<span class="ob-src-intent">intent: {html.escape(intent)}</span>'
+        if intent else ""
+    )
+    st.markdown(
+        f'<div class="ob-src-row">{intent_html}{chips}</div>',
+        unsafe_allow_html=True,
+    )
+
+
 def info_banner(message: str, *, variant: str = "info") -> None:
     """Themed callout — same surface family as the page."""
     bg, border, fg = _BANNER_VARIANTS.get(variant, _BANNER_VARIANTS["info"])

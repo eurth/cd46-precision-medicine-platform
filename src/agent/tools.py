@@ -184,19 +184,19 @@ def load_csv_data(dataset: str, cancer_type: Optional[str] = None, top_n: int = 
 
 def get_eligibility(cancer_type: str = "PRAD", threshold: str = "75th_pct") -> str:
     """
-    Get 225Ac-CD46 patient eligibility statistics for a cancer type and threshold.
+    Get patient eligibility statistics for a cancer type and threshold.
 
     Args:
         cancer_type: TCGA cancer code (e.g., "PRAD", "OV", "BLCA").
-        threshold: One of: "median", "75th_pct", "log2_2.5", "log2_3.0".
+        threshold: One of: "median", "75th_pct", "log2tpm_2.5", "log2tpm_3.0".
 
     Returns:
         JSON string with eligibility stats.
     """
-    df = _load_csv("patient_groups.csv")
+    gene = _active_gene()
+    df, src = _resolve_dataset_df("eligibility", gene)
     if df is None:
-        # Return static fallback for PRAD
-        if cancer_type.upper() == "PRAD":
+        if cancer_type.upper() == "PRAD" and gene.upper() == "CD46":
             return json.dumps(
                 {
                     "cancer_type": "PRAD",
@@ -205,16 +205,24 @@ def get_eligibility(cancer_type: str = "PRAD", threshold: str = "75th_pct") -> s
                     "n_total": 497,
                     "pct_eligible": 44.1,
                     "note": "Static estimate — run pipeline for computed values",
+                    "active_gene": gene,
                 }
             )
-        return json.dumps({"error": "patient_groups.csv not found — run pipeline first"})
+        return json.dumps({"error": f"No eligibility slice for {gene}", "active_gene": gene})
 
-    mask = (df["cancer_type"].str.upper() == cancer_type.upper()) & (df["threshold_method"] == threshold)
+    sym = gene.upper()
+    high = "CD46-High" if sym == "CD46" else f"{sym}-High"
+    thr = threshold.replace("log2_2.5", "log2tpm_2.5").replace("log2_3.0", "log2tpm_3.0")
+    mask = (
+        (df["cancer_type"].str.upper() == cancer_type.upper())
+        & (df["threshold_method"].astype(str) == thr)
+        & (df.get("expression_group", high) == high)
+    )
     subset = df[mask]
 
     if subset.empty:
         return json.dumps(
-            {"error": f"No data for {cancer_type} at threshold {threshold}"}
+            {"error": f"No data for {cancer_type} at threshold {threshold}", "active_gene": gene, "file": src}
         )
 
     row = subset.iloc[0]
@@ -226,6 +234,8 @@ def get_eligibility(cancer_type: str = "PRAD", threshold: str = "75th_pct") -> s
             "n_total": int(row.get("n_total", 0)),
             "pct_eligible": round(float(row.get("pct_eligible", 0)), 1),
             "mean_expression_eligible": row.get("mean_expression_eligible"),
+            "active_gene": gene,
+            "source_file": src,
         },
         default=str,
     )

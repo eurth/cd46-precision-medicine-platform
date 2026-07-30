@@ -21,8 +21,8 @@ OncoBridge is a **multi-target theranostics research workbench** for five surfac
 |----------|--------|---------------------|
 | **P1** RA1 Multi-target agent | presets, KG retrieval all intents, `TargetResearchAgent` | **Shipped** |
 | **P2** PARAM data depth | per-gene CSV/ETL, dosimetry, eligibility | **Shipped** (additive slices + UI wiring) |
-| **P3** T1 Performance | CLS min-height, filter collapse | **Partial — CSS + survival** |
-| **P4** RA2 KG-RAG | NL→Cypher every intent, source chips | Planned |
+| **P3** T1 Performance | CLS min-height, filter collapse, font preconnect | **Partial** |
+| **P4** RA2 KG-RAG | NL→Cypher every intent, source chips | **Partial — chips + eligibility KG** |
 | **P5** Docs / README | multi-target positioning | **README updated** |
 
 ---

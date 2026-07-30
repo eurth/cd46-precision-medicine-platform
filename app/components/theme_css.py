@@ -24,6 +24,8 @@ from components.theme import (
 
 def global_css() -> str:
     return f"""
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
@@ -83,6 +85,20 @@ button[data-testid="stBaseButton-headerNoPadding"] {{ display: none !important; 
 .ob-banner {{
     border: 1px solid {BORDER}; border-radius: 8px; padding: 12px 16px;
     font-size: 14px; line-height: 1.55; margin: 12px 0;
+}}
+.ob-src-row {{
+    display: flex; flex-wrap: wrap; gap: 6px; align-items: center;
+    margin: 8px 0 14px 0;
+}}
+.ob-src-intent {{
+    font-size: 10px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.06em; color: {TEXT_MUTED}; margin-right: 4px;
+}}
+.ob-src-chip {{
+    display: inline-block; font-size: 11px; font-weight: 500;
+    padding: 3px 10px; border-radius: 999px;
+    background: {PRIMARY_SOFT}; color: {PRIMARY_TEXT};
+    border: 1px solid {BORDER};
 }}
 
 [data-testid="metric-container"] [data-testid="stMetricValue"] {{
