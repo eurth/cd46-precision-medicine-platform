@@ -33,8 +33,9 @@ TOPBAR_BG = "#FFFFFF"
 # Chart series (readable on light canvas)
 CHART_HIGHLIGHT = "#2563EB"
 CHART_MID = "#64748B"
-CHART_MUTED = "#CBD5E1"
+CHART_MUTED = "#94A3B8"  # secondary bars/lines — not grid-line gray
 CHART_GRID = "#E2E8F0"
+CHART_BAR_SECONDARY = CHART_MUTED
 
 # Legacy page aliases — maps old dark-theme vars to Clinical Slate (keep during migration)
 C_BG = SURFACE
@@ -56,12 +57,34 @@ def _deep_merge(base: dict, overrides: dict) -> dict:
     return out
 
 
+_AXIS = {
+    "color": TEXT_MUTED,
+    "gridcolor": CHART_GRID,
+    "zerolinecolor": CHART_GRID,
+    "linecolor": BORDER,
+    "tickfont": {"color": TEXT_SECONDARY, "size": 11},
+    "title": {"font": {"color": TEXT_MUTED, "size": 12}},
+}
+
+
 def plotly_layout(**overrides) -> dict:
     """Default Plotly layout for Clinical Slate; pass page overrides as kwargs."""
     base = {
         "paper_bgcolor": SURFACE,
         "plot_bgcolor": SURFACE_2,
         "font": {"family": "Inter, sans-serif", "color": TEXT_MUTED},
+        "xaxis": dict(_AXIS),
+        "yaxis": dict(_AXIS),
+        "hoverlabel": {
+            "bgcolor": SURFACE,
+            "bordercolor": BORDER,
+            "font": {"color": TEXT, "size": 12},
+        },
+        "legend": {
+            "bgcolor": "rgba(255,255,255,0.92)",
+            "bordercolor": BORDER,
+            "font": {"color": TEXT, "size": 11},
+        },
     }
     return _deep_merge(base, overrides)
 

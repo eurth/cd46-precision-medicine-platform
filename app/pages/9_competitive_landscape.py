@@ -379,7 +379,7 @@ elif _active_cmp == _CMP_TABS[2]:
             textinfo="value+percent initial",
             marker=dict(
                 color=[_SLATE, _TEAL, _INDIGO, "#FB923C"],
-                line=dict(width=1.5, color=_BG),
+                line=dict(width=1.5, color="#D5DEE8"),
             ),
             connector=dict(line=dict(color=_LINE, width=2)),
             textfont=dict(color=_LIGHT, size=13),
@@ -417,7 +417,7 @@ elif _active_cmp == _CMP_TABS[2]:
             marker_color=ph_colors_p2,
             text=TRIAL_DATA["Phase 2+"],
             textposition="inside",
-            textfont=dict(color=_BG, size=11),
+            textfont=dict(color="#FFFFFF", size=11),
         ))
         fig_ph.update_layout(
             **_PLOTLY_LAYOUT,

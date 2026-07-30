@@ -238,7 +238,7 @@ if _active_asst == _ASST_TABS[0]:
                         st.markdown(
                             f"<div style='background:#1e293b;border-left:3px solid #38bdf8;"
                             f"padding:10px 14px;margin:6px 0;border-radius:4px;'>"
-                            f"<b style='color:#e2e8f0;'>[{i}] {art.get('title','')}</b><br>"
+                            f"<b style='color:#1E293B;'>[{i}] {art.get('title','')}</b><br>"
                             f"<span style='color:#94a3b8;font-size:0.85em;'>{art.get('authors','')}</span><br>"
                             f"<span style='color:#64748b;font-size:0.82em;'>"
                             f"{art.get('journal','')} · {art.get('year','')}</span>"
@@ -509,7 +509,7 @@ elif _active_asst == _ASST_TABS[2]:
         st.markdown(
             "<div style='background:#1e293b;border:1px solid #334155;"
             "padding:16px;border-radius:8px;margin-bottom:12px;'>"
-            "<b style='color:#e2e8f0;'>Protein Structural Biology</b><br>"
+            "<b style='color:#1E293B;'>Protein Structural Biology</b><br>"
             "<span style='color:#94a3b8;font-size:0.88em;'>"
             "UniProt P15529 · 4 isoforms (STA-1/2, LCA-1/2) · "
             "392 aa canonical sequence · 4 SCR/Sushi complement-binding domains · "

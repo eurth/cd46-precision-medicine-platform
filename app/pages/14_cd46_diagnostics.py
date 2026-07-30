@@ -234,7 +234,7 @@ if _active_diag == _DIAG_TABS[0]:
             y=df_sorted[y_col],
             x=df_sorted["median_tpm"],
             orientation="h",
-            marker=dict(color=df_sorted["colour"], line=dict(color=_BG, width=0.5)),
+            marker=dict(color=df_sorted["colour"], line=dict(color="#D5DEE8", width=0.5)),
             text=[f"{v:.0f}" for v in df_sorted["median_tpm"]],
             textposition="outside",
             textfont=dict(size=9, color=_TEXT),
@@ -402,7 +402,7 @@ elif _active_diag == _DIAG_TABS[2]:
             fig_ihc = go.Figure(go.Bar(
                 x=tumour_sorted["tissue"],
                 y=tumour_sorted["h_score_approx"],
-                marker=dict(color=t_colors, line=dict(color=_BG, width=0.5)),
+                marker=dict(color=t_colors, line=dict(color="#D5DEE8", width=0.5)),
                 text=tumour_sorted["h_score_approx"].round(0).astype(int),
                 textposition="outside",
                 textfont=dict(size=10, color=_LIGHT),
@@ -442,7 +442,7 @@ elif _active_diag == _DIAG_TABS[2]:
                 fig_ti2 = go.Figure(go.Bar(
                     x=paired["tissue"],
                     y=paired["TI"],
-                    marker=dict(color=ti_colors, line=dict(color=_BG, width=0.5)),
+                    marker=dict(color=ti_colors, line=dict(color="#D5DEE8", width=0.5)),
                     text=[f"{v:.2f}×" for v in paired["TI"]],
                     textposition="outside",
                     textfont=dict(size=10, color=_LIGHT),
@@ -502,7 +502,7 @@ elif _active_diag == _DIAG_TABS[3]:
             fig_mut = go.Figure(go.Bar(
                 x=mut_nonzero["cancer_type"],
                 y=mut_nonzero["mutation_freq_pct"],
-                marker=dict(color=m_colors, line=dict(color=_BG, width=0.5)),
+                marker=dict(color=m_colors, line=dict(color="#D5DEE8", width=0.5)),
                 text=[f"{v:.1f}%" for v in mut_nonzero["mutation_freq_pct"]],
                 textposition="outside",
                 textfont=dict(size=10, color=_LIGHT),
@@ -548,7 +548,7 @@ elif _active_diag == _DIAG_TABS[3]:
     fig_cv = go.Figure(go.Bar(
         x=sig_counts["Significance"],
         y=sig_counts["Count"],
-        marker=dict(color=cv_colors, line=dict(color=_BG, width=0.5)),
+        marker=dict(color=cv_colors, line=dict(color="#D5DEE8", width=0.5)),
         text=sig_counts["Count"],
         textposition="outside",
         textfont=dict(size=11, color=_LIGHT),

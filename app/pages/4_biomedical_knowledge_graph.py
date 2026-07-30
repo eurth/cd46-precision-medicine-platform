@@ -47,7 +47,7 @@ _INDIGO = "#2563EB"
 _ROSE   = "#F472B6"
 _GREEN  = "#34D399"
 _AMBER  = "#FBBF24"
-_SLATE  = "#CBD5E1"
+_SLATE  = "#94A3B8"
 _MID    = "#94A3B8"
 _TEXT   = "#64748B"
 _LIGHT  = "#1E293B"
@@ -263,7 +263,7 @@ UniProt IDs, ClinicalTrials NCT numbers, DepMap scores.
                     lbl = label_override or (labels[0] if labels else "Node")
                     nid = _node_id(node, lbl)
                     if nid not in added_nodes:
-                        color = COLOR_MAP.get(lbl, "#e2e8f0")
+                        color = COLOR_MAP.get(lbl, "#94A3B8")
                         size  = 24 if lbl in ("Gene", "Protein") else 14
                         title = (
                             f"<b>{lbl}</b><br>"
@@ -898,7 +898,7 @@ elif _active_kg == _KG_TABS[2]:
                     ),
                     text=["CD46"] + pnames,
                     textposition="top center",
-                    textfont=dict(size=9, color="#e2e8f0"),
+                    textfont=dict(size=9, color="#64748B"),
                     hovertext=[
                         "CD46 hub node" if i == 0
                         else f"{pnames[i-1]}<br>Score: {pscores[i-1]:.3f}"
@@ -913,7 +913,7 @@ elif _active_kg == _KG_TABS[2]:
                     yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
                     title=dict(
                         text="CD46 Protein Interaction Network (STRING)",
-                        font=dict(color="#e2e8f0", size=13),
+                        font=dict(color="#64748B", size=13),
                     ),
                 )
                 st.plotly_chart(fig_str, use_container_width=True)
@@ -991,7 +991,7 @@ elif _active_kg == _KG_TABS[2]:
                     f"<span style='background:{ev_color}22;color:{ev_color};"
                     f"font-size:0.75em;padding:2px 8px;border-radius:12px;font-weight:600;'>"
                     f"{pub.get('evidence_type','').upper()}</span>"
-                    f"<b style='color:#e2e8f0;display:block;margin-top:8px;'>"
+                    f"<b style='color:#1E293B;display:block;margin-top:8px;'>"
                     f"{pub.get('title','')}</b>"
                     f"<span style='color:#64748B;font-size:0.84em;'>{auth_str}</span><br>"
                     f"<span style='color:#64748b;font-size:0.82em;'>"

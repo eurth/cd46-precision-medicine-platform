@@ -237,7 +237,7 @@ with st.container(border=True):
         fig_expr = go.Figure(go.Bar(
             x=top_expr["cancer_type"],
             y=top_expr["cd46_median"],
-            marker=dict(color=bar_colors, line=dict(color=_BG, width=0.5)),
+            marker=dict(color=bar_colors, line=dict(color="#D5DEE8", width=0.5)),
             text=[f"{v:.1f}" for v in top_expr["cd46_median"]],
             textposition="outside",
             textfont=dict(size=10, color=_LIGHT),
@@ -403,7 +403,7 @@ with st.container(border=True):
             textinfo="value+percent initial",
             marker=dict(
                 color=[_ORANGE, "#FB923C", "#FCA5A5", _INDIGO, _TEAL, _GREEN],
-                line=dict(color=_BG, width=1),
+                line=dict(color="#D5DEE8", width=1),
             ),
             connector=dict(line=dict(color=_LINE, width=2)),
             textfont=dict(color=_LIGHT, size=11),
@@ -479,7 +479,7 @@ with st.container(border=True):
             hole=0.55,
             marker=dict(
                 colors=[_INDIGO, _TEAL, _GREEN, _AMBER, _SLATE],
-                line=dict(color=_BG, width=2),
+                line=dict(color="#D5DEE8", width=2),
             ),
             textinfo="label+value",
             textfont=dict(color=_LIGHT, size=11),

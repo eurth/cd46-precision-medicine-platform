@@ -239,14 +239,14 @@ with ca:
     d = fdf.groupby("Date").size().reset_index(name="Views")
     st.plotly_chart(px.bar(d, x="Date", y="Views", title="Daily Views",
                    color_discrete_sequence=["#38bdf8"]).update_layout(
-                   paper_bgcolor="#FFFFFF",plot_bgcolor="#EEF2F7",font_color="#e2e8f0",
+                   paper_bgcolor="#FFFFFF",plot_bgcolor="#EEF2F7",font_color="#64748B",
                    margin=dict(l=10,r=10,t=40,b=10)), use_container_width=True)
 with cb:
     pv = fdf["Page"].value_counts().reset_index()
     pv.columns = ["Page","Views"]
     st.plotly_chart(px.bar(pv.head(12), x="Views", y="Page", orientation="h",
                    title="Top Pages", color_discrete_sequence=["#818cf8"]).update_layout(
-                   paper_bgcolor="#FFFFFF",plot_bgcolor="#EEF2F7",font_color="#e2e8f0",
+                   paper_bgcolor="#FFFFFF",plot_bgcolor="#EEF2F7",font_color="#64748B",
                    yaxis={"categoryorder":"total ascending"},
                    margin=dict(l=10,r=10,t=40,b=10)), use_container_width=True)
 
@@ -256,7 +256,7 @@ with cc:
     cv.columns = ["Country", "Views"]
     st.plotly_chart(px.bar(cv.head(10), x="Views", y="Country", orientation="h", title="Top Countries",
                    color_discrete_sequence=["#10b981"]).update_layout(
-                   paper_bgcolor="#FFFFFF",plot_bgcolor="#EEF2F7",font_color="#e2e8f0",
+                   paper_bgcolor="#FFFFFF",plot_bgcolor="#EEF2F7",font_color="#64748B",
                    yaxis={"categoryorder":"total ascending"},
                    margin=dict(l=10,r=10,t=40,b=10)), use_container_width=True)
 with cd:
@@ -264,7 +264,7 @@ with cd:
     bv.columns=["Browser","Count"]
     st.plotly_chart(px.pie(bv, names="Browser", values="Count", title="Browsers",
                    color_discrete_sequence=px.colors.qualitative.Set2, hole=0.4).update_layout(
-                   paper_bgcolor="#FFFFFF",font_color="#e2e8f0",
+                   paper_bgcolor="#FFFFFF",font_color="#64748B",
                    margin=dict(l=10,r=10,t=40,b=10)), use_container_width=True)
 
 # ---- Table ------------------------------------------------------------------

@@ -378,7 +378,7 @@ with col_output:
                     {"range": [70, 100], "color": "#0d2b1a"},
                 ],
                 "threshold": {
-                    "line": {"color": "#e2e8f0", "width": 3},
+                    "line": {"color": "#1E293B", "width": 3},
                     "thickness": 0.85,
                     "value": 70,
                 },
@@ -654,7 +654,7 @@ elif _active_elig == _ELIG_TABS[2]:
             marker_color=[_TIER_COL[t] for t in _sim_top["tier"]],
             text=[f"{v:.2f}" for v in _sim_top["priority_score"]],
             textposition="outside",
-            textfont=dict(color="#CBD5E1", size=11),
+            textfont=dict(color="#1E293B", size=11),
             customdata=_sim_top[["tier", "cd46_median", "n_samples"]].values,
             hovertemplate=(
                 "<b>%{y}</b><br>"
@@ -676,7 +676,7 @@ elif _active_elig == _ELIG_TABS[2]:
                 gridcolor="#16243C", color="#94A3B8",
                 range=[0, 1.3],
             ),
-            yaxis=dict(color="#CBD5E1", tickfont=dict(size=10), autorange="reversed"),
+            yaxis=dict(color="#64748B", tickfont=dict(size=10), autorange="reversed"),
         )
         st.plotly_chart(_fig_sim, use_container_width=True)
     else:

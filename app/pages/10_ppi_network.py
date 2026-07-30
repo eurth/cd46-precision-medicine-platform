@@ -524,7 +524,7 @@ elif _active_ppi == _PPI_TABS[2]:
             values=list(cat_counts.values()),
             marker=dict(
                 colors=[COLORS.get(c, _SLATE) for c in cat_counts],
-                line=dict(color=_BG, width=2),
+                line=dict(color="#D5DEE8", width=2),
             ),
             hole=0.55,
             textinfo="label+value",
@@ -558,7 +558,7 @@ elif _active_ppi == _PPI_TABS[2]:
             orientation="h",
             marker=dict(
                 color=[COLORS.get(c, _SLATE) for c in df_avg["Category"]],
-                line=dict(color=_BG, width=1),
+                line=dict(color="#D5DEE8", width=1),
             ),
             text=[f"{v:.3f}" for v in df_avg["Avg Score"]],
             textposition="outside",

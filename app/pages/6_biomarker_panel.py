@@ -181,9 +181,9 @@ if _active_bio == _BIO_TABS[0]:
             fig1.update_layout(
                 height=420, paper_bgcolor="#FFFFFF", plot_bgcolor="#EEF2F7",
                 xaxis=dict(title=f"{_GENE} log₂ TPM", color="#94a3b8", gridcolor="#E2E8F0"),
-                yaxis=dict(color="#e2e8f0", tickfont=dict(size=9)),
+                yaxis=dict(color="#64748B", tickfont=dict(size=9)),
                 margin=dict(l=10, r=80, t=30, b=10),
-                title=dict(text=f"Pan-Cancer {_GENE} mRNA Expression (TCGA)", font=dict(color="#e2e8f0", size=13)),
+                title=dict(text=f"Pan-Cancer {_GENE} mRNA Expression (TCGA)", font=dict(color="#64748B", size=13)),
             )
             st.plotly_chart(fig1, use_container_width=True)
             st.caption("🔴 PRAD · 🟠 BLCA · 🟡 OV highlighted as priority targets · Dashed = pan-cancer mean · Dotted = 75th pct threshold")
@@ -251,7 +251,7 @@ if _active_bio == _BIO_TABS[0]:
             height=440, paper_bgcolor="#FFFFFF", plot_bgcolor="#EEF2F7",
             xaxis=dict(title="% Eligible" if show_axis=="% Eligible" else "N Patients",
                        color="#94a3b8", gridcolor="#E2E8F0"),
-            yaxis=dict(color="#e2e8f0", tickfont=dict(size=9)),
+            yaxis=dict(color="#64748B", tickfont=dict(size=9)),
             margin=dict(l=10, r=70, t=10, b=10),
         )
         with t_col2:
@@ -326,8 +326,8 @@ elif _active_bio == _BIO_TABS[1]:
                 font=dict(color="#94a3b8"),
                 margin=dict(l=10, r=80, t=10, b=10),
                 xaxis=dict(title="% Patients Altered", color="#94a3b8", gridcolor="#E2E8F0"),
-                yaxis=dict(color="#e2e8f0", tickfont=dict(size=9)),
-                legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1, font=dict(color="#e2e8f0"))
+                yaxis=dict(color="#64748B", tickfont=dict(size=9)),
+                legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1, font=dict(color="#64748B"))
             )
             st.plotly_chart(fig_g1, use_container_width=True)
 
@@ -381,10 +381,10 @@ elif _active_bio == _BIO_TABS[1]:
                     category_orders={"Segment": _seg_order}
                 )
                 fig_g2.update_traces(textposition="inside", textinfo="percent+label", textfont_size=9,
-                    textfont=dict(color="#f8fafc"))
+                    textfont=dict(color="#FFFFFF"))
                 fig_g2.update_layout(
                     margin=dict(t=10, b=10, l=10, r=10), height=420, showlegend=False,
-                    paper_bgcolor="#FFFFFF", font=dict(color="#e2e8f0")
+                    paper_bgcolor="#FFFFFF", font=dict(color="#64748B")
                 )
                 st.plotly_chart(fig_g2, use_container_width=True)
                 n_g = len(prad_g)
@@ -463,7 +463,7 @@ elif _active_bio == _BIO_TABS[2]:
             height=360, paper_bgcolor="#FFFFFF", plot_bgcolor="#EEF2F7",
             xaxis=dict(color="#94a3b8"), yaxis=dict(color="#94a3b8", gridcolor="#E2E8F0"),
             coloraxis_showscale=False,
-            title_font=dict(color="#e2e8f0", size=13),
+            title_font=dict(color="#64748B", size=13),
             margin=dict(l=10, r=10, t=40, b=10),
         )
         st.plotly_chart(fig_resist, use_container_width=True)
@@ -515,7 +515,7 @@ elif _active_bio == _BIO_TABS[2]:
                     xaxis=dict(color="#94a3b8", gridcolor="#E2E8F0"),
                     yaxis=dict(color="#94a3b8", gridcolor="#E2E8F0"),
                     coloraxis_showscale=False,
-                    title_font=dict(color="#e2e8f0", size=13),
+                    title_font=dict(color="#64748B", size=13),
                     margin=dict(l=10, r=10, t=40, b=10),
                 )
                 st.plotly_chart(fig_surv, use_container_width=True)
@@ -590,7 +590,7 @@ elif _active_bio == _BIO_TABS[3]:
         marker=dict(size=node_sizes, color=node_colors, line=dict(width=2, color="#0f172a")),
         text=node_labels,
         textposition="top center",
-        textfont=dict(size=9, color="#e2e8f0"),
+        textfont=dict(size=9, color="#64748B"),
         hovertext=[
             "CD46 — Primary therapeutic target · SCR domains bind C3b/C4b",
             "CD55 (DAF) — Accelerates decay of C3/C5 convertases",
@@ -611,7 +611,7 @@ elif _active_bio == _BIO_TABS[3]:
         xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
         yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
         margin=dict(l=10, r=10, t=30, b=10),
-        title=dict(text="Complement Regulatory Network — CD46 Central Hub", font=dict(color="#e2e8f0", size=13)),
+        title=dict(text="Complement Regulatory Network — CD46 Central Hub", font=dict(color="#64748B", size=13)),
     )
     st.plotly_chart(fig_comp, use_container_width=True)
 
@@ -783,7 +783,7 @@ elif _active_bio == _BIO_TABS[4]:
             <span style='background:{ev_c}22;color:{ev_c};font-size:0.72em;
             padding:2px 10px;border-radius:12px;font-weight:700;letter-spacing:0.05em;'>
             {paper['evidence_type'].upper()}</span>
-            <b style='color:#e2e8f0;display:block;margin-top:8px;font-size:1.0em;line-height:1.4;'>
+            <b style='color:#1E293B;display:block;margin-top:8px;font-size:1.0em;line-height:1.4;'>
             {paper['title']}</b>
             <span style='color:#94a3b8;font-size:0.84em;'>{paper['authors']}</span><br>
             <span style='color:#64748b;font-size:0.82em;'>
@@ -819,7 +819,7 @@ elif _active_bio == _BIO_TABS[4]:
                             f"""
                             <div style='background:#1e293b;border-left:3px solid #38bdf8;
                             padding:10px 14px;margin:6px 0;border-radius:4px;'>
-                            <b style='color:#e2e8f0;'>[{i}] {art.get('title','')}</b><br>
+                            <b style='color:#1E293B;'>[{i}] {art.get('title','')}</b><br>
                             <span style='color:#94a3b8;font-size:0.84em;'>{art.get('authors','')}</span><br>
                             <span style='color:#64748b;font-size:0.82em;'>
                             {art.get('journal','')} &middot; {art.get('year','')}</span>
@@ -1133,7 +1133,7 @@ elif _active_bio == _BIO_TABS[5]:
             mode="gauge+number",
             value=final_score,
             domain={"x": [0, 1], "y": [0, 1]},
-            title={"text": "225Ac-CD46 Suitability Score", "font": {"color": "#e2e8f0", "size": 14}},
+            title={"text": "225Ac-CD46 Suitability Score", "font": {"color": "#1E293B", "size": 14}},
             number={"font": {"color": score_color, "size": 40}},
             gauge={
                 "axis": {"range": [0, 100], "tickcolor": "#64748b",
@@ -1157,7 +1157,7 @@ elif _active_bio == _BIO_TABS[5]:
         fig_gauge.update_layout(
             height=280,
             paper_bgcolor="#FFFFFF",
-            font=dict(color="#e2e8f0"),
+            font=dict(color="#64748B"),
             margin=dict(l=20, r=20, t=30, b=20),
         )
         st.plotly_chart(fig_gauge, use_container_width=True)
@@ -1169,7 +1169,7 @@ elif _active_bio == _BIO_TABS[5]:
             f"padding:18px 22px;border-radius:10px;text-align:center;'>"
             f"<div style='font-size:2.2em;font-weight:800;color:{score_color};'>Score: {final_score}</div>"
             f"<div style='color:{score_color};font-size:1.0em;margin-top:6px;font-weight:600;'>{tier}</div>"
-            f"<div style='color:#e2e8f0;margin-top:10px;font-size:0.95em;'>{recommendation}</div>"
+            f"<div style='color:#1E293B;margin-top:10px;font-size:0.95em;'>{recommendation}</div>"
             f"</div>",
             unsafe_allow_html=True,
         )
@@ -1236,11 +1236,11 @@ elif _active_bio == _BIO_TABS[5]:
                 f"<div style='color:{_col};font-size:0.9em;margin-top:4px;'>{_tier}</div>"
                 f"<hr style='border-color:{_col}44;'>"
                 f"<table style='width:100%;font-size:0.8em;color:#94a3b8;text-align:left;'>"
-                f"<tr><td>CD46</td><td style='color:#e2e8f0;'>{_pr['cd46_expr']:.1f} log₂</td></tr>"
-                f"<tr><td>PSMA</td><td style='color:#e2e8f0;'>{_pr['psma']}</td></tr>"
-                f"<tr><td>PSA</td><td style='color:#e2e8f0;'>{_pr['psa']:.0f} ng/mL</td></tr>"
-                f"<tr><td>AR-V7</td><td style='color:#e2e8f0;'>{'+'if _pr['arv7'] else 'âˆ’'}</td></tr>"
-                f"<tr><td>Prior Lu-PSMA</td><td style='color:#e2e8f0;'>{'Yes' if _pr['prior_lupsma'] else 'No'}</td></tr>"
+                f"<tr><td>CD46</td><td style='color:#1E293B;'>{_pr['cd46_expr']:.1f} log₂</td></tr>"
+                f"<tr><td>PSMA</td><td style='color:#1E293B;'>{_pr['psma']}</td></tr>"
+                f"<tr><td>PSA</td><td style='color:#1E293B;'>{_pr['psa']:.0f} ng/mL</td></tr>"
+                f"<tr><td>AR-V7</td><td style='color:#1E293B;'>{'+'if _pr['arv7'] else 'âˆ’'}</td></tr>"
+                f"<tr><td>Prior Lu-PSMA</td><td style='color:#1E293B;'>{'Yes' if _pr['prior_lupsma'] else 'No'}</td></tr>"
                 f"</table></div>",
                 unsafe_allow_html=True,
             )
@@ -1281,9 +1281,9 @@ elif _active_bio == _BIO_TABS[5]:
                 angularaxis=dict(color="#94a3b8"),
                 bgcolor="#FFFFFF",
             ),
-            paper_bgcolor="#FFFFFF", legend=dict(font=dict(color="#e2e8f0")),
+            paper_bgcolor="#FFFFFF", legend=dict(font=dict(color="#64748B")),
             height=380, margin=dict(l=40, r=40, t=40, b=40),
-            title=dict(text="Multi-Dimensional Profile Radar", font=dict(color="#e2e8f0", size=13)),
+            title=dict(text="Multi-Dimensional Profile Radar", font=dict(color="#64748B", size=13)),
         )
         st.plotly_chart(fig_radar, use_container_width=True)
 
@@ -1321,9 +1321,9 @@ elif _active_bio == _BIO_TABS[5]:
             height=280, paper_bgcolor="#FFFFFF", plot_bgcolor="#EEF2F7",
             xaxis=dict(title="Suitability Score", color="#94a3b8", range=[0, 100], gridcolor="#E2E8F0"),
             yaxis=dict(title="# Patients", color="#94a3b8", gridcolor="#E2E8F0"),
-            legend=dict(font=dict(color="#e2e8f0")), margin=dict(l=10, r=10, t=30, b=10),
+            legend=dict(font=dict(color="#64748B")), margin=dict(l=10, r=10, t=30, b=10),
             title=dict(text="Score Distribution vs. TCGA Population (11,069 patients, proxy model)",
-                       font=dict(color="#e2e8f0", size=12)),
+                       font=dict(color="#64748B", size=12)),
         )
         st.plotly_chart(fig_dist, use_container_width=True)
 
@@ -1461,7 +1461,7 @@ elif _active_bio == _BIO_TABS[5]:
                         paper_bgcolor="#FFFFFF", plot_bgcolor="#EEF2F7",
                         xaxis=dict(title="CD46 log₂ TPM", color="#94a3b8", gridcolor="#E2E8F0"),
                         yaxis=dict(title="Patients", color="#94a3b8", gridcolor="#E2E8F0"),
-                        legend=dict(bgcolor="#FFFFFF", font=dict(color="#e2e8f0")),
+                        legend=dict(bgcolor="#FFFFFF", font=dict(color="#64748B")),
                         margin=dict(l=10, r=10, t=10, b=10),
                     )
                     st.plotly_chart(fig_dist, use_container_width=True)
@@ -1484,7 +1484,7 @@ elif _active_bio == _BIO_TABS[5]:
                             height=300, paper_bgcolor="#FFFFFF", plot_bgcolor="#EEF2F7",
                             xaxis=dict(title="Time", color="#94a3b8", gridcolor="#E2E8F0"),
                             yaxis=dict(title="% with follow-up data", color="#94a3b8", gridcolor="#E2E8F0"),
-                            legend=dict(bgcolor="#FFFFFF", font=dict(color="#e2e8f0")),
+                            legend=dict(bgcolor="#FFFFFF", font=dict(color="#64748B")),
                             margin=dict(l=10, r=10, t=10, b=10),
                         )
                         st.plotly_chart(fig_lm, use_container_width=True)
@@ -1549,7 +1549,7 @@ elif _active_bio == _BIO_TABS[5]:
             mode="gauge+number",
             value=final_score,
             domain={"x": [0, 1], "y": [0, 1]},
-            title={"text": "225Ac-CD46<br>Suitability", "font": {"color": "#e2e8f0", "size": 14}},
+            title={"text": "225Ac-CD46<br>Suitability", "font": {"color": "#1E293B", "size": 14}},
             gauge={
                 "axis": {"range": [0, 100], "tickcolor": "#94a3b8"},
                 "bar": {"color": score_color},
@@ -1576,16 +1576,16 @@ elif _active_bio == _BIO_TABS[5]:
             f"<div style='background:#1e293b;border:2px solid {score_color};border-radius:10px;"
             f"padding:18px 22px;margin-top:10px;'>"
             f"<div style='font-size:1.2em;color:{score_color};font-weight:700;'>{tier}</div>"
-            f"<div style='font-size:1.0em;color:#e2e8f0;margin:6px 0;'>{recommendation}</div>"
+            f"<div style='font-size:1.0em;color:#1E293B;margin:6px 0;'>{recommendation}</div>"
             f"<hr style='border-color:#334155;margin:10px 0;'>"
             f"<table style='font-size:0.84em;color:#94a3b8;width:100%;'>"
-            f"<tr><td>CD46 Expression</td><td style='color:#e2e8f0;'>{cd46_expr:.1f} log₂ TPM</td></tr>"
-            f"<tr><td>PSMA Status</td><td style='color:#e2e8f0;'>{psma_status}</td></tr>"
-            f"<tr><td>AR Amplification</td><td style='color:#e2e8f0;'>{'Yes' if ar_amplification else 'No'}</td></tr>"
-            f"<tr><td>TP53 Loss</td><td style='color:#e2e8f0;'>{'Yes (-5)' if tp53_loss else 'No'}</td></tr>"
-            f"<tr><td>RB1 Loss</td><td style='color:#e2e8f0;'>{'Yes (-8)' if rb1_loss else 'No'}</td></tr>"
-            f"<tr><td>Prior Lu-PSMA failed</td><td style='color:#e2e8f0;'>{'Yes (+10)' if prior_lupsma else 'No'}</td></tr>"
-            f"<tr><td>ECOG PS</td><td style='color:#e2e8f0;'>{ecog_ps[0]}</td></tr>"
+            f"<tr><td>CD46 Expression</td><td style='color:#1E293B;'>{cd46_expr:.1f} log₂ TPM</td></tr>"
+            f"<tr><td>PSMA Status</td><td style='color:#1E293B;'>{psma_status}</td></tr>"
+            f"<tr><td>AR Amplification</td><td style='color:#1E293B;'>{'Yes' if ar_amplification else 'No'}</td></tr>"
+            f"<tr><td>TP53 Loss</td><td style='color:#1E293B;'>{'Yes (-5)' if tp53_loss else 'No'}</td></tr>"
+            f"<tr><td>RB1 Loss</td><td style='color:#1E293B;'>{'Yes (-8)' if rb1_loss else 'No'}</td></tr>"
+            f"<tr><td>Prior Lu-PSMA failed</td><td style='color:#1E293B;'>{'Yes (+10)' if prior_lupsma else 'No'}</td></tr>"
+            f"<tr><td>ECOG PS</td><td style='color:#1E293B;'>{ecog_ps[0]}</td></tr>"
             f"</table>"
             f"</div>",
             unsafe_allow_html=True,

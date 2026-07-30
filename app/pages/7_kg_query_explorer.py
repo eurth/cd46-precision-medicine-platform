@@ -806,7 +806,7 @@ LIMIT 50
                     marker=dict(size=sizes, color=color, line=dict(width=1.5, color="#0f172a")),
                     text=[l[:20] for l in lbs],
                     textposition="top center",
-                    textfont=dict(size=8, color="#e2e8f0"),
+                    textfont=dict(size=8, color="#64748B"),
                     name=ntype,
                     hovertext=lbs,
                     hoverinfo="text",
@@ -818,7 +818,7 @@ LIMIT 50
                 yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
                 legend=dict(bgcolor="#FFFFFF", font=dict(color="#64748B")),
                 margin=dict(l=10, r=10, t=10, b=10),
-                title=dict(text=f"Graph: {preset_sel}", font=dict(color="#e2e8f0", size=13)),
+                title=dict(text=f"Graph: {preset_sel}", font=dict(color="#64748B", size=13)),
             )
             st.plotly_chart(fig_g, use_container_width=True)
             st.caption(f"Rendering {n_nodes} nodes and {len(df_g)} edges from AuraDB · Node size = degree")

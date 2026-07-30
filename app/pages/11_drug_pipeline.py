@@ -298,7 +298,7 @@ if _active_drug == _DRUG_TABS[0]:
                     size=32 if row["Phase Label"] == "FDA Approved" else 22,
                     color=color,
                     opacity=0.92,
-                    line=dict(width=2, color=_BG),
+                    line=dict(width=2, color="#D5DEE8"),
                 ),
                 text=[f"  {row['Phase Label']}"],
                 textposition="middle right",
@@ -474,7 +474,7 @@ elif _active_drug == _DRUG_TABS[2]:
             y=[14, 183, 31],
             marker=dict(
                 color=[_ORANGE, _INDIGO, _GREEN],
-                line=dict(color=_BG, width=1),
+                line=dict(color="#D5DEE8", width=1),
             ),
             text=[14, 183, 31],
             textposition="outside",
