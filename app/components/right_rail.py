@@ -21,18 +21,6 @@ _DIM_HREF: dict[str, str] = {
     "Strategy": "/Clinical_Strategy_Engine",
 }
 
-_DIM_SHORT: dict[str, str] = {
-    "Home": "Home",
-    "Target": "Tgt",
-    "Biomarkers": "Bio",
-    "Proteins": "Pro",
-    "Patients": "Pts",
-    "Drugs": "Rx",
-    "Survival": "Surv",
-    "Graph": "KG",
-    "Strategy": "Str",
-}
-
 _TGT_LABEL: dict[str, str] = {
     "CD46": "CD46",
     "FOLH1": "PSMA",
@@ -66,7 +54,7 @@ def _rail_html() -> str:
     dims = "".join(
         f'<a class="ob-rail-a ob-rail-dim" href="{html_lib.escape(_DIM_HREF.get(label, "/"))}" '
         f'title="{html_lib.escape(label)} perspective">'
-        f"{html_lib.escape(_DIM_SHORT.get(label, label[:3]))}</a>"
+        f"{html_lib.escape(label)}</a>"
         for label, _path in dimension_links()
     )
     return (
@@ -89,5 +77,5 @@ if __name__ == "__main__":
     from pathlib import Path
 
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-    assert len(_DIM_SHORT) == len(dimension_links()) == len(_DIM_HREF)
+    assert len(_DIM_HREF) == len(dimension_links())
     print("right_rail_ok")

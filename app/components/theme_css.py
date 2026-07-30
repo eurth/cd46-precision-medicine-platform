@@ -55,8 +55,11 @@ h1, h2, h3, h4, h5, h6, [data-testid="stHeading"] {{
 
 .block-container {{
     padding-top: 0 !important; padding-bottom: 3rem !important;
-    padding-right: 1.5rem !important;
+    padding-left: 1rem !important; padding-right: 5.75rem !important;
     max-width: 1320px !important;
+}}
+.main .block-container {{
+    padding-left: 1rem !important; padding-right: 5.75rem !important;
 }}
 [data-testid="stElementContainer"]:has(#ob-topbar) {{
     height: 0 !important; min-height: 0 !important; margin: 0 !important;
@@ -143,14 +146,21 @@ button[data-testid="stBaseButton-headerNoPadding"] {{ display: none !important; 
     font-size: 13px !important;
 }}
 
+[data-testid="stTabs"] {{
+    margin-left: 0 !important; padding-left: 0 !important;
+}}
 [data-testid="stTabs"] [data-baseweb="tab-list"] {{
     background: transparent !important; border-bottom: 1px solid {BORDER} !important;
+    padding-left: 0 !important; margin-left: 0 !important;
 }}
 [data-testid="stTabs"] [data-baseweb="tab"] {{
     background: transparent !important; color: {TEXT_MUTED} !important;
     font-size: 13px !important; font-weight: 500 !important;
     border-bottom: 2px solid transparent !important;
-    padding: 9px 18px !important;
+    padding: 9px 16px 9px 0 !important; margin-right: 4px !important;
+}}
+[data-testid="stTabs"] [data-baseweb="tab"]:last-child {{
+    margin-right: 0 !important;
 }}
 [data-testid="stTabs"] [aria-selected="true"] {{
     color: {PRIMARY} !important; border-bottom: 2px solid {PRIMARY} !important;
@@ -284,25 +294,28 @@ section.main {{
     padding: 0 !important; overflow: visible !important;
 }}
 .ob-right-rail-dock {{
-    position: fixed; right: 12px; top: 54px; width: 68px; z-index: 1000;
+    position: fixed; right: 12px; top: 54px; width: 96px; z-index: 1000;
     display: flex; flex-direction: column; gap: 4px;
     background: rgba(255,255,255,0.97); backdrop-filter: blur(10px);
     border: 1px solid {BORDER}; border-radius: 12px;
-    padding: 8px 6px 10px; box-shadow: 0 6px 28px rgba(15,23,42,0.14);
+    padding: 8px 8px 10px; box-shadow: 0 6px 28px rgba(15,23,42,0.14);
 }}
 .ob-right-rail-dock .ob-rail-kicker {{
     font-size: 8px; font-weight: 700; letter-spacing: 0.08em;
-    text-transform: uppercase; color: {TEXT_FAINT}; text-align: center;
-    margin: 4px 0 2px; line-height: 1;
+    text-transform: uppercase; color: {TEXT_FAINT}; text-align: left;
+    margin: 4px 2px 2px; line-height: 1;
 }}
 .ob-right-rail-dock .ob-rail-kicker:first-child {{ margin-top: 0; }}
 a.ob-rail-a {{
-    display: block; text-align: center; text-decoration: none !important;
-    font-size: 10px; font-weight: 700; line-height: 1.2;
-    padding: 5px 4px; border-radius: 6px;
+    display: block; text-align: left; text-decoration: none !important;
+    font-size: 10px; font-weight: 600; line-height: 1.25;
+    padding: 5px 8px; border-radius: 6px;
     border: 1px solid {BORDER}; background: {SURFACE};
     color: {TEXT_SECONDARY} !important;
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}}
+a.ob-rail-dim {{
+    font-size: 9px; font-weight: 600; padding: 4px 8px;
 }}
 a.ob-rail-a:hover {{
     border-color: {PRIMARY}; color: {PRIMARY} !important; background: {PRIMARY_SOFT};
@@ -364,7 +377,7 @@ a.ob-rail-on {{
 
 /* U2 — target spotlight (tab panel body) */
 .lp-spotlight {{
-    margin: 0 0 12px; padding: 14px 18px;
+    margin: 0 0 12px; padding: 14px 18px 14px 0;
     border-radius: 12px; border: 1px solid {BORDER};
     background: linear-gradient(135deg, {SURFACE} 0%, {PRIMARY_SOFT} 100%);
     box-shadow: 0 2px 8px rgba(15,23,42,0.06);
