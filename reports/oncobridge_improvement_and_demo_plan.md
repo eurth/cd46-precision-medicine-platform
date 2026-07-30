@@ -25,9 +25,7 @@ OncoBridge is a **multi-target theranostics research workbench** for five surfac
 | **P4** RA2 KG-RAG | NL→Cypher every intent, source chips | Planned |
 | **P5** Docs / README | multi-target positioning | **README updated** |
 
-Legacy table:
-
-# Part 1 — Improvement Plan
+---
 
 ## 1A. Lighthouse & technical performance
 
