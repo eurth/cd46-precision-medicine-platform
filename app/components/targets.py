@@ -115,29 +115,29 @@ def render_main_target_bar() -> str:
             unsafe_allow_html=True,
         )
         choice = current
+        if st.session_state.get("target_segmented") not in symbols:
+            st.session_state["target_segmented"] = current
         try:
-            import streamlit_antd_components as sac
-
-            idx = symbols.index(current) if current in symbols else 0
-            choice = sac.segmented(
-                items=symbols,
-                index=idx,
-                size="sm",
-                color="blue",
-                use_container_width=True,
-                key="target_sac",
+            choice = st.segmented_control(
+                "Research target",
+                options=symbols,
+                key="target_segmented",
+                label_visibility="collapsed",
             )
-        except ImportError:
-            if st.session_state.get("target_segmented") not in symbols:
-                st.session_state["target_segmented"] = current
+        except (TypeError, AttributeError):
             try:
-                choice = st.segmented_control(
-                    "Research target",
-                    options=symbols,
-                    key="target_segmented",
-                    label_visibility="collapsed",
+                import streamlit_antd_components as sac
+
+                idx = symbols.index(current) if current in symbols else 0
+                choice = sac.segmented(
+                    items=symbols,
+                    index=idx,
+                    size="sm",
+                    color="blue",
+                    use_container_width=True,
+                    key="target_sac",
                 )
-            except Exception:
+            except ImportError:
                 if st.session_state.get("target_radio") not in symbols:
                     st.session_state["target_radio"] = current
                 choice = st.radio(

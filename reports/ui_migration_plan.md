@@ -1,6 +1,6 @@
 # OncoBridge UI Migration Plan
 
-**Status:** Phases 4–8 complete — bundled commit & deploy  
+**Status:** Phases 1–8 complete (Phase 5 mobile QA done 2026-07-30) — deploy pending  
 **Stack:** Streamlit (keep) + streamlit-shadcn-ui + streamlit-extras + streamlit-antd-components (nav only)
 
 ## Problem statement
@@ -52,7 +52,7 @@ app/components/targets.py  ← SAC segmented target bar; dimension chrome remove
 
 - [x] Sidebar cleanup (remove redundant target mirror caption)
 - [x] Trim `styles.py` dead CSS (removed unused `.lp-stats` block)
-- [ ] Mobile header toggle verified on live site
+- [x] Mobile header toggle verified on live site (375px; `stBaseButton-headerNoPadding` toggles sidebar)
 
 ### Phase 2 — Shared UI kit (3–4 days)
 
@@ -82,7 +82,9 @@ app/components/targets.py  ← SAC segmented target bar; dimension chrome remove
 
 - [x] `dimension_rail()` — compact grouped nav under target bar
 - [x] `page_header()` on all module pages
-- [ ] Mobile header toggle verified on live site
+- [x] Mobile header toggle verified on live site
+- [x] Dimension rail hidden on mobile (`:has()` — Streamlit splits wrapper divs)
+- [x] Native `st.segmented_control` for target bar (themeable; SAC iframe fallback)
 
 ### Phase 6 — Page rollout completion (3d + polish)
 

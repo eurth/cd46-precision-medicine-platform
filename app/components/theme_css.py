@@ -287,9 +287,6 @@ details[data-testid="stExpander"] > summary span {{
     border-color: {PRIMARY} !important; color: {PRIMARY} !important;
     background: {PRIMARY_SOFT} !important;
 }}
-@media (max-width: 768px) {{
-    .ob-dim-rail {{ display: none !important; }}
-}}
 
 .lp-headline {{
     font-family: 'IBM Plex Sans', sans-serif !important;
@@ -394,6 +391,17 @@ details[data-testid="stExpander"] > summary span {{
     .block-container {{ padding-left: 1rem !important; padding-right: 1rem !important; }}
     .ob-tb-ctx, .ob-tb-live {{ display: none !important; }}
     .ob-tb-brand {{ border-right: 0; padding-left: 3rem; }}
+    #ob-target-bar {{ top: 3.25rem; }}
+    #ob-target-bar [data-testid="column"] {{ min-width: 0 !important; }}
+    /* ponytail: Streamlit splits ob-dim-rail open/close divs — hide label + link row */
+    [data-testid="stElementContainer"]:has(.ob-dim-rail),
+    [data-testid="stElementContainer"]:has(.ob-dim-rail-label) {{
+        display: none !important;
+    }}
+    [data-testid="stElementContainer"]:has(.ob-dim-rail-label)
+        + [data-testid="stLayoutWrapper"] {{
+        display: none !important;
+    }}
 }}
 
 .ob-crumb {{ font-size: 12px; color: {TEXT_MUTED}; margin: 0 0 10px 0; }}
