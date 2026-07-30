@@ -102,7 +102,6 @@ pg = st.navigation(
     }
 )
 
-render_floating_right_rail()
 breadcrumb(pg.title)
 track_recent_page(pg.title)
 
@@ -124,3 +123,6 @@ st.markdown(
 
 log_page_visit(pg.title or "Unknown")
 pg.run()
+
+# ponytail: rail after pg.run() — pure HTML fixed overlay, zero layout width
+render_floating_right_rail()

@@ -1,4 +1,4 @@
-"""U2 landing — target spotlight carousel + quick-start row (no duplicate hero title)."""
+"""U2 landing — target spotlight tabs + quick-start row."""
 from __future__ import annotations
 
 import html as html_lib
@@ -8,58 +8,37 @@ import streamlit as st
 from components.target_narratives import strategy_context
 from components.targets import data_tier, get_active_symbol, is_case_study, list_symbols
 
-# ponytail: 4-char max labels for thin right rail parity
-_TGT_SLIDE_ACCENT = {
-    "CD46": "#2563EB",
-    "FOLH1": "#7C3AED",
-    "FAP": "#D97706",
-    "SSTR2": "#059669",
-    "GRPR": "#DB2777",
-}
 
-
-def _slide_html(sym: str, delay_s: int) -> str:
+def _slide_body(sym: str) -> str:
     ctx = strategy_context(sym)
     tier = data_tier(sym)
     case = " · deep case study" if is_case_study(sym) else ""
-    accent = _TGT_SLIDE_ACCENT.get(sym, "#2563EB")
     return (
-        f'<div class="lp-carousel-slide" style="--lp-a:{accent};'
-        f'animation-delay:{delay_s * 5}s;">'
+        f'<div class="lp-spotlight">'
         f'<div class="lp-carousel-tag">Research target</div>'
         f'<div class="lp-carousel-gene">{html_lib.escape(sym)}</div>'
         f'<div class="lp-carousel-name">{html_lib.escape(ctx["name"])}</div>'
         f'<div class="lp-carousel-line">'
-        f'<span>{html_lib.escape(ctx["indication"])}</span>'
-        f' · <span>{html_lib.escape(ctx["modality"])}</span>'
+        f'{html_lib.escape(ctx["indication"])} · {html_lib.escape(ctx["modality"])}'
         f"</div>"
         f'<div class="lp-carousel-meta">'
         f"Data tier: {html_lib.escape(tier)}{html_lib.escape(case)}"
         f" · {html_lib.escape(ctx['trial_focus'])}"
+        f"</div>"
+        f'<div class="lp-carousel-hint-inline">'
+        f"Active selection: <strong>{html_lib.escape(get_active_symbol())}</strong> (right rail)"
         f"</div>"
         f"</div>"
     )
 
 
 def render_target_carousel() -> None:
-    """Auto-rotating target spotlight — replaces membrane-protein block + giant hero."""
+    """Target spotlight tabs — always visible (no empty CSS carousel)."""
     symbols = list_symbols()
-    active = get_active_symbol()
-    slides = "".join(_slide_html(s, i) for i, s in enumerate(symbols))
-    dots = "".join(
-        f'<span class="lp-carousel-dot{" lp-carousel-dot-on" if s == active else ""}" '
-        f'title="{html_lib.escape(s)}"></span>'
-        for s in symbols
-    )
-    st.markdown(
-        f'<div class="lp-carousel" role="region" aria-label="Target spotlight">'
-        f'<div class="lp-carousel-inner">{slides}</div>'
-        f'<div class="lp-carousel-dots">{dots}</div>'
-        f'<div class="lp-carousel-hint">Rotating spotlight · active target: '
-        f"<strong>{html_lib.escape(active)}</strong> (right rail)</div>"
-        f"</div>",
-        unsafe_allow_html=True,
-    )
+    tabs = st.tabs(symbols)
+    for sym, tab in zip(symbols, tabs):
+        with tab:
+            st.markdown(_slide_body(sym), unsafe_allow_html=True)
 
 
 def render_start_here() -> None:

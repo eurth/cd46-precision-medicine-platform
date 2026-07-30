@@ -1,71 +1,86 @@
-"""Thin floating right rail — research target + dimension perspective (U1)."""
+"""Floating right rail — pure HTML overlay (no Streamlit columns / zero layout width)."""
 from __future__ import annotations
+
+import html as html_lib
 
 import streamlit as st
 
-from components.targets import (
-    ensure_session_target,
-    get_active_symbol,
-    list_symbols,
-    set_active_symbol,
-)
+from components.targets import ensure_session_target, get_active_symbol, list_symbols
 from components.ui_kit import dimension_links
 
-# ponytail: ≤4 chars so labels don't wrap vertically in 52px rail
+# Streamlit navigation titles → URL slugs (st.navigation multipage)
+_DIM_HREF: dict[str, str] = {
+    "Home": "/",
+    "Target": "/Expression_Atlas",
+    "Biomarkers": "/Biomarker_Panel",
+    "Proteins": "/PPI_Network_Explorer",
+    "Patients": "/Patient_Selection",
+    "Drugs": "/Drug_Pipeline",
+    "Survival": "/Survival_Outcomes",
+    "Graph": "/Knowledge_Graph",
+    "Strategy": "/Clinical_Strategy_Engine",
+}
+
+_DIM_SHORT: dict[str, str] = {
+    "Home": "Home",
+    "Target": "Tgt",
+    "Biomarkers": "Bio",
+    "Proteins": "Pro",
+    "Patients": "Pts",
+    "Drugs": "Rx",
+    "Survival": "Surv",
+    "Graph": "KG",
+    "Strategy": "Str",
+}
+
 _TGT_LABEL: dict[str, str] = {
     "CD46": "CD46",
     "FOLH1": "PSMA",
     "FAP": "FAP",
-    "SSTR2": "S2",
-    "GRPR": "GRP",
+    "SSTR2": "SSTR2",
+    "GRPR": "GRPR",
 }
 
-_DIM_SHORT: dict[str, str] = {
-    "Home": "Ho",
-    "Target": "Ta",
-    "Biomarkers": "Bi",
-    "Proteins": "Pr",
-    "Patients": "Pt",
-    "Drugs": "Dr",
-    "Survival": "Su",
-    "Graph": "Gx",
-    "Strategy": "St",
-}
+
+def sync_target_from_query() -> None:
+    """Apply ?target=SYM from rail links into session (survives page nav)."""
+    ensure_session_target()
+    raw = st.query_params.get("target")
+    if not raw:
+        return
+    sym = str(raw).upper()
+    if sym in list_symbols():
+        from components.targets import set_active_symbol
+
+        set_active_symbol(sym)
+
+
+def _rail_html() -> str:
+    current = get_active_symbol()
+    targets = "".join(
+        f'<a class="ob-rail-a ob-rail-tgt{" ob-rail-on" if s == current else ""}" '
+        f'href="?target={html_lib.escape(s)}" title="{html_lib.escape(s)}">'
+        f"{html_lib.escape(_TGT_LABEL.get(s, s))}</a>"
+        for s in list_symbols()
+    )
+    dims = "".join(
+        f'<a class="ob-rail-a ob-rail-dim" href="{html_lib.escape(_DIM_HREF.get(label, "/"))}" '
+        f'title="{html_lib.escape(label)} perspective">'
+        f"{html_lib.escape(_DIM_SHORT.get(label, label[:3]))}</a>"
+        for label, _path in dimension_links()
+    )
+    return (
+        f'<nav id="ob-right-rail-dock" class="ob-right-rail-dock" aria-label="Target and dimension">'
+        f'<div class="ob-rail-kicker">Target</div>{targets}'
+        f'<div class="ob-rail-kicker">Dimension</div>{dims}'
+        f"</nav>"
+    )
 
 
 def render_floating_right_rail() -> str:
-    """Fixed narrow rail over main content — targets (top) + dimensions (bottom)."""
-    ensure_session_target()
-    current = get_active_symbol()
-    symbols = list_symbols()
-
-    _pad, rail = st.columns([24, 1], gap="small")
-    with _pad:
-        st.markdown('<div id="ob-rail-flow-anchor"></div>', unsafe_allow_html=True)
-    with rail:
-        st.markdown('<div class="ob-right-rail-host">', unsafe_allow_html=True)
-        st.markdown('<div class="ob-rail-kicker">Target</div>', unsafe_allow_html=True)
-        for sym in symbols:
-            label = _TGT_LABEL.get(sym, sym[:4])
-            if st.button(
-                label,
-                key=f"ob_rail_tgt_{sym}",
-                type="primary" if sym == current else "secondary",
-                use_container_width=True,
-                help=f"Research target: {sym}",
-            ):
-                if sym != current:
-                    set_active_symbol(sym)
-                    st.rerun()
-        st.markdown('<div class="ob-rail-kicker">Dim</div>', unsafe_allow_html=True)
-        for label, path in dimension_links():
-            short = _DIM_SHORT.get(label, label[:2])
-            try:
-                st.page_link(path, label=short, use_container_width=True)
-            except TypeError:
-                st.page_link(path, label=short)
-        st.markdown("</div>", unsafe_allow_html=True)
-
+    """Fixed overlay dock — must run after page content; takes no horizontal space."""
+    sync_target_from_query()
+    st.markdown(_rail_html(), unsafe_allow_html=True)
     return get_active_symbol()
 
 
@@ -74,5 +89,5 @@ if __name__ == "__main__":
     from pathlib import Path
 
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-    assert len(_DIM_SHORT) == len(dimension_links())
+    assert len(_DIM_SHORT) == len(dimension_links()) == len(_DIM_HREF)
     print("right_rail_ok")

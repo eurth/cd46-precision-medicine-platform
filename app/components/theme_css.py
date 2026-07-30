@@ -55,7 +55,7 @@ h1, h2, h3, h4, h5, h6, [data-testid="stHeading"] {{
 
 .block-container {{
     padding-top: 0 !important; padding-bottom: 3rem !important;
-    padding-right: 64px !important;
+    padding-right: 1.5rem !important;
     max-width: 1320px !important;
 }}
 [data-testid="stElementContainer"]:has(#ob-topbar) {{
@@ -278,47 +278,38 @@ section.main {{
     display: none !important;
 }}
 
-/* U1 — thin floating right rail (targets + dimensions) */
-[data-testid="stHorizontalBlock"]:has(#ob-rail-flow-anchor) {{
+/* U1b — right rail: fixed HTML dock, no column layout footprint */
+[data-testid="stElementContainer"]:has(#ob-right-rail-dock) {{
     height: 0 !important; min-height: 0 !important; margin: 0 !important;
-    padding: 0 !important; overflow: visible !important; border: none !important;
+    padding: 0 !important; overflow: visible !important;
 }}
-[data-testid="stHorizontalBlock"]:has(#ob-rail-flow-anchor) > [data-testid="column"]:first-child {{
-    display: none !important;
+.ob-right-rail-dock {{
+    position: fixed; right: 12px; top: 54px; width: 68px; z-index: 1000;
+    display: flex; flex-direction: column; gap: 4px;
+    background: rgba(255,255,255,0.97); backdrop-filter: blur(10px);
+    border: 1px solid {BORDER}; border-radius: 12px;
+    padding: 8px 6px 10px; box-shadow: 0 6px 28px rgba(15,23,42,0.14);
 }}
-[data-testid="column"]:has(.ob-right-rail-host) {{
-    position: fixed !important; right: 10px !important; top: 54px !important;
-    width: 52px !important; min-width: 52px !important; max-width: 52px !important;
-    flex: none !important; z-index: 1000 !important;
-    display: flex !important; flex-direction: column !important; gap: 3px !important;
-    background: rgba(255,255,255,0.96) !important; backdrop-filter: blur(10px);
-    border: 1px solid {BORDER} !important; border-radius: 12px !important;
-    padding: 6px 4px 8px !important; box-shadow: 0 6px 28px rgba(15,23,42,0.14) !important;
-    overflow: hidden !important;
-}}
-.ob-right-rail-host {{ display: none !important; }}
-.ob-rail-kicker {{
-    font-size: 7px; font-weight: 700; letter-spacing: 0.1em;
+.ob-right-rail-dock .ob-rail-kicker {{
+    font-size: 8px; font-weight: 700; letter-spacing: 0.08em;
     text-transform: uppercase; color: {TEXT_FAINT}; text-align: center;
-    margin: 2px 0 1px; line-height: 1;
+    margin: 4px 0 2px; line-height: 1;
 }}
-[data-testid="column"]:has(.ob-right-rail-host) [data-testid="stButton"] {{
-    margin: 0 !important;
+.ob-right-rail-dock .ob-rail-kicker:first-child {{ margin-top: 0; }}
+a.ob-rail-a {{
+    display: block; text-align: center; text-decoration: none !important;
+    font-size: 10px; font-weight: 700; line-height: 1.2;
+    padding: 5px 4px; border-radius: 6px;
+    border: 1px solid {BORDER}; background: {SURFACE};
+    color: {TEXT_SECONDARY} !important;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }}
-[data-testid="column"]:has(.ob-right-rail-host) [data-testid="stButton"] button {{
-    min-height: 24px !important; height: 24px !important;
-    padding: 0 3px !important; font-size: 9px !important;
-    font-weight: 700 !important; letter-spacing: -0.03em;
-    border-radius: 6px !important; width: 100% !important;
-    white-space: nowrap !important; overflow: hidden !important;
-    text-overflow: ellipsis !important;
+a.ob-rail-a:hover {{
+    border-color: {PRIMARY}; color: {PRIMARY} !important; background: {PRIMARY_SOFT};
 }}
-[data-testid="column"]:has(.ob-right-rail-host) [data-testid="stPageLink-NavLink"] {{
-    font-size: 9px !important; font-weight: 600 !important;
-    padding: 3px 2px !important; border-radius: 6px !important;
-    min-height: 22px !important; line-height: 1.1 !important;
-    margin: 1px 0 !important;
-    white-space: nowrap !important; overflow: hidden !important;
+a.ob-rail-on {{
+    border-color: {PRIMARY} !important; background: {PRIMARY_SOFT} !important;
+    color: {PRIMARY_TEXT} !important;
 }}
 .ob-tb-label {{
     font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
@@ -371,23 +362,13 @@ section.main {{
     display: none !important;
 }}
 
-/* U2 — target spotlight carousel */
-.lp-carousel {{
-    position: relative; height: 148px; margin: 4px 0 16px;
+/* U2 — target spotlight (tab panel body) */
+.lp-spotlight {{
+    margin: 0 0 12px; padding: 14px 18px;
     border-radius: 12px; border: 1px solid {BORDER};
     background: linear-gradient(135deg, {SURFACE} 0%, {PRIMARY_SOFT} 100%);
-    overflow: hidden; box-shadow: 0 2px 8px rgba(15,23,42,0.06);
-}}
-.lp-carousel-inner {{ position: relative; height: 118px; }}
-.lp-carousel-slide {{
-    position: absolute; inset: 0; padding: 16px 20px 8px;
-    opacity: 0; animation: lp-carousel-cycle 25s infinite ease-in-out;
-    border-left: 4px solid var(--lp-a, {PRIMARY});
-}}
-@keyframes lp-carousel-cycle {{
-    0%, 2% {{ opacity: 0; transform: translateX(10px); }}
-    4%, 18% {{ opacity: 1; transform: translateX(0); }}
-    20%, 100% {{ opacity: 0; transform: translateX(-6px); }}
+    box-shadow: 0 2px 8px rgba(15,23,42,0.06);
+    border-left: 4px solid {PRIMARY};
 }}
 .lp-carousel-tag {{
     font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
@@ -404,17 +385,8 @@ section.main {{
 .lp-carousel-meta {{
     font-size: 11px; color: {TEXT_MUTED}; margin-top: 6px; line-height: 1.4;
 }}
-.lp-carousel-dots {{
-    position: absolute; bottom: 8px; left: 20px; display: flex; gap: 5px;
-}}
-.lp-carousel-dot {{
-    width: 6px; height: 6px; border-radius: 50%;
-    background: {BORDER_STRONG}; display: inline-block;
-}}
-.lp-carousel-dot-on {{ background: {PRIMARY}; width: 14px; border-radius: 3px; }}
-.lp-carousel-hint {{
-    position: absolute; bottom: 6px; right: 16px;
-    font-size: 10px; color: {TEXT_FAINT};
+.lp-carousel-hint-inline {{
+    font-size: 10px; color: {TEXT_FAINT}; margin-top: 8px;
 }}
 
 .lp-start-label {{
@@ -529,9 +501,7 @@ section.main {{
     .block-container {{ padding-left: 1rem !important; padding-right: 1rem !important; }}
     .ob-tb-ctx, .ob-tb-live {{ display: none !important; }}
     .ob-tb-brand {{ border-right: 0; padding-left: 3rem; }}
-    [data-testid="column"]:has(.ob-right-rail-host) {{
-        display: none !important;
-    }}
+    #ob-right-rail-dock {{ display: none !important; }}
 }}
 
 .ob-crumb {{ font-size: 12px; color: {TEXT_MUTED}; margin: 0 0 10px 0; }}
@@ -601,8 +571,8 @@ details[data-testid="stExpander"] > summary span {{
 .ob-pipeline-arrow {{ color: {TEXT_FAINT}; font-size: 18px; padding: 0 6px; align-self: center; flex-shrink: 0; }}
 
 @media print {{
-    #ob-topbar, #ob-target-bar, .ob-dim-rail, .ob-right-rail-host, .ob-crumb, .ob-recent,
-    [data-testid="column"]:has(.ob-right-rail-host),
+    #ob-topbar, #ob-target-bar, .ob-dim-rail, .ob-right-rail-host, #ob-right-rail-dock, .ob-crumb, .ob-recent,
+    [data-testid="stElementContainer"]:has(#ob-right-rail-dock),
     [data-testid="stSidebar"], header[data-testid="stHeader"] {{ display: none !important; }}
     [data-testid="stApp"], .main .block-container {{ background: #fff !important; }}
     .page-hero, .ob-kpi-card, [data-testid="stPlotlyChart"] {{ break-inside: avoid; }}
