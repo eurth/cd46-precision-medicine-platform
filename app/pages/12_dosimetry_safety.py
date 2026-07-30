@@ -13,7 +13,7 @@ import plotly.graph_objects as go
 import streamlit as st
 from components.theme import plotly_layout, apply_plotly_layout
 from components.targets import get_active_symbol, render_stub_gate, render_case_study_gate
-from components.ui_kit import page_header, section_tabs
+from components.ui_kit import page_header, section_tabs, research_table
 
 # ── Streamlit Cloud secret injection ─────────────────────────────────────────
 for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
@@ -246,13 +246,13 @@ if _active_dose == _DOSE_TABS[0]:
             {"Parameter": "Half-life",                "225Ac": "9.9 days",          "177Lu (Pluvicto)": "6.65 days"},
             {"Parameter": "Daughters per decay",      "225Ac": "4 alphas (cascade)","177Lu (Pluvicto)": "1 beta"},
         ])
-        st.dataframe(physics_df, use_container_width=True, hide_index=True)
+        research_table(physics_df, use_container_width=True, hide_index=True)
     with c2:
         st.markdown("**CD46 Tumour Expression — Key Cancers**")
         tumour_disp = tumour_df.rename(columns={"tissue": "Tissue", "h_tumor": "Tumour H-score"})
         if "tumour_type" in tumour_disp.columns:
             tumour_disp = tumour_disp.rename(columns={"tumour_type": "Cancer Type"})
-        st.dataframe(
+        research_table(
             tumour_disp.sort_values("Tumour H-score", ascending=False).reset_index(drop=True),
             use_container_width=True, hide_index=True,
         )
@@ -316,7 +316,7 @@ elif _active_dose == _DOSE_TABS[1]:
     with col_table:
         st.markdown("**Paired Tissue Table**")
         display_cols = ["Tissue", "Normal H-score", "Tumour H-score", "Therapeutic Index", "Normal Risk"]
-        st.dataframe(
+        research_table(
             both[display_cols].sort_values("Therapeutic Index", ascending=False).reset_index(drop=True),
             hide_index=True,
             use_container_width=True,
@@ -382,7 +382,7 @@ elif _active_dose == _DOSE_TABS[2]:
         })
 
     risk_df = pd.DataFrame(risk_data)
-    st.dataframe(risk_df, hide_index=True, use_container_width=True, height=380)
+    research_table(risk_df, hide_index=True, use_container_width=True, height=380)
 
     st.markdown("---")
     col_phys, col_dlt = st.columns(2)
@@ -407,7 +407,7 @@ elif _active_dose == _DOSE_TABS[2]:
             {"Safety Endpoint": "Salivary swelling",  "DLT Threshold": "Grade ≥ 3",       "Action":        "Dose reduction"},
             {"Safety Endpoint": "Pulmonary",          "DLT Threshold": "Grade ≥ 2 pneumonitis", "Action": "Hold; CT scan"},
         ])
-        st.dataframe(dlt_df, use_container_width=True, hide_index=True)
+        research_table(dlt_df, use_container_width=True, hide_index=True)
         st.caption("Endpoints analogous to 225Ac-PSMA-617 Phase I (NCT04946370) protocol.")
 
     st.info(
@@ -476,7 +476,7 @@ elif _active_dose == _DOSE_TABS[3]:
             {"Tissue": "Brain",      "Normal H":  95, "Tumour H": 120, "TI": "1.26×","Verdict": "✅ Spared"},
             {"Tissue": "Pancreas",   "Normal H": 110, "Tumour H": 200, "TI": "1.82×","Verdict": "✅ Manageable"},
         ])
-        st.dataframe(safety_df, use_container_width=True, hide_index=True)
+        research_table(safety_df, use_container_width=True, hide_index=True)
 
         st.markdown("**Clinical Precedent**")
         prec_df = pd.DataFrame([
@@ -484,7 +484,7 @@ elif _active_dose == _DOSE_TABS[3]:
             {"Agent": "225Ac-PSMA-617",            "Approval": "Phase 2",  "Relevance": "Same isotope; safety profile active"},
             {"Agent": "FOR46 (AZ ADC)",             "Approval": "Phase 1",  "Relevance": "Same CD46 target; n=56 tolerable"},
         ])
-        st.dataframe(prec_df, use_container_width=True, hide_index=True)
+        research_table(prec_df, use_container_width=True, hide_index=True)
 
         st.success(
             "**225Ac advantage over 177Lu:** Shorter alpha range → less off-target dose "
@@ -563,7 +563,7 @@ elif _active_dose == _DOSE_TABS[4]:
                             "CAR-T safety data de-risks the antigen from a T-cell biology perspective.",
         },
     ])
-    st.dataframe(reg_df, use_container_width=True, hide_index=True)
+    research_table(reg_df, use_container_width=True, hide_index=True)
 
     st.success(
         "**Synthesis:** Five independent clinical programmes — in three modalities (ADC, RIT, CAR-T), "

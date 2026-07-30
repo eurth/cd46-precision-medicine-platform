@@ -13,7 +13,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
 from components.targets import get_active_symbol, render_stub_gate, render_case_study_gate
-from components.ui_kit import info_banner, page_header, section_tabs
+from components.ui_kit import info_banner, page_header, section_tabs, research_table
 
 from dotenv import load_dotenv
 load_dotenv(Path(__file__).resolve().parents[2] / ".env")
@@ -195,7 +195,7 @@ if _active_bio == _BIO_TABS[0]:
                 "Suitability": ["Strong candidate ✅", "Consider ⚡", "Borderline 🔷", "Not suitable ❌"],
                 "Estimated Eligible %": ["25%", "25%", "25%", "25%"],
             })
-            st.dataframe(tiers, use_container_width=True, hide_index=True)
+            research_table(tiers, use_container_width=True, hide_index=True)
         else:
             st.info(f"Expression column not found for {_GENE} — check `data/processed/{_PREFIX}_by_cancer.csv`.")
     else:
@@ -417,7 +417,7 @@ elif _active_bio == _BIO_TABS[1]:
         ],
         "225Ac-CD46 Priority": ["HIGH 🟡", "VERY HIGH 🔴", "LOW ⬇️", "NOT INDICATED ⭕"],
     })
-    st.dataframe(matrix, use_container_width=True, hide_index=True)
+    research_table(matrix, use_container_width=True, hide_index=True)
 
     st.info(
         "💡 ~35% of mCRPC patients have low PSMA expression (PSMA-low) and do not respond to "
@@ -487,7 +487,7 @@ elif _active_bio == _BIO_TABS[2]:
                 "✅ Synergistic — DSB from α-particles + HR deficiency",
             ],
         })
-        st.dataframe(resist_table, use_container_width=True, hide_index=True)
+        research_table(resist_table, use_container_width=True, hide_index=True)
 
     # Survival impact of resistance markers
     if not df_survival.empty:
@@ -632,7 +632,7 @@ elif _active_bio == _BIO_TABS[3]:
         # Expression of complement regulators in cancer (from HPA if available)
         if not df_hpa.empty:
             st.markdown("**CD46 Protein Expression (Human Protein Atlas)**")
-            st.dataframe(df_hpa.head(20), use_container_width=True, hide_index=True)
+            research_table(df_hpa.head(20), use_container_width=True, hide_index=True)
         else:
             st.markdown("**Complement Regulator Overexpression in Cancer**")
             df_creg = pd.DataFrame({
@@ -641,7 +641,7 @@ elif _active_bio == _BIO_TABS[3]:
                 "PRAD Upregulation": ["High ↑↑", "Moderate ↑", "Moderate ↑", "Low", "Low"],
                 "Therapeutic Target": ["Primary 🎯", "Potential", "Potential", "Limited", "No"],
             })
-            st.dataframe(df_creg, use_container_width=True, hide_index=True)
+            research_table(df_creg, use_container_width=True, hide_index=True)
 
     st.info(
         "💡 Tumours upregulate CD46 to evade complement-dependent cytotoxicity (CDC). "
@@ -1215,7 +1215,7 @@ elif _active_bio == _BIO_TABS[5]:
         "Treatment History", "Treatment History", "Treatment History",
         "Clinical", "Clinical", "Clinical", "Clinical",
     ]
-    st.dataframe(
+    research_table(
         df_breakdown[["Category", "Factor", "Value", "Impact"]],
         use_container_width=True, hide_index=True,
     )
@@ -1340,7 +1340,7 @@ elif _active_bio == _BIO_TABS[5]:
                 for _tt, _tdf in _tier_thresholds.items():
                     if not _tdf.empty:
                         with st.expander(f"{_tt} — {len(_tdf)} matching cohorts"):
-                            st.dataframe(_tdf[["cancer_type","hazard_ratio","p_value","n_high","n_low"]].rename(columns={"cancer_type":"Cancer","hazard_ratio":"HR (CD46-High)","p_value":"p-value","n_high":"N High","n_low":"N Low"}).head(10), use_container_width=True, hide_index=True)
+                            research_table(_tdf[["cancer_type","hazard_ratio","p_value","n_high","n_low"]].rename(columns={"cancer_type":"Cancer","hazard_ratio":"HR (CD46-High)","p_value":"p-value","n_high":"N High","n_low":"N Low"}).head(10), use_container_width=True, hide_index=True)
 
     # ---- Sensitivity analysis: what changes the score most? ----
     st.markdown("---")
@@ -1368,7 +1368,7 @@ elif _active_bio == _BIO_TABS[5]:
     )
     if not _sens_df.empty:
         _sens_df = _sens_df.sort_values("Delta", ascending=False)
-        st.dataframe(_sens_df, use_container_width=True, hide_index=True)
+        research_table(_sens_df, use_container_width=True, hide_index=True)
     else:
         st.info("Score is near maximum — no further improvements identified.")
 
@@ -1499,7 +1499,7 @@ elif _active_bio == _BIO_TABS[5]:
                                              "% Eligible": round((g["cd46_log2_tpm"] >= cb_threshold).mean() * 100, 1)}),
                         include_groups=False,
                     ).reset_index().rename(columns={"cancer_type": "Cancer"}).sort_values("% Eligible", ascending=False)
-                    st.dataframe(pc_df, use_container_width=True, hide_index=True)
+                    research_table(pc_df, use_container_width=True, hide_index=True)
 
                 # Download
                 if cb_download:

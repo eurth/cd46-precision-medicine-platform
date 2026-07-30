@@ -22,7 +22,7 @@ import plotly.graph_objects as go
 import streamlit as st
 from components.theme import plotly_layout, apply_plotly_layout
 from components.targets import get_active_symbol, render_stub_gate, render_case_study_gate
-from components.ui_kit import page_header, section_tabs
+from components.ui_kit import page_header, section_tabs, research_table
 
 # ── Streamlit Cloud secret injection ─────────────────────────────────────────
 for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
@@ -246,7 +246,7 @@ if _active_diag == _DIAG_TABS[0]:
         )
         st.plotly_chart(fig_gtex, use_container_width=True)
         with st.expander("📥 Full GTEx Data Table"):
-            st.dataframe(gtex_df.sort_values("median_tpm", ascending=False), use_container_width=True, hide_index=True)
+            research_table(gtex_df.sort_values("median_tpm", ascending=False), use_container_width=True, hide_index=True)
         if _IS_CD46:
             st.markdown("---")
             c1, c2 = st.columns(2)
@@ -302,7 +302,7 @@ elif _active_diag == _DIAG_TABS[1]:
          "Phase": "Phase I/II", "Radiolabel": "131I / 90Y", "Modality": "SPECT dosimetry",
          "Status": "🔵 Active", "Sponsor": "Peter MacCallum", "Cohort": "Haematological malignancies"},
     ])
-    st.dataframe(pet_data, use_container_width=True, hide_index=True)
+    research_table(pet_data, use_container_width=True, hide_index=True)
 
     st.markdown("---")
     c1, c2 = st.columns(2)
@@ -318,7 +318,7 @@ elif _active_diag == _DIAG_TABS[1]:
                 {"Property": "Serum stability",     "Value": "≥7 days at 37°C"},
                 {"Property": "NCT references",      "Value": "NCT05892393, NCT05245006"},
             ])
-            st.dataframe(ys5_df, use_container_width=True, hide_index=True)
+            research_table(ys5_df, use_container_width=True, hide_index=True)
 
     with c2:
         with st.container(border=True):
@@ -331,7 +331,7 @@ elif _active_diag == _DIAG_TABS[1]:
                 {"Step": "Agencies",           "Detail": "FDA (US), TGA (AU), EMA (EU)"},
                 {"Step": "Timeline",           "Detail": "CDx co-development begins at pre-IND phase"},
             ])
-            st.dataframe(cdx_df, use_container_width=True, hide_index=True)
+            research_table(cdx_df, use_container_width=True, hide_index=True)
 
     with st.expander("📖 PSMA Theranostic Precedent — Lessons for CD46"):
         p1, p2 = st.columns(2)
@@ -467,7 +467,7 @@ elif _active_diag == _DIAG_TABS[2]:
             {"Stage": "Bridging study",  "Activity": "Analytical validation (precision, reproducibility, CRO)", "Timeline": "Year 3"},
             {"Stage": "PMA filing",      "Activity": "CDx PMA co-submission with NDA/BLA", "Timeline": "Year 4–5"},
         ])
-        st.dataframe(roadmap_df, use_container_width=True, hide_index=True)
+        research_table(roadmap_df, use_container_width=True, hide_index=True)
         st.markdown(
             "**H-score formula:** H = Σ (% cells at intensity i) × i, where i = 0, 1, 2, 3 → range 0–300"
         )
@@ -590,7 +590,7 @@ elif _active_diag == _DIAG_TABS[4]:
                 {"Study": "HPA normal tissue",                       "Finding": "sCD46 detectable in healthy serum at low baseline"},
                 {"Study": "CD46 shedding mechanism",                 "Finding": "ADAM10/ADAM17 — same enzymes as PSMA shedding"},
             ])
-            st.dataframe(scd46_df, use_container_width=True, hide_index=True)
+            research_table(scd46_df, use_container_width=True, hide_index=True)
             st.markdown("**Proposed threshold:** sCD46 > 500 ng/mL = CD46-high disease (research stage)")
             st.info("sCD46: **Screening** → **Monitoring** → **Response confirmation** across the RLT treatment timeline.")
 
@@ -602,7 +602,7 @@ elif _active_diag == _DIAG_TABS[4]:
                 {"Study": "Antonarakis et al.",    "Finding": "CD46-high CTCs correlate with post-ARPI resistance"},
                 {"Study": "Microfluidic chip",     "Finding": "CD46 as EpCAM-independent CTC capture antigen"},
             ])
-            st.dataframe(ctc_df, use_container_width=True, hide_index=True)
+            research_table(ctc_df, use_container_width=True, hide_index=True)
             st.markdown("**AR-V7 co-detection:** CD46+ CTCs → test for AR-V7 (ARPI resistance marker)")
 
     st.markdown("---")
@@ -615,7 +615,7 @@ elif _active_diag == _DIAG_TABS[4]:
         {"Modality": "AR-V7 (blood)", "Sensitivity": "Medium", "Specificity": "High",   "Clinical Ready": "✅ Guardant/Epic",   "Cost": "Medium"},
         {"Modality": "ctDNA / cfDNA", "Sensitivity": "High",   "Specificity": "Medium", "Clinical Ready": "✅ Commercial",      "Cost": "High"},
     ])
-    st.dataframe(lbx_cmp, use_container_width=True, hide_index=True)
+    research_table(lbx_cmp, use_container_width=True, hide_index=True)
 
     st.markdown("---")
     st.markdown("#### Complement Activation — Pharmacodynamic Biomarker")
@@ -626,7 +626,7 @@ elif _active_diag == _DIAG_TABS[4]:
         {"Biomarker": "Bb fragment",   "Role": "Alternative pathway activation",      "Panel":        "Research / specialist labs"},
         {"Biomarker": "MAC (C5b-9)",   "Role": "Membrane attack complex deposition",  "Panel":        "Research / EM"},
     ])
-    st.dataframe(comp_pd_df, use_container_width=True, hide_index=True)
+    research_table(comp_pd_df, use_container_width=True, hide_index=True)
     st.info(
         "**Complement synergy mechanism:** 225Ac-CD46 → CD46 occupancy → reduced C3b/C4b cleavage "
         "→ complement deposition on tumour surface → MAC-mediated cell death amplifies alpha kill. "
@@ -669,7 +669,7 @@ elif _active_diag == _DIAG_TABS[5]:
          "Evidence": "FOR46 / BC8 preclinical data; haematological Phase I trials",
          "Clinical Opportunity": "Bone marrow biopsy CD46 IHC in MGUS screening"},
     ])
-    st.dataframe(early_data, use_container_width=True, hide_index=True)
+    research_table(early_data, use_container_width=True, hide_index=True)
 
     st.markdown("---")
     c1, c2 = st.columns(2)
@@ -687,7 +687,7 @@ elif _active_diag == _DIAG_TABS[5]:
             {"Isoform": "C1 (γ)",  "Exons": "C + 13-aa",       "HPV Receptor": "✅ Yes",        "Cancer Relevance": "Haematological"},
             {"Isoform": "C2 (δ)",  "Exons": "C only",           "HPV Receptor": "❌ No",          "Cancer Relevance": "Broad expression"},
         ])
-        st.dataframe(isoform_df, use_container_width=True, hide_index=True)
+        research_table(isoform_df, use_container_width=True, hide_index=True)
 
     with c2:
         st.markdown("**Early Detection Research Agenda**")
@@ -698,7 +698,7 @@ elif _active_diag == _DIAG_TABS[5]:
             {"Priority": "MEDIUM", "Research Question": "Is ⁸⁹Zr-YS5 PET sensitive for occult mCRPC lesions?",   "Readiness": "Phase I ongoing"},
             {"Priority": "LOW",    "Research Question": "CD46 methylation in cfDNA (cfMeDIP) for early detection","Readiness": "Experimental"},
         ])
-        st.dataframe(agenda_df, use_container_width=True, hide_index=True)
+        research_table(agenda_df, use_container_width=True, hide_index=True)
 
     st.info(
         "**Strategic implication:** CD46's early-stage overexpression opens diagnostic opportunities "
@@ -752,7 +752,7 @@ elif _active_diag == _DIAG_TABS[6]:
         {"Biomarker": "CD46+ CTC count",      "Detection": "Serial monitoring",   "Method": "CellSearch + IHC",   "Clinical Role": "Progression monitoring",         "Ready": "❌ Research",  "Regulatory": "LDT development"},
         {"Biomarker": "LDH, ALP, Hb",         "Detection": "Baseline safety",     "Method": "Standard chemistry",  "Clinical Role": "Eligibility safety labs",        "Ready": "✅ Standard",  "Regulatory": "Standard labs"},
     ])
-    st.dataframe(panel_df, hide_index=True, use_container_width=True)
+    research_table(panel_df, hide_index=True, use_container_width=True)
 
     st.markdown("---")
     v1, v2 = st.columns(2)
@@ -779,7 +779,7 @@ All mCRPC patients (100%)
             {"Pathway": "AR-V7 integration (existing)",     "Timeline": "Immediate (licensed assay)"},
             {"Pathway": "Full CDx package for BLA submission","Timeline": "~2032 (225Ac Phase III era)"},
         ])
-        st.dataframe(reg_df, use_container_width=True, hide_index=True)
+        research_table(reg_df, use_container_width=True, hide_index=True)
 
     st.success(
         "**Platform closing statement:** This diagnostic module — GTEx normal-tissue safety panel, "

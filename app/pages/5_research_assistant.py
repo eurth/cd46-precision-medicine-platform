@@ -12,7 +12,7 @@ load_dotenv(Path(__file__).resolve().parents[2] / ".env")
 
 import streamlit as st
 from components.targets import get_active_symbol, render_stub_gate
-from components.ui_kit import page_header, section_tabs
+from components.ui_kit import page_header, section_tabs, research_table
 from components.data_freeze import render_data_freeze_banner
 
 # Inject Streamlit Cloud secrets into os.environ
@@ -401,7 +401,7 @@ elif _active_asst == _ASST_TABS[1]:
 
     import pandas as pd
     df_comp = pd.DataFrame(comp_data)
-    st.dataframe(df_comp.set_index("Capability"), use_container_width=True)
+    research_table(df_comp.set_index("Capability"), use_container_width=True)
 
     st.markdown("---")
     st.markdown("#### Technology Stack")
@@ -566,7 +566,7 @@ elif _active_asst == _ASST_TABS[2]:
             "STRING DB (taxid 9606), HPA tissue distribution",
         ],
     }
-    st.dataframe(pd.DataFrame(demo_data), use_container_width=True, hide_index=True)
+    research_table(pd.DataFrame(demo_data), use_container_width=True, hide_index=True)
 
     st.markdown("---")
     st.caption(

@@ -11,7 +11,7 @@ import plotly.graph_objects as go
 import streamlit as st
 from components.theme import plotly_layout, apply_plotly_layout
 from components.targets import get_active_symbol, render_stub_gate, render_case_study_gate
-from components.ui_kit import filter_bar, info_banner, page_header, section_tabs
+from components.ui_kit import filter_bar, info_banner, page_header, section_tabs, research_table
 
 if render_stub_gate(module="Patient Selection"):
     st.stop()
@@ -304,7 +304,7 @@ if _active_pat == _PAT_TABS[0]:
                 "SEX", "PRIMARY_RACE", "AR_Amplified", "AR_Mutated",
                 "PTEN_Deleted", "TP53_Mutated",
             ]
-            st.dataframe(fdf[show_cols].head(300), use_container_width=True, height=320)
+            research_table(fdf[show_cols].head(300), use_container_width=True, height=320)
 
         # â”€â”€ Segment comparison: prostate vs other cancers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         st.markdown("#### Segment Comparison — Any-Cancer View")
@@ -556,7 +556,7 @@ elif _active_pat == _PAT_TABS[2]:
             "fdr":          "FDR",
             "significant":  "Sig.",
         })
-        st.dataframe(disp_comb, use_container_width=True, hide_index=True)
+        research_table(disp_comb, use_container_width=True, hide_index=True)
         st.caption(
             "FOLH1 = PSMA gene (negative correlation → PSMA-low = CD46-high). "
             "Significant correlations survive FDR correction."
@@ -589,7 +589,7 @@ elif _active_pat == _PAT_TABS[3]:
             "cancer_type", "threshold_method", "n_eligible", "n_total",
             "pct_eligible", "is_priority_cancer",
         ] if c in eligibility_df.columns]
-        st.dataframe(
+        research_table(
             eligibility_df[display_cols].sort_values(
                 ["threshold_method", "pct_eligible"], ascending=[True, False]
             ),

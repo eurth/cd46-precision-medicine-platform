@@ -21,7 +21,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 from components.targets import get_active_symbol, is_loaded, is_case_study
-from components.ui_kit import page_header, section_tabs
+from components.ui_kit import page_header, section_tabs, research_table
 from components.data_freeze import render_data_freeze_banner
 from components.export_pack import (
     ROW_CAP,
@@ -445,7 +445,7 @@ if _active_kgqx == _KGQX_TABS[0]:
                     val = df_result[col].iloc[0]
                     metric_cols[i].metric(col.replace("_", " ").title(), f"{val:.3f}" if isinstance(val, float) else str(val))
 
-            st.dataframe(df_result, use_container_width=True, hide_index=True)
+            research_table(df_result, use_container_width=True, hide_index=True)
 
             _download_export_pack(df_result, key="dl_tpl", stem="kg_query")
 
@@ -530,7 +530,7 @@ LIMIT 25
         if rows:
             st.success(f"✅ {len(rows)} rows · {elapsed:.2f}s")
             df_cyp = pd.DataFrame(rows)
-            st.dataframe(df_cyp, use_container_width=True, hide_index=True)
+            research_table(df_cyp, use_container_width=True, hide_index=True)
             _download_export_pack(df_cyp, key="dl_cyp", stem="cypher_result")
         else:
             st.info("Query returned no results.")
@@ -673,7 +673,7 @@ Cypher:"""
                     if rows:
                         st.success(f"✅ {len(rows)} results")
                         df_nl = pd.DataFrame(rows)
-                        st.dataframe(df_nl, use_container_width=True, hide_index=True)
+                        research_table(df_nl, use_container_width=True, hide_index=True)
                         _download_export_pack(df_nl, key="dl_nl", stem="nl_result")
                     else:
                         st.info("No results returned.")
@@ -822,7 +822,7 @@ LIMIT 50
             )
             st.plotly_chart(fig_g, use_container_width=True)
             st.caption(f"Rendering {n_nodes} nodes and {len(df_g)} edges from AuraDB · Node size = degree")
-            st.dataframe(df_g, use_container_width=True, hide_index=True)
+            research_table(df_g, use_container_width=True, hide_index=True)
         else:
             st.info("No graph data returned.")
 

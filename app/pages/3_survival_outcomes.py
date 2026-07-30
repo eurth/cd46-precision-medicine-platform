@@ -10,7 +10,7 @@ import plotly.graph_objects as go
 import streamlit as st
 from components.theme import plotly_layout, apply_plotly_layout
 from components.targets import get_active_symbol, list_symbols, render_stub_gate
-from components.ui_kit import export_research_pack, filter_bar, page_header, section_tabs
+from components.ui_kit import export_research_pack, filter_bar, page_header, section_tabs, research_table
 
 if render_stub_gate(module="Survival Outcomes"):
     st.stop()
@@ -321,7 +321,7 @@ elif _active_surv == _SURV_TABS[1]:
                 disp[col] = disp[col].round(3)
             disp["p-value"] = disp["p-value"].round(4)
 
-            st.dataframe(disp, use_container_width=True, height=460, hide_index=True)
+            research_table(disp, use_container_width=True, height=460, hide_index=True)
             _dl = (
                 "multi_gene_cox_survival_results.csv"
                 if len(_selected_genes) > 1

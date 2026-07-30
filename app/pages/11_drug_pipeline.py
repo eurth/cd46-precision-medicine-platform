@@ -14,7 +14,7 @@ import plotly.graph_objects as go
 import streamlit as st
 from components.theme import plotly_layout, apply_plotly_layout
 from components.targets import get_active_symbol, render_stub_gate, render_case_study_gate
-from components.ui_kit import info_banner, page_header, section_tabs
+from components.ui_kit import info_banner, page_header, section_tabs, research_table
 import json
 
 if render_stub_gate(module="Drug Pipeline"):
@@ -360,7 +360,7 @@ if _active_drug == _DRUG_TABS[0]:
     st.markdown("**Complete Agent Summary**")
     summary_cols = ["Name", "Drug Class", "Modality", "Target", "Phase Label",
                     "Developer", "Indication", "Isotope / Payload"]
-    st.dataframe(
+    research_table(
         PIPELINE.sort_values(["Drug Class", "Phase_num"], ascending=[True, False])[summary_cols],
         use_container_width=True,
         height=340,
@@ -400,7 +400,7 @@ elif _active_drug == _DRUG_TABS[1]:
                     if row["ChEMBL"] != "—":
                         st.markdown(f"**ChEMBL:** `{row['ChEMBL']}`")
         cmp = ["Name", "Modality", "Phase Label", "Isotope / Payload", "Indication", "Developer"]
-        st.dataframe(df_cd46[cmp].reset_index(drop=True), use_container_width=True, hide_index=True)
+        research_table(df_cd46[cmp].reset_index(drop=True), use_container_width=True, hide_index=True)
         if _IS_CD46:
             st.markdown("---")
             st.markdown("#### Alpha vs Beta Emitter Comparison — 225Ac vs 177Lu vs 131I")
@@ -409,7 +409,7 @@ elif _active_drug == _DRUG_TABS[1]:
                 {"Property": "Path length in tissue", "225Ac (alpha)": "40–100 µm", "177Lu (beta)": "2–3 mm", "131I (beta)": "0.8 mm"},
                 {"Property": "Best tumour context", "225Ac (alpha)": "Micromet / bone", "177Lu (beta)": "Macrometastasis", "131I (beta)": "Haematological"},
             ])
-            st.dataframe(iso_df, use_container_width=True, hide_index=True)
+            research_table(iso_df, use_container_width=True, hide_index=True)
 
 # ─────────────────────────────────────────────────────────────────────────────
 # TAB 3 — PSMA Competitive Reference
@@ -458,7 +458,7 @@ elif _active_drug == _DRUG_TABS[2]:
                 "Very low — ubiquitous expression",
             ],
         }
-        st.dataframe(
+        research_table(
             pd.DataFrame(comparison_data),
             use_container_width=True,
             hide_index=True,
@@ -571,7 +571,7 @@ C1 → C4 → C2                     C3 → CFB → CFD
              "Action":      "Downstream C5 block — FDA approved",
              "Drugged?":    "Approved (Soliris / Ultomiris)"},
         ])
-        st.dataframe(cascade_df, use_container_width=True, hide_index=True)
+        research_table(cascade_df, use_container_width=True, hide_index=True)
 
     st.success(
         "**Key distinction:** 225Ac-CD46 therapy targets the *tumour surface expression* of CD46 — "

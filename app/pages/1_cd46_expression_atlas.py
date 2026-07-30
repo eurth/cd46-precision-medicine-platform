@@ -10,7 +10,7 @@ import plotly.graph_objects as go
 import streamlit as st
 from components.targets import get_active_symbol, render_stub_gate
 from components.theme import CHART_GRID, CHART_HIGHLIGHT, CHART_MUTED, TEXT, TEXT_MUTED, plotly_layout, apply_plotly_layout
-from components.ui_kit import export_research_pack, filter_bar, page_header, section_tabs
+from components.ui_kit import export_research_pack, filter_bar, page_header, section_tabs, research_table
 
 if render_stub_gate(module="Expression Atlas"):
     st.stop()
@@ -301,7 +301,7 @@ elif _active_tab == _TAB_LABELS[1]:
                 )
                 st.plotly_chart(fig_hpa, use_container_width=True)
             else:
-                st.dataframe(hpa_df, use_container_width=True)
+                research_table(hpa_df, use_container_width=True)
 
     with col_gtex:
         st.markdown("##### 🏥 GTEx — Normal Tissue mRNA (54 sites)")
@@ -445,7 +445,7 @@ elif _active_tab == _TAB_LABELS[2]:
                 "pct_dep":    "% Deps",
             })
             disp["Avg Score"] = disp["Avg Score"].round(3)
-            st.dataframe(disp, use_container_width=True, height=480, hide_index=True)
+            research_table(disp, use_container_width=True, height=480, hide_index=True)
 
         st.info(
             "**Key insight:** CD46 CRISPR scores cluster near 0 across all 30 lineages — "

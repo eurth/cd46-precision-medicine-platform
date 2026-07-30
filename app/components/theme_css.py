@@ -140,6 +140,26 @@ button[data-testid="stBaseButton-headerNoPadding"] {{ display: none !important; 
     color: {TEXT} !important;
 }}
 
+[data-testid="stTable"] {{
+    background: {SURFACE} !important;
+    border: 1px solid {BORDER} !important;
+    border-radius: 8px !important;
+}}
+[data-testid="stTable"] table {{
+    color: {TEXT} !important;
+}}
+[data-testid="stTable"] th {{
+    background: {SURFACE_2} !important;
+    color: {TEXT_SECONDARY} !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+}}
+[data-testid="stTable"] td {{
+    color: {TEXT} !important;
+    font-size: 13px !important;
+    border-color: {BORDER} !important;
+}}
+
 [data-testid="stVerticalBlockBorderWrapper"] {{
     border: 1px solid {BORDER} !important; border-radius: 10px !important;
     background: {SURFACE} !important; box-shadow: 0 1px 2px rgba(15,23,42,0.04) !important;

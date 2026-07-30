@@ -13,7 +13,7 @@ import plotly.graph_objects as go
 import streamlit as st
 from components.theme import plotly_layout, apply_plotly_layout
 from components.targets import get_active_symbol, render_stub_gate, render_case_study_gate
-from components.ui_kit import page_header
+from components.ui_kit import page_header, research_table
 
 # ── Streamlit Cloud secret injection ─────────────────────────────────────────
 for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
@@ -298,7 +298,7 @@ with st.container(border=True):
                 {"Property": "Off-target dose",  "Alpha 225Ac": "✅ Low",              "Beta 177Lu": "⚠️ Higher"},
                 {"Property": "Decays",           "Alpha 225Ac": "4α cascade",          "Beta 177Lu": "1β"},
             ])
-            st.dataframe(alpha_df, use_container_width=True, hide_index=True, height=230)
+            research_table(alpha_df, use_container_width=True, hide_index=True, height=230)
 
     with col_d2:
         with st.container(border=True):
@@ -459,7 +459,7 @@ with st.container(border=True):
         display_trial.columns = ["NCT ID", "Phase", "Status", "Enrolled", "Start", "Completion"]
         display_trial["Phase"] = display_trial["Phase"].map(lambda x: PHASE_LABEL.get(x or "NA", x))
         display_trial["Status"] = display_trial["Status"].map(lambda s: STATUS_ICON.get(s or "", s or "—"))
-        st.dataframe(display_trial, hide_index=True, use_container_width=True)
+        research_table(display_trial, hide_index=True, use_container_width=True)
 
         total_enrolled = trial_df["enrolled"].dropna().sum()
         st.metric("Total Patients Enrolled Across Trials", f"{int(total_enrolled):,}")
@@ -592,7 +592,7 @@ By analogy with 177Lu-PSMA-617 (TheraP trial, NCT03544840):
             {"Endpoint": "OS",                  "Timepoint": "Secondary", "Target": "HR <0.80"},
             {"Endpoint": "Safety (DLT)",        "Timepoint": "Cycle 1",   "Target": "Renal + BM"},
         ])
-        st.dataframe(ep_df, use_container_width=True, hide_index=True)
+        research_table(ep_df, use_container_width=True, hide_index=True)
 
         st.markdown(f"**Real-World Benchmark ({mcrpc_n:,} patients)**")
         st.metric(f"Mean OS in mCRPC (SU2C)", f"{mcrpc_os:.0f} months",
@@ -647,7 +647,7 @@ strategy_df = pd.DataFrame([
         "Confidence":    "Contingent on Ph II",
     },
 ])
-st.dataframe(strategy_df, hide_index=True, use_container_width=True)
+research_table(strategy_df, hide_index=True, use_container_width=True)
 
 st.info(
     "**Platform synthesis:** The Clinical Strategy Engine assembles all 13 analytical modules into a single "

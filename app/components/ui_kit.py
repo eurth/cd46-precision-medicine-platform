@@ -91,6 +91,17 @@ def apply_theme() -> None:
     pass
 
 
+def research_table(df, **kwargs) -> None:
+    """Read-only table — st.table avoids Glide canvas layout bugs in narrow columns."""
+    # ponytail: kwargs ignored (height/use_container_width break Glide); use st.dataframe only for column_config
+    kwargs.pop("use_container_width", None)
+    kwargs.pop("hide_index", None)
+    kwargs.pop("height", None)
+    kwargs.pop("key", None)
+    kwargs.pop("column_config", None)
+    st.table(df)
+
+
 def shadcn_available() -> bool:
     """Deprecated: we use native themed components."""
     return False

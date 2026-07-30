@@ -1,4 +1,5 @@
-﻿"""
+from components.ui_kit import research_table
+"""
 Admin - Visitor Analytics (GitHub Gist backend)
 Password-gated, hidden from sidebar.
 URL: /admin_logs
@@ -79,7 +80,7 @@ with st.expander("Feedback inbox", expanded=True):
         st.info("No feedback yet.")
     else:
         fdf = pd.DataFrame(rows)
-        st.dataframe(fdf.iloc[::-1], use_container_width=True, height=280)
+        research_table(fdf.iloc[::-1], use_container_width=True, height=280)
         st.download_button(
             "Download feedback JSONL",
             "\n".join(json.dumps(r, ensure_ascii=False) for r in rows) + "\n",
@@ -272,6 +273,6 @@ st.divider()
 st.subheader("Session Log")
 cols = [c for c in ["Timestamp","Session_ID","Page","Browser","OS","IP", "Country", "City"] if c in fdf.columns]
 disp = fdf[cols].sort_values("Timestamp", ascending=False).reset_index(drop=True)
-st.dataframe(disp, use_container_width=True, height=380)
+research_table(disp, use_container_width=True, height=380)
 st.download_button("Download CSV", disp.to_csv(index=False).encode(),
                    "cd46_visitor_log.csv", "text/csv", key="btn_dl")

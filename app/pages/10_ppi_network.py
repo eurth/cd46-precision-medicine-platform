@@ -22,7 +22,7 @@ import plotly.graph_objects as go
 import streamlit as st
 from components.theme import plotly_layout, apply_plotly_layout
 from components.targets import get_active_symbol, render_stub_gate, render_case_study_gate
-from components.ui_kit import page_header, section_tabs
+from components.ui_kit import page_header, section_tabs, research_table
 
 if render_stub_gate(module="PPI Network Explorer"):
     st.stop()
@@ -474,7 +474,7 @@ elif _active_ppi == _PPI_TABS[1]:
             key="p10_tab2_cat",
         )
         df_show = df_p[df_p["Category"].isin(cat_filter)]
-        st.dataframe(
+        research_table(
             df_show.style
                 .background_gradient(subset=["Combined Score"], cmap="Blues",  vmin=0.65, vmax=1.0)
                 .background_gradient(subset=["Experimental"],   cmap="Greens", vmin=0,    vmax=0.5),
@@ -502,7 +502,7 @@ elif _active_ppi == _PPI_TABS[1]:
     sf = sf_col.slider("Min score", 0.70, 1.0, 0.70, 0.01, key="p10_all_score")
     df_all = df_all[df_all["Score"] >= sf]
     meta_col.metric("Edges shown", len(df_all))
-    st.dataframe(df_all, use_container_width=True, height=320)
+    research_table(df_all, use_container_width=True, height=320)
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Tab 3 — Pathway Breakdown

@@ -17,7 +17,7 @@ import plotly.graph_objects as go
 import streamlit as st
 from components.theme import plotly_layout, apply_plotly_layout
 from components.targets import get_active_symbol, is_case_study, render_stub_gate
-from components.ui_kit import page_header, section_tabs
+from components.ui_kit import page_header, section_tabs, research_table
 
 # Inject Streamlit Cloud secrets into os.environ
 for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
@@ -395,7 +395,7 @@ elif _active_kg == _KG_TABS[1]:
             with driver.session() as sess:
                 records = [dict(rec) for rec in sess.run(cypher)]
             if records:
-                st.dataframe(pd.DataFrame(records), use_container_width=True)
+                research_table(pd.DataFrame(records), use_container_width=True)
                 st.caption(f"{len(records)} records returned")
             else:
                 st.info("Query returned no results — data may not yet be in the graph.")
@@ -721,7 +721,7 @@ elif _active_kg == _KG_TABS[2]:
                     "dbSNP":    dbsnp,
                     "Disease / Note": dis or "-",
                 })
-            st.dataframe(pd.DataFrame(var_rows).sort_values("Position"), use_container_width=True, hide_index=True)
+            research_table(pd.DataFrame(var_rows).sort_values("Position"), use_container_width=True, hide_index=True)
         else:
             st.info("Natural variant data not available — check data/raw/apis/uniprot_cd46.json")
 
@@ -739,7 +739,7 @@ elif _active_kg == _KG_TABS[2]:
                     "UniProt ID":      iso.get("isoformIds", ["?"])[0],
                     "Sequence Status": iso.get("isoformSequenceStatus", "?"),
                 })
-            st.dataframe(pd.DataFrame(iso_rows), use_container_width=True, hide_index=True)
+            research_table(pd.DataFrame(iso_rows), use_container_width=True, hide_index=True)
         else:
             st.info("Isoform data not available — check data/raw/apis/uniprot_cd46.json")
 
@@ -861,7 +861,7 @@ elif _active_kg == _KG_TABS[2]:
                 df_show["Complement?"] = df_show["Partner"].apply(
                     lambda x: "YES" if x in COMPLEMENT_GENES else ""
                 )
-                st.dataframe(
+                research_table(
                     df_show.sort_values("Combined", ascending=False).head(25),
                     use_container_width=True, hide_index=True,
                 )
