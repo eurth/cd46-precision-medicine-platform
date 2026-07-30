@@ -9,7 +9,7 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
-from components.theme import plotly_layout
+from components.theme import plotly_layout, apply_plotly_layout
 from components.targets import get_active_symbol, render_stub_gate, render_case_study_gate
 from components.ui_kit import filter_bar, info_banner, page_header, section_tabs
 
@@ -40,8 +40,6 @@ _SLATE  = "#94A3B8"
 _MID    = "#94A3B8"
 _TEXT   = "#64748B"
 _LIGHT  = "#1E293B"
-
-_PLOTLY_LAYOUT = plotly_layout()
 
 # ---------------------------------------------------------------------------
 # Data loaders
@@ -229,8 +227,7 @@ if _active_pat == _PAT_TABS[0]:
                 orientation="h", marker_color=_RED,
                 hovertemplate="<b>%{y}</b><br>TP53 altered: %{x}%<extra></extra>",
             ))
-            fig_bar.update_layout(
-                **_PLOTLY_LAYOUT,
+            apply_plotly_layout(fig_bar,
                 barmode="group", height=380,
                 margin=dict(l=10, r=50, t=10, b=10),
                 xaxis=dict(title="% Patients Altered", gridcolor=_LINE, color=_TEXT),
@@ -265,8 +262,7 @@ if _active_pat == _PAT_TABS[0]:
                 textposition="inside", textinfo="percent+label",
                 textfont_size=9, textfont_color="#FFFFFF",
             )
-            fig_donut.update_layout(
-                **_PLOTLY_LAYOUT,
+            apply_plotly_layout(fig_donut,
                 height=400, margin=dict(l=0, r=0, t=0, b=10),
                 showlegend=False,
             )
@@ -335,8 +331,7 @@ if _active_pat == _PAT_TABS[0]:
                     barmode="stack",
                     labels={"Pct": "% of Cancer Type", "Cancer": ""},
                 )
-                fig_comp.update_layout(
-                    **_PLOTLY_LAYOUT, height=380,
+                apply_plotly_layout(fig_comp, height=380,
                     margin=dict(l=10, r=20, t=20, b=40),
                     xaxis=dict(color=_LIGHT),
                     yaxis=dict(title="% of Cancer Type", gridcolor=_LINE, color=_TEXT),
@@ -394,8 +389,7 @@ elif _active_pat == _PAT_TABS[1]:
                 y=25, line_dash="dash", line_color=_MID, line_width=1,
                 annotation_text="25% ref.", annotation_font_color=_MID, annotation_font_size=10,
             )
-            fig_elig.update_layout(
-                **_PLOTLY_LAYOUT, height=360,
+            apply_plotly_layout(fig_elig, height=360,
                 xaxis=dict(tickangle=-50, color=_LIGHT, tickfont=dict(size=9)),
                 yaxis=dict(title="% CD46-High", gridcolor=_LINE, color=_TEXT),
                 margin=dict(l=10, r=20, t=20, b=80),
@@ -418,8 +412,7 @@ elif _active_pat == _PAT_TABS[1]:
                 y=subset["n_eligible"],
                 marker_color=_INDIGO,
             ))
-            fig_cnt.update_layout(
-                **_PLOTLY_LAYOUT, barmode="stack", height=360,
+            apply_plotly_layout(fig_cnt, barmode="stack", height=360,
                 xaxis=dict(tickangle=-50, color=_LIGHT, tickfont=dict(size=9)),
                 yaxis=dict(title="Patients", gridcolor=_LINE, color=_TEXT),
                 margin=dict(l=10, r=20, t=20, b=80),
@@ -453,8 +446,7 @@ elif _active_pat == _PAT_TABS[1]:
                     textposition="outside",
                     textfont=dict(size=11, color=_LIGHT),
                 ))
-                fig_sens.update_layout(
-                    **_PLOTLY_LAYOUT, height=280,
+                apply_plotly_layout(fig_sens, height=280,
                     margin=dict(l=10, r=20, t=20, b=40),
                     xaxis=dict(color=_LIGHT),
                     yaxis=dict(title="% CD46-High", gridcolor=_LINE, color=_TEXT),
@@ -511,8 +503,7 @@ elif _active_pat == _PAT_TABS[2]:
             textinfo="value+percent initial",
             marker_color=[_SLATE, _BLUE, _AMBER, _INDIGO],
         ))
-        fig_funnel.update_layout(
-            **_PLOTLY_LAYOUT,
+        apply_plotly_layout(fig_funnel,
             height=300,
             margin=dict(l=10, r=10, t=10, b=10),
         )
@@ -540,8 +531,7 @@ elif _active_pat == _PAT_TABS[2]:
             textposition="outside",
             textfont=dict(color=_LIGHT),
         ))
-        fig_ar.update_layout(
-            **_PLOTLY_LAYOUT,
+        apply_plotly_layout(fig_ar,
             height=300,
             margin=dict(l=10, r=20, t=20, b=40),
             xaxis=dict(color=_LIGHT, tickfont=dict(size=11)),

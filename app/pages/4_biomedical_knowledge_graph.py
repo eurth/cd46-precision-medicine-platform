@@ -15,7 +15,7 @@ load_dotenv(Path(__file__).resolve().parents[2] / ".env")
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
-from components.theme import plotly_layout
+from components.theme import plotly_layout, apply_plotly_layout
 from components.targets import get_active_symbol, is_case_study, render_stub_gate
 from components.ui_kit import page_header, section_tabs
 
@@ -52,8 +52,6 @@ _MID    = "#94A3B8"
 _TEXT   = "#64748B"
 _LIGHT  = "#1E293B"
 _RED    = "#F87171"
-
-_PLOTLY_LAYOUT = plotly_layout()
 
 # ---------------------------------------------------------------------------
 # Neo4j connection
@@ -334,8 +332,7 @@ UniProt IDs, ClinicalTrials NCT numbers, DepMap scores.
                 marker_color=[COLOR_MAP.get(lb, "#64748b") for lb in labels_bar],
                 hovertemplate="<b>%{y}</b><br>Count: %{x:,}<extra></extra>",
             ))
-            fig_counts.update_layout(
-                **_PLOTLY_LAYOUT, height=320,
+            apply_plotly_layout(fig_counts, height=320,
                 xaxis=dict(title="Node count", gridcolor=_LINE, color=_TEXT),
                 yaxis=dict(color=_LIGHT, autorange="reversed"),
                 margin=dict(l=0, r=0, t=10, b=30),

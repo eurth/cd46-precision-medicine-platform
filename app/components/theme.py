@@ -84,9 +84,42 @@ def plotly_layout(**overrides) -> dict:
     return _deep_merge(base, overrides)
 
 
+def chart_layout(**overrides) -> dict:
+    """Build one layout dict — merges CHART_AXIS into xaxis/yaxis (safe for update_layout)."""
+    kw = dict(overrides)
+    for ax in ("xaxis", "yaxis"):
+        if ax in kw and isinstance(kw[ax], dict):
+            merged = _deep_merge(dict(_AXIS), kw[ax])
+            tf = merged.get("tickfont")
+            if not isinstance(tf, dict):
+                tf = {}
+            if "color" not in tf:
+                merged["tickfont"] = _deep_merge({"color": TEXT_SECONDARY, "size": 11}, tf)
+            kw[ax] = merged
+    if "legend" in kw and isinstance(kw["legend"], dict):
+        kw["legend"] = _deep_merge(
+            {
+                "bgcolor": "rgba(255,255,255,0.92)",
+                "bordercolor": BORDER,
+                "font": {"color": TEXT, "size": 11},
+            },
+            kw["legend"],
+        )
+    if "hoverlabel" in kw and isinstance(kw["hoverlabel"], dict):
+        kw["hoverlabel"] = _deep_merge(
+            {
+                "bgcolor": SURFACE,
+                "bordercolor": BORDER,
+                "font": {"color": TEXT, "size": 12},
+            },
+            kw["hoverlabel"],
+        )
+    return plotly_layout(**kw)
+
+
 def apply_plotly_layout(fig, **overrides):
-    """ponytail: one safe entry — avoids **base + duplicate margin/xaxis kwargs."""
-    fig.update_layout(**plotly_layout(**overrides))
+    """ponytail: one safe entry — merges axis defaults, no duplicate-kwarg spread."""
+    fig.update_layout(**chart_layout(**overrides))
     return fig
 
 
@@ -106,11 +139,12 @@ def assert_theme_smoke() -> None:
         yaxis=dict(color=TEXT, tickfont=dict(size=11)),
         legend=dict(font=dict(color=TEXT)),
     )
-    merged = plotly_layout(
+    merged = chart_layout(
         xaxis=_deep_merge(dict(_AXIS), {"title": "Merged"}),
         yaxis=dict(color=TEXT),
     )
     assert merged["xaxis"]["title"] == "Merged"
+    assert merged["yaxis"]["tickfont"]["color"] == TEXT_SECONDARY
 
 
 if __name__ == "__main__":

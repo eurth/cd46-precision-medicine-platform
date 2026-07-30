@@ -1,4 +1,4 @@
-﻿"""Page 12 — Dosimetry & Safety Index
+"""Page 12 — Dosimetry & Safety Index
 CD46 expression in normal vs tumour tissues — the Phase I safety argument.
 Data: Human Protein Atlas (HPA) IHC H-scores · 225Ac dosimetry physics
 """
@@ -11,7 +11,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
-from components.theme import plotly_layout
+from components.theme import plotly_layout, apply_plotly_layout
 from components.targets import get_active_symbol, render_stub_gate, render_case_study_gate
 from components.ui_kit import page_header, section_tabs
 
@@ -44,8 +44,6 @@ _RED    = "#F87171"
 _SLATE  = "#4E637A"
 _TEXT   = "#64748B"
 _LIGHT  = "#1E293B"
-
-_PLOTLY_LAYOUT = plotly_layout()
 
 # ── Static HPA fallback ───────────────────────────────────────────────────────
 # Human Protein Atlas CD46 IHC H-scores (publicly available at proteinatlas.org)
@@ -217,8 +215,7 @@ if _active_dose == _DOSE_TABS[0]:
         annotation_position="top left",
         annotation_font=dict(color=_ORANGE, size=10),
     )
-    fig_n.update_layout(
-        **_PLOTLY_LAYOUT,
+    apply_plotly_layout(fig_n,
         xaxis=dict(title="H-score (0–300)", gridcolor=_LINE, range=[0, 370], color=_TEXT),
         yaxis=dict(title=None, color=_LIGHT, autorange=True),
         height=580,
@@ -306,8 +303,7 @@ elif _active_dose == _DOSE_TABS[1]:
         annotation_position="top left",
         annotation_font=dict(color=_GREEN, size=10),
     )
-    fig_ti.update_layout(
-        **_PLOTLY_LAYOUT,
+    apply_plotly_layout(fig_ti,
         xaxis=dict(title="Therapeutic Index (Tumour / Normal H-score)", gridcolor=_LINE, color=_TEXT),
         yaxis=dict(title=None, color=_LIGHT),
         height=400,
@@ -456,8 +452,7 @@ elif _active_dose == _DOSE_TABS[3]:
             line=dict(color=_GREEN, width=2),
             name="Tumour CD46 (mCRPC)",
         ))
-        fig_radar.update_layout(
-            **_PLOTLY_LAYOUT,
+        apply_plotly_layout(fig_radar,
             polar=dict(
                 radialaxis=dict(visible=True, range=[0, 320], color=_TEXT, gridcolor=_LINE),
                 bgcolor=_BG,

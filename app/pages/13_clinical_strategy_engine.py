@@ -1,4 +1,4 @@
-﻿"""Page 13 — Clinical Strategy Engine
+"""Page 13 — Clinical Strategy Engine
 End-to-end development narrative: Target → Drug → Patient → Trial → Outcome.
 The single investor/CAB-ready artifact that connects all platform evidence.
 """
@@ -11,7 +11,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
-from components.theme import plotly_layout
+from components.theme import plotly_layout, apply_plotly_layout
 from components.targets import get_active_symbol, render_stub_gate, render_case_study_gate
 from components.ui_kit import page_header
 
@@ -44,8 +44,6 @@ _RED    = "#F87171"
 _SLATE  = "#4E637A"
 _TEXT   = "#64748B"
 _LIGHT  = "#1E293B"
-
-_PLOTLY_LAYOUT = plotly_layout()
 
 # ── Phase-pill banner CSS (kept as HTML — bespoke progress tracker) ───────────
 st.markdown("""
@@ -243,8 +241,7 @@ with st.container(border=True):
             textfont=dict(size=10, color=_LIGHT),
             hovertemplate="<b>%{x}</b><br>CD46 median: %{y:.1f} log₂ TPM<extra></extra>",
         ))
-        fig_expr.update_layout(
-            **_PLOTLY_LAYOUT,
+        apply_plotly_layout(fig_expr,
             title=dict(text="Top 12 Cancers by Median CD46 mRNA (log₂ TPM)", font=dict(color=_LIGHT, size=13)),
             xaxis=dict(title=None, color=_LIGHT, showgrid=False),
             yaxis=dict(title="log₂ TPM", gridcolor=_LINE, color=_TEXT),
@@ -408,8 +405,7 @@ with st.container(border=True):
             connector=dict(line=dict(color=_LINE, width=2)),
             textfont=dict(color=_LIGHT, size=11),
         ))
-        fig_funnel.update_layout(
-            **_PLOTLY_LAYOUT,
+        apply_plotly_layout(fig_funnel,
             height=340,
             margin=dict(l=10, r=10, t=10, b=20),
             yaxis=dict(color=_LIGHT),
@@ -484,8 +480,7 @@ with st.container(border=True):
             textinfo="label+value",
             textfont=dict(color=_LIGHT, size=11),
         ))
-        fig_phase.update_layout(
-            **_PLOTLY_LAYOUT,
+        apply_plotly_layout(fig_phase,
             height=290,
             margin=dict(l=10, r=10, t=10, b=10),
             showlegend=False,
@@ -561,8 +556,7 @@ with st.container(border=True):
             annotation_position="top right",
             annotation_font=dict(color=_TEXT, size=10),
         )
-        fig_forest.update_layout(
-            **_PLOTLY_LAYOUT,
+        apply_plotly_layout(fig_forest,
             title=dict(text="OS Hazard Ratio — CD46-High vs CD46-Low (top 10 cancers)", font=dict(color=_LIGHT, size=13)),
             xaxis=dict(title="Hazard Ratio (>1 = worse OS for CD46-High)", gridcolor=_LINE, color=_TEXT),
             yaxis=dict(title=None, color=_LIGHT),

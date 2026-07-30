@@ -10,7 +10,7 @@ import os
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
-from components.theme import plotly_layout
+from components.theme import plotly_layout, apply_plotly_layout
 from components.targets import list_symbols, is_loaded
 from components.ui_kit import page_header, section_tabs
 from dotenv import load_dotenv
@@ -46,8 +46,6 @@ _GENE_COLORS = {
     "SSTR2": _ROSE,
     "GRPR": _VIOLET,
 }
-
-_PLOTLY_LAYOUT = plotly_layout()
 
 # ── Data ───────────────────────────────────────────────────────────────────────
 @st.cache_data(ttl=3600)
@@ -229,8 +227,7 @@ if _active_cmp == _CMP_TABS[0]:
                     marker_color=_GENE_COLORS.get(g, _TEAL),
                     hovertemplate=f"<b>%{{y}}</b><br>{g}: %{{x:.2f}}<extra></extra>",
                 ))
-            fig.update_layout(
-                **_PLOTLY_LAYOUT,
+            apply_plotly_layout(fig,
                 barmode="group",
                 height=max(420, 22 * len(view)),
                 margin=dict(l=10, r=20, t=30, b=40),
@@ -333,8 +330,7 @@ elif _active_cmp == _CMP_TABS[1]:
             opacity=0.70,
             hovertemplate="<b>%{x}</b><br>PSMA median: %{y:.3f} log\u2082 TPM<extra></extra>",
         ))
-        fig_expr.update_layout(
-            **_PLOTLY_LAYOUT,
+        apply_plotly_layout(fig_expr,
             barmode="group",
             height=440,
             xaxis=dict(tickangle=-45, color=_LIGHT, gridcolor=_LINE),
@@ -384,8 +380,7 @@ elif _active_cmp == _CMP_TABS[2]:
             connector=dict(line=dict(color=_LINE, width=2)),
             textfont=dict(color=_LIGHT, size=13),
         ))
-        fig_funnel.update_layout(
-            **_PLOTLY_LAYOUT,
+        apply_plotly_layout(fig_funnel,
             height=380,
             margin=dict(l=10, r=20, t=10, b=10),
         )
@@ -419,8 +414,7 @@ elif _active_cmp == _CMP_TABS[2]:
             textposition="inside",
             textfont=dict(color="#FFFFFF", size=11),
         ))
-        fig_ph.update_layout(
-            **_PLOTLY_LAYOUT,
+        apply_plotly_layout(fig_ph,
             barmode="stack",
             height=320,
             xaxis=dict(color=_LIGHT),

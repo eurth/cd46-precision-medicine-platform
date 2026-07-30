@@ -9,7 +9,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 from components.targets import get_active_symbol, render_stub_gate
-from components.theme import CHART_GRID, CHART_HIGHLIGHT, CHART_MUTED, TEXT, TEXT_MUTED, plotly_layout
+from components.theme import CHART_GRID, CHART_HIGHLIGHT, CHART_MUTED, TEXT, TEXT_MUTED, plotly_layout, apply_plotly_layout
 from components.ui_kit import export_research_pack, filter_bar, page_header, section_tabs
 
 if render_stub_gate(module="Expression Atlas"):
@@ -28,8 +28,6 @@ _ROSE = "#E11D48"
 _TEXT = TEXT_MUTED
 _LINE = CHART_GRID
 _LIGHT = TEXT
-
-_PLOTLY_LAYOUT = plotly_layout()
 
 # ---------------------------------------------------------------------------
 # Data loaders
@@ -199,8 +197,7 @@ if _active_tab == _TAB_LABELS[0]:
             ),
             customdata=df_plot[["n_samples"]].values,
         ))
-        fig1.update_layout(
-            **_PLOTLY_LAYOUT,
+        apply_plotly_layout(fig1,
             height=520,
             margin=dict(l=10, r=20, t=20, b=40),
             xaxis=dict(title=f"{_GENE} Median Expression", gridcolor=_LINE, color=_TEXT, zeroline=False),
@@ -261,8 +258,7 @@ elif _active_tab == _TAB_LABELS[1]:
                         marker_color=_SLATE,
                         hovertemplate="<b>%{x}</b> (normal)<br>H-score: %{y}<extra></extra>",
                     ))
-                fig_hpa.update_layout(
-                    **_PLOTLY_LAYOUT,
+                apply_plotly_layout(fig_hpa,
                     barmode="group",
                     height=320,
                     margin=dict(l=0, r=0, t=20, b=50),
@@ -281,8 +277,7 @@ elif _active_tab == _TAB_LABELS[1]:
                     marker_color=_INDIGO,
                     hovertemplate="<b>%{y}</b><br>Intensity: %{x:.0f}<extra></extra>",
                 ))
-                fig_hpa.update_layout(
-                    **_PLOTLY_LAYOUT,
+                apply_plotly_layout(fig_hpa,
                     height=max(280, 28 * len(plot_df)),
                     margin=dict(l=0, r=10, t=20, b=40),
                     xaxis=dict(title=f"{_GENE} HPA protein intensity", gridcolor=_LINE, color=_TEXT),
@@ -298,8 +293,7 @@ elif _active_tab == _TAB_LABELS[1]:
                     orientation="h",
                     marker_color=_INDIGO,
                 ))
-                fig_hpa.update_layout(
-                    **_PLOTLY_LAYOUT,
+                apply_plotly_layout(fig_hpa,
                     height=max(280, 28 * max(len(plot_df), 1)),
                     margin=dict(l=0, r=10, t=20, b=40),
                     xaxis=dict(title=f"{_GENE} HPA RNA nTPM", gridcolor=_LINE, color=_TEXT),
@@ -337,8 +331,7 @@ elif _active_tab == _TAB_LABELS[1]:
                 marker_color=[_gtex_color(v) for v in gtex_agg["median_tpm"]],
                 hovertemplate="<b>%{y}</b><br>Median TPM: %{x:.1f}<extra></extra>",
             ))
-            fig_gtex.update_layout(
-                **_PLOTLY_LAYOUT,
+            apply_plotly_layout(fig_gtex,
                 height=480,
                 margin=dict(l=0, r=10, t=10, b=40),
                 xaxis=dict(title="Median TPM (normal tissue)", gridcolor=_LINE, color=_TEXT),
@@ -435,8 +428,7 @@ elif _active_tab == _TAB_LABELS[2]:
                 annotation_position="top right",
             )
             fig_dep.add_vline(x=0, line_color=_LINE, line_width=1)
-            fig_dep.update_layout(
-                **_PLOTLY_LAYOUT,
+            apply_plotly_layout(fig_dep,
                 height=580,
                 margin=dict(l=10, r=20, t=20, b=40),
                 xaxis=dict(title="Mean CRISPR score", gridcolor=_LINE, color=_TEXT),
@@ -524,8 +516,7 @@ elif _active_tab == _TAB_LABELS[3]:
                     "<extra></extra>"
                 ),
             ))
-            _fig_pri.update_layout(
-                **_PLOTLY_LAYOUT,
+            apply_plotly_layout(_fig_pri,
                 height=_chart_h,
                 margin=dict(l=10, r=70, t=10, b=40),
                 xaxis=dict(
@@ -589,8 +580,7 @@ elif _active_tab == _TAB_LABELS[3]:
                     "<extra></extra>"
                 ),
             ))
-            _fig_expr.update_layout(
-                **_PLOTLY_LAYOUT,
+            apply_plotly_layout(_fig_expr,
                 height=_chart_h,
                 margin=dict(l=10, r=70, t=10, b=40),
                 xaxis=dict(

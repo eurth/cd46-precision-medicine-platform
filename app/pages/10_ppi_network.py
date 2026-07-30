@@ -1,4 +1,4 @@
-﻿"""Page 10 — CD46 PPI Network Explorer.
+"""Page 10 — CD46 PPI Network Explorer.
 
 Visualises the STRING DB v12.0 high-confidence PPI network centred on CD46.
 Live data from AuraDB; falls back to curated static STRING data when KG unavailable.
@@ -20,7 +20,7 @@ import networkx as nx
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
-from components.theme import plotly_layout
+from components.theme import plotly_layout, apply_plotly_layout
 from components.targets import get_active_symbol, render_stub_gate, render_case_study_gate
 from components.ui_kit import page_header, section_tabs
 
@@ -53,8 +53,6 @@ _CYAN   = "#22D3EE"   # cell surface / adhesion
 _SLATE  = "#4E637A"   # structural
 _TEXT   = "#64748B"
 _LIGHT  = "#1E293B"
-
-_PLOTLY_LAYOUT = plotly_layout()
 
 # ── PPI data maps ──────────────────────────────────────────────────────────────
 PATHWAY_MAP: dict[str, str] = {
@@ -430,8 +428,7 @@ if _active_ppi == _PPI_TABS[0]:
                 name=cat,
             ))
 
-        fig_net.update_layout(
-            **_PLOTLY_LAYOUT,
+        apply_plotly_layout(fig_net,
             showlegend=True,
             legend=dict(
                 orientation="v", x=1.01, y=1,
@@ -530,8 +527,7 @@ elif _active_ppi == _PPI_TABS[2]:
             textinfo="label+value",
             textfont=dict(size=11, color=_LIGHT),
         ))
-        fig_donut.update_layout(
-            **_PLOTLY_LAYOUT,
+        apply_plotly_layout(fig_donut,
             showlegend=False,
             height=300,
             margin=dict(l=20, r=20, t=20, b=20),
@@ -564,8 +560,7 @@ elif _active_ppi == _PPI_TABS[2]:
             textposition="outside",
             textfont=dict(color=_LIGHT),
         ))
-        fig_avg.update_layout(
-            **_PLOTLY_LAYOUT,
+        apply_plotly_layout(fig_avg,
             height=300,
             xaxis=dict(range=[0.65, 1.0], gridcolor=_LINE, title="Avg combined confidence", color=_TEXT),
             yaxis=dict(showgrid=False, color=_LIGHT),
@@ -594,8 +589,7 @@ elif _active_ppi == _PPI_TABS[2]:
                 y=[e.get(ev, 0) for e in direct_cd46],
                 marker_color=color,
             ))
-        fig_ev.update_layout(
-            **_PLOTLY_LAYOUT,
+        apply_plotly_layout(fig_ev,
             barmode="stack",
             legend=dict(bgcolor="rgba(15,23,42,0.8)", font=dict(color=_LIGHT)),
             xaxis=dict(showgrid=False, tickangle=-30, color=_LIGHT),

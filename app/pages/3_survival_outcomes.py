@@ -8,7 +8,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
-from components.theme import plotly_layout
+from components.theme import plotly_layout, apply_plotly_layout
 from components.targets import get_active_symbol, list_symbols, render_stub_gate
 from components.ui_kit import export_research_pack, filter_bar, page_header, section_tabs
 
@@ -31,8 +31,6 @@ _MID    = "#94A3B8"
 _TEXT   = "#64748B"
 _LIGHT  = "#1E293B"
 _RED    = "#F87171"
-
-_PLOTLY_LAYOUT = plotly_layout()
 
 # ---------------------------------------------------------------------------
 # Data loader
@@ -235,8 +233,7 @@ if _active_surv == _SURV_TABS[0]:
             sig = (not pd.isna(row.get("p_value", 1.0)) and row.get("p_value", 1.0) < 0.05)
             y_labels.append(f"{base} ★" if sig else base)
 
-        fig_fp.update_layout(
-            **_PLOTLY_LAYOUT,
+        apply_plotly_layout(fig_fp,
             height=max(380, len(fp_data) * 22),
             margin=dict(l=200, r=20, t=20, b=40),
             xaxis=dict(
@@ -404,8 +401,7 @@ elif _active_surv == _SURV_TABS[1]:
                 x=_t, y=[1.0, 0.95, 0.88, 0.80, 0.73, 0.67, 0.61, 0.57, 0.53, 0.50],
                 mode="lines", name="CD46-Low", line=dict(color=_INDIGO, width=2)
             ))
-            _fig.update_layout(
-                **_PLOTLY_LAYOUT, height=200, margin=dict(l=0, r=0, t=10, b=30),
+            apply_plotly_layout(_fig, height=200, margin=dict(l=0, r=0, t=10, b=30),
                 xaxis=dict(title="Months", gridcolor=_LINE, color=_TEXT),
                 yaxis=dict(title="OS prob.", gridcolor=_LINE, color=_TEXT, range=[0, 1]),
                 legend=dict(bgcolor="rgba(0,0,0,0)", font=dict(color=_TEXT, size=10)),
@@ -424,8 +420,7 @@ elif _active_surv == _SURV_TABS[1]:
                 x=_t, y=[1.0, 0.98, 0.95, 0.91, 0.85, 0.79, 0.72, 0.65, 0.58, 0.52],
                 mode="lines", name="CD46-Low", line=dict(color=_INDIGO, width=2)
             ))
-            _fig2.update_layout(
-                **_PLOTLY_LAYOUT, height=200, margin=dict(l=0, r=0, t=10, b=30),
+            apply_plotly_layout(_fig2, height=200, margin=dict(l=0, r=0, t=10, b=30),
                 xaxis=dict(title="Months", gridcolor=_LINE, color=_TEXT),
                 yaxis=dict(title="OS prob.", gridcolor=_LINE, color=_TEXT, range=[0, 1]),
                 legend=dict(bgcolor="rgba(0,0,0,0)", font=dict(color=_TEXT, size=10)),
@@ -444,8 +439,7 @@ elif _active_surv == _SURV_TABS[1]:
                 x=_t, y=[1.0, 0.92, 0.81, 0.70, 0.60, 0.50, 0.41, 0.33, 0.26, 0.20],
                 mode="lines", name="CD46-Low", line=dict(color=_SLATE, width=2)
             ))
-            _fig3.update_layout(
-                **_PLOTLY_LAYOUT, height=200, margin=dict(l=0, r=0, t=10, b=30),
+            apply_plotly_layout(_fig3, height=200, margin=dict(l=0, r=0, t=10, b=30),
                 xaxis=dict(title="Months", gridcolor=_LINE, color=_TEXT),
                 yaxis=dict(title="OS prob.", gridcolor=_LINE, color=_TEXT, range=[0, 1]),
                 legend=dict(bgcolor="rgba(0,0,0,0)", font=dict(color=_TEXT, size=10)),

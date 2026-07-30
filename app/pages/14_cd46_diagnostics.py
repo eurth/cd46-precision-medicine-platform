@@ -1,4 +1,4 @@
-﻿"""Page 14 — CD46 Diagnostics & Early Detection.
+"""Page 14 — CD46 Diagnostics & Early Detection.
 
 Evidence framework for CD46 as a clinical detection, monitoring
 and companion-diagnostic biomarker.
@@ -20,7 +20,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
-from components.theme import plotly_layout
+from components.theme import plotly_layout, apply_plotly_layout
 from components.targets import get_active_symbol, render_stub_gate, render_case_study_gate
 from components.ui_kit import page_header, section_tabs
 
@@ -53,8 +53,6 @@ _RED    = "#F87171"
 _SLATE  = "#4E637A"
 _TEXT   = "#64748B"
 _LIGHT  = "#1E293B"
-
-_PLOTLY_LAYOUT = plotly_layout()
 
 # ── Static fallback data ──────────────────────────────────────────────────────
 _GTEX_FALLBACK = pd.DataFrame([
@@ -239,8 +237,7 @@ if _active_diag == _DIAG_TABS[0]:
             textposition="outside",
             textfont=dict(size=9, color=_TEXT),
         ))
-        fig_gtex.update_layout(
-            **_PLOTLY_LAYOUT,
+        apply_plotly_layout(fig_gtex,
             title=dict(text=f"{_GENE} mRNA — Median TPM Across Normal Tissues (GTEx v8)", font=dict(color=_LIGHT, size=13)),
             xaxis=dict(title="Median TPM", gridcolor=_LINE, color=_TEXT),
             yaxis=dict(title=None, color=_LIGHT, autorange=True),
@@ -416,8 +413,7 @@ elif _active_diag == _DIAG_TABS[2]:
                               annotation_text="Borderline (H=100)",
                               annotation_position="bottom right",
                               annotation_font=dict(color=_AMBER, size=10))
-            fig_ihc.update_layout(
-                **_PLOTLY_LAYOUT,
+            apply_plotly_layout(fig_ihc,
                 title=dict(text="CD46 H-score in Tumour Tissues (HPA)", font=dict(color=_LIGHT, size=13)),
                 xaxis=dict(title="Tumour Type", showgrid=False, color=_LIGHT, tickangle=-35),
                 yaxis=dict(title="H-score (0–300)", gridcolor=_LINE, color=_TEXT),
@@ -451,8 +447,7 @@ elif _active_diag == _DIAG_TABS[2]:
                 fig_ti2.add_hline(y=2.0, line=dict(color=_GREEN, dash="dash", width=1),
                                   annotation_text="TI ≥ 2 (favourable)",
                                   annotation_font=dict(color=_GREEN, size=10))
-                fig_ti2.update_layout(
-                    **_PLOTLY_LAYOUT,
+                apply_plotly_layout(fig_ti2,
                     title=dict(text="CD46 Therapeutic Index: Tumour ÷ Normal H-score", font=dict(color=_LIGHT, size=13)),
                     xaxis=dict(title="Tissue", showgrid=False, color=_LIGHT, tickangle=-30),
                     yaxis=dict(title="Therapeutic Index", gridcolor=_LINE, color=_TEXT),
@@ -508,8 +503,7 @@ elif _active_diag == _DIAG_TABS[3]:
                 textfont=dict(size=10, color=_LIGHT),
                 hovertemplate="<b>%{x}</b><br>Mutation freq: %{y:.2f}%<extra></extra>",
             ))
-            fig_mut.update_layout(
-                **_PLOTLY_LAYOUT,
+            apply_plotly_layout(fig_mut,
                 title=dict(text="CD46 Somatic Mutation Frequency — TCGA Pan-Cancer (cBioPortal)", font=dict(color=_LIGHT, size=13)),
                 xaxis=dict(title="Cancer Type", showgrid=False, color=_LIGHT, tickangle=-30),
                 yaxis=dict(title="Mutation Frequency (%)", gridcolor=_LINE, color=_TEXT),
@@ -554,8 +548,7 @@ elif _active_diag == _DIAG_TABS[3]:
         textfont=dict(size=11, color=_LIGHT),
         hovertemplate="<b>%{x}</b><br>Count: %{y}<extra></extra>",
     ))
-    fig_cv.update_layout(
-        **_PLOTLY_LAYOUT,
+    apply_plotly_layout(fig_cv,
         title=dict(text=f"CD46 ClinVar Variants by Clinical Significance (n≈500 total)", font=dict(color=_LIGHT, size=13)),
         xaxis=dict(title=None, showgrid=False, color=_LIGHT, tickangle=-20),
         yaxis=dict(title="Number of Variants", gridcolor=_LINE, color=_TEXT),

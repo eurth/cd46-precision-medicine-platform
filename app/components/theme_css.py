@@ -133,9 +133,12 @@ button[data-testid="stBaseButton-headerNoPadding"] {{ display: none !important; 
 [data-testid="stDataFrame"] iframe,
 [data-testid="stDataFrame"] > div {{
     background: {SURFACE} !important; border: 1px solid {BORDER} !important;
-    border-radius: 8px !important;
+    border-radius: 8px !important; color: {TEXT} !important;
 }}
-.dvn-scroller {{ background: {SURFACE} !important; }}
+.dvn-scroller {{ background: {SURFACE} !important; color: {TEXT} !important; }}
+[data-testid="stDataFrame"] [data-testid="glideDataEditor"] {{
+    color: {TEXT} !important;
+}}
 
 [data-testid="stVerticalBlockBorderWrapper"] {{
     border: 1px solid {BORDER} !important; border-radius: 10px !important;

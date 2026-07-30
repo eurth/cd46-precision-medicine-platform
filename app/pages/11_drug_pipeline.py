@@ -1,4 +1,4 @@
-﻿"""Page 11 — Drug Pipeline: CD46-targeting and RLT therapeutic landscape.
+"""Page 11 — Drug Pipeline: CD46-targeting and RLT therapeutic landscape.
 
 Static curated dataset — no KG dependency required.
 Data: ClinicalTrials.gov · PubMed · FDA · ChEMBL (CC BY-SA 4.0)
@@ -12,7 +12,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
-from components.theme import plotly_layout
+from components.theme import plotly_layout, apply_plotly_layout
 from components.targets import get_active_symbol, render_stub_gate, render_case_study_gate
 from components.ui_kit import info_banner, page_header, section_tabs
 import json
@@ -37,8 +37,6 @@ _TEAL    = "#2DD4BF"
 _SLATE   = "#4E637A"
 _TEXT   = "#64748B"
 _LIGHT  = "#1E293B"
-
-_PLOTLY_LAYOUT = plotly_layout()
 
 # ── Pipeline data (curated, public sources) ────────────────────────────────────
 PIPELINE = pd.DataFrame([
@@ -331,8 +329,7 @@ if _active_drug == _DRUG_TABS[0]:
             name=f"Shape: {mod}", showlegend=True,
         ))
 
-    fig_swim.update_layout(
-        **_PLOTLY_LAYOUT,
+    apply_plotly_layout(fig_swim,
         xaxis=dict(
             tickvals=list(phase_labels.keys()),
             ticktext=list(phase_labels.values()),
@@ -480,8 +477,7 @@ elif _active_drug == _DRUG_TABS[2]:
             textposition="outside",
             textfont=dict(color=_LIGHT, size=14),
         ))
-        fig_trials.update_layout(
-            **_PLOTLY_LAYOUT,
+        apply_plotly_layout(fig_trials,
             yaxis=dict(title="Active clinical trials", gridcolor=_LINE, color=_TEXT),
             xaxis=dict(showgrid=False, color=_LIGHT),
             height=280,
