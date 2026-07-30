@@ -46,6 +46,12 @@ _DIMENSION_LINKS: list[tuple[str, str]] = [
     ("Strategy", "pages/13_clinical_strategy_engine.py"),
 ]
 
+
+def dimension_links() -> list[tuple[str, str]]:
+    """Dimension perspective links for right rail / legacy dimension_rail."""
+    return list(_DIMENSION_LINKS)
+
+
 _PAGE_DIMENSION: dict[str, str] = {
     "Platform Overview": "Home",
     "Expression Atlas": "Target / Cancer",
@@ -124,6 +130,11 @@ def page_header(
 
 
 def dimension_rail() -> None:
+    """Legacy horizontal dimension row — superseded by right_rail (U1)."""
+    pass
+
+
+def _dimension_rail_legacy() -> None:
     """Compact dimension wayfinding row (~36px) under the target bar."""
     st.markdown('<div class="ob-dim-rail">', unsafe_allow_html=True)
     st.markdown(

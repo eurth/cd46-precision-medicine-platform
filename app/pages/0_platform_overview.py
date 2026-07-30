@@ -93,9 +93,9 @@ metric_row(
 )
 
 info_banner(
-    "**How to start:** pick a **Research target** in the bar above (all five registry markers are open), "
+    "**How to start:** pick a **Research target** in the floating rail on the right (all five registry markers are open), "
     "then open a module from the sidebar or cards below. Lead demos with **Compare Targets**, "
-    "then rotate the target bar for expression, survival, trials, and Ask AI."
+    "then rotate targets for expression, survival, trials, and Ask AI."
 )
 
 

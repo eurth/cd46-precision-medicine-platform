@@ -14,7 +14,8 @@ sys.path.insert(0, str(_HERE))         # app/ dir (for utils.tracker etc.)
 import streamlit as st
 from utils.tracker import log_page_visit
 from components.styles import inject_global_css
-from components.ui_kit import apply_theme, breadcrumb, dimension_rail, render_recent_modules, track_recent_page
+from components.ui_kit import apply_theme, breadcrumb, render_recent_modules, track_recent_page
+from components.right_rail import render_floating_right_rail
 
 st.set_page_config(
     page_title="OncoBridge Intelligence",
@@ -29,10 +30,7 @@ apply_theme()
 # ---------------------------------------------------------------------------
 # Research target — PRIMARY control (main area, sticky). Sidebar is a mirror.
 # ---------------------------------------------------------------------------
-from components.targets import (
-    render_main_target_bar,
-    render_sidebar_target_selector,
-)
+from components.targets import render_sidebar_target_selector
 from components.feedback import render_sidebar_feedback
 
 with st.sidebar:
@@ -104,8 +102,7 @@ pg = st.navigation(
     }
 )
 
-render_main_target_bar()
-dimension_rail()
+render_floating_right_rail()
 breadcrumb(pg.title)
 track_recent_page(pg.title)
 

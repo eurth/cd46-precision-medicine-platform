@@ -55,6 +55,7 @@ h1, h2, h3, h4, h5, h6, [data-testid="stHeading"] {{
 
 .block-container {{
     padding-top: 0 !important; padding-bottom: 3rem !important;
+    padding-right: 52px !important;
     max-width: 1320px !important;
 }}
 /* ponytail: reserve chart height to reduce CLS on Streamlit reruns */
@@ -203,6 +204,8 @@ details[data-testid="stExpander"] > summary span {{
     background: {SIDEBAR_BG} !important; border-right: 1px solid {BORDER} !important;
     min-width: 270px !important; max-width: 270px !important;
     box-shadow: 1px 0 0 rgba(15,23,42,0.04);
+    top: 46px !important;
+    height: calc(100vh - 46px) !important;
 }}
 [data-testid="stSidebarNavSeparator"] span,
 [data-testid="stSidebarNavSeparator"] p {{
@@ -238,8 +241,16 @@ details[data-testid="stExpander"] > summary span {{
 #ob-topbar {{
     display: flex; align-items: center; height: 46px;
     border-bottom: 1px solid {BORDER}; background: {TOPBAR_BG};
-    position: sticky; top: 0; z-index: 999; margin-bottom: 8px;
-    box-shadow: 0 1px 0 rgba(15,23,42,0.04);
+    position: fixed; left: 0; right: 0; top: 0; width: 100vw;
+    z-index: 1001; margin-bottom: 0;
+    box-shadow: 0 1px 0 rgba(15,23,42,0.06);
+}}
+section[data-testid="stSidebar"] {{
+    top: 46px !important;
+    height: calc(100vh - 46px) !important;
+}}
+section.main {{
+    margin-top: 46px !important;
 }}
 .ob-tb-brand {{
     font-family: {_FONT_HEAD};
@@ -260,11 +271,46 @@ details[data-testid="stExpander"] > summary span {{
 }}
 
 #ob-target-bar {{
-    position: sticky; top: 46px; z-index: 998;
-    min-height: 72px;
-    background: {SURFACE}; border: 1px solid {BORDER}; border-radius: 10px;
-    padding: 10px 14px 6px; margin-bottom: 14px;
-    box-shadow: 0 1px 3px rgba(15,23,42,0.06);
+    display: none !important;
+}}
+
+/* U1 — thin floating right rail (targets + dimensions) */
+[data-testid="stHorizontalBlock"]:has(#ob-rail-flow-anchor) {{
+    height: 0 !important; min-height: 0 !important; margin: 0 !important;
+    padding: 0 !important; overflow: visible !important; border: none !important;
+}}
+[data-testid="stHorizontalBlock"]:has(#ob-rail-flow-anchor) > [data-testid="column"]:first-child {{
+    display: none !important;
+}}
+[data-testid="column"]:has(.ob-right-rail-host) {{
+    position: fixed !important; right: 10px !important; top: 54px !important;
+    width: 42px !important; min-width: 42px !important; max-width: 42px !important;
+    flex: none !important; z-index: 997 !important;
+    display: flex !important; flex-direction: column !important; gap: 3px !important;
+    background: rgba(255,255,255,0.94) !important; backdrop-filter: blur(10px);
+    border: 1px solid {BORDER} !important; border-radius: 12px !important;
+    padding: 6px 3px 8px !important; box-shadow: 0 6px 28px rgba(15,23,42,0.14) !important;
+}}
+.ob-right-rail-host {{ display: none !important; }}
+.ob-rail-kicker {{
+    font-size: 7px; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: {TEXT_FAINT}; text-align: center;
+    margin: 2px 0 1px; line-height: 1;
+}}
+[data-testid="column"]:has(.ob-right-rail-host) [data-testid="stButton"] {{
+    margin: 0 !important;
+}}
+[data-testid="column"]:has(.ob-right-rail-host) [data-testid="stButton"] button {{
+    min-height: 26px !important; height: 26px !important;
+    padding: 0 2px !important; font-size: 8px !important;
+    font-weight: 700 !important; letter-spacing: -0.02em;
+    border-radius: 6px !important; width: 100% !important;
+}}
+[data-testid="column"]:has(.ob-right-rail-host) [data-testid="stPageLink-NavLink"] {{
+    font-size: 8px !important; font-weight: 600 !important;
+    padding: 3px 2px !important; border-radius: 6px !important;
+    min-height: 22px !important; line-height: 1.1 !important;
+    margin: 1px 0 !important;
 }}
 .ob-tb-label {{
     font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
@@ -418,15 +464,7 @@ details[data-testid="stExpander"] > summary span {{
     .block-container {{ padding-left: 1rem !important; padding-right: 1rem !important; }}
     .ob-tb-ctx, .ob-tb-live {{ display: none !important; }}
     .ob-tb-brand {{ border-right: 0; padding-left: 3rem; }}
-    #ob-target-bar {{ top: 3.25rem; }}
-    #ob-target-bar [data-testid="column"] {{ min-width: 0 !important; }}
-    /* ponytail: Streamlit splits ob-dim-rail open/close divs — hide label + link row */
-    [data-testid="stElementContainer"]:has(.ob-dim-rail),
-    [data-testid="stElementContainer"]:has(.ob-dim-rail-label) {{
-        display: none !important;
-    }}
-    [data-testid="stElementContainer"]:has(.ob-dim-rail-label)
-        + [data-testid="stLayoutWrapper"] {{
+    [data-testid="column"]:has(.ob-right-rail-host) {{
         display: none !important;
     }}
 }}
@@ -498,7 +536,8 @@ details[data-testid="stExpander"] > summary span {{
 .ob-pipeline-arrow {{ color: {TEXT_FAINT}; font-size: 18px; padding: 0 6px; align-self: center; flex-shrink: 0; }}
 
 @media print {{
-    #ob-topbar, #ob-target-bar, .ob-dim-rail, .ob-crumb, .ob-recent,
+    #ob-topbar, #ob-target-bar, .ob-dim-rail, .ob-right-rail-host, .ob-crumb, .ob-recent,
+    [data-testid="column"]:has(.ob-right-rail-host),
     [data-testid="stSidebar"], header[data-testid="stHeader"] {{ display: none !important; }}
     [data-testid="stApp"], .main .block-container {{ background: #fff !important; }}
     .page-hero, .ob-kpi-card, [data-testid="stPlotlyChart"] {{ break-inside: avoid; }}
