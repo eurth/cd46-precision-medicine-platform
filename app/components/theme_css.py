@@ -411,21 +411,30 @@ section.main {{
     margin: 4px 2px 2px; line-height: 1;
 }}
 .ob-right-rail-dock .ob-rail-kicker:first-child {{ margin-top: 0; }}
-a.ob-rail-a {{
+a.ob-rail-a,
+button.ob-rail-a {{
     display: block; text-align: left; text-decoration: none !important;
     font-size: 10px; font-weight: 600; line-height: 1.25;
     padding: 5px 8px; border-radius: 6px;
     border: 1px solid {BORDER}; background: {SURFACE};
     color: {TEXT_SECONDARY} !important;
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    cursor: pointer; width: 100%; box-sizing: border-box;
+    font-family: inherit;
 }}
-a.ob-rail-dim {{
+button.ob-rail-a {{
+    appearance: none; -webkit-appearance: none;
+}}
+a.ob-rail-dim,
+button.ob-rail-dim {{
     font-size: 9px; font-weight: 600; padding: 4px 8px;
 }}
-a.ob-rail-a:hover {{
+a.ob-rail-a:hover,
+button.ob-rail-a:hover {{
     border-color: {PRIMARY}; color: {PRIMARY} !important; background: {PRIMARY_SOFT};
 }}
-a.ob-rail-on {{
+a.ob-rail-on,
+button.ob-rail-on {{
     border-color: {PRIMARY} !important; background: {PRIMARY_SOFT} !important;
     color: {PRIMARY_TEXT} !important;
 }}

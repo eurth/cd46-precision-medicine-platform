@@ -15,7 +15,7 @@ import streamlit as st
 from utils.tracker import log_page_visit
 from components.styles import inject_global_css
 from components.ui_kit import apply_theme, breadcrumb, render_recent_modules, track_recent_page
-from components.right_rail import render_floating_right_rail
+from components.right_rail import render_floating_right_rail, sync_target_from_query
 from components.sidebar_nav import inject_sidebar_nav_defaults
 
 st.set_page_config(
@@ -108,6 +108,7 @@ st.markdown(
 )
 
 log_page_visit(pg.title or "Unknown")
+sync_target_from_query()
 pg.run()
 
 inject_sidebar_nav_defaults(pg.title)

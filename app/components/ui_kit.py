@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import hashlib
 import html
+import re
 import sys
 from contextlib import contextmanager
 from pathlib import Path
@@ -50,6 +51,13 @@ _DIMENSION_LINKS: list[tuple[str, str]] = [
 def dimension_links() -> list[tuple[str, str]]:
     """Dimension perspective links for right rail / legacy dimension_rail."""
     return list(_DIMENSION_LINKS)
+
+
+def page_path_to_slug(path: str) -> str:
+    """pages/3_survival_outcomes.py → /survival_outcomes; overview → /."""
+    stem = Path(path).stem
+    slug = re.sub(r"^\d+_", "", stem)
+    return "/" if slug == "platform_overview" else f"/{slug}"
 
 
 _PAGE_DIMENSION: dict[str, str] = {
