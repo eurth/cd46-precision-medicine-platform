@@ -55,8 +55,12 @@ h1, h2, h3, h4, h5, h6, [data-testid="stHeading"] {{
 
 .block-container {{
     padding-top: 0 !important; padding-bottom: 3rem !important;
-    padding-right: 52px !important;
+    padding-right: 64px !important;
     max-width: 1320px !important;
+}}
+[data-testid="stElementContainer"]:has(#ob-topbar) {{
+    height: 0 !important; min-height: 0 !important; margin: 0 !important;
+    padding: 0 !important; overflow: visible !important;
 }}
 /* ponytail: reserve chart height to reduce CLS on Streamlit reruns */
 [data-testid="stPlotlyChart"] {{
@@ -284,12 +288,13 @@ section.main {{
 }}
 [data-testid="column"]:has(.ob-right-rail-host) {{
     position: fixed !important; right: 10px !important; top: 54px !important;
-    width: 42px !important; min-width: 42px !important; max-width: 42px !important;
-    flex: none !important; z-index: 997 !important;
+    width: 52px !important; min-width: 52px !important; max-width: 52px !important;
+    flex: none !important; z-index: 1000 !important;
     display: flex !important; flex-direction: column !important; gap: 3px !important;
-    background: rgba(255,255,255,0.94) !important; backdrop-filter: blur(10px);
+    background: rgba(255,255,255,0.96) !important; backdrop-filter: blur(10px);
     border: 1px solid {BORDER} !important; border-radius: 12px !important;
-    padding: 6px 3px 8px !important; box-shadow: 0 6px 28px rgba(15,23,42,0.14) !important;
+    padding: 6px 4px 8px !important; box-shadow: 0 6px 28px rgba(15,23,42,0.14) !important;
+    overflow: hidden !important;
 }}
 .ob-right-rail-host {{ display: none !important; }}
 .ob-rail-kicker {{
@@ -301,16 +306,19 @@ section.main {{
     margin: 0 !important;
 }}
 [data-testid="column"]:has(.ob-right-rail-host) [data-testid="stButton"] button {{
-    min-height: 26px !important; height: 26px !important;
-    padding: 0 2px !important; font-size: 8px !important;
-    font-weight: 700 !important; letter-spacing: -0.02em;
+    min-height: 24px !important; height: 24px !important;
+    padding: 0 3px !important; font-size: 9px !important;
+    font-weight: 700 !important; letter-spacing: -0.03em;
     border-radius: 6px !important; width: 100% !important;
+    white-space: nowrap !important; overflow: hidden !important;
+    text-overflow: ellipsis !important;
 }}
 [data-testid="column"]:has(.ob-right-rail-host) [data-testid="stPageLink-NavLink"] {{
-    font-size: 8px !important; font-weight: 600 !important;
+    font-size: 9px !important; font-weight: 600 !important;
     padding: 3px 2px !important; border-radius: 6px !important;
     min-height: 22px !important; line-height: 1.1 !important;
     margin: 1px 0 !important;
+    white-space: nowrap !important; overflow: hidden !important;
 }}
 .ob-tb-label {{
     font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
@@ -357,18 +365,75 @@ section.main {{
 }}
 
 .lp-headline {{
-    font-family: 'IBM Plex Sans', sans-serif !important;
-    font-size: clamp(32px, 4vw, 52px) !important;
-    font-weight: 700 !important; color: {TEXT} !important;
-    line-height: 1.08 !important; letter-spacing: -1px !important;
-    margin: 0 0 16px !important;
+    display: none !important;
 }}
 .lp-sub {{
-    font-size: 16px; color: {TEXT_SECONDARY};
-    max-width: 640px; line-height: 1.7; margin-bottom: 28px;
+    display: none !important;
 }}
 
-.lp-sec {{ display: flex; align-items: center; gap: 14px; margin: 40px 0 18px; }}
+/* U2 — target spotlight carousel */
+.lp-carousel {{
+    position: relative; height: 148px; margin: 4px 0 16px;
+    border-radius: 12px; border: 1px solid {BORDER};
+    background: linear-gradient(135deg, {SURFACE} 0%, {PRIMARY_SOFT} 100%);
+    overflow: hidden; box-shadow: 0 2px 8px rgba(15,23,42,0.06);
+}}
+.lp-carousel-inner {{ position: relative; height: 118px; }}
+.lp-carousel-slide {{
+    position: absolute; inset: 0; padding: 16px 20px 8px;
+    opacity: 0; animation: lp-carousel-cycle 25s infinite ease-in-out;
+    border-left: 4px solid var(--lp-a, {PRIMARY});
+}}
+@keyframes lp-carousel-cycle {{
+    0%, 2% {{ opacity: 0; transform: translateX(10px); }}
+    4%, 18% {{ opacity: 1; transform: translateX(0); }}
+    20%, 100% {{ opacity: 0; transform: translateX(-6px); }}
+}}
+.lp-carousel-tag {{
+    font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: {TEXT_MUTED}; margin-bottom: 4px;
+}}
+.lp-carousel-gene {{
+    font-family: {_FONT_HEAD}; font-size: 28px; font-weight: 700;
+    color: {TEXT}; line-height: 1; letter-spacing: -0.5px;
+}}
+.lp-carousel-name {{
+    font-size: 14px; font-weight: 600; color: {TEXT_SECONDARY}; margin: 4px 0 6px;
+}}
+.lp-carousel-line {{ font-size: 13px; color: {TEXT_SECONDARY}; line-height: 1.45; }}
+.lp-carousel-meta {{
+    font-size: 11px; color: {TEXT_MUTED}; margin-top: 6px; line-height: 1.4;
+}}
+.lp-carousel-dots {{
+    position: absolute; bottom: 8px; left: 20px; display: flex; gap: 5px;
+}}
+.lp-carousel-dot {{
+    width: 6px; height: 6px; border-radius: 50%;
+    background: {BORDER_STRONG}; display: inline-block;
+}}
+.lp-carousel-dot-on {{ background: {PRIMARY}; width: 14px; border-radius: 3px; }}
+.lp-carousel-hint {{
+    position: absolute; bottom: 6px; right: 16px;
+    font-size: 10px; color: {TEXT_FAINT};
+}}
+
+.lp-start-label {{
+    font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+    text-transform: uppercase; color: {TEXT_MUTED}; margin: 8px 0 10px;
+}}
+.lp-start-card {{
+    border-radius: 10px; padding: 12px 14px; margin-bottom: 6px;
+    border: 1px solid {BORDER}; min-height: 72px;
+}}
+.lp-start-ind {{ background: {PRIMARY_SOFT}; border-color: #BFDBFE; }}
+.lp-start-sky {{ background: #F0F9FF; border-color: #BAE6FD; }}
+.lp-start-vio {{ background: #F5F3FF; border-color: #DDD6FE; }}
+.lp-start-title {{
+    font-size: 14px; font-weight: 700; color: {TEXT}; margin-bottom: 4px;
+}}
+.lp-start-desc {{ font-size: 12px; color: {TEXT_MUTED}; line-height: 1.4; }}
+
+.lp-sec {{ display: flex; align-items: center; gap: 14px; margin: 28px 0 14px; }}
 .lp-sec-txt {{
     font-size: 11px; font-weight: 700; text-transform: uppercase;
     letter-spacing: 0.14em; white-space: nowrap;

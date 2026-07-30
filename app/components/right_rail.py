@@ -11,6 +11,15 @@ from components.targets import (
 )
 from components.ui_kit import dimension_links
 
+# ponytail: ≤4 chars so labels don't wrap vertically in 52px rail
+_TGT_LABEL: dict[str, str] = {
+    "CD46": "CD46",
+    "FOLH1": "PSMA",
+    "FAP": "FAP",
+    "SSTR2": "S2",
+    "GRPR": "GRP",
+}
+
 _DIM_SHORT: dict[str, str] = {
     "Home": "Ho",
     "Target": "Ta",
@@ -37,8 +46,9 @@ def render_floating_right_rail() -> str:
         st.markdown('<div class="ob-right-rail-host">', unsafe_allow_html=True)
         st.markdown('<div class="ob-rail-kicker">Target</div>', unsafe_allow_html=True)
         for sym in symbols:
+            label = _TGT_LABEL.get(sym, sym[:4])
             if st.button(
-                sym,
+                label,
                 key=f"ob_rail_tgt_{sym}",
                 type="primary" if sym == current else "secondary",
                 use_container_width=True,

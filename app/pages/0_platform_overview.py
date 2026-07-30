@@ -66,20 +66,13 @@ _kg_rels = f"{_stats['total_rels']:,}" if _stats else "2,517"
 _trial_count = str(_stats["active_trials"]) if _stats else "14"
 
 # ---------------------------------------------------------------------------
-# Hero — research workbench orientation (CD46 is a case study, not the product)
+# U2 landing — carousel + quick start (no duplicate OncoBridge hero title)
 # ---------------------------------------------------------------------------
-st.markdown(
-    '<h1 class="lp-headline">OncoBridge<br>Intelligence</h1>'
-    '<p class="lp-sub">'
-    'Open research workbench for <strong style="color:#1E293B;">five theranostic targets</strong> '
-    '(FOLH1/PSMA, FAP, SSTR2, GRPR, CD46). Query a biomedical knowledge graph, '
-    'inspect expression and trial evidence, and compare targets from one platform — '
-    'with CD46 as the deepest reference case study.'
-    '</p>',
-    unsafe_allow_html=True,
-)
+from components.landing_hero import render_start_here, render_target_carousel
 
-render_data_freeze_banner(compact=False)
+render_target_carousel()
+render_start_here()
+render_data_freeze_banner(compact=True)
 
 metric_row(
     [
@@ -93,9 +86,8 @@ metric_row(
 )
 
 info_banner(
-    "**How to start:** pick a **Research target** in the floating rail on the right (all five registry markers are open), "
-    "then open a module from the sidebar or cards below. Lead demos with **Compare Targets**, "
-    "then rotate targets for expression, survival, trials, and Ask AI."
+    "Open any module below, or use the **right rail** to switch target and data perspective. "
+    "Five theranostic targets on one workbench — CD46 is the deepest reference case study."
 )
 
 
