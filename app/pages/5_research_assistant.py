@@ -313,9 +313,10 @@ elif _active_asst == _ASST_TABS[1]:
         variant="error",
     )
     info_banner(
-        f"OncoBridge retrieves structured facts for the **active target** ({_GENE}) from CSVs and "
-        f"Neo4j ({_kg_nodes} nodes) before the model writes an answer. Every claim should map to a source.",
-        variant="success",
+        f"Retrieval combines **TCGA/CSV slices** for the active target ({_GENE}), "
+        "**template Cypher** against AuraDB on every question, and **NL→Cypher** when you ask "
+        "graph-style questions. Answers are not guaranteed to cite every source — check the chips below each reply.",
+        variant="warning",
     )
 
     # Two-step pipeline
@@ -426,106 +427,44 @@ elif _active_asst == _ASST_TABS[1]:
 
 # TAB 3 — Evidence Context
 elif _active_asst == _ASST_TABS[2]:
-    st.markdown("#### Knowledge Graph Evidence Base — What the Agent Knows")
+    st.markdown(f"#### Evidence base — active target **{_GENE}**")
     st.caption(
-        "The following evidence is pre-loaded into the Neo4j knowledge graph "
-        "and is retrievable by the research assistant for every query."
+        "Structured data retrieved by the assistant (CSVs + AuraDB templates). "
+        "Depth varies by target tier; CD46 retains the richest cohort narratives."
     )
 
     ev1, ev2 = st.columns(2)
 
     with ev1:
-        st.markdown(
-            "<div style='background:#1e293b;border:1px solid #334155;"
-            "padding:16px;border-radius:8px;margin-bottom:12px;'>"
-            "<b style='color:#38bdf8;'>TCGA Expression + Survival</b><br>"
-            "<span style='color:#94a3b8;font-size:0.88em;'>"
-            "25 cancer types · CD46 mRNA log2 expression · "
-            "Cox proportional hazard ratios · p-values · "
-            "Expression tertile classification<br>"
-            "<b style='color:#cbd5e1;'>Top signals:</b> CESC HR=3.42, LGG HR=1.94, "
-            "SKCM HR=0.59 (protective), KIRC HR=0.44"
-            "</span></div>",
-            unsafe_allow_html=True,
+        info_banner(
+            f"**TCGA expression + survival** — Pan-cancer `{_GENE}` mRNA ranks, Cox HRs, "
+            "and KM splits from per-gene survival CSVs.",
         )
-        st.markdown(
-            "<div style='background:#1e293b;border:1px solid #334155;"
-            "padding:16px;border-radius:8px;margin-bottom:12px;'>"
-            "<b style='color:#4ade80;'>GENIE Patient Cohorts</b><br>"
-            "<span style='color:#94a3b8;font-size:0.88em;'>"
-            "271,176 real-world patients · 23 cancer types · "
-            "CD46-High/Low cohorts at median, 75th, 90th percentile · "
-            "Somatic mutation context · PTEN/TP53/AR co-alteration data"
-            "</span></div>",
-            unsafe_allow_html=True,
+        info_banner(
+            f"**Patient eligibility** — `{_GENE.lower()}_patient_groups.csv` threshold stats "
+            "(CD46 uses the legacy deep cohort file).",
         )
-        st.markdown(
-            "<div style='background:#1e293b;border:1px solid #334155;"
-            "padding:16px;border-radius:8px;margin-bottom:12px;'>"
-            "<b style='color:#fbbf24;'>Drug Pipeline</b><br>"
-            "<span style='color:#94a3b8;font-size:0.88em;'>"
-            "10 CD46-targeting agents · Modalities: 225Ac-RLT, ADC, BiTE, mAb · "
-            "14 active clinical trials (ClinicalTrials.gov) · "
-            "NCT IDs, phase, sponsor, primary endpoint"
-            "</span></div>",
-            unsafe_allow_html=True,
+        info_banner(
+            f"**Drug / trial context** — ChEMBL + ClinicalTrials.gov cache keyed to **{_GENE}** "
+            "where available.",
         )
-        st.markdown(
-            "<div style='background:#1e293b;border:1px solid #334155;"
-            "padding:16px;border-radius:8px;'>"
-            "<b style='color:#f87171;'>Disease Associations</b><br>"
-            "<span style='color:#94a3b8;font-size:0.88em;'>"
-            "797 Open Targets disease associations · "
-            "Hematologic, immune, oncology, infectious, genetic linkages · "
-            "Scored 0–1 (OT data-driven association score)"
-            "</span></div>",
-            unsafe_allow_html=True,
+        info_banner(
+            "**Open Targets disease associations** — Gene→disease scores in the knowledge graph.",
         )
 
     with ev2:
-        st.markdown(
-            "<div style='background:#1e293b;border:1px solid #334155;"
-            "padding:16px;border-radius:8px;margin-bottom:12px;'>"
-            "<b style='color:#a78bfa;'>DepMap Cell Lines (1,186)</b><br>"
-            "<span style='color:#94a3b8;font-size:0.88em;'>"
-            "CRISPR knockout fitness scores · mRNA expression · "
-            "25 cancer lineages · "
-            "CD46 essentiality flags for pan-cancer dependency analysis"
-            "</span></div>",
-            unsafe_allow_html=True,
+        info_banner(
+            f"**DepMap** — `{_GENE}` CRISPR dependency and expression across ~1,186 cell lines.",
         )
-        st.markdown(
-            "<div style='background:#1e293b;border:1px solid #334155;"
-            "padding:16px;border-radius:8px;margin-bottom:12px;'>"
-            "<b style='color:#1E293B;'>Protein Structural Biology</b><br>"
-            "<span style='color:#94a3b8;font-size:0.88em;'>"
-            "UniProt P15529 · 4 isoforms (STA-1/2, LCA-1/2) · "
-            "392 aa canonical sequence · 4 SCR/Sushi complement-binding domains · "
-            "STRING protein interaction network (25 partners)"
-            "</span></div>",
-            unsafe_allow_html=True,
+        info_banner(
+            f"**Protein / tissue** — HPA + GTEx slices (`hpa_{_GENE.lower()}_*`, `gtex_{_GENE.lower()}_normal.csv`).",
         )
-        st.markdown(
-            "<div style='background:#1e293b;border:1px solid #334155;"
-            "padding:16px;border-radius:8px;margin-bottom:12px;'>"
-            "<b style='color:#34d399;'>PubMed Publications (55)</b><br>"
-            "<span style='color:#94a3b8;font-size:0.88em;'>"
-            "Curated evidence base · "
-            "Evidence types: Experimental, Clinical trial, Biomarker, Preclinical, Review · "
-            "Full metadata: title, authors, journal, year, key finding"
-            "</span></div>",
-            unsafe_allow_html=True,
+        info_banner(
+            "**PubMed** — Literature snippets appended to non-literature intents.",
         )
-        st.markdown(
-            "<div style='background:#1e293b;border:1px solid #334155;"
-            "padding:16px;border-radius:8px;'>"
-            "<b style='color:#38bdf8;'>HPA / GTEx Tissue Expression</b><br>"
-            "<span style='color:#94a3b8;font-size:0.88em;'>"
-            "54 GTEx tissue sites · HPA tumour vs normal classification · "
-            "CD46 protein localisation data · "
-            "Therapeutic window analysis nodes"
-            "</span></div>",
-            unsafe_allow_html=True,
+        info_banner(
+            f"**KG templates** — Expression, survival, drugs, trials, DepMap Cypher for **{_GENE}** "
+            "on every question; NL→Cypher when you ask graph-style questions.",
         )
 
     st.markdown("---")

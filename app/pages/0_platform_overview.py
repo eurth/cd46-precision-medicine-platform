@@ -71,10 +71,10 @@ _trial_count = str(_stats["active_trials"]) if _stats else "14"
 st.markdown(
     '<h1 class="lp-headline">OncoBridge<br>Intelligence</h1>'
     '<p class="lp-sub">'
-    'Open research workbench for <strong style="color:#1E293B;">surface-antigen and '
-    'radioligand (theranostics)</strong> target intelligence. Query a biomedical '
-    'knowledge graph, inspect expression and trial evidence, and explore curated '
-    'case studies — starting with CD46 α-RLT.'
+    'Open research workbench for <strong style="color:#1E293B;">five theranostic targets</strong> '
+    '(FOLH1/PSMA, FAP, SSTR2, GRPR, CD46). Query a biomedical knowledge graph, '
+    'inspect expression and trial evidence, and compare targets from one platform — '
+    'with CD46 as the deepest reference case study.'
     '</p>',
     unsafe_allow_html=True,
 )
@@ -93,11 +93,9 @@ metric_row(
 )
 
 info_banner(
-    "**How to start:** pick a **Research target** in the bar above, then open a module from the "
-    "sidebar (expression, survival, trials, drugs, graph, Ask AI). All five registry markers "
-    "(CD46, FOLH1/PSMA, FAP, SSTR2, GRPR) are open — CD46 remains the deepest **case-study** "
-    "narrative; medium targets use the open-data pack (expression, survival, trials, drugs, "
-    "GTEx, DepMap).",
+    "**How to start:** pick a **Research target** in the bar above (all five registry markers are open), "
+    "then open a module from the sidebar or cards below. Lead demos with **Compare Targets**, "
+    "then rotate the target bar for expression, survival, trials, and Ask AI."
 )
 
 

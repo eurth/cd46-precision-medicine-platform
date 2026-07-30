@@ -72,8 +72,42 @@ INTENT_KG_QUERIES: dict[str, str] = {
 }
 
 
-def queries_for_intent(intent: str, gene: str) -> list[tuple[str, str]]:
-    """Return (label, cypher) pairs — additive retrieval per intent."""
+def cypher_eligibility(gene: str) -> str:
+    return f"""
+MATCH (pg:PatientGroup)
+WHERE pg.gene_symbol = '{gene}' OR pg.expression_group CONTAINS '{gene}'
+RETURN pg.cancer_type AS cancer, pg.threshold_method AS threshold,
+       pg.n_eligible AS n_eligible, pg.n_total AS n_total, pg.pct_eligible AS pct
+ORDER BY pg.pct_eligible DESC
+LIMIT 12
+""".strip()
+
+
+def supplemental_queries(question: str, intent: str, gene: str) -> list[tuple[str, str]]:
+    """Keyword boosts on top of intent templates — no LLM."""
+    q = question.lower()
+    extra: list[tuple[str, str]] = []
+    if any(k in q for k in ("eligib", "threshold", "75th", "percent", "fraction")):
+        extra.append(("KG patient groups", cypher_eligibility(gene)))
+    if any(k in q for k in ("depmap", "crispr", "dependency", "cell line")):
+        extra.append(("KG DepMap", cypher_depmap(gene)))
+    if any(k in q for k in ("pubmed", "publication", "paper", "literature")):
+        extra.append(("KG publications", cypher_publications(gene)))
+    if intent == "eligibility":
+        extra.append(("KG patient groups", cypher_eligibility(gene)))
+    # dedupe labels
+    seen: set[str] = set()
+    out: list[tuple[str, str]] = []
+    for label, cypher in extra:
+        if label in seen:
+            continue
+        seen.add(label)
+        out.append((label, cypher))
+    return out
+
+
+def queries_for_intent(intent: str, gene: str, question: str = "") -> list[tuple[str, str]]:
+    """Return (label, cypher) pairs — additive retrieval per intent + question keywords."""
     builders = {
         "expression": [("KG expression ranks", cypher_expression(gene))],
         "survival": [
@@ -103,5 +137,14 @@ def queries_for_intent(intent: str, gene: str) -> list[tuple[str, str]]:
             ("KG expression", cypher_expression(gene)),
             ("KG drugs", cypher_drugs(gene)),
         ],
+        "eligibility": [
+            ("KG expression", cypher_expression(gene)),
+            ("KG patient groups", cypher_eligibility(gene)),
+        ],
     }
-    return builders.get(intent, builders["general"])
+    base = builders.get(intent, builders["general"])
+    merged = list(base)
+    for item in supplemental_queries(question, intent, gene):
+        if item not in merged:
+            merged.append(item)
+    return merged

@@ -95,12 +95,21 @@ def _active_gene() -> str:
         return "CD46"
 
 
-def _append_kg_context(contexts: list[str], sources: list[str], intent: str, gene: str) -> None:
+def _append_kg_context(
+    contexts: list[str], sources: list[str], intent: str, gene: str, question: str = ""
+) -> None:
     """Additive KG retrieval — keeps CSV context; does not replace it."""
     from src.agent.kg_retrieval import queries_for_intent
+    from src.agent.nl_cypher import nl_cypher_for_question
     from src.agent.tools import query_kg
 
-    for label, cypher in queries_for_intent(intent, gene):
+    queries = list(queries_for_intent(intent, gene, question))
+    nl = nl_cypher_for_question(question, gene, intent=intent)
+    if nl:
+        queries.append(nl)
+        sources.append("NL→Cypher (AuraDB)")
+
+    for label, cypher in queries:
         result = query_kg(cypher)
         contexts.append(f"KG — {label} ({gene}):\n{result}")
     sources.append("AuraDB Knowledge Graph")
@@ -192,8 +201,8 @@ def _load_context_for_intent(intent: str, question: str) -> tuple[str, list[str]
         contexts.append(f"Pan-cancer expression ({gene}):\n{result2}")
         sources += ["TCGA/Xena", "All datasets"]
 
-    # Additive KG context for every intent (gene-aware Cypher templates)
-    _append_kg_context(contexts, sources, intent, gene)
+    # Additive KG context for every intent (gene-aware Cypher templates + optional NL→Cypher)
+    _append_kg_context(contexts, sources, intent, gene, question)
 
     # Always append fresh PubMed context for non-literature intents
     if intent != "literature":

@@ -256,18 +256,25 @@ def section_tabs(
     default: str | None = None,
 ) -> str:
     """Compact horizontal section selector (styled native radio)."""
-    if not options:
-        return ""
-    default_val = default or options[0]
-    idx = options.index(default_val) if default_val in options else 0
-    return st.radio(
-        "Section",
-        options=options,
-        index=idx,
-        horizontal=True,
-        key=f"ob_tabs_{key}",
-        label_visibility="collapsed",
-    )
+    fragment = getattr(st, "fragment", None)
+
+    def _render() -> str:
+        if not options:
+            return ""
+        default_val = default or options[0]
+        idx = options.index(default_val) if default_val in options else 0
+        return st.radio(
+            "Section",
+            options=options,
+            index=idx,
+            horizontal=True,
+            key=f"ob_tabs_{key}",
+            label_visibility="collapsed",
+        )
+
+    if fragment:
+        return fragment(_render)()
+    return _render()
 
 
 def source_chips(sources: list[str], *, intent: str = "") -> None:
