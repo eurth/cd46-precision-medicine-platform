@@ -121,7 +121,6 @@ def _image_card(
     desc: str,
     chips: list,
     variant: str,          # ind | sky | eme | amb
-    page_path: str,
     bg_url: str = "",      # optional CSS background-image url(...)
 ) -> str:
     chips_html = "".join(f'<span class="mc-img-chip">{c}</span>' for c in chips)
@@ -132,40 +131,47 @@ def _image_card(
         )
     else:
         img_style = ""
-    # Overlay so emoji is always readable
     overlay = (
         '<div style="position:absolute;inset:0;'
         'background:rgba(255,255,255,0.35);"></div>'
     )
     return (
         f'<div class="mc-img-card">'
-        # --- Image / gradient top ---
         f'<div class="mc-img-top mc-img-top-{variant}" '
         f'style="position:relative;{img_style}">'
         f'{overlay if bg_url else ""}'
         f'<span style="position:relative;z-index:1;">{icon}</span>'
         f'</div>'
-        # --- Body ---
         f'<div class="mc-img-body">'
         f'<span class="mc-img-label mc-img-label-{variant}">Module</span>'
         f'<span class="mc-img-title">{title}</span>'
         f'<span class="mc-img-desc">{desc}</span>'
         f'<div class="mc-img-chips">{chips_html}</div>'
-        f'<a class="mc-img-link" href="{page_path}">Open module \u2192</a>'
         f'</div>'
         f'</div>'
     )
 
 
-def _grid(*cards: str) -> str:
-    """Wrap cards in equal-height CSS grid (3 columns)."""
-    items = "".join(cards)
-    return (
-        '<div style="display:grid;grid-template-columns:repeat(3,1fr);'
-        'grid-auto-rows:1fr;gap:16px;margin-bottom:8px;">'
-        f'{items}'
-        '</div>'
-    )
+def _render_module_row(cards: list[dict]) -> None:
+    """Render up to 3 module cards per row with native st.page_link navigation."""
+    cols = st.columns(3)
+    for col, card in zip(cols, cards):
+        with col:
+            st.markdown(
+                _image_card(
+                    card["icon"],
+                    card["title"],
+                    card["desc"],
+                    card["chips"],
+                    card["variant"],
+                    bg_url=card.get("bg_url", ""),
+                ),
+                unsafe_allow_html=True,
+            )
+            try:
+                st.page_link(card["page"], label="Open module \u2192", use_container_width=True)
+            except TypeError:
+                st.page_link(card["page"], label="Open module \u2192")
 
 
 # ---------------------------------------------------------------------------
@@ -173,26 +179,32 @@ def _grid(*cards: str) -> str:
 # ---------------------------------------------------------------------------
 _section_header("Research Hub", "ind")
 
-st.markdown(_grid(
-    _image_card(
-        "\U0001f578\ufe0f", "Knowledge Graph",
-        "Neo4j AuraDB integrating genes, proteins, diseases, drugs and clinical trials into a live graph.",
-        [f"{_kg_nodes} Nodes", f"{_kg_rels} Edges", "Aura Free"],
-        "ind", "/4_biomedical_knowledge_graph",
-    ),
-    _image_card(
-        "\U0001f50d", "KG Query Explorer",
-        "Live Cypher interface with templates spanning the graph schema — primary research query surface.",
-        ["Templates", "Cypher", "NL\u2192Cypher"],
-        "ind", "/7_kg_query_explorer",
-    ),
-    _image_card(
-        "\U0001f916", "Research Assistant",
-        "LLM assistant with knowledge-graph and literature context for research Q&A.",
-        ["OpenRouter / Gemma", "KG Context", "PubMed"],
-        "ind", "/5_research_assistant",
-    ),
-), unsafe_allow_html=True)
+_render_module_row([
+    {
+        "icon": "\U0001f578\ufe0f",
+        "title": "Knowledge Graph",
+        "desc": "Neo4j AuraDB integrating genes, proteins, diseases, drugs and clinical trials into a live graph.",
+        "chips": [f"{_kg_nodes} Nodes", f"{_kg_rels} Edges", "Aura Free"],
+        "variant": "ind",
+        "page": "pages/4_biomedical_knowledge_graph.py",
+    },
+    {
+        "icon": "\U0001f50d",
+        "title": "KG Query Explorer",
+        "desc": "Live Cypher interface with templates spanning the graph schema — primary research query surface.",
+        "chips": ["Templates", "Cypher", "NL\u2192Cypher"],
+        "variant": "ind",
+        "page": "pages/7_kg_query_explorer.py",
+    },
+    {
+        "icon": "\U0001f916",
+        "title": "Research Assistant",
+        "desc": "LLM assistant with knowledge-graph and literature context for research Q&A.",
+        "chips": ["OpenRouter / Gemma", "KG Context", "PubMed"],
+        "variant": "ind",
+        "page": "pages/5_research_assistant.py",
+    },
+])
 
 # ---------------------------------------------------------------------------
 # Section 2 — Evidence modules (currently CD46-loaded data)
@@ -204,93 +216,112 @@ _PDB_CD46 = "https://cdn.rcsb.org/images/structures/qr/2qrm/2qrm_assembly-1.jpeg
 # STRING network image for CD46
 _STRING_CD46 = "https://string-db.org/api/image/network?identifiers=CD46&species=9606&network_flavor=confidence&caller_identity=oncobridge"
 
-st.markdown(_grid(
-    _image_card(
-        "\U0001f4ca", "Expression Atlas",
-        "Pan-cancer mRNA + protein expression across TCGA (33 cancers) and Human Protein Atlas (30 tissues).",
-        ["33 Cancer Types", "Top: PRAD", "log\u2082\u22652.5"],
-        "sky", "/1_cd46_expression_atlas",
-    ),
-    _image_card(
-        "\U0001f3af", "Patient Selection",
-        "Eligibility stratification patterns (currently CD46 case-study cohort views).",
-        ["PSMA-low ~35%", "AR Effect \u21912\u20133\u00d7", "PRAD 75th: 40"],
-        "sky", "/2_patient_selection",
-    ),
-    _image_card(
-        "\U0001f4c8", "Survival Outcomes",
-        "High vs low expression Kaplan-Meier and Cox hazard ratios across TCGA cancers.",
-        ["3 Significant", "PRAD HR: 0.77", "OS + PFI"],
-        "sky", "/3_survival_outcomes",
-    ),
-), unsafe_allow_html=True)
+_render_module_row([
+    {
+        "icon": "\U0001f4ca",
+        "title": "Expression Atlas",
+        "desc": "Pan-cancer mRNA + protein expression across TCGA (33 cancers) and Human Protein Atlas (30 tissues).",
+        "chips": ["33 Cancer Types", "Top: PRAD", "log\u2082\u22652.5"],
+        "variant": "sky",
+        "page": "pages/1_cd46_expression_atlas.py",
+    },
+    {
+        "icon": "\U0001f3af",
+        "title": "Patient Selection",
+        "desc": "Eligibility stratification patterns (currently CD46 case-study cohort views).",
+        "chips": ["PSMA-low ~35%", "AR Effect \u21912\u20133\u00d7", "PRAD 75th: 40"],
+        "variant": "sky",
+        "page": "pages/2_patient_selection.py",
+    },
+    {
+        "icon": "\U0001f4c8",
+        "title": "Survival Outcomes",
+        "desc": "High vs low expression Kaplan-Meier and Cox hazard ratios across TCGA cancers.",
+        "chips": ["3 Significant", "PRAD HR: 0.77", "OS + PFI"],
+        "variant": "sky",
+        "page": "pages/3_survival_outcomes.py",
+    },
+])
 
-st.markdown(
-    '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:8px;">'
-    + _image_card(
-        "\U0001f9ec", "Biomarker Panel",
-        "Multi-biomarker clinical decision support views (CD46 case-study mCRPC cohort).",
-        ["5 Biomarkers", "226 mCRPC Pts", "9,251 GENIE pts"],
-        "sky", "/6_biomarker_panel",
-    )
-    + _image_card(
-        "\U0001f578\ufe0f", "PPI Network Explorer",
-        "Protein–protein interaction network from STRING DB (seeded on case-study target).",
-        ["STRING", "Partners", "CC BY 4.0"],
-        "sky", "/10_ppi_network",
-        bg_url=_STRING_CD46,
-    )
-    + '</div>',
-    unsafe_allow_html=True,
-)
+_render_module_row([
+    {
+        "icon": "\U0001f9ec",
+        "title": "Biomarker Panel",
+        "desc": "Multi-biomarker clinical decision support views (CD46 case-study mCRPC cohort).",
+        "chips": ["5 Biomarkers", "226 mCRPC Pts", "9,251 GENIE pts"],
+        "variant": "sky",
+        "page": "pages/6_biomarker_panel.py",
+    },
+    {
+        "icon": "\U0001f578\ufe0f",
+        "title": "PPI Network Explorer",
+        "desc": "Protein–protein interaction network from STRING DB (seeded on case-study target).",
+        "chips": ["STRING", "Partners", "CC BY 4.0"],
+        "variant": "sky",
+        "page": "pages/10_ppi_network.py",
+        "bg_url": _STRING_CD46,
+    },
+])
 
 # ---------------------------------------------------------------------------
 # Section 3 — Case Study: CD46 α-RLT
 # ---------------------------------------------------------------------------
 _section_header("Case Study · CD46 α-RLT", "amb")
 
-st.markdown(_grid(
-    _image_card(
-        "\U0001f3af", "Eligibility Scorer",
-        "Evidence-based candidate assessment for 225Ac-CD46 RLT across TCGA cancer types.",
-        ["25 Cancer Types", "~2,800 Patients", "PRAD: 44%"],
-        "amb", "/8_patient_eligibility",
-    ),
-    _image_card(
-        "\U0001f3c6", "Competitive Landscape",
-        "CD46 vs PSMA vs FAP — expression prevalence, trial activity and differentiation.",
-        ["3 Targets", "14 CD46 Trials", "vs Pluvicto"],
-        "amb", "/9_competitive_landscape",
-    ),
-    _image_card(
-        "\U0001f48a", "Drug Pipeline Explorer",
-        "CD46-targeting landscape — ADC, radioimmunotherapy and complement inhibitors.",
-        ["10 Agents", "3 Drug Classes", "2 FDA Approved"],
-        "amb", "/11_drug_pipeline",
-        bg_url=_PDB_CD46,
-    ),
-), unsafe_allow_html=True)
+_render_module_row([
+    {
+        "icon": "\U0001f3af",
+        "title": "Eligibility Scorer",
+        "desc": "Evidence-based candidate assessment for 225Ac-CD46 RLT across TCGA cancer types.",
+        "chips": ["25 Cancer Types", "~2,800 Patients", "PRAD: 44%"],
+        "variant": "amb",
+        "page": "pages/8_patient_eligibility.py",
+    },
+    {
+        "icon": "\U0001f3c6",
+        "title": "Competitive Landscape",
+        "desc": "CD46 vs PSMA vs FAP — expression prevalence, trial activity and differentiation.",
+        "chips": ["3 Targets", "14 CD46 Trials", "vs Pluvicto"],
+        "variant": "amb",
+        "page": "pages/9_competitive_landscape.py",
+    },
+    {
+        "icon": "\U0001f48a",
+        "title": "Drug Pipeline Explorer",
+        "desc": "CD46-targeting landscape — ADC, radioimmunotherapy and complement inhibitors.",
+        "chips": ["10 Agents", "3 Drug Classes", "2 FDA Approved"],
+        "variant": "amb",
+        "page": "pages/11_drug_pipeline.py",
+        "bg_url": _PDB_CD46,
+    },
+])
 
-st.markdown(_grid(
-    _image_card(
-        "\u2697\ufe0f", "Dosimetry & Safety Index",
-        "Therapeutic index framing for 225Ac-CD46 α-RLT — normal vs tumour CD46 (HPA).",
-        ["81 HPA Tissues", "Tumour:Normal", "FOR46 n=56"],
-        "amb", "/12_dosimetry_safety",
-    ),
-    _image_card(
-        "\U0001f52c", "Clinical Strategy Engine",
-        "End-to-end narrative: Target → Drug → Patient → Trial → Outcome (case study).",
-        ["5 Stages", "14 Trials", "Target: 2030"],
-        "amb", "/13_clinical_strategy_engine",
-    ),
-    _image_card(
-        "\U0001f9ec", "Diagnostics & Early Detection",
-        "CD46 companion-diagnostic framing — GTEx, ClinVar, cBioPortal, PET imaging.",
-        ["54 GTEx Tissues", "500 ClinVar Vars", "PET: Active"],
-        "amb", "/14_cd46_diagnostics",
-    ),
-), unsafe_allow_html=True)
+_render_module_row([
+    {
+        "icon": "\u2697\ufe0f",
+        "title": "Dosimetry & Safety Index",
+        "desc": "Therapeutic index framing for 225Ac-CD46 α-RLT — normal vs tumour CD46 (HPA).",
+        "chips": ["81 HPA Tissues", "Tumour:Normal", "FOR46 n=56"],
+        "variant": "amb",
+        "page": "pages/12_dosimetry_safety.py",
+    },
+    {
+        "icon": "\U0001f52c",
+        "title": "Clinical Strategy Engine",
+        "desc": "End-to-end narrative: Target → Drug → Patient → Trial → Outcome (case study).",
+        "chips": ["5 Stages", "14 Trials", "Target: 2030"],
+        "variant": "amb",
+        "page": "pages/13_clinical_strategy_engine.py",
+    },
+    {
+        "icon": "\U0001f9ec",
+        "title": "Diagnostics & Early Detection",
+        "desc": "CD46 companion-diagnostic framing — GTEx, ClinVar, cBioPortal, PET imaging.",
+        "chips": ["54 GTEx Tissues", "500 ClinVar Vars", "PET: Active"],
+        "variant": "amb",
+        "page": "pages/14_cd46_diagnostics.py",
+    },
+])
 
 # ---------------------------------------------------------------------------
 # Case-study pipeline stepper (CD46)

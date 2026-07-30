@@ -24,8 +24,6 @@ from components.theme import (
 
 def global_css() -> str:
     return f"""
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
@@ -373,6 +371,11 @@ details[data-testid="stExpander"] > summary span {{
 }}
 .mc-img-link {{ font-size: 12px; font-weight: 600; color: {PRIMARY}; text-decoration: none; }}
 .mc-img-link:hover {{ color: {PRIMARY_TEXT}; }}
+/* Overview module cards — st.page_link below card body */
+.mc-img-card + div [data-testid="stPageLink-NavLink"] {{
+    font-size: 12px !important; font-weight: 600 !important;
+    color: {PRIMARY} !important; padding: 8px 0 0 0 !important;
+}}
 
 .page-hero {{
     padding: 20px 0 16px; margin-bottom: 20px;
