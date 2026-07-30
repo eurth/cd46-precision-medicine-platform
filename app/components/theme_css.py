@@ -244,14 +244,32 @@ details[data-testid="stExpander"] > summary span {{
     height: calc(100vh - var(--ob-topbar-h)) !important;
 }}
 [data-testid="stSidebar"] [data-testid="stSidebarContent"] {{
-    padding-top: 0.5rem !important;
-    padding-bottom: 0.75rem !important;
+    padding-top: 0 !important;
+    padding-bottom: 0.5rem !important;
 }}
 [data-testid="stSidebarNav"] {{
     padding-top: 0 !important; margin-top: 0 !important;
 }}
-[data-testid="stSidebarNav"] > ul {{
+[data-testid="stSidebarNav"] > ul,
+[data-testid="stSidebarNavItems"] {{
     padding-top: 0 !important; margin-top: 0 !important;
+}}
+[data-testid="stSidebarUserContent"] {{
+    padding-top: 0.5rem !important; margin-top: 0 !important;
+    border-top: 1px solid {BORDER};
+}}
+[data-testid="stNavSectionHeader"] {{
+    cursor: pointer !important; border-radius: 6px !important;
+    margin: 2px 8px 0 !important; padding: 6px 10px !important;
+}}
+[data-testid="stNavSectionHeader"]:hover {{
+    background: {SURFACE_2} !important;
+}}
+[data-testid="stNavSectionHeader"] p,
+[data-testid="stNavSectionHeader"] span {{
+    font-size: 10px !important; font-weight: 700 !important;
+    text-transform: uppercase !important; letter-spacing: 0.12em !important;
+    color: {TEXT_FAINT} !important;
 }}
 [data-testid="stSidebarNavSeparator"] span,
 [data-testid="stSidebarNavSeparator"] p {{

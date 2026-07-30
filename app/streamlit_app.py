@@ -16,6 +16,7 @@ from utils.tracker import log_page_visit
 from components.styles import inject_global_css
 from components.ui_kit import apply_theme, breadcrumb, render_recent_modules, track_recent_page
 from components.right_rail import render_floating_right_rail
+from components.sidebar_nav import inject_sidebar_nav_defaults
 
 st.set_page_config(
     page_title="OncoBridge Intelligence",
@@ -32,11 +33,6 @@ apply_theme()
 # ---------------------------------------------------------------------------
 from components.targets import render_sidebar_target_selector
 from components.feedback import render_sidebar_feedback
-
-with st.sidebar:
-    render_sidebar_target_selector()
-    render_recent_modules()
-    render_sidebar_feedback()
 
 # ---------------------------------------------------------------------------
 # Navigation — dimension-grouped (all pages retained)
@@ -113,6 +109,13 @@ st.markdown(
 
 log_page_visit(pg.title or "Unknown")
 pg.run()
+
+inject_sidebar_nav_defaults(pg.title)
+
+with st.sidebar:
+    render_sidebar_target_selector()
+    render_recent_modules()
+    render_sidebar_feedback()
 
 # ponytail: rail after pg.run() — pure HTML fixed overlay, zero layout width
 render_floating_right_rail()
