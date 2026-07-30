@@ -1,9 +1,8 @@
 """
-LangGraph-based AI orchestrator for CD46 Precision Medicine Platform.
+LangGraph-based AI orchestrator for OncoBridge multi-target research assistant.
 
 State machine:
   route_question → load_context → generate_answer → format_response
-                              ↘ query_kg ↗
 """
 from __future__ import annotations
 
@@ -96,6 +95,17 @@ def _active_gene() -> str:
         return "CD46"
 
 
+def _append_kg_context(contexts: list[str], sources: list[str], intent: str, gene: str) -> None:
+    """Additive KG retrieval — keeps CSV context; does not replace it."""
+    from src.agent.kg_retrieval import queries_for_intent
+    from src.agent.tools import query_kg
+
+    for label, cypher in queries_for_intent(intent, gene):
+        result = query_kg(cypher)
+        contexts.append(f"KG — {label} ({gene}):\n{result}")
+    sources.append("AuraDB Knowledge Graph")
+
+
 def _load_context_for_intent(intent: str, question: str) -> tuple[str, list[str]]:
     """Load relevant data context based on intent. Returns (context_str, sources)."""
     from src.agent.tools import (
@@ -133,10 +143,13 @@ def _load_context_for_intent(intent: str, question: str) -> tuple[str, list[str]
 
     elif intent == "drug":
         result = load_csv_data("combination", top_n=20)
-        contexts.append(f"Combination biomarker correlations:\n{result}")
+        if "error" not in result:
+            contexts.append(f"Combination biomarker correlations:\n{result}")
         result2 = run_analysis_summary("priority")
-        contexts.append(f"Cancer priority scores:\n{result2}")
-        sources += ["ChEMBL", "cBioPortal", "cd46_combination_biomarkers.csv"]
+        contexts.append(f"Cancer priority / expression ranking:\n{result2}")
+        result3 = load_csv_data("by_cancer", top_n=15)
+        contexts.append(f"Pan-cancer expression ({gene}):\n{result3}")
+        sources += ["ChEMBL", "cBioPortal", f"{gene.lower()}_by_cancer.csv"]
 
     elif intent == "trial":
         result = search_trials(gene)
@@ -144,30 +157,28 @@ def _load_context_for_intent(intent: str, question: str) -> tuple[str, list[str]
         sources += ["ClinicalTrials.gov"]
 
     elif intent == "knowledge_graph":
-        from src.agent.tools import query_kg
-        result = query_kg(
-            f"MATCH (g:Gene {{symbol: '{gene}'}})-[r:EXPRESSED_IN_CANCER]->(d:Disease) "
-            "RETURN d.tcga_code AS cancer, r.median_tpm_log2 AS median, r.expression_rank AS rank "
-            "ORDER BY r.expression_rank ASC LIMIT 15"
-        )
-        contexts.append(f"KG TCGA expression for {gene}:\n{result}")
-        sources += ["AuraDB Knowledge Graph"]
+        pass  # KG-only intent — filled by _append_kg_context below
 
     elif intent == "biomarker":
         result = load_csv_data("combination", top_n=20)
-        contexts.append(f"{gene} combination biomarker correlations:\n{result}")
+        if "error" not in result:
+            contexts.append(f"{gene} combination biomarker correlations:\n{result}")
         result2 = run_analysis_summary("priority")
         contexts.append(f"Cancer priority scores with biomarker context:\n{result2}")
         result3 = load_csv_data("by_cancer", top_n=15)
         contexts.append(f"{gene} expression by cancer type:\n{result3}")
-        sources += ["cd46_combination_biomarkers.csv", "TCGA", "SU2C mCRPC"]
+        sources += [f"{gene.lower()}_combination_biomarkers.csv", "TCGA", "SU2C mCRPC"]
 
     elif intent == "protein":
         result = load_csv_data("hpa", top_n=30)
         contexts.append(f"{gene} protein expression (Human Protein Atlas):\n{result}")
-        result2 = load_csv_data("combination", top_n=15)
-        contexts.append(f"Protein interaction biomarkers:\n{result2}")
-        sources += ["Human Protein Atlas", "UniProt", "AlphaFold EBI"]
+        if "error" in result:
+            result_alt = load_csv_data("hpa_intensity", top_n=30)
+            contexts.append(f"{gene} HPA intensity:\n{result_alt}")
+        result2 = load_csv_data("depmap", top_n=15)
+        if "error" not in result2:
+            contexts.append(f"DepMap essentiality ({gene}):\n{result2}")
+        sources += ["Human Protein Atlas", "UniProt", "DepMap", "AlphaFold EBI"]
 
     elif intent == "literature":
         pubmed_result = search_pubmed(f"{gene} {question[:80]}")
@@ -176,8 +187,14 @@ def _load_context_for_intent(intent: str, question: str) -> tuple[str, list[str]
 
     else:  # general
         result = run_analysis_summary("priority")
-        contexts.append(f"{gene} priority overview:\n{result}")
-        sources += ["All datasets"]
+        contexts.append(f"{gene} priority / expression overview:\n{result}")
+        result2 = load_csv_data("by_cancer", top_n=12)
+        contexts.append(f"Pan-cancer expression ({gene}):\n{result2}")
+        sources += ["TCGA/Xena", "All datasets"]
+
+    # Additive KG context for every intent (except eligibility — patient_groups is CD46-depth)
+    if intent != "eligibility":
+        _append_kg_context(contexts, sources, intent, gene)
 
     # Always append fresh PubMed context for non-literature intents
     if intent != "literature":
@@ -231,10 +248,10 @@ def format_response(state: AgentState) -> AgentState:
 # Orchestrator — runs without LangGraph dependency if unavailable
 # ---------------------------------------------------------------------------
 
-class CD46Agent:
+class TargetResearchAgent:
     """
-    CD46 AI agent. Uses LangGraph StateGraph when available,
-    falls back to sequential execution otherwise.
+    Multi-target research agent. Uses LangGraph when available,
+    sequential fallback otherwise.
     """
 
     def __init__(self, provider: str = "auto"):
@@ -301,6 +318,10 @@ class CD46Agent:
         state = load_context(state)
 
         yield from self.llm.stream(state["question"], context=state["context"])
+
+
+# Back-compat alias — do not remove (pipeline + imports)
+CD46Agent = TargetResearchAgent
 
 
 # ---------------------------------------------------------------------------

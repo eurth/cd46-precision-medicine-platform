@@ -59,7 +59,7 @@ def load_survival_multi(symbols: tuple[str, ...]) -> pd.DataFrame:
 # Interactive filters — defaults to active research target
 _all_syms = list_symbols()
 _default_genes = [_GENE] if _GENE in _all_syms else _all_syms[:1]
-with filter_bar("Gene & endpoint filters"):
+with filter_bar("Gene & endpoint filters", expanded=False):
     fc1, fc2, fc3 = st.columns([2, 2, 1])
     with fc1:
         _selected_genes = st.multiselect(

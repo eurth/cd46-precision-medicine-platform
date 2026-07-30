@@ -219,10 +219,7 @@ def render_case_study_gate(*, module: str = "This module") -> bool:
     tier = data_tier(sym)
     st.info(
         f"**{module}** is open for **{sym}** (data tier `{tier}`). "
-        f"Some panels still carry CD46 case-study depth — those stay visible "
-        f"with gene-aware data where wired; otherwise use Expression / Survival / "
-        f"KG Explorer / Ask AI for **{sym}**, or switch target to **CD46** for the "
-        f"full reference narrative."
+        "Curated cohort and biomarker depth is expanding across all registered targets."
     )
     return False
 

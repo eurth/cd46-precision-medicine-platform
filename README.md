@@ -6,7 +6,7 @@
 
 ## Overview
 
-OncoBridge Intelligence is a research platform for querying a biomedical knowledge graph, inspecting expression and trial evidence, and exploring radioligand / surface-antigen case studies. **CD46 α-RLT is the first case study** — not the product identity. Bulk open data is sliced on a laptop; only summaries ship to the hosted UI; the graph lives in Neo4j Aura Free.
+OncoBridge Intelligence is a **multi-target theranostics research workbench** for five surface targets (**FOLH1/PSMA, FAP, SSTR2, GRPR, CD46**). Query a biomedical knowledge graph, inspect expression and trial evidence, and explore radioligand programs from one platform. Bulk open data is sliced on a laptop; summaries ship to the hosted UI; the graph lives in Neo4j Aura.
 
 See `NOTICE` for third-party data attribution and `config/data_freeze.yaml` for the current freeze.
 
@@ -28,7 +28,7 @@ cd46_precision_medicine_platform/
 │   ├── knowledge_graph/  # Neo4j AuraDB build, node/relationship builders, CSV export
 │   ├── agent/            # LangGraph orchestrator, LiteLLM wrapper, tool registry
 │   └── reporting/        # HTML report generator
-├── app/                  # Streamlit web application (5 pages)
+├── app/                  # Streamlit web application (16 modules)
 ├── scripts/              # run_pipeline.py CLI
 └── tests/                # pytest test suite
 ```

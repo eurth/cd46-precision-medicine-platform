@@ -621,10 +621,10 @@ Relationships: HAS_SURVIVAL_RESULT, HAS_PATIENT_GROUP, SUPPORTS (pub→disease),
         with st.spinner("Translating to Cypher..."):
             try:
                 # Try to use the orchestrator LLM
-                from src.agent.orchestrator import CD46Agent
+                from src.agent.orchestrator import TargetResearchAgent
                 @st.cache_resource
                 def _get_kg_agent():
-                    return CD46Agent()
+                    return TargetResearchAgent()
                 agent = _get_kg_agent()
 
                 prompt = f"""You are a Neo4j Cypher expert. Convert the following research question into a valid Cypher query.

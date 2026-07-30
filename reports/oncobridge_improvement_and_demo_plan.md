@@ -17,15 +17,15 @@ OncoBridge is a **multi-target theranostics research workbench** for five surfac
 
 **Top 5 improvement priorities (post-demo):**
 
-| # | Priority | Effort | Impact |
-|---|----------|--------|--------|
-| 1 | De-CD46 the Research Assistant (prompts, Evidence tab, orchestrator tools) | 2–3 weeks | Credibility as multi-target platform |
-| 2 | PARAM data depth for FOLH1/FAP/SSTR2/GRPR (HPA dosimetry, trials, eligibility) | 3–4 weeks | Real cross-target demos |
-| 3 | Performance: self-host fonts, lazy PyVis, skeleton loaders | 1 week | Lighthouse CLS/TBT |
-| 4 | Expand KG retrieval in agent (multi-hop Cypher, not one template) | 2 weeks | “KG vs ChatGPT” story becomes true |
-| 5 | Stakeholder docs sync (README, this file, slide deck export) | 3 days | Onboarding & fundraising |
+| Priority | Sprint | Status (2026-07-30) |
+|----------|--------|---------------------|
+| **P1** RA1 Multi-target agent | presets, KG retrieval all intents, `TargetResearchAgent` | **In progress — core shipped** |
+| **P2** PARAM data depth | per-gene CSV/ETL, dosimetry, eligibility | Planned (additive ETL) |
+| **P3** T1 Performance | CLS min-height, filter collapse | **Partial — CSS + survival** |
+| **P4** RA2 KG-RAG | NL→Cypher every intent, source chips | Planned |
+| **P5** Docs / README | multi-target positioning | **README updated** |
 
----
+Legacy table:
 
 # Part 1 — Improvement Plan
 

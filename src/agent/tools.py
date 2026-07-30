@@ -35,14 +35,44 @@ def _gene_file_map(gene: str) -> dict[str, str]:
     return {
         "expression": f"{g}_expression.csv",
         "by_cancer": f"{g}_by_cancer.csv",
-        "priority": "priority_score.csv",
+        "priority": f"{g}_priority_score.csv",
         "survival": f"{g}_survival_results.csv",
         "eligibility": "patient_groups.csv",
         "hpa": f"hpa_{g}_protein.csv",
+        "hpa_intensity": f"hpa_{g}_protein_intensity.csv",
         "depmap": f"depmap_{g}_essentiality.csv",
         "cbioportal": "cbioportal_mcrpc.csv",
         "combination": f"{g}_combination_biomarkers.csv",
+        "gtex": f"gtex_{g}_normal.csv",
     }
+
+
+def _resolve_dataset_df(dataset: str, gene: str) -> tuple[Optional[pd.DataFrame], str]:
+    """Load CSV for dataset; try fallbacks without removing CD46-only files."""
+    key = dataset.lower()
+    file_map = _gene_file_map(gene)
+    g = gene.lower()
+
+    candidates: list[str] = []
+    primary = file_map.get(key)
+    if primary:
+        candidates.append(primary)
+    if key == "hpa":
+        candidates.append(f"hpa_{g}_protein_intensity.csv")
+    if key == "priority" and gene.upper() == "CD46":
+        candidates.append("priority_score.csv")
+    if key == "combination" and gene.upper() == "CD46":
+        candidates.append("cd46_combination_biomarkers.csv")
+
+    seen: set[str] = set()
+    for fname in candidates:
+        if not fname or fname in seen:
+            continue
+        seen.add(fname)
+        df = _load_csv(fname)
+        if df is not None:
+            return df, fname
+    return None, primary or ""
 
 
 # ---------------------------------------------------------------------------
@@ -107,25 +137,23 @@ def load_csv_data(dataset: str, cancer_type: Optional[str] = None, top_n: int = 
     """
     gene = _active_gene()
     file_map = _gene_file_map(gene)
-    # Case-study-only datasets: clear error if missing for non-CD46
-    case_only = {"hpa", "depmap", "combination", "eligibility", "priority", "cbioportal"}
+    case_only = {"combination", "eligibility", "priority", "cbioportal"}
 
-    filename = file_map.get(dataset.lower())
-    if not filename:
+    if dataset.lower() not in file_map and dataset.lower() != "hpa":
         available = list(file_map.keys())
         return json.dumps({"error": f"Unknown dataset '{dataset}'. Available: {available}"})
 
-    df = _load_csv(filename)
+    df, filename = _resolve_dataset_df(dataset, gene)
     if df is None:
         hint = ""
         if dataset.lower() in case_only and gene.upper() != "CD46":
             hint = (
-                f" Dataset '{dataset}' is still CD46 case-study depth only. "
-                f"For {gene} use expression/by_cancer/survival where CSVs exist."
+                f" Dataset '{dataset}' may be CD46 case-study depth only. "
+                f"For {gene} use expression/by_cancer/survival/hpa/depmap where CSVs exist."
             )
         return json.dumps(
             {
-                "error": f"File not found: data/processed/{filename}.{hint}",
+                "error": f"File not found for dataset '{dataset}' (tried processed/*).{hint}",
                 "active_gene": gene,
             }
         )
@@ -294,15 +322,36 @@ def run_analysis_summary(analysis: str = "priority") -> str:
         JSON string with analysis summary.
     """
     if analysis == "priority":
-        df = _load_csv("priority_score.csv")
+        gene = _active_gene()
+        df, fname = _resolve_dataset_df("priority", gene)
         if df is None:
-            return json.dumps({"error": "priority_score.csv not found"})
-        df_sorted = df.sort_values("priority_score", ascending=False)
+            # ponytail: fallback to expression ranks when no priority CSV for gene
+            bc, bc_name = _resolve_dataset_df("by_cancer", gene)
+            if bc is not None and "cancer_type" in bc.columns:
+                med = "gene_median" if "gene_median" in bc.columns else bc.columns[-1]
+                top = bc.nlargest(10, med) if med in bc.columns else bc.head(10)
+                return json.dumps(
+                    {
+                        "analysis": f"Top TCGA expression by cancer ({gene})",
+                        "active_gene": gene,
+                        "note": "priority_score.csv not found — using by_cancer medians",
+                        "top_10_cancers": top[["cancer_type", med]].to_dict(orient="records")
+                        if med in top.columns
+                        else top.head(10).to_dict(orient="records"),
+                    },
+                    default=str,
+                    indent=2,
+                )
+            return json.dumps({"error": "priority_score.csv not found", "active_gene": gene})
+        score_col = "priority_score" if "priority_score" in df.columns else df.columns[-1]
+        df_sorted = df.sort_values(score_col, ascending=False)
+        cols = [c for c in ["cancer_type", score_col] if c in df_sorted.columns]
         return json.dumps(
             {
-                "analysis": "CD46 Priority Score",
-                "top_10_cancers": df_sorted.head(10)[["cancer_type", "priority_score"]].to_dict(orient="records"),
-                "formula": "0.35*expression_rank + 0.35*survival_impact + 0.15*cna_freq + 0.15*protein_score",
+                "analysis": f"{gene} priority / ranking",
+                "active_gene": gene,
+                "file": fname,
+                "top_10_cancers": df_sorted.head(10)[cols].to_dict(orient="records"),
             },
             default=str,
             indent=2,
@@ -346,12 +395,17 @@ def run_analysis_summary(analysis: str = "priority") -> str:
             )
 
     elif analysis == "combination_correlations":
-        df = _load_csv("cd46_combination_biomarkers.csv")
+        gene = _active_gene()
+        df, fname = _resolve_dataset_df("combination", gene)
         if df is None:
-            return json.dumps({"error": "cd46_combination_biomarkers.csv not found"})
+            return json.dumps(
+                {"error": f"No combination biomarker CSV for {gene}", "active_gene": gene}
+            )
         return json.dumps(
             {
-                "analysis": "CD46 vs co-biomarker Spearman correlations",
+                "analysis": f"{gene} vs co-biomarker correlations",
+                "active_gene": gene,
+                "file": fname,
                 "data": df.head(20).to_dict(orient="records"),
             },
             default=str,

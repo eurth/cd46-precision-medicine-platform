@@ -54,6 +54,10 @@ h1, h2, h3, h4, h5, h6, [data-testid="stHeading"] {{
     padding-top: 0 !important; padding-bottom: 3rem !important;
     max-width: 1320px !important;
 }}
+/* ponytail: reserve chart height to reduce CLS on Streamlit reruns */
+[data-testid="stPlotlyChart"] {{
+    min-height: 300px !important;
+}}
 hr {{ border-color: {BORDER} !important; }}
 
 header[data-testid="stHeader"], footer, #MainMenu,

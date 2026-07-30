@@ -12,8 +12,9 @@ load_dotenv(Path(__file__).resolve().parents[2] / ".env")
 
 import streamlit as st
 from components.targets import get_active_symbol, render_stub_gate
-from components.ui_kit import page_header, section_tabs, research_table
+from components.ui_kit import page_header, section_tabs, research_table, info_banner
 from components.data_freeze import render_data_freeze_banner
+from components.agent_prompts import quick_start_questions, cab_questions, evidence_demo_rows
 
 # Inject Streamlit Cloud secrets into os.environ
 for _k in (
@@ -83,23 +84,8 @@ _LIGHT  = "#1E293B"
 # ---------------------------------------------------------------------------
 # Preset / CAB questions (inline — no fragile orchestrator import required)
 # ---------------------------------------------------------------------------
-PRESET_QUESTIONS = [
-    f"Which cancers have the strongest combination of {_GENE} over-expression and survival impact?",
-    f"What is the current {_GENE}-targeted drug pipeline and which agents are in clinical trials?",
-    f"How does {_GENE} regulate complement evasion in tumour cells?" if _GENE == "CD46"
-    else f"What is the therapeutic rationale for targeting {_GENE} in solid tumours?",
-    f"What DepMap evidence supports {_GENE} as a cancer dependency?",
-    f"Summarise {_GENE} expression across TCGA cancer types with hazard ratios.",
-    f"What are the {_GENE} isoforms and which are most relevant for therapeutic targeting?",
-]
-
-CAB_QUESTIONS = [
-    f"Which cancers have the strongest case for {_GENE}-targeted RLT based on expression and survival?",
-    f"What is the optimal biomarker strategy for {_GENE} patient selection in a Phase I trial?",
-    f"How does {_GENE} compare to PSMA as a therapeutic target in mCRPC?",
-    f"Design a Phase I dose-escalation trial for {_GENE}-targeted RLT in mCRPC — key elements?",
-    f"What clinical trial evidence exists for anti-{_GENE} therapies and what are the emerging readouts?",
-]
+PRESET_QUESTIONS = quick_start_questions(_GENE)
+CAB_QUESTIONS = cab_questions(_GENE)
 
 # ---------------------------------------------------------------------------
 # Agent initialisation (graceful degradation)
@@ -107,8 +93,8 @@ CAB_QUESTIONS = [
 @st.cache_resource
 def _get_agent(provider: str):
     try:
-        from src.agent.orchestrator import CD46Agent
-        return CD46Agent(provider=provider), None
+        from src.agent.orchestrator import TargetResearchAgent
+        return TargetResearchAgent(provider=provider), None
     except Exception as e:
         return None, str(e)
 
@@ -119,9 +105,8 @@ page_header(
     icon="🤖",
     module_name="AI Research Assistant",
     purpose=(
-        "KG-grounded RAG · OpenRouter Gemma primary · GPT-4o / Gemini fallback · "
-        f"retrieves structured evidence from {_kg_nodes}-node Neo4j knowledge graph "
-        "before every answer — not generic AI"
+        f"Retrieval-augmented Q&A for **{_GENE}** (switch target bar) · "
+        f"Neo4j {_kg_nodes} nodes · TCGA · HPA · DepMap · trials · PubMed"
     ),
     kpi_chips=[
         ("Primary Model", "Gemma (OR)"),
@@ -257,8 +242,8 @@ if _active_asst == _ASST_TABS[0]:
     # Entry state — preset + CAB buttons shown when no conversation yet
     # -----------------------------------------------------------------------
     if not st.session_state.messages:
-        st.markdown("#### Quick-Start Questions")
-        st.caption("Click any question to run it through the KG-grounded agent.")
+        st.markdown(f"#### Quick-Start Questions — active target: **{_GENE}**")
+        st.caption("Click any question to run it through the retrieval-augmented agent.")
         q_cols = st.columns(2)
         for i, q in enumerate(PRESET_QUESTIONS):
             if q_cols[i % 2].button(q, key=f"pq_{i}", use_container_width=True):
@@ -293,9 +278,8 @@ if _active_asst == _ASST_TABS[0]:
     st.markdown("---")
     st.markdown(
         "<div style='color:#64748b;font-size:0.78em;'>"
-        "LLM: OpenRouter Gemma primary · GPT-4o / Gemini fallback · "
-        "Orchestrated via LangGraph + LiteLLM<br>"
-        "Context sources: TCGA · HPA · cBioPortal · DepMap · ClinicalTrials.gov · AuraDB KG<br>"
+        f"Active target: <b>{_GENE}</b> · LLM: OpenRouter Gemma primary · GPT-4o / Gemini fallback<br>"
+        "Context: TCGA · HPA · DepMap · ClinicalTrials.gov · AuraDB KG (retrieval-augmented)<br>"
         "<b>For research purposes only. Not for clinical decision-making.</b>"
         "</div>",
         unsafe_allow_html=True,
@@ -305,29 +289,15 @@ if _active_asst == _ASST_TABS[0]:
 elif _active_asst == _ASST_TABS[1]:
     st.markdown("#### Retrieval-Augmented Generation on a Structured Scientific Knowledge Graph")
 
-    # Grounded AI vs Generic AI comparison
-    st.markdown(
-        "<div style='background:#1e293b;border-left:4px solid #f87171;"
-        "padding:16px 20px;border-radius:8px;margin-bottom:20px;'>"
-        "<b style='color:#f87171;font-size:1.05em;'>The Problem with Generic AI</b><br><br>"
-        "<span style='color:#cbd5e1;'>Large language models like ChatGPT generate "
-        "<i>plausible</i> text about CD46 biology. They do not retrieve your TCGA expression values, "
-        "your GENIE patient counts, your active clinical trial IDs, or your PubMed corpus. "
-        "They invent or misrepresent statistics. Every claim is untraceable.</span>"
-        "</div>",
-        unsafe_allow_html=True,
+    info_banner(
+        "Generic LLMs generate plausible oncology text without retrieving your TCGA values, "
+        "GENIE cohort counts, trial NCT IDs, or graph relationships. Claims can be untraceable.",
+        variant="error",
     )
-    st.markdown(
-        "<div style='background:#1e293b;border-left:4px solid #4ade80;"
-        "padding:16px 20px;border-radius:8px;margin-bottom:24px;'>"
-        "<b style='color:#4ade80;font-size:1.05em;'>This System: Grounded AI</b><br><br>"
-        "<span style='color:#cbd5e1;'>Before the LLM writes a single word, "
-        f"the system queries the Neo4j knowledge graph — {_kg_nodes} biology-specific nodes — "
-        "and retrieves structured, verified facts relevant to the question. "
-        "The LLM then writes <i>around those facts</i>. "
-        "Every claim is traceable to a node: TCGA, HPA, ClinicalTrials.gov, PubMed, DepMap.</span>"
-        "</div>",
-        unsafe_allow_html=True,
+    info_banner(
+        f"OncoBridge retrieves structured facts for the **active target** ({_GENE}) from CSVs and "
+        f"Neo4j ({_kg_nodes} nodes) before the model writes an answer. Every claim should map to a source.",
+        variant="success",
     )
 
     # Two-step pipeline
@@ -541,31 +511,9 @@ elif _active_asst == _ASST_TABS[2]:
         )
 
     st.markdown("---")
-    st.markdown("#### Sample Questions Demonstrating Evidence Retrieval")
+    st.markdown(f"#### Sample Questions — active target **{_GENE}**")
 
-    demo_data = {
-        "Your Question": [
-            "Which cancers show the strongest CD46 over-expression?",
-            "What is the clinical rationale for 225Ac-CD46 in mCRPC?",
-            "How does PTEN loss affect CD46 expression?",
-            "Design a biomarker strategy for Phase I patient selection.",
-            "What STRING interactions are most relevant for toxicity profiling?",
-        ],
-        "KG Nodes Retrieved": [
-            "25 Disease nodes with cd46_mean_tpm_log2 and expression_rank",
-            "PRAD Disease node + SU2C cohort + 14 Drug/Trial nodes",
-            "PRAD PatientGroup nodes (PTEN_deleted subtype) + AnalysisResult",
-            "PatientGroup nodes at 75th/median threshold + ClinicalTrial endpoints",
-            "Protein–Protein interaction nodes + Tissue nodes (normal expression)",
-        ],
-        "Evidence Source": [
-            "TCGA (25 cancer types), HPA (protein atlas)",
-            "TCGA, SU2C mCRPC, ClinicalTrials.gov, ChEMBL",
-            "GENIE molecular subtypes, cBioPortal",
-            "GENIE, TCGA, ClinicalTrials.gov registry",
-            "STRING DB (taxid 9606), HPA tissue distribution",
-        ],
-    }
+    demo_data = evidence_demo_rows(_GENE)
     research_table(pd.DataFrame(demo_data), use_container_width=True, hide_index=True)
 
     st.markdown("---")
