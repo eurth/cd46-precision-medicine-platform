@@ -275,25 +275,19 @@ def section_tabs(
     default: str | None = None,
 ) -> str:
     """Compact horizontal section selector (styled native radio)."""
-    fragment = getattr(st, "fragment", None)
-
-    def _render() -> str:
-        if not options:
-            return ""
-        default_val = default or options[0]
-        idx = options.index(default_val) if default_val in options else 0
-        return st.radio(
-            "Section",
-            options=options,
-            index=idx,
-            horizontal=True,
-            key=f"ob_tabs_{key}",
-            label_visibility="collapsed",
-        )
-
-    if fragment:
-        return fragment(_render)()
-    return _render()
+    # ponytail: no @st.fragment — tab bodies live outside; fragment reruns skip them
+    if not options:
+        return ""
+    default_val = default or options[0]
+    idx = options.index(default_val) if default_val in options else 0
+    return st.radio(
+        "Section",
+        options=options,
+        index=idx,
+        horizontal=True,
+        key=f"ob_tabs_{key}",
+        label_visibility="collapsed",
+    )
 
 
 def source_chips(sources: list[str], *, intent: str = "") -> None:
@@ -327,8 +321,12 @@ def info_banner(message: str, *, variant: str = "info") -> None:
 
 
 def assert_ui_kit_smoke() -> None:
+    import inspect
+
     assert callable(metric_row)
     assert callable(section_tabs)
+    src = inspect.getsource(section_tabs)
+    assert "getattr(st, \"fragment\"" not in src and "fragment(_render)" not in src
     assert callable(page_header)
     assert callable(dimension_rail)
     assert callable(breadcrumb)
