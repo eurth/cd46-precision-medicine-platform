@@ -1,44 +1,25 @@
-"""Thin floating right rail — native Streamlit widgets (U1 architecture).
+"""Right rail — fixed HTML dock in the main document (no Streamlit columns, no iframe).
 
-Architecture (do not "simplify" without re-testing layout):
-- Rendered AFTER pg.run() at the bottom of the script.
-- Uses st.columns([24, 1]) so the rail lives in its own column.
-- CSS (theme_css) zeros the horizontal block and position:fixed the
-  column that contains .ob-right-rail-host — that is what pins it right.
-- Must use st.button / st.page_link (not components.html) — sandboxed
-  iframes cannot navigate the parent window.
+Architecture:
+- Pure HTML + inline onclick (same document → no sandbox SecurityError).
+- Injected via st.markdown after pg.run(); zero layout footprint.
+- sync_target_from_query() runs in streamlit_app BEFORE pg.run().
 """
 from __future__ import annotations
 
+import html as html_lib
+
 import streamlit as st
 
-from components.targets import (
-    ensure_session_target,
-    get_active_symbol,
-    list_symbols,
-    set_active_symbol,
-)
-from components.ui_kit import dimension_links
+from components.targets import ensure_session_target, get_active_symbol, list_symbols
+from components.ui_kit import dimension_links, page_path_to_slug
 
-# Short labels fit the fixed ~56px rail (U1). Full names via button help / title.
 _TGT_LABEL: dict[str, str] = {
     "CD46": "CD46",
     "FOLH1": "PSMA",
     "FAP": "FAP",
-    "SSTR2": "SST",
-    "GRPR": "GRP",
-}
-
-_DIM_SHORT: dict[str, str] = {
-    "Home": "Ho",
-    "Target": "Ta",
-    "Biomarkers": "Bi",
-    "Proteins": "Pr",
-    "Patients": "Pt",
-    "Drugs": "Dr",
-    "Survival": "Su",
-    "Graph": "Gx",
-    "Strategy": "St",
+    "SSTR2": "SSTR2",
+    "GRPR": "GRPR",
 }
 
 
@@ -50,51 +31,67 @@ def sync_target_from_query() -> None:
         return
     sym = str(raw).upper()
     if sym in list_symbols():
+        from components.targets import set_active_symbol
+
         set_active_symbol(sym)
 
 
-def render_floating_right_rail() -> str:
-    """Fixed narrow rail — targets (top) + dimension page links (bottom)."""
-    sync_target_from_query()
+def _onclick_target(sym: str) -> str:
+    s = html_lib.escape(sym, quote=True)
+    return (
+        "var u=new URL(window.location.href);"
+        f"u.searchParams.set('target','{s}');"
+        "window.location.assign(u.href);"
+    )
+
+
+def _onclick_dim(slug: str) -> str:
+    slug_esc = html_lib.escape(slug, quote=True)
+    return (
+        f"var u=new URL(window.location.origin+'{slug_esc}');"
+        "var c=new URL(window.location.href).searchParams.get('target');"
+        "if(c)u.searchParams.set('target',c);"
+        "window.location.assign(u.href);"
+    )
+
+
+def _rail_html() -> str:
     current = get_active_symbol()
+    targets = "".join(
+        f'<button type="button" class="ob-rail-a ob-rail-tgt{" ob-rail-on" if s == current else ""}" '
+        f'onclick="{_onclick_target(s)}" title="{html_lib.escape(s)}">'
+        f"{html_lib.escape(_TGT_LABEL.get(s, s))}</button>"
+        for s in list_symbols()
+    )
+    dims = "".join(
+        f'<button type="button" class="ob-rail-a ob-rail-dim" '
+        f'onclick="{_onclick_dim(page_path_to_slug(path))}" '
+        f'title="{html_lib.escape(label)} perspective">'
+        f"{html_lib.escape(label)}</button>"
+        for label, path in dimension_links()
+    )
+    return (
+        f'<nav id="ob-right-rail-dock" class="ob-right-rail-dock" aria-label="Target and dimension" '
+        f'title="Hover to expand target &amp; dimension rail">'
+        f'<div class="ob-rail-grip" aria-hidden="true"></div>'
+        f'<div class="ob-rail-body">'
+        f'<div class="ob-rail-kicker">Target</div>{targets}'
+        f'<div class="ob-rail-kicker">Dimension</div>{dims}'
+        f"</div></nav>"
+    )
 
-    _pad, rail = st.columns([24, 1], gap="small")
-    with _pad:
-        # Marker for CSS: collapse this horizontal block out of document flow
-        st.markdown('<div id="ob-rail-flow-anchor"></div>', unsafe_allow_html=True)
-    with rail:
-        # Marker for CSS: position:fixed this column to the viewport right
-        st.markdown('<div class="ob-right-rail-host"></div>', unsafe_allow_html=True)
-        st.markdown('<div class="ob-rail-kicker">Target</div>', unsafe_allow_html=True)
-        for sym in list_symbols():
-            label = _TGT_LABEL.get(sym, sym)
-            if st.button(
-                label,
-                key=f"ob_rail_tgt_{sym}",
-                type="primary" if sym == current else "secondary",
-                use_container_width=True,
-                help=f"Research target: {sym}",
-            ):
-                if sym != current:
-                    set_active_symbol(sym)
-                    st.query_params["target"] = sym
-                    st.rerun()
-        st.markdown('<div class="ob-rail-kicker">Dim</div>', unsafe_allow_html=True)
-        for label, path in dimension_links():
-            short = _DIM_SHORT.get(label, label[:2])
-            try:
-                st.page_link(path, label=short, use_container_width=True)
-            except TypeError:
-                st.page_link(path, label=short)
 
+def render_floating_right_rail() -> str:
+    """Fixed overlay dock — HTML only, no layout width."""
+    st.markdown(_rail_html(), unsafe_allow_html=True)
     return get_active_symbol()
 
 
 if __name__ == "__main__":
-    import sys
-    from pathlib import Path
-
-    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-    assert len(_DIM_SHORT) == len(dimension_links())
-    assert len(_TGT_LABEL) == len(list_symbols())
+    html = _rail_html()
+    assert "ob-right-rail-dock" in html
+    assert "onclick=" in html
+    assert "data-ob-target" not in html
+    assert "components.html" not in html
+    assert "/cd46_expression_atlas" in html or "Target" in html
     print("right_rail_ok")

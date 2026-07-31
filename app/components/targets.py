@@ -105,11 +105,13 @@ def render_main_target_bar() -> str:
 
 
 def render_sidebar_target_selector() -> str:
-    """Compact sidebar mirror (nav can bury this — main bar is primary)."""
+    """Sidebar mirror + selectbox fallback (always works for demo)."""
     ensure_session_target()
     current = get_active_symbol()
     t = get_target(current)
     tier = data_tier(current)
+    symbols = list_symbols()
+    _labels = {"CD46": "CD46", "FOLH1": "PSMA", "FAP": "FAP", "SSTR2": "SSTR2", "GRPR": "GRPR"}
     st.markdown(
         f'<div class="ob-side-target">'
         f'<div class="ob-side-target-kicker">Active target</div>'
@@ -118,6 +120,18 @@ def render_sidebar_target_selector() -> str:
         f"</div>",
         unsafe_allow_html=True,
     )
+    idx = symbols.index(current) if current in symbols else 0
+    picked = st.selectbox(
+        "Switch target",
+        symbols,
+        index=idx,
+        format_func=lambda s: _labels.get(s, s),
+        key="ob_sidebar_target_pick",
+    )
+    if picked != current:
+        set_active_symbol(picked)
+        st.query_params["target"] = picked
+        st.rerun()
     return current
 
 

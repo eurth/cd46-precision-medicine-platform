@@ -34,7 +34,8 @@ def global_css() -> str:
     --ob-sidebar-w: 270px;
     --ob-topbar-h: 46px;
     --ob-main-pad-x: 1.25rem;
-    --ob-rail-w: 56px;
+    --ob-rail-collapsed-w: 20px;
+    --ob-rail-expanded-w: 96px;
 }}
 
 [data-testid="stApp"],
@@ -63,12 +64,12 @@ h1, h2, h3, h4, h5, h6, [data-testid="stHeading"] {{
 .block-container {{
     padding-top: 0.5rem !important; padding-bottom: 3rem !important;
     padding-left: var(--ob-main-pad-x) !important;
-    padding-right: calc(var(--ob-main-pad-x) + var(--ob-rail-w) + 16px) !important;
+    padding-right: calc(var(--ob-main-pad-x) + var(--ob-rail-collapsed-w) + 12px) !important;
     max-width: 1320px !important;
 }}
 .main .block-container {{
     padding-left: var(--ob-main-pad-x) !important;
-    padding-right: calc(var(--ob-main-pad-x) + var(--ob-rail-w) + 16px) !important;
+    padding-right: calc(var(--ob-main-pad-x) + var(--ob-rail-collapsed-w) + 12px) !important;
 }}
 section.main > div {{
     padding-left: 0 !important; padding-right: 0 !important;
@@ -362,63 +363,75 @@ section.main {{
     display: none !important;
 }}
 
-/* U1 — thin floating right rail (native widgets + fixed column).
-   Marker: #ob-rail-flow-anchor in pad col, .ob-right-rail-host in rail col.
-   Streamlit ≥1.44 uses data-testid="stColumn" (was "column") — match both. */
-[data-testid="stHorizontalBlock"]:has(#ob-rail-flow-anchor),
-[data-testid="stLayoutWrapper"]:has(#ob-rail-flow-anchor) {{
+/* Right rail — fixed HTML dock (hover to expand). No Streamlit columns. */
+[data-testid="stElementContainer"]:has(#ob-right-rail-dock) {{
     height: 0 !important; min-height: 0 !important; margin: 0 !important;
-    padding: 0 !important; overflow: visible !important; border: none !important;
+    padding: 0 !important; overflow: visible !important;
 }}
-[data-testid="stHorizontalBlock"]:has(#ob-rail-flow-anchor) > [data-testid="column"]:first-child,
-[data-testid="stHorizontalBlock"]:has(#ob-rail-flow-anchor) > [data-testid="stColumn"]:first-child {{
-    display: none !important;
+.ob-right-rail-dock {{
+    position: fixed; right: 8px; top: calc(var(--ob-topbar-h) + 8px);
+    width: var(--ob-rail-collapsed-w); z-index: 1000;
+    display: flex; flex-direction: column; gap: 0;
+    background: rgba(255,255,255,0.97); backdrop-filter: blur(10px);
+    border: 1px solid {BORDER}; border-radius: 10px;
+    padding: 6px 2px; box-shadow: 0 4px 16px rgba(15,23,42,0.12);
+    overflow: hidden;
+    transition: width 0.22s ease, padding 0.22s ease, box-shadow 0.22s ease;
 }}
-[data-testid="column"]:has(.ob-right-rail-host),
-[data-testid="stColumn"]:has(.ob-right-rail-host) {{
-    position: fixed !important;
-    right: 10px !important;
-    top: calc(var(--ob-topbar-h) + 8px) !important;
-    width: var(--ob-rail-w) !important;
-    min-width: var(--ob-rail-w) !important;
-    max-width: var(--ob-rail-w) !important;
-    flex: none !important;
-    z-index: 997 !important;
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 3px !important;
-    background: rgba(255,255,255,0.94) !important;
-    backdrop-filter: blur(10px);
-    border: 1px solid {BORDER} !important;
-    border-radius: 12px !important;
-    padding: 6px 4px 8px !important;
-    box-shadow: 0 6px 28px rgba(15,23,42,0.14) !important;
+.ob-right-rail-dock:hover,
+.ob-right-rail-dock:focus-within {{
+    width: var(--ob-rail-expanded-w);
+    padding: 8px 8px 10px;
+    box-shadow: 0 8px 28px rgba(15,23,42,0.16);
 }}
-.ob-right-rail-host {{ display: none !important; }}
-.ob-rail-kicker {{
-    font-size: 7px; font-weight: 700; letter-spacing: 0.1em;
-    text-transform: uppercase; color: {TEXT_FAINT}; text-align: center;
-    margin: 2px 0 1px; line-height: 1;
+.ob-rail-grip {{
+    width: 100%; min-height: 48px;
+    background: linear-gradient(180deg, {PRIMARY_SOFT} 0%, {SURFACE} 100%);
+    border-radius: 6px; cursor: ew-resize;
 }}
-[data-testid="column"]:has(.ob-right-rail-host) [data-testid="stButton"],
-[data-testid="stColumn"]:has(.ob-right-rail-host) [data-testid="stButton"] {{
-    margin: 0 !important;
+.ob-rail-grip::after {{
+    content: "‹"; display: block; text-align: center;
+    font-size: 14px; font-weight: 700; color: {PRIMARY}; line-height: 48px;
 }}
-[data-testid="column"]:has(.ob-right-rail-host) [data-testid="stButton"] button,
-[data-testid="stColumn"]:has(.ob-right-rail-host) [data-testid="stButton"] button {{
-    min-height: 26px !important; height: 26px !important;
-    padding: 0 2px !important; font-size: 9px !important;
-    font-weight: 700 !important; letter-spacing: -0.02em;
-    border-radius: 6px !important; width: 100% !important;
-    white-space: nowrap !important;
+.ob-right-rail-dock:hover .ob-rail-grip,
+.ob-right-rail-dock:focus-within .ob-rail-grip {{
+    display: none;
 }}
-[data-testid="column"]:has(.ob-right-rail-host) [data-testid="stPageLink-NavLink"],
-[data-testid="stColumn"]:has(.ob-right-rail-host) [data-testid="stPageLink-NavLink"] {{
-    font-size: 9px !important; font-weight: 600 !important;
-    padding: 3px 2px !important; border-radius: 6px !important;
-    min-height: 22px !important; line-height: 1.1 !important;
-    margin: 1px 0 !important; text-align: center !important;
-    white-space: nowrap !important;
+.ob-rail-body {{
+    opacity: 0; max-height: 0; overflow: hidden;
+    transition: opacity 0.18s ease;
+}}
+.ob-right-rail-dock:hover .ob-rail-body,
+.ob-right-rail-dock:focus-within .ob-rail-body {{
+    opacity: 1; max-height: 80vh; overflow: visible;
+}}
+.ob-right-rail-dock .ob-rail-kicker {{
+    font-size: 8px; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; color: {TEXT_FAINT}; text-align: left;
+    margin: 4px 2px 2px; line-height: 1;
+}}
+.ob-right-rail-dock .ob-rail-kicker:first-child {{ margin-top: 0; }}
+button.ob-rail-a {{
+    display: block; width: 100%; box-sizing: border-box;
+    text-align: left; text-decoration: none !important;
+    font-size: 10px; font-weight: 600; line-height: 1.25;
+    padding: 5px 8px; border-radius: 6px;
+    border: 1px solid {BORDER}; background: {SURFACE};
+    color: {TEXT_SECONDARY} !important;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    cursor: pointer; font-family: inherit;
+    appearance: none; -webkit-appearance: none;
+    margin: 1px 0;
+}}
+button.ob-rail-dim {{
+    font-size: 9px; font-weight: 600; padding: 4px 6px;
+}}
+button.ob-rail-a:hover {{
+    border-color: {PRIMARY}; color: {PRIMARY} !important; background: {PRIMARY_SOFT};
+}}
+button.ob-rail-on {{
+    border-color: {PRIMARY} !important; background: {PRIMARY_SOFT} !important;
+    color: {PRIMARY_TEXT} !important;
 }}
 .ob-tb-label {{
     font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
@@ -632,8 +645,7 @@ section.main {{
     .block-container {{ padding-left: 1rem !important; padding-right: 1rem !important; }}
     .ob-tb-ctx, .ob-tb-live {{ display: none !important; }}
     .ob-tb-brand {{ border-right: 0; padding-left: 3rem; }}
-    [data-testid="column"]:has(.ob-right-rail-host),
-    [data-testid="stColumn"]:has(.ob-right-rail-host) {{ display: none !important; }}
+    #ob-right-rail-dock {{ display: none !important; }}
 }}
 
 .ob-crumb {{ font-size: 12px; color: {TEXT_MUTED}; margin: 0 0 10px 0; padding-left: 0; }}
@@ -703,9 +715,8 @@ details[data-testid="stExpander"] > summary span {{
 .ob-pipeline-arrow {{ color: {TEXT_FAINT}; font-size: 18px; padding: 0 6px; align-self: center; flex-shrink: 0; }}
 
 @media print {{
-    #ob-topbar, #ob-target-bar, .ob-dim-rail, .ob-right-rail-host, .ob-crumb, .ob-recent,
-    [data-testid="column"]:has(.ob-right-rail-host),
-    [data-testid="stColumn"]:has(.ob-right-rail-host),
+    #ob-topbar, #ob-target-bar, .ob-dim-rail, #ob-right-rail-dock, .ob-crumb, .ob-recent,
+    [data-testid="stElementContainer"]:has(#ob-right-rail-dock),
     [data-testid="stSidebar"], header[data-testid="stHeader"] {{ display: none !important; }}
     [data-testid="stApp"], .main .block-container {{ background: #fff !important; }}
     .page-hero, .ob-kpi-card, [data-testid="stPlotlyChart"] {{ break-inside: avoid; }}

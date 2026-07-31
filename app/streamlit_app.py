@@ -118,5 +118,5 @@ with st.sidebar:
     render_recent_modules()
     render_sidebar_feedback()
 
-# ponytail: rail after pg.run(); CSS position:fixed via .ob-right-rail-host (U1)
+# ponytail: HTML dock after pg.run(); sync_target_from_query runs before pg.run()
 render_floating_right_rail()
