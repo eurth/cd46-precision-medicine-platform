@@ -109,6 +109,8 @@ st.markdown(
 
 log_page_visit(pg.title or "Unknown")
 sync_target_from_query()
+# ponytail: rail before pg.run() so target button clicks apply before page body renders
+render_floating_right_rail()
 pg.run()
 
 inject_sidebar_nav_defaults(pg.title)
@@ -119,4 +121,3 @@ with st.sidebar:
     render_sidebar_feedback()
 
 # ponytail: HTML dock after pg.run(); sync_target_from_query runs before pg.run()
-render_floating_right_rail()

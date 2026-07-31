@@ -421,12 +421,14 @@ section.main {{
 [data-testid="stColumn"]:has(.ob-right-rail-host) > [data-testid="stVerticalBlock"] > [data-testid="stElementContainer"]:not(:has(.ob-right-rail-host)) {{
     opacity: 0; max-height: 0; overflow: hidden;
     margin: 0 !important; padding: 0 !important;
+    pointer-events: none !important;
 }}
 [data-testid="column"]:has(.ob-right-rail-host):hover > [data-testid="stVerticalBlock"] > [data-testid="stElementContainer"]:not(:has(.ob-right-rail-host)),
 [data-testid="column"]:has(.ob-right-rail-host):focus-within > [data-testid="stVerticalBlock"] > [data-testid="stElementContainer"]:not(:has(.ob-right-rail-host)),
 [data-testid="stColumn"]:has(.ob-right-rail-host):hover > [data-testid="stVerticalBlock"] > [data-testid="stElementContainer"]:not(:has(.ob-right-rail-host)),
 [data-testid="stColumn"]:has(.ob-right-rail-host):focus-within > [data-testid="stVerticalBlock"] > [data-testid="stElementContainer"]:not(:has(.ob-right-rail-host)) {{
     opacity: 1; max-height: 80vh; overflow: visible;
+    pointer-events: auto !important;
 }}
 .ob-right-rail-host {{ display: none !important; }}
 [data-testid="column"]:has(.ob-right-rail-host) .ob-rail-kicker,
