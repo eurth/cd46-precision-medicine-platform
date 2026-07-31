@@ -118,5 +118,5 @@ with st.sidebar:
     render_recent_modules()
     render_sidebar_feedback()
 
-# ponytail: rail after pg.run() — pure HTML fixed overlay, zero layout width
+# ponytail: rail after pg.run(); CSS position:fixed via .ob-right-rail-host (U1)
 render_floating_right_rail()
