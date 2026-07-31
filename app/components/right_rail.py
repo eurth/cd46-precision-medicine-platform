@@ -1,13 +1,15 @@
-"""Floating right rail — pure HTML overlay (no Streamlit columns / zero layout width)."""
+"""Floating right rail — native Streamlit widgets (iframe sandbox cannot navigate parent)."""
 from __future__ import annotations
 
-import html as html_lib
-
 import streamlit as st
-import streamlit.components.v1 as components
 
-from components.targets import ensure_session_target, get_active_symbol, list_symbols
-from components.ui_kit import dimension_links, page_path_to_slug
+from components.targets import (
+    ensure_session_target,
+    get_active_symbol,
+    list_symbols,
+    set_active_symbol,
+)
+from components.ui_kit import dimension_links
 
 _TGT_LABEL: dict[str, str] = {
     "CD46": "CD46",
@@ -26,78 +28,38 @@ def sync_target_from_query() -> None:
         return
     sym = str(raw).upper()
     if sym in list_symbols():
-        from components.targets import set_active_symbol
-
         set_active_symbol(sym)
 
 
-def _rail_html() -> str:
-    # ponytail: buttons not <a> — Streamlit markdown rewrites anchors to target=_blank
-    current = get_active_symbol()
-    targets = "".join(
-        f'<button type="button" class="ob-rail-a ob-rail-tgt{" ob-rail-on" if s == current else ""}" '
-        f'data-ob-target="{html_lib.escape(s)}" title="{html_lib.escape(s)}">'
-        f"{html_lib.escape(_TGT_LABEL.get(s, s))}</button>"
-        for s in list_symbols()
-    )
-    dims = "".join(
-        f'<button type="button" class="ob-rail-a ob-rail-dim" '
-        f'data-ob-dim="{html_lib.escape(page_path_to_slug(path))}" '
-        f'title="{html_lib.escape(label)} perspective">'
-        f"{html_lib.escape(label)}</button>"
-        for label, path in dimension_links()
-    )
-    return (
-        f'<nav id="ob-right-rail-dock" class="ob-right-rail-dock" aria-label="Target and dimension" '
-        f'title="Hover to expand target & dimension rail">'
-        f'<div class="ob-rail-grip" aria-hidden="true"></div>'
-        f'<div class="ob-rail-body">'
-        f'<div class="ob-rail-kicker">Target</div>{targets}'
-        f'<div class="ob-rail-kicker">Dimension</div>{dims}'
-        f"</div></nav>"
-    )
-
-
-def _inject_rail_nav_js() -> None:
-    """Wire rail buttons — same-tab nav with ?target= preserved."""
-    components.html(
-        """
-<script>
-(function () {
-  const win = window.parent;
-  const doc = win.document;
-  const dock = doc.getElementById("ob-right-rail-dock");
-  if (!dock) return;
-
-  dock.querySelectorAll("[data-ob-target]").forEach((btn) => {
-    btn.onclick = () => {
-      const u = new URL(win.location.href);
-      u.searchParams.set("target", btn.dataset.obTarget);
-      win.location.assign(u.toString());
-    };
-  });
-
-  dock.querySelectorAll("[data-ob-dim]").forEach((btn) => {
-    btn.onclick = () => {
-      const u = new URL(win.location.origin + btn.dataset.obDim);
-      const cur = new URL(win.location.href).searchParams.get("target");
-      if (cur) u.searchParams.set("target", cur);
-      win.location.assign(u.toString());
-    };
-  });
-})();
-</script>
-        """,
-        height=0,
-        scrolling=False,
-    )
-
-
 def render_floating_right_rail() -> str:
-    """Fixed overlay dock — must run after page content; takes no horizontal space."""
+    """Fixed overlay dock — st.button / st.page_link, no sandboxed JS."""
     sync_target_from_query()
-    st.markdown(_rail_html(), unsafe_allow_html=True)
-    _inject_rail_nav_js()
+    current = get_active_symbol()
+
+    st.markdown('<div id="ob-rail-widget-anchor"></div>', unsafe_allow_html=True)
+    st.markdown('<div class="ob-rail-kicker">Target</div>', unsafe_allow_html=True)
+
+    for sym in list_symbols():
+        label = _TGT_LABEL.get(sym, sym)
+        if st.button(
+            label,
+            key=f"ob_rail_tgt_{sym}",
+            type="primary" if sym == current else "secondary",
+            use_container_width=True,
+            help=f"Research target: {sym}",
+        ):
+            if sym != current:
+                set_active_symbol(sym)
+                st.query_params["target"] = sym
+                st.rerun()
+
+    st.markdown('<div class="ob-rail-kicker">Dimension</div>', unsafe_allow_html=True)
+    for label, path in dimension_links():
+        try:
+            st.page_link(path, label=label, use_container_width=True)
+        except TypeError:
+            st.page_link(path, label=label)
+
     return get_active_symbol()
 
 
@@ -106,9 +68,6 @@ if __name__ == "__main__":
     from pathlib import Path
 
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-    html = _rail_html()
-    assert "data-ob-target=\"CD46\"" in html
-    assert "data-ob-dim=\"/cd46_expression_atlas\"" in html
-    assert "target=\"_blank\"" not in html
-    assert "<a " not in html
+    assert len(_TGT_LABEL) == len(list_symbols())
+    assert len(dimension_links()) == 9
     print("right_rail_ok")

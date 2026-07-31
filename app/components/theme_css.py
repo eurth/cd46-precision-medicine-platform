@@ -363,7 +363,66 @@ section.main {{
     display: none !important;
 }}
 
-/* U1b — right rail: fixed HTML dock, no column layout footprint */
+/* U1b — right rail: fixed native Streamlit widgets (no sandboxed iframe JS) */
+[data-testid="stVerticalBlock"]:has(#ob-rail-widget-anchor) {{
+    position: fixed !important;
+    right: 8px !important;
+    top: calc(var(--ob-topbar-h) + 8px) !important;
+    width: var(--ob-rail-collapsed-w) !important;
+    max-width: var(--ob-rail-expanded-w) !important;
+    z-index: 1000 !important;
+    background: rgba(255,255,255,0.97);
+    backdrop-filter: blur(10px);
+    border: 1px solid {BORDER};
+    border-radius: 10px;
+    padding: 6px 2px !important;
+    box-shadow: 0 4px 16px rgba(15,23,42,0.12);
+    overflow: hidden;
+    transition: width 0.22s ease, padding 0.22s ease, box-shadow 0.22s ease;
+    gap: 4px !important;
+}}
+[data-testid="stVerticalBlock"]:has(#ob-rail-widget-anchor)::before {{
+    content: "‹"; display: block; text-align: center;
+    font-size: 14px; font-weight: 700; color: {PRIMARY}; line-height: 48px;
+    min-height: 48px;
+    background: linear-gradient(180deg, {PRIMARY_SOFT} 0%, {SURFACE} 100%);
+    border-radius: 6px;
+}}
+[data-testid="stVerticalBlock"]:has(#ob-rail-widget-anchor):hover,
+[data-testid="stVerticalBlock"]:has(#ob-rail-widget-anchor):focus-within {{
+    width: var(--ob-rail-expanded-w) !important;
+    padding: 8px 8px 10px !important;
+    box-shadow: 0 8px 28px rgba(15,23,42,0.16);
+}}
+[data-testid="stVerticalBlock"]:has(#ob-rail-widget-anchor):hover::before,
+[data-testid="stVerticalBlock"]:has(#ob-rail-widget-anchor):focus-within::before {{
+    display: none;
+}}
+[data-testid="stVerticalBlock"]:has(#ob-rail-widget-anchor) > [data-testid="stElementContainer"]:not(:has(#ob-rail-widget-anchor)) {{
+    opacity: 0; max-height: 0; overflow: hidden;
+    margin: 0 !important; padding: 0 !important;
+}}
+[data-testid="stVerticalBlock"]:has(#ob-rail-widget-anchor):hover > [data-testid="stElementContainer"]:not(:has(#ob-rail-widget-anchor)),
+[data-testid="stVerticalBlock"]:has(#ob-rail-widget-anchor):focus-within > [data-testid="stElementContainer"]:not(:has(#ob-rail-widget-anchor)) {{
+    opacity: 1; max-height: 80vh; overflow: visible;
+}}
+[data-testid="stVerticalBlock"]:has(#ob-rail-widget-anchor) .ob-rail-kicker {{
+    font-size: 8px; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; color: {TEXT_FAINT}; text-align: left;
+    margin: 4px 2px 2px; line-height: 1;
+}}
+[data-testid="stVerticalBlock"]:has(#ob-rail-widget-anchor) [data-testid="stBaseButton-secondary"],
+[data-testid="stVerticalBlock"]:has(#ob-rail-widget-anchor) [data-testid="stBaseButton-primary"] {{
+    font-size: 10px !important; min-height: 28px !important;
+    padding: 4px 8px !important; width: 100% !important;
+}}
+[data-testid="stVerticalBlock"]:has(#ob-rail-widget-anchor) [data-testid="stPageLink-NavLink"] {{
+    font-size: 9px !important; font-weight: 600 !important;
+    padding: 4px 8px !important; text-align: left !important;
+    white-space: nowrap !important; overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}}
+/* legacy HTML dock (unused) */
 [data-testid="stElementContainer"]:has(#ob-right-rail-dock) {{
     height: 0 !important; min-height: 0 !important; margin: 0 !important;
     padding: 0 !important; overflow: visible !important;
