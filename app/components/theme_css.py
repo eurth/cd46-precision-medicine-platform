@@ -363,7 +363,7 @@ section.main {{
     display: none !important;
 }}
 
-/* Right rail — native widgets in fixed stColumn (always expanded). */
+/* Right rail — fixed stColumn; clip collapsed, expand on hover (no max-height:0). */
 [data-testid="stHorizontalBlock"]:has(#ob-rail-flow-anchor),
 [data-testid="stLayoutWrapper"]:has(#ob-rail-flow-anchor) {{
     height: 0 !important; min-height: 0 !important; margin: 0 !important;
@@ -378,8 +378,8 @@ section.main {{
     position: fixed !important;
     right: 8px !important;
     top: calc(var(--ob-topbar-h) + 8px) !important;
-    width: var(--ob-rail-expanded-w) !important;
-    min-width: var(--ob-rail-expanded-w) !important;
+    width: var(--ob-rail-collapsed-w) !important;
+    min-width: var(--ob-rail-collapsed-w) !important;
     max-width: var(--ob-rail-expanded-w) !important;
     flex: none !important;
     z-index: 1000 !important;
@@ -390,9 +390,45 @@ section.main {{
     backdrop-filter: blur(10px);
     border: 1px solid {BORDER} !important;
     border-radius: 10px !important;
-    padding: 8px 8px 10px !important;
+    padding: 6px 2px !important;
     box-shadow: 0 4px 16px rgba(15,23,42,0.12) !important;
+    overflow: hidden !important;
+    transition: width 0.22s ease, padding 0.22s ease, box-shadow 0.22s ease;
+}}
+[data-testid="column"]:has(.ob-right-rail-host)::before,
+[data-testid="stColumn"]:has(.ob-right-rail-host)::before {{
+    content: "‹"; display: block; text-align: center;
+    font-size: 14px; font-weight: 700; color: {PRIMARY}; line-height: 48px;
+    min-height: 48px; flex-shrink: 0;
+    background: linear-gradient(180deg, {PRIMARY_SOFT} 0%, {SURFACE} 100%);
+    border-radius: 6px; cursor: pointer;
+}}
+[data-testid="column"]:has(.ob-right-rail-host) > [data-testid="stVerticalBlock"],
+[data-testid="stColumn"]:has(.ob-right-rail-host) > [data-testid="stVerticalBlock"] {{
+    opacity: 0; pointer-events: none;
+    width: calc(var(--ob-rail-expanded-w) - 16px);
+    transition: opacity 0.18s ease;
+}}
+[data-testid="column"]:has(.ob-right-rail-host):hover,
+[data-testid="column"]:has(.ob-right-rail-host):focus-within,
+[data-testid="stColumn"]:has(.ob-right-rail-host):hover,
+[data-testid="stColumn"]:has(.ob-right-rail-host):focus-within {{
+    width: var(--ob-rail-expanded-w) !important;
+    padding: 8px 8px 10px !important;
+    box-shadow: 0 8px 28px rgba(15,23,42,0.16) !important;
     overflow: visible !important;
+}}
+[data-testid="column"]:has(.ob-right-rail-host):hover::before,
+[data-testid="column"]:has(.ob-right-rail-host):focus-within::before,
+[data-testid="stColumn"]:has(.ob-right-rail-host):hover::before,
+[data-testid="stColumn"]:has(.ob-right-rail-host):focus-within::before {{
+    display: none;
+}}
+[data-testid="column"]:has(.ob-right-rail-host):hover > [data-testid="stVerticalBlock"],
+[data-testid="column"]:has(.ob-right-rail-host):focus-within > [data-testid="stVerticalBlock"],
+[data-testid="stColumn"]:has(.ob-right-rail-host):hover > [data-testid="stVerticalBlock"],
+[data-testid="stColumn"]:has(.ob-right-rail-host):focus-within > [data-testid="stVerticalBlock"] {{
+    opacity: 1; pointer-events: auto;
 }}
 .ob-right-rail-host {{ display: none !important; }}
 [data-testid="column"]:has(.ob-right-rail-host) .ob-rail-kicker,

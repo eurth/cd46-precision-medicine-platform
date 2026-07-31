@@ -21,6 +21,7 @@ assert "st.columns" in src
 assert 'onclick="' not in src
 assert "ob-right-rail-host" in src
 assert "stColumn" in css and "ob-right-rail-host" in css
-rail_css = css.split("ob-right-rail-host")[1].split(".ob-tb-label")[0]
-assert "max-height: 0" not in rail_css
+assert "max-height: 0" not in css
+assert "ob-rail-collapsed-w" in css
+assert ":has(.ob-right-rail-host):hover" in css
 print("OK: native widget right rail")
