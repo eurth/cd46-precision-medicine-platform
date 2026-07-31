@@ -457,6 +457,11 @@ section.main {{
     white-space: nowrap !important; overflow: hidden !important;
     text-overflow: ellipsis !important;
 }}
+/* Rail: hide ? icon; native title tooltip on hover is enough in narrow rail */
+[data-testid="stColumn"]:has(.ob-right-rail-host) [data-testid="stTooltipIcon"],
+[data-testid="column"]:has(.ob-right-rail-host) [data-testid="stTooltipIcon"] {{
+    display: none !important;
+}}
 .ob-tb-label {{
     font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
     color: {TEXT_MUTED}; font-weight: 600; margin-bottom: 4px;
@@ -508,21 +513,38 @@ section.main {{
     display: none !important;
 }}
 
-/* U2 — reserved hero band (U3 imagery drops in here) */
+/* U3 — target-synced hero band (AlphaFold PAE backdrop) */
 .lp-hero-zone {{
-    min-height: 112px; margin: 0 0 14px;
-    border-radius: 12px; border: 1px dashed {BORDER_STRONG};
-    background: linear-gradient(135deg, {SURFACE} 40%, {SURFACE_2} 100%);
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    padding: 1rem var(--ob-main-pad-x); text-align: center;
+    min-height: 132px; margin: 0 0 14px;
+    border-radius: 12px; border: 1px solid {BORDER};
+    background:
+        linear-gradient(105deg, rgba(255,255,255,0.94) 0%, rgba(255,255,255,0.82) 42%, rgba(219,234,254,0.55) 100%),
+        var(--lp-hero-pae, none) center right / auto 100% no-repeat;
+    display: flex; flex-direction: column; align-items: flex-start; justify-content: center;
+    padding: 1rem 1.25rem; text-align: left; overflow: hidden;
+    box-shadow: 0 2px 10px rgba(15,23,42,0.06);
 }}
-.lp-hero-zone-label {{
-    font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
-    text-transform: uppercase; color: {TEXT_MUTED};
+.lp-hero-zone-inner {{ max-width: 62%; }}
+.lp-hero-zone-kicker {{
+    font-size: 10px; font-weight: 700; letter-spacing: 0.12em;
+    text-transform: uppercase; color: {TEXT_MUTED}; margin-bottom: 4px;
 }}
-.lp-hero-zone-hint {{
-    font-size: 11px; color: {TEXT_FAINT}; margin-top: 4px;
+.lp-hero-zone-title {{
+    font-family: {_FONT_HEAD}; font-size: 26px; font-weight: 700;
+    color: {TEXT}; line-height: 1.1;
 }}
+.lp-hero-zone-sub {{
+    font-size: 13px; font-weight: 600; color: {TEXT_SECONDARY}; margin-top: 2px;
+}}
+.lp-hero-zone-caption {{
+    font-size: 11px; color: {TEXT_MUTED}; margin-top: 6px; line-height: 1.45;
+    max-width: 48ch;
+}}
+.lp-hero-folh1 {{ border-left: 4px solid #2563EB; }}
+.lp-hero-cd46 {{ border-left: 4px solid #B45309; }}
+.lp-hero-fap {{ border-left: 4px solid #0D9488; }}
+.lp-hero-sstr2 {{ border-left: 4px solid #7C3AED; }}
+.lp-hero-grpr {{ border-left: 4px solid #D97706; }}
 
 /* U2 — target spotlight (tab panel body) */
 .lp-spotlight {{

@@ -1,4 +1,4 @@
-"""U2 landing — target spotlight tabs + quick-start row."""
+"""U2 landing — hero band (U3) + target spotlight tabs + quick-start row."""
 from __future__ import annotations
 
 import html as html_lib
@@ -6,7 +6,16 @@ import html as html_lib
 import streamlit as st
 
 from components.target_narratives import strategy_context
-from components.targets import data_tier, get_active_symbol, is_case_study, list_symbols
+from components.targets import data_tier, get_active_symbol, get_target, is_case_study, list_symbols
+from components.tooltip_generator import lookup
+
+
+def _hero_visual(sym: str) -> tuple[str, str]:
+    """AlphaFold PAE tile + short caption for the hero band."""
+    hit = lookup(sym) or {}
+    pae = str(hit.get("alphafold_pae_image_url") or "").strip()
+    caption = str(hit.get("summary_short") or get_target(sym).get("name") or sym)
+    return pae, caption
 
 
 def _slide_body(sym: str) -> str:
@@ -33,12 +42,22 @@ def _slide_body(sym: str) -> str:
 
 
 def render_hero_zone() -> None:
-    """Reserved top band for future photography / motion (U3)."""
+    """Target-synced hero — AlphaFold PAE imagery + gene context (U3)."""
+    sym = get_active_symbol()
+    ctx = strategy_context(sym)
+    pae_url, caption = _hero_visual(sym)
+    sym_cls = html_lib.escape(sym.lower())
+    pae_attr = html_lib.escape(pae_url) if pae_url else ""
     st.markdown(
-        '<div class="lp-hero-zone" role="presentation">'
-        '<div class="lp-hero-zone-label">Platform hero · visual slot</div>'
-        '<div class="lp-hero-zone-hint">Reserved for brand imagery or demo animation (U3)</div>'
-        "</div>",
+        f'<div class="lp-hero-zone lp-hero-{sym_cls}"'
+        f' data-target="{html_lib.escape(sym)}"'
+        f' style="--lp-hero-pae: url(\'{pae_attr}\');">'
+        f'<div class="lp-hero-zone-inner">'
+        f'<div class="lp-hero-zone-kicker">Theranostics target</div>'
+        f'<div class="lp-hero-zone-title">{html_lib.escape(sym)}</div>'
+        f'<div class="lp-hero-zone-sub">{html_lib.escape(ctx["name"])}</div>'
+        f'<div class="lp-hero-zone-caption">{html_lib.escape(caption)}</div>'
+        f"</div></div>",
         unsafe_allow_html=True,
     )
 
