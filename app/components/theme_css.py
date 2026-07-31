@@ -363,13 +363,22 @@ section.main {{
     display: none !important;
 }}
 
-/* U1b — right rail: fixed native Streamlit widgets (no sandboxed iframe JS) */
-[data-testid="stVerticalBlock"]:has(#ob-rail-widget-anchor) {{
+/* U1b — right rail: native widgets in isolated column (fixed overlay) */
+[data-testid="stHorizontalBlock"]:has(#ob-rail-host) {{
+    height: 0 !important; min-height: 0 !important; margin: 0 !important;
+    padding: 0 !important; overflow: visible !important; border: none !important;
+}}
+[data-testid="column"]:has(#ob-rail-flow-anchor) {{
+    display: none !important;
+}}
+[data-testid="column"]:has(#ob-rail-host) {{
     position: fixed !important;
     right: 8px !important;
     top: calc(var(--ob-topbar-h) + 8px) !important;
     width: var(--ob-rail-collapsed-w) !important;
     max-width: var(--ob-rail-expanded-w) !important;
+    flex: 0 0 auto !important;
+    min-width: 0 !important;
     z-index: 1000 !important;
     background: rgba(255,255,255,0.97);
     backdrop-filter: blur(10px);
@@ -379,44 +388,43 @@ section.main {{
     box-shadow: 0 4px 16px rgba(15,23,42,0.12);
     overflow: hidden;
     transition: width 0.22s ease, padding 0.22s ease, box-shadow 0.22s ease;
-    gap: 4px !important;
 }}
-[data-testid="stVerticalBlock"]:has(#ob-rail-widget-anchor)::before {{
+[data-testid="column"]:has(#ob-rail-host)::before {{
     content: "‹"; display: block; text-align: center;
     font-size: 14px; font-weight: 700; color: {PRIMARY}; line-height: 48px;
     min-height: 48px;
     background: linear-gradient(180deg, {PRIMARY_SOFT} 0%, {SURFACE} 100%);
     border-radius: 6px;
 }}
-[data-testid="stVerticalBlock"]:has(#ob-rail-widget-anchor):hover,
-[data-testid="stVerticalBlock"]:has(#ob-rail-widget-anchor):focus-within {{
+[data-testid="column"]:has(#ob-rail-host):hover,
+[data-testid="column"]:has(#ob-rail-host):focus-within {{
     width: var(--ob-rail-expanded-w) !important;
     padding: 8px 8px 10px !important;
     box-shadow: 0 8px 28px rgba(15,23,42,0.16);
 }}
-[data-testid="stVerticalBlock"]:has(#ob-rail-widget-anchor):hover::before,
-[data-testid="stVerticalBlock"]:has(#ob-rail-widget-anchor):focus-within::before {{
+[data-testid="column"]:has(#ob-rail-host):hover::before,
+[data-testid="column"]:has(#ob-rail-host):focus-within::before {{
     display: none;
 }}
-[data-testid="stVerticalBlock"]:has(#ob-rail-widget-anchor) > [data-testid="stElementContainer"]:not(:has(#ob-rail-widget-anchor)) {{
+[data-testid="column"]:has(#ob-rail-host) > [data-testid="stVerticalBlock"] > [data-testid="stElementContainer"]:not(:has(#ob-rail-host)) {{
     opacity: 0; max-height: 0; overflow: hidden;
     margin: 0 !important; padding: 0 !important;
 }}
-[data-testid="stVerticalBlock"]:has(#ob-rail-widget-anchor):hover > [data-testid="stElementContainer"]:not(:has(#ob-rail-widget-anchor)),
-[data-testid="stVerticalBlock"]:has(#ob-rail-widget-anchor):focus-within > [data-testid="stElementContainer"]:not(:has(#ob-rail-widget-anchor)) {{
+[data-testid="column"]:has(#ob-rail-host):hover > [data-testid="stVerticalBlock"] > [data-testid="stElementContainer"]:not(:has(#ob-rail-host)),
+[data-testid="column"]:has(#ob-rail-host):focus-within > [data-testid="stVerticalBlock"] > [data-testid="stElementContainer"]:not(:has(#ob-rail-host)) {{
     opacity: 1; max-height: 80vh; overflow: visible;
 }}
-[data-testid="stVerticalBlock"]:has(#ob-rail-widget-anchor) .ob-rail-kicker {{
+[data-testid="column"]:has(#ob-rail-host) .ob-rail-kicker {{
     font-size: 8px; font-weight: 700; letter-spacing: 0.08em;
     text-transform: uppercase; color: {TEXT_FAINT}; text-align: left;
     margin: 4px 2px 2px; line-height: 1;
 }}
-[data-testid="stVerticalBlock"]:has(#ob-rail-widget-anchor) [data-testid="stBaseButton-secondary"],
-[data-testid="stVerticalBlock"]:has(#ob-rail-widget-anchor) [data-testid="stBaseButton-primary"] {{
+[data-testid="column"]:has(#ob-rail-host) [data-testid="stBaseButton-secondary"],
+[data-testid="column"]:has(#ob-rail-host) [data-testid="stBaseButton-primary"] {{
     font-size: 10px !important; min-height: 28px !important;
     padding: 4px 8px !important; width: 100% !important;
 }}
-[data-testid="stVerticalBlock"]:has(#ob-rail-widget-anchor) [data-testid="stPageLink-NavLink"] {{
+[data-testid="column"]:has(#ob-rail-host) [data-testid="stPageLink-NavLink"] {{
     font-size: 9px !important; font-weight: 600 !important;
     padding: 4px 8px !important; text-align: left !important;
     white-space: nowrap !important; overflow: hidden !important;
@@ -710,7 +718,7 @@ button.ob-rail-on {{
     .ob-tb-ctx, .ob-tb-live {{ display: none !important; }}
     .ob-tb-brand {{ border-right: 0; padding-left: 3rem; }}
     #ob-right-rail-dock,
-    [data-testid="stVerticalBlock"]:has(#ob-rail-widget-anchor) {{ display: none !important; }}
+    [data-testid="column"]:has(#ob-rail-host) {{ display: none !important; }}
 }}
 
 .ob-crumb {{ font-size: 12px; color: {TEXT_MUTED}; margin: 0 0 10px 0; padding-left: 0; }}

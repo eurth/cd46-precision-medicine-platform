@@ -14,7 +14,8 @@ from components.ui_kit import dimension_links, page_path_to_slug  # noqa: E402
 src = inspect.getsource(render_floating_right_rail)
 assert "st.button" in src
 assert "st.page_link" in src
-assert "components.html" not in src
+assert "ob-rail-host" in src
+assert "st.columns" in src
 assert page_path_to_slug("pages/3_survival_outcomes.py") == "/survival_outcomes"
 assert len(dimension_links()) == 9
 print("OK: native right rail widgets")

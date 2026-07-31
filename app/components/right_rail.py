@@ -1,4 +1,4 @@
-"""Floating right rail — native Streamlit widgets (iframe sandbox cannot navigate parent)."""
+"""Floating right rail — native Streamlit widgets in an isolated column."""
 from __future__ import annotations
 
 import streamlit as st
@@ -32,33 +32,37 @@ def sync_target_from_query() -> None:
 
 
 def render_floating_right_rail() -> str:
-    """Fixed overlay dock — st.button / st.page_link, no sandboxed JS."""
+    """Fixed overlay dock — isolated column so CSS cannot swallow main content."""
     sync_target_from_query()
     current = get_active_symbol()
 
-    st.markdown('<div id="ob-rail-widget-anchor"></div>', unsafe_allow_html=True)
-    st.markdown('<div class="ob-rail-kicker">Target</div>', unsafe_allow_html=True)
+    _pad, rail_col = st.columns([24, 1], gap="small")
+    with _pad:
+        st.markdown('<div id="ob-rail-flow-anchor"></div>', unsafe_allow_html=True)
+    with rail_col:
+        st.markdown('<div id="ob-rail-host" class="ob-rail-host"></div>', unsafe_allow_html=True)
+        st.markdown('<div class="ob-rail-kicker">Target</div>', unsafe_allow_html=True)
 
-    for sym in list_symbols():
-        label = _TGT_LABEL.get(sym, sym)
-        if st.button(
-            label,
-            key=f"ob_rail_tgt_{sym}",
-            type="primary" if sym == current else "secondary",
-            use_container_width=True,
-            help=f"Research target: {sym}",
-        ):
-            if sym != current:
-                set_active_symbol(sym)
-                st.query_params["target"] = sym
-                st.rerun()
+        for sym in list_symbols():
+            label = _TGT_LABEL.get(sym, sym)
+            if st.button(
+                label,
+                key=f"ob_rail_tgt_{sym}",
+                type="primary" if sym == current else "secondary",
+                use_container_width=True,
+                help=f"Research target: {sym}",
+            ):
+                if sym != current:
+                    set_active_symbol(sym)
+                    st.query_params["target"] = sym
+                    st.rerun()
 
-    st.markdown('<div class="ob-rail-kicker">Dimension</div>', unsafe_allow_html=True)
-    for label, path in dimension_links():
-        try:
-            st.page_link(path, label=label, use_container_width=True)
-        except TypeError:
-            st.page_link(path, label=label)
+        st.markdown('<div class="ob-rail-kicker">Dimension</div>', unsafe_allow_html=True)
+        for label, path in dimension_links():
+            try:
+                st.page_link(path, label=label, use_container_width=True)
+            except TypeError:
+                st.page_link(path, label=label)
 
     return get_active_symbol()
 
