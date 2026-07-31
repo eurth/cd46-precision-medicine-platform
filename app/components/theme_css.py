@@ -709,7 +709,8 @@ button.ob-rail-on {{
     .block-container {{ padding-left: 1rem !important; padding-right: 1rem !important; }}
     .ob-tb-ctx, .ob-tb-live {{ display: none !important; }}
     .ob-tb-brand {{ border-right: 0; padding-left: 3rem; }}
-    #ob-right-rail-dock {{ display: none !important; }}
+    #ob-right-rail-dock,
+    [data-testid="stVerticalBlock"]:has(#ob-rail-widget-anchor) {{ display: none !important; }}
 }}
 
 .ob-crumb {{ font-size: 12px; color: {TEXT_MUTED}; margin: 0 0 10px 0; padding-left: 0; }}
