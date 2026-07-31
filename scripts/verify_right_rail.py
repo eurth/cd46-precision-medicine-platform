@@ -21,9 +21,10 @@ assert "st.columns" in src
 assert "ob-right-rail-host" in src
 assert "ob-rail-flow-anchor" in src
 assert "components.html" not in src
-assert 'column"]:has(.ob-right-rail-host)' in css
+assert 'stColumn"]:has(.ob-right-rail-host)' in css
+assert 'column"]:has(.ob-right-rail-host)' in css  # legacy Streamlit
 assert "#ob-rail-flow-anchor" in css
 assert "position: fixed" in css
 assert "ob-right-rail-dock" not in css  # dead HTML dock must stay gone
 assert len(dimension_links()) == 9
-print("OK: U1 right rail architecture restored")
+print("OK: U1 right rail (stColumn + column selectors)")

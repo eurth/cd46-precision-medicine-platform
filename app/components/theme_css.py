@@ -364,15 +364,18 @@ section.main {{
 
 /* U1 — thin floating right rail (native widgets + fixed column).
    Marker: #ob-rail-flow-anchor in pad col, .ob-right-rail-host in rail col.
-   Do not swap these for iframe/HTML docks — sandbox blocks parent navigation. */
-[data-testid="stHorizontalBlock"]:has(#ob-rail-flow-anchor) {{
+   Streamlit ≥1.44 uses data-testid="stColumn" (was "column") — match both. */
+[data-testid="stHorizontalBlock"]:has(#ob-rail-flow-anchor),
+[data-testid="stLayoutWrapper"]:has(#ob-rail-flow-anchor) {{
     height: 0 !important; min-height: 0 !important; margin: 0 !important;
     padding: 0 !important; overflow: visible !important; border: none !important;
 }}
-[data-testid="stHorizontalBlock"]:has(#ob-rail-flow-anchor) > [data-testid="column"]:first-child {{
+[data-testid="stHorizontalBlock"]:has(#ob-rail-flow-anchor) > [data-testid="column"]:first-child,
+[data-testid="stHorizontalBlock"]:has(#ob-rail-flow-anchor) > [data-testid="stColumn"]:first-child {{
     display: none !important;
 }}
-[data-testid="column"]:has(.ob-right-rail-host) {{
+[data-testid="column"]:has(.ob-right-rail-host),
+[data-testid="stColumn"]:has(.ob-right-rail-host) {{
     position: fixed !important;
     right: 10px !important;
     top: calc(var(--ob-topbar-h) + 8px) !important;
@@ -397,17 +400,20 @@ section.main {{
     text-transform: uppercase; color: {TEXT_FAINT}; text-align: center;
     margin: 2px 0 1px; line-height: 1;
 }}
-[data-testid="column"]:has(.ob-right-rail-host) [data-testid="stButton"] {{
+[data-testid="column"]:has(.ob-right-rail-host) [data-testid="stButton"],
+[data-testid="stColumn"]:has(.ob-right-rail-host) [data-testid="stButton"] {{
     margin: 0 !important;
 }}
-[data-testid="column"]:has(.ob-right-rail-host) [data-testid="stButton"] button {{
+[data-testid="column"]:has(.ob-right-rail-host) [data-testid="stButton"] button,
+[data-testid="stColumn"]:has(.ob-right-rail-host) [data-testid="stButton"] button {{
     min-height: 26px !important; height: 26px !important;
     padding: 0 2px !important; font-size: 9px !important;
     font-weight: 700 !important; letter-spacing: -0.02em;
     border-radius: 6px !important; width: 100% !important;
     white-space: nowrap !important;
 }}
-[data-testid="column"]:has(.ob-right-rail-host) [data-testid="stPageLink-NavLink"] {{
+[data-testid="column"]:has(.ob-right-rail-host) [data-testid="stPageLink-NavLink"],
+[data-testid="stColumn"]:has(.ob-right-rail-host) [data-testid="stPageLink-NavLink"] {{
     font-size: 9px !important; font-weight: 600 !important;
     padding: 3px 2px !important; border-radius: 6px !important;
     min-height: 22px !important; line-height: 1.1 !important;
@@ -626,7 +632,8 @@ section.main {{
     .block-container {{ padding-left: 1rem !important; padding-right: 1rem !important; }}
     .ob-tb-ctx, .ob-tb-live {{ display: none !important; }}
     .ob-tb-brand {{ border-right: 0; padding-left: 3rem; }}
-    [data-testid="column"]:has(.ob-right-rail-host) {{ display: none !important; }}
+    [data-testid="column"]:has(.ob-right-rail-host),
+    [data-testid="stColumn"]:has(.ob-right-rail-host) {{ display: none !important; }}
 }}
 
 .ob-crumb {{ font-size: 12px; color: {TEXT_MUTED}; margin: 0 0 10px 0; padding-left: 0; }}
@@ -698,6 +705,7 @@ details[data-testid="stExpander"] > summary span {{
 @media print {{
     #ob-topbar, #ob-target-bar, .ob-dim-rail, .ob-right-rail-host, .ob-crumb, .ob-recent,
     [data-testid="column"]:has(.ob-right-rail-host),
+    [data-testid="stColumn"]:has(.ob-right-rail-host),
     [data-testid="stSidebar"], header[data-testid="stHeader"] {{ display: none !important; }}
     [data-testid="stApp"], .main .block-container {{ background: #fff !important; }}
     .page-hero, .ob-kpi-card, [data-testid="stPlotlyChart"] {{ break-inside: avoid; }}
