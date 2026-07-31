@@ -10,19 +10,10 @@ import streamlit as st
 from components.targets import (
     ensure_session_target,
     get_active_symbol,
-    get_target,
     list_symbols,
     set_active_symbol,
 )
 from components.ui_kit import dimension_links
-
-def _rail_target_help(sym: str, label: str) -> str:
-    """Display label first; gene symbol only when it differs (e.g. PSMA → FOLH1)."""
-    name = str(get_target(sym).get("name") or sym)
-    if label.upper() != sym:
-        return f"{label} · {sym} — {name}"
-    return f"{sym} — {name}"
-
 
 _TGT_LABEL: dict[str, str] = {
     "CD46": "CD46",
@@ -45,7 +36,7 @@ def sync_target_from_query() -> None:
 
 
 def render_floating_right_rail() -> str:
-    """Fixed narrow rail — native widgets, zero HTML onclick."""
+    """Fixed narrow rail — native widgets, always visible."""
     current = get_active_symbol()
 
     _pad, rail = st.columns([24, 1], gap="small")
@@ -61,7 +52,6 @@ def render_floating_right_rail() -> str:
                 key=f"ob_rail_tgt_{sym}",
                 type="primary" if sym == current else "secondary",
                 use_container_width=True,
-                help=_rail_target_help(sym, label),
             ):
                 if sym != current:
                     set_active_symbol(sym)

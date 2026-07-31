@@ -15,10 +15,12 @@ src = inspect.getsource(render_floating_right_rail)
 css = global_css()
 
 assert "st.button" in src
+assert "help=" not in src
 assert "st.page_link" in src
 assert "st.columns" in src
 assert 'onclick="' not in src
 assert "ob-right-rail-host" in src
 assert "stColumn" in css and "ob-right-rail-host" in css
-assert "onclick" not in css
+rail_css = css.split("ob-right-rail-host")[1].split(".ob-tb-label")[0]
+assert "max-height: 0" not in rail_css
 print("OK: native widget right rail")

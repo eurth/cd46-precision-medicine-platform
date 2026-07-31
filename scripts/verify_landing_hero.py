@@ -9,7 +9,6 @@ _ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(_ROOT / "app"))
 
 from components.landing_hero import _hero_visual, _slide_body, render_hero_zone, render_target_carousel  # noqa: E402
-from components.right_rail import _rail_target_help  # noqa: E402
 from components.targets import list_symbols  # noqa: E402
 
 hero_src = inspect.getsource(render_hero_zone)
@@ -20,10 +19,6 @@ for sym in list_symbols():
     pae, caption = _hero_visual(sym)
     assert caption
     assert pae and "alphafold" in pae
-
-psma_help = _rail_target_help("FOLH1", "PSMA")
-assert "PSMA" in psma_help and "FOLH1" in psma_help
-assert "Research target" not in psma_help
 
 carousel_src = inspect.getsource(render_target_carousel)
 assert "st.radio" in carousel_src
