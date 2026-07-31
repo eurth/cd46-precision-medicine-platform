@@ -26,7 +26,7 @@ def _slide_body(sym: str) -> str:
         f" · {html_lib.escape(ctx['trial_focus'])}"
         f"</div>"
         f'<div class="lp-carousel-hint-inline">'
-        f"Active selection: <strong>{html_lib.escape(get_active_symbol())}</strong> (right rail)"
+        f"Active selection: <strong>{html_lib.escape(sym)}</strong> (right rail)"
         f"</div>"
         f"</div>"
     )
@@ -44,12 +44,27 @@ def render_hero_zone() -> None:
 
 
 def render_target_carousel() -> None:
-    """Target spotlight tabs — always visible (no empty CSS carousel)."""
+    """Target spotlight — synced with active target (right rail / sidebar / ?target=)."""
+    from components.targets import set_active_symbol
+
     symbols = list_symbols()
-    tabs = st.tabs(symbols)
-    for sym, tab in zip(symbols, tabs):
-        with tab:
-            st.markdown(_slide_body(sym), unsafe_allow_html=True)
+    active = get_active_symbol()
+    idx = symbols.index(active) if active in symbols else 0
+
+    # ponytail: no widget key — st.tabs/st.radio keys stick on CD46 after rail switch
+    picked = st.radio(
+        "Target",
+        symbols,
+        index=idx,
+        horizontal=True,
+        label_visibility="collapsed",
+    )
+    if picked != active:
+        set_active_symbol(picked)
+        st.query_params["target"] = picked
+        st.rerun()
+
+    st.markdown(_slide_body(picked), unsafe_allow_html=True)
 
 
 def render_start_here() -> None:
