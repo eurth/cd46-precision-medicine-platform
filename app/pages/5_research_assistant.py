@@ -175,6 +175,7 @@ if _active_asst == _ASST_TABS[0]:
     # -----------------------------------------------------------------------
     def _run_question(q: str) -> None:
         from components.llm_rate_limit import check_and_increment
+        from src.agent.kg_dossier import is_dossier_question
 
         allowed, cap_msg = check_and_increment("global")
         if not allowed:
@@ -189,17 +190,25 @@ if _active_asst == _ASST_TABS[0]:
                 st.error("Agent not available — set OPENROUTER_API_KEY, OPENAI_API_KEY, or GEMINI_API_KEY in .env")
             else:
                 st.caption(cap_msg)
-                with st.spinner("Retrieving KG context + generating answer..."):
+                with st.spinner("Retrieving knowledge graph context..."):
                     ph = st.empty()
                     full = ""
                     try:
                         for token in agent.stream(q):
                             full += token
-                            ph.markdown(full + "▌")
+                            ph.markdown(full + ("▌" if not full.startswith("###") else ""))
                         ph.markdown(full)
                     except Exception as e:
-                        full = f"Error: {e}"
-                        ph.error(full)
+                        if is_dossier_question(q):
+                            from src.agent.kg_dossier import build_kg_dossier, gene_from_question
+                            sym = gene_from_question(q, _GENE)
+                            full, sources = build_kg_dossier(sym)
+                            ph.markdown(full)
+                            agent.last_sources = sources
+                            agent.last_intent = "dossier"
+                        else:
+                            full = f"Error: {e}"
+                            ph.error(full)
                 sources = list(getattr(agent, "last_sources", []) or [])
                 intent = str(getattr(agent, "last_intent", "") or "")
                 if sources:

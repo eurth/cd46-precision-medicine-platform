@@ -53,7 +53,7 @@ INTENTS = {
     ],
     "knowledge_graph": [
         "knowledge graph", "kg", "node", "edge", "relationship",
-        "cypher", "neo4j", "graph",
+        "cypher", "neo4j", "graph", "dossier", "landscape",
     ],
     "biomarker": [
         "biomarker", "marker", "predictive", "complement", "cd55", "cd59", "ar-v7",
@@ -74,6 +74,8 @@ INTENTS = {
 
 def _classify_intent(question: str) -> str:
     q_lower = question.lower()
+    if is_dossier_question(question):
+        return "dossier"
     for intent, keywords in INTENTS.items():
         if intent == "general":
             continue
@@ -93,6 +95,16 @@ def _active_gene() -> str:
         return get_active_symbol()
     except Exception:
         return "CD46"
+
+
+def _gene_for_question(question: str) -> str:
+    from src.agent.kg_dossier import gene_from_question
+    return gene_from_question(question, _active_gene())
+
+
+def is_dossier_question(question: str) -> bool:
+    from src.agent.kg_dossier import is_dossier_question as _is
+    return _is(question)
 
 
 def _append_kg_context(
@@ -125,9 +137,16 @@ def _load_context_for_intent(intent: str, question: str) -> tuple[str, list[str]
         search_pubmed,
     )
 
-    gene = _active_gene()
+    gene = _gene_for_question(question)
     contexts = []
     sources = []
+
+    if intent == "dossier":
+        from src.agent.kg_dossier import build_kg_dossier
+        md, dossier_sources = build_kg_dossier(gene)
+        contexts.append(md)
+        sources.extend(dossier_sources)
+        return "\n\n".join(contexts), sources
 
     if intent == "eligibility":
         result = get_eligibility("PRAD", "75th_pct")
@@ -310,21 +329,33 @@ class TargetResearchAgent:
             "sources": [],
         }
 
+        state = route_question(initial_state)
+        if state["intent"] == "dossier":
+            state = load_context(state)
+            self.last_sources = list(state.get("sources") or [])
+            self.last_intent = "dossier"
+            return state["context"]
+
         if self._graph is not None:
-            result = self._graph.invoke(initial_state)
+            result = self._graph.invoke(state)
         else:
-            # Sequential fallback
-            state = route_question(initial_state)
             state = load_context(state)
             state = generate_answer(state, self.llm)
             state = format_response(state)
             result = state
 
+        self.last_sources = list(result.get("sources") or [])
+        self.last_intent = str(result.get("intent") or "")
         return result["answer"]
 
     def stream(self, question: str):
         """Stream the answer token by token (for Streamlit)."""
-        context, sources, _intent = self.retrieve(question)
+        context, sources, intent = self.retrieve(question)
+        self.last_sources = sources
+        self.last_intent = intent
+        if intent == "dossier":
+            yield context
+            return
         yield from self.llm.stream(question, context=context)
 
 

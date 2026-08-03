@@ -133,6 +133,12 @@ def queries_for_intent(intent: str, gene: str, question: str = "") -> list[tuple
             ("KG drugs", cypher_drugs(gene)),
             ("KG trials", cypher_trials(gene)),
         ],
+        "dossier": [
+            ("KG expression ranks", cypher_expression(gene)),
+            ("KG drugs", cypher_drugs(gene)),
+            ("KG trials", cypher_trials(gene)),
+            ("KG DepMap dependency", cypher_depmap(gene)),
+        ],
         "general": [
             ("KG expression", cypher_expression(gene)),
             ("KG drugs", cypher_drugs(gene)),

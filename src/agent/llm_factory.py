@@ -126,12 +126,20 @@ class LiteLLMWrapper:
 
         messages.append({"role": "user", "content": user_message})
 
+        # ponytail: cap context size — huge dossier payloads timeout free OpenRouter tiers
+        ctx_cap = 14_000
+        for msg in messages:
+            if len(msg.get("content", "")) > ctx_cap:
+                msg["content"] = msg["content"][:ctx_cap] + "\n\n[…context truncated…]"
+
         try:
             response = self._completion(
                 model=self.model,
                 messages=messages,
                 temperature=self.temperature,
                 max_tokens=2000,
+                timeout=90,
+                request_timeout=90,
             )
             return response.choices[0].message.content
         except Exception as e:
@@ -156,6 +164,8 @@ class LiteLLMWrapper:
             temperature=self.temperature,
             max_tokens=2000,
             stream=True,
+            timeout=90,
+            request_timeout=90,
         )
         for chunk in response:
             delta = chunk.choices[0].delta
