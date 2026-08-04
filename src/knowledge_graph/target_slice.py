@@ -65,12 +65,15 @@ def resolve_string_ensp(symbol: str) -> str:
     return str(rows[0]["stringId"])
 
 
-def fetch_open_targets(ensembl_id: str, *, size: int = 200) -> dict:
+_OT_PAGE_MAX = 500  # ponytail: OT API ~500 rows/page — paginate for ot_size > 500 (up to 1000+)
+
+
+def _ot_fetch_page(ensembl_id: str, page_size: int, index: int) -> dict:
     query = (
-        "query TargetDiseases($ensemblId: String!, $size: Int!) {"
+        "query TargetDiseases($ensemblId: String!, $pageSize: Int!, $index: Int!) {"
         " target(ensemblId: $ensemblId) {"
         "  id approvedSymbol"
-        "  associatedDiseases(page: {index: 0, size: $size}) {"
+        "  associatedDiseases(page: {index: $index, size: $pageSize}) {"
         "   count"
         "   rows {"
         "    disease { id name therapeuticAreas { id name } }"
@@ -82,7 +85,10 @@ def fetch_open_targets(ensembl_id: str, *, size: int = 200) -> dict:
         "}"
     )
     payload = json.dumps(
-        {"query": query, "variables": {"ensemblId": ensembl_id, "size": size}}
+        {
+            "query": query,
+            "variables": {"ensemblId": ensembl_id, "pageSize": page_size, "index": index},
+        }
     ).encode("utf-8")
     last_err: Exception | None = None
     for attempt in range(4):
@@ -101,6 +107,42 @@ def fetch_open_targets(ensembl_id: str, *, size: int = 200) -> dict:
             last_err = e
             time.sleep(5 * (attempt + 1))
     raise RuntimeError(f"Open Targets fetch failed: {last_err}")
+
+
+def fetch_open_targets(ensembl_id: str, *, size: int = 500) -> dict:
+    """Fetch up to `size` target–disease associations (paginates when size > 500)."""
+    want = max(1, size)
+    page_size = min(want, _OT_PAGE_MAX)
+    all_rows: list[Any] = []
+    index = 0
+    merged: dict | None = None
+    total_count = 0
+    while len(all_rows) < want:
+        data = _ot_fetch_page(ensembl_id, page_size, index)
+        target = (data.get("data") or {}).get("target") or {}
+        assoc = target.get("associatedDiseases") or {}
+        if merged is None:
+            merged = data
+            total_count = int(assoc.get("count") or 0)
+        page_rows = assoc.get("rows") or []
+        if not page_rows:
+            break
+        all_rows.extend(page_rows)
+        if len(page_rows) < page_size:
+            break
+        if total_count and len(all_rows) >= total_count:
+            break
+        index += 1
+    if merged is None:
+        merged = _ot_fetch_page(ensembl_id, page_size, 0)
+        target = (merged.get("data") or {}).get("target") or {}
+        assoc = target.get("associatedDiseases") or {}
+        total_count = int(assoc.get("count") or 0)
+    merged.setdefault("data", {}).setdefault("target", {}).setdefault(
+        "associatedDiseases", {}
+    )["rows"] = all_rows[:want]
+    merged["data"]["target"]["associatedDiseases"]["count"] = total_count
+    return merged
 
 
 def merge_gene_protein(session, target: dict[str, Any]) -> None:
@@ -132,7 +174,7 @@ def merge_gene_protein(session, target: dict[str, Any]) -> None:
     )
 
 
-def load_ot_associations(session, symbol: str, ot_payload: dict, *, top_n: int = 50) -> tuple[int, int]:
+def load_ot_associations(session, symbol: str, ot_payload: dict, *, top_n: int = 200) -> tuple[int, int]:
     rows = (
         ot_payload.get("data", {})
         .get("target", {})

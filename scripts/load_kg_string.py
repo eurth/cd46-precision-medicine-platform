@@ -63,12 +63,18 @@ def string_get(endpoint: str, params: dict) -> list:
         return json.loads(resp.read().decode("utf-8"))
 
 
-def fetch_interactions(string_id: str, limit: int = EDGE_LIMIT) -> list:
+def fetch_interactions(
+    string_id: str,
+    limit: int = EDGE_LIMIT,
+    *,
+    required_score: int | None = None,
+) -> list:
     """Return interaction edges for a given STRING network id."""
+    score = required_score if required_score is not None else int(MIN_SCORE * 1000)
     return string_get("network", {
         "identifiers":    string_id,
         "species":        TAXON,
-        "required_score": int(MIN_SCORE * 1000),
+        "required_score": score,
         "limit":          limit,
     })
 
@@ -168,6 +174,12 @@ def main():
 
     ap = argparse.ArgumentParser()
     ap.add_argument("--symbol", default="CD46")
+    ap.add_argument(
+        "--required-score",
+        type=int,
+        default=None,
+        help="STRING required_score 0-1000 (default 700)",
+    )
     args = ap.parse_args()
     symbol = args.symbol.upper()
 
@@ -180,12 +192,14 @@ def main():
         SEED_STRING_ID = t.get("string_ensp") or resolve_string_ensp(symbol)
         RAW_OUT = Path(f"data/raw/apis/string_{symbol.lower()}.json")
 
-    print("=== STRING DB → KG Loader ===")
+    # ponytail: ASCII-only prints — Windows cp1252 consoles choke on arrows/emoji
+    print("=== STRING DB -> KG Loader ===")
     print(f"Seed: {symbol}  ({SEED_STRING_ID})")
-    print(f"Min score: {MIN_SCORE} (high confidence)  |  Max edges: {EDGE_LIMIT}\n")
+    req_score = args.required_score if args.required_score is not None else int(MIN_SCORE * 1000)
+    print(f"Min score: {req_score}/1000  |  Max edges: {EDGE_LIMIT}\n")
 
     print(f"1. Fetching {symbol} interaction network from STRING DB...")
-    edges = fetch_interactions(SEED_STRING_ID, limit=EDGE_LIMIT)
+    edges = fetch_interactions(SEED_STRING_ID, limit=EDGE_LIMIT, required_score=req_score)
     print(f"   Retrieved {len(edges)} edges")
     time.sleep(0.5)
 
@@ -207,17 +221,17 @@ def main():
     print(f"   Got annotations for {len(annotations)} proteins")
 
     RAW_OUT.parent.mkdir(parents=True, exist_ok=True)
-    payload = {"seed": SEED_STRING_ID, "min_score": MIN_SCORE,
+    payload = {"seed": SEED_STRING_ID, "min_score": req_score / 1000,
                "edges": edges, "annotations": annotations}
     RAW_OUT.write_text(json.dumps(payload, indent=2))
-    print(f"   Raw data saved → {RAW_OUT}  ({len(edges)} edges)")
+    print(f"   Raw data saved -> {RAW_OUT}  ({len(edges)} edges)")
 
     print("3. Loading into AuraDB...")
     driver = get_driver()
     try:
         genes, rels = load_into_kg(driver, edges, annotations)
-        print(f"   ✅ {genes} Gene nodes upserted")
-        print(f"   ✅ {rels} INTERACTS_WITH relationships upserted")
+        print(f"   OK {genes} Gene nodes upserted")
+        print(f"   OK {rels} INTERACTS_WITH relationships upserted")
     finally:
         driver.close()
 

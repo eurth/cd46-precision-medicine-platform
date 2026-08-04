@@ -2,22 +2,37 @@
 # Update access_date / notes whenever ETL refreshes processed artifacts or Aura.
 
 platform_version: "1.3.0"
-freeze_id: "2026-07-28-phase4-five-targets"
-freeze_label: "Phase 4 five-target thin slices (CD46 + FOLH1 + FAP + SSTR2 + GRPR)"
+freeze_id: "2026-08-04-aura-free-expand"
+freeze_label: "Aura Free KG expansion — Waves 0–9 complete"
 
 sources:
   - name: Neo4j AuraDB (OncoBridge KG)
-    access_date: "2026-07-28"
-    notes: "~3,586 nodes / ~3,511 relationships · five theranostic thin slices · Aura Free"
+    access_date: "2026-08-04"
+    notes: "6,982 nodes / 12,704 rels · five theranostic slices · Aura Free (~3.5% of 200k node ceiling)"
   - name: Open Targets Platform
-    access_date: "2026-07-28"
-    notes: "GraphQL 26.06 · 200 associations loaded per new target"
+    access_date: "2026-08-04"
+    notes: "GraphQL · ASSOCIATED_WITH per gene: CD46 1546, SSTR2 1000, FAP 888, FOLH1 758, GRPR 219"
+  - name: ClinicalTrials.gov
+    access_date: "2026-08-04"
+    notes: "~100–148 TARGETS_GENE trials/gene · RLT/ADC query extras (Wave 2)"
+  - name: PubMed / ChEMBL
+    access_date: "2026-08-04"
+    notes: "50 Publication SUPPORTS/gene · ~30 ChEMBL Drug TARGETS/gene (Wave 3)"
+  - name: STRING DB
+    access_date: "2026-08-04"
+    notes: "INTERACTS_WITH neighborhoods · FAP required_score 400 · others 700 (Wave 4)"
+  - name: HPA / GTEx / UniProt / DepMap
+    access_date: "2026-08-04"
+    notes: "GTEx ~52 tissues/gene · UniProt isoforms/variants · DepMap DEPENDS_ON (FAP/GRPR sparse) (Waves 5–6)"
+  - name: ClinVar
+    access_date: "2026-08-04"
+    notes: "280 ProteinVariant nodes for FOLH1/FAP/SSTR2/GRPR (≤75/gene) (Wave 7)"
   - name: TCGA / UCSC Xena (processed extracts)
-    access_date: "2026-07-28"
-    notes: "by_cancer CSVs for CD46, FOLH1, FAP, SSTR2, GRPR under data/processed/"
-  - name: HPA / GTEx / ClinVar / DepMap / STRING / ChEMBL / ClinicalTrials.gov
+    access_date: "2026-08-04"
+    notes: "by_cancer EXPRESSED_IN_CANCER + SurvivalResult per gene; CD46 CORRELATED_WITH combo biomarkers (Wave 8)"
+  - name: cBioPortal mCRPC cohorts
     access_date: "pipeline-local"
-    notes: "See NOTICE · CD46 retains deep case-study enrichment; others are thin slices"
+    notes: "Existing PatientGroup load retained; per-gene somatic mutation fetch deferred (not a small flag)"
 
 disclaimer: >
   Research use only. Not a medical device and not clinical advice.

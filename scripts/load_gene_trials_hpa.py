@@ -56,32 +56,57 @@ def _driver():
     return d
 
 
+# Extra CT.gov terms per gene (RLT / ADC / PET) — keep short; pageSize still caps results
+_TRIAL_EXTRA: dict[str, list[str]] = {
+    "CD46": ["FOR46", "YS5", "radioligand"],
+    "FOLH1": ["PSMA", "177Lu", "225Ac", "Pluvicto", "Pylarify"],
+    "FAP": ["FAPI", "FAP-2286", "177Lu"],
+    "SSTR2": ["DOTATATE", "Lutathera", "177Lu", "octreotide"],
+    "GRPR": ["bombesin", "RM2", "NeoBOMB1", "68Ga"],
+}
+
+
 def _trial_query(t: dict) -> str:
     sym = t["symbol"]
     aliases = t.get("aliases") or []
     parts = [sym] + [a for a in aliases if a and a.upper() != sym.upper()]
-    # PSMA/FAPI-style searches: join with OR, add cancer
-    or_clause = " OR ".join(parts[:4])
-    return f"({or_clause}) cancer"
+    parts += _TRIAL_EXTRA.get(sym, [])
+    # Dedupe case-insensitively, cap clause length
+    seen: set[str] = set()
+    uniq: list[str] = []
+    for p in parts:
+        k = p.upper()
+        if k in seen:
+            continue
+        seen.add(k)
+        uniq.append(p)
+    or_clause = " OR ".join(uniq[:8])
+    return f"({or_clause}) AND (cancer OR neoplasm OR tumor)"
 
 
-def fetch_trials(symbol: str, *, refresh: bool = False, page_size: int = 50) -> list[dict]:
+def fetch_trials(
+    symbol: str,
+    *,
+    refresh: bool = False,
+    page_size: int = 100,
+    max_trials: int = 100,
+) -> list[dict]:
     t = get_target(symbol)
     out = RAW / f"clinicaltrials_{symbol.lower()}.json"
     RAW.mkdir(parents=True, exist_ok=True)
     if out.exists() and not refresh:
         log.info("Using cached trials %s", out.name)
-        return json.loads(out.read_text(encoding="utf-8"))
+        return json.loads(out.read_text(encoding="utf-8"))[:max_trials]
 
     q = _trial_query(t)
-    log.info("Fetching ClinicalTrials.gov: %s", q)
+    log.info("Fetching ClinicalTrials.gov: %s (pageSize=%d)", q, page_size)
     r = requests.get(
         CT_URL,
         params={"query.term": q, "pageSize": page_size, "format": "json"},
         timeout=60,
     )
     r.raise_for_status()
-    studies = r.json().get("studies", [])
+    studies = r.json().get("studies", [])[:max_trials]
     out.write_text(json.dumps(studies, indent=2), encoding="utf-8")
     log.info("Saved %d trials → %s", len(studies), out)
     return studies
@@ -318,11 +343,17 @@ def load_hpa(session, symbol: str, raw: dict, csv_path: Path) -> int:
     return n
 
 
-def run_symbol(symbol: str, *, refresh: bool = False) -> dict:
+def run_symbol(
+    symbol: str,
+    *,
+    refresh: bool = False,
+    page_size: int = 100,
+    max_trials: int = 100,
+) -> dict:
     symbol = symbol.upper()
     get_target(symbol)  # validate
     report: dict[str, Any] = {"symbol": symbol}
-    studies = fetch_trials(symbol, refresh=refresh)
+    studies = fetch_trials(symbol, refresh=refresh, page_size=page_size, max_trials=max_trials)
     report["trials_fetched"] = len(studies)
     hpa = fetch_hpa(symbol, refresh=refresh)
     csv_path = process_hpa_to_csv(symbol, hpa)
@@ -352,6 +383,8 @@ def main() -> None:
     ap.add_argument("--all-non-cd46", action="store_true")
     ap.add_argument("--all", action="store_true")
     ap.add_argument("--refresh", action="store_true")
+    ap.add_argument("--page-size", type=int, default=100, help="ClinicalTrials.gov pageSize")
+    ap.add_argument("--max-trials", type=int, default=100, help="Max trials per gene")
     args = ap.parse_args()
     if args.all:
         symbols = ["CD46", "FOLH1", "FAP", "SSTR2", "GRPR"]
@@ -366,7 +399,14 @@ def main() -> None:
     for i, sym in enumerate(symbols):
         if i:
             time.sleep(1.0)  # be polite to CT.gov / HPA
-        reports.append(run_symbol(sym, refresh=args.refresh))
+        reports.append(
+            run_symbol(
+                sym,
+                refresh=args.refresh,
+                page_size=args.page_size,
+                max_trials=args.max_trials,
+            )
+        )
         print(json.dumps(reports[-1], indent=2))
 
     out = _ROOT / "reports" / "step3_trials_hpa.md"

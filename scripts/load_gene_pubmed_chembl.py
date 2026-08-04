@@ -9,7 +9,7 @@ Schema:
   (:Publication)-[:SUPPORTS {source:'PubMed'}]->(:Gene)
   (:Drug)-[:TARGETS {source:...}]->(:Gene)
 
-Caps (Aura Free): ~25 pubs / gene, ~15 ChEMBL molecules / gene + curated RLT agents.
+Caps (Aura Free): ~50 pubs / gene, ~30 ChEMBL molecules / gene + curated RLT agents.
 """
 from __future__ import annotations
 
@@ -48,9 +48,9 @@ CHEMBL_BY_UNIPROT: dict[str, str] = {
 # CD46 is antibody/biologic — ChEMBL has no SINGLE PROTEIN target for P15529
 NO_CHEMBL_UNIPROT = {"P15529"}
 
-PUBMED_MAX_PER_GENE = 25
+PUBMED_MAX_PER_GENE = 50
 PUBMED_PER_QUERY = 15
-CHEMBL_MOL_CAP = 15
+CHEMBL_MOL_CAP = 30
 
 # Theranostic / clinical agents not fully covered by ChEMBL small-molecule TARGETS.
 CURATED_AGENTS: dict[str, list[dict[str, Any]]] = {
@@ -288,7 +288,12 @@ def _pubmed_queries(t: dict) -> list[str]:
     return terms[:4]
 
 
-def fetch_pubmed(symbol: str, *, refresh: bool = False) -> list[dict]:
+def fetch_pubmed(
+    symbol: str,
+    *,
+    refresh: bool = False,
+    pubmed_max: int = PUBMED_MAX_PER_GENE,
+) -> list[dict]:
     t = get_target(symbol)
     out = RAW / f"pubmed_{symbol.lower()}.json"
     RAW.mkdir(parents=True, exist_ok=True)
@@ -366,11 +371,11 @@ def fetch_pubmed(symbol: str, *, refresh: bool = False) -> list[dict]:
                     log.warning("parse article: %s", e)
         except Exception as e:
             log.warning("Entrez error for '%s': %s", q, e)
-        if len(all_articles) >= PUBMED_MAX_PER_GENE:
+        if len(all_articles) >= pubmed_max:
             break
         time.sleep(0.5)
 
-    articles = list(all_articles.values())[:PUBMED_MAX_PER_GENE]
+    articles = list(all_articles.values())[:pubmed_max]
     out.write_text(json.dumps(articles, indent=2), encoding="utf-8")
     log.info("Saved %d PubMed → %s", len(articles), out.name)
     return articles
@@ -435,7 +440,13 @@ def load_publications(session, symbol: str, articles: list[dict]) -> int:
 # ChEMBL + curated
 # ---------------------------------------------------------------------------
 
-def fetch_chembl_drugs(symbol: str, chembl_target_id: str | None, *, refresh: bool = False) -> list[dict]:
+def fetch_chembl_drugs(
+    symbol: str,
+    chembl_target_id: str | None,
+    *,
+    refresh: bool = False,
+    chembl_cap: int = CHEMBL_MOL_CAP,
+) -> list[dict]:
     out = RAW / f"chembl_{symbol.lower()}.json"
     RAW.mkdir(parents=True, exist_ok=True)
     if out.exists() and not refresh and chembl_target_id:
@@ -471,7 +482,7 @@ def fetch_chembl_drugs(symbol: str, chembl_target_id: str | None, *, refresh: bo
                 )
                 if prev is None or score > prev.get("_score", 0):
                     by_mol[mid] = {**a, "_score": score}
-            mol_ids = list(by_mol.keys())[:CHEMBL_MOL_CAP]
+            mol_ids = list(by_mol.keys())[:chembl_cap]
             for i in range(0, len(mol_ids), 20):
                 batch = mol_ids[i : i + 20]
                 try:
@@ -571,12 +582,18 @@ def load_drugs(session, symbol: str, drugs: list[dict]) -> int:
     return n
 
 
-def run_symbol(symbol: str, *, refresh: bool = False) -> dict:
+def run_symbol(
+    symbol: str,
+    *,
+    refresh: bool = False,
+    pubmed_max: int = PUBMED_MAX_PER_GENE,
+    chembl_cap: int = CHEMBL_MOL_CAP,
+) -> dict:
     symbol = symbol.upper()
     t = get_target(symbol)
     report: dict[str, Any] = {"symbol": symbol}
 
-    articles = fetch_pubmed(symbol, refresh=refresh)
+    articles = fetch_pubmed(symbol, refresh=refresh, pubmed_max=pubmed_max)
     report["pubmed_fetched"] = len(articles)
 
     chembl_id = resolve_chembl_target_id(t)
@@ -587,7 +604,7 @@ def run_symbol(symbol: str, *, refresh: bool = False) -> dict:
         # Clear bad CD46 placeholder — leave unset (no ChEMBL protein target)
         patch_targets_yaml_remove_bad_cd46()
 
-    chembl_drugs = fetch_chembl_drugs(symbol, chembl_id, refresh=refresh)
+    chembl_drugs = fetch_chembl_drugs(symbol, chembl_id, refresh=refresh, chembl_cap=chembl_cap)
     curated = [dict(x) for x in CURATED_AGENTS.get(symbol, [])]
     # Dedup curated vs ChEMBL by name / chembl_id
     seen_names = {d["name"].lower() for d in chembl_drugs}
@@ -668,6 +685,8 @@ def main() -> None:
     ap.add_argument("--all-non-cd46", action="store_true")
     ap.add_argument("--all", action="store_true")
     ap.add_argument("--refresh", action="store_true")
+    ap.add_argument("--pubmed-max", type=int, default=PUBMED_MAX_PER_GENE, help="Max PubMed articles per gene")
+    ap.add_argument("--chembl-cap", type=int, default=CHEMBL_MOL_CAP, help="Max ChEMBL molecules per gene")
     args = ap.parse_args()
     if args.all:
         symbols = ["CD46", "FOLH1", "FAP", "SSTR2", "GRPR"]
@@ -682,7 +701,14 @@ def main() -> None:
     for i, sym in enumerate(symbols):
         if i:
             time.sleep(1.0)
-        reports.append(run_symbol(sym, refresh=args.refresh))
+        reports.append(
+            run_symbol(
+                sym,
+                refresh=args.refresh,
+                pubmed_max=args.pubmed_max,
+                chembl_cap=args.chembl_cap,
+            )
+        )
         print(json.dumps(reports[-1], indent=2))
 
     # Aggregate Aura count from last report
@@ -721,7 +747,7 @@ def main() -> None:
         "SSTR2=`CHEMBL1804`, GRPR=`CHEMBL4959`.",
         "- CD46 has no ChEMBL SINGLE PROTEIN target; curated biologics/RLT only "
         "(removed incorrect `CHEMBL2176` placeholder).",
-        "- Caps: ≤25 PubMed / gene, ≤15 ChEMBL molecules / gene + curated agents.",
+        "- Caps: ≤50 PubMed / gene, ≤30 ChEMBL molecules / gene + curated agents.",
         "",
     ]
     out.write_text("\n".join(lines), encoding="utf-8")

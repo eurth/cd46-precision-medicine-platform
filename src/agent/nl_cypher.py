@@ -9,9 +9,12 @@ import re
 logger = logging.getLogger(__name__)
 
 _SCHEMA_HINT = """
-Neo4j schema (read-only MATCH): Gene(symbol), Disease(tcga_code), Drug(name), ClinicalTrial(nct_id),
-SurvivalResult(gene_symbol, hazard_ratio, p_value), CellLine(name), Publication(pubmed_id).
-Relationships: EXPRESSED_IN_CANCER, TARGETS, TARGETS_GENE, DEPENDS_ON, HAS_SURVIVAL_RESULT, SUPPORTS.
+Neo4j schema (read-only MATCH): Gene(symbol), Disease(tcga_code, mondo_id, name), Drug(name, chembl_id),
+ClinicalTrial(nct_id), SurvivalResult(gene_symbol, hazard_ratio, p_value), CellLine(name),
+Publication(pubmed_id, title, year).
+Relationships: EXPRESSED_IN_CANCER, ASSOCIATED_WITH (Gene→Disease, Open Targets),
+TARGETS (Drug→Gene), TARGETS_GENE (Trial→Gene), DEPENDS_ON, HAS_SURVIVAL_RESULT,
+SUPPORTS (Publication→Gene), INTERACTS_WITH (Gene↔Gene, STRING).
 """.strip()
 
 

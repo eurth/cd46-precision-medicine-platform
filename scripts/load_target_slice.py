@@ -42,7 +42,14 @@ def _counts(session) -> tuple[int, int]:
     return int(n), int(r)
 
 
-def _string_load(session, symbol: str, string_id: str, *, edge_limit: int = 200) -> int:
+def _string_load(
+    session,
+    symbol: str,
+    string_id: str,
+    *,
+    edge_limit: int = 200,
+    required_score: int = 700,
+) -> int:
     """Fetch STRING neighborhood and MERGE INTERACTS_WITH (reuse load_kg_string pattern)."""
     import urllib.parse
     import urllib.request
@@ -51,7 +58,7 @@ def _string_load(session, symbol: str, string_id: str, *, edge_limit: int = 200)
         {
             "identifiers": string_id,
             "species": 9606,
-            "required_score": 700,
+            "required_score": required_score,
             "limit": edge_limit,
             "caller_identity": "oncobridge",
         }
@@ -101,9 +108,11 @@ def load_slice(
     symbol: str,
     *,
     skip_extract: bool = False,
+    skip_string: bool = False,
     ot_size: int = 500,
     ot_top: int = 200,
     edge_limit: int = 200,
+    required_score: int = 700,
     refresh_ot: bool = False,
 ) -> dict:
     t = get_target(symbol)
@@ -120,6 +129,8 @@ def load_slice(
         "ot_size": ot_size,
         "ot_top": ot_top,
         "edge_limit": edge_limit,
+        "skip_string": skip_string,
+        "required_score": required_score,
     }
 
     # 1) Expression extract (laptop)
@@ -128,13 +139,15 @@ def load_slice(
         report["expression_csv"] = str(out_expr.relative_to(_ROOT))
         report["by_cancer_csv"] = str(out_cancer.relative_to(_ROOT))
 
-    # 2) STRING id
-    string_id = t.get("string_ensp")
-    if not string_id:
-        string_id = resolve_string_ensp(symbol)
-        report["string_ensp_resolved"] = string_id
-    else:
-        report["string_ensp"] = string_id
+    # 2) STRING id (skip resolution when OT-only)
+    string_id = ""
+    if not skip_string:
+        string_id = t.get("string_ensp")
+        if not string_id:
+            string_id = resolve_string_ensp(symbol)
+            report["string_ensp_resolved"] = string_id
+        else:
+            report["string_ensp"] = string_id
 
     # 3) Open Targets fetch (prefer cache unless refresh / too small)
     ot_path = _ROOT / "data" / "raw" / "apis" / f"open_targets_{symbol.lower()}.json"
@@ -170,9 +183,18 @@ def load_slice(
             diseases, rels = load_ot_associations(session, symbol, ot, top_n=ot_top)
             report["ot_disease_nodes_top"], report["ot_assoc_rels"] = diseases, rels
 
-            time.sleep(0.5)
-            string_rels = _string_load(session, symbol, string_id, edge_limit=edge_limit)
-            report["string_rels"] = string_rels
+            if skip_string:
+                report["string_rels"] = 0
+            else:
+                time.sleep(0.5)
+                string_rels = _string_load(
+                    session,
+                    symbol,
+                    string_id,
+                    edge_limit=edge_limit,
+                    required_score=required_score,
+                )
+                report["string_rels"] = string_rels
 
             after = _counts(session)
             report["nodes_after"], report["rels_after"] = after
@@ -190,18 +212,27 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--symbol", required=True, help="Registry symbol e.g. FOLH1")
     ap.add_argument("--skip-extract", action="store_true")
+    ap.add_argument("--skip-string", action="store_true", help="Skip STRING PPI (OT-only Wave 1)")
     ap.add_argument("--ot-size", type=int, default=500)
     ap.add_argument("--ot-top", type=int, default=200, help="Disease nodes MERGE'd from OT")
     ap.add_argument("--edge-limit", type=int, default=200, help="STRING neighborhood size")
+    ap.add_argument(
+        "--required-score",
+        type=int,
+        default=700,
+        help="STRING required_score 0-1000 (Wave 4 FAP may use 400)",
+    )
     ap.add_argument("--refresh-ot", action="store_true", help="Ignore OT JSON cache")
     args = ap.parse_args()
     symbol = args.symbol.upper()
     report = load_slice(
         symbol,
         skip_extract=args.skip_extract,
+        skip_string=args.skip_string,
         ot_size=args.ot_size,
         ot_top=args.ot_top,
         edge_limit=args.edge_limit,
+        required_score=args.required_score,
         refresh_ot=args.refresh_ot,
     )
 

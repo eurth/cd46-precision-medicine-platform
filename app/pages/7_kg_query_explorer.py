@@ -170,6 +170,38 @@ LIMIT 25
             "params": {},
             "requires_cd46_schema": False,
         },
+        f"🎯 Open Targets: Top disease associations for {s}?": {
+            "description": f"Gene→Disease ASSOCIATED_WITH from Open Targets (up to ~1000/gene; table shows top scores).",
+            "cypher": f"""
+MATCH (g:Gene {{symbol: '{s}'}})-[r:ASSOCIATED_WITH]->(d:Disease)
+RETURN d.name AS disease,
+       d.mondo_id AS mondo_id,
+       d.therapeutic_area AS therapeutic_area,
+       round(r.score, 4) AS ot_score,
+       round(coalesce(r.genetics_score, 0), 4) AS genetics,
+       round(coalesce(r.literature_score, 0), 4) AS literature
+ORDER BY r.score DESC
+LIMIT 40
+""",
+            "params": {},
+            "requires_cd46_schema": False,
+        },
+        f"🔗 STRING PPI: Protein partners of {s}?": {
+            "description": f"STRING INTERACTS_WITH neighborhood for {s} (score ≥ loader threshold).",
+            "cypher": f"""
+MATCH (g:Gene {{symbol: '{s}'}})-[r:INTERACTS_WITH]-(b:Gene)
+WHERE b.symbol <> '{s}'
+RETURN b.symbol AS partner,
+       round(coalesce(r.score, 0), 4) AS score,
+       round(coalesce(r.escore, 0), 4) AS escore,
+       round(coalesce(r.tscore, 0), 4) AS tscore,
+       r.source AS source
+ORDER BY r.score DESC
+LIMIT 40
+""",
+            "params": {},
+            "requires_cd46_schema": False,
+        },
         f"📈 Survival: Which cancers show {s}-High = worse prognosis?": {
             "description": f"Gene-aware Cox survival: sr.gene_symbol='{s}' · endpoint=OS · hazard_ratio>1 · p<0.05.",
             "cypher": f"""
@@ -222,17 +254,18 @@ LIMIT 40
             "requires_cd46_schema": False,
         },
         f"🧪 Clinical Trials: Trials investigating {s} / related diseases?": {
-            "description": f"ClinicalTrial nodes linked to {s} via TARGETS_GENE (Step 3 open-data load).",
+            "description": f"ClinicalTrial nodes linked to {s} via TARGETS_GENE (up to ~100/gene in expanded slice).",
             "cypher": f"""
 MATCH (t:ClinicalTrial)-[:TARGETS_GENE]->(g:Gene {{symbol: '{s}'}})
 OPTIONAL MATCH (t)-[:INVESTIGATES]->(d:Disease)
+WITH g, t, collect(DISTINCT d.tcga_code) AS cancers
 RETURN t.nct_id AS nct_id,
        t.phase AS phase,
        t.sponsor AS sponsor,
        t.status AS status,
-       collect(DISTINCT d.tcga_code) AS cancers,
+       cancers,
        t.title AS title
-ORDER BY t.phase
+ORDER BY t.phase, t.nct_id
 LIMIT 40
 """,
             "params": {},
@@ -249,6 +282,7 @@ RETURN g.symbol AS biomarker,
        r.cancer_type AS cancer_type,
        r.significant AS fdr_significant
 ORDER BY abs(r.spearman_rho) DESC
+LIMIT 50
 """,
             "params": {},
             "requires_cd46_schema": False,
@@ -402,7 +436,7 @@ if _active_kgqx == _KGQX_TABS[0]:
         "<div style='background:#1e293b;border-left:3px solid #38bdf8;padding:12px 16px;"
         "border-radius:6px;margin-bottom:14px;'>"
         "<b style='color:#2563EB;'>Pre-Built Research Queries</b><br>"
-        "<span style='color:#64748B;'>10 curated Cypher queries covering the key research questions. "
+        "<span style='color:#64748B;'>12 curated Cypher queries covering the key research questions. "
         "Select → run → see results. Designed to reveal the most clinically important graph patterns.</span>"
         "</div>",
         unsafe_allow_html=True,
@@ -491,17 +525,17 @@ elif _active_kgqx == _KGQX_TABS[1]:
 |---|---|---|
 | `Disease` | `tcga_code`, `cd46_median_tpm_log2`, `cd46_prognostic` | 25 |
 | `SurvivalResult` | `cancer_type`, `endpoint`, `hazard_ratio`, `p_value`, `significant` | 53 |
-| `Publication` | `pubmed_id`, `title`, `year`, `evidence_type` | 8 |
-| `ClinicalTrial` | `nct_id`, `phase`, `sponsor`, `status` | 14 |
-| `PatientGroup` | `cancer_type`, `expression_group`, `n_eligible`, `threshold_value` | 200 |
-| `Drug` | `name`, `drug_type`, `payload`, `developer` | 3 |
+| `Publication` | `pubmed_id`, `title`, `year`, `evidence_type` | 250+ |
+| `ClinicalTrial` | `nct_id`, `phase`, `sponsor`, `status` | 500+ |
+| `PatientGroup` | `cancer_type`, `expression_group`, `n_eligible`, `threshold_value` | 789 |
+| `Drug` | `name`, `drug_type`, `payload`, `developer`, `chembl_id` | 150+ |
 | `Gene` | `symbol`, `chromosome`, `therapeutic_rationale` | 2+ |
 | `Protein` | `symbol`, `molecular_weight_kda`, `surface_expressed` | 4 |
 | `Pathway` | `name`, `reactome_id`, `go_id` | 3 |
 | `CellLine` | `name`, `cancer_type`, `cd46_crispr_score`, `cd46_is_dependency` | 1,186 |
 | `Tissue` | `name`, `type`, `staining_intensity` | 24 |
 
-**Relationships:** `HAS_SURVIVAL_RESULT` · `HAS_PATIENT_GROUP` · `SUPPORTS` · `INDICATED_FOR` · `INVESTIGATES` · `PARTICIPATES_IN` · `CORRELATED_WITH` · `EXPRESSED_IN` · `ENCODES` · `HAS_SURVIVAL_DATA` · `DEPENDS_ON`
+**Relationships:** `HAS_SURVIVAL_RESULT` · `HAS_PATIENT_GROUP` · `SUPPORTS` · `ASSOCIATED_WITH` · `TARGETS` · `TARGETS_GENE` · `INTERACTS_WITH` · `INDICATED_FOR` · `INVESTIGATES` · `PARTICIPATES_IN` · `CORRELATED_WITH` · `EXPRESSED_IN` · `ENCODES` · `HAS_SURVIVAL_DATA` · `DEPENDS_ON`
         """)
 
     default_cypher = st.session_state.get("cypher_editor", f"""// Example: pathways for {_ACTIVE}
@@ -610,7 +644,8 @@ Nodes: Disease (tcga_code, cd46_median_tpm_log2, cd46_prognostic),
        Pathway (name, reactome_id, go_id),
        CellLine (name, cancer_type, cd46_crispr_score, cd46_is_dependency, cd46_expression_tpm),
        Tissue (name, type, staining_intensity)
-Relationships: HAS_SURVIVAL_RESULT, HAS_PATIENT_GROUP, SUPPORTS (pub→disease), 
+Relationships: HAS_SURVIVAL_RESULT, HAS_PATIENT_GROUP, SUPPORTS (pub→gene), ASSOCIATED_WITH (gene→disease),
+               TARGETS (drug→gene), TARGETS_GENE (trial→gene), INTERACTS_WITH (gene↔gene, STRING),
                INDICATED_FOR (drug→disease), INVESTIGATES (trial→disease),
                PARTICIPATES_IN (gene→pathway), CORRELATED_WITH (gene→gene),
                EXPRESSED_IN, ENCODES, HAS_SURVIVAL_DATA, DEPENDS_ON

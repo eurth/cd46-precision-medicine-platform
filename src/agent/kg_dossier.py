@@ -6,8 +6,16 @@ import json
 from src.agent.kg_retrieval import (
     cypher_depmap,
     cypher_drugs,
+    cypher_drugs_count,
     cypher_expression,
+    cypher_interacts,
+    cypher_interacts_count,
+    cypher_ot_associations,
+    cypher_ot_count,
+    cypher_publications,
+    cypher_publications_count,
     cypher_trials,
+    cypher_trials_count,
 )
 from src.agent.tools import query_kg
 
@@ -42,6 +50,10 @@ def is_dossier_question(question: str) -> bool:
             "crispr",
             "cell line",
             "chembl",
+            "pubmed",
+            "string",
+            "ppi",
+            "open target",
         )
         if k in q
     )
@@ -70,11 +82,26 @@ def _md_table(rows: list[dict], cols: list[str], *, limit: int = 12) -> str:
     return "\n".join(lines) + "\n"
 
 
+def _scalar(cypher: str, key: str, default: str = "0") -> str:
+    rows = _rows(cypher)
+    if rows and rows[0].get(key) is not None:
+        return str(rows[0][key])
+    return default
+
+
 def build_kg_dossier(gene: str) -> tuple[str, list[str]]:
     """Return markdown dossier + source labels (instant, no LLM)."""
     expr = _rows(cypher_expression(gene))
+    ot = _rows(cypher_ot_associations(gene))
+    ot_n = _scalar(cypher_ot_count(gene), "ot_count")
     drugs = _rows(cypher_drugs(gene))
+    drug_n = _scalar(cypher_drugs_count(gene), "drug_count")
     trials = _rows(cypher_trials(gene))
+    trial_n = _scalar(cypher_trials_count(gene), "trial_count")
+    pubs = _rows(cypher_publications(gene))
+    pub_n = _scalar(cypher_publications_count(gene), "publication_count")
+    ppi = _rows(cypher_interacts(gene))
+    ppi_n = _scalar(cypher_interacts_count(gene), "interact_count")
     depmap = _rows(cypher_depmap(gene))
 
     parts = [
@@ -86,19 +113,37 @@ def build_kg_dossier(gene: str) -> tuple[str, list[str]]:
             ["cancer", "median", "rank"],
             limit=10,
         ),
-        "#### 2. Drugs targeting gene (ChEMBL / curated)",
+        f"#### 2. Open Targets disease associations ({ot_n} in graph; top by score)",
         _md_table(
-            drugs,
-            ["drug", "type", "max_phase"],
+            ot,
+            ["disease", "mondo_id", "score", "genetics", "literature"],
             limit=12,
         ),
-        "#### 3. Clinical trials (NCT-linked)",
+        f"#### 3. Drugs targeting gene (ChEMBL / curated) — {drug_n} TARGETS edges",
+        _md_table(
+            drugs,
+            ["drug", "type", "max_phase", "chembl_id"],
+            limit=12,
+        ),
+        f"#### 4. Clinical trials (TARGETS_GENE) — {trial_n} trials; sample below",
         _md_table(
             trials,
             ["nct_id", "phase", "status", "title"],
             limit=10,
         ),
-        "#### 4. DepMap cell-line dependency (CRISPR)",
+        f"#### 5. PubMed evidence (SUPPORTS) — {pub_n} publications",
+        _md_table(
+            pubs,
+            ["title", "journal", "year", "pmid"],
+            limit=10,
+        ),
+        f"#### 6. STRING protein partners (INTERACTS_WITH) — {ppi_n} edges; top neighbors",
+        _md_table(
+            ppi,
+            ["partner", "score", "escore", "tscore"],
+            limit=12,
+        ),
+        "#### 7. DepMap cell-line dependency (CRISPR)",
         _md_table(
             depmap,
             ["cell_line", "cancer_type", "crispr_score"],
@@ -108,8 +153,11 @@ def build_kg_dossier(gene: str) -> tuple[str, list[str]]:
     sources = [
         "AuraDB Knowledge Graph",
         "TCGA (graph)",
+        "Open Targets (graph)",
         "ChEMBL (graph)",
         "ClinicalTrials.gov (graph)",
+        "PubMed (graph)",
+        "STRING DB (graph)",
         "DepMap (graph)",
     ]
     return "\n".join(parts), sources
