@@ -88,7 +88,10 @@ def ensure_session_target() -> str:
 
 
 def display_label(symbol: str | None = None) -> str:
-    """Short UI label (PSMA, TROP2, HER2, …) from aliases or known map."""
+    """Short UI label — clinician aliases only when unambiguous; else HGNC symbol.
+
+    Do not fall back to aliases[0]: CD46→MCP made MCP look like a separate gene.
+    """
     sym = (symbol or get_active_symbol()).upper()
     known = {
         "FOLH1": "PSMA",
@@ -99,12 +102,16 @@ def display_label(symbol: str | None = None) -> str:
         "FOLR1": "FRα",
         "CLDN18": "CLDN18.2",
         "NECTIN4": "Nectin-4",
+        "CA9": "CAIX",
     }
-    if sym in known:
-        return known[sym]
-    t = get_target(sym)
-    aliases = t.get("aliases") or []
-    return str(aliases[0]) if aliases else sym
+    return known.get(sym, sym)
+
+
+def display_label_with_symbol(symbol: str | None = None) -> str:
+    """Rail/sidebar option text: 'PSMA (FOLH1)' when alias ≠ HGNC, else 'CD46'."""
+    sym = (symbol or get_active_symbol()).upper()
+    label = display_label(sym)
+    return f"{label} ({sym})" if label != sym else sym
 
 
 def _tier_help(tier: str) -> str:
@@ -134,8 +141,10 @@ def render_sidebar_target_selector() -> str:
     st.markdown(
         f'<div class="ob-side-target">'
         f'<div class="ob-side-target-kicker">Active target</div>'
-        f'<div class="ob-side-target-sym">{display_label(current)}</div>'
-        f'<div class="ob-side-target-sub">{t.get("name", "")} · {tier}</div>'
+        f'<div class="ob-side-target-sym">{current}</div>'
+        f'<div class="ob-side-target-sub">'
+        f'{display_label(current) + " · " if display_label(current) != current else ""}'
+        f'{t.get("name", "")} · {tier}</div>'
         f"</div>",
         unsafe_allow_html=True,
     )
@@ -144,7 +153,7 @@ def render_sidebar_target_selector() -> str:
         "Switch target",
         symbols,
         index=idx,
-        format_func=lambda s: display_label(s),
+        format_func=display_label_with_symbol,
         key="ob_sidebar_target_pick",
     )
     if picked != current:
@@ -205,4 +214,9 @@ def assert_phase2_targets() -> None:
 
 if __name__ == "__main__":
     assert_phase2_targets()
+    assert display_label("CD46") == "CD46"
+    assert display_label("FOLH1") == "PSMA"
+    assert display_label("EGFR") == "EGFR"
+    assert display_label_with_symbol("FOLH1") == "PSMA (FOLH1)"
+    assert display_label_with_symbol("CD46") == "CD46"
     print("phase2_targets_ok")

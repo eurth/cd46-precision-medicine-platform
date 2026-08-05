@@ -271,7 +271,7 @@ if _active_asst == _ASST_TABS[0]:
     if not st.session_state.messages:
         st.markdown(f"#### Quick-Start Questions — active target: **{_GENE}**")
         st.caption("Click any question to run it through the retrieval-augmented agent.")
-        q_cols = st.columns(2)
+        q_cols = st.columns(2, gap="small")
         for i, q in enumerate(PRESET_QUESTIONS):
             if q_cols[i % 2].button(q, key=f"pq_{i}", use_container_width=True):
                 _run_question(q)
@@ -283,7 +283,7 @@ if _active_asst == _ASST_TABS[0]:
             "Biomarkers/CDx · Theranostic Integration · Trial Architecture · "
             "Sequencing · Endpoints · Access/Pathways"
         )
-        cab_cols = st.columns(2)
+        cab_cols = st.columns(2, gap="small")
         for i, q in enumerate(CAB_QUESTIONS):
             if cab_cols[i % 2].button(q, key=f"cab_{i}", use_container_width=True):
                 _run_question(q)

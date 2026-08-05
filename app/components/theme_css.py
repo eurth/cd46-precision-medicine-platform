@@ -35,7 +35,7 @@ def global_css() -> str:
     --ob-topbar-h: 46px;
     --ob-main-pad-x: 1.25rem;
     --ob-rail-collapsed-w: 20px;
-    --ob-rail-expanded-w: 108px;
+    --ob-rail-expanded-w: 100px;
 }}
 
 [data-testid="stApp"],
@@ -138,13 +138,13 @@ button[data-testid="stBaseButton-headerNoPadding"] {{ display: none !important; 
 
 /* Section tabs (horizontal radio) */
 [data-testid="stRadio"] > div[role="radiogroup"] {{
-    gap: 4px !important; flex-wrap: wrap !important;
+    gap: 2px !important; flex-wrap: wrap !important;
     border-bottom: 1px solid {BORDER}; padding-bottom: 2px; margin-bottom: 8px;
 }}
 [data-testid="stRadio"] label {{
     background: transparent !important; border: none !important;
-    padding: 8px 14px !important; margin: 0 !important;
-    font-size: 13px !important; font-weight: 500 !important;
+    padding: 4px 8px !important; margin: 0 !important;
+    font-size: 12px !important; font-weight: 500 !important;
     color: {TEXT_MUTED} !important;
     border-bottom: 2px solid transparent !important;
     border-radius: 0 !important;
@@ -156,7 +156,7 @@ button[data-testid="stBaseButton-headerNoPadding"] {{ display: none !important; 
     border-radius: 6px 6px 0 0 !important;
 }}
 [data-testid="stRadio"] label span[data-testid="stMarkdownContainer"] {{
-    font-size: 13px !important;
+    font-size: 12px !important;
 }}
 
 [data-testid="stTabs"] {{
@@ -376,21 +376,24 @@ section.main {{
 [data-testid="column"]:has(.ob-right-rail-host),
 [data-testid="stColumn"]:has(.ob-right-rail-host) {{
     position: fixed !important;
-    right: 8px !important;
-    top: calc(var(--ob-topbar-h) + 8px) !important;
+    right: 6px !important;
+    top: calc(var(--ob-topbar-h) + 6px) !important;
+    bottom: 8px !important;
     width: var(--ob-rail-collapsed-w) !important;
     min-width: var(--ob-rail-collapsed-w) !important;
     max-width: var(--ob-rail-expanded-w) !important;
+    height: auto !important;
+    max-height: calc(100vh - var(--ob-topbar-h) - 14px) !important;
     flex: none !important;
     z-index: 1000 !important;
     display: flex !important;
     flex-direction: column !important;
-    gap: 2px !important;
+    gap: 0 !important;
     background: rgba(255,255,255,0.97) !important;
     backdrop-filter: blur(10px);
     border: 1px solid {BORDER} !important;
     border-radius: 10px !important;
-    padding: 6px 2px !important;
+    padding: 4px 2px !important;
     box-shadow: 0 4px 16px rgba(15,23,42,0.12) !important;
     overflow: hidden !important;
     transition: width 0.22s ease, padding 0.22s ease, box-shadow 0.22s ease;
@@ -398,15 +401,20 @@ section.main {{
 [data-testid="column"]:has(.ob-right-rail-host)::before,
 [data-testid="stColumn"]:has(.ob-right-rail-host)::before {{
     content: "‹"; display: block; text-align: center;
-    font-size: 14px; font-weight: 700; color: {PRIMARY}; line-height: 48px;
-    min-height: 48px; flex-shrink: 0;
+    font-size: 14px; font-weight: 700; color: {PRIMARY}; line-height: 36px;
+    min-height: 36px; flex-shrink: 0;
     background: linear-gradient(180deg, {PRIMARY_SOFT} 0%, {SURFACE} 100%);
     border-radius: 6px; cursor: pointer;
 }}
 [data-testid="column"]:has(.ob-right-rail-host) > [data-testid="stVerticalBlock"],
 [data-testid="stColumn"]:has(.ob-right-rail-host) > [data-testid="stVerticalBlock"] {{
     opacity: 0; pointer-events: none;
-    width: calc(var(--ob-rail-expanded-w) - 16px);
+    width: calc(var(--ob-rail-expanded-w) - 12px);
+    gap: 0 !important;
+    row-gap: 0 !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    max-height: calc(100vh - var(--ob-topbar-h) - 28px) !important;
     transition: opacity 0.18s ease;
 }}
 [data-testid="column"]:has(.ob-right-rail-host):hover,
@@ -414,9 +422,9 @@ section.main {{
 [data-testid="stColumn"]:has(.ob-right-rail-host):hover,
 [data-testid="stColumn"]:has(.ob-right-rail-host):focus-within {{
     width: var(--ob-rail-expanded-w) !important;
-    padding: 8px 8px 10px !important;
+    padding: 6px 6px 8px !important;
     box-shadow: 0 8px 28px rgba(15,23,42,0.16) !important;
-    overflow: visible !important;
+    overflow: hidden !important;
 }}
 [data-testid="column"]:has(.ob-right-rail-host):hover::before,
 [data-testid="column"]:has(.ob-right-rail-host):focus-within::before,
@@ -435,25 +443,35 @@ section.main {{
 [data-testid="stColumn"]:has(.ob-right-rail-host) .ob-rail-kicker {{
     font-size: 8px; font-weight: 700; letter-spacing: 0.08em;
     text-transform: uppercase; color: {TEXT_FAINT}; text-align: left;
-    margin: 4px 2px 2px; line-height: 1;
+    margin: 2px 2px 1px; line-height: 1;
+}}
+[data-testid="column"]:has(.ob-right-rail-host) [data-testid="stElementContainer"],
+[data-testid="stColumn"]:has(.ob-right-rail-host) [data-testid="stElementContainer"],
+[data-testid="column"]:has(.ob-right-rail-host) [data-testid="element-container"],
+[data-testid="stColumn"]:has(.ob-right-rail-host) [data-testid="element-container"] {{
+    margin: 0 !important;
+    padding: 0 !important;
 }}
 [data-testid="column"]:has(.ob-right-rail-host) [data-testid="stButton"],
 [data-testid="stColumn"]:has(.ob-right-rail-host) [data-testid="stButton"] {{
     margin: 0 !important;
+    padding: 0 !important;
 }}
 [data-testid="column"]:has(.ob-right-rail-host) [data-testid="stButton"] button,
 [data-testid="stColumn"]:has(.ob-right-rail-host) [data-testid="stButton"] button {{
-    min-height: 26px !important; height: 26px !important;
-    padding: 0 6px !important; font-size: 10px !important;
-    font-weight: 700 !important; border-radius: 6px !important;
+    min-height: 22px !important; height: 22px !important;
+    padding: 0 4px !important; font-size: 10px !important;
+    font-weight: 700 !important; border-radius: 5px !important;
     width: 100% !important; white-space: nowrap !important;
+    line-height: 1 !important;
+    margin: 0 !important;
 }}
 [data-testid="column"]:has(.ob-right-rail-host) [data-testid="stPageLink-NavLink"],
 [data-testid="stColumn"]:has(.ob-right-rail-host) [data-testid="stPageLink-NavLink"] {{
     font-size: 9px !important; font-weight: 600 !important;
-    padding: 4px 6px !important; border-radius: 6px !important;
-    min-height: 22px !important; line-height: 1.15 !important;
-    margin: 1px 0 !important; text-align: left !important;
+    padding: 2px 4px !important; border-radius: 5px !important;
+    min-height: 18px !important; line-height: 1.1 !important;
+    margin: 0 !important; text-align: left !important;
     white-space: nowrap !important; overflow: hidden !important;
     text-overflow: ellipsis !important;
 }}

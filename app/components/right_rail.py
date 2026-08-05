@@ -11,6 +11,7 @@ from components.targets import (
     display_label,
     ensure_session_target,
     get_active_symbol,
+    get_target,
     list_symbols,
     set_active_symbol,
 )
@@ -40,11 +41,14 @@ def render_floating_right_rail() -> str:
         st.markdown('<div class="ob-rail-kicker">Target</div>', unsafe_allow_html=True)
         for sym in list_symbols():
             label = display_label(sym)
+            name = str(get_target(sym).get("name") or sym)
+            tip = f"{sym} — {name}" if label == sym else f"{sym} ({label}) — {name}"
             if st.button(
                 label,
                 key=f"ob_rail_tgt_{sym}",
                 type="primary" if sym == current else "secondary",
                 use_container_width=True,
+                help=tip,
             ):
                 if sym != current:
                     set_active_symbol(sym)
@@ -62,5 +66,7 @@ def render_floating_right_rail() -> str:
 
 if __name__ == "__main__":
     assert display_label("FOLH1") == "PSMA"
+    assert display_label("CD46") == "CD46"
+    assert display_label("EGFR") == "EGFR"
     assert len(dimension_links()) == 9
     print("right_rail_ok")
