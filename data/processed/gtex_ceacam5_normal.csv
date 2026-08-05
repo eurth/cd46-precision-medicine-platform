@@ -1,0 +1,55 @@
+tissue_site_detail,tissue_site,tissue_site_id,median_tpm,mean_tpm,q1_tpm,q3_tpm,n_samples,unit,dataset,gene_symbol,gencode_id
+Esophagus - Mucosa,Esophagus,Esophagus_Mucosa,293.4,306.4073,170.9,417.2,555,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Colon - Transverse,Colon,Colon_Transverse,250.4,533.9371,10.67,798.8,406,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Vagina,Vagina,Vagina,81.19,119.6171,6.231,184.6,156,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Small Intestine - Terminal Ileum,Small Intestine,Small_Intestine_Terminal_Ileum,30.68,85.2507,4.611,121.0,187,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Minor Salivary Gland,Salivary Gland,Minor_Salivary_Gland,17.37,40.6972,9.24,39.66,162,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Lung,Lung,Lung,4.433,9.5141,1.836,10.48,578,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Skin - Sun Exposed (Lower leg),Skin,Skin_Sun_Exposed_Lower_leg,3.951,4.5358,2.61,5.714,701,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Skin - Not Sun Exposed (Suprapubic),Skin,Skin_Not_Sun_Exposed_Suprapubic,2.514,3.311,1.462,4.197,604,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Colon - Sigmoid,Colon,Colon_Sigmoid,0.738,36.6843,0.1926,7.123,373,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Testis,Testis,Testis,0.6217,0.6497,0.4765,0.7845,361,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Stomach,Stomach,Stomach,0.5817,11.0618,0.1323,5.44,359,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Cervix - Ectocervix,Cervix Uteri,Cervix_Ectocervix,0.4472,58.1073,0.2901,4.703,9,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Fallopian Tube,Fallopian Tube,Fallopian_Tube,0.3715,2.0874,0.0726,0.5329,9,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Prostate,Prostate,Prostate,0.2391,1.2122,0.0944,0.7118,245,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Bladder,Bladder,Bladder,0.2304,0.3725,0.0,0.4302,21,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Cervix - Endocervix,Cervix Uteri,Cervix_Endocervix,0.1916,1.8451,0.0,0.2488,10,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Esophagus - Muscularis,Esophagus,Esophagus_Muscularis,0.1642,1.5169,0.0576,0.4327,515,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Pituitary,Pituitary,Pituitary,0.1388,0.5858,0.0707,0.2637,283,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Uterus,Uterus,Uterus,0.1365,0.3144,0.0423,0.3123,142,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Thyroid,Thyroid,Thyroid,0.1341,0.7651,0.0331,0.468,653,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Esophagus - Gastroesophageal Junction,Esophagus,Esophagus_Gastroesophageal_Junction,0.1306,1.5229,0.0461,0.3304,375,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Breast - Mammary Tissue,Breast,Breast_Mammary_Tissue,0.1205,4.6656,0.0278,0.3181,459,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Spleen,Spleen,Spleen,0.1067,0.1984,0.0353,0.2017,241,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Ovary,Ovary,Ovary,0.1046,0.2589,0.047,0.3278,180,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Adrenal Gland,Adrenal Gland,Adrenal_Gland,0.0894,0.1322,0.0337,0.1689,258,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Brain - Cerebellum,Brain,Brain_Cerebellum,0.0811,0.151,0.022,0.1753,241,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Pancreas,Pancreas,Pancreas,0.0729,0.2073,0.0278,0.1612,328,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Cells - Cultured fibroblasts,Skin,Cells_Cultured_fibroblasts,0.0706,0.193,0.0118,0.214,504,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Liver,Liver,Liver,0.0639,0.1125,0.0232,0.1483,226,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Artery - Coronary,Blood Vessel,Artery_Coronary,0.0606,0.1439,0.0164,0.185,240,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Whole Blood,Blood,Whole_Blood,0.0576,0.2022,0.0215,0.1172,755,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Artery - Aorta,Blood Vessel,Artery_Aorta,0.044,0.197,0.0,0.1524,432,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Cells - EBV-transformed lymphocytes,Blood Vessel,Cells_EBV-transformed_lymphocytes,0.0427,0.0715,0.0,0.1111,174,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Adipose - Visceral (Omentum),Adipose Tissue,Adipose_Visceral_Omentum,0.0418,0.1882,0.0,0.1194,541,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Brain - Cerebellar Hemisphere,Brain,Brain_Cerebellar_Hemisphere,0.0362,0.0756,0.0,0.0925,215,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Kidney - Cortex,Kidney,Kidney_Cortex,0.0359,0.0734,0.0,0.0899,85,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Nerve - Tibial,Nerve,Nerve_Tibial,0.035,0.1685,0.0,0.1099,619,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Adipose - Subcutaneous,Adipose Tissue,Adipose_Subcutaneous,0.0348,0.3841,0.0,0.1265,663,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Artery - Tibial,Blood Vessel,Artery_Tibial,0.0274,0.1168,0.0,0.1025,663,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Heart - Atrial Appendage,Heart,Heart_Atrial_Appendage,0.0233,0.0641,0.0,0.0671,429,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Muscle - Skeletal,Muscle,Muscle_Skeletal,0.0217,0.093,0.0,0.0683,803,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Brain - Cortex,Brain,Brain_Cortex,0.0192,0.0551,0.0,0.058,255,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Heart - Left Ventricle,Heart,Heart_Left_Ventricle,0.0191,0.0441,0.0,0.0539,432,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Brain - Amygdala,Brain,Brain_Amygdala,0.018,0.0311,0.0,0.0391,152,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Brain - Frontal Cortex (BA9),Brain,Brain_Frontal_Cortex_BA9,0.0175,0.0469,0.0,0.0622,209,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Brain - Hippocampus,Brain,Brain_Hippocampus,0.0163,0.0456,0.0,0.0532,197,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Brain - Anterior cingulate cortex (BA24),Brain,Brain_Anterior_cingulate_cortex_BA24,0.0146,0.0347,0.0,0.0479,176,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Brain - Hypothalamus,Brain,Brain_Hypothalamus,0.0142,0.0379,0.0,0.0451,202,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Brain - Nucleus accumbens (basal ganglia),Brain,Brain_Nucleus_accumbens_basal_ganglia,0.0131,0.0452,0.0,0.0416,246,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Brain - Caudate (basal ganglia),Brain,Brain_Caudate_basal_ganglia,0.0121,0.0327,0.0,0.0367,246,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Brain - Putamen (basal ganglia),Brain,Brain_Putamen_basal_ganglia,0.011,0.0331,0.0,0.0493,205,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Brain - Substantia nigra,Brain,Brain_Substantia_nigra,0.009,0.0351,0.0,0.0529,139,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Brain - Spinal cord (cervical c-1),Brain,Brain_Spinal_cord_cervical_c-1,0.0,0.0567,0.0,0.0367,159,TPM,gtex_v8,CEACAM5,ENSG00000105388.15
+Kidney - Medulla,Kidney,Kidney_Medulla,0.0,0.0093,0.0,0.0371,4,TPM,gtex_v8,CEACAM5,ENSG00000105388.15

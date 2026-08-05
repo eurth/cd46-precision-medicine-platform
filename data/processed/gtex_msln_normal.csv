@@ -1,0 +1,55 @@
+tissue_site_detail,tissue_site,tissue_site_id,median_tpm,mean_tpm,q1_tpm,q3_tpm,n_samples,unit,dataset,gene_symbol,gencode_id
+Adipose - Visceral (Omentum),Adipose Tissue,Adipose_Visceral_Omentum,84.78,142.4297,12.5,211.7,541,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Lung,Lung,Lung,78.34,100.6499,36.83,140.5,578,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Fallopian Tube,Fallopian Tube,Fallopian_Tube,39.32,78.099,8.69,70.25,9,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Minor Salivary Gland,Salivary Gland,Minor_Salivary_Gland,25.73,48.0007,12.89,59.88,162,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Uterus,Uterus,Uterus,7.814,13.6832,2.835,17.11,142,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Kidney - Cortex,Kidney,Kidney_Cortex,2.984,6.0602,1.686,7.239,85,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Esophagus - Mucosa,Esophagus,Esophagus_Mucosa,2.062,8.3444,0.6221,6.466,555,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Testis,Testis,Testis,1.746,2.1691,1.276,2.509,361,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Colon - Transverse,Colon,Colon_Transverse,1.565,3.4197,0.2519,4.472,406,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Prostate,Prostate,Prostate,1.52,6.6407,0.4354,5.997,245,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Stomach,Stomach,Stomach,1.4,2.8982,0.4431,2.877,359,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Skin - Sun Exposed (Lower leg),Skin,Skin_Sun_Exposed_Lower_leg,1.305,1.8705,0.7557,2.234,701,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Kidney - Medulla,Kidney,Kidney_Medulla,1.136,2.3015,0.3411,7.456,4,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Skin - Not Sun Exposed (Suprapubic),Skin,Skin_Not_Sun_Exposed_Suprapubic,1.013,1.5611,0.5738,1.852,604,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Vagina,Vagina,Vagina,0.9933,4.7316,0.2213,3.334,156,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Small Intestine - Terminal Ileum,Small Intestine,Small_Intestine_Terminal_Ileum,0.9386,1.6618,0.3051,2.099,187,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Ovary,Ovary,Ovary,0.8672,6.6263,0.1868,5.421,180,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Brain - Substantia nigra,Brain,Brain_Substantia_nigra,0.7587,1.2813,0.3404,1.611,139,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Pituitary,Pituitary,Pituitary,0.7234,1.1366,0.3715,1.212,283,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Brain - Spinal cord (cervical c-1),Brain,Brain_Spinal_cord_cervical_c-1,0.6889,1.5206,0.3494,1.691,159,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Cervix - Endocervix,Cervix Uteri,Cervix_Endocervix,0.5545,8.3182,0.263,14.29,10,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Cervix - Ectocervix,Cervix Uteri,Cervix_Ectocervix,0.5317,0.7502,0.4082,0.7054,9,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Brain - Caudate (basal ganglia),Brain,Brain_Caudate_basal_ganglia,0.4959,0.6419,0.2571,0.7474,246,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Brain - Putamen (basal ganglia),Brain,Brain_Putamen_basal_ganglia,0.4789,0.6764,0.2485,0.7676,205,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Nerve - Tibial,Nerve,Nerve_Tibial,0.4412,0.7193,0.2486,0.7919,619,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Brain - Hypothalamus,Brain,Brain_Hypothalamus,0.4356,0.7041,0.2151,0.9258,202,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Brain - Frontal Cortex (BA9),Brain,Brain_Frontal_Cortex_BA9,0.435,0.7734,0.2844,0.7524,209,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Brain - Cortex,Brain,Brain_Cortex,0.4318,0.6566,0.2919,0.6726,255,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Brain - Nucleus accumbens (basal ganglia),Brain,Brain_Nucleus_accumbens_basal_ganglia,0.43,0.6832,0.2421,0.6855,246,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Brain - Amygdala,Brain,Brain_Amygdala,0.4216,0.7021,0.2051,0.7945,152,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Brain - Cerebellar Hemisphere,Brain,Brain_Cerebellar_Hemisphere,0.4038,0.476,0.2324,0.6202,215,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Brain - Cerebellum,Brain,Brain_Cerebellum,0.3558,0.486,0.2276,0.6184,241,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Brain - Anterior cingulate cortex (BA24),Brain,Brain_Anterior_cingulate_cortex_BA24,0.3094,0.5077,0.1909,0.511,176,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Brain - Hippocampus,Brain,Brain_Hippocampus,0.3067,0.5725,0.1543,0.5957,197,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Spleen,Spleen,Spleen,0.2957,0.5254,0.1544,0.5393,241,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Breast - Mammary Tissue,Breast,Breast_Mammary_Tissue,0.2452,0.8309,0.0689,0.7333,459,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Heart - Atrial Appendage,Heart,Heart_Atrial_Appendage,0.2342,7.3002,0.067,2.508,429,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Artery - Coronary,Blood Vessel,Artery_Coronary,0.2184,2.5279,0.0939,0.6827,240,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Artery - Aorta,Blood Vessel,Artery_Aorta,0.1961,2.5246,0.095,0.4503,432,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Thyroid,Thyroid,Thyroid,0.1744,0.4046,0.0875,0.3278,653,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Whole Blood,Blood,Whole_Blood,0.1331,0.6711,0.0663,0.2689,755,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Colon - Sigmoid,Colon,Colon_Sigmoid,0.1273,1.1106,0.049,0.4527,373,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Pancreas,Pancreas,Pancreas,0.1134,0.4626,0.0432,0.3594,328,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Adipose - Subcutaneous,Adipose Tissue,Adipose_Subcutaneous,0.1105,0.2635,0.0472,0.2112,663,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Bladder,Bladder,Bladder,0.095,1.1774,0.0286,0.3205,21,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Artery - Tibial,Blood Vessel,Artery_Tibial,0.0846,0.1597,0.0348,0.1494,663,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Esophagus - Muscularis,Esophagus,Esophagus_Muscularis,0.0797,0.1881,0.0359,0.1496,515,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Esophagus - Gastroesophageal Junction,Esophagus,Esophagus_Gastroesophageal_Junction,0.0756,0.338,0.0336,0.1536,375,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Adrenal Gland,Adrenal Gland,Adrenal_Gland,0.065,0.107,0.0255,0.1088,258,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Cells - Cultured fibroblasts,Skin,Cells_Cultured_fibroblasts,0.063,0.1108,0.0171,0.1233,504,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Liver,Liver,Liver,0.0408,0.0852,0.0124,0.0885,226,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Cells - EBV-transformed lymphocytes,Blood Vessel,Cells_EBV-transformed_lymphocytes,0.0385,0.0584,0.0142,0.0866,174,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Heart - Left Ventricle,Heart,Heart_Left_Ventricle,0.0382,0.2813,0.0155,0.0828,432,TPM,gtex_v8,MSLN,ENSG00000102854.15
+Muscle - Skeletal,Muscle,Muscle_Skeletal,0.0253,0.0437,0.0,0.0533,803,TPM,gtex_v8,MSLN,ENSG00000102854.15

@@ -1,27 +1,28 @@
 # Target open-data slice — SSTR2
 
-Generated: 2026-08-04T17:16:06.363435+00:00
+Generated: 2026-08-04T20:48:30.922053+00:00
 
 | Metric | Value |
 |--------|-------|
 | `symbol` | SSTR2 |
 | `ensembl_id` | ENSG00000180616 |
-| `started_utc` | 2026-08-04T17:07:43.299100+00:00 |
-| `ot_size` | 1000 |
-| `ot_top` | 500 |
-| `edge_limit` | 200 |
-| `skip_string` | True |
-| `required_score` | 700 |
+| `started_utc` | 2026-08-04T20:20:54.424346+00:00 |
+| `ot_size` | 0 |
+| `ot_top` | 0 |
+| `edge_limit` | 500 |
+| `skip_string` | False |
+| `required_score` | 400 |
+| `string_ensp` | 9606.ENSP00000350198 |
 | `ot_json` | data\raw\apis\open_targets_sstr2.json (refetch) |
 | `ot_assoc_count` | 1327 |
-| `nodes_before` | 5781 |
-| `rels_before` | 7760 |
-| `ot_disease_nodes_top` | 500 |
-| `ot_assoc_rels` | 1000 |
-| `string_rels` | 0 |
-| `nodes_after` | 6207 |
-| `rels_after` | 8260 |
-| `nodes_delta` | 426 |
-| `rels_delta` | 500 |
-| `finished_utc` | 2026-08-04T17:16:06.363435+00:00 |
+| `nodes_before` | 12741 |
+| `rels_before` | 26924 |
+| `ot_disease_nodes_top` | 1327 |
+| `ot_assoc_rels` | 1327 |
+| `string_rels` | 2647 |
+| `nodes_after` | 12942 |
+| `rels_after` | 29764 |
+| `nodes_delta` | 201 |
+| `rels_delta` | 2840 |
+| `finished_utc` | 2026-08-04T20:48:30.922053+00:00 |
 

@@ -1,14 +1,14 @@
-"""Page 14 — CD46 Diagnostics & Early Detection.
+"""Page 14 — Gene Diagnostics & Early Detection.
 
-Evidence framework for CD46 as a clinical detection, monitoring
-and companion-diagnostic biomarker.
+Evidence framework for the active target as a clinical detection,
+monitoring and companion-diagnostic biomarker (ClinVar / HPA / GTEx).
 
-Data sources:
-  - data/processed/gtex_cd46_normal.csv     (GTEx v8, 54 normal tissues)
-  - data/processed/clinvar_cd46_variants.csv (NCBI ClinVar, 500 variants)
-  - data/processed/cd46_mutations_by_cancer.csv (cBioPortal TCGA)
-  - data/processed/hpa_cd46_protein.csv     (Human Protein Atlas)
-  - AuraDB: ClinicalTrial nodes with PET imaging endpoints
+Data sources (gene-param):
+  - data/processed/gtex_{gene}_normal.csv
+  - data/processed/clinvar_{gene}_variants.csv
+  - data/processed/{gene}_mutations_by_cancer.csv
+  - data/processed/hpa_{gene}_protein*.csv
+  - CD46-only: curated PET / theranostic narrative when active gene is CD46
 """
 import os
 import sys
@@ -20,8 +20,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
-from components.theme import plotly_layout, apply_plotly_layout
-from components.targets import get_active_symbol, render_stub_gate, render_case_study_gate
+from components.theme import apply_plotly_layout
+from components.targets import get_active_symbol, render_stub_gate
 from components.target_narratives import diagnostics_purpose
 from components.ui_kit import page_header, section_tabs, research_table
 
@@ -34,8 +34,6 @@ for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
         pass
 
 if render_stub_gate(module="Diagnostics & Early Detection"):
-    st.stop()
-if render_case_study_gate(module="Diagnostics & Early Detection"):
     st.stop()
 
 _GENE = get_active_symbol()
@@ -108,7 +106,7 @@ def load_csv(name: str) -> pd.DataFrame:
 
 
 @st.cache_data(ttl=3600)
-def load_kg_pet_trials() -> pd.DataFrame:
+def load_kg_pet_trials(symbol: str) -> pd.DataFrame:
     try:
         from neo4j import GraphDatabase
         uri  = os.getenv("NEO4J_URI")
@@ -119,15 +117,16 @@ def load_kg_pet_trials() -> pd.DataFrame:
         driver = GraphDatabase.driver(uri, auth=(user, pw))
         cypher = """
             MATCH (t:ClinicalTrial)
-            WHERE toLower(t.title) CONTAINS 'cd46'
-               OR toLower(t.title) CONTAINS 'pet'
+            WHERE toLower(t.title) CONTAINS $sym
+               OR toLower(coalesce(t.intervention, '')) CONTAINS $sym
             RETURN t.nct_id AS nct_id, t.title AS title, t.phase AS phase,
                    t.status AS status, t.sponsor AS sponsor,
                    t.enrollment_count AS enrollment, t.start_date AS start_date
             ORDER BY t.start_date DESC
+            LIMIT 40
         """
         with driver.session() as s:
-            records = s.run(cypher).data()
+            records = s.run(cypher, sym=symbol.lower()).data()
         driver.close()
         return pd.DataFrame(records)
     except Exception:
@@ -148,35 +147,45 @@ elif gtex_df.empty:
     st.info(f"No GTEx slice for **{_GENE}** (`gtex_{_PREFIX}_normal.csv`).")
 if mut_df.empty and _IS_CD46:
     mut_df = _MUTATION_FALLBACK
+elif mut_df.empty and not _IS_CD46:
+    pass  # empty-state handled in tab
 
 # ── Page hero ─────────────────────────────────────────────────────────────────
 page_header(
         icon="🔬",
-        module_name="Diagnostics & Early Detection",
+        module_name=f"{_GENE} Diagnostics",
         purpose=diagnostics_purpose(_GENE),
         kpi_chips=[
             ("Active Target", _GENE),
             ("GTEx Tissues", str(len(gtex_df))),
-            ("ClinVar", str(len(clinvar_df)) if not clinvar_df.empty else ("500" if _IS_CD46 else "—")),
+            ("ClinVar", str(len(clinvar_df)) if not clinvar_df.empty else ("~500" if _IS_CD46 else "—")),
             ("IHC / Intensity", str(len(hpa_df)) if not hpa_df.empty else "—"),
         ],
-        source_badges=["HPA", "TCGA", "ClinicalTrials", "GTEx"],
+        source_badges=["HPA", "TCGA", "ClinVar", "GTEx"],
     )
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
-_DIAG_TABS = [
-    "Normal-Tissue Safety (GTEx)",
-    "Theranostic PET Imaging",
-    "IHC Companion Diagnostic",
-    "Somatic Mutation Landscape",
-    "Liquid Biopsy & CTCs",
-    "Early Detection Science",
-    "Co-Biomarker Strategy",
-]
+if _IS_CD46:
+    _DIAG_TABS = [
+        "Normal-Tissue Safety (GTEx)",
+        "Theranostic PET Imaging",
+        "IHC Companion Diagnostic",
+        "Somatic Mutation Landscape",
+        "Liquid Biopsy & CTCs",
+        "Early Detection Science",
+        "Co-Biomarker Strategy",
+    ]
+else:
+    _DIAG_TABS = [
+        "Normal-Tissue Safety (GTEx)",
+        "IHC Companion Diagnostic",
+        "Somatic Mutation / ClinVar",
+        "Imaging / Trials Context",
+    ]
 _active_diag = section_tabs(_DIAG_TABS, key="diagnostics_tabs")
 
-# TAB 1 — GTEx Normal-Tissue Safety
-if _active_diag == _DIAG_TABS[0]:
+# TAB — GTEx Normal-Tissue Safety
+if _active_diag == "Normal-Tissue Safety (GTEx)":
     st.markdown(f"#### {_GENE} mRNA Expression in Normal Human Tissues — GTEx v8")
     st.caption(
         f"Understanding {_GENE} in normal tissues predicts on-target/off-tumour toxicity. "
@@ -256,9 +265,21 @@ if _active_diag == _DIAG_TABS[0]:
                 st.warning("**Kidney and adrenal are the highest-expressing normal tissues.**")
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# TAB 2 — Theranostic PET Imaging
+# TAB — Theranostic PET Imaging (CD46 only) OR Imaging/Trials (other genes)
 # ═══════════════════════════════════════════════════════════════════════════════
-elif _active_diag == _DIAG_TABS[1]:
+elif (not _IS_CD46) and _active_diag == "Imaging / Trials Context":
+    st.markdown(f"#### {_GENE} Imaging / Trials Context")
+    st.caption("Gene-param ClinicalTrials.gov / KG hits — no CD46 PET narrative.")
+    pet_kg = load_kg_pet_trials(_GENE)
+    if pet_kg.empty:
+        st.info(
+            f"No KG trial hits for **{_GENE}**. "
+            "CD46-specific YS5 PET / theranostic framing is available only when CD46 is the active target."
+        )
+    else:
+        research_table(pet_kg, use_container_width=True, hide_index=True)
+
+elif _IS_CD46 and _active_diag == "Theranostic PET Imaging":
     st.markdown("#### CD46-Targeted Theranostic Imaging Strategy")
     st.markdown(
         "The theranostic model pairs a **diagnostic PET probe** with a **therapeutic radiolabelled agent** "
@@ -358,37 +379,39 @@ elif _active_diag == _DIAG_TABS[1]:
     )
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# TAB 3 — IHC Companion Diagnostic
+# TAB — IHC Companion Diagnostic
 # ═══════════════════════════════════════════════════════════════════════════════
-elif _active_diag == _DIAG_TABS[2]:
-    st.markdown("#### CD46 IHC — Companion Diagnostic Framework")
+elif _active_diag == "IHC Companion Diagnostic":
+    st.markdown(f"#### {_GENE} IHC — Companion Diagnostic Framework")
     st.markdown(
         "Immunohistochemistry (IHC) on tumour biopsy is the primary tissue-based companion diagnostic. "
         "The **H-score** (0–300) integrates staining intensity × fraction of positive cells."
     )
 
-    h1, h2, h3 = st.columns(3)
-    with h1:
-        with st.container(border=True):
-            st.metric("ELIGIBLE", "H-score ≥ 150", "Strong positive · Likely to benefit")
-            st.success("Enrol in 225Ac-CD46 RLT trial")
-    with h2:
-        with st.container(border=True):
-            st.metric("BORDERLINE", "H-score 100–149", "Moderate · Confirm with PET")
-            st.warning("Proceed to ⁸⁹Zr-YS5 PET scan for confirmation")
-    with h3:
-        with st.container(border=True):
-            st.metric("INELIGIBLE", "H-score < 100", "Low CD46 · Unlikely to benefit")
-            st.error("Exclude — consider alternative targeted therapy")
+    if _IS_CD46:
+        h1, h2, h3 = st.columns(3)
+        with h1:
+            with st.container(border=True):
+                st.metric("ELIGIBLE", "H-score ≥ 150", "Strong positive · Likely to benefit")
+                st.success("Enrol in 225Ac-CD46 RLT trial")
+        with h2:
+            with st.container(border=True):
+                st.metric("BORDERLINE", "H-score 100–149", "Moderate · Confirm with PET")
+                st.warning("Proceed to ⁸⁹Zr-YS5 PET scan for confirmation")
+        with h3:
+            with st.container(border=True):
+                st.metric("INELIGIBLE", "H-score < 100", "Low CD46 · Unlikely to benefit")
+                st.error("Exclude — consider alternative targeted therapy")
+        st.markdown("---")
+    else:
+        st.caption(f"Eligibility thresholds below are exploratory for **{_GENE}** — validate per programme.")
 
-    st.markdown("---")
-
-    if not hpa_df.empty and "type" in hpa_df.columns:
+    if not hpa_df.empty and "type" in hpa_df.columns and "h_score_approx" in hpa_df.columns:
         tumour = hpa_df[hpa_df["type"] == "tumor"].copy()
         normal = hpa_df[hpa_df["type"] == "normal"].copy()
 
-        if not tumour.empty and "h_score_approx" in tumour.columns:
-            st.markdown("**HPA H-scores: Tumour CD46 Protein Expression by Cancer Type**")
+        if not tumour.empty:
+            st.markdown(f"**HPA H-scores: Tumour {_GENE} Protein Expression**")
             tumour_sorted = tumour.sort_values("h_score_approx", ascending=False)
             t_colors = [
                 _GREEN if h >= 150 else _AMBER if h >= 100 else _RED
@@ -407,12 +430,8 @@ elif _active_diag == _DIAG_TABS[2]:
                               annotation_text="Eligibility threshold (H=150)",
                               annotation_position="bottom right",
                               annotation_font=dict(color=_GREEN, size=10))
-            fig_ihc.add_hline(y=100, line=dict(color=_AMBER, dash="dot", width=1),
-                              annotation_text="Borderline (H=100)",
-                              annotation_position="bottom right",
-                              annotation_font=dict(color=_AMBER, size=10))
             apply_plotly_layout(fig_ihc,
-                title=dict(text="CD46 H-score in Tumour Tissues (HPA)", font=dict(color=_LIGHT, size=13)),
+                title=dict(text=f"{_GENE} H-score in Tumour Tissues (HPA)", font=dict(color=_LIGHT, size=13)),
                 xaxis=dict(title="Tumour Type", showgrid=False, color=_LIGHT, tickangle=-35),
                 yaxis=dict(title="H-score (0–300)", gridcolor=_LINE, color=_TEXT),
                 height=440,
@@ -420,158 +439,155 @@ elif _active_diag == _DIAG_TABS[2]:
             )
             st.plotly_chart(fig_ihc, use_container_width=True)
 
-        # TI chart
-        if not normal.empty and "h_score_approx" in normal.columns:
+        if not normal.empty and not tumour.empty:
             paired = normal.merge(
                 tumour[["tissue", "h_score_approx"]].rename(columns={"h_score_approx": "tumour_h"}),
                 on="tissue", how="inner",
             ).rename(columns={"h_score_approx": "normal_h"})
-
             if not paired.empty:
                 paired["TI"] = (paired["tumour_h"] / paired["normal_h"].clip(lower=5)).round(2)
                 paired = paired.sort_values("TI", ascending=False)
                 ti_colors = [_GREEN if v >= 2 else _AMBER if v >= 1 else _RED for v in paired["TI"]]
-
                 st.markdown("**Therapeutic Index per Tissue Pair (Tumour H ÷ Normal H)**")
                 fig_ti2 = go.Figure(go.Bar(
-                    x=paired["tissue"],
-                    y=paired["TI"],
+                    x=paired["tissue"], y=paired["TI"],
                     marker=dict(color=ti_colors, line=dict(color="#D5DEE8", width=0.5)),
                     text=[f"{v:.2f}×" for v in paired["TI"]],
                     textposition="outside",
                     textfont=dict(size=10, color=_LIGHT),
-                    hovertemplate="<b>%{x}</b><br>TI: %{y:.2f}×<extra></extra>",
                 ))
-                fig_ti2.add_hline(y=2.0, line=dict(color=_GREEN, dash="dash", width=1),
-                                  annotation_text="TI ≥ 2 (favourable)",
-                                  annotation_font=dict(color=_GREEN, size=10))
                 apply_plotly_layout(fig_ti2,
-                    title=dict(text="CD46 Therapeutic Index: Tumour ÷ Normal H-score", font=dict(color=_LIGHT, size=13)),
+                    title=dict(text=f"{_GENE} Therapeutic Index: Tumour ÷ Normal H-score", font=dict(color=_LIGHT, size=13)),
                     xaxis=dict(title="Tissue", showgrid=False, color=_LIGHT, tickangle=-30),
                     yaxis=dict(title="Therapeutic Index", gridcolor=_LINE, color=_TEXT),
                     height=360,
                     margin=dict(l=10, r=30, t=40, b=80),
                 )
                 st.plotly_chart(fig_ti2, use_container_width=True)
+    elif not hpa_df.empty:
+        st.markdown(f"**HPA protein intensity / IHC slice — {_GENE}**")
+        research_table(hpa_df.head(40), use_container_width=True, hide_index=True)
     else:
-        st.info("HPA data not loaded. Run `scripts/load_kg_hpa_full.py` to populate the IHC charts.")
-        st.markdown("**Reference H-scores (curated):** Prostate tumour: 300/300 · Normal prostate: 200/300 · Kidney: 300/300")
+        st.info(f"No HPA slice for **{_GENE}** (`hpa_{_PREFIX}_protein*.csv`).")
+        if _IS_CD46:
+            st.markdown("**Reference H-scores (curated):** Prostate tumour: 300/300 · Normal prostate: 200/300 · Kidney: 300/300")
 
-    with st.expander("📋 IHC CDx Development Roadmap"):
-        roadmap_df = pd.DataFrame([
-            {"Stage": "Pre-clinical",    "Activity": "H-score threshold validation in tumour biopsy cohort (n≥50)", "Timeline": "Pre-IND"},
-            {"Stage": "Phase I",         "Activity": "IHC as exploratory eligibility; correlate H-score with PET uptake", "Timeline": "Year 1"},
-            {"Stage": "Phase II",        "Activity": "IHC H-score ≥150 as primary eligibility; validate vs response", "Timeline": "Year 2–3"},
-            {"Stage": "Bridging study",  "Activity": "Analytical validation (precision, reproducibility, CRO)", "Timeline": "Year 3"},
-            {"Stage": "PMA filing",      "Activity": "CDx PMA co-submission with NDA/BLA", "Timeline": "Year 4–5"},
-        ])
-        research_table(roadmap_df, use_container_width=True, hide_index=True)
+    if _IS_CD46:
+        with st.expander("📋 IHC CDx Development Roadmap"):
+            roadmap_df = pd.DataFrame([
+                {"Stage": "Pre-clinical",    "Activity": "H-score threshold validation in tumour biopsy cohort (n≥50)", "Timeline": "Pre-IND"},
+                {"Stage": "Phase I",         "Activity": "IHC as exploratory eligibility; correlate H-score with PET uptake", "Timeline": "Year 1"},
+                {"Stage": "Phase II",        "Activity": "IHC H-score ≥150 as primary eligibility; validate vs response", "Timeline": "Year 2–3"},
+                {"Stage": "Bridging study",  "Activity": "Analytical validation (precision, reproducibility, CRO)", "Timeline": "Year 3"},
+                {"Stage": "PMA filing",      "Activity": "CDx PMA co-submission with NDA/BLA", "Timeline": "Year 4–5"},
+            ])
+            research_table(roadmap_df, use_container_width=True, hide_index=True)
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# TAB — Somatic Mutation / ClinVar
+# ═══════════════════════════════════════════════════════════════════════════════
+elif _active_diag in ("Somatic Mutation Landscape", "Somatic Mutation / ClinVar"):
+    st.markdown(f"#### {_GENE} Somatic Mutation Landscape (TCGA Pan-Cancer)")
+    if _IS_CD46:
         st.markdown(
-            "**H-score formula:** H = Σ (% cells at intensity i) × i, where i = 0, 1, 2, 3 → range 0–300"
+            "CD46 somatic mutations are **rare in solid tumours (<3% any cancer type)**, confirming that "
+            "overexpression is driven by **epigenetic upregulation and 1q32 amplification** — not somatic mutation."
         )
-
-# ═══════════════════════════════════════════════════════════════════════════════
-# TAB 4 — Somatic Mutation Landscape
-# ═══════════════════════════════════════════════════════════════════════════════
-elif _active_diag == _DIAG_TABS[3]:
-    st.markdown("#### CD46 Somatic Mutation Landscape (TCGA Pan-Cancer)")
-    st.markdown(
-        "CD46 somatic mutations are **rare in solid tumours (<3% any cancer type)**, confirming that "
-        "overexpression is driven by **epigenetic upregulation and 1q32 amplification** — not somatic mutation."
-    )
+    else:
+        st.caption(f"Mutation frequencies from `{_PREFIX}_mutations_by_cancer.csv` when available.")
 
     m1, m2, m3, m4 = st.columns(4)
-    if not mut_df.empty:
+    if not mut_df.empty and {"mutated_samples", "total_samples"}.issubset(mut_df.columns):
         total_mut = int(mut_df["mutated_samples"].sum())
         total_seq  = int(mut_df["total_samples"].sum())
         m1.metric("Cancer Types Analysed", len(mut_df[mut_df["total_samples"] > 0]))
         m2.metric("Total Sequenced", f"{total_seq:,}")
-        m3.metric("CD46-Mutated Tumours", total_mut)
-        m4.metric("Overall Somatic Freq", f"{total_mut/total_seq*100:.2f}%" if total_seq else "—", "CD46 mutations are rare")
+        m3.metric(f"{_GENE}-Mutated Tumours", total_mut)
+        m4.metric("Overall Somatic Freq", f"{total_mut/total_seq*100:.2f}%" if total_seq else "—")
 
-        mut_nonzero = mut_df[mut_df["mutation_freq_pct"] > 0].sort_values("mutation_freq_pct", ascending=False)
-        if not mut_nonzero.empty:
-            m_colors = [_RED if v >= 2 else _AMBER if v >= 1 else _SLATE for v in mut_nonzero["mutation_freq_pct"]]
-            fig_mut = go.Figure(go.Bar(
-                x=mut_nonzero["cancer_type"],
-                y=mut_nonzero["mutation_freq_pct"],
-                marker=dict(color=m_colors, line=dict(color="#D5DEE8", width=0.5)),
-                text=[f"{v:.1f}%" for v in mut_nonzero["mutation_freq_pct"]],
-                textposition="outside",
-                textfont=dict(size=10, color=_LIGHT),
-                hovertemplate="<b>%{x}</b><br>Mutation freq: %{y:.2f}%<extra></extra>",
-            ))
-            apply_plotly_layout(fig_mut,
-                title=dict(text="CD46 Somatic Mutation Frequency — TCGA Pan-Cancer (cBioPortal)", font=dict(color=_LIGHT, size=13)),
-                xaxis=dict(title="Cancer Type", showgrid=False, color=_LIGHT, tickangle=-30),
-                yaxis=dict(title="Mutation Frequency (%)", gridcolor=_LINE, color=_TEXT),
-                height=380,
-                margin=dict(l=10, r=30, t=40, b=80),
-            )
-            st.plotly_chart(fig_mut, use_container_width=True)
-        else:
-            st.info("No cancer types with CD46 somatic mutations >0% detected in the loaded dataset.")
+        if "mutation_freq_pct" in mut_df.columns:
+            mut_nonzero = mut_df[mut_df["mutation_freq_pct"] > 0].sort_values("mutation_freq_pct", ascending=False)
+            if not mut_nonzero.empty:
+                m_colors = [_RED if v >= 2 else _AMBER if v >= 1 else _SLATE for v in mut_nonzero["mutation_freq_pct"]]
+                fig_mut = go.Figure(go.Bar(
+                    x=mut_nonzero["cancer_type"],
+                    y=mut_nonzero["mutation_freq_pct"],
+                    marker=dict(color=m_colors, line=dict(color="#D5DEE8", width=0.5)),
+                    text=[f"{v:.1f}%" for v in mut_nonzero["mutation_freq_pct"]],
+                    textposition="outside",
+                    textfont=dict(size=10, color=_LIGHT),
+                ))
+                apply_plotly_layout(fig_mut,
+                    title=dict(text=f"{_GENE} Somatic Mutation Frequency — TCGA", font=dict(color=_LIGHT, size=13)),
+                    xaxis=dict(title="Cancer Type", showgrid=False, color=_LIGHT, tickangle=-30),
+                    yaxis=dict(title="Mutation Frequency (%)", gridcolor=_LINE, color=_TEXT),
+                    height=380,
+                    margin=dict(l=10, r=30, t=40, b=80),
+                )
+                st.plotly_chart(fig_mut, use_container_width=True)
+    else:
+        st.info(f"No mutation-by-cancer slice for **{_GENE}**.")
 
     st.markdown("---")
-    st.markdown("#### ClinVar: CD46 Germline Variant Landscape")
-    st.markdown(
-        "~500 CD46 variants in ClinVar. Pathogenic variants are primarily associated with "
-        "**atypical Haemolytic Uraemic Syndrome (aHUS2)** — a complement dysregulation disease — "
-        "**not cancer predisposition.**"
-    )
+    st.markdown(f"#### ClinVar: {_GENE} Germline Variant Landscape")
+    if _IS_CD46:
+        st.markdown(
+            "~500 CD46 variants in ClinVar. Pathogenic variants are primarily associated with "
+            "**atypical Haemolytic Uraemic Syndrome (aHUS2)** — a complement dysregulation disease — "
+            "**not cancer predisposition.**"
+        )
 
-    # Use live ClinVar data if available, else fallback
     if not clinvar_df.empty and "clinical_significance" in clinvar_df.columns:
         sig_counts = clinvar_df["clinical_significance"].value_counts().reset_index()
         sig_counts.columns = ["Significance", "Count"]
-    else:
+    elif _IS_CD46:
         sig_counts = _CLINVAR_SIG_FALLBACK
+    else:
+        sig_counts = pd.DataFrame()
 
-    sig_colors_map = {
-        "Pathogenic": _RED,
-        "Likely pathogenic": _ORANGE,
-        "Pathogenic/Likely pathogenic": _AMBER,
-        "Uncertain significance": _SLATE,
-        "Likely benign": _TEAL,
-        "Benign": _GREEN,
-    }
-    cv_colors = [sig_colors_map.get(s, _SLATE) for s in sig_counts["Significance"]]
+    if sig_counts.empty:
+        st.info(f"No ClinVar variants for **{_GENE}** (`clinvar_{_PREFIX}_variants.csv`).")
+    else:
+        sig_colors_map = {
+            "Pathogenic": _RED,
+            "Likely pathogenic": _ORANGE,
+            "Pathogenic/Likely pathogenic": _AMBER,
+            "Uncertain significance": _SLATE,
+            "Likely benign": _TEAL,
+            "Benign": _GREEN,
+        }
+        cv_colors = [sig_colors_map.get(s, _SLATE) for s in sig_counts["Significance"]]
+        fig_cv = go.Figure(go.Bar(
+            x=sig_counts["Significance"],
+            y=sig_counts["Count"],
+            marker=dict(color=cv_colors, line=dict(color="#D5DEE8", width=0.5)),
+            text=sig_counts["Count"],
+            textposition="outside",
+            textfont=dict(size=11, color=_LIGHT),
+        ))
+        n_cv = int(sig_counts["Count"].sum())
+        apply_plotly_layout(fig_cv,
+            title=dict(text=f"{_GENE} ClinVar Variants by Clinical Significance (n={n_cv})", font=dict(color=_LIGHT, size=13)),
+            xaxis=dict(title=None, showgrid=False, color=_LIGHT, tickangle=-20),
+            yaxis=dict(title="Number of Variants", gridcolor=_LINE, color=_TEXT),
+            height=360,
+            margin=dict(l=10, r=30, t=40, b=80),
+        )
+        st.plotly_chart(fig_cv, use_container_width=True)
+        if not clinvar_df.empty:
+            with st.expander(f"📥 ClinVar table — {_GENE}"):
+                research_table(clinvar_df.head(100), use_container_width=True, hide_index=True)
 
-    fig_cv = go.Figure(go.Bar(
-        x=sig_counts["Significance"],
-        y=sig_counts["Count"],
-        marker=dict(color=cv_colors, line=dict(color="#D5DEE8", width=0.5)),
-        text=sig_counts["Count"],
-        textposition="outside",
-        textfont=dict(size=11, color=_LIGHT),
-        hovertemplate="<b>%{x}</b><br>Count: %{y}<extra></extra>",
-    ))
-    apply_plotly_layout(fig_cv,
-        title=dict(text=f"CD46 ClinVar Variants by Clinical Significance (n≈500 total)", font=dict(color=_LIGHT, size=13)),
-        xaxis=dict(title=None, showgrid=False, color=_LIGHT, tickangle=-20),
-        yaxis=dict(title="Number of Variants", gridcolor=_LINE, color=_TEXT),
-        height=360,
-        margin=dict(l=10, r=30, t=40, b=80),
-    )
-    st.plotly_chart(fig_cv, use_container_width=True)
-
-    st.success(
-        "**Key regulatory insight:** CD46 has NO pathogenic germline variants associated with cancer "
-        "predisposition — ClinVar pathogenic entries are exclusively in complement deficiency (aHUS2). "
-        "This simplifies the IND toxicology narrative: you are targeting tumour overexpression, "
-        "not a cancer predisposition gene."
-    )
-
-    st.markdown("""
-> **Mechanistic duality:** Loss-of-function CD46 variants → uncontrolled complement lysis (aHUS2).
-> In cancer: **gain-of-function upregulation** enables tumour cells to evade complement-mediated immune killing.
-> This validated pathophysiology confirms CD46 as both a therapeutic target and diagnostically tractable biomarker.
-""")
+    if _IS_CD46:
+        st.success(
+            "**Key regulatory insight:** CD46 has NO pathogenic germline variants associated with cancer "
+            "predisposition — ClinVar pathogenic entries are exclusively in complement deficiency (aHUS2)."
+        )
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# TAB 5 — Liquid Biopsy & CTCs
+# TAB — Liquid Biopsy & CTCs (CD46 only)
 # ═══════════════════════════════════════════════════════════════════════════════
-elif _active_diag == _DIAG_TABS[4]:
+elif _IS_CD46 and _active_diag == "Liquid Biopsy & CTCs":
     st.markdown("#### Soluble CD46 & CTCs — Liquid Biopsy Evidence")
 
     c1, c2 = st.columns(2)
@@ -632,9 +648,9 @@ elif _active_diag == _DIAG_TABS[4]:
     )
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# TAB 6 — Early Detection Science
+# TAB — Early Detection Science (CD46 only)
 # ═══════════════════════════════════════════════════════════════════════════════
-elif _active_diag == _DIAG_TABS[5]:
+elif _IS_CD46 and _active_diag == "Early Detection Science":
     st.markdown("#### CD46 in Pre-Malignant and Early-Stage Disease")
     st.markdown(
         "CD46 upregulation is not exclusively a late-stage event. Evidence from multiple cancers "
@@ -705,9 +721,9 @@ elif _active_diag == _DIAG_TABS[5]:
     )
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# TAB 7 — Co-Biomarker Strategy
+# TAB — Co-Biomarker Strategy (CD46 only)
 # ═══════════════════════════════════════════════════════════════════════════════
-elif _active_diag == _DIAG_TABS[6]:
+elif _IS_CD46 and _active_diag == "Co-Biomarker Strategy":
     st.markdown("#### Multi-Analyte Co-Biomarker Patient Selection Strategy")
     st.markdown(
         "No single biomarker is sufficient. The CD46 companion diagnostic uses a "

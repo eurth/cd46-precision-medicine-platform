@@ -1,0 +1,8 @@
+{
+  "gene": "CD19",
+  "ensembl": "ENSG00000177455",
+  "rna_tissue_specificity": "Group enriched",
+  "rna_tissue_distribution": "Detected in some",
+  "rna_cancer_specificity": "Low cancer specificity",
+  "protein_class": "CD markers;Disease related genes;FDA approved drug targets;Human disease related genes;Predicted membrane proteins"
+}

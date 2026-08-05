@@ -1,0 +1,7 @@
+tissue,type,ntpm,staining_intensity,data_source
+placenta,normal,61.8,,HPA_rna
+Cytotrophoblasts,single_cell,1190.3,,HPA_rna
+Fibro-adipogenic progenitors,single_cell,1097.7,,HPA_rna
+Myosatellite cells,single_cell,789.2,,HPA_rna
+Respiratory basal cells,single_cell,935.5,,HPA_rna
+Syncytiotrophoblasts,single_cell,1481.8,,HPA_rna

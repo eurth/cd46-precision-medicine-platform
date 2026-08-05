@@ -1,10 +1,10 @@
-"""Page 10 — CD46 PPI Network Explorer.
+"""Page 10 — PPI Network Explorer (active-gene hub).
 
-Visualises the STRING DB v12.0 high-confidence PPI network centred on CD46.
-Live data from AuraDB; falls back to curated static STRING data when KG unavailable.
+STRING DB v12.0 high-confidence PPI neighbourhood centred on get_active_symbol().
+Live AuraDB when available; gene JSON under data/raw/apis/string_{gene}.json;
+CD46 keeps a curated static fallback.
 
 Source: STRING DB https://string-db.org  (CC BY 4.0)
-Human CD46 (UniProt P15529) | confidence >= 0.70 | 30 partners | 103 interactions
 """
 import os
 import sys
@@ -21,12 +21,10 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 from components.theme import plotly_layout, apply_plotly_layout
-from components.targets import get_active_symbol, render_stub_gate, render_case_study_gate
+from components.targets import get_active_symbol, render_stub_gate
 from components.ui_kit import page_header, section_tabs, research_table
 
 if render_stub_gate(module="PPI Network Explorer"):
-    st.stop()
-if render_case_study_gate(module="PPI Network Explorer"):
     st.stop()
 
 _GENE = get_active_symbol()
@@ -43,78 +41,69 @@ for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
 # ── Theme ──────────────────────────────────────────────────────────────────────
 _BG     = "#FFFFFF"
 _LINE   = "#E2E8F0"
-_ORANGE = "#FB923C"   # CD46 hub
-_INDIGO = "#2563EB"   # complement system
-_GREEN  = "#34D399"   # immune / T-cell
-_VIOLET = "#A78BFA"   # viral entry receptor
-_ROSE   = "#F472B6"   # notch / oncogenic
-_RED    = "#EF4444"   # coagulation crosstalk
-_CYAN   = "#22D3EE"   # cell surface / adhesion
-_SLATE  = "#4E637A"   # structural
+_ORANGE = "#FB923C"   # active-gene hub
+_INDIGO = "#2563EB"
+_GREEN  = "#34D399"
+_VIOLET = "#A78BFA"
+_ROSE   = "#F472B6"
+_RED    = "#EF4444"
+_CYAN   = "#22D3EE"
+_SLATE  = "#4E637A"
 _TEXT   = "#64748B"
 _LIGHT  = "#1E293B"
 
-# ── PPI data maps ──────────────────────────────────────────────────────────────
-PATHWAY_MAP: dict[str, str] = {
-    "CD46":     "CD46 (Hub)",
-    "C2":       "Complement System",
-    "C3":       "Complement System",
-    "C4A":      "Complement System",
-    "C4B":      "Complement System",
-    "CFB":      "Complement System",
-    "CFI":      "Complement System",
-    "CR1":      "Complement System",
-    "CD55":     "Complement System",
-    "CD59":     "Complement System",
-    "SERPING1": "Complement System",
-    "THBD":     "Complement System",
-    "CFHR3":    "Complement System",
-    "CFHR5":    "Complement System",
-    "CD4":      "Immune / T-cell",
-    "SLAMF1":   "Immune / T-cell",
-    "CXADR":    "Viral Entry Receptor",
-    "DSG2":     "Viral Entry Receptor",
-    "NECTIN4":  "Viral Entry Receptor",
-    "ERVW-1":   "Viral Entry Receptor",
-    "JAG1":     "Notch / Oncogenic",
-    "ADAMTS13": "Coagulation Crosstalk",
-    "DGKE":     "Coagulation Crosstalk",
-    "CD81":     "Cell Surface / Adhesion",
-    "CD9":      "Cell Surface / Adhesion",
-    "MSN":      "Cell Surface / Adhesion",
-    "GOPC":     "Structural",
-    "MYBPH":    "Structural",
-    "MYOM2":    "Structural",
-    "AGBL3":    "Structural",
-}
+_HUB_CAT = f"{_GENE} (Hub)"
+_PARTNER_CAT = "STRING partner"
 
-COLORS: dict[str, str] = {
-    "CD46 (Hub)":              _ORANGE,
-    "Complement System":       _INDIGO,
-    "Immune / T-cell":         _GREEN,
-    "Viral Entry Receptor":    _VIOLET,
-    "Notch / Oncogenic":       _ROSE,
-    "Coagulation Crosstalk":   _RED,
-    "Cell Surface / Adhesion": _CYAN,
-    "Structural":              _SLATE,
-}
+# CD46-only pathway / partner blurbs — never applied for other active genes
+PATHWAY_MAP: dict[str, str] = {_GENE: _HUB_CAT}
+GENE_INSIGHTS: dict[str, str] = {}
+COLORS: dict[str, str] = {_HUB_CAT: _ORANGE, _PARTNER_CAT: _SLATE}
 
-GENE_INSIGHTS: dict[str, str] = {
-    "C3":       "Central complement node. Cleavage product C3b is inactivated by CD46, enabling cancer immune evasion.",
-    "CFI":      "Complement Factor I. Works with CD46 as cofactor to inactivate C3b — key mechanistic partner.",
-    "CR1":      "Complement Receptor 1 (CD35). Also cleaves C3b; co-expressed with CD46 on immune and tumour cells.",
-    "CD55":     "Decay-accelerating factor. Second major complement regulator co-overexpressed with CD46 in many tumours.",
-    "CD59":     "Protectin. Inhibits MAC (C5b-9) formation — third layer of complement evasion on tumour surface.",
-    "THBD":     "Thrombomodulin. Links complement to coagulation; overexpressed in aggressive cancers.",
-    "JAG1":     "Jagged-1 (Notch ligand). CD46-Notch cross-talk implicated in EMT and stem-like cancer phenotype.",
-    "CD4":      "T-cell coreceptor. CD46 modulates CD4+ Treg induction, converting anti-tumour T cells to immunosuppressive.",
-    "SLAMF1":   "Signalling lymphocyte activation molecule. Co-receptor in measles virus biology; co-expressed in B-cell malignancies.",
-    "SERPING1": "C1-Inhibitor. Regulates classical complement pathway; correlates with immune-cold tumour microenvironments.",
-    "CFB":      "Complement Factor B. Alternative pathway amplifier.",
-    "NECTIN4":  "FDA-approved ADC target (enfortumab vedotin, bladder cancer). STRING co-association with CD46 suggests shared membrane biology.",
-    "CD81":     "Tetraspanin CD81. Membrane microdomain partner; known scaffold for surface receptor complexes.",
-    "CD9":      "Tetraspanin CD9. Cell surface co-localisation with CD46; roles in cell migration and metastasis.",
-}
+if _IS_CD46:
+    PATHWAY_MAP.update({
+        "C2": "Complement System", "C3": "Complement System",
+        "C4A": "Complement System", "C4B": "Complement System",
+        "CFB": "Complement System", "CFI": "Complement System",
+        "CR1": "Complement System", "CD55": "Complement System",
+        "CD59": "Complement System", "SERPING1": "Complement System",
+        "THBD": "Complement System", "CFHR3": "Complement System",
+        "CFHR5": "Complement System",
+        "CD4": "Immune / T-cell", "SLAMF1": "Immune / T-cell",
+        "CXADR": "Viral Entry Receptor", "DSG2": "Viral Entry Receptor",
+        "NECTIN4": "Viral Entry Receptor", "ERVW-1": "Viral Entry Receptor",
+        "JAG1": "Notch / Oncogenic",
+        "ADAMTS13": "Coagulation Crosstalk", "DGKE": "Coagulation Crosstalk",
+        "CD81": "Cell Surface / Adhesion", "CD9": "Cell Surface / Adhesion",
+        "MSN": "Cell Surface / Adhesion",
+        "GOPC": "Structural", "MYBPH": "Structural",
+        "MYOM2": "Structural", "AGBL3": "Structural",
+    })
+    COLORS.update({
+        "Complement System": _INDIGO,
+        "Immune / T-cell": _GREEN,
+        "Viral Entry Receptor": _VIOLET,
+        "Notch / Oncogenic": _ROSE,
+        "Coagulation Crosstalk": _RED,
+        "Cell Surface / Adhesion": _CYAN,
+        "Structural": _SLATE,
+    })
+    GENE_INSIGHTS = {
+        "C3": "Central complement node. Cleavage product C3b is inactivated by CD46, enabling cancer immune evasion.",
+        "CFI": "Complement Factor I. Works with CD46 as cofactor to inactivate C3b — key mechanistic partner.",
+        "CR1": "Complement Receptor 1 (CD35). Also cleaves C3b; co-expressed with CD46 on immune and tumour cells.",
+        "CD55": "Decay-accelerating factor. Second major complement regulator co-overexpressed with CD46 in many tumours.",
+        "CD59": "Protectin. Inhibits MAC (C5b-9) formation — third layer of complement evasion on tumour surface.",
+        "THBD": "Thrombomodulin. Links complement to coagulation; overexpressed in aggressive cancers.",
+        "JAG1": "Jagged-1 (Notch ligand). CD46-Notch cross-talk implicated in EMT and stem-like cancer phenotype.",
+        "CD4": "T-cell coreceptor. CD46 modulates CD4+ Treg induction, converting anti-tumour T cells to immunosuppressive.",
+        "SLAMF1": "Signalling lymphocyte activation molecule. Co-receptor in measles virus biology; co-expressed in B-cell malignancies.",
+        "SERPING1": "C1-Inhibitor. Regulates classical complement pathway; correlates with immune-cold tumour microenvironments.",
+        "CFB": "Complement Factor B. Alternative pathway amplifier.",
+        "NECTIN4": "FDA-approved ADC target (enfortumab vedotin, bladder cancer). STRING co-association with CD46 suggests shared membrane biology.",
+        "CD81": "Tetraspanin CD81. Membrane microdomain partner; known scaffold for surface receptor complexes.",
+        "CD9": "Tetraspanin CD9. Cell surface co-localisation with CD46; roles in cell migration and metastasis.",
+    }
 
 # ── Static fallback PPI data (STRING DB v12.0, curated) ───────────────────────
 _ANNOTATIONS = {
@@ -202,7 +191,18 @@ _STATIC_EDGES = [
 
 
 def get_cat(sym: str) -> str:
-    return PATHWAY_MAP.get(sym, "Structural")
+    if _IS_CD46:
+        return PATHWAY_MAP.get(sym, "Structural")
+    return _HUB_CAT if sym == _GENE else _PARTNER_CAT
+
+
+def partner_blurb(sym: str) -> str:
+    """Hover/description text — CD46 curated blurbs only when hub is CD46."""
+    if _IS_CD46:
+        return GENE_INSIGHTS.get(sym, "")
+    if sym == _GENE:
+        return ""
+    return f"STRING PPI partner of {_GENE}"
 
 
 def build_graph(nodes: list, edges: list, min_score: float) -> nx.Graph:
@@ -330,11 +330,6 @@ if not kg_edges:
     kg_nodes = [{"symbol": _GENE, "annotation": "", "string_id": ""}]
     kg_edges = []
 
-# Ensure hub category exists for non-CD46
-if not _IS_CD46:
-    PATHWAY_MAP.setdefault(_GENE, f"{_GENE} (Hub)")
-    COLORS.setdefault(f"{_GENE} (Hub)", _ORANGE)
-
 # ── Inline network controls ───────────────────────────────────────────────────
 with st.expander("\u2699\ufe0f Network Controls", expanded=False):
     nc1, nc2, nc3 = st.columns(3)
@@ -404,12 +399,15 @@ if _active_ppi == _PPI_TABS[0]:
             if not cat_nodes:
                 continue
             sizes = [42 if n == _GENE else max(14, min(32, G.degree(n) * 5 + 12)) for n in cat_nodes]
-            hover_texts = [
-                f"<b>{n}</b><br>Category: {cat}<br>Connections: {G.degree(n)}<br>"
-                f"{'<i>' + GENE_INSIGHTS[n] + '</i><br>' if n in GENE_INSIGHTS else ''}"
-                f"<small>{G.nodes[n].get('annotation', '')[:160]}</small>"
-                for n in cat_nodes
-            ]
+            hover_texts = []
+            for n in cat_nodes:
+                blurb = partner_blurb(n)
+                ann = (G.nodes[n].get("annotation", "") if _IS_CD46 else "")[:160]
+                hover_texts.append(
+                    f"<b>{n}</b><br>Category: {cat}<br>Connections: {G.degree(n)}<br>"
+                    f"{'<i>' + blurb + '</i><br>' if blurb else ''}"
+                    f"<small>{ann}</small>"
+                )
             fig_net.add_trace(go.Scatter(
                 x=[pos[n][0] for n in cat_nodes],
                 y=[pos[n][1] for n in cat_nodes],
@@ -570,13 +568,13 @@ elif _active_ppi == _PPI_TABS[2]:
 
     st.markdown("---")
     st.markdown(f"**Evidence Type Breakdown — {_GENE} Direct Partners (top 15 by score)**")
-    direct_cd46 = sorted(
+    direct_hub = sorted(
         [e for e in kg_edges if e["sym_a"] == _GENE or e["sym_b"] == _GENE],
         key=lambda x: x["score"],
         reverse=True,
     )[:15]
-    if direct_cd46:
-        partner_names = [e["sym_b"] if e["sym_a"] == _GENE else e["sym_a"] for e in direct_cd46]
+    if direct_hub:
+        partner_names = [e["sym_b"] if e["sym_a"] == _GENE else e["sym_a"] for e in direct_hub]
         fig_ev = go.Figure()
         for ev, label, color in [
             ("escore", "Experimental",  _GREEN),
@@ -586,7 +584,7 @@ elif _active_ppi == _PPI_TABS[2]:
             fig_ev.add_trace(go.Bar(
                 name=label,
                 x=partner_names,
-                y=[e.get(ev, 0) for e in direct_cd46],
+                y=[e.get(ev, 0) for e in direct_hub],
                 marker_color=color,
             ))
         apply_plotly_layout(fig_ev,
@@ -606,106 +604,62 @@ elif _active_ppi == _PPI_TABS[2]:
     else:
         st.info(f"No direct {_GENE} edge data available for evidence breakdown.")
 
-    if _IS_CD46:
-        st.info(
-            "**Complement System genes dominate the top-confidence cluster** "
-            "(CFI, CD55, CD59, CR1, C3 all score > 0.95).  \n"
-            "This cluster represents the tumour immune-evasion shield that CD46 anchors. "
-            "Alpha-particle RLT bypasses this shield entirely through direct DNA double-strand break induction."
-        )
-    else:
-        st.caption(
-            f"Pathway category map is CD46-centric; partners for {_GENE} may show as Structural until curated."
-        )
+    st.caption(
+        f"Hub category: **{_HUB_CAT}**. "
+        + ("Unmapped partners default to Structural." if _IS_CD46
+           else f"Non-hub nodes are labeled {_PARTNER_CAT}.")
+    )
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Tab 4 — Biology Narrative
 # ─────────────────────────────────────────────────────────────────────────────
 elif _active_ppi == _PPI_TABS[3]:
+    st.markdown(f"#### {_GENE} PPI biology context")
     if not _IS_CD46:
-        st.markdown(f"#### {_GENE} PPI context")
         st.info(
-            f"Curated biology narrative is CD46 case-study depth. "
-            f"Use the Network / Partner tabs for **{_GENE}** STRING edges, or Ask AI."
+            f"Deep curated narrative exists for the CD46 reference slice. "
+            f"Use Network / Partner tabs for **{_GENE}** STRING edges, or Ask AI."
         )
-    if _IS_CD46:
-        st.markdown("#### Why the CD46 PPI Network Matters for Cancer Therapy")
+    else:
         st.markdown(
-            "The STRING network reveals CD46 sits at the **hub of a multi-layered complement "
-            "evasion system** that cancer cells exploit to escape immune destruction."
+            "The STRING neighbourhood places CD46 at a multi-layered complement "
+            "regulation cluster that tumours can exploit for immune evasion."
         )
-
-    if _IS_CD46:
         col_a, col_b = st.columns(2)
         with col_a:
             with st.container(border=True):
-                st.markdown("#### \U0001f6e1\ufe0f Complement Evasion Cluster")
+                st.markdown("#### Complement cluster (CD46 slice)")
                 st.markdown("""
 | Gene | Function | Therapeutic Role |
 |------|----------|-----------------|
-| **CFI** | Cleaves C3b (CD46 cofactor) | Mechanistic partner — no redundancy |
+| **CFI** | Cleaves C3b (CD46 cofactor) | Mechanistic partner |
 | **CR1** | Parallel C3b cleavage | Redundant evasion fallback |
-| **CD55** | C3/C5 convertase decay | Co-upregulated in same cancers |
+| **CD55** | C3/C5 convertase decay | Co-upregulated |
 | **CD59** | Blocks MAC assembly | Third protection layer |
-| **SERPING1** | Inactivates C1r/C1s | Upstream classical pathway gate |
+| **SERPING1** | Inactivates C1r/C1s | Classical pathway gate |
 | **THBD** | C3b \u2192 non-lytic | Coagulation crosstalk |
-
-> 225Ac alpha particles cause DNA double-strand breaks **regardless** of complement
-> activity \u2014 bypassing all three layers of this evasion shield simultaneously.
 """)
-
-            st.success(
-                "**Clinical implication:** Co-upregulation of CD46, CD55, and CD59 in IHC biopsies "
-                "of mCRPC tissue confirms this as a coordinated evasion programme, not incidental "
-                "expression. Targeting CD46 disrupts the anchor protein of this entire cluster."
-            )
-
         with col_b:
             with st.container(border=True):
-                st.markdown("#### \U0001f9ec Immune & Receptor Co-clusters")
+                st.markdown("#### Immune & receptor co-clusters")
                 st.markdown("""
-**CD46 \u2192 T-regulatory axis**
-- CD46 ligation converts CD4+ T cells to IL-10-secreting Tr1 cells
-- Creates immune-cold TME \u2014 favours radiopharmaceutical over immunotherapy
-- Disrupting CD46 may simultaneously restore immune surveillance
+**T-reg axis** — CD46 ligation can convert CD4+ T cells toward IL-10 Tr1 phenotype.
 
-**NECTIN4 co-cluster (oncological significance)**
-- NECTIN4 = FDA-approved ADC target (enfortumab vedotin, bladder cancer)
-- STRING co-association with CD46 \u2192 shared membrane biology
-- CD46+/NECTIN4+ = potential combinatorial biomarker window for bladder cancer
+**NECTIN4** — FDA-approved ADC target; STRING co-association suggests shared membrane biology.
 
-**SLAMF1 (haematological relevance)**
-- Both CD46 and SLAMF1 are measles virus entry receptors
-- Co-expressed in B-cell malignancies and myeloma
-- Validates CD46 as a haematological target (FOR46/BC8-CD46 Phase 1)
-
-**JAG1-Notch crosstalk**
-- CD46-Notch signalling linked to EMT and cancer stem-cell maintenance
-- Single-cell kill by alpha particle addresses heterogeneous stem-like subpopulations
+**JAG1-Notch** — Linked to EMT / stem-like phenotype in some contexts.
 """)
-
-            st.info(
-                "**Resistance hypothesis:** If CD46 is downregulated under selection pressure, "
-                "CD55 and CD59 may compensate as secondary complement evaders. Monitoring "
-                "co-expression of all three in serial biopsies is a key translational question."
-            )
-
-        st.markdown("---")
-        with st.expander("\U0001f4c1 Data Provenance & KG Architecture"):
+        with st.expander("Data provenance"):
             st.markdown(f"""
 **Source**: STRING DB v12.0 (https://string-db.org) | CC BY 4.0
-**Seed protein**: Human CD46 / MCP (UniProt P15529 / ENSP00000313875)
-**Confidence threshold**: \u2265 0.70 (STRING high confidence)
-**KG storage**: AuraDB (Neo4j) \u2014 30 Gene nodes + 103 INTERACTS\\_WITH relationships
-**KG load script**: scripts/load\\_kg\\_string.py
+**Hub**: {_GENE} (active target)
+**Confidence**: \u2265 0.70
 **Active data source**: {_data_label}
-**Curated static fallback**: 29 direct CD46 partners + 14 complement cluster intra-edges
-**Last verified**: March 2026
 """)
 
 st.markdown("---")
 st.caption(
-    "**Research use only.** STRING DB CC BY 4.0. "
+    f"**Research use only.** Hub: **{_GENE}**. STRING DB CC BY 4.0. "
     "Interaction scores reflect computational predictions; experimental validation required "
     "before clinical extrapolation. PPI data does not substitute for proteomic assay results."
 )

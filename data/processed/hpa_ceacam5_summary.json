@@ -1,0 +1,8 @@
+{
+  "gene": "CEACAM5",
+  "ensembl": "ENSG00000105388",
+  "rna_tissue_specificity": "Tissue enriched",
+  "rna_tissue_distribution": "Detected in many",
+  "rna_cancer_specificity": "Cancer enhanced",
+  "protein_class": "Cancer-related genes;CD markers;Plasma proteins;Predicted intracellular proteins;Predicted membrane proteins"
+}

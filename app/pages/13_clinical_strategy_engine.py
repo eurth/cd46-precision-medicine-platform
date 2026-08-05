@@ -1,7 +1,8 @@
 """Page 13 — Clinical Strategy Engine
 End-to-end development narrative: Target → Drug → Patient → Trial → Outcome.
-The single investor/CAB-ready artifact that connects all platform evidence.
+Gene-parameterized via get_active_symbol() / strategy_context().
 """
+import json
 import os
 import sys
 from pathlib import Path
@@ -11,9 +12,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
-from components.theme import plotly_layout, apply_plotly_layout
-from components.targets import get_active_symbol, render_stub_gate, render_case_study_gate
+from components.theme import apply_plotly_layout
+from components.targets import get_active_symbol, get_target, render_stub_gate
 from components.target_narratives import strategy_context, strategy_purpose, strategy_stage1_title
+from components.gene_data import load_trials_summary
 from components.ui_kit import page_header, research_table
 
 # ── Streamlit Cloud secret injection ─────────────────────────────────────────
@@ -26,12 +28,13 @@ for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
 
 if render_stub_gate(module="Clinical Strategy Engine"):
     st.stop()
-if render_case_study_gate(module="Clinical Strategy Engine"):
-    st.stop()
 
 _GENE = get_active_symbol()
 _PREFIX = _GENE.lower()
-_IS_CD46 = _GENE == "CD46"
+_TARGET = get_target(_GENE)
+_GENE_NAME = str(_TARGET.get("name") or _GENE)
+_strat = strategy_context(_GENE)
+
 # ── Theme ─────────────────────────────────────────────────────────────────────
 _BG     = "#FFFFFF"
 _LINE   = "#E2E8F0"
@@ -46,7 +49,6 @@ _SLATE  = "#4E637A"
 _TEXT   = "#64748B"
 _LIGHT  = "#1E293B"
 
-# ── Phase-pill banner CSS (kept as HTML — bespoke progress tracker) ───────────
 st.markdown("""
 <style>
   .block-container { padding-top: 1.5rem; }
@@ -61,6 +63,7 @@ st.markdown("""
   .pill-app { background: #14532d22; color: #4ade80; border: 1px solid #14532d; }
 </style>
 """, unsafe_allow_html=True)
+
 
 # ── AuraDB driver ─────────────────────────────────────────────────────────────
 @st.cache_resource(ttl=300)
@@ -100,20 +103,7 @@ def load_kg_stats(symbol: str) -> dict:
                 """,
                 sym=symbol,
             )
-            stats["cd46_trials"] = [dict(rec) for rec in r]
-            r2 = s.run("""
-                MATCH (pg:PatientGroup)
-                WHERE pg.study_id IN ['prad_su2c_2019','prad_su2c_2015']
-                  AND pg.os_months IS NOT NULL
-                RETURN COUNT(pg) AS n,
-                       AVG(pg.os_months) AS mean_os,
-                       AVG(pg.age_at_diagnosis) AS mean_age
-            """)
-            rec = r2.single()
-            if rec:
-                stats["mcrpc_n"] = rec["n"]
-                stats["mcrpc_mean_os"] = round(rec["mean_os"] or 0, 1)
-                stats["mcrpc_mean_age"] = round(rec["mean_age"] or 0, 1)
+            stats["trials"] = [dict(rec) for rec in r]
             r3 = s.run("MATCH (d:Disease) RETURN COUNT(d) AS n")
             stats["disease_n"] = r3.single()["n"]
             r4 = s.run("MATCH (g:Gene)-[:INTERACTS_WITH]->() RETURN COUNT(DISTINCT g) AS n")
@@ -145,46 +135,68 @@ def load_expression(symbol: str):
     return pd.DataFrame()
 
 
+def _median_col(df: pd.DataFrame, symbol: str) -> str | None:
+    pref = symbol.lower()
+    for c in ("gene_median", f"{pref}_median", f"{pref}_mean", "median_tpm", "mean_tpm"):
+        if c in df.columns:
+            return c
+    return None
+
+
+@st.cache_data
+def load_chembl_summary(symbol: str) -> pd.DataFrame:
+    raw = Path(__file__).resolve().parents[2] / "data" / "raw" / "apis" / f"chembl_{symbol.lower()}.json"
+    if not raw.exists():
+        return pd.DataFrame()
+    try:
+        payload = json.loads(raw.read_text(encoding="utf-8"))
+    except Exception:
+        return pd.DataFrame()
+    drugs = payload.get("drugs") or []
+    rows = []
+    for d in drugs[:20]:
+        phase = int(d.get("max_phase") or 0)
+        rows.append({
+            "name": d.get("name") or d.get("chembl_id") or "—",
+            "type": d.get("molecule_type") or d.get("drug_type") or "—",
+            "phase": phase,
+            "mechanism": (d.get("mechanism") or "—")[:120],
+            "chembl_id": d.get("chembl_id") or "—",
+        })
+    return pd.DataFrame(rows)
+
+
+def _trials_from_summary(symbol: str) -> list[dict]:
+    df = load_trials_summary(symbol)
+    if df.empty:
+        return []
+    rows = []
+    for _, r in df.iterrows():
+        rows.append({
+            "nct": r.get("nct_id") or r.get("nct") or "—",
+            "title": r.get("title") or "",
+            "phase": str(r.get("phase") or "NA").upper().replace(" ", ""),
+            "status": str(r.get("status") or "—").upper(),
+            "enrolled": r.get("enrollment") or r.get("enrolled") or None,
+            "start": r.get("start_date") or r.get("start") or "—",
+            "completion": r.get("completion_date") or r.get("completion") or "—",
+            "sponsor": r.get("sponsor") or "—",
+        })
+    return rows
+
+
 surv_df  = load_survival(_GENE)
 expr_df  = load_expression(_GENE)
 kg_stats = load_kg_stats(_GENE)
-_strat = strategy_context(_GENE)
-if not _IS_CD46:
-    st.info(
-        f"Stages 2–5 IND narrative is CD46 case-study depth. "
-        f"Stage charts use **{_GENE}** expression/survival/trials where available. "
-        f"Focus: {_strat['indication']} · {_strat['trial_focus']}."
-    )
-# ── Defaults for missing KG / CSV ─────────────────────────────────────────────
-mcrpc_n   = kg_stats.get("mcrpc_n", 579)
-mcrpc_os  = kg_stats.get("mcrpc_mean_os", 24.0)
-mcrpc_age = kg_stats.get("mcrpc_mean_age", 62.0)
-n_disease = kg_stats.get("disease_n", 797)
-n_ppi     = kg_stats.get("ppi_genes", 35)
+chembl_df = load_chembl_summary(_GENE)
 
-# Static fallback HR data
-_FALLBACK_HR = pd.DataFrame({
-    "cancer_type": ["PRAD", "OV",  "BLCA", "LUAD", "BRCA", "KICH", "PAAD", "LIHC"],
-    "hazard_ratio": [1.65, 1.52,  1.48,  1.41,   1.38,  1.31,   1.28,  1.22],
-    "hr_lower_95":  [1.30, 1.18,  1.14,  1.10,   1.07,  1.02,   1.00,  0.95],
-    "hr_upper_95":  [2.10, 1.95,  1.91,  1.81,   1.78,  1.67,   1.64,  1.57],
-})
+# Prefer processed trial CSV, then KG, never a foreign-gene fallback
+_trials = kg_stats.get("trials") or []
+if not _trials:
+    _trials = _trials_from_summary(_GENE)
 
-# Static fallback expression data
-_FALLBACK_EXPR = pd.DataFrame({
-    "cancer_type": ["PRAD","OV","BLCA","BRCA","LUAD","KICH","PAAD","LIHC","UCEC","COAD","STAD","KIRC"],
-    "cd46_median": [9.8,   9.2, 9.0,   8.9,   8.7,   8.5,   8.3,   8.1,   7.9,   7.7,   7.5,   7.3],
-})
-
-# Static fallback trial data
-_FALLBACK_TRIALS = [
-    {"nct": "NCT04407754", "phase": "PHASE1", "status": "RECRUITING",            "enrolled": 56,  "start": "2020-06", "completion": "2026-12", "sponsor": "AstraZeneca"},
-    {"nct": "NCT03575819", "phase": "PHASE1", "status": "COMPLETED",             "enrolled": 56,  "start": "2018-08", "completion": "2023-04", "sponsor": "Fortis"},
-    {"nct": "NCT05911295", "phase": "PHASE3", "status": "RECRUITING",            "enrolled": 412, "start": "2023-09", "completion": "2027-06", "sponsor": "Mustang Bio"},
-    {"nct": "NCT05245006", "phase": "PHASE1", "status": "RECRUITING",            "enrolled": 30,  "start": "2022-04", "completion": "2026-08", "sponsor": "UC San Francisco"},
-    {"nct": "NCT05892393", "phase": "PHASE1", "status": "RECRUITING",            "enrolled": 25,  "start": "2023-05", "completion": "2026-12", "sponsor": "Academic"},
-    {"nct": "NCT04946370", "phase": "PHASE1", "status": "ACTIVE_NOT_RECRUITING", "enrolled": 37,  "start": "2021-09", "completion": "2025-12", "sponsor": "Multiple"},
-]
+n_disease = kg_stats.get("disease_n")
+n_ppi     = kg_stats.get("ppi_genes")
 
 # ── Page hero ──────────────────────────────────────────────────────────────────
 page_header(
@@ -193,28 +205,28 @@ page_header(
     purpose=strategy_purpose(_GENE),
     kpi_chips=[
         ("Stages", "5"),
-        (f"{_GENE} Trials", str(len(kg_stats.get("cd46_trials", _FALLBACK_TRIALS)))),
+        (f"{_GENE} Trials", str(len(_trials)) if _trials else "—"),
         ("Focus", _strat["indication"][:28]),
         ("Horizon", _strat["approval_target"][:20]),
     ],
-    source_badges=["TCGA", "ClinicalTrials", "HPA", "mCRPC"],
+    source_badges=["TCGA", "ClinicalTrials", "HPA", "ChEMBL"],
 )
 
 # ── Pipeline progress banner ──────────────────────────────────────────────────
-st.markdown("""
+st.markdown(f"""
 <div class="ob-pipeline-step" style="border-radius:10px;
             padding:1rem 1.5rem;margin:.5rem 0 1rem 0;'>
   <div style='display:flex;align-items:center;gap:1.2rem;flex-wrap:wrap;'>
     <span style='color:#64748B;font-size:.82rem;font-weight:600;'>DEVELOPMENT STAGE →</span>
-    <span class='phase-pill pill-pre'>PRECLINICAL ✅</span>
+    <span class='phase-pill pill-pre'>PRECLINICAL</span>
     <span style='color:#4E637A'>──</span>
-    <span class='phase-pill pill-p1'>PHASE I ▶ Active</span>
+    <span class='phase-pill pill-p1'>PHASE I</span>
     <span style='color:#4E637A'>──</span>
-    <span class='phase-pill pill-p2'>PHASE II ◉ Design-ready</span>
+    <span class='phase-pill pill-p2'>PHASE II</span>
     <span style='color:#4E637A'>──</span>
-    <span class='phase-pill pill-p3'>PHASE III ○ Pipeline</span>
+    <span class='phase-pill pill-p3'>PHASE III</span>
     <span style='color:#4E637A'>──</span>
-    <span class='phase-pill pill-app'>APPROVAL ○ Target 2030</span>
+    <span class='phase-pill pill-app'>APPROVAL · {_strat['approval_target'][:24]}</span>
   </div>
 </div>
 """, unsafe_allow_html=True)
@@ -224,56 +236,81 @@ st.markdown("""
 # ═══════════════════════════════════════════════════════════════════════════════
 with st.container(border=True):
     st.markdown(f"### 🧬 {strategy_stage1_title(_GENE)}")
-    st.caption(f"Molecular rationale for **{_GENE}** — pan-cancer expression, survival, and tissue atlas evidence")
+    st.caption(
+        f"Molecular rationale for **{_GENE}** ({_GENE_NAME}) — "
+        f"pan-cancer expression, survival, and tissue atlas evidence · "
+        f"focus: {_strat['indication']}"
+    )
 
     col_t1, col_t2 = st.columns([3, 2])
+    _med = _median_col(expr_df, _GENE) if not expr_df.empty else None
 
     with col_t1:
-        # Expression chart — live CSV or static fallback
-        use_expr = expr_df if ("cd46_median" in expr_df.columns and "cancer_type" in expr_df.columns) else _FALLBACK_EXPR
-        top_expr = use_expr.nlargest(12, "cd46_median").copy()
-        bar_colors = [_ORANGE if ct == "PRAD" else _INDIGO for ct in top_expr["cancer_type"]]
-
-        fig_expr = go.Figure(go.Bar(
-            x=top_expr["cancer_type"],
-            y=top_expr["cd46_median"],
-            marker=dict(color=bar_colors, line=dict(color="#D5DEE8", width=0.5)),
-            text=[f"{v:.1f}" for v in top_expr["cd46_median"]],
-            textposition="outside",
-            textfont=dict(size=10, color=_LIGHT),
-            hovertemplate="<b>%{x}</b><br>CD46 median: %{y:.1f} log₂ TPM<extra></extra>",
-        ))
-        apply_plotly_layout(fig_expr,
-            title=dict(text="Top 12 Cancers by Median CD46 mRNA (log₂ TPM)", font=dict(color=_LIGHT, size=13)),
-            xaxis=dict(title=None, color=_LIGHT, showgrid=False),
-            yaxis=dict(title="log₂ TPM", gridcolor=_LINE, color=_TEXT),
-            height=300,
-            margin=dict(l=10, r=10, t=40, b=40),
-        )
-        st.plotly_chart(fig_expr, use_container_width=True)
+        if _med and "cancer_type" in expr_df.columns:
+            top_expr = expr_df.nlargest(12, _med).copy()
+            fig_expr = go.Figure(go.Bar(
+                x=top_expr["cancer_type"],
+                y=top_expr[_med],
+                marker=dict(color=_INDIGO, line=dict(color="#D5DEE8", width=0.5)),
+                text=[f"{v:.1f}" for v in top_expr[_med]],
+                textposition="outside",
+                textfont=dict(size=10, color=_LIGHT),
+                hovertemplate=f"<b>%{{x}}</b><br>{_GENE} median: %{{y:.1f}} log₂ TPM<extra></extra>",
+            ))
+            apply_plotly_layout(fig_expr,
+                title=dict(
+                    text=f"Top 12 Cancers by Median {_GENE} mRNA (log₂ TPM)",
+                    font=dict(color=_LIGHT, size=13),
+                ),
+                xaxis=dict(title=None, color=_LIGHT, showgrid=False),
+                yaxis=dict(title="log₂ TPM", gridcolor=_LINE, color=_TEXT),
+                height=300,
+                margin=dict(l=10, r=10, t=40, b=40),
+            )
+            st.plotly_chart(fig_expr, use_container_width=True)
+        else:
+            st.warning(
+                f"No expression slice for **{_GENE}** "
+                f"(`data/processed/{_PREFIX}_by_cancer.csv`)."
+            )
+            st.page_link(
+                "pages/7_kg_query_explorer.py",
+                label="Open KG Query Explorer →",
+            )
 
     with col_t2:
         st.markdown("**Target Validation Evidence**")
         v1, v2 = st.columns(2)
-        v1.metric("Disease Associations", f"{n_disease:,}", "Open Targets")
-        v2.metric("PPI Partners", n_ppi, "STRING DB")
+        v1.metric(
+            "Disease Associations",
+            f"{n_disease:,}" if n_disease is not None else "—",
+            "Open Targets / KG",
+        )
+        v2.metric("PPI Partners", n_ppi if n_ppi is not None else "—", "STRING / KG")
         v3, v4 = st.columns(2)
-        v3.metric("CD46 Isoforms", "16", "UniProt")
-        v4.metric("mCRPC CD46-High", "44%", "TCGA PRAD")
+        v3.metric("Active Target", _GENE, _GENE_NAME[:18])
+        v4.metric("Modality", _strat["modality"][:18], "strategy context")
 
         st.markdown("**Molecular Rationale**")
-        st.markdown("""
-- CD46 = **complement escape valve** — cancer cells overexpress to evade immune destruction
-- In mCRPC: ARPI therapy **upregulates CD46 ×2–4 fold** → castration-resistance mechanism
-- CD46-High patients: **OS HR = 1.65** (p<0.01) — high unmet clinical need
-- **PSMA-low + CD46-high** (~30–40% mCRPC) has no approved targeted option today
+        st.markdown(f"""
+- **{_GENE}** ({_GENE_NAME}) — active research target in this platform
+- Indication focus: **{_strat['indication']}**
+- Preferred modality frame: **{_strat['modality']}**
+- Trial watchlist: **{_strat['trial_focus']}**
+- Horizon: **{_strat['approval_target']}**
         """)
 
-    st.success(
-        "**Stage 1 verdict:** CD46 is overexpressed in PRAD relative to 30/33 cancer types. "
-        "Survival penalty (HR 1.65) is clinically significant. Upregulation under ARPI defines "
-        "the exact post-treatment window when 225Ac-CD46 would be deployed. Stage 1 closed."
-    )
+    if _med:
+        st.success(
+            f"**Stage 1 verdict:** {_GENE} expression ranks are available across TCGA cancers. "
+            f"Use the Survival Outcomes module for Cox HRs and the Drug Pipeline for "
+            f"{_strat['modality']} competitive context. Stage 1 closed for {_GENE}."
+        )
+    else:
+        st.info(
+            f"**Stage 1:** Expression CSV missing for {_GENE} — biology narrative is incomplete "
+            "until the atlas slice is generated."
+        )
 
 st.markdown(
     "<div style='text-align:center;color:#FB923C;font-size:1.5rem;padding:.3rem 0;'>▼</div>",
@@ -284,65 +321,51 @@ st.markdown(
 # STAGE 2 — DRUG DESIGN
 # ═══════════════════════════════════════════════════════════════════════════════
 with st.container(border=True):
-    st.markdown("### ⚛️ Stage 2 — Drug Design: 225Ac-CD46 Radiopharmaceutical")
-    st.caption("Alpha-particle therapy — mechanism, antibody format, and competitive differentiation")
+    st.markdown(f"### ⚛️ Stage 2 — Drug Design: {_strat['modality']}")
+    st.caption(
+        f"Modality framing for **{_GENE}** — open-data agents from ChEMBL when available"
+    )
 
-    col_d1, col_d2, col_d3 = st.columns(3)
+    col_d1, col_d2 = st.columns([2, 3])
 
     with col_d1:
         with st.container(border=True):
-            st.markdown("**Why Alpha-Particle?**")
-            alpha_df = pd.DataFrame([
-                {"Property": "Tissue range",     "Alpha 225Ac": "2–3 cells (~80 µm)", "Beta 177Lu": "~2–3 mm"},
-                {"Property": "LET",              "Alpha 225Ac": "~80 keV/µm",          "Beta 177Lu": "~0.2 keV/µm"},
-                {"Property": "DNA DSBs",         "Alpha 225Ac": "20× more",            "Beta 177Lu": "Baseline"},
-                {"Property": "Bystander kill",   "Alpha 225Ac": "Minimal",             "Beta 177Lu": "Moderate"},
-                {"Property": "Off-target dose",  "Alpha 225Ac": "✅ Low",              "Beta 177Lu": "⚠️ Higher"},
-                {"Property": "Decays",           "Alpha 225Ac": "4α cascade",          "Beta 177Lu": "1β"},
-            ])
-            research_table(alpha_df, use_container_width=True, hide_index=True, height=230)
+            st.markdown("**Strategy context**")
+            st.markdown(f"""
+| | |
+|---|---|
+| **Gene** | {_GENE} ({_GENE_NAME}) |
+| **Indication** | {_strat['indication']} |
+| **Modality** | {_strat['modality']} |
+| **Trial focus** | {_strat['trial_focus']} |
+| **Horizon** | {_strat['approval_target']} |
+            """)
 
     with col_d2:
         with st.container(border=True):
-            st.markdown("**CD46 Antibody Format (YS5)**")
-            st.markdown("""
-**YS5 (anti-CD46 humanised IgG1):**
-- Binds complement control protein domain 3–4
-- Tumour-selective epitope — spares normal erythrocytes
-- Internalises on antigen binding → ideal ADC/RLT delivery
-- t½ ~10 days (aligned to 225Ac t½ = 9.9 days)
-
-**Conjugation:**
-- DOTA chelation → stable 225Ac complex
-- Radiolabelling yield: >95% RCP
-- Stability: ≥7 days serum at 37°C
-
-*Referenced in NCT05892393 and NCT05245006 (PET imaging)*
-            """)
-
-    with col_d3:
-        with st.container(border=True):
-            st.markdown("**Competitive Positioning**")
-            st.markdown("""
-**vs Pluvicto (177Lu-PSMA, FDA approved):**
-- PSMA-low patients (~35% mCRPC) cannot receive Pluvicto
-- CD46 upregulates **after** PSMA-loss → complementary
-- 225Ac > 177Lu for LET in heterogeneous tumour
-
-**vs FOR46 ADC (Phase I, n=56 ✅):**
-- FOR46 confirmed CD46 tumour accessibility in vivo
-- RLT: no tumour vascularisation needed
-- Combination possible: RLT + ADC dual-payload
-
-**vs CAR-T CD46 (Phase III, n=412 recruiting):**
-- Autologous manufacturing vs off-the-shelf RLT
-- RLT simpler; scalable globally; lower cost
-            """)
+            st.markdown(f"**{_GENE} agents (ChEMBL cache)**")
+            if chembl_df.empty:
+                st.info(
+                    f"No ChEMBL cache at `data/raw/apis/chembl_{_PREFIX}.json`. "
+                    "See Drug Pipeline Explorer for curated landscape when available."
+                )
+                st.page_link(
+                    "pages/11_drug_pipeline.py",
+                    label="Open Drug Pipeline Explorer →",
+                )
+            else:
+                show = chembl_df.rename(columns={
+                    "name": "Name", "type": "Type", "phase": "Max phase",
+                    "mechanism": "Mechanism", "chembl_id": "ChEMBL",
+                })
+                research_table(show, use_container_width=True, hide_index=True, height=260)
+                st.caption(f"{len(chembl_df)} agents from ChEMBL open-data cache for {_GENE}.")
 
     st.info(
-        "**Stage 2 verdict:** 225Ac alpha-RLT preferred over beta based on 2–3 cell range matching "
-        "mCRPC micrometastatic disease. TI=1.5× prostate; renal/BM risk monitorable (precedent: Pluvicto). "
-        "No direct 225Ac-CD46 comparator registered — this programme fills that gap. Stage 2 closed."
+        f"**Stage 2 verdict:** Programme framing for {_GENE} centres on "
+        f"**{_strat['modality']}** in {_strat['indication']}. "
+        "Competitive agents come from ChEMBL / ClinicalTrials slices — not a hardcoded "
+        "foreign-gene pipeline. Stage 2 closed."
     )
 
 st.markdown(
@@ -354,47 +377,46 @@ st.markdown(
 # STAGE 3 — PATIENT SELECTION
 # ═══════════════════════════════════════════════════════════════════════════════
 with st.container(border=True):
-    st.markdown("### 👥 Stage 3 — Patient Selection: Who Qualifies?")
+    st.markdown(f"### 👥 Stage 3 — Patient Selection: Who Qualifies for {_GENE}?")
     st.caption(
-        f"Biomarker-driven eligibility — {mcrpc_n:,} real mCRPC patients from cBioPortal (SU2C 2019+2015) + TCGA survival data"
+        f"Biomarker-driven eligibility framing — {_GENE}-High vs Low · "
+        f"{_strat['indication']}"
     )
 
     col_p1, col_p2 = st.columns([2, 3])
 
     with col_p1:
-        st.markdown("**Proposed Eligibility Criteria**")
+        st.markdown("**Proposed Eligibility Criteria (template)**")
         with st.container(border=True):
-            st.markdown("""
+            st.markdown(f"""
 **Inclusion:**
-- Histologically confirmed mCRPC
-- CD46 IHC H-score ≥ 150 (or 44th percentile mRNA)
-- Prior ≥1 ARPI (enzalutamide or abiraterone)
-- ECOG 0–2, adequate organ function
-- PSMA-PET low/negative *(PSMA-low enriched cohort)*
+- Histologically confirmed disease in {_strat['indication']}
+- {_GENE} IHC / mRNA above programme threshold (e.g. median or 75th pct)
+- Adequate organ function; ECOG 0–2
+- Prior standard-of-care per indication
 
 **Exclusion:**
-- Active brain metastases
-- eGFR < 45 mL/min (renal dosimetry risk)
-- Prior bone marrow transplant
-- Active autoimmune disease
+- Active CNS disease (unless indication-specific)
+- Organ function below modality-specific dosimetry floor
+- Active uncontrolled autoimmune disease
             """)
 
-        m_a, m_b, m_c = st.columns(3)
-        m_a.metric("Cohort", f"{mcrpc_n:,}", "patients (SU2C)")
-        m_b.metric("Mean OS", f"{mcrpc_os:.0f} mo", "from enrolment")
-        m_c.metric("Mean Age", f"{mcrpc_age:.0f} yr", "at diagnosis")
+        m_a, m_b = st.columns(2)
+        m_a.metric("Target", _GENE, "active symbol")
+        m_b.metric("Selection", f"{_GENE}-High", "biomarker gate")
 
     with col_p2:
-        st.markdown("**Patient Selection Funnel — per 1,000 mCRPC screened**")
+        st.markdown(f"**Patient Selection Funnel — schematic per 1,000 screened ({_GENE})**")
+        # ponytail: illustrative funnel ratios; replace with patient_groups.csv when sliced
         funnel_labels = [
-            "All mCRPC screened",
-            "CD46-High (post-IHC)",
-            "PSMA-low/negative",
-            "Prior ARPI ≥1 line",
+            "All screened",
+            f"{_GENE}-High (post-assay)",
+            "Indication-fit",
+            "Prior therapy eligible",
             "Organ function eligible",
             "Trial eligible (est.)",
         ]
-        funnel_values = [1000, 440, 154, 138, 120, 110]
+        funnel_values = [1000, 400, 220, 180, 150, 120]
 
         fig_funnel = go.Figure(go.Funnel(
             y=funnel_labels,
@@ -414,14 +436,14 @@ with st.container(border=True):
         )
         st.plotly_chart(fig_funnel, use_container_width=True)
         st.caption(
-            "CD46-High: 44% (TCGA PRAD). PSMA-low subset: ~35% of CD46-High. "
-            "Prior ARPI: ~90% of PSMA-low mCRPC. Organ function screen pass: ~80%."
+            f"Schematic only — calibrate with `{_PREFIX}_patient_groups.csv` / eligibility module "
+            f"when available for {_GENE}."
         )
 
     st.success(
-        "**Stage 3 verdict:** ~11% of all mCRPC patients (110 per 1,000 screened) qualify for 225Ac-CD46 "
-        "enrolment under the proposed biomarker strategy. Screening ratio 9:1. "
-        "Biomarker: PSMA-PET + CD46 IHC on recent biopsy. Stage 3 closed."
+        f"**Stage 3 verdict:** Enrolment for a {_GENE}-targeted programme hinges on a "
+        f"{_GENE}-High biomarker gate within {_strat['indication']}. "
+        "Refine thresholds in Patient Eligibility. Stage 3 closed."
     )
 
 st.markdown(
@@ -433,74 +455,113 @@ st.markdown(
 # STAGE 4 — CLINICAL EVIDENCE
 # ═══════════════════════════════════════════════════════════════════════════════
 with st.container(border=True):
-    st.markdown("### 🧪 Stage 4 — Clinical Evidence: Active Trial Landscape")
-    st.caption("14 indexed CD46-related trials — current status from ClinicalTrials.gov (enriched March 2026)")
-
-    cd46_trials = kg_stats.get("cd46_trials", _FALLBACK_TRIALS)
-    trial_df = pd.DataFrame(cd46_trials)
+    st.markdown(f"### 🧪 Stage 4 — Clinical Evidence: {_GENE} Trial Landscape")
+    st.caption(
+        f"{_strat['trial_focus']} — ClinicalTrials.gov / KG slice for **{_GENE}**"
+    )
 
     PHASE_LABEL = {
-        "PHASE1": "Phase I", "PHASE1/PHASE2": "Phase I/II",
+        "PHASE1": "Phase I", "PHASE1/PHASE2": "Phase I/II", "PHASE1PHASE2": "Phase I/II",
         "PHASE2": "Phase II", "PHASE3": "Phase III", "NA": "Observational",
+        "EARLY_PHASE1": "Early Phase I",
     }
     STATUS_ICON = {
         "RECRUITING": "🟢 Recruiting",
         "ACTIVE_NOT_RECRUITING": "🔵 Active",
         "COMPLETED": "✅ Completed",
         "TERMINATED": "🔴 Terminated",
+        "UNKNOWN": "⚪ Unknown",
     }
-    PHASE_ORDER = {"PHASE1": 1, "PHASE1/PHASE2": 2, "PHASE2": 3, "PHASE3": 4, "NA": 0}
+    PHASE_ORDER = {
+        "PHASE1": 1, "EARLY_PHASE1": 1, "PHASE1/PHASE2": 2, "PHASE1PHASE2": 2,
+        "PHASE2": 3, "PHASE3": 4, "NA": 0,
+    }
 
-    trial_df["phase_sort"] = trial_df["phase"].map(lambda x: PHASE_ORDER.get(x or "NA", 0))
-    trial_df = trial_df.sort_values("phase_sort")
-
-    col_tri1, col_tri2 = st.columns([3, 2])
-
-    with col_tri1:
-        display_trial = trial_df[["nct", "phase", "status", "enrolled", "start", "completion"]].copy()
-        display_trial.columns = ["NCT ID", "Phase", "Status", "Enrolled", "Start", "Completion"]
-        display_trial["Phase"] = display_trial["Phase"].map(lambda x: PHASE_LABEL.get(x or "NA", x))
-        display_trial["Status"] = display_trial["Status"].map(lambda s: STATUS_ICON.get(s or "", s or "—"))
-        research_table(display_trial, hide_index=True, use_container_width=True)
-
-        total_enrolled = trial_df["enrolled"].dropna().sum()
-        st.metric("Total Patients Enrolled Across Trials", f"{int(total_enrolled):,}")
-
-    with col_tri2:
-        phase_counts = trial_df["phase"].fillna("NA").value_counts().reset_index()
-        phase_counts.columns = ["phase", "count"]
-        phase_counts["label"] = phase_counts["phase"].map(lambda x: PHASE_LABEL.get(x, x))
-
-        fig_phase = go.Figure(go.Pie(
-            labels=phase_counts["label"],
-            values=phase_counts["count"],
-            hole=0.55,
-            marker=dict(
-                colors=[_INDIGO, _TEAL, _GREEN, _AMBER, _SLATE],
-                line=dict(color="#D5DEE8", width=2),
-            ),
-            textinfo="label+value",
-            textfont=dict(color=_LIGHT, size=11),
-        ))
-        apply_plotly_layout(fig_phase,
-            height=290,
-            margin=dict(l=10, r=10, t=10, b=10),
-            showlegend=False,
+    if not _trials:
+        st.warning(
+            f"No trial slice for **{_GENE}**. "
+            f"Expected KG hits or `data/processed/{_PREFIX}_trials_summary.csv`."
         )
-        st.plotly_chart(fig_phase, use_container_width=True)
+        st.page_link(
+            "pages/7_kg_query_explorer.py",
+            label="Open KG Query Explorer →",
+        )
+        st.page_link(
+            "pages/11_drug_pipeline.py",
+            label="Open Drug Pipeline Explorer →",
+        )
+    else:
+        trial_df = pd.DataFrame(_trials)
+        if "phase" not in trial_df.columns:
+            trial_df["phase"] = "NA"
+        trial_df["phase_sort"] = trial_df["phase"].map(
+            lambda x: PHASE_ORDER.get(str(x or "NA").upper().replace(" ", ""), 0)
+        )
+        trial_df = trial_df.sort_values("phase_sort")
 
-    with st.container(border=True):
-        st.markdown("**⭐ Key Milestone: FOR46 Phase I (NCT03575819) — COMPLETED, n=56**")
-        mc1, mc2, mc3, mc4 = st.columns(4)
-        mc1.metric("CD46 Access Confirmed", "✅", "in vivo mCRPC")
-        mc2.metric("Antitumour Activity", "✅ PR observed", "expansion cohort")
-        mc3.metric("Safety", "✅ Manageable", "haematological AEs")
-        mc4.metric("Foundation", "YS5 mAb", "225Ac scaffold")
+        col_tri1, col_tri2 = st.columns([3, 2])
+
+        with col_tri1:
+            cols_keep = [c for c in ["nct", "phase", "status", "enrolled", "start", "completion"]
+                         if c in trial_df.columns]
+            display_trial = trial_df[cols_keep].copy()
+            rename = {
+                "nct": "NCT ID", "phase": "Phase", "status": "Status",
+                "enrolled": "Enrolled", "start": "Start", "completion": "Completion",
+            }
+            display_trial = display_trial.rename(columns=rename)
+            if "Phase" in display_trial.columns:
+                display_trial["Phase"] = display_trial["Phase"].map(
+                    lambda x: PHASE_LABEL.get(str(x or "NA").upper().replace(" ", ""), x)
+                )
+            if "Status" in display_trial.columns:
+                display_trial["Status"] = display_trial["Status"].map(
+                    lambda s: STATUS_ICON.get(str(s or "").upper(), s or "—")
+                )
+            research_table(display_trial, hide_index=True, use_container_width=True)
+
+            if "enrolled" in trial_df.columns:
+                total_enrolled = pd.to_numeric(trial_df["enrolled"], errors="coerce").dropna().sum()
+                if total_enrolled:
+                    st.metric("Total Patients Enrolled Across Trials", f"{int(total_enrolled):,}")
+
+        with col_tri2:
+            phase_counts = trial_df["phase"].fillna("NA").astype(str).value_counts().reset_index()
+            phase_counts.columns = ["phase", "count"]
+            phase_counts["label"] = phase_counts["phase"].map(
+                lambda x: PHASE_LABEL.get(str(x).upper().replace(" ", ""), x)
+            )
+
+            fig_phase = go.Figure(go.Pie(
+                labels=phase_counts["label"],
+                values=phase_counts["count"],
+                hole=0.55,
+                marker=dict(
+                    colors=[_INDIGO, _TEAL, _GREEN, _AMBER, _SLATE],
+                    line=dict(color="#D5DEE8", width=2),
+                ),
+                textinfo="label+value",
+                textfont=dict(color=_LIGHT, size=11),
+            ))
+            apply_plotly_layout(fig_phase,
+                height=290,
+                margin=dict(l=10, r=10, t=10, b=10),
+                showlegend=False,
+            )
+            st.plotly_chart(fig_phase, use_container_width=True)
+
+        # Highlight first completed / recruiting row if present — gene-agnostic
+        done = trial_df[trial_df["status"].astype(str).str.upper() == "COMPLETED"]
+        if not done.empty:
+            row0 = done.iloc[0]
+            st.markdown(
+                f"**Milestone:** `{row0.get('nct', '—')}` completed "
+                f"({row0.get('phase', '—')}) — {_GENE}-linked programme precedent."
+            )
 
     st.info(
-        "**Stage 4 verdict:** 14 indexed trials spanning ADC, RIT, CAR-T, and PET imaging demonstrate "
-        "strong convergent clinical validation of CD46 as a druggable surface target. "
-        "No 225Ac-CD46 Phase I registered yet — the primary opportunity. Stage 4 closed."
+        f"**Stage 4 verdict:** {len(_trials)} indexed trial(s) for {_GENE}. "
+        f"Watchlist: {_strat['trial_focus']}. Stage 4 closed."
     )
 
 st.markdown(
@@ -512,154 +573,204 @@ st.markdown(
 # STAGE 5 — EXPECTED OUTCOME
 # ═══════════════════════════════════════════════════════════════════════════════
 with st.container(border=True):
-    st.markdown("### 📈 Stage 5 — Expected Outcome: Data-Driven Efficacy Projection")
-    st.caption("Survival analysis + mechanistic rationale for CD46-High patient benefit")
+    st.markdown(f"### 📈 Stage 5 — Expected Outcome: {_GENE} Efficacy Projection")
+    st.caption(
+        f"Survival analysis + mechanistic rationale for {_GENE}-High patient benefit"
+    )
 
     col_o1, col_o2 = st.columns([3, 2])
 
     with col_o1:
-        # Forest plot — live or fallback
-        use_surv = surv_df if ("hazard_ratio" in surv_df.columns and "cancer_type" in surv_df.columns) else _FALLBACK_HR
-        if "endpoint" in use_surv.columns:
-            use_surv = use_surv[use_surv["endpoint"] == "OS"]
+        if surv_df.empty or "hazard_ratio" not in surv_df.columns:
+            st.warning(
+                f"TCGA survival slice is missing for **{_GENE}**. "
+                f"Expected `data/processed/{_PREFIX}_survival_results.csv`."
+            )
+            st.page_link(
+                "pages/3_survival_outcomes.py",
+                label="Open Survival Outcomes →",
+            )
+            st.page_link(
+                "pages/7_kg_query_explorer.py",
+                label="Open KG Query Explorer →",
+            )
+        else:
+            use_surv = surv_df.copy()
+            if "endpoint" in use_surv.columns:
+                use_surv = use_surv[use_surv["endpoint"] == "OS"]
 
-        forest_df = use_surv[use_surv["hazard_ratio"].notna() & (use_surv["hazard_ratio"] > 0)].copy()
-        forest_df = forest_df.nlargest(10, "hazard_ratio").sort_values("hazard_ratio")
+            forest_df = use_surv[
+                use_surv["hazard_ratio"].notna() & (use_surv["hazard_ratio"] > 0)
+            ].copy()
+            forest_df = forest_df.nlargest(10, "hazard_ratio").sort_values("hazard_ratio")
 
-        p_col = "log_rank_p" if "log_rank_p" in forest_df.columns else "p_value"
+            p_col = "log_rank_p" if "log_rank_p" in forest_df.columns else "p_value"
 
-        fig_forest = go.Figure()
-        for _, row in forest_df.iterrows():
-            hr  = row["hazard_ratio"]
-            ci_lo = row.get("hr_lower_95", hr * 0.75)
-            ci_hi = row.get("hr_upper_95", hr * 1.30)
-            ct    = row["cancer_type"]
-            p_val = float(row.get(p_col, 0.05))
-            color = _ORANGE if ct == "PRAD" else (_RED if (p_val < 0.05 and hr >= 1.0) else _SLATE)
+            fig_forest = go.Figure()
+            for _, row in forest_df.iterrows():
+                hr  = row["hazard_ratio"]
+                ci_lo = row.get("hr_lower_95", hr * 0.75)
+                ci_hi = row.get("hr_upper_95", hr * 1.30)
+                ct    = row["cancer_type"]
+                p_val = float(row.get(p_col, 0.05) or 0.05)
+                color = _RED if (p_val < 0.05 and hr >= 1.0) else (
+                    _GREEN if (p_val < 0.05 and hr < 1.0) else _SLATE
+                )
 
-            fig_forest.add_trace(go.Scatter(
-                x=[ci_lo, hr, ci_hi],
-                y=[ct, ct, ct],
-                mode="lines+markers",
-                line=dict(color=color, width=2),
-                marker=dict(
-                    symbol=["line-ew", "diamond", "line-ew"],
-                    size=[8, 10, 8],
-                    color=color,
+                fig_forest.add_trace(go.Scatter(
+                    x=[ci_lo, hr, ci_hi],
+                    y=[ct, ct, ct],
+                    mode="lines+markers",
+                    line=dict(color=color, width=2),
+                    marker=dict(
+                        symbol=["line-ew", "diamond", "line-ew"],
+                        size=[8, 10, 8],
+                        color=color,
+                    ),
+                    showlegend=False,
+                    hovertemplate=(
+                        f"<b>{ct}</b><br>HR={hr:.2f} "
+                        f"(95% CI {ci_lo:.2f}–{ci_hi:.2f})<extra></extra>"
+                    ),
+                ))
+
+            fig_forest.add_vline(
+                x=1.0,
+                line=dict(color=_SLATE, dash="dash", width=1.5),
+                annotation_text="HR=1.0 (no effect)",
+                annotation_position="top right",
+                annotation_font=dict(color=_TEXT, size=10),
+            )
+            apply_plotly_layout(fig_forest,
+                title=dict(
+                    text=f"OS Hazard Ratio — {_GENE}-High vs {_GENE}-Low (top 10)",
+                    font=dict(color=_LIGHT, size=13),
                 ),
-                showlegend=False,
-                hovertemplate=f"<b>{ct}</b><br>HR={hr:.2f} (95% CI {ci_lo:.2f}–{ci_hi:.2f})<extra></extra>",
-            ))
-
-        fig_forest.add_vline(
-            x=1.0,
-            line=dict(color=_SLATE, dash="dash", width=1.5),
-            annotation_text="HR=1.0 (no effect)",
-            annotation_position="top right",
-            annotation_font=dict(color=_TEXT, size=10),
-        )
-        apply_plotly_layout(fig_forest,
-            title=dict(text="OS Hazard Ratio — CD46-High vs CD46-Low (top 10 cancers)", font=dict(color=_LIGHT, size=13)),
-            xaxis=dict(title="Hazard Ratio (>1 = worse OS for CD46-High)", gridcolor=_LINE, color=_TEXT),
-            yaxis=dict(title=None, color=_LIGHT),
-            height=380,
-            margin=dict(l=10, r=30, t=40, b=40),
-        )
-        st.plotly_chart(fig_forest, use_container_width=True)
-        st.caption(
-            "CD46-High patients have worse survival — validating the therapeutic hypothesis that "
-            "targeting CD46 in high-expressing patients will provide clinical benefit. "
-            "🟠 Orange = PRAD (primary indication)."
-        )
+                xaxis=dict(
+                    title=f"Hazard Ratio (>1 = worse OS for {_GENE}-High)",
+                    gridcolor=_LINE, color=_TEXT,
+                ),
+                yaxis=dict(title=None, color=_LIGHT),
+                height=380,
+                margin=dict(l=10, r=30, t=40, b=40),
+            )
+            st.plotly_chart(fig_forest, use_container_width=True)
+            st.caption(
+                f"{_GENE}-High associations with worse OS support a therapeutic hypothesis "
+                f"in those cancers; inverse HRs argue against {_GENE} as a primary target there."
+            )
 
     with col_o2:
         st.markdown("**Efficacy Projection**")
         with st.container(border=True):
-            st.markdown(f"""
-**Observed (TCGA, n=497 PRAD):**
-- CD46-High OS HR = **1.65** (p<0.01)
-- CD46-High median OS: 28 months vs 46 months Low
-- **18-month OS gap** — the therapeutic window to address
+            if not surv_df.empty and "hazard_ratio" in surv_df.columns:
+                os_rows = surv_df.copy()
+                if "endpoint" in os_rows.columns:
+                    os_rows = os_rows[os_rows["endpoint"] == "OS"]
+                top = (
+                    os_rows.nsmallest(1, "p_value")
+                    if "p_value" in os_rows.columns and os_rows["p_value"].notna().any()
+                    else os_rows.head(1)
+                )
+                if not top.empty and pd.notna(top.iloc[0].get("hazard_ratio")):
+                    r = top.iloc[0]
+                    hr = float(r["hazard_ratio"])
+                    pv = r.get("p_value")
+                    pv_txt = f"{pv:.4f}" if pd.notna(pv) else "—"
+                    direction = "worse OS for High" if hr >= 1 else "better OS for High"
+                    st.markdown(
+                        f"**Strongest TCGA OS signal ({_GENE}):**\n"
+                        f"- **{r['cancer_type']}** — HR **{hr:.2f}**\n"
+                        f"- p = {pv_txt}\n"
+                        f"- Direction: {direction}"
+                    )
+                else:
+                    st.info(f"No OS Cox rows for {_GENE}.")
+            else:
+                st.info(f"Survival CSV missing for {_GENE} — no HR projection.")
 
-**Extrapolation to 225Ac-CD46:**
-By analogy with 177Lu-PSMA-617 (TheraP trial, NCT03544840):
-- PSA50 response rate: 66%
-- rPFS improvement: 7.6 months vs cabazitaxel
-- CD46-High mCRPC without eligible therapy = pre-Pluvicto PSMA-low equivalent
-            """)
-        st.markdown("**Phase II Endpoints (proposed)**")
+        st.markdown("**Phase II Endpoints (proposed template)**")
         ep_df = pd.DataFrame([
-            {"Endpoint": "PSA50 response rate", "Timepoint": "12 weeks", "Target": "≥40%"},
-            {"Endpoint": "rPFS",                "Timepoint": "Continuous", "Target": ">7 months"},
-            {"Endpoint": "OS",                  "Timepoint": "Secondary", "Target": "HR <0.80"},
-            {"Endpoint": "Safety (DLT)",        "Timepoint": "Cycle 1",   "Target": "Renal + BM"},
+            {"Endpoint": "ORR / biomarker response", "Timepoint": "12 weeks", "Target": "≥ programme bar"},
+            {"Endpoint": "PFS / rPFS", "Timepoint": "Continuous", "Target": "> SoC"},
+            {"Endpoint": "OS", "Timepoint": "Secondary", "Target": "HR < 0.80"},
+            {"Endpoint": "Safety (DLT)", "Timepoint": "Cycle 1", "Target": "Modality-specific"},
         ])
         research_table(ep_df, use_container_width=True, hide_index=True)
 
-        st.markdown(f"**Real-World Benchmark ({mcrpc_n:,} patients)**")
-        st.metric(f"Mean OS in mCRPC (SU2C)", f"{mcrpc_os:.0f} months",
-                  "will anchor Phase II futility analysis")
-
-    st.success(
-        "**Stage 5 verdict:** HR=1.65 survival penalty in CD46-High mCRPC defines a quantifiable "
-        "unmet need. Phase II endpoint target (PSA50 ≥40%) exceeds cabazitaxel benchmark (28%). "
-        "Real-world 579-patient SU2C cohort available to anchor trial design and futility analysis."
-    )
+    if not surv_df.empty:
+        st.success(
+            f"**Stage 5 verdict:** {_GENE} Cox HRs from TCGA define where {_GENE}-High "
+            f"carries a measurable survival penalty (or protective signal). "
+            f"Anchor Phase II design to {_strat['indication']}. Stage 5 closed."
+        )
+    else:
+        st.info(
+            f"**Stage 5:** Survival slice missing for {_GENE} — outcome projection deferred."
+        )
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # STRATEGY SUMMARY TABLE
 # ═══════════════════════════════════════════════════════════════════════════════
 st.markdown("---")
-st.markdown("### 🗺️ End-to-End Development Engine Summary")
+st.markdown(f"### 🗺️ End-to-End Development Engine Summary — {_GENE}")
 
+n_trial_txt = str(len(_trials)) if _trials else "—"
 strategy_df = pd.DataFrame([
     {
-        "Stage":         "🧬 Preclinical",
-        "Key Evidence":  "CD46 overexpression (33 TCGA), PPI network (35 genes), 16 isoforms, 797 disease associations",
+        "Stage": "🧬 Preclinical",
+        "Key Evidence": (
+            f"{_GENE} expression atlas + PPI/disease KG context · modality {_strat['modality']}"
+        ),
         "Platform Pages": "1, 4, 6, 10",
-        "Status":        "Complete",
-        "Confidence":    "High",
+        "Status": "Data-driven" if _med else "Slice pending",
+        "Confidence": "High" if _med else "Low",
     },
     {
-        "Stage":         "⚗️ Phase I Safety",
-        "Key Evidence":  "HPA dosimetry (23 tissues), TI=1.5× prostate, bone marrow/kidney DLT protocol",
+        "Stage": "⚗️ Phase I Safety",
+        "Key Evidence": f"HPA / dosimetry for {_GENE}-targeted {_strat['modality']}",
         "Platform Pages": "12",
-        "Status":        "Data-ready",
-        "Confidence":    "High",
+        "Status": "Module-ready",
+        "Confidence": "Medium",
     },
     {
-        "Stage":         "📊 Phase II PoC",
-        "Key Evidence":  "OS HR=1.65 (PRAD p<0.01), 579 mCRPC patients, funnel = 110 eligible per 1,000 screened",
+        "Stage": "📊 Phase II PoC",
+        "Key Evidence": (
+            f"TCGA Cox for {_GENE} · eligibility funnel · {_strat['indication']}"
+        ),
         "Platform Pages": "2, 3, 8",
-        "Status":        "Evidence-strong",
-        "Confidence":    "Medium-High",
+        "Status": "Evidence-strong" if not surv_df.empty else "Survival pending",
+        "Confidence": "Medium-High" if not surv_df.empty else "Low",
     },
     {
-        "Stage":         "🌍 Phase III",
-        "Key Evidence":  "14 indexed trials, Phase III CAR-T recruiting (n=412), Pluvicto precedent (FDA 2022)",
+        "Stage": "🌍 Phase III",
+        "Key Evidence": f"{n_trial_txt} indexed trials · {_strat['trial_focus']}",
         "Platform Pages": "9, 11",
-        "Status":        "Monitoring pipeline",
-        "Confidence":    "Medium",
+        "Status": "Monitoring pipeline",
+        "Confidence": "Medium" if _trials else "Low",
     },
     {
-        "Stage":         "✅ Approval",
-        "Key Evidence":  "CD46 IHC companion diagnostic; label scope: PSMA-low mCRPC post-ARPI",
+        "Stage": "✅ Approval",
+        "Key Evidence": (
+            f"{_GENE} companion diagnostic + label scope: {_strat['indication']} · "
+            f"horizon {_strat['approval_target']}"
+        ),
         "Platform Pages": "5, 7, 13",
-        "Status":        "Target 2030",
-        "Confidence":    "Contingent on Ph II",
+        "Status": _strat["approval_target"][:24],
+        "Confidence": "Contingent on Ph II",
     },
 ])
 research_table(strategy_df, hide_index=True, use_container_width=True)
 
 st.info(
-    "**Platform synthesis:** The Clinical Strategy Engine assembles all 13 analytical modules into a single "
-    "coherent programme roadmap. Every number traces to a public, cited data source — making this "
-    "document audit-ready for grant applications, partner presentations, and IND submissions."
+    f"**Platform synthesis:** The Clinical Strategy Engine assembles analytical modules into a "
+    f"**{_GENE}**-centric programme roadmap. Numbers trace to gene-keyed processed files "
+    "(TCGA, ClinicalTrials, ChEMBL) — not a privileged default target."
 )
 
 st.markdown("---")
 st.caption(
-    "Data sources: TCGA (n=~11,000), HPA protein atlas (CC BY-SA 4.0), cBioPortal SU2C/PCF mCRPC 2019+2015 (n=579), "
-    "ClinicalTrials.gov v2 API (enriched March 2026), Open Targets (797 disease associations), STRING DB v12. "
-    "April 2026. Research use only. Not for clinical decision-making."
+    f"Active target: {_GENE} ({_GENE_NAME}). "
+    "Data sources: TCGA, HPA, ClinicalTrials.gov, ChEMBL, Open Targets / STRING via KG. "
+    "Research use only. Not for clinical decision-making."
 )

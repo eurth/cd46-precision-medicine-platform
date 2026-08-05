@@ -1,0 +1,12 @@
+{
+  "symbol": "CLDN18",
+  "uniprot_id": "P56856",
+  "gtex_tissues": 52,
+  "depmap_depends_on": 4,
+  "hpa_protein_tissues": 2,
+  "uniprot": {
+    "protein": 1,
+    "isoforms": 2,
+    "variants": 1
+  }
+}

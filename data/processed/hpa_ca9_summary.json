@@ -1,0 +1,8 @@
+{
+  "gene": "CA9",
+  "ensembl": "ENSG00000107159",
+  "rna_tissue_specificity": "Tissue enriched",
+  "rna_tissue_distribution": "Detected in some",
+  "rna_cancer_specificity": "Cancer enhanced",
+  "protein_class": "Enzymes;FDA approved drug targets;Metabolic proteins;Predicted membrane proteins;Transporters"
+}

@@ -1,0 +1,8 @@
+{
+  "gene": "CLDN18",
+  "ensembl": "ENSG00000066405",
+  "rna_tissue_specificity": "Group enriched",
+  "rna_tissue_distribution": "Detected in some",
+  "rna_cancer_specificity": "Group enriched",
+  "protein_class": "Predicted membrane proteins"
+}

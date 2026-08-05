@@ -50,7 +50,7 @@ def _string_load(
     edge_limit: int = 200,
     required_score: int = 700,
 ) -> int:
-    """Fetch STRING neighborhood and MERGE INTERACTS_WITH (reuse load_kg_string pattern)."""
+    """Fetch STRING neighborhood and MERGE INTERACTS_WITH (batched UNWIND)."""
     import urllib.parse
     import urllib.request
 
@@ -65,43 +65,55 @@ def _string_load(
     )
     url = f"https://string-db.org/api/json/network?{params}"
     req = urllib.request.Request(url, headers={"Accept": "application/json"})
-    with urllib.request.urlopen(req, timeout=60) as resp:
+    with urllib.request.urlopen(req, timeout=120) as resp:
         edges = json.loads(resp.read().decode("utf-8"))
 
     raw_out = _ROOT / "data" / "raw" / "apis" / f"string_{symbol.lower()}.json"
     raw_out.parent.mkdir(parents=True, exist_ok=True)
     raw_out.write_text(json.dumps({"seed": string_id, "edges": edges}, indent=2), encoding="utf-8")
 
-    gene_cypher = """
-    MERGE (g:Gene {symbol: $symbol})
-    ON CREATE SET g.string_id = $string_id, g.source = 'STRING DB', g.is_ppi_partner = true
-    ON MATCH SET g.string_id = coalesce(g.string_id, $string_id)
-    """
-    edge_cypher = """
-    MATCH (a:Gene {symbol: $sym_a})
-    MATCH (b:Gene {symbol: $sym_b})
-    MERGE (a)-[r:INTERACTS_WITH {source: 'STRING DB'}]->(b)
-    ON CREATE SET r.score = $score, r.escore = $escore, r.tscore = $tscore
-    """
-    # Ensure seed exists
-    session.run(gene_cypher, symbol=symbol, string_id=string_id)
-    rels = 0
+    genes: dict[str, str] = {symbol: string_id}
+    rel_rows: list[dict] = []
     for e in edges:
         a, b = e.get("preferredName_A"), e.get("preferredName_B")
         if not a or not b:
             continue
-        session.run(gene_cypher, symbol=a, string_id=e.get("stringId_A", ""))
-        session.run(gene_cypher, symbol=b, string_id=e.get("stringId_B", ""))
-        session.run(
-            edge_cypher,
-            sym_a=a,
-            sym_b=b,
-            score=round(e.get("score", 0), 4),
-            escore=round(e.get("escore", 0), 4),
-            tscore=round(e.get("tscore", 0), 4),
+        genes[a] = e.get("stringId_A", "") or genes.get(a, "")
+        genes[b] = e.get("stringId_B", "") or genes.get(b, "")
+        rel_rows.append(
+            {
+                "sym_a": a,
+                "sym_b": b,
+                "score": round(e.get("score", 0), 4),
+                "escore": round(e.get("escore", 0), 4),
+                "tscore": round(e.get("tscore", 0), 4),
+            }
         )
-        rels += 1
-    return rels
+    gene_rows = [{"symbol": s, "string_id": sid} for s, sid in genes.items()]
+    # ponytail: batch UNWIND — per-row Aura round-trips drop connections on large STRING nets
+    for i in range(0, len(gene_rows), 200):
+        session.run(
+            """
+            UNWIND $rows AS row
+            MERGE (g:Gene {symbol: row.symbol})
+            ON CREATE SET g.string_id = row.string_id, g.source = 'STRING DB', g.is_ppi_partner = true
+            ON MATCH SET g.string_id = coalesce(g.string_id, row.string_id)
+            """,
+            rows=gene_rows[i : i + 200],
+        )
+    for i in range(0, len(rel_rows), 200):
+        session.run(
+            """
+            UNWIND $rows AS row
+            MATCH (a:Gene {symbol: row.sym_a})
+            MATCH (b:Gene {symbol: row.sym_b})
+            MERGE (a)-[r:INTERACTS_WITH {source: 'STRING DB'}]->(b)
+            ON CREATE SET r.score = row.score, r.escore = row.escore, r.tscore = row.tscore
+            ON MATCH SET r.score = row.score
+            """,
+            rows=rel_rows[i : i + 200],
+        )
+    return len(rel_rows)
 
 
 def load_slice(
@@ -109,10 +121,10 @@ def load_slice(
     *,
     skip_extract: bool = False,
     skip_string: bool = False,
-    ot_size: int = 500,
-    ot_top: int = 200,
-    edge_limit: int = 200,
-    required_score: int = 700,
+    ot_size: int = 0,
+    ot_top: int = 0,
+    edge_limit: int = 500,
+    required_score: int = 400,
     refresh_ot: bool = False,
 ) -> dict:
     t = get_target(symbol)
@@ -213,14 +225,24 @@ def main() -> None:
     ap.add_argument("--symbol", required=True, help="Registry symbol e.g. FOLH1")
     ap.add_argument("--skip-extract", action="store_true")
     ap.add_argument("--skip-string", action="store_true", help="Skip STRING PPI (OT-only Wave 1)")
-    ap.add_argument("--ot-size", type=int, default=500)
-    ap.add_argument("--ot-top", type=int, default=200, help="Disease nodes MERGE'd from OT")
-    ap.add_argument("--edge-limit", type=int, default=200, help="STRING neighborhood size")
+    ap.add_argument(
+        "--ot-size",
+        type=int,
+        default=0,
+        help="OT associations to fetch; 0=full API total (default, no research truncation)",
+    )
+    ap.add_argument(
+        "--ot-top",
+        type=int,
+        default=0,
+        help="Deprecated (all fetched associations are MERGED); kept for CLI compat",
+    )
+    ap.add_argument("--edge-limit", type=int, default=500, help="STRING API network limit (API param)")
     ap.add_argument(
         "--required-score",
         type=int,
-        default=700,
-        help="STRING required_score 0-1000 (Wave 4 FAP may use 400)",
+        default=400,
+        help="STRING confidence threshold 0-1000 (research filter, not a row truncate)",
     )
     ap.add_argument("--refresh-ot", action="store_true", help="Ignore OT JSON cache")
     args = ap.parse_args()

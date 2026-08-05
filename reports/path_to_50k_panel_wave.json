@@ -1,0 +1,141 @@
+{
+  "nodes_before": 16858,
+  "nodes_after": 100250,
+  "delta": 83392,
+  "reports": [
+    {
+      "symbol": "CEACAM5",
+      "nodes_before": 16858,
+      "exit": 1,
+      "partial": true,
+      "failed": [
+        {
+          "cmd": [
+            "C:\\Users\\GuestUser\\Documents\\PlatformIO\\Ayutara\\cd46_precision_medicine_platform\\.venv\\Scripts\\python.exe",
+            "scripts/load_gene_trials_hpa.py",
+            "--symbol",
+            "CEACAM5",
+            "--refresh",
+            "--max-trials",
+            "0"
+          ],
+          "exit": 1
+        }
+      ],
+      "nodes_after": 17500,
+      "delta": 642
+    },
+    {
+      "symbol": "STEAP1",
+      "nodes_before": 17500,
+      "exit": 0,
+      "partial": false,
+      "nodes_after": 18305,
+      "delta": 805
+    },
+    {
+      "symbol": "DLL3",
+      "nodes_before": 18305,
+      "exit": 0,
+      "partial": false,
+      "nodes_after": 20688,
+      "delta": 2383
+    },
+    {
+      "symbol": "NECTIN4",
+      "nodes_before": 20688,
+      "exit": 0,
+      "partial": false,
+      "nodes_after": 22178,
+      "delta": 1490
+    },
+    {
+      "symbol": "ERBB2",
+      "nodes_before": 22178,
+      "exit": 0,
+      "partial": false,
+      "nodes_after": 36293,
+      "delta": 14115
+    },
+    {
+      "symbol": "TACSTD2",
+      "nodes_before": 36293,
+      "exit": 0,
+      "partial": false,
+      "nodes_after": 36293,
+      "delta": 0
+    },
+    {
+      "symbol": "CD276",
+      "nodes_before": 36293,
+      "exit": 0,
+      "partial": false,
+      "nodes_after": 36293,
+      "delta": 0
+    },
+    {
+      "symbol": "CA9",
+      "nodes_before": 36293,
+      "exit": 0,
+      "partial": false,
+      "nodes_after": 56369,
+      "delta": 20076
+    },
+    {
+      "symbol": "EGFR",
+      "nodes_before": 56369,
+      "exit": 0,
+      "partial": false,
+      "nodes_after": 75415,
+      "delta": 19046
+    },
+    {
+      "symbol": "MET",
+      "nodes_before": 75415,
+      "exit": 0,
+      "partial": false,
+      "nodes_after": 95306,
+      "delta": 19891
+    },
+    {
+      "symbol": "CLDN18",
+      "nodes_before": 95306,
+      "exit": 0,
+      "partial": false,
+      "nodes_after": 96878,
+      "delta": 1572
+    },
+    {
+      "symbol": "MSLN",
+      "nodes_before": 96878,
+      "exit": 0,
+      "partial": false,
+      "nodes_after": 97709,
+      "delta": 831
+    },
+    {
+      "symbol": "GPC3",
+      "nodes_before": 97709,
+      "exit": 0,
+      "partial": false,
+      "nodes_after": 99670,
+      "delta": 1961
+    },
+    {
+      "symbol": "FOLR1",
+      "nodes_before": 99670,
+      "exit": 0,
+      "partial": false,
+      "nodes_after": 100250,
+      "delta": 580
+    },
+    {
+      "symbol": "CD19",
+      "nodes_before": 100250,
+      "exit": 0,
+      "partial": false,
+      "nodes_after": 100250,
+      "delta": 0
+    }
+  ]
+}

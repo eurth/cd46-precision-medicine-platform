@@ -211,7 +211,7 @@ def get_eligibility(cancer_type: str = "PRAD", threshold: str = "75th_pct") -> s
         return json.dumps({"error": f"No eligibility slice for {gene}", "active_gene": gene})
 
     sym = gene.upper()
-    high = "CD46-High" if sym == "CD46" else f"{sym}-High"
+    high = f"{sym}-High"
     thr = threshold.replace("log2_2.5", "log2tpm_2.5").replace("log2_3.0", "log2tpm_3.0")
     mask = (
         (df["cancer_type"].str.upper() == cancer_type.upper())
@@ -245,48 +245,54 @@ def get_eligibility(cancer_type: str = "PRAD", threshold: str = "75th_pct") -> s
 # Tool 4: Search clinical trials
 # ---------------------------------------------------------------------------
 
-def search_trials(query: str = "CD46", status: Optional[str] = None) -> str:
+def search_trials(query: Optional[str] = None, status: Optional[str] = None) -> str:
     """
     Search ClinicalTrials.gov JSON for relevant trials.
 
     Args:
         query: Search term to match in trial title or intervention.
+               Defaults to the active gene symbol (not hard-coded CD46).
         status: Optional status filter (e.g., "Recruiting", "Completed").
 
     Returns:
         JSON string with matching trials.
     """
     gene = _active_gene()
+    if not query:
+        query = gene
     gene_path = RAW_DIR / "apis" / f"clinicaltrials_{gene.lower()}.json"
-    fallback = RAW_DIR / "apis" / "clinicaltrials_cd46.json"
-    trials_path = gene_path if gene_path.exists() else fallback
+    # Only fall back to CD46 cache when the active gene is CD46
+    trials_path = gene_path
+    if not trials_path.exists() and gene.upper() == "CD46":
+        trials_path = RAW_DIR / "apis" / "clinicaltrials_cd46.json"
 
-    # Curated trials always available (CD46 / PSMA case-study seeds)
-    curated = [
-        {"nct_id": "NCT04768608", "title": "ABBV-CLS-484 (anti-CD46 ADC) in mCRPC",
-         "phase": "Phase I/II", "status": "Active, not recruiting", "sponsor": "AbbVie"},
-        {"nct_id": "NCT05911295", "title": "CD46-Targeted CAR-T Cell Therapy",
-         "phase": "Phase I", "status": "Recruiting", "sponsor": "City of Hope"},
-        {"nct_id": "NCT04946370", "title": "225Ac-PSMA-617 and Carboplatin in mCRPC",
-         "phase": "Phase I", "status": "Recruiting", "sponsor": "Peter MacCallum"},
-        {"nct_id": "NCT03544840", "title": "177Lu-PSMA-617 vs Cabazitaxel (TheraP)",
-         "phase": "Phase II", "status": "Completed", "sponsor": "PCTA Australia"},
-        {"nct_id": "NCT04986683", "title": "225Ac-PSMA617 in mCRPC (ANZA-002)",
-         "phase": "Phase I", "status": "Recruiting", "sponsor": "Anza Therapeutics"},
-    ]
-
-    # Filter curated
+    results: list[dict] = []
     query_lower = query.lower()
-    results = [
-        t for t in curated
-        if query_lower in t["title"].lower() or query_lower in t.get("intervention", "").lower()
-        or gene.lower() in t["title"].lower()
-    ]
 
-    if status:
-        results = [t for t in results if t.get("status", "").lower() == status.lower()]
+    # Curated CD46 / PSMA seeds — only for CD46, never bleed into other genes
+    if gene.upper() == "CD46":
+        curated = [
+            {"nct_id": "NCT04768608", "title": "ABBV-CLS-484 (anti-CD46 ADC) in mCRPC",
+             "phase": "Phase I/II", "status": "Active, not recruiting", "sponsor": "AbbVie"},
+            {"nct_id": "NCT05911295", "title": "CD46-Targeted CAR-T Cell Therapy",
+             "phase": "Phase I", "status": "Recruiting", "sponsor": "City of Hope"},
+            {"nct_id": "NCT04946370", "title": "225Ac-PSMA-617 and Carboplatin in mCRPC",
+             "phase": "Phase I", "status": "Recruiting", "sponsor": "Peter MacCallum"},
+            {"nct_id": "NCT03544840", "title": "177Lu-PSMA-617 vs Cabazitaxel (TheraP)",
+             "phase": "Phase II", "status": "Completed", "sponsor": "PCTA Australia"},
+            {"nct_id": "NCT04986683", "title": "225Ac-PSMA617 in mCRPC (ANZA-002)",
+             "phase": "Phase I", "status": "Recruiting", "sponsor": "Anza Therapeutics"},
+        ]
+        results = [
+            t for t in curated
+            if query_lower in t["title"].lower()
+            or query_lower in t.get("intervention", "").lower()
+            or "cd46" in t["title"].lower()
+        ]
+        if status:
+            results = [t for t in results if t.get("status", "").lower() == status.lower()]
 
-    # Also load from API file if available (prefer active gene cache)
+    # Load from API file if available (active gene cache only)
     if trials_path.exists():
         with open(trials_path, encoding="utf-8") as f:
             data = json.load(f)
@@ -397,7 +403,7 @@ def run_analysis_summary(analysis: str = "priority") -> str:
         if df is None:
             return json.dumps({"error": f"eligibility slice not found for {gene}"})
         sym = gene.upper()
-        high = f"{sym}-High" if sym != "CD46" else "CD46-High"
+        high = f"{sym}-High"
         method_col = "threshold_method" if "threshold_method" in df.columns else "threshold"
         pct_col = "pct_eligible" if "pct_eligible" in df.columns else "fraction_eligible"
         df75 = df[

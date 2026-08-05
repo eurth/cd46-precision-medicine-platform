@@ -190,10 +190,15 @@ def main() -> None:
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
     ap = argparse.ArgumentParser()
     ap.add_argument("--symbol", help="e.g. FOLH1")
-    ap.add_argument("--all", action="store_true", help="CD46 + FOLH1 + FAP + SSTR2 + GRPR")
+    ap.add_argument("--all", action="store_true", help="All symbols in config/targets.yaml")
     args = ap.parse_args()
-    symbols = ["CD46", "FOLH1", "FAP", "SSTR2", "GRPR"] if args.all else [args.symbol]
-    if not symbols[0]:
+    if args.all:
+        from src.knowledge_graph.registry import all_symbols
+
+        symbols = all_symbols()
+    elif args.symbol:
+        symbols = [args.symbol.upper()]
+    else:
         ap.error("Need --symbol or --all")
     for sym in symbols:
         report = load_gene(sym)

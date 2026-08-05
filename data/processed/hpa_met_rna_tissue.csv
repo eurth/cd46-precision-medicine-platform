@@ -1,0 +1,10 @@
+tissue,type,ntpm,staining_intensity,data_source
+liver,normal,40.1,,HPA_rna
+Endometrial glandular cells,single_cell,1017.9,,HPA_rna
+Endometrial luminal cells,single_cell,524.5,,HPA_rna
+Endometrial secretory cells,single_cell,439.5,,HPA_rna
+Epididymal basal cells,single_cell,347.1,,HPA_rna
+Ocular epithelial cells,single_cell,365.6,,HPA_rna
+Retinal pigment epithelial cells,single_cell,349.6,,HPA_rna
+Salivary basal cells,single_cell,520.8,,HPA_rna
+Transitional alveolar cells,single_cell,417.5,,HPA_rna

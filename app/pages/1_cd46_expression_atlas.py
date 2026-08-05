@@ -1,4 +1,4 @@
-"""Page 1 — CD46 Expression Atlas: pan-cancer mRNA, protein, safety, and CRISPR evidence."""
+"""Page 1 — Expression Atlas: pan-cancer mRNA, protein, safety, and CRISPR evidence."""
 import sys
 from pathlib import Path
 
@@ -347,19 +347,39 @@ elif _active_tab == _TAB_LABELS[1]:
 
     st.markdown("---")
     st.markdown("**Therapeutic Window Summary**")
-    w1, w2, w3 = st.columns(3)
-    w1.warning(
-        "**Adrenal gland, salivary glands, lung** show highest normal-tissue CD46 "
-        "(≥120 TPM GTEx). Monitor closely in dosimetry modelling."
-    )
-    w2.success(
-        "**Brain, skeletal muscle, heart** are low-CD46 normal tissues (<25 TPM). "
-        "Minimal CNS and cardiac risk expected from a CD46-targeted radioligand."
-    )
-    w3.error(
-        "**Kidney** is the primary at-risk organ: GTEx ~80 TPM AND HPA H-score 300/300. "
-        "Renal dosimetry constraint will drive maximum tolerated dose."
-    )
+    if _GENE == "CD46":
+        w1, w2, w3 = st.columns(3)
+        w1.warning(
+            "**Adrenal gland, salivary glands, lung** show highest normal-tissue CD46 "
+            "(≥120 TPM GTEx). Monitor closely in dosimetry modelling."
+        )
+        w2.success(
+            "**Brain, skeletal muscle, heart** are low-CD46 normal tissues (<25 TPM). "
+            "Minimal CNS and cardiac risk expected from a CD46-targeted radioligand."
+        )
+        w3.error(
+            "**Kidney** is the primary at-risk organ: GTEx ~80 TPM AND HPA H-score 300/300. "
+            "Renal dosimetry constraint will drive maximum tolerated dose."
+        )
+    elif gtex_df is not None and "median_tpm" in gtex_df.columns:
+        _tissue_col = next(
+            (c for c in ("tissue_site", "tissue", "organ", "gtex_tissue", "tissue_site_detail")
+             if c in gtex_df.columns),
+            None,
+        )
+        if _tissue_col:
+            _gtex_sum = (
+                gtex_df.groupby(_tissue_col)["median_tpm"].median().sort_values(ascending=False)
+            )
+            _hi = ", ".join(_gtex_sum.head(3).index.astype(str).tolist())
+            _lo = ", ".join(_gtex_sum.tail(3).index.astype(str).tolist())
+            w1, w2 = st.columns(2)
+            w1.warning(f"**Highest GTEx {_GENE}:** {_hi}. Prioritise these organs in dosimetry.")
+            w2.success(f"**Lowest GTEx {_GENE}:** {_lo}. Favourable normal-tissue window.")
+        else:
+            st.caption(f"GTEx slice present for **{_GENE}** — review tissue chart above for OAR signals.")
+    else:
+        st.caption(f"No curated therapeutic-window notes for **{_GENE}** yet — use GTEx/HPA charts above.")
 
 # ── Tab 3 : Functional Screen (DepMap) ──────────────────────────────────────
 elif _active_tab == _TAB_LABELS[2]:
@@ -448,17 +468,23 @@ elif _active_tab == _TAB_LABELS[2]:
             disp["Avg Score"] = disp["Avg Score"].round(3)
             research_table(disp, use_container_width=True, height=480, hide_index=True)
 
-        st.info(
-            "**Key insight:** CD46 CRISPR scores cluster near 0 across all 30 lineages — "
-            "well above the –0.5 dependency threshold. This confirms CD46 is a **surface "
-            "presentation target**, not an oncogenic driver. Radioligand strategies exploit "
-            "overexpression for selective delivery; CD46 loss does not impair tumour cell "
-            "survival, ensuring the therapeutic effect is driven entirely by the radioisotope payload."
-        )
+        if abs(float(med_score)) < 0.3 and pct_dep < 10:
+            st.info(
+                f"**Key insight:** **{_GENE}** CRISPR scores cluster near 0 "
+                f"(median {med_score:.3f}; {pct_dep:.1f}% dependencies) — "
+                f"above the –0.5 threshold. Consistent with a **surface presentation / "
+                f"delivery target** rather than a cell-essential oncogene for most lineages."
+            )
+        else:
+            st.info(
+                f"**Key insight:** **{_GENE}** median CRISPR score is {med_score:.3f} "
+                f"({pct_dep:.1f}% of lines below –0.5). Review lineage bars for "
+                f"dependency hotspots before modality choice."
+            )
 
 # ── Tab 4 : Priority Ranking & Downloads ────────────────────────────────────
 elif _active_tab == _TAB_LABELS[3]:
-    st.markdown("#### CD46 Cancer Priority Ranking")
+    st.markdown(f"#### {_GENE} Cancer Priority Ranking")
     st.caption(
         "Priority score (0–1) combines: mRNA expression rank · protein evidence (HPA) · "
         "CNA frequency (TCGA somatic) · survival impact (Kaplan–Meier) · "
@@ -513,7 +539,7 @@ elif _active_tab == _TAB_LABELS[3]:
                     "Rank: %{customdata[2]}<br>"
                     "Score: %{x:.3f}<br>"
                     "Tier: %{customdata[0]}<br>"
-                    "CD46 mRNA: %{customdata[1]:.2f}"
+                    f"{_GENE} mRNA: %{{customdata[1]:.2f}}"
                     "<extra></extra>"
                 ),
             ))

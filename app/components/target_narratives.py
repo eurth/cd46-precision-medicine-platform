@@ -39,7 +39,15 @@ _STRATEGY: dict[str, dict[str, str]] = {
 
 def strategy_context(symbol: str | None = None) -> dict[str, str]:
     sym = symbol or get_active_symbol()
-    base = _STRATEGY.get(sym, _STRATEGY["CD46"]).copy()
+    base = _STRATEGY.get(
+        sym,
+        {
+            "indication": f"{sym}-associated malignancies",
+            "modality": f"{sym}-targeted therapy",
+            "trial_focus": f"{sym} ClinicalTrials.gov / ChEMBL",
+            "approval_target": "horizon TBD",
+        },
+    ).copy()
     base["symbol"] = sym
     base["name"] = get_target(sym).get("name", sym)
     return base
@@ -67,8 +75,8 @@ def strategy_purpose(symbol: str | None = None) -> str:
     ctx = strategy_context(g)
     return (
         f"End-to-end narrative for **{g}** ({ctx['name']}): "
-        "Target → Drug → Patient → Trial → Outcome · "
-        + ("CD46 remains the deepest worked example." if g == "CD46" else "Gene-param charts + CD46 reference depth where noted.")
+        f"Target → Drug → Patient → Trial → Outcome · "
+        f"{ctx['indication']} · {ctx['modality']}"
     )
 
 

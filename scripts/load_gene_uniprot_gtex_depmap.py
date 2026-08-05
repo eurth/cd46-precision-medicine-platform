@@ -49,8 +49,8 @@ GTEX_API = "https://gtexportal.org/api/v2"
 GTEX_DATASET = "gtex_v8"
 UNIPROT_BASE = "https://rest.uniprot.org/uniprotkb"
 DEPENDENCY_THRESHOLD = -0.5
-ISO_CAP = 10
-VAR_CAP = 20
+ISO_CAP = 0  # 0 = all UniProt isoforms
+VAR_CAP = 0  # 0 = all Natural variant features
 
 # From load_kg_gtex.py — map GTEx detail → HPA tissue name (None = skip cell-line tissues)
 GTEX_TO_HPA = {
@@ -183,7 +183,9 @@ def load_uniprot(session, symbol: str, data: dict) -> dict[str, int]:
 
     # Isoforms (capped)
     alt = next((c for c in (data.get("comments") or []) if c.get("commentType") == "ALTERNATIVE PRODUCTS"), {})
-    isoforms = (alt.get("isoforms") or [])[:ISO_CAP]
+    isoforms = list(alt.get("isoforms") or [])
+    if ISO_CAP > 0:
+        isoforms = isoforms[:ISO_CAP]
     iso_cypher = """
     MATCH (p:Protein {uniprot_id: $uid})
     MERGE (iso:ProteinIsoform {uniprot_isoform_id: $iso_id})
@@ -213,7 +215,9 @@ def load_uniprot(session, symbol: str, data: dict) -> dict[str, int]:
         n_iso += 1
 
     # Natural variants (capped)
-    variants = [f for f in (data.get("features") or []) if f.get("type") == "Natural variant"][:VAR_CAP]
+    variants = [f for f in (data.get("features") or []) if f.get("type") == "Natural variant"]
+    if VAR_CAP > 0:
+        variants = variants[:VAR_CAP]
     var_cypher = """
     MATCH (p:Protein {uniprot_id: $uid})
     MERGE (v:ProteinVariant {variant_id: $variant_id})
@@ -639,10 +643,12 @@ def main() -> None:
     ap.add_argument("--all", action="store_true")
     ap.add_argument("--refresh", action="store_true")
     args = ap.parse_args()
+    from src.knowledge_graph.registry import all_symbols, non_cd46_symbols
+
     if args.all:
-        symbols = ["CD46", "FOLH1", "FAP", "SSTR2", "GRPR"]
+        symbols = all_symbols()
     elif args.all_non_cd46:
-        symbols = ["FOLH1", "FAP", "SSTR2", "GRPR"]
+        symbols = non_cd46_symbols()
     elif args.symbol:
         symbols = [args.symbol.upper()]
     else:

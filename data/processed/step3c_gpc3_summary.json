@@ -1,0 +1,12 @@
+{
+  "symbol": "GPC3",
+  "uniprot_id": "P51654",
+  "gtex_tissues": 52,
+  "depmap_depends_on": 0,
+  "hpa_protein_tissues": 0,
+  "uniprot": {
+    "protein": 1,
+    "isoforms": 3,
+    "variants": 2
+  }
+}

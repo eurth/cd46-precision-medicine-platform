@@ -1,0 +1,12 @@
+tissue,type,ntpm,staining_intensity,data_source
+esophagus,normal,1245.4,,HPA_rna
+salivary gland,normal,585.3,,HPA_rna
+skin 1,normal,554.9,,HPA_rna
+Breast secretory cells,single_cell,1810.4,,HPA_rna
+Epididymal basal cells,single_cell,7482.4,,HPA_rna
+Esophageal apical cells,single_cell,17505.8,,HPA_rna
+Esophageal basal cells,single_cell,2063.6,,HPA_rna
+Esophageal suprabasal cells,single_cell,5347.3,,HPA_rna
+Ocular epithelial cells,single_cell,3288.3,,HPA_rna
+Suprabasal keratinocytes,single_cell,2163.4,,HPA_rna
+eosinophil,blood,15.1,,HPA_rna

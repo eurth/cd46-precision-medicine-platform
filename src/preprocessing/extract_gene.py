@@ -19,6 +19,14 @@ def _load_ds() -> dict:
 
 
 def extract_gene_expression(symbol: str, ensembl_id: str) -> pd.DataFrame:
+    found = extract_genes_expression([(symbol, ensembl_id)])
+    if symbol not in found:
+        raise ValueError(f"{symbol} / {ensembl_id} not found in TCGA matrix")
+    return found[symbol]
+
+
+def extract_genes_expression(genes: list[tuple[str, str]]) -> dict[str, pd.DataFrame]:
+    """One gzip pass for many genes. genes = [(symbol, ensembl_id), ...]."""
     ds = _load_ds()
     expr_gz = Path(ds["expression"]["local_path"])
     if not expr_gz.is_absolute():
@@ -26,28 +34,49 @@ def extract_gene_expression(symbol: str, ensembl_id: str) -> pd.DataFrame:
     if not expr_gz.exists():
         raise FileNotFoundError(f"Missing Xena matrix: {expr_gz}")
 
-    targets = {ensembl_id, symbol, f"{ensembl_id}.{symbol}"}
-    log.info("Scanning %s for %s / %s ...", expr_gz, symbol, ensembl_id)
+    want: dict[str, tuple[str, set[str]]] = {}
+    needles: set[str] = set()
+    # Xena sometimes uses retired HGNC symbols
+    _ALIAS = {"NECTIN4": "PVRL4"}
+    for symbol, ensembl_id in genes:
+        targets = {ensembl_id, symbol, f"{ensembl_id}.{symbol}"}
+        alias = _ALIAS.get(symbol)
+        if alias:
+            targets.add(alias)
+            targets.add(f"{ensembl_id}.{alias}")
+            needles.add(alias)
+        want[symbol] = (ensembl_id, targets)
+        needles.add(symbol)
+        needles.add(ensembl_id)
+
+    log.info("Scanning %s for %d genes (one pass) ...", expr_gz, len(genes))
+    found_raw: dict[str, list[str]] = {}
+    sample_ids: list[str] = []
     with gzip.open(expr_gz, "rb") as fh:
         header_line = fh.readline().decode("utf-8", errors="replace").rstrip("\n")
         sample_ids = header_line.split("\t")
-        values = None
         for raw in fh:
+            if len(found_raw) >= len(want):
+                break
             line = raw.decode("utf-8", errors="replace").rstrip("\n")
-            if symbol not in line and ensembl_id not in line:
+            if not any(n in line for n in needles):
                 continue
             parts = line.split("\t")
             gene_id = parts[0]
-            if gene_id in targets or gene_id.startswith(ensembl_id) or gene_id.endswith(symbol):
-                values = parts[1:]
-                log.info("Found gene_id=%s samples=%d", gene_id, len(values))
-                break
-    if values is None:
-        raise ValueError(f"{symbol} / {ensembl_id} not found in {expr_gz}")
+            for symbol, (ensembl_id, targets) in want.items():
+                if symbol in found_raw:
+                    continue
+                # exact id / ENSG.SYMBOL only — never endswith(symbol) (ABCA9≠CA9)
+                if gene_id in targets or gene_id.startswith(ensembl_id + "."):
+                    found_raw[symbol] = parts[1:]
+                    log.info("Found %s gene_id=%s samples=%d", symbol, gene_id, len(parts) - 1)
+                    break
+
+    missing = [s for s, _ in genes if s not in found_raw]
+    if missing:
+        log.warning("Not found in matrix: %s", missing)
 
     sample_ids = sample_ids[1:]
-    n = min(len(sample_ids), len(values))
-    col = f"{symbol.lower()}_log2_tpm"
 
     def _to_float(v: str) -> float:
         s = str(v).strip()
@@ -55,12 +84,17 @@ def extract_gene_expression(symbol: str, ensembl_id: str) -> pd.DataFrame:
             return float("nan")
         return float(s)
 
-    return pd.DataFrame(
-        {
-            "sample": sample_ids[:n],
-            col: [_to_float(v) for v in values[:n]],
-        }
-    )
+    out: dict[str, pd.DataFrame] = {}
+    for symbol, values in found_raw.items():
+        n = min(len(sample_ids), len(values))
+        col = f"{symbol.lower()}_log2_tpm"
+        out[symbol] = pd.DataFrame(
+            {
+                "sample": sample_ids[:n],
+                col: [_to_float(v) for v in values[:n]],
+            }
+        )
+    return out
 
 
 def by_cancer_stats(expr: pd.DataFrame, symbol: str) -> pd.DataFrame:
@@ -128,6 +162,27 @@ def run_extract(symbol: str, ensembl_id: str) -> tuple[Path, Path]:
     log.info("Wrote %s (%d rows)", out_cancer, len(stats))
     log.info("Wrote %s (%d rows)", out_expr, len(merged))
     return out_expr, out_cancer
+
+
+def run_extract_batch(genes: list[tuple[str, str]]) -> list[tuple[str, Path, Path]]:
+    """Extract many genes with one matrix scan + shared phenotype merge prep."""
+    out_dir = _ROOT / "data" / "processed"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    exprs = extract_genes_expression(genes)
+    results: list[tuple[str, Path, Path]] = []
+    for symbol, _ens in genes:
+        if symbol not in exprs:
+            log.error("skip %s — not in matrix", symbol)
+            continue
+        prefix = symbol.lower()
+        out_expr = out_dir / f"{prefix}_expression.csv"
+        out_cancer = out_dir / f"{prefix}_by_cancer.csv"
+        stats, merged = by_cancer_stats(exprs[symbol], symbol)
+        merged.to_csv(out_expr, index=False)
+        stats.to_csv(out_cancer, index=False)
+        log.info("Wrote %s (%d rows) + %s (%d rows)", out_cancer.name, len(stats), out_expr.name, len(merged))
+        results.append((symbol, out_expr, out_cancer))
+    return results
 
 
 def main() -> None:

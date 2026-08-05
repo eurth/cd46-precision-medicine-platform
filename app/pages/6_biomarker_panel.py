@@ -1,4 +1,8 @@
-"""Page 6 — Biomarker Panel: Clinical Decision Support for 225Ac-CD46 Therapy."""
+"""Page 6 — Biomarker Panel: gene-param clinical decision support.
+
+CD46 retains 225Ac scorer / complement / co-targeting depth; other genes
+use expression inclusion + priority / GENIE slices or empty-states.
+"""
 import sys
 from pathlib import Path
 
@@ -12,7 +16,7 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
-from components.targets import get_active_symbol, render_stub_gate, render_case_study_gate
+from components.targets import get_active_symbol, render_stub_gate
 from components.gene_data import load_genie_cooccurrence
 from components.ui_kit import info_banner, page_header, section_tabs, research_table
 
@@ -29,30 +33,30 @@ for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
 
 if render_stub_gate(module="Biomarker Panel"):
     st.stop()
-if render_case_study_gate(module="Biomarker Panel"):
-    st.stop()
 
 _GENE = get_active_symbol()
 _PREFIX = _GENE.lower()
 _IS_CD46 = _GENE == "CD46"
+_EXPR_COL_NAME = f"{_PREFIX}_log2_tpm"
 
 DATA_DIR = Path("data/processed")
 
 
 page_header(
         icon="🧬",
-        module_name="Biomarker Panel",
+        module_name=f"{_GENE} Biomarker Panel",
         purpose=(
             f"Clinical decision support for **{_GENE}**-targeted therapy · "
-            "multi-biomarker scoring · co-targeting · mCRPC cohort (CD46 depth where noted)"
+            + ("multi-biomarker scoring · co-targeting · mCRPC cohort" if _IS_CD46
+               else "expression inclusion · priority / GENIE slices where available")
         ),
         kpi_chips=[
             ("Active Target", _GENE),
-            ("mCRPC Cohort", "226 pts"),
-            ("GENIE Prostate", "9,251 pts"),
-            ("Driver Segments", "8"),
+            ("mCRPC Cohort", "226 pts" if _IS_CD46 else "—"),
+            ("GENIE Prostate", "9,251 pts" if _IS_CD46 else "—"),
+            ("Mode", "Case study" if _IS_CD46 else "Gene-param"),
         ],
-        source_badges=["TCGA", "GENIE", "cBioPortal", "mCRPC"],
+        source_badges=["TCGA", "GENIE", "cBioPortal", "HPA"],
     )
 
 # ---------------------------------------------------------------------------
@@ -121,26 +125,33 @@ df_genie_cooc = load_genie_cooccurrence(_GENE)
 
 if not _IS_CD46:
     info_banner(
-        f"Co-targeting / complement / GENIE scoring panels retain CD46 case-study depth. "
-        f"Target inclusion + priority use **{_GENE}** PARAM slices where present."
+        f"225Ac-CD46 patient scorer, complement network, and PSMA co-targeting stay on **CD46**. "
+        f"This view shows **{_GENE}** inclusion biomarkers and available PARAM slices."
     )
 
 # ---------------------------------------------------------------------------
-# 6 Tabs
+# Tabs — CD46 keeps full depth; others get inclusion + evidence only
 # ---------------------------------------------------------------------------
 
-_BIO_TABS = [
-    "Target Inclusion",
-    "Co-targeting",
-    "Resistance Markers",
-    "Complement Pathway",
-    "Evidence Base",
-    "Patient Scoring",
-]
+if _IS_CD46:
+    _BIO_TABS = [
+        "Target Inclusion",
+        "Co-targeting",
+        "Resistance Markers",
+        "Complement Pathway",
+        "Evidence Base",
+        "Patient Scoring",
+    ]
+else:
+    _BIO_TABS = [
+        "Target Inclusion",
+        "Priority / GENIE",
+        "Evidence Base",
+    ]
 _active_bio = section_tabs(_BIO_TABS, key="biomarker_panel_tabs")
 
-# TAB 1 — CD46 INCLUSION BIOMARKERS
-if _active_bio == _BIO_TABS[0]:
+# TAB 1 — TARGET INCLUSION BIOMARKERS
+if _active_bio == "Target Inclusion":
     st.markdown(
         "<div style='background:#1e293b;border-left:3px solid #38bdf8;padding:12px 16px;"
         "border-radius:6px;margin-bottom:14px;'>"
@@ -227,51 +238,76 @@ if _active_bio == _BIO_TABS[0]:
             show_axis = st.radio("Y-axis", ["% Eligible", "N Patients"], horizontal=True, key="tab1_y")
 
         df_thr = df_expr.copy()
-        grp_thr = df_thr.groupby("cancer_type").apply(
-            lambda g: pd.Series({
-                "n_total": len(g),
-                "n_eligible": int((g["cd46_log2_tpm"] >= thr_val).sum()),
-                "pct_eligible": (g["cd46_log2_tpm"] >= thr_val).mean() * 100,
-            }),
-            include_groups=False,
-        ).reset_index().sort_values("pct_eligible", ascending=True)
-
-        yval_t = "pct_eligible" if show_axis == "% Eligible" else "n_eligible"
-        HMAP = {"PRAD": "#ef4444", "BLCA": "#f97316", "OV": "#eab308", "HNSC": "#a78bfa"}
-        bar_c = [HMAP.get(r, "#4ade80" if r in focus_cancers else "#38bdf8")
-                 for r in grp_thr["cancer_type"]]
-
-        fig_thr = go.Figure(go.Bar(
-            x=grp_thr[yval_t], y=grp_thr["cancer_type"].astype(str),
-            orientation="h", marker_color=bar_c,
-            text=[f"{v:.0f}%" if show_axis == "% Eligible" else str(int(v)) for v in grp_thr[yval_t]],
-            textposition="outside", textfont=dict(size=9, color="#94a3b8"),
-        ))
-        if show_axis == "% Eligible":
-            fig_thr.add_vline(x=50, line_dash="dot", line_color="#f87171",
-                              annotation_text="50%", annotation_font_color="#f87171")
-        fig_thr.update_layout(
-            height=440, paper_bgcolor="#FFFFFF", plot_bgcolor="#EEF2F7",
-            xaxis=dict(title="% Eligible" if show_axis=="% Eligible" else "N Patients",
-                       color="#94a3b8", gridcolor="#E2E8F0"),
-            yaxis=dict(color="#64748B", tickfont=dict(size=9)),
-            margin=dict(l=10, r=70, t=10, b=10),
+        _ecol = _EXPR_COL_NAME if _EXPR_COL_NAME in df_thr.columns else next(
+            (c for c in df_thr.columns if c.endswith("_log2_tpm")), None
         )
-        with t_col2:
-            n_elig = int(grp_thr["n_eligible"].sum())
-            n_tot = int(grp_thr["n_total"].sum())
-            cm1, cm2, cm3 = st.columns(3)
-            cm1.metric("Eligible at threshold", f"{n_elig:,}", f"{n_elig/max(n_tot,1)*100:.1f}% of {n_tot:,}")
-            cm2.metric("Cancers > 50% eligible", str(int((grp_thr["pct_eligible"] >= 50).sum())))
-            cm3.metric("Threshold", f"{thr_val:.1f} log₂ TPM")
-            st.plotly_chart(fig_thr, use_container_width=True)
-            top3 = grp_thr.nlargest(3, "pct_eligible")["cancer_type"].tolist()
-            st.caption(f"Highest eligibility at {thr_val:.1f}: **{'  ·  '.join(top3)}**")
-    else:
-        st.info("Run `python scripts/run_pipeline.py` to enable live threshold exploration.")
+        if _ecol is None:
+            st.info(f"No `*_log2_tpm` column in `{_PREFIX}_expression.csv`.")
+            grp_thr = pd.DataFrame()
+        else:
+            grp_thr = df_thr.groupby("cancer_type").apply(
+                lambda g: pd.Series({
+                    "n_total": len(g),
+                    "n_eligible": int((g[_ecol] >= thr_val).sum()),
+                    "pct_eligible": (g[_ecol] >= thr_val).mean() * 100,
+                }),
+                include_groups=False,
+            ).reset_index().sort_values("pct_eligible", ascending=True)
 
-# TAB 2 — CO-TARGETING & COMPLEMENTARITY (AACR GENIE)
-elif _active_bio == _BIO_TABS[1]:
+        if not grp_thr.empty:
+            yval_t = "pct_eligible" if show_axis == "% Eligible" else "n_eligible"
+            HMAP = {"PRAD": "#ef4444", "BLCA": "#f97316", "OV": "#eab308", "HNSC": "#a78bfa"}
+            bar_c = [HMAP.get(r, "#4ade80" if r in focus_cancers else "#38bdf8")
+                     for r in grp_thr["cancer_type"]]
+
+            fig_thr = go.Figure(go.Bar(
+                x=grp_thr[yval_t], y=grp_thr["cancer_type"].astype(str),
+                orientation="h", marker_color=bar_c,
+                text=[f"{v:.0f}%" if show_axis == "% Eligible" else str(int(v)) for v in grp_thr[yval_t]],
+                textposition="outside", textfont=dict(size=9, color="#94a3b8"),
+            ))
+            if show_axis == "% Eligible":
+                fig_thr.add_vline(x=50, line_dash="dot", line_color="#f87171",
+                                  annotation_text="50%", annotation_font_color="#f87171")
+            fig_thr.update_layout(
+                height=440, paper_bgcolor="#FFFFFF", plot_bgcolor="#EEF2F7",
+                xaxis=dict(title="% Eligible" if show_axis=="% Eligible" else "N Patients",
+                           color="#94a3b8", gridcolor="#E2E8F0"),
+                yaxis=dict(color="#64748B", tickfont=dict(size=9)),
+                margin=dict(l=10, r=70, t=10, b=10),
+            )
+            with t_col2:
+                n_elig = int(grp_thr["n_eligible"].sum())
+                n_tot = int(grp_thr["n_total"].sum())
+                cm1, cm2, cm3 = st.columns(3)
+                cm1.metric("Eligible at threshold", f"{n_elig:,}", f"{n_elig/max(n_tot,1)*100:.1f}% of {n_tot:,}")
+                cm2.metric("Cancers > 50% eligible", str(int((grp_thr["pct_eligible"] >= 50).sum())))
+                cm3.metric("Threshold", f"{thr_val:.1f} log₂ TPM")
+                st.plotly_chart(fig_thr, use_container_width=True)
+                top3 = grp_thr.nlargest(3, "pct_eligible")["cancer_type"].tolist()
+                st.caption(f"Highest eligibility at {thr_val:.1f}: **{'  ·  '.join(top3)}**")
+    else:
+        st.info(f"No `{_PREFIX}_expression.csv` — run the gene pipeline to enable threshold exploration.")
+
+# TAB — Priority / GENIE (non-CD46) OR Co-targeting (CD46)
+elif (not _IS_CD46) and _active_bio == "Priority / GENIE":
+    st.markdown(f"#### {_GENE} Priority Score & GENIE Co-occurrence")
+    if not df_priority.empty:
+        st.markdown("**Priority score**")
+        research_table(df_priority, use_container_width=True, hide_index=True)
+    else:
+        st.info(f"No priority score file for **{_GENE}**.")
+    if not df_genie_cooc.empty:
+        st.markdown("**GENIE co-occurrence**")
+        research_table(df_genie_cooc, use_container_width=True, hide_index=True)
+    else:
+        st.info(f"No GENIE co-occurrence slice for **{_GENE}**.")
+    if not df_hpa.empty:
+        st.markdown(f"**HPA protein — {_GENE}**")
+        research_table(df_hpa.head(30), use_container_width=True, hide_index=True)
+    st.caption("225Ac-CD46 patient scorer and complement network are available when active target is CD46.")
+
+elif _IS_CD46 and _active_bio == "Co-targeting":
     st.markdown(
         "<div style='background:#1e293b;border-left:3px solid #4ade80;padding:12px 16px;"
         "border-radius:6px;margin-bottom:14px;'>"
@@ -428,8 +464,8 @@ elif _active_bio == _BIO_TABS[1]:
         "making it the primary rescue target for this population."
     )
 
-# TAB 3 — RESISTANCE PREDICTORS
-elif _active_bio == _BIO_TABS[2]:
+# TAB 3 — RESISTANCE PREDICTORS (CD46 only)
+elif _IS_CD46 and _active_bio == "Resistance Markers":
     st.markdown(
         "<div style='background:#1e293b;border-left:3px solid #fbbf24;padding:12px 16px;"
         "border-radius:6px;margin-bottom:14px;'>"
@@ -530,8 +566,8 @@ elif _active_bio == _BIO_TABS[2]:
         "for 225Ac-CD46 therapy. TP53-null tumours may show reduced DNA damage response."
     )
 
-# TAB 4 — COMPLEMENT PATHWAY
-elif _active_bio == _BIO_TABS[3]:
+# TAB 4 — COMPLEMENT PATHWAY (CD46 only)
+elif _IS_CD46 and _active_bio == "Complement Pathway":
     st.markdown(
         "<div style='background:#1e293b;border-left:3px solid #818cf8;padding:12px 16px;"
         "border-radius:6px;margin-bottom:14px;'>"
@@ -653,16 +689,39 @@ elif _active_bio == _BIO_TABS[3]:
     )
 
 # TAB 5 — EVIDENCE BASE
-elif _active_bio == _BIO_TABS[4]:
+elif _active_bio == "Evidence Base":
     info_banner(
-        f"Curated publications for **{_GENE}** · CD46 retains the deepest mCRPC evidence deck."
+        f"Evidence for **{_GENE}** · curated mCRPC deck is CD46-specific."
     )
     if not df_genie_cooc.empty:
         st.markdown(f"#### GENIE mutation co-occurrence ({_GENE})")
         research_table(df_genie_cooc, use_container_width=True, hide_index=True)
 
-    # Curated publications (mirrored from build_publication_nodes.py CURATED_PUBLICATIONS)
-    EVIDENCE_PAPERS = [
+    if not _IS_CD46:
+        st.markdown(f"#### Live PubMed Search — {_GENE}")
+        pubmed_q = st.text_input(
+            "Search PubMed:",
+            value=f"{_GENE} cancer biomarker therapy",
+            key="pubmed_search_input_gene",
+        )
+        if st.button("🔍 Search PubMed", key="search_pubmed_btn_gene"):
+            with st.spinner("Fetching from NCBI PubMed..."):
+                try:
+                    from src.agent.pubmed_search import fetch_pubmed
+                    results = fetch_pubmed(pubmed_q, max_results=6)
+                    if results:
+                        for i, art in enumerate(results, 1):
+                            st.markdown(f"**[{i}] {art.get('title','')}** — {art.get('journal','')} ({art.get('year','')})")
+                            if art.get("url"):
+                                st.link_button("View on PubMed", art["url"])
+                    else:
+                        st.info("No results found.")
+                except Exception as e:
+                    st.error(f"PubMed search failed: {e}")
+        EVIDENCE_PAPERS = []
+    else:
+        # Curated publications (CD46 case-study deck)
+        EVIDENCE_PAPERS = [
         {
             "pmid": "33740951",
             "title": "225Ac-labeled anti-CD46 as a radioimmunotherapy agent for metastatic castration-resistant prostate cancer",
@@ -743,100 +802,88 @@ elif _active_bio == _BIO_TABS[4]:
             "key_finding": "CD46 in cancer: dual role as complement evader and co-stimulatory immune molecule",
             "doi_url": "https://doi.org/10.3389/fimmu.2018.01233",
         },
-    ]
+        ]
 
-    ev_colors = {
-        "Experimental": "#f87171",
-        "Clinical trial": "#fb923c",
-        "Clinical-translational": "#fbbf24",
-        "Biomarker": "#4ade80",
-        "Preclinical": "#818cf8",
-        "Bioinformatics": "#38bdf8",
-        "Review": "#94a3b8",
-    }
+    if EVIDENCE_PAPERS:
+        ev_colors = {
+            "Experimental": "#f87171",
+            "Clinical trial": "#fb923c",
+            "Clinical-translational": "#fbbf24",
+            "Biomarker": "#4ade80",
+            "Preclinical": "#818cf8",
+            "Bioinformatics": "#38bdf8",
+            "Review": "#94a3b8",
+        }
+        col_f1, col_f2 = st.columns([2, 1])
+        with col_f1:
+            ev_types_all = sorted(set(p["evidence_type"] for p in EVIDENCE_PAPERS))
+            sel_ev = st.multiselect("Evidence type", ev_types_all, default=ev_types_all, key="ev_filter")
+        with col_f2:
+            sort_by = st.selectbox("Sort by", ["Year (newest)", "Evidence type", "Journal"], key="ev_sort")
 
-    # Filter controls
-    col_f1, col_f2 = st.columns([2, 1])
-    with col_f1:
-        ev_types_all = sorted(set(p["evidence_type"] for p in EVIDENCE_PAPERS))
-        sel_ev = st.multiselect("Evidence type", ev_types_all, default=ev_types_all, key="ev_filter")
-    with col_f2:
-        sort_by = st.selectbox("Sort by", ["Year (newest)", "Evidence type", "Journal"], key="ev_sort")
+        filtered_papers = [p for p in EVIDENCE_PAPERS if p["evidence_type"] in sel_ev]
+        if sort_by == "Year (newest)":
+            filtered_papers = sorted(filtered_papers, key=lambda x: x["year"], reverse=True)
+        elif sort_by == "Evidence type":
+            filtered_papers = sorted(filtered_papers, key=lambda x: x["evidence_type"])
+        elif sort_by == "Journal":
+            filtered_papers = sorted(filtered_papers, key=lambda x: x["journal"])
 
-    filtered_papers = [p for p in EVIDENCE_PAPERS if p["evidence_type"] in sel_ev]
-    if sort_by == "Year (newest)":
-        filtered_papers = sorted(filtered_papers, key=lambda x: x["year"], reverse=True)
-    elif sort_by == "Evidence type":
-        filtered_papers = sorted(filtered_papers, key=lambda x: x["evidence_type"])
-    elif sort_by == "Journal":
-        filtered_papers = sorted(filtered_papers, key=lambda x: x["journal"])
+        for paper in filtered_papers:
+            ev_c = ev_colors.get(paper["evidence_type"], "#64748b")
+            pmid = paper["pmid"]
+            pubmed_url = f"https://pubmed.ncbi.nlm.nih.gov/{pmid}/" if not pmid.startswith("PMC") else f"https://www.ncbi.nlm.nih.gov/pmc/articles/{pmid}/"
+            st.markdown(
+                f"""
+                <div style='background:#1e293b;border:1px solid #334155;border-left:4px solid {ev_c};
+                padding:14px 18px;margin:8px 0;border-radius:6px;'>
+                <span style='background:{ev_c}22;color:{ev_c};font-size:0.72em;
+                padding:2px 10px;border-radius:12px;font-weight:700;letter-spacing:0.05em;'>
+                {paper['evidence_type'].upper()}</span>
+                <b style='color:#1E293B;display:block;margin-top:8px;font-size:1.0em;line-height:1.4;'>
+                {paper['title']}</b>
+                <span style='color:#94a3b8;font-size:0.84em;'>{paper['authors']}</span><br>
+                <span style='color:#64748b;font-size:0.82em;'>
+                <i>{paper['journal']}</i> &middot; {paper['year']}</span><br>
+                <span style='color:#38bdf8;font-size:0.85em;margin-top:6px;display:block;'>
+                &#8594; {paper['key_finding']}</span>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+            col_pm, col_doi, _ = st.columns([1.2, 1.2, 4])
+            col_pm.link_button("PubMed", pubmed_url)
+            if paper.get("doi_url"):
+                col_doi.link_button("DOI", paper["doi_url"])
 
-    for paper in filtered_papers:
-        ev_c = ev_colors.get(paper["evidence_type"], "#64748b")
-        pmid = paper["pmid"]
-        pubmed_url = f"https://pubmed.ncbi.nlm.nih.gov/{pmid}/" if not pmid.startswith("PMC") else f"https://www.ncbi.nlm.nih.gov/pmc/articles/{pmid}/"
-
-        st.markdown(
-            f"""
-            <div style='background:#1e293b;border:1px solid #334155;border-left:4px solid {ev_c};
-            padding:14px 18px;margin:8px 0;border-radius:6px;'>
-            <span style='background:{ev_c}22;color:{ev_c};font-size:0.72em;
-            padding:2px 10px;border-radius:12px;font-weight:700;letter-spacing:0.05em;'>
-            {paper['evidence_type'].upper()}</span>
-            <b style='color:#1E293B;display:block;margin-top:8px;font-size:1.0em;line-height:1.4;'>
-            {paper['title']}</b>
-            <span style='color:#94a3b8;font-size:0.84em;'>{paper['authors']}</span><br>
-            <span style='color:#64748b;font-size:0.82em;'>
-            <i>{paper['journal']}</i> &middot; {paper['year']}</span><br>
-            <span style='color:#38bdf8;font-size:0.85em;margin-top:6px;display:block;'>
-            &#8594; {paper['key_finding']}</span>
-            </div>
-            """,
-            unsafe_allow_html=True,
+        st.markdown("---")
+        st.markdown("**Live PubMed Search**")
+        pubmed_q = st.text_input(
+            "Search PubMed for additional literature:",
+            value="CD46 prostate cancer radioimmunotherapy",
+            placeholder="e.g., 225Ac alpha therapy prostate",
+            key="pubmed_search_input",
         )
-        col_pm, col_doi, _ = st.columns([1.2, 1.2, 4])
-        col_pm.link_button(f"PubMed â†—", pubmed_url)
-        if paper.get("doi_url"):
-            col_doi.link_button("DOI â†—", paper["doi_url"])
+        if st.button("🔍 Search PubMed", key="search_pubmed_btn"):
+            with st.spinner("Fetching from NCBI PubMed..."):
+                try:
+                    from src.agent.pubmed_search import fetch_pubmed
+                    results = fetch_pubmed(pubmed_q, max_results=6)
+                    if results:
+                        st.success(f"Found {len(results)} articles")
+                        for i, art in enumerate(results, 1):
+                            st.markdown(
+                                f"**[{i}] {art.get('title','')}** — {art.get('journal','')} ({art.get('year','')})"
+                            )
+                            if art.get("url"):
+                                st.link_button("View on PubMed", art["url"])
+                    else:
+                        st.info("No results found — try a different search term.")
+                except Exception as e:
+                    st.error(f"PubMed search failed: {e}")
 
-    st.markdown("---")
-    st.markdown("**Live PubMed Search**")
-    pubmed_q = st.text_input(
-        "Search PubMed for additional literature:",
-        value="CD46 prostate cancer radioimmunotherapy",
-        placeholder="e.g., 225Ac alpha therapy prostate",
-        key="pubmed_search_input",
-    )
-    if st.button("🔍 Search PubMed", key="search_pubmed_btn"):
-        with st.spinner("Fetching from NCBI PubMed..."):
-            try:
-                from src.agent.pubmed_search import fetch_pubmed
-                results = fetch_pubmed(pubmed_q, max_results=6)
-                if results:
-                    st.success(f"Found {len(results)} articles")
-                    for i, art in enumerate(results, 1):
-                        st.markdown(
-                            f"""
-                            <div style='background:#1e293b;border-left:3px solid #38bdf8;
-                            padding:10px 14px;margin:6px 0;border-radius:4px;'>
-                            <b style='color:#1E293B;'>[{i}] {art.get('title','')}</b><br>
-                            <span style='color:#94a3b8;font-size:0.84em;'>{art.get('authors','')}</span><br>
-                            <span style='color:#64748b;font-size:0.82em;'>
-                            {art.get('journal','')} &middot; {art.get('year','')}</span>
-                            {'<br><span style="color:#94a3b8;font-size:0.83em;">'+art.get("abstract_snippet","")[:250]+'...</span>' if art.get('abstract_snippet') else ''}
-                            </div>
-                            """,
-                            unsafe_allow_html=True,
-                        )
-                        if art.get("url"):
-                            st.link_button(f"View on PubMed â†—", art["url"])
-                else:
-                    st.info("No results found — try a different search term.")
-            except Exception as e:
-                st.error(f"PubMed search failed: {e}")
-
-# TAB 6 — PATIENT SCORING CALCULATOR
-elif _active_bio == _BIO_TABS[5]:
+# TAB 6 — PATIENT SCORING CALCULATOR (CD46 only)
+elif _IS_CD46 and _active_bio == "Patient Scoring":
     st.markdown(
         "<div style='background:#1e293b;border-left:3px solid #fb923c;padding:12px 16px;"
         "border-radius:6px;margin-bottom:14px;'>"

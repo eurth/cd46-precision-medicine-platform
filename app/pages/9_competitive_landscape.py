@@ -11,7 +11,8 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 from components.theme import plotly_layout, apply_plotly_layout
-from components.targets import list_symbols, is_loaded
+from components.gene_data import load_trials_summary
+from components.targets import get_active_symbol, list_symbols, is_loaded
 from components.ui_kit import page_header, research_table, section_tabs
 from dotenv import load_dotenv
 
@@ -29,22 +30,34 @@ DATA_DIR = Path("data/processed")
 # ── Theme ──────────────────────────────────────────────────────────────────────
 _BG     = "#FFFFFF"
 _LINE   = "#E2E8F0"
-_INDIGO = "#2563EB"   # CD46 primary
-_AMBER  = "#FBBF24"   # PSMA / FOLH1
-_GREEN  = "#34D399"   # FAP
+_INDIGO = "#2563EB"
+_AMBER  = "#FBBF24"
+_GREEN  = "#34D399"
 _TEAL   = "#2DD4BF"
-_ROSE   = "#F472B6"   # SSTR2
-_VIOLET = "#A78BFA"   # GRPR
+_ROSE   = "#F472B6"
+_VIOLET = "#A78BFA"
 _SLATE  = "#4E637A"
 _TEXT   = "#64748B"
 _LIGHT  = "#1E293B"
 
-_GENE_COLORS = {
+# Seed known genes, then cycle a palette for the full registry
+_PALETTE = [
+    _INDIGO, _AMBER, _GREEN, _ROSE, _VIOLET, _TEAL,
+    "#FB923C", "#EF4444", "#22D3EE", "#A3E635",
+    "#F97316", "#8B5CF6", "#14B8A6", "#EC4899",
+    "#64748B", "#0EA5E9", "#84CC16", "#D946EF",
+    "#F43F5E", "#06B6D4",
+]
+_SEED_COLORS = {
     "CD46": _INDIGO,
     "FOLH1": _AMBER,
     "FAP": _GREEN,
     "SSTR2": _ROSE,
     "GRPR": _VIOLET,
+}
+_GENE_COLORS = {
+    **{sym: _PALETTE[i % len(_PALETTE)] for i, sym in enumerate(list_symbols())},
+    **_SEED_COLORS,
 }
 
 # ── Data ───────────────────────────────────────────────────────────────────────
@@ -78,10 +91,13 @@ def load_compare_matrix(symbols: tuple[str, ...]) -> pd.DataFrame:
 
 
 _LOADED = tuple(s for s in list_symbols() if is_loaded(s))
+_GENE = get_active_symbol()
+_trials_active = load_trials_summary(_GENE)
+_n_trials_active = len(_trials_active) if not _trials_active.empty else None
 df_compare = load_compare_matrix(_LOADED)
 df_expr = load_by_cancer("CD46")  # legacy tab charts still reference CD46
 
-# ── Curated reference data (public sources, March 2026) ───────────────────────
+# ── Curated reference data (legacy CD46/PSMA/FAP tabs only) ───────────────────
 TRIAL_DATA = pd.DataFrame({
     "Target":          ["CD46", "PSMA", "FAP"],
     "Active Trials":   [14,     183,    31],
@@ -166,18 +182,21 @@ PSMA_MEDIANS = {
 }
 
 # ── Page hero ─────────────────────────────────────────────────────────────────
+_trial_kpi = (
+    str(_n_trials_active) if _n_trials_active is not None else "—"
+)
 page_header(
         icon="🏆",
         module_name="Compare Targets",
         purpose=(
-            f"Live TCGA medians for {', '.join(_LOADED) or '—'} · "
-            "trial context · CD46 case-study differentiation"
+            f"Live TCGA medians for {len(_LOADED)} loaded targets · "
+            f"active gene {_GENE} · legacy CD46/PSMA/FAP tabs for historical context"
         ),
         kpi_chips=[
             ("Targets Loaded", str(len(_LOADED))),
             ("Cancers", str(len(df_compare)) if not df_compare.empty else "—"),
-            ("CD46 Trials", "14"),
-            ("Unmet Need", "PSMA-low"),
+            (f"{_GENE} Trials", _trial_kpi),
+            ("Registry", str(len(list_symbols()))),
         ],
         source_badges=["TCGA", "ClinicalTrials", "OpenTargets"],
     )
@@ -185,10 +204,10 @@ page_header(
 # ── Tabs ──────────────────────────────────────────────────────────────────────
 _CMP_TABS = [
     "Live Expression Compare",
-    "CD46 vs PSMA (legacy)",
-    "Trial Activity & Funnel",
-    "Target Biology",
-    "Why CD46 Adds Value",
+    "Legacy: CD46 vs PSMA",
+    "Legacy: Trial Funnel (CD46/PSMA/FAP)",
+    "Legacy: Biology (CD46/PSMA/FAP)",
+    "Legacy: Why CD46 (case study)",
 ]
 _active_cmp = section_tabs(_CMP_TABS, key="cmp_landscape_tabs")
 
@@ -260,9 +279,9 @@ if _active_cmp == _CMP_TABS[0]:
 # ─────────────────────────────────────────────────────────────────────────────
 # Tab 1 — Expression Prevalence (legacy CD46 vs static PSMA)
 elif _active_cmp == _CMP_TABS[1]:
-    st.markdown("#### CD46 mRNA Expression — TCGA Pan-Cancer Survey vs PSMA (FOLH1)")
+    st.markdown("#### Legacy — CD46 mRNA vs PSMA (FOLH1)")
     st.caption(
-        f"Legacy view · for live FOLH1/FAP/SSTR2/GRPR use **Live Expression Compare**. "
+        f"Historical CD46-vs-PSMA view · for live multi-gene use **Live Expression Compare**. "
         f"TCGA · {len(df_expr) if not df_expr.empty else '25'} cancer types"
     )
 
@@ -357,7 +376,12 @@ elif _active_cmp == _CMP_TABS[1]:
 # ─────────────────────────────────────────────────────────────────────────────
 # Tab 2 — Trial Activity & Funnel
 elif _active_cmp == _CMP_TABS[2]:
-    st.markdown("#### Clinical Trial Landscape — Target Comparison & Radiopharmaceutical Funnel")
+    st.markdown("#### Legacy — Clinical Trial Landscape (CD46 / PSMA / FAP)")
+    st.caption(
+        "Curated March 2026 snapshot for three historical comparators. "
+        f"Live trial count for active gene **{_GENE}**: {_trial_kpi} "
+        f"(from `data/processed/{_GENE.lower()}_trials_summary.csv`)."
+    )
 
     col_funnel, col_ph = st.columns([1, 1.2])
 
@@ -446,8 +470,11 @@ elif _active_cmp == _CMP_TABS[2]:
 # ─────────────────────────────────────────────────────────────────────────────
 # Tab 3 — Target Biology
 elif _active_cmp == _CMP_TABS[3]:
-    st.markdown("#### Target Biology Comparison — CD46 vs PSMA vs FAP")
-    st.caption("Curated from UniProt \u00b7 KEGG \u00b7 published preclinical and clinical literature")
+    st.markdown("#### Legacy — Target Biology (CD46 vs PSMA vs FAP)")
+    st.caption(
+        "Curated three-target comparison · UniProt · KEGG · literature. "
+        "Not the full registry panel."
+    )
 
     bio_cols = st.columns(3)
     for col, target in zip(bio_cols, ["CD46", "PSMA", "FAP"]):
@@ -487,7 +514,11 @@ elif _active_cmp == _CMP_TABS[3]:
 # ─────────────────────────────────────────────────────────────────────────────
 # Tab 4 — Why CD46 Adds Value
 elif _active_cmp == _CMP_TABS[4]:
-    st.markdown("#### Why CD46 as a Radiopharmaceutical Target?")
+    st.markdown("#### Legacy — Why CD46 as a case-study RLT target?")
+    st.caption(
+        "Historical CD46 differentiation narrative. "
+        f"Primary compare surface is **Live Expression Compare** across {len(_LOADED)} loaded genes."
+    )
     st.markdown(
         "177Lu-Pluvicto (PSMA-617) validated that **radioligand therapy works in mCRPC**. "
         "But it created a new clinical problem: approximately **30\u201340% of mCRPC patients are "

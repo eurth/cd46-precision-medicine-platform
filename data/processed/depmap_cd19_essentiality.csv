@@ -1,0 +1,1187 @@
+depmap_id,crispr_score,cell_line_name,cancer_type,lineage,is_dependency,gene_symbol
+ACH-000015,-0.0816928794524716,NCI-H1581,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000045,-0.06453143265435,MV4-11,Acute Myeloid Leukemia,Myeloid,False,CD19
+ACH-000094,0.1364138065799596,HPAF-II,Pancreatic Adenocarcinoma,Pancreas,False,CD19
+ACH-000096,-0.0889224233177459,G-401,Rhabdoid Cancer,Kidney,False,CD19
+ACH-000099,0.04632997357409,SIMA,Neuroblastoma,Peripheral Nervous System,False,CD19
+ACH-000167,-0.7258797151951626,KE-97,Mature B-Cell Neoplasms,Lymphoid,True,CD19
+ACH-000178,-0.025613149642718,Hs 766T,Pancreatic Adenocarcinoma,Pancreas,False,CD19
+ACH-000213,-0.1590600773330395,HUP-T4,Pancreatic Adenocarcinoma,Pancreas,False,CD19
+ACH-000216,-0.1420248904843135,JH-EsoAd1,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,CD19
+ACH-000223,-0.0200638685187382,HCC1937,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-000247,-0.1964229127734373,OCUM-1,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,CD19
+ACH-000261,-0.1365599342657026,RERF-LC-AI,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000262,-0.1574085489282891,UOK101,Renal Cell Carcinoma,Kidney,False,CD19
+ACH-000286,0.1583989546566714,SNU-1033,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-000312,-0.1376751628720935,SK-N-BE(2),Neuroblastoma,Peripheral Nervous System,False,CD19
+ACH-000320,-0.0673648225302997,PSN1,Pancreatic Adenocarcinoma,Pancreas,False,CD19
+ACH-000341,-0.0701972761444347,SK-N-FI,Neuroblastoma,Peripheral Nervous System,False,CD19
+ACH-000354,0.3132058256430401,Capan-1,Pancreatic Adenocarcinoma,Pancreas,False,CD19
+ACH-000373,0.0021893726005994,SKM-1,Acute Myeloid Leukemia,Myeloid,False,CD19
+ACH-000402,-0.5582082732082719,BL-70,Mature B-Cell Neoplasms,Lymphoid,True,CD19
+ACH-000416,-0.1576610725221404,NCI-H838,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000435,-0.2747681569355226,EFE-184,Endometrial Carcinoma,Uterus,False,CD19
+ACH-000437,0.0175107761923184,SW 1088,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000450,-0.3789129498375518,MEL-HO,Melanoma,Skin,False,CD19
+ACH-000478,-0.1211952138527942,SNU-387,Hepatocellular Carcinoma,Liver,False,CD19
+ACH-000483,-0.2916535221149132,SNU-182,Hepatocellular Carcinoma,Liver,False,CD19
+ACH-000493,-0.0386342532300442,SNU-423,Hepatocellular Carcinoma,Liver,False,CD19
+ACH-000514,-0.1747274738421443,NCI-H1092,Lung Neuroendocrine Tumor,Lung,False,CD19
+ACH-000516,-0.191392270213183,CAL-78,Chondrosarcoma,Bone,False,CD19
+ACH-000535,-0.1159764772266171,BxPC-3,Pancreatic Adenocarcinoma,Pancreas,False,CD19
+ACH-000544,-0.076136688481395,OE21,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,CD19
+ACH-000563,-0.0721427590765313,EBC-1,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000592,-0.2668969762342114,TM-31,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000599,-0.1202310094189463,PA-TU-8902,Pancreatic Adenocarcinoma,Pancreas,False,CD19
+ACH-000614,0.0221905237567825,RVH-421,Melanoma,Skin,False,CD19
+ACH-000618,-0.1740741461346572,SNU-1041,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-000652,0.0490840560851648,SUIT-2,Pancreatic Adenocarcinoma,Pancreas,False,CD19
+ACH-000656,-1.1741959856701527,SU-DHL-8,Mature B-Cell Neoplasms,Lymphoid,True,CD19
+ACH-000695,0.0286792207767696,COR-L47,Lung Neuroendocrine Tumor,Lung,False,CD19
+ACH-000717,-0.1182408313618604,COLO-680N,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,CD19
+ACH-000719,-0.1260176096943472,RMG-I,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-000748,-0.0864848299570687,SJSA-1,Osteosarcoma,Bone,False,CD19
+ACH-000777,-0.2243179378433012,KYSE-30,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,CD19
+ACH-000784,-0.1950166599355265,KYSE-70,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,CD19
+ACH-000793,-0.0472135717103387,KATO III,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,CD19
+ACH-000798,-0.749844302725265,CL-40,Colorectal Adenocarcinoma,Bowel,True,CD19
+ACH-000820,-0.0623788596415784,SW403,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-000839,-0.0182883075168779,SCaBER,Bladder Squamous Cell Carcinoma,Bladder/Urinary Tract,False,CD19
+ACH-000862,-0.0808649324162398,KMBC-2,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,CD19
+ACH-000872,-0.1343812484431442,HCC515,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000876,0.0681543907980466,MDA-MB-415,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-000888,-0.1456272420637338,NCI-H1793,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000906,-0.1416379025140155,ES-2,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-000912,-0.1602447562306206,NCI-H2286,Lung Neuroendocrine Tumor,Lung,False,CD19
+ACH-000913,0.0190430894898348,ESS-1,Uterine Sarcoma/Mesenchymal,Uterus,False,CD19
+ACH-000922,-0.8263156260450812,RCH-ACV,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,True,CD19
+ACH-000928,0.2124820901110535,JHUEM-1,Endometrial Carcinoma,Uterus,False,CD19
+ACH-000934,0.1218134124788758,MDA-MB-361,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-000937,-0.1770001101676025,PF-382,T-Lymphoblastic Leukemia/Lymphoma,Lymphoid,False,CD19
+ACH-000943,0.0028687537318581,RKO,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-000950,-0.1451334478668102,LoVo,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-000953,-0.2897547890724982,SUP-T1,T-Lymphoblastic Leukemia/Lymphoma,Lymphoid,False,CD19
+ACH-000957,-0.0334083398404718,LS 180,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-000960,-0.1368675671910926,Reh,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,False,CD19
+ACH-000969,-0.3378210775654695,KM12,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-000994,0.1198214987074669,HEC-59,Endometrial Carcinoma,Uterus,False,CD19
+ACH-001228,0.1148608542938456,UPCI-SCC-152,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-001329,-0.0525779794882354,ANGM-CSS,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-001374,-0.2962460329780654,PA-1 [PA1],Ovarian Germ Cell Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-001393,-0.2074989248754021,SUM-190PT,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-001418,-0.094251426672009,UWB1.289,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-001419,-0.2177924909232693,VP229,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-001497,-0.2008886482364488,ESO51,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,CD19
+ACH-001513,-0.1251590960949548,HCA-1,Cervical Adenocarcinoma,Cervix,False,CD19
+ACH-001539,-0.1241019369587693,KML-1,Mature B-Cell Neoplasms,Lymphoid,False,CD19
+ACH-001544,-0.438932487207097,KYAE-1,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,CD19
+ACH-001570,-0.0772321533960284,MM426,Melanoma,Skin,False,CD19
+ACH-001603,-0.0809728551106191,NH-12,Neuroblastoma,Peripheral Nervous System,False,CD19
+ACH-001650,-0.2016397957802259,SISO,Cervical Adenocarcinoma,Cervix,False,CD19
+ACH-001675,-0.1922528880018998,TR146,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-001794,-0.2008869985399373,93T449,Liposarcoma,Soft Tissue,False,CD19
+ACH-001802,-0.0954146051571444,LPS853,Liposarcoma,Soft Tissue,False,CD19
+ACH-001972,-0.1441063206024171,MM473,Melanoma,Skin,False,CD19
+ACH-001993,-0.3092907071352986,NALM-16,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,False,CD19
+ACH-002002,-0.0720255975058288,A375 SKIN CJ2,Melanoma,Skin,False,CD19
+ACH-002052,-0.0521790478623157,Lu-139,Lung Neuroendocrine Tumor,Lung,False,CD19
+ACH-002055,-0.8413451280320281,TL-1,Mature B-Cell Neoplasms,Lymphoid,True,CD19
+ACH-002161,0.015018157882925,MKN28,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,CD19
+ACH-002263,-0.1072610939310826,KYSE-220,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,CD19
+ACH-002284,-0.0231490550393447,NB6,Neuroblastoma,Peripheral Nervous System,False,CD19
+ACH-002463,-0.1185150032459226,RPE1-ss77,Non-Cancerous,Eye,False,CD19
+ACH-002471,-0.1395829887992821,OS052,Osteosarcoma,Bone,False,CD19
+ACH-002511,-0.140478836528784,M104325,Melanoma,Skin,False,CD19
+ACH-002512,-0.1282283445148935,MM160113,Melanoma,Skin,False,CD19
+ACH-002654,0.0470985576725331,JVE-015,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-002780,-0.0544585080620852,NCC-ES1-C1,Ewing Sarcoma,Bone,False,CD19
+ACH-002784,-0.089188231650612,NCC-UPS2-C1,Undifferentiated Pleomorphic Sarcoma/Malignant Fibrous Histiocytoma/High-Grade Spindle Cell Sarcoma,Soft Tissue,False,CD19
+ACH-002799,-0.1544375874096768,NCC-MPNST1-C1,Nerve Sheath Tumor,Peripheral Nervous System,False,CD19
+ACH-002806,-0.2308401721958232,TB096,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000018,-0.1104393410048978,T24,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,CD19
+ACH-000029,0.0108084101126297,HCC-827-GR5,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000036,0.0442716779388097,U343,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000048,-0.0818513571587563,TOV-112D,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-000053,-0.0410858194127318,KARPAS-299,Mature T and NK Neoplasms,Lymphoid,False,CD19
+ACH-000087,-0.1941956125281781,SK-ES-1,Ewing Sarcoma,Bone,False,CD19
+ACH-000097,0.0832073094448297,ZR-75-1,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-000108,0.0068441589657826,KP-3,Adenosquamous Carcinoma of the Pancreas,Pancreas,False,CD19
+ACH-000120,-0.0585172943903929,CHP-212,Neuroblastoma,Peripheral Nervous System,False,CD19
+ACH-000143,0.0760580376281412,HCC2429,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000183,-0.0637680093197118,L-363,Mature B-Cell Neoplasms,Lymphoid,False,CD19
+ACH-000190,-0.3219815263727517,HD-MY-Z,Acute Myeloid Leukemia,Myeloid,False,CD19
+ACH-000195,-0.1195006330173929,Set-2,Acute Myeloid Leukemia,Myeloid,False,CD19
+ACH-000198,0.0089818546202609,EOL-1,Acute Myeloid Leukemia,Myeloid,False,CD19
+ACH-000235,-0.040646805361924,Panc 04.03,Pancreatic Adenocarcinoma,Pancreas,False,CD19
+ACH-000255,-0.129391897880483,LMSU,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,CD19
+ACH-000258,-0.1023692259583927,Du4475,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-000304,-0.1148173334774122,WM-115,Melanoma,Skin,False,CD19
+ACH-000311,-0.019820741134326,NCI-H2122,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000339,-0.0435691320849485,HCC-461,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000350,-0.0084446006149531,COLO-678,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-000361,-0.0927172880690906,SK-HEP-1,Hepatocellular Carcinoma,Liver,False,CD19
+ACH-000375,0.2807928320301991,G-402,Rhabdoid Cancer,Kidney,False,CD19
+ACH-000389,0.0788649635017365,H4,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000391,-0.1123772912952691,MHH-ES-1,Ewing Sarcoma,Bone,False,CD19
+ACH-000411,-0.1035287180490068,769-P,Renal Cell Carcinoma,Kidney,False,CD19
+ACH-000421,-0.0928575378717316,SW837,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-000427,-0.2715435809223664,NCI-N87,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,CD19
+ACH-000434,-0.0494195617072414,NCI-H1915,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000441,0.0342077974905253,SH-4,Melanoma,Skin,False,CD19
+ACH-000444,-0.1516384893858054,LU99,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000467,0.1568166044109863,HCC-56,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-000471,-0.0270670492062843,Li-7,Hepatocellular Carcinoma,Liver,False,CD19
+ACH-000486,-0.0525550932953198,KU-19-19,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,CD19
+ACH-000490,-0.0197322245316924,SF767,Cervical Squamous Cell Carcinoma,Cervix,False,CD19
+ACH-000496,0.1248688530720198,NCI-H1792,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000533,0.0834726444611028,NCI-H2004 RT,Rhabdoid Cancer,Kidney,False,CD19
+ACH-000542,0.051992814138192,Hey-A8,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-000546,-0.0566713184508917,HSC-4,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-000551,-0.0242551183583002,K-562,Myeloproliferative Neoplasms,Myeloid,False,CD19
+ACH-000558,0.0093042803793891,A-172,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000576,-0.1875462539496925,KMS-27,Mature B-Cell Neoplasms,Lymphoid,False,CD19
+ACH-000579,-0.1005956101117396,UACC-257,Melanoma,Skin,False,CD19
+ACH-000588,-0.0218330659024326,KMS-26,Mature B-Cell Neoplasms,Lymphoid,False,CD19
+ACH-000624,-0.0569538325107334,HCC1806,Breast Ductal Carcinoma In Situ,Breast,False,CD19
+ACH-000638,-0.0717701773006508,NCI-H441,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000646,-0.1691005187101624,OVMANA,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-000654,-0.4261038690791352,Raji,Non-Hodgkin Lymphoma,Lymphoid,False,CD19
+ACH-000738,-0.1540542585897122,GB-1,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000764,-0.1628042785310433,SH-10-TC,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,CD19
+ACH-000773,0.0444575443350111,Ki-JK,Mature T and NK Neoplasms,Lymphoid,False,CD19
+ACH-000807,-0.0644608893127814,SNU-738,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000811,0.0125739475042964,SK-OV-3,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-000843,0.0079153797066605,HARA,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000849,-0.1201753612429346,MDA-MB-468,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-000865,-0.1791037452769836,KYSE-450,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,CD19
+ACH-000890,-0.0176850425901348,SW 1271,SMARCA4-deficient undifferentiated tumor,Lung,False,CD19
+ACH-000894,0.0369575721979996,NCI-H1869,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000907,0.3199675115101418,SNU-349,Renal Cell Carcinoma,Kidney,False,CD19
+ACH-000917,0.0286581740601214,TE-4,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,CD19
+ACH-000932,-0.0363553773767992,SNU-1,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,CD19
+ACH-000966,-0.0600953252436364,IGROV1,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-000974,-0.0028284574878752,SNG-M,Endometrial Carcinoma,Uterus,False,CD19
+ACH-001031,-0.0096437523506617,CHLA-266,Embryonal Tumor,CNS/Brain,False,CD19
+ACH-001338,-0.1405831268231938,CHP-134,Neuroblastoma,Peripheral Nervous System,False,CD19
+ACH-001407,-0.0560967117129818,UM-UC-13,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,CD19
+ACH-001409,-0.1262853906530634,UM-UC-16,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,CD19
+ACH-001454,-0.0854358799676461,C10,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-001511,-0.0661951523417195,H413,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-001518,-0.1026562501750241,HEC-116,Endometrial Carcinoma,Uterus,False,CD19
+ACH-001522,-0.0021258411226313,HMY-1,Melanoma,Skin,False,CD19
+ACH-001536,0.0755174784739995,KKU-100,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,CD19
+ACH-001551,-0.1733795252307342,MCC14/2,Merkel Cell Carcinoma,Skin,False,CD19
+ACH-001554,-0.0826333053347685,mel-202,Ocular Melanoma,Eye,False,CD19
+ACH-001555,0.1127088341930808,Mero-14,Pleural Mesothelioma,Pleura,False,CD19
+ACH-001557,-0.0300841701940509,Mero-41,Pleural Mesothelioma,Pleura,False,CD19
+ACH-001563,0.0044081968343925,MM127,Melanoma,Skin,False,CD19
+ACH-001574,-0.0910832100686143,MOLM-14,Acute Myeloid Leukemia,Myeloid,False,CD19
+ACH-001607,-0.0179977787005522,NOZ,Intracholecystic Papillary Neoplasm,Biliary Tract,False,CD19
+ACH-001655,-0.0893929099035167,SKN,Uterine Sarcoma/Mesenchymal,Uterus,False,CD19
+ACH-001674,-0.0537065752485675,TGW,Neuroblastoma,Peripheral Nervous System,False,CD19
+ACH-001687,0.0980433456395902,UM-RC-3,Renal Cell Carcinoma,Kidney,False,CD19
+ACH-001695,-0.0598561326671696,UPCI-SCC-099,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-001696,-0.0445547005192902,UPCI-SCC-111,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-001699,-0.028068166613954,UPCI-SCC-131,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-001737,-0.2455938785081798,CTV-1-DM,T-Lymphoblastic Leukemia/Lymphoma,Lymphoid,False,CD19
+ACH-001819,0.0306021748223504,MFM-223,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-001843,0.1171048187394401,MGH-ECC4,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,CD19
+ACH-002040,-0.240523439993086,HMV-II,Mucosal Melanoma of the Vulva/Vagina,Vulva/Vagina,False,CD19
+ACH-002043,-0.1506652160823346,Ca9-22,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-002051,-0.0165099688007357,Lu-134-A,Lung Neuroendocrine Tumor,Lung,False,CD19
+ACH-002060,-0.363738409960203,MY,Acute Leukemias of Ambiguous Lineage,Myeloid,False,CD19
+ACH-002141,0.0632386296039403,HSC-39,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,CD19
+ACH-002233,0.2224704509020231,DIFI,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-002247,0.0269528494664067,IM-9,Non-Cancerous,Myeloid,False,CD19
+ACH-002257,0.1069600148718247,KINGS-1,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-002500,-0.2093756261597976,Z-138,Mature B-Cell Neoplasms,Lymphoid,False,CD19
+ACH-002530,0.0524095905150667,SNU-977,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-003191,-0.0232729504358448,NRH-GCT2,Giant Cell Tumor of Bone,Bone,False,CD19
+ACH-000005,0.1382752021462667,HEL 92.1.7,Acute Myeloid Leukemia,Myeloid,False,CD19
+ACH-000011,-0.0737500429107193,253J,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,CD19
+ACH-000067,0.0471356044106363,Hs 683,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000076,0.0412671522981276,NCO2,Myeloproliferative Neoplasms,Myeloid,False,CD19
+ACH-000093,0.1350609972484314,Panc 05.04,Pancreatic Adenocarcinoma,Pancreas,False,CD19
+ACH-000095,-0.098825092845185,D341 Med,Embryonal Tumor,CNS/Brain,False,CD19
+ACH-000098,-0.0188160543719775,GAMG,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000115,0.0677104425178957,VCaP,Prostate Adenocarcinoma,Prostate,False,CD19
+ACH-000116,-0.1085628995344891,OAW28,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-000132,-0.1032185811343383,JHOS-2,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-000139,-0.0606526731459266,Panc 03.27,Pancreatic Adenocarcinoma,Pancreas,False,CD19
+ACH-000159,-0.0509156264559774,OS-RC-2,Renal Cell Carcinoma,Kidney,False,CD19
+ACH-000172,-0.3091426558310955,TM-87,Rhabdoid Cancer,Soft Tissue,False,CD19
+ACH-000174,-0.0926075107092346,CAL-62,Anaplastic Thyroid Cancer,Thyroid,False,CD19
+ACH-000182,-0.113417614558939,SNU-869,Ampullary Carcinoma,Ampulla of Vater,False,CD19
+ACH-000212,0.0431065200323441,CAL-120,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-000226,0.014311491997395,SUP-M2,Mature T and NK Neoplasms,Lymphoid,False,CD19
+ACH-000228,-0.247329052587761,BICR 31,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-000233,-0.0148847066365185,DEL,Mature T and NK Neoplasms,Lymphoid,False,CD19
+ACH-000234,-0.0657330854460221,Caki-2,Renal Cell Carcinoma,Kidney,False,CD19
+ACH-000260,-0.0660616977573817,SK-N-AS,Neuroblastoma,Peripheral Nervous System,False,CD19
+ACH-000264,-0.180352179736444,Calu-6,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000277,-0.1836612776964439,HCC1419,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-000293,-0.3482129396897304,KLE,Endometrial Carcinoma,Uterus,False,CD19
+ACH-000294,-0.0092809588500149,NB-4,Acute Myeloid Leukemia,Myeloid,False,CD19
+ACH-000335,0.2044286348251215,MSTO-211H,Pleural Mesothelioma,Pleura,False,CD19
+ACH-000344,-0.0002066112835331,SNU-668,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,CD19
+ACH-000371,-0.6362447896505441,RL,Mature B-Cell Neoplasms,Lymphoid,True,CD19
+ACH-000376,-0.0635770693995118,SF-295,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000381,0.1039325809535988,T84,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-000403,0.0068532355331469,NCI-H747,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-000404,0.0292105755613076,K029AX,Melanoma,Skin,False,CD19
+ACH-000503,-0.3904247950785604,BICR 16,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-000504,-0.0798965473478949,SNB75,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000547,-0.2542378794483554,HT-1197,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,CD19
+ACH-000548,-0.0744250195749771,BHY,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-000549,-0.2310636140376298,SNU-1076,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-000584,-0.0297907546120416,JHOS-4,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-000616,-0.0919243292902648,Hs 746T,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,CD19
+ACH-000620,-0.0002221767587215,JHH-1,Hepatocellular Carcinoma,Liver,False,CD19
+ACH-000663,-0.0127836728137541,OVTOKO,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-000746,-0.2731578805182768,GSS,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,CD19
+ACH-000753,-0.0975139169103741,JMSU-1,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,CD19
+ACH-000756,-0.1431965114919394,GI-1,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000823,-0.0601344064324209,KYSE-140,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,CD19
+ACH-000831,0.1126670530632658,HEC-50B,Endometrial Carcinoma,Uterus,False,CD19
+ACH-000853,-0.0186191325244084,NCI-H661,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000860,-0.0651298164073446,NCI-H358,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000864,-0.2031852986359162,COLO 684,Endometrial Carcinoma,Uterus,False,CD19
+ACH-000882,0.0278816599358352,IGR-1,Melanoma,Skin,False,CD19
+ACH-000919,-0.2319708831711636,IM95,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,CD19
+ACH-000924,-0.1430026886215114,NCI-H2172,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000926,0.0530816965971907,HT-55,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-000970,0.1911631173563164,SNU-C5,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-000980,-0.175573760201143,NCI-H1155,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000983,-0.0906952827232008,KCL-22,Myeloproliferative Neoplasms,Myeloid,False,CD19
+ACH-001020,0.0334004425247308,BT-16,Embryonal Tumor,CNS/Brain,False,CD19
+ACH-001054,0.078388748731308,D458,Embryonal Tumor,CNS/Brain,False,CD19
+ACH-001111,-0.2059930250367075,L82,Mature T and NK Neoplasms,Lymphoid,False,CD19
+ACH-001128,0.0380723666424814,MON,Rhabdoid Cancer,Soft Tissue,False,CD19
+ACH-001134,0.0592829483821649,MYLA,Non-Hodgkin Lymphoma,Lymphoid,False,CD19
+ACH-001137,0.0391612143336817,NCI-H1993,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-001172,-0.0814580438948445,U-251 MG DM,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-001275,-0.1311134937108882,SYO-1,Osteosarcoma,Bone,False,CD19
+ACH-001279,0.0187937778327611,SCCOHT-1,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-001280,-0.0347457436253348,SCS-214,Synovial Sarcoma,Soft Tissue,False,CD19
+ACH-001310,-0.1217783758680277,HA1E,Non-Cancerous,Kidney,False,CD19
+ACH-001340,-0.1442325534552609,COV413A,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-001386,-0.0126647215563598,SCLC-22H,Lung Neuroendocrine Tumor,Lung,False,CD19
+ACH-001390,-0.1992689695680436,SUM-149PT,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-001396,-0.4185205635323616,SUM-52PE,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-001398,-0.2848181993332759,SW 156,Renal Cell Carcinoma,Kidney,False,CD19
+ACH-001422,-0.1748753600653721,WPE1-NA22,Non-Cancerous,Prostate,False,CD19
+ACH-001460,-0.051806162965119,C84,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-001533,-0.5350818838224854,KARPAS 1718,Mature B-Cell Neoplasms,Lymphoid,True,CD19
+ACH-001542,-0.102136930484849,KON,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-001547,0.1651927647562297,LO68,Pleural Mesothelioma,Pleura,False,CD19
+ACH-001548,-0.1418373255831791,LS,Neuroblastoma,Peripheral Nervous System,False,CD19
+ACH-001558,-0.1448836017064522,Mero-48a,Pleural Mesothelioma,Pleura,False,CD19
+ACH-001608,-0.0345768378296751,NP 2,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-001619,-0.0946522524272895,OCUG-1,Intracholecystic Papillary Neoplasm,Biliary Tract,False,CD19
+ACH-001625,-0.2478442873849889,OSC-19,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-001642,-0.2835565811923461,SCC-3,Non-Hodgkin Lymphoma,Lymphoid,False,CD19
+ACH-001691,-0.0990072766727622,UPCI-SCC-029A,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-001692,-0.1754329522017871,UPCI-SCC-040,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-001842,-0.1241160283815138,MGH-ICC2,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,CD19
+ACH-001850,0.0013885309865186,G415,Intracholecystic Papillary Neoplasm,Biliary Tract,False,CD19
+ACH-001853,-0.1334852253975384,KMCH-1,Hepatocellular Carcinoma plus Intrahepatic Cholangiocarcinoma,Liver,False,CD19
+ACH-001970,-0.077380827048302,MM253,Melanoma,Skin,False,CD19
+ACH-001991,0.0507035127068524,NZOV9,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-002030,-0.1612354999191199,Sa3,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-002044,-0.1039135849641799,HSQ-89,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-002062,-0.0012163967765206,SLVL,Mature B-Cell Neoplasms,Lymphoid,False,CD19
+ACH-002116,0.0008750920288912,EW-22,Ewing Sarcoma,Bone,False,CD19
+ACH-002210,-1.1791399057871297,ARH-77,Non-Cancerous,Myeloid,True,CD19
+ACH-002464,-0.1388101732319035,RPE1-ss6,Non-Cancerous,Eye,False,CD19
+ACH-002647,-0.023033218326923,CCC-5,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,CD19
+ACH-002680,-0.0935712013545731,170-MG-BA,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-003176,-0.2140043413043985,NRH-GCT1,Osteosarcoma,Bone,False,CD19
+ACH-000014,-0.0975690170026882,Hs 294T,Melanoma,Skin,False,CD19
+ACH-000019,0.0797994006531508,MCF7,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-000035,-0.0988043918938714,NCI-H1650,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000042,-0.0119510314622509,Panc 02.03,Pancreatic Adenocarcinoma,Pancreas,False,CD19
+ACH-000074,-0.0703461881573085,KU812,Myeloproliferative Neoplasms,Myeloid,False,CD19
+ACH-000114,0.0553808595146414,SU.86.86,Pancreatic Adenocarcinoma,Pancreas,False,CD19
+ACH-000127,-0.2271834131487135,SLR 20,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,CD19
+ACH-000128,-0.1394567212613137,LN-319,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000133,-0.1822751878427461,Hs 729,Non-Cancerous,Fibroblast,False,CD19
+ACH-000153,0.0488785851426501,NCI-H2052,Pleural Mesothelioma,Pleura,False,CD19
+ACH-000164,-0.1194645390579446,PANC-1,Pancreatic Adenocarcinoma,Pancreas,False,CD19
+ACH-000176,0.0331566750024062,LOU-NH91,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000189,-0.2988217854085218,RCC10RGB,Renal Cell Carcinoma,Kidney,False,CD19
+ACH-000208,-0.3676702866198302,U-178,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000210,-0.0810295261102628,CADO-ES1,Ewing Sarcoma,Bone,False,CD19
+ACH-000242,-0.3543243349370654,RT4,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,CD19
+ACH-000251,-0.4274350565630406,NCI-H2887,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000288,0.0804310133516633,BT-549,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-000325,-0.1073600837548444,SNU-620,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,CD19
+ACH-000331,-0.1553851791199661,IST-MES2,Pleural Mesothelioma,Pleura,False,CD19
+ACH-000356,-0.1739814950559498,MKN-45,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,CD19
+ACH-000398,-0.7294575202804168,RI-1,Mature B-Cell Neoplasms,Lymphoid,True,CD19
+ACH-000470,-0.012840387454837,SW1463,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-000476,-0.0987106262101549,JHH-4,Hepatocellular Carcinoma,Liver,False,CD19
+ACH-000480,0.0166603353744333,HuH-7,Hepatocellular Carcinoma,Liver,False,CD19
+ACH-000489,-0.0693943974340816,SW1116,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-000545,-0.2094026471914516,VM-CUB1,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,CD19
+ACH-000556,-0.0396232749579594,SIHA,Cervical Squamous Cell Carcinoma,Cervix,False,CD19
+ACH-000580,-0.2410999667088022,C32,Melanoma,Skin,False,CD19
+ACH-000596,-0.4107404094966713,LCLC-97TM1,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000597,-0.0060983177493209,TTC-709,Rhabdoid Cancer,Soft Tissue,False,CD19
+ACH-000665,-0.2004013818163549,SK-MES-1,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000671,-0.0322731207006586,HuH-6,Hepatoblastoma,Liver,False,CD19
+ACH-000747,-0.1141407752552396,NCI-H1703,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000763,-0.020198006357411,MM1-S,Mature B-Cell Neoplasms,Lymphoid,False,CD19
+ACH-000765,-0.1645500649177355,WM983B,Melanoma,Skin,False,CD19
+ACH-000785,-0.0894464985163718,NCI-H2126,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000817,-0.314452089289661,RPMI 8226,Mature B-Cell Neoplasms,Lymphoid,False,CD19
+ACH-000821,0.1241612618600444,EJM,Mature B-Cell Neoplasms,Lymphoid,False,CD19
+ACH-000851,-0.1188574034834137,MOR/CPR,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000880,-0.0388176579708123,AGS,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,CD19
+ACH-000914,-0.0110098461632767,HT,Mature B-Cell Neoplasms,Lymphoid,False,CD19
+ACH-000941,-0.1296928832936111,HEC-1-B,Endometrial Carcinoma,Uterus,False,CD19
+ACH-000963,-0.0774667697166565,CCK-81,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-000973,-0.1082906954510738,639-V,Urethral Cancer,Bladder/Urinary Tract,False,CD19
+ACH-000984,0.0627866714391395,HEC-6,Endometrial Carcinoma,Uterus,False,CD19
+ACH-001041,-0.0815257982665344,CHL-1-DM,Melanoma,Skin,False,CD19
+ACH-001048,-0.0738935642799444,COV504,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-001067,0.1784285050744919,F5,Meningothelial Tumor,CNS/Brain,False,CD19
+ACH-001081,0.1008175515043247,HCC2998,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-001119,-0.2997653403210037,Mac-2A,Mature T and NK Neoplasms,Lymphoid,False,CD19
+ACH-001145,-0.0117769285475219,OC 316,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-001184,0.109430262925644,SCMC-RM2,Rhabdomyosarcoma,Soft Tissue,False,CD19
+ACH-001274,0.028189550966369,SW982,Synovial Sarcoma,Soft Tissue,False,CD19
+ACH-001333,-0.1156449665648058,C-33 A,Cervical Squamous Cell Carcinoma,Cervix,False,CD19
+ACH-001335,-0.0040026185666593,C-4 II,Cervical Squamous Cell Carcinoma,Cervix,False,CD19
+ACH-001376,-0.1109688401194834,PACADD-135,Pancreatic Adenocarcinoma,Pancreas,False,CD19
+ACH-001379,0.0277252369970097,PACADD-161,Pancreatic Adenocarcinoma,Pancreas,False,CD19
+ACH-001389,-0.1112781641738393,SUM-1315MO2,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-001401,-0.0204629995275865,SW-13,Adrenocortical Carcinoma,Adrenal Gland,False,CD19
+ACH-001403,-0.205854363362284,TO14,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-001413,0.0049382877545209,UM-UC-11,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,CD19
+ACH-001498,-0.8298726748210398,Farage,Mature B-Cell Neoplasms,Lymphoid,True,CD19
+ACH-001521,-0.2904450982651911,HKA-1,Cutaneous Squamous Cell Carcinoma,Skin,False,CD19
+ACH-001525,-0.0181091535804372,HT-3,Cervical Adenocarcinoma,Cervix,False,CD19
+ACH-001526,-0.2786035454244777,HuO9,Osteosarcoma,Bone,False,CD19
+ACH-001529,0.026185216387352,JAR,Gestational Trophoblastic Disease,Uterus,False,CD19
+ACH-001552,-0.2998511329790229,MCC26,Merkel Cell Carcinoma,Skin,False,CD19
+ACH-001566,-0.089970303658656,MM370,Melanoma,Skin,False,CD19
+ACH-001605,-0.1049073361773069,no.10,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-001618,-0.2632928398476696,OCI-M2,Acute Myeloid Leukemia,Myeloid,False,CD19
+ACH-001627,-0.1910674114100647,P4E6,Non-Cancerous,Prostate,False,CD19
+ACH-001639,0.2643714968112785,ROS-50,Mature B-Cell Neoplasms,Lymphoid,False,CD19
+ACH-001649,-0.1036783968995824,Shmac 5,Non-Cancerous,Prostate,False,CD19
+ACH-001652,-0.0703766531079748,SKG-II,Cervical Squamous Cell Carcinoma,Cervix,False,CD19
+ACH-001669,-0.2706846037691015,TANOUE,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,False,CD19
+ACH-001677,-0.9906834180757136,U-2904,Mature B-Cell Neoplasms,Lymphoid,True,CD19
+ACH-001711,-0.1280128823574373,PFSK-1,Embryonal Tumor,CNS/Brain,False,CD19
+ACH-001740,0.0208078318931838,RH28,Rhabdomyosarcoma,Soft Tissue,False,CD19
+ACH-001795,0.0019623494871256,94T778,Liposarcoma,Soft Tissue,False,CD19
+ACH-001796,-0.0078941943512867,95T1000,Liposarcoma,Soft Tissue,False,CD19
+ACH-001799,-0.0592495319786258,LPS141,Liposarcoma,Soft Tissue,False,CD19
+ACH-001836,0.010698262532136,MGH-ICC10-8,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,CD19
+ACH-001849,0.0003703698238564,MGH-ICC9,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,CD19
+ACH-001857,0.1947418976140363,SG231,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,CD19
+ACH-001862,-0.1576611240537495,TGBC52TKB,Ampullary Carcinoma,Ampulla of Vater,False,CD19
+ACH-001997,-0.216393169864263,MGH-AOVC1,Ampullary Carcinoma,Ampulla of Vater,False,CD19
+ACH-002003,-0.1535312032650433,A375 SKIN CJ3,Melanoma,Skin,False,CD19
+ACH-002019,-0.2703902807688879,HOKUG,Glassy Cell Carcinoma of the Cervix,Cervix,False,CD19
+ACH-002023,-0.1281159120427301,TGBC18TKB,Ampullary Carcinoma,Ampulla of Vater,False,CD19
+ACH-002265,-0.0158094292178802,LB771-HNC,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-002298,-0.3237201365450578,PCI-6A,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-002305,-0.3064480949477899,SKN-3,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-002470,-0.1634993819715349,OS186,Osteosarcoma,Bone,False,CD19
+ACH-002705,-0.0771872417551697,IS076P,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,CD19
+ACH-002706,-0.1167589435598603,IS076A,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,CD19
+ACH-002778,-0.3922668375581399,NCC-OS1-X2-C1,Osteosarcoma,Bone,False,CD19
+ACH-002800,-0.0147105943252232,NCC-MPNST2-C1,Nerve Sheath Tumor,Peripheral Nervous System,False,CD19
+ACH-002801,0.0624539169312728,NCC-MPNST3-C1,Nerve Sheath Tumor,Peripheral Nervous System,False,CD19
+ACH-000001,-0.314904530204743,NIH:OVCAR-3,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-000007,-0.0403096262996188,LS513,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-000013,-0.1646526582485898,ONCO-DG-1,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-000024,0.0647976981246155,OPM-2,Mature B-Cell Neoplasms,Lymphoid,False,CD19
+ACH-000026,0.1265557096812239,253J-BV,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,CD19
+ACH-000078,0.1223908085144894,MHH-NB-11,Neuroblastoma,Peripheral Nervous System,False,CD19
+ACH-000100,0.0790688306671513,RH-41,Rhabdomyosarcoma,Soft Tissue,False,CD19
+ACH-000103,-0.0660125583283501,Caov-4,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-000123,-0.0223558741293044,COV434,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-000142,-0.0506875720990816,CAL-29,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,CD19
+ACH-000155,0.3221219334147788,SW 1990,Pancreatic Adenocarcinoma,Pancreas,False,CD19
+ACH-000163,-0.309237908663578,SW579,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-000168,0.0244219161910509,NOMO-1,Acute Myeloid Leukemia,Myeloid,False,CD19
+ACH-000181,-0.0183763986094476,SCC-9,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-000221,-0.2829299559443065,SNU-398,Hepatocellular Carcinoma,Liver,False,CD19
+ACH-000227,0.0966216141739478,KP-N-YN,Neuroblastoma,Peripheral Nervous System,False,CD19
+ACH-000250,-0.0412534007342499,KMRC-20,Renal Cell Carcinoma,Kidney,False,CD19
+ACH-000272,-0.1276941665526216,SLR 24,Renal Cell Carcinoma,Kidney,False,CD19
+ACH-000310,0.12942221452594,IMR-32,Neuroblastoma,Peripheral Nervous System,False,CD19
+ACH-000345,-0.2164900019611919,KP-N-RT-BM-1,Neuroblastoma,Peripheral Nervous System,False,CD19
+ACH-000365,-1.450018525343828,SU-DHL-4,Mature B-Cell Neoplasms,Lymphoid,True,CD19
+ACH-000378,-0.2467362812313398,NCI-H647,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000383,-0.0851842731838403,OE33,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,CD19
+ACH-000387,-0.1823871942713559,TF-1,Acute Myeloid Leukemia,Myeloid,False,CD19
+ACH-000395,0.0510278455920014,NCI-H520,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000422,-0.0493422560961506,SNU-475,Hepatocellular Carcinoma,Liver,False,CD19
+ACH-000458,-0.1564737456676361,CJM,Melanoma,Skin,False,CD19
+ACH-000460,-0.0676181272074868,SNU-8,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-000466,-0.1460576098490619,SNU-216,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,CD19
+ACH-000501,-0.580602596315759,LS123,Colorectal Adenocarcinoma,Bowel,True,CD19
+ACH-000512,0.0208944944572168,INA6,Mature B-Cell Neoplasms,Lymphoid,False,CD19
+ACH-000520,-0.0170276034982152,59M,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-000571,-0.0359867759797201,T98G,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000583,-0.1636711620819099,MC116,Non-Hodgkin Lymphoma,Lymphoid,False,CD19
+ACH-000595,-0.0377095495274777,LN-229,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000607,-0.2497270542463928,KYM-1,Rhabdoid Cancer,Kidney,False,CD19
+ACH-000648,-0.1639282551829956,NCI-H28,Pleural Mesothelioma,Pleura,False,CD19
+ACH-000664,-0.0575721914163862,SU-DHL-1,Mature T and NK Neoplasms,Lymphoid,False,CD19
+ACH-000713,-0.077254464775046,Caov-3,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-000724,-0.0166996885963911,HT-1376,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,CD19
+ACH-000757,0.0233211205471345,A427,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000762,-0.2490603036127534,YD-38,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-000767,-0.1362076295912722,NCI-H526,Lung Neuroendocrine Tumor,Lung,False,CD19
+ACH-000774,-0.1509130819055954,RERF-LC-Ad2,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000778,-0.078292778666984,HSC-3,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-000782,-0.1373223943464535,SEM,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,False,CD19
+ACH-000799,-0.0249333418812234,Hs 695T,Melanoma,Skin,False,CD19
+ACH-000840,-0.3393023025577245,HCC-366,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000841,-0.0172481028360393,NCI-H2087,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000847,-0.0366019086969429,HGC-27,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,CD19
+ACH-000885,-0.0886870021308922,TOV-21G,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-000886,-0.1322718957733835,NCI-H2009,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000921,-0.0762387471035355,NCI-H157-DM,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000929,-0.1654382400161135,NCI-H2110,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000945,0.0096517113645054,NCI-H650,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000956,0.0968659948340916,22Rv1,Prostate Adenocarcinoma,Prostate,False,CD19
+ACH-000975,-0.0532578710795157,HCC2450,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000986,-0.1486589341784905,HT115,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-001036,0.0160017809053705,CMK-11-5,Acute Myeloid Leukemia,Myeloid,False,CD19
+ACH-001061,-0.0203441721142378,DLD-1,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-001098,-0.1625992324134154,KCI-MOH1,Pancreatic Adenocarcinoma,Pancreas,False,CD19
+ACH-001183,-0.1651756185267913,RT112/84,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,CD19
+ACH-001295,-0.1206825089611371,Y-79,Retinoblastoma,Eye,False,CD19
+ACH-001334,0.0299224852845385,C-4 I,Cervical Squamous Cell Carcinoma,Cervix,False,CD19
+ACH-001370,-0.2459680286197881,OCI-P5x,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-001442,-0.3174470548346311,A388,Cutaneous Squamous Cell Carcinoma,Skin,False,CD19
+ACH-001443,-0.0446777339759181,ASH-3,Anaplastic Thyroid Cancer,Thyroid,False,CD19
+ACH-001484,-1.1377568170157517,CI,Mature B-Cell Neoplasms,Lymphoid,True,CD19
+ACH-001495,-0.059268259412819,EMTOKA,Endometrial Carcinoma,Uterus,False,CD19
+ACH-001502,-0.4507396012722676,GCT-27,Non-Seminomatous Germ Cell Tumor,Testis,False,CD19
+ACH-001523,-0.0885218977836469,HSC-1,Cutaneous Squamous Cell Carcinoma,Skin,False,CD19
+ACH-001550,-0.0670897869970148,MCC13,Merkel Cell Carcinoma,Skin,False,CD19
+ACH-001559,0.0758584347045058,Mero-82,Pleural Mesothelioma,Pleura,False,CD19
+ACH-001560,-0.1316956008990671,Mero-83,Pleural Mesothelioma,Pleura,False,CD19
+ACH-001606,-0.0635021324556656,no.11,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-001623,-0.1306689228208744,Onda 8,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-001626,0.0765189088416608,OSC-20,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-001643,0.1933382221696474,SCCH-196,Ewing Sarcoma,Bone,False,CD19
+ACH-001645,-0.0417873072337854,SEKI,Melanoma,Skin,False,CD19
+ACH-001648,-0.0586822829625991,Shmac 4,Non-Cancerous,Prostate,False,CD19
+ACH-001688,-0.064896340425133,UM-RC-7,Renal Cell Carcinoma,Kidney,False,CD19
+ACH-001694,-0.1854913098889436,UPCI-SCC-074,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-001701,0.0283154026126067,UPCI-SCC-200,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-001702,-0.0807624366320328,VA-ES-BJ,Epithelioid Sarcoma,Soft Tissue,False,CD19
+ACH-001715,-0.1525248811872116,CAL-72,Osteosarcoma,Bone,False,CD19
+ACH-001838,-0.0623701039331551,MGH-ICC12,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,CD19
+ACH-002041,-0.2262650064161842,HOTHC,Anaplastic Thyroid Cancer,Thyroid,False,CD19
+ACH-002143,0.1762192907271605,IST-MEL1,Melanoma,Skin,False,CD19
+ACH-002160,0.2203812736971241,MC-IXC,Ewing Sarcoma,Bone,False,CD19
+ACH-002198,-0.3659176121619282,SCH,Extra Gonadal Germ Cell Tumor,Other,False,CD19
+ACH-002291,-0.1968378998719341,NTERA-2 cl.D1,Non-Seminomatous Germ Cell Tumor,Testis,False,CD19
+ACH-002400,-0.1291581520053151,21MT-1,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-002465,-0.3809816901320969,RPE1-ss119,Non-Cancerous,Eye,False,CD19
+ACH-002475,-0.0552671402230315,HAP1,Myeloproliferative Neoplasms,Myeloid,False,CD19
+ACH-002508,-0.0034450022232309,WM3211,Melanoma,Skin,False,CD19
+ACH-002522,-0.1528621562863806,SNU-2292,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-002524,-0.1217541124685803,SNU-251,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-002544,-0.0946946599118372,SNU-1750,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,CD19
+ACH-003177,-0.0540058911248075,NRH-UPS1,Undifferentiated Pleomorphic Sarcoma/Malignant Fibrous Histiocytoma/High-Grade Spindle Cell Sarcoma,Soft Tissue,False,CD19
+ACH-000012,-0.0511980490018009,HCC-827,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000039,-0.0922257360789678,SK-N-MC,Ewing Sarcoma,Bone,False,CD19
+ACH-000055,0.0730093932426535,D283 Med,Embryonal Tumor,CNS/Brain,False,CD19
+ACH-000070,-0.6478808771776035,697,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,True,CD19
+ACH-000085,-0.2532380155216406,T3M-4,Pancreatic Adenocarcinoma,Pancreas,False,CD19
+ACH-000106,-0.2260441468148962,JVM-2,Mature B-Cell Neoplasms,Lymphoid,False,CD19
+ACH-000124,-0.4959250437836436,OCI-LY-19,Mature B-Cell Neoplasms,Lymphoid,False,CD19
+ACH-000141,-0.0626688085442821,SNU-308,Intracholecystic Papillary Neoplasm,Biliary Tract,False,CD19
+ACH-000161,-0.169836377328183,COR-L105,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000187,-0.0048534911926674,COR-L311,Lung Neuroendocrine Tumor,Lung,False,CD19
+ACH-000202,-0.0973286457196774,COLO-320,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-000222,0.0110567584342055,AsPC-1,Pancreatic Adenocarcinoma,Pancreas,False,CD19
+ACH-000239,-0.4153625962614092,HuG1-N,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,CD19
+ACH-000249,0.0120414935288755,CL-11,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-000253,-0.0785814834199172,COLO 201,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-000280,-0.0086421853739394,SNU-840,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-000291,-0.0701456328730955,OV-90,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-000302,-0.1241914383447462,SNU-1077,Endometrial Carcinoma,Uterus,False,CD19
+ACH-000318,-0.0926490050929879,TE-10,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,CD19
+ACH-000323,-0.1339465179469089,42-MG-BA,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000326,-0.1301261615754456,JURL-MK1,Myeloproliferative Neoplasms,Myeloid,False,CD19
+ACH-000329,-0.0246135575511138,CCF-STTG1,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000330,-0.004878582465714,EFM-19,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-000366,-0.1410717343216128,SK-N-DZ,Neuroblastoma,Peripheral Nervous System,False,CD19
+ACH-000377,0.0174639001113043,SNU-478,Ampullary Carcinoma,Ampulla of Vater,False,CD19
+ACH-000406,-0.0770424946597981,U-937,Acute Myeloid Leukemia,Myeloid,False,CD19
+ACH-000430,-0.159486535862106,TYK-nu,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-000433,0.0764791356255242,Caki-1,Renal Cell Carcinoma,Kidney,False,CD19
+ACH-000454,0.0560434194700563,HCC-95,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000456,-0.1314525227502656,B-CPAP,Poorly Differentiated Thyroid Cancer,Thyroid,False,CD19
+ACH-000464,-0.178757355457385,CAS-1,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000475,-0.1145625183800164,huH-1,Hepatocellular Carcinoma,Liver,False,CD19
+ACH-000484,-0.1773805580907925,VMRC-RCW,Renal Cell Carcinoma,Kidney,False,CD19
+ACH-000488,-0.1608373017840572,TE-11,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,CD19
+ACH-000554,0.072838997773447,UACC-893,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-000565,0.2936079891398639,RCM-1,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-000570,-0.0875718071699953,YKG1,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000573,-0.0392615049937326,MDA-MB-436,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-000602,-0.0879528064449673,M-07e,Acute Myeloid Leukemia,Myeloid,False,CD19
+ACH-000606,-0.0450111586810732,PE/CA-PJ34 (clone C12),Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-000651,-0.1403211738878463,SW 620,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-000653,-0.0722070334195096,JJN-3,Mature B-Cell Neoplasms,Lymphoid,False,CD19
+ACH-000672,-0.5309731248468369,IA-LM,Non-Small Cell Lung Cancer,Lung,True,CD19
+ACH-000677,-0.183584942663622,SW 1573,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000693,-0.2683942439913989,KYSE-180,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,CD19
+ACH-000699,0.0180770805885027,HCC1395,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-000766,-0.1549440811390736,NCI-H1648,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000771,-0.1922545476483334,BICR 56,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-000866,-0.1967169457055089,NCI-H1048,Lung Neuroendocrine Tumor,Lung,False,CD19
+ACH-000903,-0.0428654759774718,FTC-133,Well-Differentiated Thyroid Cancer,Thyroid,False,CD19
+ACH-000920,-0.3036182448054103,CML-T1,Myeloproliferative Neoplasms,Myeloid,False,CD19
+ACH-000938,-1.103375363321708,NALM-6,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,True,CD19
+ACH-000958,-0.0374715197542688,SW48,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-000968,0.0095694627216559,COLO 792,Melanoma,Skin,False,CD19
+ACH-000991,-0.003239404364471,SNU-81,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-000995,-0.438805367643827,JURKAT,T-Lymphoblastic Leukemia/Lymphoma,Lymphoid,False,CD19
+ACH-000996,-0.1174105107527973,HEC-251,Endometrial Carcinoma,Uterus,False,CD19
+ACH-000997,0.0577390801298684,HCT-15,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-001033,-0.1648723421716615,CHLA-57,Embryonal Tumor,CNS/Brain,False,CD19
+ACH-001163,-0.1008063157659466,CCLF_PEDS_0001_T,Renal Cell Carcinoma,Kidney,False,CD19
+ACH-001164,-0.0897370781620942,CCLF_PEDS_0003_T,Undifferentiated Pleomorphic Sarcoma/Malignant Fibrous Histiocytoma/High-Grade Spindle Cell Sarcoma,Soft Tissue,False,CD19
+ACH-001188,0.0713182993703064,SH-SY5Y,Neuroblastoma,Peripheral Nervous System,False,CD19
+ACH-001270,-0.1768392594486798,1273/99,Synovial Sarcoma,Soft Tissue,False,CD19
+ACH-001353,-0.0884124846223738,JOPACA-1,Pancreatic Adenocarcinoma,Pancreas,False,CD19
+ACH-001356,-0.0617238301781301,MB-1,Anaplastic Thyroid Cancer,Thyroid,False,CD19
+ACH-001368,-0.1048426801321411,OAC-M5.1,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,CD19
+ACH-001394,-0.1966710024264282,SUM-229PE,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-001400,0.0421783045232829,SW 954,Squamous Cell Carcinoma of the Vulva/Vagina,Vulva/Vagina,False,CD19
+ACH-001416,0.0051208230120058,UM-UC9,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,CD19
+ACH-001515,-0.0669381405266106,HCS-2,Cervical Squamous Cell Carcinoma,Cervix,False,CD19
+ACH-001528,0.0026211372623764,IHH-4,Well-Differentiated Thyroid Cancer,Thyroid,False,CD19
+ACH-001577,0.2031398519832823,MUTZ-8,Acute Myeloid Leukemia,Myeloid,False,CD19
+ACH-001622,-0.0883573013894262,Onda 7,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-001653,-0.3561010746277411,SK-GT-2,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,CD19
+ACH-001654,-0.0523969554283154,SK-GT-4,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,CD19
+ACH-001676,-0.0794822635332773,Ty-82,"Head and Neck Carcinoma, Other",Head and Neck,False,CD19
+ACH-001709,-1.5129897702927442,WSU-NHL,Mature B-Cell Neoplasms,Lymphoid,True,CD19
+ACH-001736,-0.1333859083674102,HB1119,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,False,CD19
+ACH-001745,-0.0116431832286767,RhJT,Rhabdomyosarcoma,Soft Tissue,False,CD19
+ACH-001858,-0.1367689019914036,SSP-25,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,CD19
+ACH-001863,-0.2710694324549785,TKKK,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,CD19
+ACH-001864,-0.0367974467253712,YSCCC,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,CD19
+ACH-001959,0.0275613406308521,CC-LP-1,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,CD19
+ACH-001992,-0.0606614368250125,ONE58,Pleural Mesothelioma,Pleura,False,CD19
+ACH-002021,-0.4413773742548239,T3M-3,Gestational Trophoblastic Disease,Uterus,False,CD19
+ACH-002025,-0.2415578528281272,TT1TKB,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-002033,-0.0698033048530761,HMMME,Pleural Mesothelioma,Pleura,False,CD19
+ACH-002048,-0.1149989241567375,RMS-YM,Rhabdomyosarcoma,Soft Tissue,False,CD19
+ACH-002080,-0.2265827412442647,TN-2,Neuroblastoma,Peripheral Nervous System,False,CD19
+ACH-002105,-0.1588124387921117,ES4,Ewing Sarcoma,Bone,False,CD19
+ACH-002119,-0.1082404848944746,EW-7,Ewing Sarcoma,Bone,False,CD19
+ACH-002156,0.0691954738050366,LC-1-sq,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-002230,0.0168719987804168,D-542MG,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-002234,-0.4305327564934931,DOK,"Head and Neck Carcinoma, Other",Head and Neck,False,CD19
+ACH-002250,-0.0605897093275592,JHU-022,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-002251,0.0303373368978333,JHU-029,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-002461,-0.0353939173264456,RVH421 SKIN FV1,Melanoma,Skin,False,CD19
+ACH-002709,-0.0469861496074468,CMS,Acute Myeloid Leukemia,Myeloid,False,CD19
+ACH-002925,-0.0416911854321129,UPMM3,Ocular Melanoma,Eye,False,CD19
+ACH-000030,-0.1161502074777938,PC-14,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000054,0.0322053142975959,HT-1080,Fibrosarcoma,Soft Tissue,False,CD19
+ACH-000082,-0.1264845299471745,"G-292, clone A141B1",Osteosarcoma,Bone,False,CD19
+ACH-000118,-0.0907500030457396,HUP-T3,Pancreatic Adenocarcinoma,Pancreas,False,CD19
+ACH-000152,-0.2737588610889946,M059K,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000188,-0.1116860799091036,SCC-25,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-000192,-0.2316608398693534,MFE-280,Endometrial Carcinoma,Uterus,False,CD19
+ACH-000200,-0.4651334651173019,NMC-G1,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000203,-0.0782487075294399,NH-6,Neuroblastoma,Peripheral Nervous System,False,CD19
+ACH-000209,-0.2994693619730327,SNU-1079,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,CD19
+ACH-000271,-0.6076430662959948,SU-DHL-10,Mature B-Cell Neoplasms,Lymphoid,True,CD19
+ACH-000274,-0.1861970353298457,Hs 852.T,Melanoma,Skin,False,CD19
+ACH-000305,-0.0125193669066945,EC-GI-10,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,CD19
+ACH-000313,-0.2171329720627371,KMRC-3,Renal Cell Carcinoma,Kidney,False,CD19
+ACH-000374,0.1042987768913114,HCC1143,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-000396,-0.1109334036114296,J82,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,CD19
+ACH-000410,0.0312140931441277,Saos-2,Osteosarcoma,Bone,False,CD19
+ACH-000425,0.0086555511716367,UACC-62,Melanoma,Skin,False,CD19
+ACH-000442,-0.0513057002484872,RERF-LC-Sq1,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000448,-0.0482190904853846,NCI-H1666,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000452,-0.2558418743764691,TE-8,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,CD19
+ACH-000459,-0.2763882145166487,TUHR10TKB,Renal Cell Carcinoma,Kidney,False,CD19
+ACH-000463,0.075469789140467,NCI-H460,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000472,-0.1281684050112967,HSC-2,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-000510,-0.1112303509002604,NCI-H1299,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000519,-0.1926393718306812,PEER,T-Lymphoblastic Leukemia/Lymphoma,Lymphoid,False,CD19
+ACH-000525,-0.1628327576172873,NCI-H2171,Lung Neuroendocrine Tumor,Lung,False,CD19
+ACH-000557,-0.1239686249616939,AML-193,Acute Myeloid Leukemia,Myeloid,False,CD19
+ACH-000577,-0.0301092626041139,JHH-2,Hepatocellular Carcinoma,Liver,False,CD19
+ACH-000587,0.0610290242618956,NCI-H1975,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000589,-0.0634049836757793,NCI-H1437,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000627,0.021987092521942,LCLC-103H,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000631,0.2468005798225303,KS-1,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000637,-0.6594389834649457,KYSE-520,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,True,CD19
+ACH-000647,-0.0859335929426408,TE-1,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,CD19
+ACH-000660,-1.5208994322030038,SU-DHL-5,Mature B-Cell Neoplasms,Lymphoid,True,CD19
+ACH-000667,-0.0364064839695905,HCC-44,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000676,-0.2236952726180142,LN-464,Melanoma,Skin,False,CD19
+ACH-000700,-0.0946115492433784,NCI-H2882,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000704,0.2915538804831631,OAW42,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-000706,-0.0712198888314354,EKVX,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000718,0.1042471332718084,NCI-H2291,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000722,-0.008283626209903,SNU-C1,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-000740,-0.0919802561093088,A-253,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-000760,-0.2501932771355876,LNZ308,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000776,-0.1394562597445688,ONS-76,Embryonal Tumor,CNS/Brain,False,CD19
+ACH-000787,-0.0096535921936729,LXF-289,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000829,-0.316013070247803,HuNS1,Mature B-Cell Neoplasms,Lymphoid,False,CD19
+ACH-000834,-0.1236015231544252,UM-UC-1,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,CD19
+ACH-000837,-0.1242796701482672,NCI-H322,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000859,0.0470599193537646,HCC1954,Breast Ductal Carcinoma In Situ,Breast,False,CD19
+ACH-000884,-0.0586504663075976,MDA-MB-435S,Melanoma,Skin,False,CD19
+ACH-000896,-0.0305287510726275,647-V,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,CD19
+ACH-000911,-0.179376244550937,NUGC-3,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,CD19
+ACH-000916,-0.0975503310115476,NCI-H1573,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000947,-0.0853293661314841,OVK18,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-000993,-0.1184341522417449,JHUEM-7,Endometrial Carcinoma,Uterus,False,CD19
+ACH-001029,-0.0962820490294997,CHLA-10,Ewing Sarcoma,Bone,False,CD19
+ACH-001190,-0.2528260478302644,SK-MEL-2,Melanoma,Skin,False,CD19
+ACH-001194,-0.0893335464347823,SK-RC-31,Renal Cell Carcinoma,Kidney,False,CD19
+ACH-001278,-0.121297870232711,BIN-67,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-001300,0.0446099749508148,CHLA-15,Neuroblastoma,Peripheral Nervous System,False,CD19
+ACH-001318,-0.1243406648798994,PLC/PRF/5,Hepatocellular Carcinoma,Liver,False,CD19
+ACH-001375,-0.0327434122704523,PACADD-119,Pancreatic Adenocarcinoma,Pancreas,False,CD19
+ACH-001532,0.0076955093746997,JMU-RTK-2,Rhabdoid Cancer,Kidney,False,CD19
+ACH-001568,0.0337603339837798,MM386,Melanoma,Skin,False,CD19
+ACH-001578,0.0734799643487109,NCCIT,Non-Seminomatous Germ Cell Tumor,Testis,False,CD19
+ACH-001610,0.0043783897249506,NP 5,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-001611,-0.2964314523458804,NP 8,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-001624,0.1761688055382557,Onda 9,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-001632,-0.0033855553298539,PEO4,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-001656,-0.1490427465557704,SKNO-1,Acute Myeloid Leukemia,Myeloid,False,CD19
+ACH-001707,-0.8298996687480538,WA-OSEL,Mature B-Cell Neoplasms,Lymphoid,True,CD19
+ACH-001735,-0.1155562248761303,SEMK2,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,False,CD19
+ACH-001804,-0.3153669540304986,LPS510,Liposarcoma,Soft Tissue,False,CD19
+ACH-001835,0.0137437192711193,MGH-ICC10-6,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,CD19
+ACH-001841,-0.1002418225834386,MGH-ECC3,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,CD19
+ACH-001844,-0.064849681908151,MGH-ICC4,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,CD19
+ACH-001986,-0.2313871383765552,NZM42,Melanoma,Skin,False,CD19
+ACH-001999,-0.0186071393153895,950-5-BIK,Pancreatic Adenocarcinoma,Pancreas,False,CD19
+ACH-002001,0.0641856770429285,A375 SKIN CJ1,Melanoma,Skin,False,CD19
+ACH-002004,-0.0623186710616442,UACC62 SKIN CJ1,Melanoma,Skin,False,CD19
+ACH-002014,-0.1611172294918363,Mel270,Ocular Melanoma,Eye,False,CD19
+ACH-002042,-0.2471499967625667,T3M-5,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-002061,0.0585338012596369,P2UR/K-562,Myeloproliferative Neoplasms,Myeloid,False,CD19
+ACH-002077,-0.201596251789193,Lu-165,Lung Neuroendocrine Tumor,Lung,False,CD19
+ACH-002106,0.0664792069412112,ES5,Ewing Sarcoma,Bone,False,CD19
+ACH-002110,0.0032668766820064,EW-1,Ewing Sarcoma,Bone,False,CD19
+ACH-002150,-0.0591217152262634,LB1047-RCC,Renal Cell Carcinoma,Kidney,False,CD19
+ACH-002183,0.2499518718023921,OVMIU,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-002186,-0.1954572471984098,PL4,Pancreatic Adenocarcinoma,Pancreas,False,CD19
+ACH-002229,-0.227161422110268,D-502MG,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-002239,-0.254829455883818,H3118,Salivary Carcinoma,Head and Neck,False,CD19
+ACH-002399,0.0082374420251529,21NT,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-002538,-0.0310960116025216,SNU-1235,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-002650,-0.0835078720790341,ETCC-016,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-002690,0.0338324202776147,OS526,Osteosarcoma,Bone,False,CD19
+ACH-002710,-0.0074100141957524,MPNST-724,Nerve Sheath Tumor,Peripheral Nervous System,False,CD19
+ACH-002711,-0.0637955989585696,UM-HACC-2A,Salivary Carcinoma,Head and Neck,False,CD19
+ACH-000017,0.0018845803765127,SK-BR-3,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-000040,-0.0671996636651196,U-118 MG,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000041,-0.1438750103746317,RD-ES,Ewing Sarcoma,Bone,False,CD19
+ACH-000086,-0.0544728025172343,ACC-MESO-1,Pleural Mesothelioma,Pleura,False,CD19
+ACH-000090,0.0431633270731501,PC-3,Prostate Adenocarcinoma,Prostate,False,CD19
+ACH-000151,-0.2517134769441206,JM1,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,False,CD19
+ACH-000206,-0.1276546940785183,C8166,Non-Cancerous,Lymphoid,False,CD19
+ACH-000207,-0.166662358057824,Detroit 562,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-000219,-0.0814483171020672,A-375,Melanoma,Skin,False,CD19
+ACH-000231,-0.1102180819206139,KALS-1,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000244,-0.1644275073875146,DK-MG,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000246,-0.0336091325153617,SLR 23,Renal Cell Carcinoma,Kidney,False,CD19
+ACH-000259,-0.0662043842943447,KELLY,Neuroblastoma,Peripheral Nervous System,False,CD19
+ACH-000279,-0.031788923457366,EWS502,Ewing Sarcoma,Bone,False,CD19
+ACH-000295,0.0438693839327637,EM-2,Myeloproliferative Neoplasms,Myeloid,False,CD19
+ACH-000296,0.0951173503965166,OUMS-23,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-000316,-0.0922813584307302,SNU-886,Hepatocellular Carcinoma,Liver,False,CD19
+ACH-000336,0.1372271144898319,OCI-AML3,Acute Myeloid Leukemia,Myeloid,False,CD19
+ACH-000367,-0.4096552503364777,NCI-H226,Pleural Mesothelioma,Pleura,False,CD19
+ACH-000368,-0.1526292781022826,SNU-1105,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000397,-0.0291033644294175,TEN,Endometrial Carcinoma,Uterus,False,CD19
+ACH-000420,0.0160524551867912,SNU-449,Hepatocellular Carcinoma,Liver,False,CD19
+ACH-000431,-0.294861046111998,NCI-H1694,Lung Neuroendocrine Tumor,Lung,False,CD19
+ACH-000455,-0.1365580410656291,LN-428,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000515,-0.2250864042000171,HCC-33,Lung Neuroendocrine Tumor,Lung,False,CD19
+ACH-000518,-0.1745256458616175,CAL-33,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-000527,-0.1029067226831159,OVISE,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-000552,-0.0576871082336818,HT-29,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-000559,0.0510801331037193,NCI-H1836,Lung Neuroendocrine Tumor,Lung,False,CD19
+ACH-000567,-0.2986934356350584,ST486,Mature B-Cell Neoplasms,Lymphoid,False,CD19
+ACH-000623,-0.0599845779343595,SNU-201,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000632,-0.0438348643295558,Hs 944.T,Melanoma,Skin,False,CD19
+ACH-000639,-0.076498963091703,NCI-H211,Lung Neuroendocrine Tumor,Lung,False,CD19
+ACH-000661,-0.0978928082782107,WM1799,Melanoma,Skin,False,CD19
+ACH-000702,0.0526175972903645,L-1236,Hodgkin Lymphoma,Lymphoid,False,CD19
+ACH-000709,0.0640532881072547,KMRC-2,Renal Cell Carcinoma,Kidney,False,CD19
+ACH-000732,-0.1540428633673894,PE/CA-PJ41 (clone D2),Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-000749,-0.0725186513820432,DMS 273,Lung Neuroendocrine Tumor,Lung,False,CD19
+ACH-000796,-0.1210371448884149,MCAS,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-000809,-0.064690293569588,KYSE-410,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,CD19
+ACH-000819,-0.194801212048745,LN-18,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000832,-0.1376117067697278,CAL 27,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-000867,-0.1361731296092985,ChaGo-K-1,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000879,-0.4723594560009184,MFE-296,Endometrial Carcinoma,Uterus,False,CD19
+ACH-000889,-0.1097924159318953,KMM-1,Mature B-Cell Neoplasms,Lymphoid,False,CD19
+ACH-000948,-0.0799293632420541,23132/87,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,CD19
+ACH-000959,-0.1404055296286042,SNU-C4,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-000972,-0.1635550094030973,HEC-151,Endometrial Carcinoma,Uterus,False,CD19
+ACH-000978,-0.4146869324585373,EN,Endometrial Carcinoma,Uterus,False,CD19
+ACH-000979,-0.2500889704211465,DU 145,Prostate Adenocarcinoma,Prostate,False,CD19
+ACH-001001,-0.0871976213121917,143B,Osteosarcoma,Bone,False,CD19
+ACH-001099,-0.0487656445147562,KD,Rhabdoid Cancer,Soft Tissue,False,CD19
+ACH-001129,-0.4700759699726127,MONO-MAC-1,Acute Myeloid Leukemia,Myeloid,False,CD19
+ACH-001192,-0.358079600845315,SK-NEP-1,Ewing Sarcoma,Bone,False,CD19
+ACH-001205,-0.0156132831963127,TC-32,Ewing Sarcoma,Bone,False,CD19
+ACH-001229,-0.1178146608463093,UPCI-SCC-154,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-001233,-0.1015640927069533,VMRC-LCD,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-001302,0.2474990933552002,COG-N-305,Neuroblastoma,Peripheral Nervous System,False,CD19
+ACH-001328,-0.0081562622703179,A-431,Cutaneous Squamous Cell Carcinoma,Skin,False,CD19
+ACH-001331,-0.0018832194038234,BICR 10,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-001332,-0.1979605708443919,BICR 78,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-001341,-0.1616469155721709,DoTc2 4510,Mixed Cervical Carcinoma,Cervix,False,CD19
+ACH-001354,-0.0868860882896246,LAN-2,Neuroblastoma,Peripheral Nervous System,False,CD19
+ACH-001366,-0.0729128862483601,NGP,Neuroblastoma,Peripheral Nervous System,False,CD19
+ACH-001377,0.089036514730583,PACADD-137,Pancreatic Adenocarcinoma,Pancreas,False,CD19
+ACH-001391,-0.186038842343791,SUM-159PT,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-001399,0.2158043147200842,SW 626,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-001408,0.008752676625803,UM-UC-14,Urethral Cancer,Bladder/Urinary Tract,False,CD19
+ACH-001411,-0.0313205638096557,UM-UC-5,Bladder Squamous Cell Carcinoma,Bladder/Urinary Tract,False,CD19
+ACH-001430,-0.0987512822096084,TC-138,Ewing Sarcoma,Bone,False,CD19
+ACH-001436,-0.1661269161516553,1411H,Non-Seminomatous Germ Cell Tumor,Testis,False,CD19
+ACH-001549,-0.1778311056181007,Lu-135,Lung Neuroendocrine Tumor,Lung,False,CD19
+ACH-001634,-0.163909880438053,PGA-1,Mature B-Cell Neoplasms,Lymphoid,False,CD19
+ACH-001641,-0.1247415291950499,SAT,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-001664,-0.0689428355131317,SNU-638,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,CD19
+ACH-001750,0.02178838930321,TTC442,Rhabdomyosarcoma,Soft Tissue,False,CD19
+ACH-001791,-0.046930812446166,LPS6,Liposarcoma,Soft Tissue,False,CD19
+ACH-001839,0.0315934296069724,MGH-ICC13-7,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,CD19
+ACH-001852,-0.0782062599283272,HKGZ-CC,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,CD19
+ACH-001861,0.074109362283395,TGBC1TKB,Intracholecystic Papillary Neoplasm,Biliary Tract,False,CD19
+ACH-001990,-0.14352204687424,NZM7,Melanoma,Skin,False,CD19
+ACH-002020,-0.1256625471735705,SKG-IIIa,Cervical Squamous Cell Carcinoma,Cervix,False,CD19
+ACH-002067,0.1116251407518304,NOS-1,Osteosarcoma,Bone,False,CD19
+ACH-002070,-0.0372130152292388,HKBMM,Meningothelial Tumor,CNS/Brain,False,CD19
+ACH-002083,0.0254019603760673,NB69,Neuroblastoma,Peripheral Nervous System,False,CD19
+ACH-002114,0.0942597920505405,EW-16,Ewing Sarcoma,Bone,False,CD19
+ACH-002179,-0.2549639412026749,OCUB-M,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-002212,-0.1690517913466035,BB30-HNC,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-002243,-0.49218351447579,HCE-4,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,CD19
+ACH-002261,0.1405892536891436,KP-N-YS,Neuroblastoma,Peripheral Nervous System,False,CD19
+ACH-002304,0.090794389301077,SK-MG-1,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-002401,-0.0838041199153422,21MT-2,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-002458,-0.0044238593079903,HT144 SKIN FV1,Melanoma,Skin,False,CD19
+ACH-002467,0.1153315660659826,RPE1-ss51,Non-Cancerous,Eye,False,CD19
+ACH-002499,-0.0934956324482469,UACC-3199,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-002531,0.021345347807845,SNU-2535,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-002533,-0.0773171877819403,SNU-482,Renal Cell Carcinoma,Kidney,False,CD19
+ACH-002681,-0.0588180387480971,538-MG-BA,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-002847,-0.0791542653930239,YUHOIN,Melanoma,Skin,False,CD19
+ACH-000023,-0.0351731706099433,PA-TU-8988T,Pancreatic Adenocarcinoma,Pancreas,False,CD19
+ACH-000028,0.093082899135657,KPL-1,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-000047,0.0859991325719629,GCIY,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,CD19
+ACH-000060,-0.0487073185724373,Panc 10.05,Pancreatic Adenocarcinoma,Pancreas,False,CD19
+ACH-000092,-0.1569645988883243,NCI-H2452,Pleural Mesothelioma,Pleura,False,CD19
+ACH-000137,-0.1387581766343245,8-MG-BA,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000145,-0.0588210630651057,SK-LMS-1,Leiomyosarcoma,Soft Tissue,False,CD19
+ACH-000146,0.0140272554530291,THP-1,Acute Myeloid Leukemia,Myeloid,False,CD19
+ACH-000147,-0.0145031104004161,T-47D,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-000204,-0.0329973010980614,LP-1,Mature B-Cell Neoplasms,Lymphoid,False,CD19
+ACH-000237,-0.0682892819088513,JHOM-1,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-000238,0.0602991797751419,SCC-4,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-000276,-0.1172093018704359,HCC38,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-000334,-0.0721647096212178,DB,Mature B-Cell Neoplasms,Lymphoid,False,CD19
+ACH-000337,-0.2886575664327429,NCI-H3122,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000343,0.0149359946205785,NCI-H522,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000352,-0.0755367775445205,HCC1428,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-000385,0.1392572397078603,SK-RC-52,Renal Cell Carcinoma,Kidney,False,CD19
+ACH-000415,-0.1391704446833868,BICR 6,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-000436,-0.0077669489380922,OCI-My7,Mature B-Cell Neoplasms,Lymphoid,False,CD19
+ACH-000438,-0.0578030521094937,Lu-65,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000461,0.0190751583786505,SNU-1196,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,CD19
+ACH-000469,-0.1045165571121552,YH-13,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000477,-0.2235607953248705,Malme-3M,Melanoma,Skin,False,CD19
+ACH-000487,-0.1041955856165493,F-36P,Acute Myeloid Leukemia,Myeloid,False,CD19
+ACH-000498,-0.0802006906136248,KO52,Acute Myeloid Leukemia,Myeloid,False,CD19
+ACH-000499,-0.3075530148980889,EW8,Ewing Sarcoma,Bone,False,CD19
+ACH-000521,-0.019576209908229,NCI-H2030,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000585,0.0789991876818136,EPLC-272H,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000601,0.0426199543341858,MIA PaCa-2,Pancreatic Adenocarcinoma,Pancreas,False,CD19
+ACH-000630,-0.0873084672316823,YD-8,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-000649,0.083968966610899,786-O,Renal Cell Carcinoma,Kidney,False,CD19
+ACH-000655,-0.122953805774466,SF268,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000682,-0.0195297960227372,SNU-1066,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-000701,-0.281135751510349,RMUG-S,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-000736,-0.1615787410352193,SNU-601,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,CD19
+ACH-000741,-0.0896525768027807,U-BLC1,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,CD19
+ACH-000781,0.0463644804466696,NCI-H2023,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000792,-0.0427291403158707,BFTC-909,Renal Cell Carcinoma,Kidney,False,CD19
+ACH-000794,-0.007783893823576,BICR 22,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-000801,-0.0906136683827,Hs 936.T,Melanoma,Skin,False,CD19
+ACH-000810,-0.1338036911017693,SK-MEL-30,Melanoma,Skin,False,CD19
+ACH-000822,-0.1571823472174078,SK-MEL-24,Melanoma,Skin,False,CD19
+ACH-000835,-0.1434859890349477,GCT,Undifferentiated Pleomorphic Sarcoma/Malignant Fibrous Histiocytoma/High-Grade Spindle Cell Sarcoma,Soft Tissue,False,CD19
+ACH-000855,0.0316642837637545,KYSE-150,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,CD19
+ACH-000874,-0.1232585694554796,RS4;11,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,False,CD19
+ACH-000878,-0.0752143916213323,HCC-15,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000900,0.1204475750247583,NCI-H23,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000905,-0.10138123531742,5637,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,CD19
+ACH-000977,-0.0544712355181053,LNCaP clone FGC,Prostate Adenocarcinoma,Prostate,False,CD19
+ACH-001065,0.1274421211250943,Evsa-T,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-001193,-0.3499428186857867,SK-PN-DW,Ewing Sarcoma,Bone,False,CD19
+ACH-001232,-0.0468511945228295,UW228,Embryonal Tumor,CNS/Brain,False,CD19
+ACH-001303,-0.0030729765886325,NB-1643,Neuroblastoma,Peripheral Nervous System,False,CD19
+ACH-001307,-0.0296452484679486,8505C,Anaplastic Thyroid Cancer,Thyroid,False,CD19
+ACH-001322,-0.0177816482740591,CME-1,Synovial Sarcoma,Soft Tissue,False,CD19
+ACH-001347,-0.0366957653956063,H157,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-001382,-0.4573328924652321,PACADD-188,Pancreatic Adenocarcinoma,Pancreas,False,CD19
+ACH-001385,-0.130719313904972,RPMI 2650,"Head and Neck Carcinoma, Other",Head and Neck,False,CD19
+ACH-001414,-0.1534012812923034,UM-UC-6,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,CD19
+ACH-001431,-0.0200864312153161,TC-205,Ewing Sarcoma,Bone,False,CD19
+ACH-001459,-0.1123785962500388,C80,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-001461,-0.1265647116563113,C99,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-001481,-0.3668791642817767,CHLA-90,Neuroblastoma,Peripheral Nervous System,False,CD19
+ACH-001508,-0.146626572793626,H314,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-001520,-0.4058825461442231,HG-3,Non-Cancerous,Lymphoid,False,CD19
+ACH-001567,0.063509708009572,MM383,Melanoma,Skin,False,CD19
+ACH-001630,-0.0012511605976691,PEO1,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-001647,0.0848971740175005,SHI-1,Acute Myeloid Leukemia,Myeloid,False,CD19
+ACH-001683,-0.1712683991484706,ACC-3133,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-001793,0.0257572275972852,LPS27,Liposarcoma,Soft Tissue,False,CD19
+ACH-001814,0.1703600362194484,OS252,Osteosarcoma,Bone,False,CD19
+ACH-001856,-0.1085035416440765,RBE,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,CD19
+ACH-001961,0.0504633005880631,MGH-GB2,Intracholecystic Papillary Neoplasm,Biliary Tract,False,CD19
+ACH-001975,-0.071526116658603,MM576,Melanoma,Skin,False,CD19
+ACH-001982,-0.1356514889397122,NZM3,Melanoma,Skin,False,CD19
+ACH-002026,-0.0565711276954057,HHUA,Endometrial Carcinoma,Uterus,False,CD19
+ACH-002039,-0.1420218591229856,PK-8,Pancreatic Adenocarcinoma,Pancreas,False,CD19
+ACH-002109,-0.2276038161076481,ES8,Ewing Sarcoma,Bone,False,CD19
+ACH-002278,-0.0599339235717383,NB10,Neuroblastoma,Peripheral Nervous System,False,CD19
+ACH-002280,0.1211112927652388,NB13,Neuroblastoma,Peripheral Nervous System,False,CD19
+ACH-002283,-0.0486103806861516,NB5,Neuroblastoma,Peripheral Nervous System,False,CD19
+ACH-002294,0.0389866372517081,PCI-15A,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-002296,-0.1373491422440998,PCI-38,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-002297,-0.1231734896689622,PCI-4B,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-002460,-0.0677546972248284,HT144 SKIN FV2,Melanoma,Skin,False,CD19
+ACH-002462,-0.0476752503645342,RPE1-ss48,Non-Cancerous,Eye,False,CD19
+ACH-002478,-0.0740134656210049,BC-2,Mature B-Cell Neoplasms,Lymphoid,False,CD19
+ACH-002486,-0.1678301611041397,MES-OV,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-002510,-0.1430267095810586,M040416,Melanoma,Skin,False,CD19
+ACH-002523,-0.1538172503520918,SNU-739,Hepatocellular Carcinoma,Liver,False,CD19
+ACH-002535,-0.0901508741210215,SNU-254,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-002662,-0.0920348550081787,JVE-207,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-002669,-0.1207209993631925,KP-363T,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-002677,-1.087376046420826,U-2946,Mature B-Cell Neoplasms,Lymphoid,True,CD19
+ACH-002678,-0.3223622051667159,WILL-1,Mature B-Cell Neoplasms,Lymphoid,False,CD19
+ACH-002693,-0.0856905628882711,S462,Nerve Sheath Tumor,Peripheral Nervous System,False,CD19
+ACH-002834,-0.3211189912419016,OS384,Osteosarcoma,Bone,False,CD19
+ACH-002928,0.1594763653568175,MM100511,Melanoma,Skin,False,CD19
+ACH-000077,-0.0346319046080108,MJ,Non-Hodgkin Lymphoma,Lymphoid,False,CD19
+ACH-000101,-0.0101356476388352,KE-37,T-Lymphoblastic Leukemia/Lymphoma,Lymphoid,False,CD19
+ACH-000111,0.0073117906860474,HCC1187,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-000144,0.0990366484667998,RERF-GC-1B,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,CD19
+ACH-000148,0.0614522150128249,Hs 578T,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-000160,0.0560100593055935,BT-12,Embryonal Tumor,CNS/Brain,False,CD19
+ACH-000191,0.0810508420580047,BHT-101,Anaplastic Thyroid Cancer,Thyroid,False,CD19
+ACH-000248,-0.0632462657847852,AU565,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-000252,-0.1676668137820336,LS1034,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-000257,0.0568390543932049,COR-L279,Lung Neuroendocrine Tumor,Lung,False,CD19
+ACH-000266,-0.0525216428604368,SNU-213,Pancreatic Adenocarcinoma,Pancreas,False,CD19
+ACH-000290,-0.0688578896541192,NCI-H209,Lung Neuroendocrine Tumor,Lung,False,CD19
+ACH-000292,-0.1071853552295751,NCI-H841,SMARCA4-deficient undifferentiated tumor,Lung,False,CD19
+ACH-000319,-0.1833791210474315,MPP 89,Pleural Mesothelioma,Pleura,False,CD19
+ACH-000348,-0.1258349245636859,RPMI-7951,Melanoma,Skin,False,CD19
+ACH-000359,-0.0205302799557103,MG-63,Osteosarcoma,Bone,False,CD19
+ACH-000363,-0.1808820431439576,SK-MM-2,Mature B-Cell Neoplasms,Lymphoid,False,CD19
+ACH-000414,0.0329940377696564,NCI-H1944,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000424,-0.1522286071204378,TC-71,Ewing Sarcoma,Bone,False,CD19
+ACH-000426,-0.1741267720621903,KMS-20,Mature B-Cell Neoplasms,Lymphoid,False,CD19
+ACH-000445,-0.1370136252187582,KNS-60,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000446,0.1593556943201864,KP-N-SI9s,Neuroblastoma,Peripheral Nervous System,False,CD19
+ACH-000468,-0.0374666622996318,PK-45H,Pancreatic Adenocarcinoma,Pancreas,False,CD19
+ACH-000479,0.0496909993522653,KNS-81,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000485,-0.0219972760353287,GSU,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,CD19
+ACH-000502,0.03356824586659,TCC-PAN2,Pancreatic Adenocarcinoma,Pancreas,False,CD19
+ACH-000505,-0.082830752179445,RKN,Leiomyosarcoma,Soft Tissue,False,CD19
+ACH-000507,-0.0532470336830377,KE-39,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,CD19
+ACH-000511,-0.0680098303664975,Calu-1,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000522,-0.0496107237294812,UM-UC-3,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,CD19
+ACH-000524,-0.1326550116053388,KURAMOCHI,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-000528,-0.1803571496986085,ABC-1,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000537,-0.0998544569089891,SNU-761,Hepatocellular Carcinoma,Liver,False,CD19
+ACH-000569,-0.2342877176456394,IST-MES1,Pleural Mesothelioma,Pleura,False,CD19
+ACH-000581,-0.0834260203288514,SNU-16,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,CD19
+ACH-000593,-0.1553866287272297,BC-3C,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,CD19
+ACH-000604,0.1074555159083725,KYO-1,Myeloproliferative Neoplasms,Myeloid,False,CD19
+ACH-000605,-0.0886897847271686,TE-6,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,CD19
+ACH-000608,-0.033371766133948,COV644,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-000609,0.0520183320678532,SF126,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000634,-0.0812607344970895,LN-340,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000662,0.0522877082710242,COR-L23,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000666,-0.2641671647984507,NCI-H1355,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000681,-0.0851090271413553,A549,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000685,-0.0332364956507616,L3.3,Adenosquamous Carcinoma of the Pancreas,Pancreas,False,CD19
+ACH-000697,-0.1747083650242031,A3/KAW,Mature B-Cell Neoplasms,Lymphoid,False,CD19
+ACH-000714,-0.010494019257099,KMS-11,Mature B-Cell Neoplasms,Lymphoid,False,CD19
+ACH-000768,0.0086773325475309,MDA-MB-231,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-000788,0.0344553473994244,A2058,Melanoma,Skin,False,CD19
+ACH-000790,-0.136908751157888,SHP-77,Lung Neuroendocrine Tumor,Lung,False,CD19
+ACH-000800,0.0382667407896899,NCI-H446,Lung Neuroendocrine Tumor,Lung,False,CD19
+ACH-000826,-0.1291862450879608,CAL-12T,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000845,-0.1610620085787964,NCI-H1373,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000846,-0.2066342533539357,FaDu,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-000863,0.0136416551470316,DBTRG-05MG,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000871,-0.0479528549798791,NCI-H510,Lung Neuroendocrine Tumor,Lung,False,CD19
+ACH-000873,0.0106418129802718,KYSE-270,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,CD19
+ACH-000939,-0.3383638469228485,SK-UT-1,Uterine Sarcoma/Mesenchymal,Uterus,False,CD19
+ACH-000961,0.1186991050317626,Ishikawa (Heraklio) 02 ER-,Endometrial Carcinoma,Uterus,False,CD19
+ACH-000971,0.0718701381990634,HCT 116,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-000985,0.2483826964079106,LS411N,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-001028,-0.0306327025028446,CHLA-06-ATRT,Embryonal Tumor,CNS/Brain,False,CD19
+ACH-001075,-0.0138429760291651,NCI-H292,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-001096,-0.013541994770755,JR,Rhabdomyosarcoma,Soft Tissue,False,CD19
+ACH-001126,-0.1752033518824612,MOG-G-UVW,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-001227,-0.2206363779299709,UPCI-SCC-090,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-001283,-0.0377258621598928,TC-106,Ewing Sarcoma,Bone,False,CD19
+ACH-001289,0.045405234010948,COG-AR-359,Embryonal Tumor,CNS/Brain,False,CD19
+ACH-001306,-0.1396882445386016,8305C,Anaplastic Thyroid Cancer,Thyroid,False,CD19
+ACH-001336,-0.1669228519305018,Ca Ski,Cervical Squamous Cell Carcinoma,Cervix,False,CD19
+ACH-001346,-0.0328343025422528,H103,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-001380,0.0225902267575364,PACADD-165,Pancreatic Adenocarcinoma,Pancreas,False,CD19
+ACH-001402,-0.1204990403969418,SW756,Cervical Squamous Cell Carcinoma,Cervix,False,CD19
+ACH-001433,0.0994391583324299,CCLF_PEDS_0008_T,Epithelioid Sarcoma,Soft Tissue,False,CD19
+ACH-001451,-0.1156181565182767,BOKU,Cervical Squamous Cell Carcinoma,Cervix,False,CD19
+ACH-001453,0.0734311039820004,BPH-1,Non-Cancerous,Prostate,False,CD19
+ACH-001524,-0.0016418294635559,HSC-5,Cutaneous Squamous Cell Carcinoma,Skin,False,CD19
+ACH-001628,-0.1140243430466214,PEA1,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-001673,-0.0894617863450545,TFK-1,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,CD19
+ACH-001690,-0.0779598541120775,UPCI-SCC-026,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-001698,0.1734679507011236,UPCI-SCC-116,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-001834,-0.0877593744060251,MGH-ICC10,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,CD19
+ACH-001960,-0.0296418562089989,CC-SW-1,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,CD19
+ACH-001973,-0.0221730929941925,MM485,Melanoma,Skin,False,CD19
+ACH-002005,0.1599497374415737,SK-MEL-19,Melanoma,Skin,False,CD19
+ACH-002015,0.0626759860454939,Mel285,Ocular Melanoma,Eye,False,CD19
+ACH-002016,0.0282020042054215,Mel290,Ocular Melanoma,Eye,False,CD19
+ACH-002027,-0.1248373763162519,HOUA-I,Endometrial Carcinoma,Uterus,False,CD19
+ACH-002084,-0.0928390841076328,MMAc,Melanoma,Skin,False,CD19
+ACH-002140,-0.2278804895176049,Hey,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-002181,0.1024133264938392,OVCA420,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-002189,-0.0447452799488939,RCC-FG2,Renal Cell Carcinoma,Kidney,False,CD19
+ACH-002214,-0.1200102839833019,BC-1,Mature B-Cell Neoplasms,Lymphoid,False,CD19
+ACH-002228,-0.0861180540728484,D-423MG,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-002446,-0.1456461692571672,CCLF_UPGI_0005_T,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,CD19
+ACH-002688,-0.0565261529196329,OS457,Osteosarcoma,Bone,False,CD19
+ACH-002926,-0.1205226005312195,UPMD1,Ocular Melanoma,Eye,False,CD19
+ACH-003180,0.0769738927824639,NRH-UPS2,Undifferentiated Pleomorphic Sarcoma/Malignant Fibrous Histiocytoma/High-Grade Spindle Cell Sarcoma,Soft Tissue,False,CD19
+ACH-003184,-0.0472629308896943,NRH-LMS2,Leiomyosarcoma,Soft Tissue,False,CD19
+ACH-000004,-0.1931824976061301,HEL,Acute Myeloid Leukemia,Myeloid,False,CD19
+ACH-000022,-0.0743379923990924,PA-TU-8988S,Pancreatic Adenocarcinoma,Pancreas,False,CD19
+ACH-000052,-0.1490869431842593,A-673,Ewing Sarcoma,Bone,False,CD19
+ACH-000113,-0.109685461590292,OCI-AML2,Acute Myeloid Leukemia,Myeloid,False,CD19
+ACH-000149,-0.0114506013522352,SK-N-SH,Neuroblastoma,Peripheral Nervous System,False,CD19
+ACH-000169,-0.1276894965216792,RD,Rhabdomyosarcoma,Soft Tissue,False,CD19
+ACH-000217,-0.1797867811250522,JHH-6,Hepatocellular Carcinoma,Liver,False,CD19
+ACH-000243,-0.0556896925665779,DAN-G,Pancreatic Adenocarcinoma,Pancreas,False,CD19
+ACH-000263,-0.2012342187092488,KASUMI-1,Acute Myeloid Leukemia,Myeloid,False,CD19
+ACH-000278,-0.1729777957158659,COV362,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-000303,-0.0666687501070665,SNU-5,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,CD19
+ACH-000308,-0.0362489362899758,EFO-21,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-000322,0.0246366868436856,HT-144,Melanoma,Skin,False,CD19
+ACH-000332,-0.0874446952217827,YAPC,Pancreatic Adenocarcinoma,Pancreas,False,CD19
+ACH-000338,0.1671770312588026,SR-786,Mature T and NK Neoplasms,Lymphoid,False,CD19
+ACH-000370,-0.1328692246184601,SNU-626,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000390,-0.0856440484372835,LUDLU-1,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000393,-0.0872881269511093,HLF,Hepatocellular Carcinoma,Liver,False,CD19
+ACH-000407,-0.1301181325859643,SNU-685,Endometrial Carcinoma,Uterus,False,CD19
+ACH-000417,0.049451791514824,Panc 08.13,Pancreatic Adenocarcinoma,Pancreas,False,CD19
+ACH-000473,-0.0439436789984833,RT-112,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,CD19
+ACH-000491,0.1777727492192524,NCI-H716,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-000495,-0.2303429544063588,TUHR4TKB,Renal Cell Carcinoma,Kidney,False,CD19
+ACH-000532,-0.0036084753418262,SNU-61,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-000561,-0.0184062099282587,T.T,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,CD19
+ACH-000619,0.0599821181576947,PE/CA-PJ15,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-000622,0.0807192672070321,KNS-42,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000633,-0.0412642876723673,FU97,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,CD19
+ACH-000657,-0.0511799986031719,A2780,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-000668,0.0356820987637725,HCC70,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-000683,-0.1103353596242712,SNU-503,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-000688,-0.0684719022562445,OV7,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-000694,-0.0665247574704363,TE-9,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,CD19
+ACH-000711,-0.1112399777713266,JIMT-1,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-000716,-0.2105202633016308,TT2609-C02,Well-Differentiated Thyroid Cancer,Thyroid,False,CD19
+ACH-000720,-0.0647039781171519,TCCSUP,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,CD19
+ACH-000721,-0.0289671670196944,HMC-1-8,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-000735,-0.1105663563495894,PE/CA-PJ49,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-000739,-0.1694687757243421,Hep G2,Hepatoblastoma,Liver,False,CD19
+ACH-000770,-0.01993814662498,P31/FUJ,Acute Myeloid Leukemia,Myeloid,False,CD19
+ACH-000775,0.0124373980919097,NCI-H727,Lung Neuroendocrine Tumor,Lung,False,CD19
+ACH-000783,0.0888884152198603,CAMA-1,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-000791,0.0216855405651247,RERF-LC-Ad1,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000805,-0.1645542608663259,COLO-679,Melanoma,Skin,False,CD19
+ACH-000824,-0.0299109850564473,KYSE-510,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,CD19
+ACH-000827,-0.2129502566772371,WM793,Melanoma,Skin,False,CD19
+ACH-000838,-0.254839608643312,AMO-1,Mature B-Cell Neoplasms,Lymphoid,False,CD19
+ACH-000848,-0.2077883099255058,JHH-7,Hepatocellular Carcinoma,Liver,False,CD19
+ACH-000858,-0.0968193010944628,KNS-62,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000861,0.0860966279773501,HOP-62,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000881,0.0109259657775061,MEL-JUSO,Melanoma,Skin,False,CD19
+ACH-000899,0.0435787169441867,WM88,Melanoma,Skin,False,CD19
+ACH-000910,0.0868912860569103,MDA-MB-453,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-000915,-0.141382863154339,IPC-298,Melanoma,Skin,False,CD19
+ACH-000935,0.0711984695712557,MDST8,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-000936,-0.1619262407512206,EFO-27,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-000944,-0.7489984888991993,NAMALWA,Mature B-Cell Neoplasms,Lymphoid,True,CD19
+ACH-000962,0.1176310405188892,OC 314,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-000965,-0.0265674549108902,RL95-2,Endometrial Carcinoma,Uterus,False,CD19
+ACH-000988,0.0277628614610271,MFE-319,Endometrial Carcinoma,Uterus,False,CD19
+ACH-001038,-0.1517785752466218,COG-E-352,Ewing Sarcoma,Bone,False,CD19
+ACH-001050,-0.1775478524099212,CW9019,Rhabdomyosarcoma,Soft Tissue,False,CD19
+ACH-001053,-0.2321835080853663,D425,Embryonal Tumor,CNS/Brain,False,CD19
+ACH-001151,-0.1245406304338493,OVCAR-5,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-001211,-0.0187294972064836,TTC-549,Rhabdoid Cancer,Soft Tissue,False,CD19
+ACH-001239,-0.099386729088613,WM-266-4,Melanoma,Skin,False,CD19
+ACH-001277,-0.2124792933238255,Yamato,Synovial Sarcoma,Soft Tissue,False,CD19
+ACH-001367,-0.0114754505856612,NMB,Neuroblastoma,Peripheral Nervous System,False,CD19
+ACH-001392,-0.054307863259631,SUM-185PE,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-001412,-0.0927244147304461,UM-UC-10,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,CD19
+ACH-001458,-0.210483084612722,C75,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-001510,-0.0942403570830855,H376,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-001530,0.1105392243270538,JEG-3,Gestational Trophoblastic Disease,Uterus,False,CD19
+ACH-001556,-0.030927328878965,Mero-25,Pleural Mesothelioma,Pleura,False,CD19
+ACH-001562,-0.2444280102059732,Mero-95,Pleural Mesothelioma,Pleura,False,CD19
+ACH-001609,-0.130828984823402,NP 3,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-001670,-0.0148376086977725,TASK1,Embryonal Tumor,CNS/Brain,False,CD19
+ACH-002024,-0.4597956143130561,ECC4,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-002029,-0.0968721821475102,SAS,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-002035,-0.1253823919445862,LCAM1,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-002045,-0.2460590491981051,HO-1-u-1,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-002046,-0.0785093859079377,HTMMT,Endometrial Carcinoma,Uterus,False,CD19
+ACH-002059,-0.3400782274843265,P30/OHK,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,False,CD19
+ACH-002066,-0.0352419519697879,HS-Sch-2,Nerve Sheath Tumor,Peripheral Nervous System,False,CD19
+ACH-002142,-0.0729403820280189,HuO-3N1,Osteosarcoma,Bone,False,CD19
+ACH-002215,-0.2006744566959575,BC-3,Mature B-Cell Neoplasms,Lymphoid,False,CD19
+ACH-002249,-0.1837586620967502,JHU-011,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-002282,-0.1056373322178968,NB17,Neuroblastoma,Peripheral Nervous System,False,CD19
+ACH-002295,0.0095004182576473,PCI-30,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-002485,-0.2583922118093968,MAVER-1,Mature B-Cell Neoplasms,Lymphoid,False,CD19
+ACH-002526,-0.2294698514900471,SNU-1327,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-002528,-0.0825215400587134,SNU-267,Renal Cell Carcinoma,Kidney,False,CD19
+ACH-002659,-0.0315535572638691,JVE-127,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-002660,-0.0241005431604128,JVE-187,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-002664,-0.1879487474912382,JVE-253,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-002672,-0.09849380178125,MAPAC-HS-77,Pancreatic Adenocarcinoma,Pancreas,False,CD19
+ACH-002792,-0.0428581714224852,NCC-CCS1B-C1,Clear Cell Sarcoma,Soft Tissue,False,CD19
+ACH-002922,-0.0589560794009767,SK-N-MM,Neuroblastoma,Peripheral Nervous System,False,CD19
+ACH-000009,-0.0159857282876974,C2BBe1,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-000021,-0.0297301479593681,NCI-H1693,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000025,-0.0563700453869974,CH-157MN,Meningothelial Tumor,CNS/Brain,False,CD19
+ACH-000037,-0.1786804717722921,S-117,"Sarcoma, NOS",Soft Tissue,False,CD19
+ACH-000075,-0.1791755151906334,U-87 MG,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000138,0.0372511592061157,CFPAC-1,Pancreatic Adenocarcinoma,Pancreas,False,CD19
+ACH-000211,-0.0121047218554858,Daoy,Embryonal Tumor,CNS/Brain,False,CD19
+ACH-000215,-0.1522202382706443,LN382,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000232,0.0070598421534867,U-251 MG,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000256,0.0873463322694674,COV318,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-000265,0.0016280436801115,KP-4,Pancreatic Adenocarcinoma,Pancreas,False,CD19
+ACH-000268,-0.0788208284361307,SNU-245,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,CD19
+ACH-000269,0.1871726535018575,AM-38,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000273,-0.1360330040144388,SF539,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000281,-0.0200815974113172,KP-2,Pancreatic Adenocarcinoma,Pancreas,False,CD19
+ACH-000307,-0.1399080466863498,PK-1,Pancreatic Adenocarcinoma,Pancreas,False,CD19
+ACH-000315,-0.6578633872902543,KARPAS-422,Mature B-Cell Neoplasms,Lymphoid,True,CD19
+ACH-000317,0.0654981561804463,TUHR14TKB,Renal Cell Carcinoma,Kidney,False,CD19
+ACH-000324,0.0218734182971996,JHOC-5,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-000346,-0.18338194876138,JVM-3,Mature B-Cell Neoplasms,Lymphoid,False,CD19
+ACH-000355,0.0096862958430369,NCI-H82,Lung Neuroendocrine Tumor,Lung,False,CD19
+ACH-000362,0.222707218817727,MOLM-13,Acute Myeloid Leukemia,Myeloid,False,CD19
+ACH-000364,-0.1014741840004739,U-2 OS,Osteosarcoma,Bone,False,CD19
+ACH-000401,0.0908323012485197,COLO-800,Melanoma,Skin,False,CD19
+ACH-000405,-0.5149967756699695,MEC-1,Mature B-Cell Neoplasms,Lymphoid,True,CD19
+ACH-000408,-0.2135281191861176,TE-5,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,CD19
+ACH-000481,-0.0864175730589341,NCI-H2170,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000500,-0.1725097827387381,SNU-46,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-000517,-0.0776973577438757,SNU-410,Pancreatic Adenocarcinoma,Pancreas,False,CD19
+ACH-000541,-0.1108613079917091,KMS-34,Mature B-Cell Neoplasms,Lymphoid,False,CD19
+ACH-000550,0.114341984396207,IGR-39,Melanoma,Skin,False,CD19
+ACH-000562,-0.1591700326214152,HCC-78,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000591,0.035228795198958,LN-235,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000621,-0.0351045445364526,MDA-MB-157,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-000645,-0.1045170655187101,JL-1,Pleural Mesothelioma,Pleura,False,CD19
+ACH-000673,-0.058193285158127,LN-443,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000684,0.2681867706837827,KMRC-1,Renal Cell Carcinoma,Kidney,False,CD19
+ACH-000696,-0.0166569226939043,OVCAR-8,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-000698,-0.1557357946617698,DMS 53,Lung Neuroendocrine Tumor,Lung,False,CD19
+ACH-000725,-0.0171053095319892,HCC202,Breast Ductal Carcinoma In Situ,Breast,False,CD19
+ACH-000734,-0.0657165201927682,JHH-5,Hepatocellular Carcinoma,Liver,False,CD19
+ACH-000754,-0.1069372108495369,L-428,Hodgkin Lymphoma,Lymphoid,False,CD19
+ACH-000758,-0.2055603527153502,MKN74,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,CD19
+ACH-000769,-0.1320175679782304,LK-2,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000802,0.0069072288534206,BFTC-905,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,CD19
+ACH-000804,0.0594700223351589,NB-1,Neuroblastoma,Peripheral Nervous System,False,CD19
+ACH-000833,-0.225944695056182,RH-30,Rhabdomyosarcoma,Soft Tissue,False,CD19
+ACH-000836,-0.1157011325776095,YD-15,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-000856,0.042766005543573,CAL-51,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-000869,-0.1579551184277118,NCI-H1568,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000887,-0.1699923453666044,SF-172,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-000898,-0.106966041781397,SNU-719,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,CD19
+ACH-000901,-0.0746770600028662,HCC-1359,Non-Small Cell Lung Cancer,Lung,False,CD19
+ACH-000946,-0.1470033437018582,HEC-265,Endometrial Carcinoma,Uterus,False,CD19
+ACH-000976,-0.0306145773356071,HuCCT1,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,CD19
+ACH-001016,-0.1175948346926674,Becker,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-001039,0.1607818561282057,COLO 205,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-001107,0.1383765558776429,KP-1N,Pancreatic Adenocarcinoma,Pancreas,False,CD19
+ACH-001196,0.0935686625556028,SMS-CTR,Rhabdomyosarcoma,Soft Tissue,False,CD19
+ACH-001197,-0.0722065071122673,SMZ-1,Non-Hodgkin Lymphoma,Lymphoid,False,CD19
+ACH-001301,-0.0864600903392734,COG-N-278,Neuroblastoma,Peripheral Nervous System,False,CD19
+ACH-001344,-0.2515261420302609,GI-ME-N,Neuroblastoma,Peripheral Nervous System,False,CD19
+ACH-001345,0.0822177129242364,GP5d,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-001360,-0.1423628996282516,MS751,Cervical Squamous Cell Carcinoma,Cervix,False,CD19
+ACH-001388,-0.1410436268691489,SUM-102PT,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-001415,-0.0915284760824544,UM-UC7,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,CD19
+ACH-001421,-0.1271785907150346,WERI-Rb-1,Retinoblastoma,Eye,False,CD19
+ACH-001450,-0.7799096835681308,BLUE-1,Mature B-Cell Neoplasms,Lymphoid,True,CD19
+ACH-001494,-0.0665908667883043,EGI-1,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,CD19
+ACH-001496,-0.1196925543878965,ESO26,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,CD19
+ACH-001500,0.0486349351801534,FLO-1,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,CD19
+ACH-001509,0.1464773976980643,H357,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-001517,-0.115588610865617,HEC-1,Endometrial Carcinoma,Uterus,False,CD19
+ACH-001538,-0.1275220466491106,KKU-213,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,CD19
+ACH-001543,-0.1263619113827758,KOSC-2,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,CD19
+ACH-001613,-0.0121734652288439,OCI-AML4,Acute Myeloid Leukemia,Myeloid,False,CD19
+ACH-001616,-0.9841796352577292,OCI-LY18,Mature B-Cell Neoplasms,Lymphoid,True,CD19
+ACH-001651,-0.2357215607293297,SKG-I,Cervical Squamous Cell Carcinoma,Cervix,False,CD19
+ACH-001662,-0.0338861160149369,SNU-2372,Invasive Breast Carcinoma,Breast,False,CD19
+ACH-001668,0.1763610794789829,SUSA,Non-Seminomatous Germ Cell Tumor,Testis,False,CD19
+ACH-001685,-0.1915493654779141,U-HO1,Hodgkin Lymphoma,Lymphoid,False,CD19
+ACH-001719,-0.0917404444856225,OCI-C4P,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,CD19
+ACH-001765,-0.1370801926410917,Rh4,Rhabdomyosarcoma,Soft Tissue,False,CD19
+ACH-001786,0.0184818533267013,SNU-1544,Colorectal Adenocarcinoma,Bowel,False,CD19
+ACH-001820,0.0200955646004096,COLO 824,"Breast Neoplasm, NOS",Breast,False,CD19
+ACH-001848,-0.1082972828546614,MGH-ICC8,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,CD19
+ACH-001977,0.0868072304131837,NO36,Pleural Mesothelioma,Pleura,False,CD19
+ACH-002018,-0.1326653562975644,Omm2.5,Ocular Melanoma,Eye,False,CD19
+ACH-002069,-0.0071559392594628,HS-Os-1,Osteosarcoma,Bone,False,CD19
+ACH-002202,-0.3864073466645387,TMK-1,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,CD19
+ACH-002269,-0.0490324526033861,LNZTA3WT4,Diffuse Glioma,CNS/Brain,False,CD19
+ACH-002285,0.085536570774488,NB7,Neuroblastoma,Peripheral Nervous System,False,CD19
+ACH-002490,-0.2161321645770952,NCI-H1882,Lung Neuroendocrine Tumor,Lung,False,CD19
+ACH-002687,0.06946716124442,WM3772F,Ocular Melanoma,Eye,False,CD19
+ACH-002708,-0.2471055469336077,DL-221,Liposarcoma,Soft Tissue,False,CD19
+ACH-002782,0.0908404457790123,NCC-UPS1-C1,Undifferentiated Pleomorphic Sarcoma/Malignant Fibrous Histiocytoma/High-Grade Spindle Cell Sarcoma,Soft Tissue,False,CD19
+ACH-002785,-0.1961195832863505,NCC-LMS1-C1,Leiomyosarcoma,Soft Tissue,False,CD19
+ACH-003012,0.0354966592735493,A549_CRAF_KD,Non-Small Cell Lung Cancer,Lung,False,CD19

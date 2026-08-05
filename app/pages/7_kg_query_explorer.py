@@ -20,7 +20,7 @@ import time
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
-from components.targets import get_active_symbol, is_loaded, is_case_study
+from components.targets import get_active_symbol, is_loaded
 from components.ui_kit import page_header, section_tabs, research_table
 from components.data_freeze import render_data_freeze_banner
 from components.export_pack import (
@@ -148,11 +148,7 @@ def get_schema() -> dict:
 # ---------------------------------------------------------------------------
 
 def _build_query_templates(symbol: str) -> dict:
-    """Gene-parameterized templates.
-
-    For non-CD46 targets we rely on graph relationship properties (gene-aware)
-    instead of CD46-only `Disease.cd46_*` properties.
-    """
+    """Gene-parameterized templates using EXPRESSED_IN_CANCER / SurvivalResult / OT edges."""
     s = symbol
     return {
         f"🎯 Expression: Which cancers have highest {s}?": {
@@ -168,7 +164,6 @@ ORDER BY r.median_tpm_log2 DESC
 LIMIT 25
 """,
             "params": {},
-            "requires_cd46_schema": False,
         },
         f"🎯 Open Targets: Top disease associations for {s}?": {
             "description": f"Gene→Disease ASSOCIATED_WITH from Open Targets (up to ~1000/gene; table shows top scores).",
@@ -184,7 +179,6 @@ ORDER BY r.score DESC
 LIMIT 40
 """,
             "params": {},
-            "requires_cd46_schema": False,
         },
         f"🔗 STRING PPI: Protein partners of {s}?": {
             "description": f"STRING INTERACTS_WITH neighborhood for {s} (score ≥ loader threshold).",
@@ -200,7 +194,6 @@ ORDER BY r.score DESC
 LIMIT 40
 """,
             "params": {},
-            "requires_cd46_schema": False,
         },
         f"📈 Survival: Which cancers show {s}-High = worse prognosis?": {
             "description": f"Gene-aware Cox survival: sr.gene_symbol='{s}' · endpoint=OS · hazard_ratio>1 · p<0.05.",
@@ -218,7 +211,6 @@ RETURN d.tcga_code AS cancer,
 ORDER BY sr.hazard_ratio DESC
 """,
             "params": {},
-            "requires_cd46_schema": False,
         },
         f"📚 Publications: Evidence linked to {s}?": {
             "description": f"Publications linked to {s} via SUPPORTS (Step 3b PubMed load).",
@@ -234,7 +226,6 @@ ORDER BY pub.year DESC
 LIMIT 40
 """,
             "params": {},
-            "requires_cd46_schema": False,
         },
         f"💊 Drugs: Agents targeting {s}?": {
             "description": f"Drug nodes linked to {s} via TARGETS (ChEMBL + curated theranostics, Step 3b).",
@@ -251,7 +242,6 @@ ORDER BY coalesce(drug.max_phase, 0) DESC, drug.name
 LIMIT 40
 """,
             "params": {},
-            "requires_cd46_schema": False,
         },
         f"🧪 Clinical Trials: Trials investigating {s} / related diseases?": {
             "description": f"ClinicalTrial nodes linked to {s} via TARGETS_GENE (up to ~100/gene in expanded slice).",
@@ -269,7 +259,6 @@ ORDER BY t.phase, t.nct_id
 LIMIT 40
 """,
             "params": {},
-            "requires_cd46_schema": False,
         },
         f"🔬 Co-expression: Genes correlated with {s} in PRAD?": {
             "description": f"Genes with Spearman correlations to {s}.",
@@ -285,7 +274,6 @@ ORDER BY abs(r.spearman_rho) DESC
 LIMIT 50
 """,
             "params": {},
-            "requires_cd46_schema": False,
         },
         f"🧬 Protein: What is the {s} protein / pathway context?": {
             "description": f"{s} gene/protein properties and pathway memberships.",
@@ -302,13 +290,13 @@ RETURN g.symbol AS gene,
        collect(DISTINCT pw.name) AS pathways
 """,
             "params": {},
-            "requires_cd46_schema": False,
         },
         f"🏥 Patient Groups: Eligible cohorts for {s}-High framing?": {
-            "description": "PatientGroup nodes sorted by eligible patient count.",
+            "description": f"PatientGroup + SurvivalResult for {s}-High cohorts (sr.gene_symbol filter).",
             "cypher": f"""
 MATCH (pg:PatientGroup)-[:HAS_SURVIVAL_DATA]->(sr:SurvivalResult)
 WHERE pg.expression_group = '{s}_High'
+  AND sr.gene_symbol = '{s}'
   AND sr.endpoint = 'OS'
   AND pg.n_eligible > 50
 RETURN pg.cancer_type AS cancer,
@@ -323,25 +311,27 @@ ORDER BY pg.n_eligible DESC
 LIMIT 20
 """,
             "params": {},
-            "requires_cd46_schema": True,
         },
         f"🔗 Full path: {s} → Pathway → Disease evidence": {
-            "description": f"Multi-hop path from {s} through pathways to supported diseases.",
+            "description": f"Multi-hop: {s} → Pathway + EXPRESSED_IN_CANCER + SurvivalResult (gene-filtered).",
             "cypher": f"""
-MATCH path = (g:Gene {{symbol: '{s}'}})-[:PARTICIPATES_IN]->(pw:Pathway)
-MATCH (pub:Publication)-[:SUPPORTS]->(d:Disease)
-MATCH (d)-[:HAS_SURVIVAL_RESULT]->(sr:SurvivalResult {{endpoint: 'OS'}})
-WHERE sr.significant = true
+MATCH (g:Gene {{symbol: '{s}'}})-[:PARTICIPATES_IN]->(pw:Pathway)
+MATCH (g)-[r:EXPRESSED_IN_CANCER]->(d:Disease)
+MATCH (d)-[:HAS_SURVIVAL_RESULT]->(sr:SurvivalResult)
+WHERE sr.gene_symbol = '{s}'
+  AND sr.endpoint = 'OS'
+  AND sr.significant = true
+OPTIONAL MATCH (pub:Publication)-[:SUPPORTS]->(g)
 RETURN g.symbol AS gene,
        pw.name AS pathway,
        d.tcga_code AS disease,
-       round(d.cd46_median_tpm_log2, 3) AS target_expression,
+       round(r.median_tpm_log2, 3) AS target_expression,
        round(sr.hazard_ratio, 3) AS hazard_ratio,
        count(DISTINCT pub) AS n_supporting_pubs
 ORDER BY sr.hazard_ratio DESC
+LIMIT 40
 """,
             "params": {},
-            "requires_cd46_schema": True,
         },
         f"📊 Cell lines: Which lines depend on {s}?": {
             "description": f"DepMap CellLine-[:DEPENDS_ON]->Gene for {s} (Step 3c; CRISPR < -0.5).",
@@ -355,21 +345,26 @@ ORDER BY r.crispr_score
 LIMIT 30
 """,
             "params": {},
-            "requires_cd46_schema": False,
         },
     }
 
 
 _ACTIVE = get_active_symbol()
-_ALL_TEMPLATES = _build_query_templates(_ACTIVE)
-# Case-study targets only: hide CD46-only property templates for non-CD46.
-# (Loaded=true for thin/medium slices; CD46 schema props are missing for other targets.)
-if is_case_study(_ACTIVE):
-    QUERY_TEMPLATES = _ALL_TEMPLATES
-else:
-    QUERY_TEMPLATES = {
-        k: v for k, v in _ALL_TEMPLATES.items() if not v.get("requires_cd46_schema")
-    }
+QUERY_TEMPLATES = _build_query_templates(_ACTIVE)
+
+# ponytail: ceiling = string templates only; upgrade = parametrized $gene Cypher binds
+def _self_check_templates() -> None:
+    a, b = _build_query_templates("FOLH1"), _build_query_templates("EGFR")
+    ba, bb = json.dumps(a), json.dumps(b)
+    assert "FOLH1" in ba and "EGFR" in bb
+    assert "FOLH1" not in bb and "EGFR" not in ba
+    banned = ("cd" + "46").lower()
+    assert banned not in ba.lower() and banned not in bb.lower()
+
+
+if __name__ == "__main__":
+    _self_check_templates()
+    print("7_kg_query_explorer templates ok")
 
 # ---------------------------------------------------------------------------
 # Page layout
@@ -397,8 +392,8 @@ render_data_freeze_banner(compact=True)
 
 if not is_loaded(_ACTIVE):
     st.info(
-        f"**{_ACTIVE}** is a stub target — gene-parameterized templates only. "
-        "CD46 schema property queries are hidden until Phase 4 ETL. Free Cypher still works."
+        f"**{_ACTIVE}** is a stub target — gene-parameterized templates still run; "
+        "results may be empty until ETL loads this gene. Free Cypher still works."
     )
 
 driver = get_driver()
@@ -485,7 +480,11 @@ if _active_kgqx == _KGQX_TABS[0]:
 
             # Auto-plot if result has a good chart structure
             if "cancer" in df_result.columns and len(numeric_cols) >= 1:
-                chart_col = next((c for c in ["hazard_ratio", "cd46_expression", "cd46_median_log2", "n_eligible", "crispr_score"] if c in df_result.columns), numeric_cols[0])
+                chart_col = next(
+                    (c for c in ["hazard_ratio", "target_median_log2", "target_expression", "n_eligible", "crispr_score"]
+                     if c in df_result.columns),
+                    numeric_cols[0],
+                )
                 with st.expander("📊 Quick Chart", expanded=True):
                     fig = go.Figure(go.Bar(
                         x=df_result["cancer"] if "cancer" in df_result.columns else df_result.iloc[:, 0],
@@ -520,22 +519,24 @@ elif _active_kgqx == _KGQX_TABS[1]:
 
     # Schema quick reference
     with st.expander("📖 Schema Quick Reference"):
-        st.markdown("""
-| Node Label | Key Properties | Count |
+        st.markdown(f"""
+| Node Label | Key Properties | Notes |
 |---|---|---|
-| `Disease` | `tcga_code`, `cd46_median_tpm_log2`, `cd46_prognostic` | 25 |
-| `SurvivalResult` | `cancer_type`, `endpoint`, `hazard_ratio`, `p_value`, `significant` | 53 |
-| `Publication` | `pubmed_id`, `title`, `year`, `evidence_type` | 250+ |
-| `ClinicalTrial` | `nct_id`, `phase`, `sponsor`, `status` | 500+ |
-| `PatientGroup` | `cancer_type`, `expression_group`, `n_eligible`, `threshold_value` | 789 |
-| `Drug` | `name`, `drug_type`, `payload`, `developer`, `chembl_id` | 150+ |
-| `Gene` | `symbol`, `chromosome`, `therapeutic_rationale` | 2+ |
-| `Protein` | `symbol`, `molecular_weight_kda`, `surface_expressed` | 4 |
-| `Pathway` | `name`, `reactome_id`, `go_id` | 3 |
-| `CellLine` | `name`, `cancer_type`, `cd46_crispr_score`, `cd46_is_dependency` | 1,186 |
-| `Tissue` | `name`, `type`, `staining_intensity` | 24 |
+| `Disease` | `tcga_code`, `mondo_id`, `name` | Expression via `EXPRESSED_IN_CANCER` edge |
+| `SurvivalResult` | `gene_symbol`, `endpoint`, `hazard_ratio`, `p_value`, `significant` | Filter `gene_symbol = '{_ACTIVE}'` |
+| `Publication` | `pubmed_id`, `title`, `year`, `evidence_type` | `SUPPORTS` → Gene |
+| `ClinicalTrial` | `nct_id`, `phase`, `sponsor`, `status` | `TARGETS_GENE` → Gene |
+| `PatientGroup` | `cancer_type`, `expression_group`, `n_eligible`, `threshold_value` | e.g. `{_ACTIVE}_High` |
+| `Drug` | `name`, `drug_type`, `payload`, `developer`, `chembl_id` | `TARGETS` → Gene |
+| `Gene` | `symbol`, `chromosome`, `therapeutic_rationale` | Active: `{_ACTIVE}` |
+| `Protein` | `symbol`, `molecular_weight_kda`, `surface_expressed` | |
+| `Pathway` | `name`, `reactome_id`, `go_id` | |
+| `CellLine` | `name`, `cancer_type` | Dependency via `DEPENDS_ON` edge |
+| `Tissue` | `name`, `type`, `staining_intensity` | |
 
-**Relationships:** `HAS_SURVIVAL_RESULT` · `HAS_PATIENT_GROUP` · `SUPPORTS` · `ASSOCIATED_WITH` · `TARGETS` · `TARGETS_GENE` · `INTERACTS_WITH` · `INDICATED_FOR` · `INVESTIGATES` · `PARTICIPATES_IN` · `CORRELATED_WITH` · `EXPRESSED_IN` · `ENCODES` · `HAS_SURVIVAL_DATA` · `DEPENDS_ON`
+**Relationships:** `EXPRESSED_IN_CANCER` · `HAS_SURVIVAL_RESULT` · `HAS_PATIENT_GROUP` · `SUPPORTS` · `ASSOCIATED_WITH` · `TARGETS` · `TARGETS_GENE` · `INTERACTS_WITH` · `INDICATED_FOR` · `INVESTIGATES` · `PARTICIPATES_IN` · `CORRELATED_WITH` · `EXPRESSED_IN` · `ENCODES` · `HAS_SURVIVAL_DATA` · `DEPENDS_ON`
+
+`EXPRESSED_IN_CANCER` edge props: `median_tpm_log2`, `expression_rank`
         """)
 
     default_cypher = st.session_state.get("cypher_editor", f"""// Example: pathways for {_ACTIVE}
@@ -631,25 +632,21 @@ elif _active_kgqx == _KGQX_TABS[2]:
         placeholder=f"e.g. Which pathways involve {_ACTIVE}?",
     )
 
-    SCHEMA_CONTEXT = """
-AuraDB Neo4j Knowledge Graph Schema:
-Nodes: Disease (tcga_code, cd46_median_tpm_log2, cd46_prognostic), 
-       SurvivalResult (cancer_type, endpoint, hazard_ratio, p_value, significant, n_high, n_low),
-       Publication (pubmed_id, title, year, evidence_type, journal, authors),
-       ClinicalTrial (nct_id, phase, sponsor, status, target),
-       PatientGroup (cancer_type, expression_group, n_eligible, n_total, threshold_value),
-       Drug (name, drug_type, payload, developer),
-       Gene (symbol, chromosome, therapeutic_rationale),
-       Protein (symbol, molecular_weight_kda, surface_expressed),
-       Pathway (name, reactome_id, go_id),
-       CellLine (name, cancer_type, cd46_crispr_score, cd46_is_dependency, cd46_expression_tpm),
-       Tissue (name, type, staining_intensity)
-Relationships: HAS_SURVIVAL_RESULT, HAS_PATIENT_GROUP, SUPPORTS (pub→gene), ASSOCIATED_WITH (gene→disease),
-               TARGETS (drug→gene), TARGETS_GENE (trial→gene), INTERACTS_WITH (gene↔gene, STRING),
-               INDICATED_FOR (drug→disease), INVESTIGATES (trial→disease),
-               PARTICIPATES_IN (gene→pathway), CORRELATED_WITH (gene→gene),
-               EXPRESSED_IN, ENCODES, HAS_SURVIVAL_DATA, DEPENDS_ON
-"""
+    # Mirror src/agent/nl_cypher.py — gene-neutral schema + active gene injection
+    SCHEMA_CONTEXT = f"""
+Neo4j schema (read-only MATCH): Gene(symbol), Disease(tcga_code, mondo_id, name), Drug(name, chembl_id),
+ClinicalTrial(nct_id), SurvivalResult(gene_symbol, hazard_ratio, p_value, endpoint, significant),
+CellLine(name), Publication(pubmed_id, title, year), Pathway(name), Protein(symbol),
+PatientGroup(cancer_type, expression_group, n_eligible).
+Relationships: EXPRESSED_IN_CANCER (Gene→Disease; median_tpm_log2, expression_rank),
+ASSOCIATED_WITH (Gene→Disease, Open Targets),
+TARGETS (Drug→Gene), TARGETS_GENE (Trial→Gene), DEPENDS_ON (CellLine→Gene),
+HAS_SURVIVAL_RESULT (Disease→SurvivalResult), SUPPORTS (Publication→Gene),
+INTERACTS_WITH (Gene↔Gene, STRING), PARTICIPATES_IN (Gene→Pathway),
+CORRELATED_WITH (Gene→Gene), INDICATED_FOR, INVESTIGATES, HAS_SURVIVAL_DATA, ENCODES.
+
+Active gene symbol: {_ACTIVE}
+""".strip()
 
     run_nl = st.button("🤖 Translate & Run", type="primary", key="run_nl")
     if run_nl and nl_question.strip():
@@ -671,6 +668,8 @@ Research question: {nl_question}
 Rules:
 - Return ONLY the Cypher query, no explanation before it
 - Start with MATCH or WITH
+- Use gene symbol '{_ACTIVE}' where a gene is relevant
+- Prefer EXPRESSED_IN_CANCER / SurvivalResult.gene_symbol / ASSOCIATED_WITH over gene-specific node properties
 - Use backticks only if property names have spaces
 - Return meaningful column aliases
 - LIMIT to 50 rows unless asked for all
@@ -749,12 +748,13 @@ elif _active_kgqx == _KGQX_TABS[3]:
     GRAPH_PRESETS = {
         f"{_ACTIVE} Gene → Pathways → Diseases": f"""
 MATCH (g:Gene {{symbol:'{_ACTIVE}'}})-[:PARTICIPATES_IN]->(pw:Pathway)
-MATCH (pub:Publication)-[:SUPPORTS]->(d:Disease)
-WHERE d.cd46_median_tpm_log2 > 12.5 OR d.cd46_median_tpm_log2 IS NULL
 RETURN g.symbol AS from_node, 'PARTICIPATES_IN' AS rel, pw.name AS to_node, 'Gene' AS from_type, 'Pathway' AS to_type
 UNION
-MATCH (pub:Publication)-[:SUPPORTS]->(d:Disease)
-RETURN pub.evidence_type AS from_node, 'SUPPORTS' AS rel, d.tcga_code AS to_node, 'Publication' AS from_type, 'Disease' AS to_type
+MATCH (g:Gene {{symbol:'{_ACTIVE}'}})-[:EXPRESSED_IN_CANCER]->(d:Disease)
+RETURN g.symbol AS from_node, 'EXPRESSED_IN_CANCER' AS rel, d.tcga_code AS to_node, 'Gene' AS from_type, 'Disease' AS to_type
+UNION
+MATCH (pub:Publication)-[:SUPPORTS]->(g:Gene {{symbol:'{_ACTIVE}'}})
+RETURN pub.evidence_type AS from_node, 'SUPPORTS' AS rel, g.symbol AS to_node, 'Publication' AS from_type, 'Gene' AS to_type
 LIMIT 40
 """,
         "Drug → Disease → Survival network": """

@@ -33,7 +33,7 @@ def _llm_nl_cypher(question: str, gene: str) -> str | None:
     try:
         from src.agent.llm_factory import get_llm
 
-        llm = get_llm()
+        llm = get_llm(gene=gene)
         prompt = f"""{_SCHEMA_HINT}
 
 Active gene symbol: {gene}
@@ -41,7 +41,7 @@ Research question: {question}
 
 Return ONLY one read-only Cypher query (MATCH/WITH/RETURN). LIMIT 25.
 Use gene symbol '{gene}' where relevant. No markdown fences."""
-        out = llm.chat(prompt, context="")
+        out = llm.chat(prompt, context="", gene=gene)
         cypher = _clean_cypher(out)
         if not cypher.upper().startswith(("MATCH", "WITH", "CALL")):
             return None

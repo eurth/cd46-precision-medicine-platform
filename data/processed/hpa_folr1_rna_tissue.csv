@@ -1,0 +1,13 @@
+tissue,type,ntpm,staining_intensity,data_source
+choroid plexus,normal,2860.9,,HPA_rna
+Alveolar cells type 1,single_cell,426.1,,HPA_rna
+Alveolar cells type 2,single_cell,247.2,,HPA_rna
+Breast lactating cells,single_cell,1703.5,,HPA_rna
+Cytotrophoblasts,single_cell,460.0,,HPA_rna
+Epididymal efferent duct ciliated cells,single_cell,222.4,,HPA_rna
+Fallopian secretory cells,single_cell,402.1,,HPA_rna
+Fallopian tube ciliated cells,single_cell,789.3,,HPA_rna
+Migrating cytotrophoblasts,single_cell,547.4,,HPA_rna
+Submucosal glandular cells,single_cell,302.6,,HPA_rna
+Syncytiotrophoblasts,single_cell,325.2,,HPA_rna
+Transitional alveolar cells,single_cell,449.6,,HPA_rna

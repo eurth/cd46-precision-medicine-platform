@@ -109,15 +109,19 @@ def _ot_fetch_page(ensembl_id: str, page_size: int, index: int) -> dict:
     raise RuntimeError(f"Open Targets fetch failed: {last_err}")
 
 
-def fetch_open_targets(ensembl_id: str, *, size: int = 500) -> dict:
-    """Fetch up to `size` target–disease associations (paginates when size > 500)."""
-    want = max(1, size)
-    page_size = min(want, _OT_PAGE_MAX)
+def fetch_open_targets(ensembl_id: str, *, size: int | None = None) -> dict:
+    """Fetch target–disease associations.
+
+    size=None or size<=0 → fetch full API total (paginate all pages).
+    size>0 → fetch up to that many rows (only for debugging).
+    """
+    page_size = _OT_PAGE_MAX
     all_rows: list[Any] = []
     index = 0
     merged: dict | None = None
     total_count = 0
-    while len(all_rows) < want:
+    want = None if size is None or size <= 0 else max(1, size)
+    while True:
         data = _ot_fetch_page(ensembl_id, page_size, index)
         target = (data.get("data") or {}).get("target") or {}
         assoc = target.get("associatedDiseases") or {}
@@ -128,11 +132,15 @@ def fetch_open_targets(ensembl_id: str, *, size: int = 500) -> dict:
         if not page_rows:
             break
         all_rows.extend(page_rows)
+        if want is not None and len(all_rows) >= want:
+            all_rows = all_rows[:want]
+            break
         if len(page_rows) < page_size:
             break
         if total_count and len(all_rows) >= total_count:
             break
         index += 1
+        time.sleep(0.2)
     if merged is None:
         merged = _ot_fetch_page(ensembl_id, page_size, 0)
         target = (merged.get("data") or {}).get("target") or {}
@@ -140,9 +148,67 @@ def fetch_open_targets(ensembl_id: str, *, size: int = 500) -> dict:
         total_count = int(assoc.get("count") or 0)
     merged.setdefault("data", {}).setdefault("target", {}).setdefault(
         "associatedDiseases", {}
-    )["rows"] = all_rows[:want]
+    )["rows"] = all_rows
     merged["data"]["target"]["associatedDiseases"]["count"] = total_count
     return merged
+
+
+def load_ot_associations(session, symbol: str, ot_payload: dict, *, top_n: int | None = None) -> tuple[int, int]:
+    """MERGE all associations in payload. top_n is ignored (kept for CLI compat)."""
+    rows = (
+        ot_payload.get("data", {})
+        .get("target", {})
+        .get("associatedDiseases", {})
+        .get("rows", [])
+    )
+    if not rows:
+        return 0, 0
+    rows_sorted = sorted(rows, key=lambda r: r.get("score", 0), reverse=True)
+    # ponytail: UNWIND batches beat per-row Aura round-trips
+    batch: list[dict] = []
+    for row in rows_sorted:
+        disease = row.get("disease", {}) or {}
+        mondo_id = disease.get("id") or ""
+        if not mondo_id:
+            continue
+        areas = disease.get("therapeuticAreas") or []
+        ds = {d["id"]: d["score"] for d in row.get("datasourceScores", [])}
+        batch.append(
+            {
+                "mondo_id": mondo_id,
+                "name": disease.get("name", ""),
+                "therapeutic_area": areas[0].get("name", "other") if areas else "other",
+                "score": row.get("score", 0),
+                "genetics_score": ds.get("eva", ds.get("gwas_catalog", 0)),
+                "expression_score": ds.get("expression_atlas", 0),
+                "literature_score": ds.get("europepmc", ds.get("uniprot_literature", 0)),
+            }
+        )
+    cypher = """
+    UNWIND $rows AS row
+    MERGE (d:Disease {mondo_id: row.mondo_id})
+    ON CREATE SET
+        d.name = row.name,
+        d.therapeutic_area = row.therapeutic_area,
+        d.ot_score = row.score,
+        d.source = 'OpenTargets'
+    ON MATCH SET
+        d.ot_score = CASE WHEN row.score > coalesce(d.ot_score, 0) THEN row.score ELSE d.ot_score END,
+        d.therapeutic_area = COALESCE(d.therapeutic_area, row.therapeutic_area)
+    WITH d, row
+    MATCH (g:Gene {symbol: $symbol})
+    MERGE (g)-[r:ASSOCIATED_WITH {source: 'OpenTargets'}]->(d)
+    ON CREATE SET
+        r.score = row.score,
+        r.genetics_score = row.genetics_score,
+        r.expression_score = row.expression_score,
+        r.literature_score = row.literature_score
+    ON MATCH SET r.score = row.score
+    """
+    chunk = 250
+    for i in range(0, len(batch), chunk):
+        session.run(cypher, rows=batch[i : i + chunk], symbol=symbol)
+    return len(batch), len(batch)
 
 
 def merge_gene_protein(session, target: dict[str, Any]) -> None:
@@ -172,78 +238,6 @@ def merge_gene_protein(session, target: dict[str, Any]) -> None:
         name=target.get("name", target["symbol"]),
         uniprot_id=target.get("uniprot_id"),
     )
-
-
-def load_ot_associations(session, symbol: str, ot_payload: dict, *, top_n: int = 200) -> tuple[int, int]:
-    rows = (
-        ot_payload.get("data", {})
-        .get("target", {})
-        .get("associatedDiseases", {})
-        .get("rows", [])
-    )
-    if not rows:
-        return 0, 0
-    rows_sorted = sorted(rows, key=lambda r: r.get("score", 0), reverse=True)
-    disease_cypher = """
-        MERGE (d:Disease {mondo_id: $mondo_id})
-        ON CREATE SET
-            d.name = $name,
-            d.therapeutic_area = $therapeutic_area,
-            d.ot_score = $score,
-            d.source = 'OpenTargets'
-        ON MATCH SET
-            d.ot_score = CASE WHEN $score > coalesce(d.ot_score, 0) THEN $score ELSE d.ot_score END,
-            d.therapeutic_area = COALESCE(d.therapeutic_area, $therapeutic_area)
-    """
-    assoc_cypher = """
-        MATCH (g:Gene {symbol: $symbol})
-        MATCH (d:Disease {mondo_id: $mondo_id})
-        MERGE (g)-[r:ASSOCIATED_WITH {source: 'OpenTargets'}]->(d)
-        ON CREATE SET
-            r.score = $score,
-            r.genetics_score = $genetics_score,
-            r.expression_score = $expression_score,
-            r.literature_score = $literature_score
-        ON MATCH SET
-            r.score = $score
-    """
-    # Upsert top disease nodes first, then all assoc edges in fetched page
-    for row in rows_sorted[:top_n]:
-        disease = row.get("disease", {})
-        areas = disease.get("therapeuticAreas") or []
-        session.run(
-            disease_cypher,
-            mondo_id=disease.get("id", ""),
-            name=disease.get("name", ""),
-            therapeutic_area=areas[0].get("name", "other") if areas else "other",
-            score=row.get("score", 0),
-        )
-    rels = 0
-    for row in rows_sorted:
-        disease = row.get("disease", {})
-        mondo_id = disease.get("id", "")
-        if not mondo_id:
-            continue
-        areas = disease.get("therapeuticAreas") or []
-        session.run(
-            disease_cypher,
-            mondo_id=mondo_id,
-            name=disease.get("name", ""),
-            therapeutic_area=areas[0].get("name", "other") if areas else "other",
-            score=row.get("score", 0),
-        )
-        ds = {d["id"]: d["score"] for d in row.get("datasourceScores", [])}
-        session.run(
-            assoc_cypher,
-            symbol=symbol,
-            mondo_id=mondo_id,
-            score=row.get("score", 0),
-            genetics_score=ds.get("eva", ds.get("gwas_catalog", 0)),
-            expression_score=ds.get("expression_atlas", 0),
-            literature_score=ds.get("europepmc", ds.get("uniprot_literature", 0)),
-        )
-        rels += 1
-    return min(top_n, len(rows_sorted)), rels
 
 
 def assert_target_slice_helpers() -> None:

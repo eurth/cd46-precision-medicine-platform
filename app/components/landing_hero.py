@@ -94,7 +94,9 @@ def render_start_here() -> None:
         st.markdown(
             '<div class="lp-start-card lp-start-ind">'
             '<div class="lp-start-title">Compare Targets</div>'
-            '<div class="lp-start-desc">All five genes side-by-side — lead every demo here.</div>'
+            '<div class="lp-start-desc">'
+            f'All {len(list_symbols())} registry targets side-by-side — active gene in the right rail.'
+            '</div>'
             "</div>",
             unsafe_allow_html=True,
         )

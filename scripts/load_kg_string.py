@@ -38,7 +38,7 @@ CALLER          = "cd46_platform"
 TAXON           = 9606          # Homo sapiens
 SEED_STRING_ID  = "9606.ENSP00000313875"   # CD46
 MIN_SCORE       = 0.70          # high-confidence (STRING stores 0-1 equiv.)
-EDGE_LIMIT      = 50            # top interactions per query
+EDGE_LIMIT      = 500           # STRING network API limit (fuller neighborhood)
 RAW_OUT         = Path("data/raw/apis/string_cd46.json")
 # ──────────────────────────────────────────────────────────────────────────────
 
@@ -129,44 +129,73 @@ RETURN type(r)
 
 
 def load_into_kg(driver, edges: list, annotations: dict) -> tuple[int, int]:
-    """Load Gene nodes + INTERACTS_WITH rels. Returns (genes_added, rels_added)."""
-    # Collect all unique gene symbols from edges
-    seen_symbols: dict[str, str] = {}  # symbol → string_id
+    """Load Gene nodes + INTERACTS_WITH rels (batched). Returns (genes_added, rels_added)."""
+    seen_symbols: dict[str, str] = {}
     for e in edges:
-        for sym_key, sid_key in [("preferredName_A", "stringId_A"),
-                                  ("preferredName_B", "stringId_B")]:
+        for sym_key, sid_key in [("preferredName_A", "stringId_A"), ("preferredName_B", "stringId_B")]:
             sym = e.get(sym_key, "")
             sid = e.get(sid_key, "")
             if sym and sym not in seen_symbols:
                 seen_symbols[sym] = sid
 
-    gene_count = rel_count = 0
+    gene_rows = [
+        {
+            "symbol": sym,
+            "string_id": sid,
+            "annotation": (annotations.get(sid, {}) or {}).get("annotation", "")[:500],
+        }
+        for sym, sid in seen_symbols.items()
+    ]
+    rel_rows = []
+    for e in edges:
+        sym_a = e.get("preferredName_A", "")
+        sym_b = e.get("preferredName_B", "")
+        if not sym_a or not sym_b:
+            continue
+        rel_rows.append(
+            {
+                "sym_a": sym_a,
+                "sym_b": sym_b,
+                "score": round(e.get("score", 0), 4),
+                "escore": round(e.get("escore", 0), 4),
+                "tscore": round(e.get("tscore", 0), 4),
+                "dscore": round(e.get("dscore", 0), 4),
+            }
+        )
+
     with driver.session() as session:
-        # Upsert Gene nodes
-        for sym, sid in seen_symbols.items():
-            ann = annotations.get(sid, {}).get("annotation", "")[:500]
-            session.run(GENE_MERGE_CYPHER,
-                        symbol=sym, string_id=sid, annotation=ann)
-            gene_count += 1
-
-        # Upsert INTERACTS_WITH relationships
-        for e in edges:
-            sym_a = e.get("preferredName_A", "")
-            sym_b = e.get("preferredName_B", "")
-            if not sym_a or not sym_b:
-                continue
+        for i in range(0, len(gene_rows), 200):
             session.run(
-                INTERACTS_CYPHER,
-                sym_a=sym_a,
-                sym_b=sym_b,
-                score=round(e.get("score", 0), 4),
-                escore=round(e.get("escore", 0), 4),
-                tscore=round(e.get("tscore", 0), 4),
-                dscore=round(e.get("dscore", 0), 4),
+                """
+                UNWIND $rows AS row
+                MERGE (g:Gene {symbol: row.symbol})
+                ON CREATE SET
+                    g.string_id = row.string_id,
+                    g.annotation = row.annotation,
+                    g.source = 'STRING DB CC BY 4.0',
+                    g.is_ppi_partner = true
+                ON MATCH SET
+                    g.string_id = COALESCE(g.string_id, row.string_id),
+                    g.annotation = COALESCE(g.annotation, row.annotation)
+                """,
+                rows=gene_rows[i : i + 200],
             )
-            rel_count += 1
+        for i in range(0, len(rel_rows), 200):
+            session.run(
+                """
+                UNWIND $rows AS row
+                MATCH (a:Gene {symbol: row.sym_a})
+                MATCH (b:Gene {symbol: row.sym_b})
+                MERGE (a)-[r:INTERACTS_WITH {source: 'STRING DB'}]->(b)
+                ON CREATE SET
+                    r.score = row.score, r.escore = row.escore,
+                    r.tscore = row.tscore, r.dscore = row.dscore
+                ON MATCH SET r.score = row.score
+                """,
+                rows=rel_rows[i : i + 200],
+            )
 
-    return gene_count, rel_count
+    return len(gene_rows), len(rel_rows)
 
 
 def main():

@@ -1,0 +1,8 @@
+{
+  "gene": "FOLR1",
+  "ensembl": "ENSG00000110195",
+  "rna_tissue_specificity": "Tissue enriched",
+  "rna_tissue_distribution": "Detected in many",
+  "rna_cancer_specificity": "Cancer enhanced",
+  "protein_class": "Disease related genes;FDA approved drug targets;Human disease related genes;Metabolic proteins;Predicted membrane proteins;Predicted secreted proteins;Transporters"
+}

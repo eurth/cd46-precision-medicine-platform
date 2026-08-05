@@ -16,7 +16,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 from components.theme import plotly_layout, apply_plotly_layout
-from components.targets import get_active_symbol, is_case_study, render_stub_gate
+from components.targets import get_active_symbol, get_target, render_stub_gate
 from components.ui_kit import page_header, section_tabs, research_table
 
 # Inject Streamlit Cloud secrets into os.environ
@@ -30,13 +30,15 @@ for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
 if render_stub_gate(module="Knowledge Graph"):
     st.stop()
 
-if not is_case_study():
-    _sym = get_active_symbol()
-    st.info(
-        f"**Honesty note:** curated KG dashboards and presets are still the **CD46 case study**. "
-        f"Active target is **{_sym}** (data tier medium: expression, survival, OT/STRING in Aura). "
-        f"Use free Cypher or **KG Query Explorer** for {_sym}; switch to CD46 for curated views."
-    )
+_GENE = get_active_symbol()
+_PREFIX = _GENE.lower()
+_TARGET = get_target(_GENE)
+_UNIPROT = str(_TARGET.get("uniprot_id") or "")
+_ENSEMBL = str(_TARGET.get("ensembl_id") or "")
+_GENE_NAME = str(_TARGET.get("name") or _GENE)
+_STRING_ENSP = str(_TARGET.get("string_ensp") or "")
+_HIGH = f"{_GENE}-High"
+_LOW = f"{_GENE}-Low"
 
 # ---------------------------------------------------------------------------
 # Theme constants
@@ -157,13 +159,17 @@ if _active_kg == _KG_TABS[0]:
     }
 
     NETWORK_SCENARIOS = {
-        "CD46 Gene — All Direct Connections": {
-            "description": "CD46 gene radiating to proteins, drugs, pathways, diseases, and publications.",
+        f"{_GENE} Gene — All Direct Connections": {
+            "description": (
+                f"{_GENE} gene radiating to proteins, drugs, pathways, diseases, and publications."
+            ),
             "two_hop":    False,
             "multi_edge": False,
         },
         "Disease — Patient Groups (75th pct)": {
-            "description": "Cancer types connected to CD46-High patient cohorts at 75th percentile threshold.",
+            "description": (
+                f"Cancer types connected to {_HIGH} patient cohorts at 75th percentile threshold."
+            ),
             "cypher": (
                 "MATCH (d:Disease)-[:HAS_PATIENT_GROUP]->(pg:PatientGroup) "
                 "WHERE pg.threshold_method = '75th_pct' RETURN d, pg LIMIT 40"
@@ -171,19 +177,23 @@ if _active_kg == _KG_TABS[0]:
             "two_hop":    False,
             "multi_edge": True,
         },
-        "Cell Lines — CD46 Dependency": {
-            "description": "Cancer cell lines where CRISPR knockout of CD46 reduces fitness.",
+        f"Cell Lines — {_GENE} Dependency": {
+            "description": (
+                f"Cancer cell lines where CRISPR knockout of {_GENE} reduces fitness."
+            ),
             "cypher": (
-                "MATCH (cl:CellLine)-[:DEPENDS_ON]->(g:Gene {symbol: 'CD46'}) "
+                f"MATCH (cl:CellLine)-[:DEPENDS_ON]->(g:Gene {{symbol: '{_GENE}'}}) "
                 "RETURN cl, g LIMIT 30"
             ),
             "two_hop":    False,
             "multi_edge": True,
         },
-        "Full CD46 Ecosystem (two-hop, 50 nodes)": {
-            "description": "Panoramic: genes, proteins, diseases, drugs, pathways all connected via CD46.",
+        f"Full {_GENE} Ecosystem (two-hop, 50 nodes)": {
+            "description": (
+                f"Panoramic: genes, proteins, diseases, drugs, pathways all connected via {_GENE}."
+            ),
             "cypher": (
-                "MATCH (g:Gene {symbol: 'CD46'})-[r1]->(a) "
+                f"MATCH (g:Gene {{symbol: '{_GENE}'}})-[r1]->(a) "
                 "OPTIONAL MATCH (a)-[r2]->(b) "
                 "RETURN g, type(r1) AS rel1, a, type(r2) AS rel2, b LIMIT 50"
             ),
@@ -219,17 +229,17 @@ if _active_kg == _KG_TABS[0]:
 
     if driver is None:
         st.markdown(
-            """
+            f"""
 **Knowledge graph relationship types:**
 
 | Relationship | Meaning |
 |---|---|
-| `EXPRESSED_IN` | CD46 mRNA/protein detected in this cancer/tissue |
-| `TARGETS` | Drug or antibody binds CD46 |
-| `PARTICIPATES_IN` | CD46 participates in this pathway (complement, immune evasion) |
+| `EXPRESSED_IN` | {_GENE} mRNA/protein detected in this cancer/tissue |
+| `TARGETS` | Drug or antibody binds {_GENE} |
+| `PARTICIPATES_IN` | {_GENE} participates in this pathway |
 | `INTERACTS_WITH` | Protein-protein interaction (STRING, score > 0.4) |
-| `HAS_PATIENT_GROUP` | Cancer type connected to CD46-High patient cohort |
-| `DEPENDS_ON` | Cell line fitness reduced by CD46 CRISPR knockout |
+| `HAS_PATIENT_GROUP` | Cancer type connected to {_HIGH} patient cohort |
+| `DEPENDS_ON` | Cell line fitness reduced by {_GENE} CRISPR knockout |
 | `HAS_EVIDENCE_FROM` | Claim sourced from this publication / trial |
 
 Each node carries full metadata as properties: expression values, p-values,
@@ -292,10 +302,10 @@ UniProt IDs, ClinicalTrials NCT numbers, DepMap scores.
                             net.add_edge(add_node(rec[keys[0]]), add_node(rec[keys[1]]), color="#475569")
                     else:
                         for rec in sess.run(
-                            "MATCH (g:Gene {symbol:'CD46'})-[r]->(n) "
+                            f"MATCH (g:Gene {{symbol:'{_GENE}'}})-[r]->(n) "
                             "RETURN g, type(r) AS rel_type, n, 'out' AS direction LIMIT 30 "
                             "UNION "
-                            "MATCH (n)-[r]->(g:Gene {symbol:'CD46'}) "
+                            f"MATCH (n)-[r]->(g:Gene {{symbol:'{_GENE}'}}) "
                             "RETURN g, type(r) AS rel_type, n, 'in' AS direction LIMIT 20"
                         ):
                             g  = rec["g"]
@@ -348,20 +358,20 @@ UniProt IDs, ClinicalTrials NCT numbers, DepMap scores.
 
     with sum_c2:
         st.markdown(
-            """
-**Node types in the CD46 knowledge graph:**
+            f"""
+**Node types in the {_GENE} knowledge graph:**
 
 | Type | Description |
 |---|---|
-| **Gene** | CD46 (MRC; Ensembl ENSG00000117335) |
-| **Protein** | STA-1, STA-2, LCA-1, LCA-2 isoforms (UniProt P15529) |
-| **Disease** | 24+ TCGA cancers with expression + survival stats |
-| **Drug** | CD46-targeting agents (225Ac-PSMA-CD46, mAbs, bispecifics) |
-| **ClinicalTrial** | 14 active trials from ClinicalTrials.gov |
-| **PatientGroup** | CD46-High/Low cohorts at median, 75th, 90th percentile |
-| **CellLine** | 1,186 DepMap cell lines with CRISPR + mRNA scores |
-| **Pathway** | Complement system, immune evasion, MAPK, PI3K-Akt |
-| **Publication** | 55 curated PubMed papers |
+| **Gene** | {_GENE} ({_GENE_NAME}; Ensembl {_ENSEMBL or "—"}) |
+| **Protein** | {_GENE} isoforms (UniProt {_UNIPROT or "—"}) |
+| **Disease** | TCGA cancers with expression + survival stats |
+| **Drug** | {_GENE}-targeting agents (mAbs, ligands, bispecifics) |
+| **ClinicalTrial** | Trials from ClinicalTrials.gov linked to {_GENE} |
+| **PatientGroup** | {_HIGH}/{_LOW} cohorts at median, 75th, 90th percentile |
+| **CellLine** | DepMap cell lines with CRISPR + mRNA scores |
+| **Pathway** | Pathways where {_GENE} participates |
+| **Publication** | Curated PubMed papers |
 | **Tissue** | HPA + GTEx tissue expression nodes |
 
 **Edge types:** EXPRESSED_IN · TARGETS · PARTICIPATES_IN · INTERACTS_WITH
@@ -404,113 +414,119 @@ elif _active_kg == _KG_TABS[1]:
 
     QUERY_GROUPS = {
         "Cancer Prioritisation": {
-            "Top cancers by CD46 priority score": (
-                "MATCH (d:Disease) WHERE d.priority_score IS NOT NULL "
+            f"Top cancers by {_GENE} expression": (
+                f"MATCH (g:Gene {{symbol: '{_GENE}'}})-[r:EXPRESSED_IN_CANCER]->(d:Disease) "
+                "WHERE r.median_tpm_log2 IS NOT NULL "
                 "RETURN d.tcga_code AS cancer, d.name AS name, "
-                "round(d.priority_score * 100) / 100 AS priority_score, "
-                "d.priority_label AS priority_label "
-                "ORDER BY d.priority_score DESC LIMIT 10",
-                "Ranks cancer types by composite CD46 therapeutic opportunity score.",
+                "round(r.median_tpm_log2 * 100) / 100 AS median_log2, "
+                "r.expression_rank AS rank "
+                "ORDER BY r.median_tpm_log2 DESC LIMIT 25",
+                f"Ranks cancer types by {_GENE} median log2 expression (gene-aware edge).",
             ),
-            "All cancers with CD46 expression levels": (
-                "MATCH (d:Disease) WHERE d.cd46_mean_tpm_log2 IS NOT NULL "
+            f"All cancers with {_GENE} expression levels": (
+                f"MATCH (g:Gene {{symbol: '{_GENE}'}})-[r:EXPRESSED_IN_CANCER]->(d:Disease) "
+                "WHERE r.median_tpm_log2 IS NOT NULL "
                 "RETURN d.tcga_code AS cancer, d.name AS name, "
-                "round(d.cd46_mean_tpm_log2 * 100) / 100 AS cd46_mean_log2, "
-                "d.cd46_expression_rank AS rank "
-                "ORDER BY d.cd46_mean_tpm_log2 DESC",
-                "All 25 cancer types with mean CD46 log2 expression.",
+                "round(r.median_tpm_log2 * 100) / 100 AS median_log2, "
+                "r.expression_rank AS rank "
+                "ORDER BY r.median_tpm_log2 DESC",
+                f"Cancer types with mean/median {_GENE} log2 expression.",
             ),
-            "Survival impact by cancer type": (
-                "MATCH (d:Disease) WHERE d.cd46_survival_hr IS NOT NULL "
+            f"Survival impact by cancer type": (
+                "MATCH (d:Disease)-[:HAS_SURVIVAL_RESULT]->(sr:SurvivalResult) "
+                f"WHERE sr.gene_symbol = '{_GENE}' AND sr.hazard_ratio IS NOT NULL "
                 "RETURN d.tcga_code AS cancer, "
-                "round(d.cd46_survival_hr * 100) / 100 AS hazard_ratio, "
-                "round(d.cd46_survival_pval * 1000) / 1000 AS p_value "
-                "ORDER BY d.cd46_survival_hr DESC",
-                "Cox hazard ratio for CD46-High vs CD46-Low across cancer types.",
+                "round(sr.hazard_ratio * 100) / 100 AS hazard_ratio, "
+                "round(sr.p_value * 1000) / 1000 AS p_value "
+                "ORDER BY sr.hazard_ratio DESC",
+                f"Cox hazard ratio for {_HIGH} vs {_LOW} across cancer types.",
             ),
         },
         "Drug Targets": {
-            "CD46-targeting drugs": (
-                "MATCH (dr:Drug)-[:TARGETS]->(g:Gene {symbol: 'CD46'}) "
+            f"{_GENE}-targeting drugs": (
+                f"MATCH (dr:Drug)-[:TARGETS]->(g:Gene {{symbol: '{_GENE}'}}) "
                 "RETURN dr.name AS drug, dr.drug_type AS modality, "
                 "dr.clinical_stage AS stage, dr.mechanism AS mechanism, dr.isotope AS isotope",
-                "All therapeutic agents in the knowledge graph targeting CD46.",
+                f"All therapeutic agents in the knowledge graph targeting {_GENE}.",
             ),
             "Drug mechanisms of action": (
-                "MATCH (dr:Drug)-[:TARGETS]->(g:Gene {symbol: 'CD46'}) "
+                f"MATCH (dr:Drug)-[:TARGETS]->(g:Gene {{symbol: '{_GENE}'}}) "
                 "RETURN dr.name AS drug, dr.mechanism AS mechanism, dr.developer AS developer",
-                "Detailed mechanism and developer for each CD46-targeting therapy.",
+                f"Detailed mechanism and developer for each {_GENE}-targeting therapy.",
             ),
-            "CD46 gene and its pathways": (
-                "MATCH (g:Gene {symbol: 'CD46'})-[:PARTICIPATES_IN]->(pw:Pathway) "
+            f"{_GENE} gene and its pathways": (
+                f"MATCH (g:Gene {{symbol: '{_GENE}'}})-[:PARTICIPATES_IN]->(pw:Pathway) "
                 "RETURN g.symbol AS gene, pw.name AS pathway, pw.category AS category, "
                 "pw.reactome_id AS reactome_id",
-                "Biological pathways where CD46 participates.",
+                f"Biological pathways where {_GENE} participates.",
             ),
         },
         "Patient Cohorts": {
             "PRAD patient eligibility by threshold": (
                 "MATCH (d:Disease {tcga_code: 'PRAD'})-[:HAS_PATIENT_GROUP]->(pg:PatientGroup) "
-                "RETURN pg.threshold_method AS threshold, pg.expression_group AS cd46_group, "
+                "RETURN pg.threshold_method AS threshold, pg.expression_group AS expression_group, "
                 "pg.n_patients AS n_patients ORDER BY pg.expression_group",
-                "CD46-High patient counts in PRAD at each expression threshold.",
+                f"{_HIGH} patient counts in PRAD at each expression threshold.",
             ),
-            "Top 10 diseases by eligible patients (75th pct)": (
+            f"Top 10 diseases by eligible patients (75th pct)": (
                 "MATCH (d:Disease)-[:HAS_PATIENT_GROUP]->(pg:PatientGroup) "
-                "WHERE pg.threshold_method = '75th_pct' AND pg.expression_group = 'CD46-High' "
-                "RETURN d.tcga_code AS cancer, d.name AS name, pg.n_patients AS cd46_high_patients "
+                f"WHERE pg.threshold_method = '75th_pct' AND pg.expression_group = '{_HIGH}' "
+                "RETURN d.tcga_code AS cancer, d.name AS name, pg.n_patients AS high_patients "
                 "ORDER BY pg.n_patients DESC LIMIT 10",
-                "Diseases with most CD46-High patients at the 75th percentile threshold.",
+                f"Diseases with most {_HIGH} patients at the 75th percentile threshold.",
             ),
             "All patient groups — median split": (
                 "MATCH (pg:PatientGroup) WHERE pg.threshold_method = 'median' "
-                "AND pg.expression_group = 'CD46-High' "
+                f"AND pg.expression_group = '{_HIGH}' "
                 "RETURN pg.cancer_type AS cancer, pg.n_patients AS eligible "
                 "ORDER BY pg.n_patients DESC",
-                "CD46-High patient counts across all cancers using median split.",
+                f"{_HIGH} patient counts across all cancers using median split.",
             ),
         },
         "Biology and Tissue": {
-            "Tumour tissues with CD46 protein": (
-                "MATCH (p:Protein)-[e:EXPRESSED_IN]->(t:Tissue) WHERE t.type = 'tumor' "
+            f"Tumour tissues with {_GENE} protein": (
+                f"MATCH (p:Protein {{symbol: '{_GENE}'}})-[e:EXPRESSED_IN]->(t:Tissue) "
+                "WHERE t.type = 'tumor' "
                 "RETURN t.name AS tissue, p.symbol AS protein, p.isoform AS isoform "
                 "ORDER BY t.name",
-                "Tumour tissue types where CD46 protein is expressed (HPA).",
+                f"Tumour tissue types where {_GENE} protein is expressed (HPA).",
             ),
-            "Normal tissues expressing CD46": (
-                "MATCH (p:Protein)-[e:EXPRESSED_IN]->(t:Tissue) WHERE t.type = 'normal' "
+            f"Normal tissues expressing {_GENE}": (
+                f"MATCH (p:Protein {{symbol: '{_GENE}'}})-[e:EXPRESSED_IN]->(t:Tissue) "
+                "WHERE t.type = 'normal' "
                 "RETURN t.name AS tissue, p.symbol AS protein, p.isoform AS isoform "
                 "ORDER BY t.name",
                 "Normal tissue distribution — key for therapeutic window assessment.",
             ),
-            "CD46 protein isoforms": (
-                "MATCH (g:Gene {symbol: 'CD46'})-[:ENCODES]->(p:Protein) "
+            f"{_GENE} protein isoforms": (
+                f"MATCH (g:Gene {{symbol: '{_GENE}'}})-[:ENCODES]->(p:Protein) "
                 "RETURN g.symbol AS gene, p.uniprot_id AS uniprot_id, p.isoform AS isoform, "
                 "p.molecular_weight_kda AS mol_weight_kDa, p.surface_expressed AS surface_expressed",
-                "CD46 isoforms STA-1, STA-2, LCA-1, LCA-2 and their properties.",
+                f"{_GENE} protein isoforms and their properties.",
             ),
         },
         "Cell Lines and Dependency": {
-            "Cell lines where CD46 is a dependency": (
-                "MATCH (cl:CellLine)-[:DEPENDS_ON]->(g:Gene {symbol: 'CD46'}) "
+            f"Cell lines where {_GENE} is a dependency": (
+                f"MATCH (cl:CellLine)-[r:DEPENDS_ON]->(g:Gene {{symbol: '{_GENE}'}}) "
                 "RETURN cl.name AS cell_line, cl.cancer_type AS cancer, "
-                "round(cl.cd46_crispr_score * 1000) / 1000 AS crispr_score "
-                "ORDER BY cl.cd46_crispr_score ASC LIMIT 20",
-                "Cancer cell lines where CD46 CRISPR knockout reduces fitness.",
+                "round(r.crispr_score * 1000) / 1000 AS crispr_score "
+                "ORDER BY r.crispr_score ASC LIMIT 20",
+                f"Cancer cell lines where {_GENE} CRISPR knockout reduces fitness.",
             ),
-            "High CD46 expression cell lines": (
-                "MATCH (cl:CellLine) WHERE cl.cd46_expression_tpm > 0 "
+            f"Strongest {_GENE} DepMap dependencies": (
+                f"MATCH (cl:CellLine)-[r:DEPENDS_ON]->(g:Gene {{symbol: '{_GENE}'}}) "
+                "WHERE r.crispr_score IS NOT NULL "
                 "RETURN cl.name AS cell_line, cl.cancer_type AS cancer, "
-                "round(cl.cd46_expression_tpm * 100) / 100 AS cd46_tpm, "
-                "cl.cd46_is_dependency AS is_dependency "
-                "ORDER BY cl.cd46_expression_tpm DESC LIMIT 20",
-                "Cell lines ranked by CD46 mRNA expression level.",
+                "round(r.crispr_score * 1000) / 1000 AS crispr_score "
+                "ORDER BY r.crispr_score ASC LIMIT 20",
+                f"Cell lines ranked by {_GENE} CRISPR dependency score.",
             ),
             "PRAD-specific cell lines": (
-                "MATCH (cl:CellLine) WHERE cl.cancer_type = 'Prostate Cancer' "
+                f"MATCH (cl:CellLine)-[r:DEPENDS_ON]->(g:Gene {{symbol: '{_GENE}'}}) "
+                "WHERE cl.cancer_type = 'Prostate Cancer' "
                 "RETURN cl.name AS cell_line, cl.cancer_type AS cancer, "
-                "cl.cd46_expression_tpm AS cd46_tpm, cl.cd46_is_dependency AS is_dependency",
-                "Prostate cancer cell lines with CD46 expression and essentiality data.",
+                "round(r.crispr_score * 1000) / 1000 AS crispr_score",
+                f"Prostate cancer cell lines with {_GENE} essentiality data.",
             ),
         },
         "Custom Query": {},
@@ -522,13 +538,13 @@ elif _active_kg == _KG_TABS[1]:
             if group_name == "Custom Query":
                 st.markdown("Write any read-only MATCH Cypher query below.")
                 st.code(
-                    "MATCH (g:Gene {symbol:'CD46'})-[r]-(t) "
+                    f"MATCH (g:Gene {{symbol:'{_GENE}'}})-[r]-(t) "
                     "RETURN type(r), count(t) ORDER BY count(t) DESC",
                     language="cypher",
                 )
                 custom_q = st.text_area(
                     "Your Cypher query",
-                    value="MATCH (g:Gene) RETURN g.symbol, g.ensembl_id LIMIT 5",
+                    value=f"MATCH (g:Gene {{symbol: '{_GENE}'}}) RETURN g.symbol, g.ensembl_id LIMIT 5",
                     height=120,
                     key="custom_cypher",
                 )
@@ -563,16 +579,16 @@ elif _active_kg == _KG_TABS[2]:
     _DATA_ROOT = Path(__file__).resolve().parents[2] / "data" / "raw"
 
     @st.cache_data(ttl=3_600, show_spinner=False)
-    def _load_uniprot() -> dict:
-        p = _DATA_ROOT / "apis" / "uniprot_cd46.json"
+    def _load_uniprot(prefix: str) -> dict:
+        p = _DATA_ROOT / "apis" / f"uniprot_{prefix}.json"
         if p.exists():
             with open(p, encoding="utf-8") as f:
                 return json.load(f)
         return {}
 
     @st.cache_data(ttl=3_600, show_spinner=False)
-    def _load_open_targets() -> list:
-        p = _DATA_ROOT / "apis" / "open_targets_cd46.json"
+    def _load_open_targets(prefix: str) -> list:
+        p = _DATA_ROOT / "apis" / f"open_targets_{prefix}.json"
         if p.exists():
             with open(p, encoding="utf-8") as f:
                 d = json.load(f)
@@ -586,10 +602,15 @@ elif _active_kg == _KG_TABS[2]:
         return []
 
     @st.cache_data(ttl=86_400, show_spinner=False)
-    def _fetch_alphafold() -> dict:
+    def _fetch_alphafold(uniprot_id: str) -> dict:
+        if not uniprot_id:
+            return {}
         try:
             import requests as _req
-            r = _req.get("https://alphafold.ebi.ac.uk/api/prediction/P15529", timeout=12)
+            r = _req.get(
+                f"https://alphafold.ebi.ac.uk/api/prediction/{uniprot_id}",
+                timeout=12,
+            )
             if r.status_code == 200:
                 data = r.json()
                 return data[0] if data else {}
@@ -598,16 +619,16 @@ elif _active_kg == _KG_TABS[2]:
         return {}
 
     @st.cache_data(ttl=86_400, show_spinner=False)
-    def _fetch_string() -> list:
+    def _fetch_string(symbol: str) -> list:
         try:
             import requests as _req
             resp = _req.get(
                 "https://string-db.org/api/json/interaction_partners",
                 params={
-                    "identifiers": "CD46",
+                    "identifiers": symbol,
                     "species": 9606,
                     "limit": 25,
-                    "caller_identity": "cd46_precision_medicine_platform",
+                    "caller_identity": "oncobridge_precision_medicine_platform",
                 },
                 timeout=15,
             )
@@ -617,19 +638,20 @@ elif _active_kg == _KG_TABS[2]:
             pass
         return []
 
-    uni     = _load_uniprot()
-    ot_rows = _load_open_targets()
+    uni     = _load_uniprot(_PREFIX)
+    ot_rows = _load_open_targets(_PREFIX)
 
     # ------------------------------------------------------------------
     with af_sub:
+        _upid_badge = f"UniProt {_UNIPROT} · Homo sapiens" if _UNIPROT else "Homo sapiens"
         st.markdown(
-            "<div style='background:#1e293b;border-left:3px solid #38bdf8;"
-            "padding:14px 18px;border-radius:8px;margin-bottom:18px;'>"
-            "<span style='font-size:1.1em;font-weight:700;color:#2563EB;'>"
-            "CD46 — Membrane Cofactor Protein (MCP)</span>"
-            "&nbsp;&nbsp;<span style='background:#EEF2F7;color:#64748B;"
-            "font-size:0.78em;padding:2px 9px;border-radius:12px;'>"
-            "UniProt P15529 · Homo sapiens</span></div>",
+            f"<div style='background:#1e293b;border-left:3px solid #38bdf8;"
+            f"padding:14px 18px;border-radius:8px;margin-bottom:18px;'>"
+            f"<span style='font-size:1.1em;font-weight:700;color:#2563EB;'>"
+            f"{_GENE} — {_GENE_NAME}</span>"
+            f"&nbsp;&nbsp;<span style='background:#EEF2F7;color:#64748B;"
+            f"font-size:0.78em;padding:2px 9px;border-radius:12px;'>"
+            f"{_upid_badge}</span></div>",
             unsafe_allow_html=True,
         )
 
@@ -638,8 +660,9 @@ elif _active_kg == _KG_TABS[2]:
             (c["texts"][0]["value"] for c in comments
              if c.get("commentType") == "FUNCTION" and c.get("texts")), ""
         )
-        annot_score  = uni.get("annotationScore", 5.0)
-        seq_len      = uni.get("sequence", {}).get("length", 392)
+        annot_score  = uni.get("annotationScore", None)
+        seq_len      = uni.get("sequence", {}).get("length", None)
+        mol_weight   = uni.get("sequence", {}).get("molWeight")
         features     = uni.get("features", [])
         nat_variants = [f for f in features if f.get("type") == "Natural variant"]
         alt_products = next(
@@ -651,9 +674,12 @@ elif _active_kg == _KG_TABS[2]:
         )
 
         pc1, pc2, pc3, pc4 = st.columns(4)
-        pc1.metric("Sequence Length",  f"{seq_len} aa")
-        pc2.metric("Apparent MW",      "56-66 kDa")
-        pc3.metric("UniProt Score",    f"{annot_score:.0f}/5")
+        pc1.metric("Sequence Length", f"{seq_len} aa" if seq_len else "—")
+        if mol_weight:
+            pc2.metric("MW (UniProt)", f"{mol_weight / 1000:.1f} kDa")
+        else:
+            pc2.metric("MW (UniProt)", "—")
+        pc3.metric("UniProt Score", f"{annot_score:.0f}/5" if annot_score is not None else "—")
         pc4.metric("Natural Variants", len(nat_variants))
 
         if func_text:
@@ -665,39 +691,63 @@ elif _active_kg == _KG_TABS[2]:
             )
 
         st.markdown("#### Protein Domain Architecture")
-        DOMAIN_SEGMENTS = [
-            ("Signal peptide",      1,   34, "#64748b"),
-            ("SCR / Sushi 1",      35,   96, "#3b82f6"),
-            ("SCR / Sushi 2",      97,  159, "#6366f1"),
-            ("SCR / Sushi 3",     160,  225, "#8b5cf6"),
-            ("SCR / Sushi 4",     226,  285, "#a855f7"),
-            ("STP-rich O-glycan", 286,  343, "#ec4899"),
-            ("Transmembrane",     344,  366, "#f59e0b"),
-            ("Cytoplasmic tail",  367,  392, "#10b981"),
+        # Build domain bar from UniProt features (no hard-coded gene biology).
+        _DOMAIN_TYPES = {
+            "Signal", "Signal peptide", "Domain", "Transmembrane",
+            "Topological domain", "Region", "Repeat",
+        }
+        _DOMAIN_COLORS = [
+            "#64748b", "#3b82f6", "#6366f1", "#8b5cf6",
+            "#a855f7", "#ec4899", "#f59e0b", "#10b981",
         ]
-        dom_fig = go.Figure()
-        for dname, dstart, dend, dcolor in DOMAIN_SEGMENTS:
-            dom_fig.add_trace(go.Bar(
-                x=[dend - dstart + 1], y=["CD46"], base=[dstart - 1],
-                orientation="h", marker_color=dcolor, name=dname,
-                hovertemplate=(
-                    f"<b>{dname}</b><br>"
-                    f"Residues {dstart}-{dend}<br>"
-                    f"Length: {dend - dstart + 1} aa<extra></extra>"
+        DOMAIN_SEGMENTS = []
+        for feat in features:
+            if feat.get("type") not in _DOMAIN_TYPES:
+                continue
+            loc = feat.get("location", {})
+            dstart = loc.get("start", {}).get("value")
+            dend = loc.get("end", {}).get("value")
+            if not isinstance(dstart, int) or not isinstance(dend, int):
+                continue
+            dname = feat.get("description") or feat.get("type") or "Region"
+            DOMAIN_SEGMENTS.append((str(dname)[:28], dstart, dend))
+            if len(DOMAIN_SEGMENTS) >= 12:
+                break
+
+        if DOMAIN_SEGMENTS:
+            _bar_len = seq_len or max(d[2] for d in DOMAIN_SEGMENTS)
+            dom_fig = go.Figure()
+            for i, (dname, dstart, dend) in enumerate(DOMAIN_SEGMENTS):
+                dcolor = _DOMAIN_COLORS[i % len(_DOMAIN_COLORS)]
+                dom_fig.add_trace(go.Bar(
+                    x=[dend - dstart + 1], y=[_GENE], base=[dstart - 1],
+                    orientation="h", marker_color=dcolor, name=dname,
+                    hovertemplate=(
+                        f"<b>{dname}</b><br>"
+                        f"Residues {dstart}-{dend}<br>"
+                        f"Length: {dend - dstart + 1} aa<extra></extra>"
+                    ),
+                ))
+            dom_fig.update_layout(
+                barmode="overlay", height=120,
+                margin=dict(l=0, r=0, t=10, b=30),
+                paper_bgcolor="#FFFFFF", plot_bgcolor="#EEF2F7",
+                xaxis=dict(
+                    title="Residue position", color=_TEXT, gridcolor=_LINE,
+                    range=[0, _bar_len + 5],
                 ),
-            ))
-        dom_fig.update_layout(
-            barmode="stack", height=120,
-            margin=dict(l=0, r=0, t=10, b=30),
-            paper_bgcolor="#FFFFFF", plot_bgcolor="#EEF2F7",
-            xaxis=dict(title="Residue position", color=_TEXT, gridcolor=_LINE, range=[0, seq_len + 5]),
-            yaxis=dict(showticklabels=False, showgrid=False),
-            legend=dict(
-                orientation="h", y=-0.7, x=0,
-                font=dict(size=10, color=_TEXT), bgcolor="rgba(0,0,0,0)",
-            ),
-        )
-        st.plotly_chart(dom_fig, use_container_width=True)
+                yaxis=dict(showticklabels=False, showgrid=False),
+                legend=dict(
+                    orientation="h", y=-0.7, x=0,
+                    font=dict(size=10, color=_TEXT), bgcolor="rgba(0,0,0,0)",
+                ),
+            )
+            st.plotly_chart(dom_fig, use_container_width=True)
+        else:
+            st.info(
+                f"No UniProt domain features loaded for **{_GENE}** — "
+                f"check `data/raw/apis/uniprot_{_PREFIX}.json`."
+            )
 
         st.markdown("#### Natural Variants")
         if nat_variants:
@@ -723,7 +773,7 @@ elif _active_kg == _KG_TABS[2]:
                 })
             research_table(pd.DataFrame(var_rows).sort_values("Position"), use_container_width=True, hide_index=True)
         else:
-            st.info("Natural variant data not available — check data/raw/apis/uniprot_cd46.json")
+            st.info(f"Natural variant data not available — check data/raw/apis/uniprot_{_PREFIX}.json")
 
         st.markdown("#### Protein Isoforms")
         if isoform_note:
@@ -741,7 +791,7 @@ elif _active_kg == _KG_TABS[2]:
                 })
             research_table(pd.DataFrame(iso_rows), use_container_width=True, hide_index=True)
         else:
-            st.info("Isoform data not available — check data/raw/apis/uniprot_cd46.json")
+            st.info(f"Isoform data not available — check data/raw/apis/uniprot_{_PREFIX}.json")
 
         st.markdown("#### Disease Associations (Open Targets — top 25)")
         if ot_rows:
@@ -776,16 +826,18 @@ elif _active_kg == _KG_TABS[2]:
             )
             st.plotly_chart(ot_fig, use_container_width=True)
             st.caption(
-                "Open Targets Platform: 772 total associations. "
+                f"Open Targets Platform associations for {_GENE}. "
                 "Colors: red=hematologic, orange=genetic, yellow=immune, "
                 "green=cancer, purple=infectious, cyan=nervous system. Score 0-1."
             )
         else:
-            st.info("Open Targets data not available — check data/raw/apis/open_targets_cd46.json")
+            st.info(
+                f"Open Targets data not available — check data/raw/apis/open_targets_{_PREFIX}.json"
+            )
 
         st.markdown("#### AlphaFold Structural Confidence (pLDDT)")
         with st.spinner("Loading AlphaFold pLDDT..."):
-            af    = _fetch_alphafold()
+            af = _fetch_alphafold(_UNIPROT)
         plddt = af.get("plddt") if af else None
 
         if isinstance(plddt, list) and len(plddt) > 0:
@@ -812,35 +864,40 @@ elif _active_kg == _KG_TABS[2]:
             st.plotly_chart(plddt_fig, use_container_width=True)
             st.caption("Blue >90 (very high) | Green 70-90 (high) | Yellow 50-70 (low) | Red <50 (very low)")
         else:
-            st.info("pLDDT data unavailable (AlphaFold EBI API timeout). SCR domains 1-4 typically score >85.")
+            st.info(
+                f"pLDDT data unavailable for UniProt `{_UNIPROT or '—'}` "
+                "(AlphaFold EBI API timeout or missing accession)."
+            )
 
         st.markdown("#### Interactive 3D Structure (AlphaFold DB)")
-        st.markdown(
-            "<iframe src='https://alphafold.ebi.ac.uk/entry/P15529' "
-            "width='100%' height='620px' "
-            "style='border:1px solid #334155;border-radius:8px;'></iframe>",
-            unsafe_allow_html=True,
-        )
-        st.link_button("Open Full AlphaFold Entry", "https://alphafold.ebi.ac.uk/entry/P15529")
+        if _UNIPROT:
+            st.markdown(
+                f"<iframe src='https://alphafold.ebi.ac.uk/entry/{_UNIPROT}' "
+                "width='100%' height='620px' "
+                "style='border:1px solid #334155;border-radius:8px;'></iframe>",
+                unsafe_allow_html=True,
+            )
+            st.link_button(
+                "Open Full AlphaFold Entry",
+                f"https://alphafold.ebi.ac.uk/entry/{_UNIPROT}",
+            )
+        else:
+            st.info(f"No UniProt accession configured for **{_GENE}** in targets.yaml.")
 
     # ------------------------------------------------------------------
     with str_sub:
         st.markdown(
-            "<div style='background:#1e293b;border-left:3px solid #818cf8;"
-            "padding:12px 16px;border-radius:6px;margin-bottom:14px;'>"
-            "<b style='color:#818cf8;'>CD46 Protein Interaction Network — STRING DB</b><br>"
-            "<span style='color:#64748B;'>Homo sapiens (taxid: 9606) · "
-            "Combined score > 400 · Physical + functional interactions</span>"
-            "</div>",
+            f"<div style='background:#1e293b;border-left:3px solid #818cf8;"
+            f"padding:12px 16px;border-radius:6px;margin-bottom:14px;'>"
+            f"<b style='color:#818cf8;'>{_GENE} Protein Interaction Network — STRING DB</b><br>"
+            f"<span style='color:#64748B;'>Homo sapiens (taxid: 9606) · "
+            f"Combined score > 400 · Physical + functional interactions</span>"
+            f"</div>",
             unsafe_allow_html=True,
         )
 
         with st.spinner("Loading STRING interaction data..."):
-            string_data = _fetch_string()
-
-        COMPLEMENT_GENES = {
-            "CD55", "CD59", "CR2", "C3", "C4A", "C4B", "C1QA", "CFH", "MCP", "CR1"
-        }
+            string_data = _fetch_string(_GENE)
 
         if string_data:
             st.success(f"{len(string_data)} interaction partners loaded (STRING DB)")
@@ -858,9 +915,6 @@ elif _active_kg == _KG_TABS[2]:
                      .replace("tscore", "Text-mining")
                     for c in avail
                 ]
-                df_show["Complement?"] = df_show["Partner"].apply(
-                    lambda x: "YES" if x in COMPLEMENT_GENES else ""
-                )
                 research_table(
                     df_show.sort_values("Combined", ascending=False).head(25),
                     use_container_width=True, hide_index=True,
@@ -870,7 +924,7 @@ elif _active_kg == _KG_TABS[2]:
                 pnames        = [r.get("preferredName_B", "") for r in interactions]
                 pscores       = [r.get("score", 0) / 1000 for r in interactions]
                 n             = len(pnames)
-                angles        = [2 * math.pi * i / n for i in range(n)]
+                angles        = [2 * math.pi * i / n for i in range(n)] if n else []
                 cx            = [math.cos(a) for a in angles]
                 cy            = [math.sin(a) for a in angles]
                 edge_x, edge_y = [], []
@@ -887,17 +941,14 @@ elif _active_kg == _KG_TABS[2]:
                     x=[0] + cx, y=[0] + cy, mode="markers+text",
                     marker=dict(
                         size=[28] + [12 + int(s * 10) for s in pscores],
-                        color=["#38bdf8"] + [
-                            "#f87171" if p in COMPLEMENT_GENES else "#818cf8"
-                            for p in pnames
-                        ],
+                        color=["#38bdf8"] + ["#818cf8"] * n,
                         line=dict(width=1, color="#E2E8F0"),
                     ),
-                    text=["CD46"] + pnames,
+                    text=[_GENE] + pnames,
                     textposition="top center",
                     textfont=dict(size=9, color="#64748B"),
                     hovertext=[
-                        "CD46 hub node" if i == 0
+                        f"{_GENE} hub node" if i == 0
                         else f"{pnames[i-1]}<br>Score: {pscores[i-1]:.3f}"
                         for i in range(n + 1)
                     ],
@@ -909,37 +960,38 @@ elif _active_kg == _KG_TABS[2]:
                     xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
                     yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
                     title=dict(
-                        text="CD46 Protein Interaction Network (STRING)",
+                        text=f"{_GENE} Protein Interaction Network (STRING)",
                         font=dict(color="#64748B", size=13),
                     ),
                 )
                 st.plotly_chart(fig_str, use_container_width=True)
-                st.caption("Red = Complement pathway partners | Cyan = CD46 hub | Purple = Other interactions")
+                st.caption(f"Cyan = {_GENE} hub | Purple = interaction partners")
         else:
             st.info(
-                "STRING data unavailable (API timeout). "
-                "Known key interactions: CD55, CD59, C3b/C4b cofactors, CR1."
+                f"STRING data unavailable for **{_GENE}** (API timeout or no partners)."
             )
 
         st.info(
-            "CD46 physically interacts with complement proteins C3b and C4b, "
-            "cofactoring with Factor I for their cleavage — the core complement regulatory mechanism. "
-            "CD46 also serves as the measles virus H protein receptor (therapeutic vulnerability). "
-            "STRING combined score > 0.7 = high-confidence interaction."
+            f"STRING maps physical and functional partners of **{_GENE}**. "
+            "Combined score > 0.7 = high-confidence interaction. "
+            "Use partners to frame pathway context and combination hypotheses."
         )
-        st.link_button(
-            "Open CD46 in STRING", "https://string-db.org/network/9606.ENSP00000317276"
+        _string_url = (
+            f"https://string-db.org/network/{_STRING_ENSP}"
+            if _STRING_ENSP
+            else f"https://string-db.org/cgi/network?identifiers={_GENE}&species=9606"
         )
+        st.link_button(f"Open {_GENE} in STRING", _string_url)
 
     # ------------------------------------------------------------------
     with pub_sub:
         st.markdown(
-            "<div style='background:#1e293b;border-left:3px solid #4ade80;"
-            "padding:12px 16px;border-radius:6px;margin-bottom:14px;'>"
-            "<b style='color:#4ade80;'>Curated CD46 Evidence Base</b><br>"
-            "<span style='color:#64748B;'>Peer-reviewed publications from AuraDB "
-            "knowledge graph — foundational papers for 225Ac-CD46 program</span>"
-            "</div>",
+            f"<div style='background:#1e293b;border-left:3px solid #4ade80;"
+            f"padding:12px 16px;border-radius:6px;margin-bottom:14px;'>"
+            f"<b style='color:#4ade80;'>Curated {_GENE} Evidence Base</b><br>"
+            f"<span style='color:#64748B;'>Peer-reviewed publications from AuraDB "
+            f"knowledge graph — foundational papers for {_GENE} programmes</span>"
+            f"</div>",
             unsafe_allow_html=True,
         )
 
@@ -947,12 +999,21 @@ elif _active_kg == _KG_TABS[2]:
         if driver is not None:
             try:
                 with driver.session() as sess:
+                    # Prefer publications linked to the active gene; fall back to all.
                     pub_records = [
                         dict(rec["pub"])
                         for rec in sess.run(
-                            "MATCH (pub:Publication) RETURN pub ORDER BY pub.year DESC"
+                            f"MATCH (pub:Publication)-[:SUPPORTS]->(g:Gene {{symbol: '{_GENE}'}}) "
+                            "RETURN pub ORDER BY pub.year DESC"
                         )
                     ]
+                    if not pub_records:
+                        pub_records = [
+                            dict(rec["pub"])
+                            for rec in sess.run(
+                                "MATCH (pub:Publication) RETURN pub ORDER BY pub.year DESC"
+                            )
+                        ]
             except Exception as e:
                 st.warning(f"Could not load publications from KG: {e}")
 

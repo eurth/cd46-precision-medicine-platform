@@ -1,14 +1,10 @@
 # Step 3c — UniProt + GTEx + DepMap + HPA protein intensity
 
-**Aura after Step 3c:** **6702 nodes**
+**Aura after Step 3c:** **100250 nodes**
 
 | Gene | Protein | Isoforms | Variants | GTEx | DepMap DEPENDS_ON | HPA protein | Nodes Δ |
 |------|---------|----------|----------|------|-------------------|-------------|---------|
-| CD46 | 1 | 10 | 13 | 52 | 30 | 1 | 0 |
-| FOLH1 | 1 | 8 | 4 | 52 | 50 | 5 | 0 |
-| FAP | 1 | 2 | 1 | 52 | 0 | 3 | 0 |
-| SSTR2 | 1 | 2 | 0 | 52 | 7 | 5 | 0 |
-| GRPR | 1 | 0 | 0 | 52 | 0 | 0 | 0 |
+| CD19 | 1 | 2 | 2 | 52 | 29 | 3 | 0 |
 
 ## Schema
 

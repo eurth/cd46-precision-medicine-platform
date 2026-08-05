@@ -1,6 +1,6 @@
 """Page 12 — Dosimetry & Safety Index
-CD46 expression in normal vs tumour tissues — the Phase I safety argument.
-Data: Human Protein Atlas (HPA) IHC H-scores · 225Ac dosimetry physics
+Gene-param normal vs tumour expression — Phase I safety framing.
+Data: Human Protein Atlas (HPA) · GTEx dosimetry slices · RLT physics context
 """
 import os
 import sys
@@ -11,10 +11,11 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
-from components.theme import plotly_layout, apply_plotly_layout
-from components.targets import get_active_symbol, render_stub_gate, render_case_study_gate
+from components.theme import apply_plotly_layout
+from components.targets import get_active_symbol, render_stub_gate
 from components.target_narratives import dosimetry_purpose
 from components.gene_data import load_gtex_dosimetry
+from components.ui_kit import page_header, research_table, section_tabs
 
 # ── Streamlit Cloud secret injection ─────────────────────────────────────────
 for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
@@ -25,8 +26,6 @@ for _k in ("NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD"):
         pass
 
 if render_stub_gate(module="Dosimetry & Safety Index"):
-    st.stop()
-if render_case_study_gate(module="Dosimetry & Safety Index"):
     st.stop()
 
 _GENE = get_active_symbol()
@@ -165,7 +164,7 @@ _gtex_dose = load_gtex_dosimetry(_GENE)
 
 page_header(
         icon="⚗️",
-        module_name="Dosimetry & Safety Index",
+        module_name=f"{_GENE} Dosimetry & Safety",
         purpose=dosimetry_purpose(_GENE),
         kpi_chips=[
             ("HPA Tissues", str(len(normal_df))),
@@ -177,177 +176,241 @@ page_header(
     )
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
-_DOSE_TABS = [
-    "Tumour vs Normal Overview",
-    "Therapeutic Index Ranking",
-    "Risk Tissue Monitor",
-    "mCRPC Safety Argument",
-    "Clinical Interpretation",
-]
+if _IS_CD46:
+    _DOSE_TABS = [
+        "Tumour vs Normal Overview",
+        "Therapeutic Index Ranking",
+        "Risk Tissue Monitor",
+        "mCRPC Safety Argument",
+        "Clinical Interpretation",
+    ]
+else:
+    _DOSE_TABS = [
+        "Tumour vs Normal Overview",
+        "Therapeutic Index Ranking",
+        "GTEx Safety Index",
+        "Risk Tissue Monitor",
+    ]
 _active_dose = section_tabs(_DOSE_TABS, key="dosimetry_tabs")
 
 # TAB 1 — Tumour vs Normal Overview
 if _active_dose == _DOSE_TABS[0]:
-    st.markdown("#### CD46 H-Score: Normal Tissue Landscape")
+    st.markdown(f"#### {_GENE} H-Score / Intensity: Normal Tissue Landscape")
     st.caption(
         "H-score = staining intensity (0–3) × fraction positive, max 300. "
-        "Higher = more CD46 protein. Source: Human Protein Atlas (CC BY-SA 4.0)."
+        f"Higher = more {_GENE} protein. Source: Human Protein Atlas (CC BY-SA 4.0)."
     )
+    if normal_df.empty:
+        st.info(f"No HPA normal-tissue rows for **{_GENE}**. See GTEx Safety Index tab when available.")
 
-    normal_sorted = normal_df.sort_values("h_normal", ascending=True)
-    bar_colors = [
-        _RED if h >= 250 else _AMBER if h >= 150 else _GREEN
-        for h in normal_sorted["h_normal"]
-    ]
+    if not normal_df.empty:
+        normal_sorted = normal_df.sort_values("h_normal", ascending=True)
+        bar_colors = [
+            _RED if h >= 250 else _AMBER if h >= 150 else _GREEN
+            for h in normal_sorted["h_normal"]
+        ]
 
-    fig_n = go.Figure(go.Bar(
-        y=normal_sorted["tissue"],
-        x=normal_sorted["h_normal"],
-        orientation="h",
-        marker=dict(color=bar_colors, line=dict(color="#D5DEE8", width=0.5)),
-        text=normal_sorted["staining_intensity"] if "staining_intensity" in normal_sorted.columns else None,
-        textposition="outside",
-        textfont=dict(size=9, color=_TEXT),
-        customdata=normal_sorted[["fraction_positive"]] if "fraction_positive" in normal_sorted.columns else None,
-        hovertemplate="<b>%{y}</b><br>H-score: %{x}<extra></extra>",
-    ))
-    fig_n.add_vline(
-        x=300, line=dict(color=_ORANGE, dash="dash", width=1.5),
-        annotation_text="mCRPC tumour maximum (300)",
-        annotation_position="top left",
-        annotation_font=dict(color=_ORANGE, size=10),
-    )
-    apply_plotly_layout(fig_n,
-        xaxis=dict(title="H-score (0–300)", gridcolor=_LINE, range=[0, 370], color=_TEXT),
-        yaxis=dict(title=None, color=_LIGHT, autorange=True),
-        height=580,
-        margin=dict(l=10, r=80, t=20, b=40),
-        hoverlabel=dict(bgcolor=_LINE, font=dict(color=_LIGHT)),
-    )
-    st.plotly_chart(fig_n, use_container_width=True)
-    st.caption("🔴 Red = HIGH (H≥250) · 🟡 Amber = MODERATE (H≥150) · 🟢 Green = LOW (<150)")
+        fig_n = go.Figure(go.Bar(
+            y=normal_sorted["tissue"],
+            x=normal_sorted["h_normal"],
+            orientation="h",
+            marker=dict(color=bar_colors, line=dict(color="#D5DEE8", width=0.5)),
+            text=normal_sorted["staining_intensity"] if "staining_intensity" in normal_sorted.columns else None,
+            textposition="outside",
+            textfont=dict(size=9, color=_TEXT),
+            customdata=normal_sorted[["fraction_positive"]] if "fraction_positive" in normal_sorted.columns else None,
+            hovertemplate="<b>%{y}</b><br>H-score: %{x}<extra></extra>",
+        ))
+        if _IS_CD46:
+            fig_n.add_vline(
+                x=300, line=dict(color=_ORANGE, dash="dash", width=1.5),
+                annotation_text="mCRPC tumour maximum (300)",
+                annotation_position="top left",
+                annotation_font=dict(color=_ORANGE, size=10),
+            )
+        apply_plotly_layout(fig_n,
+            xaxis=dict(title="H-score (0–300)", gridcolor=_LINE, range=[0, 370], color=_TEXT),
+            yaxis=dict(title=None, color=_LIGHT, autorange=True),
+            height=580,
+            margin=dict(l=10, r=80, t=20, b=40),
+            hoverlabel=dict(bgcolor=_LINE, font=dict(color=_LIGHT)),
+        )
+        st.plotly_chart(fig_n, use_container_width=True)
+        st.caption("🔴 Red = HIGH (H≥250) · 🟡 Amber = MODERATE (H≥150) · 🟢 Green = LOW (<150)")
 
-    st.warning(
-        "**High-expressing normal tissues (🔴 RED) require clinical monitoring** — "
-        "Kidney, Bone marrow, Lymph node, Spleen, and Tonsil all express CD46 at H≥250. "
-        "These represent physiological complement regulation on nucleated cells. "
-        "The 2–3 cell alpha range limits but does not eliminate on-target normal-tissue exposure."
-    )
+        hi = normal_sorted[normal_sorted["h_normal"] >= 250]["tissue"].tolist()
+        if hi:
+            st.warning(
+                f"**High-expressing normal tissues for {_GENE} (🔴 RED) require clinical monitoring** — "
+                f"{', '.join(hi)}. Short-range emitters limit but do not eliminate on-target normal-tissue exposure."
+            )
 
     st.markdown("---")
     c1, c2 = st.columns(2)
     with c1:
-        st.markdown("**225Ac Physics — Why Alpha Matters for Safety**")
-        physics_df = pd.DataFrame([
-            {"Parameter": "Particle type",            "225Ac": "Alpha (α)",         "177Lu (Pluvicto)": "Beta- (β⁻)"},
-            {"Parameter": "Particle energy",          "225Ac": "5.8 MeV",           "177Lu (Pluvicto)": "0.5 MeV"},
-            {"Parameter": "Tissue path length",       "225Ac": "40–100 µm",         "177Lu (Pluvicto)": "2–3 mm"},
-            {"Parameter": "Cell diameters reached",   "225Ac": "2–3 cells",         "177Lu (Pluvicto)": "100–200 cells"},
-            {"Parameter": "Linear energy transfer",   "225Ac": "~80 keV/µm",        "177Lu (Pluvicto)": "~0.2 keV/µm"},
-            {"Parameter": "DNA DSBs (relative)",      "225Ac": "20× more",          "177Lu (Pluvicto)": "Baseline"},
-            {"Parameter": "Half-life",                "225Ac": "9.9 days",          "177Lu (Pluvicto)": "6.65 days"},
-            {"Parameter": "Daughters per decay",      "225Ac": "4 alphas (cascade)","177Lu (Pluvicto)": "1 beta"},
-        ])
-        research_table(physics_df, use_container_width=True, hide_index=True)
+        if _IS_CD46:
+            st.markdown("**225Ac Physics — Why Alpha Matters for Safety**")
+            physics_df = pd.DataFrame([
+                {"Parameter": "Particle type",            "225Ac": "Alpha (α)",         "177Lu (Pluvicto)": "Beta- (β⁻)"},
+                {"Parameter": "Particle energy",          "225Ac": "5.8 MeV",           "177Lu (Pluvicto)": "0.5 MeV"},
+                {"Parameter": "Tissue path length",       "225Ac": "40–100 µm",         "177Lu (Pluvicto)": "2–3 mm"},
+                {"Parameter": "Cell diameters reached",   "225Ac": "2–3 cells",         "177Lu (Pluvicto)": "100–200 cells"},
+                {"Parameter": "Linear energy transfer",   "225Ac": "~80 keV/µm",        "177Lu (Pluvicto)": "~0.2 keV/µm"},
+                {"Parameter": "DNA DSBs (relative)",      "225Ac": "20× more",          "177Lu (Pluvicto)": "Baseline"},
+                {"Parameter": "Half-life",                "225Ac": "9.9 days",          "177Lu (Pluvicto)": "6.65 days"},
+                {"Parameter": "Daughters per decay",      "225Ac": "4 alphas (cascade)","177Lu (Pluvicto)": "1 beta"},
+            ])
+            research_table(physics_df, use_container_width=True, hide_index=True)
+        else:
+            st.markdown(f"**{_GENE} Safety Index — Data Sources**")
+            st.markdown(
+                f"- HPA protein slice: `{_hpa_src}`\n"
+                f"- GTEx dosimetry: `{_PREFIX}_gtex_dosimetry.csv` "
+                f"({'loaded' if not _gtex_dose.empty else 'missing'})\n"
+                f"- Therapeutic index = tumour ÷ normal expression proxy for **{_GENE}**."
+            )
+            if not _gtex_dose.empty:
+                research_table(_gtex_dose.head(20), use_container_width=True, hide_index=True)
     with c2:
-        st.markdown("**CD46 Tumour Expression — Key Cancers**")
-        tumour_disp = tumour_df.rename(columns={"tissue": "Tissue", "h_tumor": "Tumour H-score"})
-        if "tumour_type" in tumour_disp.columns:
-            tumour_disp = tumour_disp.rename(columns={"tumour_type": "Cancer Type"})
-        research_table(
-            tumour_disp.sort_values("Tumour H-score", ascending=False).reset_index(drop=True),
-            use_container_width=True, hide_index=True,
-        )
+        st.markdown(f"**{_GENE} Tumour Expression — Key Tissues**")
+        if tumour_df.empty:
+            st.info(f"No tumour HPA rows for {_GENE}.")
+        else:
+            tumour_disp = tumour_df.rename(columns={"tissue": "Tissue", "h_tumor": "Tumour H-score"})
+            if "tumour_type" in tumour_disp.columns:
+                tumour_disp = tumour_disp.rename(columns={"tumour_type": "Cancer Type"})
+            research_table(
+                tumour_disp.sort_values("Tumour H-score", ascending=False).reset_index(drop=True),
+                use_container_width=True, hide_index=True,
+            )
 
-    st.info(
-        "**Key insight:** Because alpha particles travel only 2–3 cell diameters, the absorbed dose "
-        "is almost entirely confined to CD46-expressing cells and their immediate neighbours. "
-        "Unlike beta emitters (2–3 mm range), nearby normal tissue at distance from a tumour cell "
-        "receives near-zero alpha dose — even when that normal tissue also expresses CD46."
-    )
+    if _IS_CD46:
+        st.info(
+            "**Key insight:** Because alpha particles travel only 2–3 cell diameters, the absorbed dose "
+            "is almost entirely confined to CD46-expressing cells and their immediate neighbours. "
+            "Unlike beta emitters (2–3 mm range), nearby normal tissue at distance from a tumour cell "
+            "receives near-zero alpha dose — even when that normal tissue also expresses CD46."
+        )
+    else:
+        st.info(
+            f"**{_GENE} safety framing:** Rank normal tissues by expression (HPA/GTEx) to identify "
+            "on-target/off-tumour risk organs before modality-specific dosimetry modelling."
+        )
 
 # ─────────────────────────────────────────────────────────────────────────────
 # TAB 2 — Therapeutic Index Ranking
 # ─────────────────────────────────────────────────────────────────────────────
 elif _active_dose == _DOSE_TABS[1]:
-    st.markdown("#### Tumour vs Normal CD46 — Therapeutic Index by Tissue")
+    st.markdown(f"#### Tumour vs Normal {_GENE} — Therapeutic Index by Tissue")
     st.caption(
         "Therapeutic Index (TI) = Tumour H-score ÷ Normal H-score. "
         "TI > 1.0 = tumour advantage. Only tissues with matched tumour H-score shown."
     )
 
-    both = paired[paired["Tumour H-score"] > 0].sort_values("Therapeutic Index", ascending=True)
+    if paired.empty:
+        st.info(f"No paired tumour/normal HPA rows for **{_GENE}**.")
+        both = paired
+    else:
+        both = paired[paired["Tumour H-score"] > 0].sort_values("Therapeutic Index", ascending=True)
 
-    ti_colors = [
-        _GREEN if v >= 1.5 else _AMBER if v >= 1.0 else _RED
-        for v in both["Therapeutic Index"]
-    ]
+    if not both.empty and "Therapeutic Index" in both.columns:
+        ti_colors = [
+            _GREEN if v >= 1.5 else _AMBER if v >= 1.0 else _RED
+            for v in both["Therapeutic Index"]
+        ]
 
-    fig_ti = go.Figure(go.Bar(
-        y=both["Tissue"],
-        x=both["Therapeutic Index"],
-        orientation="h",
-        marker=dict(color=ti_colors, line=dict(color="#D5DEE8", width=0.5)),
-        text=[f"{v:.2f}×" for v in both["Therapeutic Index"]],
-        textposition="outside",
-        textfont=dict(size=10, color=_LIGHT),
-        hovertemplate="<b>%{y}</b><br>TI: %{x:.2f}×<extra></extra>",
-    ))
-    fig_ti.add_vline(
-        x=1.0, line=dict(color=_RED, dash="dash", width=1.5),
-        annotation_text="TI = 1.0 (parity)",
-        annotation_position="top right",
-        annotation_font=dict(color=_RED, size=10),
-    )
-    fig_ti.add_vline(
-        x=1.5, line=dict(color=_GREEN, dash="dot", width=1),
-        annotation_text="TI = 1.5 (acceptable threshold)",
-        annotation_position="top left",
-        annotation_font=dict(color=_GREEN, size=10),
-    )
-    apply_plotly_layout(fig_ti,
-        xaxis=dict(title="Therapeutic Index (Tumour / Normal H-score)", gridcolor=_LINE, color=_TEXT),
-        yaxis=dict(title=None, color=_LIGHT),
-        height=400,
-        margin=dict(l=10, r=100, t=20, b=40),
-        hoverlabel=dict(bgcolor=_LINE, font=dict(color=_LIGHT)),
-    )
-    st.plotly_chart(fig_ti, use_container_width=True)
+        fig_ti = go.Figure(go.Bar(
+            y=both["Tissue"],
+            x=both["Therapeutic Index"],
+            orientation="h",
+            marker=dict(color=ti_colors, line=dict(color="#D5DEE8", width=0.5)),
+            text=[f"{v:.2f}×" for v in both["Therapeutic Index"]],
+            textposition="outside",
+            textfont=dict(size=10, color=_LIGHT),
+            hovertemplate="<b>%{y}</b><br>TI: %{x:.2f}×<extra></extra>",
+        ))
+        fig_ti.add_vline(
+            x=1.0, line=dict(color=_RED, dash="dash", width=1.5),
+            annotation_text="TI = 1.0 (parity)",
+            annotation_position="top right",
+            annotation_font=dict(color=_RED, size=10),
+        )
+        fig_ti.add_vline(
+            x=1.5, line=dict(color=_GREEN, dash="dot", width=1),
+            annotation_text="TI = 1.5 (acceptable threshold)",
+            annotation_position="top left",
+            annotation_font=dict(color=_GREEN, size=10),
+        )
+        apply_plotly_layout(fig_ti,
+            xaxis=dict(title="Therapeutic Index (Tumour / Normal H-score)", gridcolor=_LINE, color=_TEXT),
+            yaxis=dict(title=None, color=_LIGHT),
+            height=400,
+            margin=dict(l=10, r=100, t=20, b=40),
+            hoverlabel=dict(bgcolor=_LINE, font=dict(color=_LIGHT)),
+        )
+        st.plotly_chart(fig_ti, use_container_width=True)
 
-    col_table, col_key = st.columns([1.2, 1])
-    with col_table:
-        st.markdown("**Paired Tissue Table**")
-        display_cols = ["Tissue", "Normal H-score", "Tumour H-score", "Therapeutic Index", "Normal Risk"]
-        research_table(
-            both[display_cols].sort_values("Therapeutic Index", ascending=False).reset_index(drop=True),
-            hide_index=True,
-            use_container_width=True,
-        )
-    with col_key:
-        st.markdown("**Key Interpretation**")
-        st.success(
-            "**Prostate (mCRPC target):** TI = 1.5× — tumour H-score 300 vs normal 200. "
-            "Strong therapeutic advantage at the primary indication."
-        )
-        st.success(
-            "**Lung, Ovary, Bladder, Breast:** TI 1.3–1.7× — all show favourable "
-            "tumour:normal ratio. CD46 has pan-tumour utility."
-        )
-        st.warning(
-            "**Colon, Pancreas:** TI < 1.5× — limited tumour advantage; lower priority "
-            "indications in the absence of patient-selection biomarkers."
-        )
-        st.info(
-            "The short alpha range (~2–3 cell diameters) means even a moderate TI translates "
-            "to acceptable safety — the dosimetric advantage is greater than the expression "
-            "ratio alone suggests."
-        )
+        col_table, col_key = st.columns([1.2, 1])
+        with col_table:
+            st.markdown("**Paired Tissue Table**")
+            display_cols = ["Tissue", "Normal H-score", "Tumour H-score", "Therapeutic Index", "Normal Risk"]
+            research_table(
+                both[display_cols].sort_values("Therapeutic Index", ascending=False).reset_index(drop=True),
+                hide_index=True,
+                use_container_width=True,
+            )
+        with col_key:
+            st.markdown("**Key Interpretation**")
+            if _IS_CD46:
+                st.success(
+                    "**Prostate (mCRPC target):** TI = 1.5× — tumour H-score 300 vs normal 200. "
+                    "Strong therapeutic advantage at the primary indication."
+                )
+                st.success(
+                    "**Lung, Ovary, Bladder, Breast:** TI 1.3–1.7× — favourable "
+                    "tumour:normal ratio. CD46 has pan-tumour utility."
+                )
+            else:
+                top = both.sort_values("Therapeutic Index", ascending=False).head(3)
+                if not top.empty:
+                    st.success(
+                        f"**Highest TI tissues for {_GENE}:** "
+                        + ", ".join(f"{r.Tissue} ({r['Therapeutic Index']:.2f}×)" for r in top.itertuples())
+                    )
+                st.info(
+                    f"TI ranks tissues by tumour vs normal **{_GENE}** expression proxy. "
+                    "Use with GTEx normal-tissue ranks for on-target risk organs."
+                )
 
 # ─────────────────────────────────────────────────────────────────────────────
-# TAB 3 — Risk Tissue Monitor
+# TAB — GTEx Safety Index (non-CD46) OR Risk Tissue (CD46 index 2)
 # ─────────────────────────────────────────────────────────────────────────────
-elif _active_dose == _DOSE_TABS[2]:
-    st.markdown("#### High-Risk Normal Tissue Monitor")
+elif (not _IS_CD46) and _active_dose == _DOSE_TABS[2]:
+    st.markdown(f"#### {_GENE} GTEx Dosimetry / Normal-Tissue Safety Index")
+    st.caption(f"Loaded via `load_gtex_dosimetry('{_GENE}')` → `{_PREFIX}_gtex_dosimetry.csv`.")
+    if _gtex_dose.empty:
+        st.info(f"No GTEx dosimetry slice for **{_GENE}**.")
+    else:
+        research_table(_gtex_dose, use_container_width=True, hide_index=True)
+        # Prefer a numeric expression column if present
+        ycol = next((c for c in ("median_tpm", "tpm", "expression", "nTPM", "value") if c in _gtex_dose.columns), None)
+        tcol = next((c for c in ("tissue", "tissue_site", "tissue_site_detail", "Tissue") if c in _gtex_dose.columns), None)
+        if ycol and tcol:
+            plot_df = _gtex_dose[[tcol, ycol]].dropna().sort_values(ycol, ascending=True).tail(30)
+            fig_g = go.Figure(go.Bar(
+                y=plot_df[tcol], x=plot_df[ycol], orientation="h",
+                marker=dict(color=_TEAL, line=dict(color="#D5DEE8", width=0.5)),
+            ))
+            apply_plotly_layout(fig_g,
+                xaxis=dict(title=ycol, gridcolor=_LINE, color=_TEXT),
+                yaxis=dict(title=None, color=_LIGHT),
+                height=max(360, 16 * len(plot_df)),
+                margin=dict(l=10, r=40, t=20, b=40),
+            )
+            st.plotly_chart(fig_g, use_container_width=True)
+
+elif _active_dose == ("Risk Tissue Monitor"):
+    st.markdown(f"#### {_GENE} High-Risk Normal Tissue Monitor")
     st.markdown(
         "Tissues with H-score ≥ 150 in normal state — these require **clinical monitoring** "
         "in Phase I dose escalation. Red = immediate DLT watch; Amber = routine safety labs."
@@ -371,7 +434,11 @@ elif _active_dose == _DOSE_TABS[2]:
     }
 
     risk_data = []
-    monitor_df = normal_df[normal_df["h_normal"] >= 150].sort_values("h_normal", ascending=False)
+    if normal_df.empty or "h_normal" not in normal_df.columns:
+        st.info(f"No HPA normal tissues to monitor for **{_GENE}**.")
+        monitor_df = normal_df
+    else:
+        monitor_df = normal_df[normal_df["h_normal"] >= 150].sort_values("h_normal", ascending=False)
     for _, row in monitor_df.iterrows():
         tissue = row["tissue"]
         meta = RISK_META.get(tissue, ("Standard AE monitoring", "Per protocol"))
@@ -384,7 +451,8 @@ elif _active_dose == _DOSE_TABS[2]:
         })
 
     risk_df = pd.DataFrame(risk_data)
-    research_table(risk_df, hide_index=True, use_container_width=True, height=380)
+    if not risk_df.empty:
+        research_table(risk_df, hide_index=True, use_container_width=True, height=380)
 
     st.markdown("---")
     col_phys, col_dlt = st.columns(2)
@@ -394,10 +462,9 @@ elif _active_dose == _DOSE_TABS[2]:
 - **Range: 2–3 cell diameters (~80 µm)** vs beta: mm–cm
 - Dose deposited **at the tumour cell membrane** — not in adjacent stroma
 - Normal tissue at distance from the tumour cell cluster → near-zero alpha dose
-- **Bone marrow risk is real** (circulating antibody + high BM CD46 expression)
+- **Bone marrow risk is real** (circulating binder + high BM expression of target)
   → mitigated by dose fractionation + G-CSF prophylaxis
-- **Salivary gland risk** is lower than for PSMA small molecules (antibody-based 
-  carrier has slower renal/salivary clearance than peptide ligands)
+- **Salivary gland risk** depends on binder class (antibody vs peptide ligand)
         """)
     with col_dlt:
         st.markdown("**Phase I DLT Monitoring Endpoints (recommended)**")
@@ -410,19 +477,25 @@ elif _active_dose == _DOSE_TABS[2]:
             {"Safety Endpoint": "Pulmonary",          "DLT Threshold": "Grade ≥ 2 pneumonitis", "Action": "Hold; CT scan"},
         ])
         research_table(dlt_df, use_container_width=True, hide_index=True)
-        st.caption("Endpoints analogous to 225Ac-PSMA-617 Phase I (NCT04946370) protocol.")
+        st.caption("Endpoints analogous to established RLT Phase I protocols.")
 
-    st.info(
-        "**Regulatory precedent:** 177Lu-PSMA-617 (Pluvicto, FDA approved 2022) addressed nearly "
-        "identical salivary gland and renal risk categories for a radiopharmaceutical targeting a "
-        "ubiquitously-expressed antigen. Fractionated dosing resolved both. The same approach "
-        "applies to 225Ac-CD46."
-    )
+    if _IS_CD46:
+        st.info(
+            "**Regulatory precedent:** 177Lu-PSMA-617 (Pluvicto, FDA approved 2022) addressed nearly "
+            "identical salivary gland and renal risk categories for a radiopharmaceutical targeting a "
+            "ubiquitously-expressed antigen. Fractionated dosing resolved both. The same approach "
+            "applies to 225Ac-CD46."
+        )
+    else:
+        st.info(
+            f"**{_GENE}:** Monitor organs with highest normal-tissue expression in the HPA/GTEx slices above. "
+            "Modality-specific dosimetry should follow once a binder/isotope is selected."
+        )
 
 # ─────────────────────────────────────────────────────────────────────────────
-# TAB 4 — mCRPC Safety Argument
+# TAB — mCRPC Safety Argument (CD46 only)
 # ─────────────────────────────────────────────────────────────────────────────
-elif _active_dose == _DOSE_TABS[3]:
+elif _IS_CD46 and _active_dose == "mCRPC Safety Argument":
     st.markdown("#### The mCRPC Safety Argument — Investor-Ready Summary")
     st.markdown(
         "A concise synthesis of why 225Ac-CD46 has a **manageable safety profile** as a first-in-class "
@@ -504,9 +577,9 @@ elif _active_dose == _DOSE_TABS[3]:
     )
 
 # ─────────────────────────────────────────────────────────────────────────────
-# TAB 5 — Clinical Interpretation
+# TAB — Clinical Interpretation (CD46 only)
 # ─────────────────────────────────────────────────────────────────────────────
-elif _active_dose == _DOSE_TABS[4]:
+elif _IS_CD46 and _active_dose == "Clinical Interpretation":
     st.markdown("#### Clinical Interpretation & Regulatory Context")
 
     with st.container(border=True):

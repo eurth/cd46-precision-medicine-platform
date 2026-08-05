@@ -1,0 +1,8 @@
+{
+  "gene": "EGFR",
+  "ensembl": "ENSG00000146648",
+  "rna_tissue_specificity": "Tissue enhanced",
+  "rna_tissue_distribution": "Detected in many",
+  "rna_cancer_specificity": "Cancer enriched",
+  "protein_class": "Cancer-related genes;Disease related genes;Enzymes;FDA approved drug targets;Human disease related genes;Metabolic proteins;Plasma proteins;Predicted membrane proteins;Predicted secreted proteins;RAS pathway related proteins;Transporters"
+}

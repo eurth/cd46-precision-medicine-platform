@@ -1,0 +1,8 @@
+{
+  "gene": "STEAP1",
+  "ensembl": "ENSG00000164647",
+  "rna_tissue_specificity": "Tissue enhanced",
+  "rna_tissue_distribution": "Detected in many",
+  "rna_cancer_specificity": "Cancer enriched",
+  "protein_class": "Cancer-related genes;Predicted membrane proteins;Transporters"
+}

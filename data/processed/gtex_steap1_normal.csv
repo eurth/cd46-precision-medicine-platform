@@ -1,0 +1,55 @@
+tissue_site_detail,tissue_site,tissue_site_id,median_tpm,mean_tpm,q1_tpm,q3_tpm,n_samples,unit,dataset,gene_symbol,gencode_id
+Cells - Cultured fibroblasts,Skin,Cells_Cultured_fibroblasts,200.3,211.5921,157.1,262.4,504,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Prostate,Prostate,Prostate,56.47,66.3617,34.63,89.98,245,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Adipose - Visceral (Omentum),Adipose Tissue,Adipose_Visceral_Omentum,35.78,48.1362,23.9,58.19,541,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Adipose - Subcutaneous,Adipose Tissue,Adipose_Subcutaneous,26.55,30.236,17.81,38.15,663,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Breast - Mammary Tissue,Breast,Breast_Mammary_Tissue,26.05,30.9576,17.37,37.97,459,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Minor Salivary Gland,Salivary Gland,Minor_Salivary_Gland,21.68,23.2949,15.63,28.83,162,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Bladder,Bladder,Bladder,21.63,28.6166,12.25,36.25,21,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Lung,Lung,Lung,20.06,28.841,11.47,37.04,578,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Colon - Transverse,Colon,Colon_Transverse,18.51,20.0129,12.51,24.55,406,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Artery - Aorta,Blood Vessel,Artery_Aorta,17.93,25.4084,11.99,30.67,432,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Artery - Coronary,Blood Vessel,Artery_Coronary,17.41,22.6635,10.46,28.37,240,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Esophagus - Mucosa,Esophagus,Esophagus_Mucosa,15.49,18.2817,10.18,22.04,555,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Liver,Liver,Liver,12.1,20.5934,6.601,25.09,226,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Fallopian Tube,Fallopian Tube,Fallopian_Tube,11.99,22.7378,10.21,14.3,9,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Colon - Sigmoid,Colon,Colon_Sigmoid,11.72,14.9406,8.182,16.82,373,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Esophagus - Gastroesophageal Junction,Esophagus,Esophagus_Gastroesophageal_Junction,11.32,17.5878,6.941,19.06,375,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Esophagus - Muscularis,Esophagus,Esophagus_Muscularis,10.88,15.528,6.556,18.88,515,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Artery - Tibial,Blood Vessel,Artery_Tibial,10.25,14.0954,6.704,17.12,663,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Vagina,Vagina,Vagina,9.532,12.0721,6.396,15.18,156,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Cervix - Endocervix,Cervix Uteri,Cervix_Endocervix,9.485,11.8656,5.144,13.81,10,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Ovary,Ovary,Ovary,8.823,12.8084,6.817,15.39,180,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Stomach,Stomach,Stomach,8.814,12.2506,5.193,14.29,359,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Nerve - Tibial,Nerve,Nerve_Tibial,8.615,13.8278,5.36,15.47,619,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Thyroid,Thyroid,Thyroid,7.814,11.0767,4.507,14.42,653,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Small Intestine - Terminal Ileum,Small Intestine,Small_Intestine_Terminal_Ileum,7.813,11.678,5.011,12.32,187,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Cervix - Ectocervix,Cervix Uteri,Cervix_Ectocervix,6.758,6.6809,5.91,8.276,9,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Uterus,Uterus,Uterus,6.413,9.765,4.057,11.17,142,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Testis,Testis,Testis,5.95,6.185,4.703,7.258,361,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Cells - EBV-transformed lymphocytes,Blood Vessel,Cells_EBV-transformed_lymphocytes,5.846,8.7485,2.221,11.57,174,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Skin - Sun Exposed (Lower leg),Skin,Skin_Sun_Exposed_Lower_leg,5.136,7.6677,2.934,9.162,701,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Pituitary,Pituitary,Pituitary,5.114,7.3563,3.68,7.781,283,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Skin - Not Sun Exposed (Suprapubic),Skin,Skin_Not_Sun_Exposed_Suprapubic,4.289,6.4728,2.477,7.886,604,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Heart - Atrial Appendage,Heart,Heart_Atrial_Appendage,4.242,7.118,2.159,8.961,429,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Spleen,Spleen,Spleen,4.206,4.5454,3.077,5.653,241,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Pancreas,Pancreas,Pancreas,3.355,4.2455,2.227,4.936,328,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Brain - Frontal Cortex (BA9),Brain,Brain_Frontal_Cortex_BA9,2.516,2.6806,1.576,3.563,209,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Kidney - Medulla,Kidney,Kidney_Medulla,2.199,1.9177,1.373,3.057,4,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Adrenal Gland,Adrenal Gland,Adrenal_Gland,2.119,2.7463,1.437,3.154,258,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Brain - Cortex,Brain,Brain_Cortex,1.976,2.093,1.342,2.699,255,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Kidney - Cortex,Kidney,Kidney_Cortex,1.882,2.8993,1.014,3.512,85,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Brain - Anterior cingulate cortex (BA24),Brain,Brain_Anterior_cingulate_cortex_BA24,1.268,1.498,0.7815,2.023,176,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Heart - Left Ventricle,Heart,Heart_Left_Ventricle,0.6649,1.7913,0.323,1.434,432,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Muscle - Skeletal,Muscle,Muscle_Skeletal,0.6208,1.1729,0.3158,1.133,803,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Brain - Hypothalamus,Brain,Brain_Hypothalamus,0.6056,0.7189,0.3994,0.9085,202,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Brain - Amygdala,Brain,Brain_Amygdala,0.5016,0.6201,0.2641,0.8558,152,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Brain - Nucleus accumbens (basal ganglia),Brain,Brain_Nucleus_accumbens_basal_ganglia,0.4981,0.5498,0.2905,0.7286,246,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Brain - Cerebellum,Brain,Brain_Cerebellum,0.4783,0.5123,0.3189,0.6627,241,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Brain - Substantia nigra,Brain,Brain_Substantia_nigra,0.4677,0.527,0.2848,0.6715,139,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Brain - Caudate (basal ganglia),Brain,Brain_Caudate_basal_ganglia,0.4481,0.4964,0.2706,0.6364,246,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Brain - Hippocampus,Brain,Brain_Hippocampus,0.4348,0.5233,0.22,0.6544,197,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Brain - Spinal cord (cervical c-1),Brain,Brain_Spinal_cord_cervical_c-1,0.4264,0.6464,0.213,0.8808,159,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Brain - Cerebellar Hemisphere,Brain,Brain_Cerebellar_Hemisphere,0.4024,0.4536,0.2562,0.5756,215,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Brain - Putamen (basal ganglia),Brain,Brain_Putamen_basal_ganglia,0.245,0.316,0.1639,0.4288,205,TPM,gtex_v8,STEAP1,ENSG00000164647.8
+Whole Blood,Blood,Whole_Blood,0.0412,0.1125,0.0,0.0903,755,TPM,gtex_v8,STEAP1,ENSG00000164647.8

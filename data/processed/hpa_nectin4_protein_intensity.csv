@@ -1,0 +1,4 @@
+tissue,type,intensity_score,data_source
+salivary gland,normal,1038641.1,HPA_protein_intensity
+skin,normal,1756359.9,HPA_protein_intensity
+Keratinocytes,cell_type,18960977.8,HPA_protein_intensity

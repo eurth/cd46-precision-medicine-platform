@@ -1,0 +1,55 @@
+tissue_site_detail,tissue_site,tissue_site_id,median_tpm,mean_tpm,q1_tpm,q3_tpm,n_samples,unit,dataset,gene_symbol,gencode_id
+Lung,Lung,Lung,102.9,111.8756,61.75,152.0,578,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Minor Salivary Gland,Salivary Gland,Minor_Salivary_Gland,72.79,71.9184,32.64,100.9,162,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Kidney - Medulla,Kidney,Kidney_Medulla,50.61,49.37,44.78,73.01,4,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Kidney - Cortex,Kidney,Kidney_Cortex,49.4,53.6006,32.17,64.27,85,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Thyroid,Thyroid,Thyroid,32.66,40.3546,18.54,52.82,653,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Stomach,Stomach,Stomach,10.04,10.4944,1.504,16.16,359,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Pituitary,Pituitary,Pituitary,6.72,9.9707,3.807,12.44,283,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Fallopian Tube,Fallopian Tube,Fallopian_Tube,5.551,43.7816,1.138,7.62,9,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Breast - Mammary Tissue,Breast,Breast_Mammary_Tissue,2.504,10.0715,0.0566,13.5,459,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Skin - Sun Exposed (Lower leg),Skin,Skin_Sun_Exposed_Lower_leg,1.973,2.4437,1.138,3.173,701,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Pancreas,Pancreas,Pancreas,1.647,2.1061,1.174,2.411,328,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Brain - Hippocampus,Brain,Brain_Hippocampus,1.163,3.0768,0.4678,3.449,197,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Skin - Not Sun Exposed (Suprapubic),Skin,Skin_Not_Sun_Exposed_Suprapubic,1.156,1.5488,0.5935,2.032,604,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Prostate,Prostate,Prostate,1.11,1.7585,0.5182,2.332,245,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Adrenal Gland,Adrenal Gland,Adrenal_Gland,1.028,1.6004,0.48,1.963,258,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Brain - Substantia nigra,Brain,Brain_Substantia_nigra,1.0,1.3483,0.6139,1.434,139,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Nerve - Tibial,Nerve,Nerve_Tibial,0.9978,1.3762,0.5072,2.014,619,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Brain - Hypothalamus,Brain,Brain_Hypothalamus,0.8995,3.6707,0.5009,2.39,202,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Brain - Spinal cord (cervical c-1),Brain,Brain_Spinal_cord_cervical_c-1,0.8146,1.2585,0.3901,1.429,159,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Brain - Caudate (basal ganglia),Brain,Brain_Caudate_basal_ganglia,0.7967,2.7564,0.4737,2.341,246,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Brain - Nucleus accumbens (basal ganglia),Brain,Brain_Nucleus_accumbens_basal_ganglia,0.7716,1.9538,0.5542,1.157,246,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Brain - Amygdala,Brain,Brain_Amygdala,0.6925,1.5871,0.3589,1.344,152,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Cervix - Endocervix,Cervix Uteri,Cervix_Endocervix,0.5853,21.4919,0.2146,56.93,10,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Brain - Anterior cingulate cortex (BA24),Brain,Brain_Anterior_cingulate_cortex_BA24,0.4948,0.525,0.3473,0.6539,176,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Testis,Testis,Testis,0.4041,0.4388,0.3009,0.5452,361,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Brain - Cortex,Brain,Brain_Cortex,0.3943,0.4149,0.2369,0.5396,255,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Brain - Cerebellum,Brain,Brain_Cerebellum,0.3821,0.4526,0.2355,0.5929,241,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Brain - Frontal Cortex (BA9),Brain,Brain_Frontal_Cortex_BA9,0.3541,0.3851,0.2187,0.5006,209,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Small Intestine - Terminal Ileum,Small Intestine,Small_Intestine_Terminal_Ileum,0.2898,0.4388,0.1681,0.4612,187,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Brain - Putamen (basal ganglia),Brain,Brain_Putamen_basal_ganglia,0.284,0.3343,0.1614,0.44,205,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Esophagus - Mucosa,Esophagus,Esophagus_Mucosa,0.2711,3.0872,0.1052,1.786,555,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Brain - Cerebellar Hemisphere,Brain,Brain_Cerebellar_Hemisphere,0.2668,0.3303,0.1413,0.4505,215,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Heart - Atrial Appendage,Heart,Heart_Atrial_Appendage,0.2564,0.3699,0.112,0.4734,429,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Uterus,Uterus,Uterus,0.2142,0.6847,0.104,0.4016,142,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Colon - Transverse,Colon,Colon_Transverse,0.1987,0.3246,0.1137,0.3323,406,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Cervix - Ectocervix,Cervix Uteri,Cervix_Ectocervix,0.1919,0.4719,0.1153,0.3627,9,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Colon - Sigmoid,Colon,Colon_Sigmoid,0.176,0.2236,0.1045,0.2822,373,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Bladder,Bladder,Bladder,0.1708,0.2566,0.0345,0.4516,21,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Vagina,Vagina,Vagina,0.1542,0.2342,0.0722,0.2806,156,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Ovary,Ovary,Ovary,0.1376,0.8988,0.031,0.351,180,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Spleen,Spleen,Spleen,0.1346,0.1598,0.0734,0.2066,241,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Esophagus - Gastroesophageal Junction,Esophagus,Esophagus_Gastroesophageal_Junction,0.123,0.4379,0.0522,0.2372,375,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Artery - Coronary,Blood Vessel,Artery_Coronary,0.0886,0.2098,0.0446,0.234,240,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Heart - Left Ventricle,Heart,Heart_Left_Ventricle,0.0831,0.1215,0.0307,0.1596,432,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Artery - Tibial,Blood Vessel,Artery_Tibial,0.0681,0.12,0.0,0.1608,663,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Cells - Cultured fibroblasts,Skin,Cells_Cultured_fibroblasts,0.0643,0.0985,0.0,0.1432,504,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Artery - Aorta,Blood Vessel,Artery_Aorta,0.0632,0.132,0.0,0.1217,432,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Adipose - Visceral (Omentum),Adipose Tissue,Adipose_Visceral_Omentum,0.0625,0.1173,0.0238,0.1369,541,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Adipose - Subcutaneous,Adipose Tissue,Adipose_Subcutaneous,0.0612,0.1515,0.0,0.1381,663,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Liver,Liver,Liver,0.0609,0.0812,0.027,0.1093,226,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Esophagus - Muscularis,Esophagus,Esophagus_Muscularis,0.0582,0.1164,0.0,0.1375,515,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Whole Blood,Blood,Whole_Blood,0.0575,0.1634,0.0,0.1406,755,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Muscle - Skeletal,Muscle,Muscle_Skeletal,0.0278,0.0764,0.0,0.0636,803,TPM,gtex_v8,FOLR1,ENSG00000110195.12
+Cells - EBV-transformed lymphocytes,Blood Vessel,Cells_EBV-transformed_lymphocytes,0.0,0.0284,0.0,0.0452,174,TPM,gtex_v8,FOLR1,ENSG00000110195.12

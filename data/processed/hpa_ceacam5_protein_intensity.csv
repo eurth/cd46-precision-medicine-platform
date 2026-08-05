@@ -1,0 +1,4 @@
+tissue,type,intensity_score,data_source
+intestine,normal,49432922.2,HPA_protein_intensity
+skin,normal,22804857.5,HPA_protein_intensity
+Alveolar cell types,cell_type,114334.4,HPA_protein_intensity

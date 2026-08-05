@@ -1,0 +1,4 @@
+tissue,type,ntpm,staining_intensity,data_source
+Esophageal apical cells,single_cell,241.3,,HPA_rna
+Prostatic club cells,single_cell,178.9,,HPA_rna
+gdT-cell,blood,5.0,,HPA_rna

@@ -1,0 +1,11 @@
+tissue,type,ntpm,staining_intensity,data_source
+lung,normal,237.8,,HPA_rna
+stomach 1,normal,684.2,,HPA_rna
+Alveolar cells type 1,single_cell,871.0,,HPA_rna
+Alveolar cells type 2,single_cell,488.9,,HPA_rna
+Foveolar cells,single_cell,2380.6,,HPA_rna
+Gastric chief cells,single_cell,400.8,,HPA_rna
+Gastric progenitor cells,single_cell,380.7,,HPA_rna
+Mucous neck cells,single_cell,609.5,,HPA_rna
+Parietal cells,single_cell,753.1,,HPA_rna
+Transitional alveolar cells,single_cell,313.5,,HPA_rna

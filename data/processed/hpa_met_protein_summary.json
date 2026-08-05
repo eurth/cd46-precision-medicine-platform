@@ -1,0 +1,7 @@
+{
+  "gene": "MET",
+  "protein_tissue_specificity": "Group enriched",
+  "protein_tissue_distribution": "Detected in some",
+  "protein_cell_type_specificity": "Group enriched",
+  "n_intensity_rows": 4
+}

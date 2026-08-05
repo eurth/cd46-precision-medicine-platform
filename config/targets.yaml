@@ -1,9 +1,4 @@
-# Gene / target registry for OncoBridge.
-# data_tier: stub | thin | medium | full  (honest depth — not a boolean "loaded")
-# case_study: true = deep CD46 reference modules still apply
-
 default_target: CD46
-
 targets:
   CD46:
     symbol: CD46
@@ -11,13 +6,17 @@ targets:
     ensembl_id: ENSG00000117335
     uniprot_id: P15529
     entrez_id: 4179
-    # No ChEMBL SINGLE PROTEIN target (antibody/biologic); curated agents only
-    aliases: [MCP, MIC10, TLX]
-    modality_tags: [surface_antigen, complement, alpha_RLT]
+    aliases:
+    - MCP
+    - MIC10
+    - TLX
+    modality_tags:
+    - surface_antigen
+    - complement
+    - alpha_RLT
     kg_status: loaded
     data_tier: full
     case_study: true
-
   FOLH1:
     symbol: FOLH1
     name: Folate hydrolase 1 (PSMA)
@@ -25,13 +24,19 @@ targets:
     uniprot_id: Q04609
     entrez_id: 2346
     chembl_target_id: CHEMBL1892
-    string_ensp: "9606.ENSP00000256999"
-    aliases: [PSMA, GCPII, NAALAD1, FOLH]
-    modality_tags: [surface_antigen, radioligand, PSMA]
+    string_ensp: 9606.ENSP00000256999
+    aliases:
+    - PSMA
+    - GCPII
+    - NAALAD1
+    - FOLH
+    modality_tags:
+    - surface_antigen
+    - radioligand
+    - PSMA
     kg_status: loaded
     data_tier: medium
     case_study: false
-
   FAP:
     symbol: FAP
     name: Fibroblast activation protein alpha
@@ -39,13 +44,19 @@ targets:
     uniprot_id: Q12884
     entrez_id: 2191
     chembl_target_id: CHEMBL4683
-    string_ensp: "9606.ENSP00000188790"
-    aliases: [FAPA, DPPIV, SIMP]
-    modality_tags: [surface_antigen, CAF, FAPI, radioligand]
+    string_ensp: 9606.ENSP00000188790
+    aliases:
+    - FAPA
+    - DPPIV
+    - SIMP
+    modality_tags:
+    - surface_antigen
+    - CAF
+    - FAPI
+    - radioligand
     kg_status: loaded
     data_tier: medium
     case_study: false
-
   SSTR2:
     symbol: SSTR2
     name: Somatostatin receptor 2
@@ -53,24 +64,281 @@ targets:
     uniprot_id: P30874
     entrez_id: 6752
     chembl_target_id: CHEMBL1804
-    string_ensp: "9606.ENSP00000350198"
-    aliases: [SSR2]
-    modality_tags: [GPCR, radioligand, NET]
+    string_ensp: 9606.ENSP00000350198
+    aliases:
+    - SSR2
+    modality_tags:
+    - GPCR
+    - radioligand
+    - NET
     kg_status: loaded
     data_tier: medium
     case_study: false
-
   GRPR:
     symbol: GRPR
     name: Gastrin-releasing peptide receptor
-    # Verified Ensembl (Phase 0: ENSG00000164825 wrongly resolved to DEFB1)
     ensembl_id: ENSG00000126010
     uniprot_id: P30550
     entrez_id: 2925
     chembl_target_id: CHEMBL4959
-    string_ensp: "9606.ENSP00000369643"
-    aliases: [BB2, BB2R, BRS2]
-    modality_tags: [GPCR, radioligand]
+    string_ensp: 9606.ENSP00000369643
+    aliases:
+    - BB2
+    - BB2R
+    - BRS2
+    modality_tags:
+    - GPCR
+    - radioligand
     kg_status: loaded
     data_tier: medium
     case_study: false
+  CEACAM5:
+    symbol: CEACAM5
+    name: CEA cell adhesion molecule 5
+    ensembl_id: ENSG00000105388
+    uniprot_id: P06731
+    entrez_id: 1048
+    aliases:
+    - CEA
+    - CD66e
+    modality_tags:
+    - surface_antigen
+    - ADC
+    - radioligand
+    kg_status: loaded
+    data_tier: medium
+    case_study: false
+    chembl_target_id: CHEMBL3712881
+  STEAP1:
+    symbol: STEAP1
+    name: STEAP family member 1
+    ensembl_id: ENSG00000164647
+    uniprot_id: Q9UHE8
+    entrez_id: 26872
+    aliases:
+    - PRSS24
+    - STEAP
+    modality_tags:
+    - surface_antigen
+    - radioligand
+    kg_status: loaded
+    data_tier: medium
+    case_study: false
+    chembl_target_id: CHEMBL3712956
+  DLL3:
+    symbol: DLL3
+    name: Delta like canonical Notch ligand 3
+    ensembl_id: ENSG00000090932
+    uniprot_id: Q9NYJ7
+    entrez_id: 10683
+    aliases:
+    - SCDO1
+    modality_tags:
+    - surface_antigen
+    - ADC
+    - SCLC
+    kg_status: loaded
+    data_tier: medium
+    case_study: false
+  NECTIN4:
+    symbol: NECTIN4
+    name: Nectin cell adhesion molecule 4
+    ensembl_id: ENSG00000143217
+    uniprot_id: Q96NY8
+    entrez_id: 81607
+    aliases:
+    - PVRL4
+    - LNIR
+    - EDSS1
+    modality_tags:
+    - surface_antigen
+    - ADC
+    kg_status: loaded
+    data_tier: medium
+    case_study: false
+    chembl_target_id: CHEMBL3712928
+  ERBB2:
+    symbol: ERBB2
+    name: erb-b2 receptor tyrosine kinase 2
+    ensembl_id: ENSG00000141736
+    uniprot_id: P04626
+    entrez_id: 2064
+    chembl_target_id: CHEMBL1824
+    aliases:
+    - HER2
+    - NEU
+    - CD340
+    modality_tags:
+    - receptor_tyrosine_kinase
+    - ADC
+    kg_status: loaded
+    data_tier: medium
+    case_study: false
+  TACSTD2:
+    symbol: TACSTD2
+    name: Tumor associated calcium signal transducer 2
+    ensembl_id: ENSG00000184292
+    uniprot_id: P09758
+    entrez_id: 4070
+    aliases:
+    - TROP2
+    - EGP1
+    - GA733-1
+    modality_tags:
+    - surface_antigen
+    - ADC
+    kg_status: loaded
+    data_tier: medium
+    case_study: false
+    chembl_target_id: CHEMBL3856163
+  CD276:
+    symbol: CD276
+    name: CD276 molecule
+    ensembl_id: ENSG00000103855
+    uniprot_id: Q5ZPR3
+    entrez_id: 80381
+    aliases:
+    - B7-H3
+    - B7H3
+    modality_tags:
+    - immune_checkpoint
+    - ADC
+    - radioligand
+    kg_status: loaded
+    data_tier: medium
+    case_study: false
+    chembl_target_id: CHEMBL3712879
+  CA9:
+    symbol: CA9
+    name: Carbonic anhydrase 9
+    ensembl_id: ENSG00000107159
+    uniprot_id: Q16790
+    entrez_id: 768
+    aliases:
+    - CAIX
+    - MN
+    modality_tags:
+    - surface_antigen
+    - hypoxia
+    - radioligand
+    kg_status: loaded
+    data_tier: medium
+    case_study: false
+    chembl_target_id: CHEMBL3594
+  EGFR:
+    symbol: EGFR
+    name: Epidermal growth factor receptor
+    ensembl_id: ENSG00000146648
+    uniprot_id: P00533
+    entrez_id: 1956
+    chembl_target_id: CHEMBL203
+    aliases:
+    - ERBB1
+    - HER1
+    modality_tags:
+    - receptor_tyrosine_kinase
+    - ADC
+    kg_status: loaded
+    data_tier: medium
+    case_study: false
+  MET:
+    symbol: MET
+    name: MET proto-oncogene, receptor tyrosine kinase
+    ensembl_id: ENSG00000105976
+    uniprot_id: P08581
+    entrez_id: 4233
+    chembl_target_id: CHEMBL3717
+    aliases:
+    - HGFR
+    - c-Met
+    modality_tags:
+    - receptor_tyrosine_kinase
+    - ADC
+    kg_status: loaded
+    data_tier: medium
+    case_study: false
+  CLDN18:
+    symbol: CLDN18
+    name: Claudin 18
+    ensembl_id: ENSG00000066405
+    uniprot_id: P56856
+    entrez_id: 51208
+    aliases:
+    - CLDN18.2
+    - SFTA5
+    modality_tags:
+    - surface_antigen
+    - ADC
+    - gastric
+    kg_status: loaded
+    data_tier: medium
+    case_study: false
+    chembl_target_id: CHEMBL3712859
+  MSLN:
+    symbol: MSLN
+    name: Mesothelin
+    ensembl_id: ENSG00000102854
+    uniprot_id: Q13421
+    entrez_id: 10232
+    aliases:
+    - MPF
+    - SMR
+    modality_tags:
+    - surface_antigen
+    - ADC
+    - CAR-T
+    kg_status: loaded
+    data_tier: medium
+    case_study: false
+    chembl_target_id: CHEMBL3712878
+  GPC3:
+    symbol: GPC3
+    name: Glypican 3
+    ensembl_id: ENSG00000147257
+    uniprot_id: P51654
+    entrez_id: 2719
+    aliases:
+    - OCI-5
+    - DGSX
+    modality_tags:
+    - surface_antigen
+    - ADC
+    - HCC
+    kg_status: loaded
+    data_tier: medium
+    case_study: false
+    chembl_target_id: CHEMBL4630889
+  FOLR1:
+    symbol: FOLR1
+    name: Folate receptor alpha
+    ensembl_id: ENSG00000110195
+    uniprot_id: P15328
+    entrez_id: 2348
+    aliases:
+    - FRalpha
+    - FOLR
+    - FBP
+    modality_tags:
+    - surface_antigen
+    - ADC
+    kg_status: loaded
+    data_tier: medium
+    case_study: false
+    chembl_target_id: CHEMBL2121
+  CD19:
+    symbol: CD19
+    name: CD19 molecule
+    ensembl_id: ENSG00000177455
+    uniprot_id: P15391
+    entrez_id: 930
+    aliases:
+    - B4
+    - CVID3
+    modality_tags:
+    - surface_antigen
+    - CAR-T
+    - hematologic
+    kg_status: loaded
+    data_tier: medium
+    case_study: false
+    chembl_target_id: CHEMBL3390821

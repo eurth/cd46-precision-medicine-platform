@@ -1,0 +1,6 @@
+tissue,type,ntpm,staining_intensity,data_source
+intestine,normal,920.3,,HPA_rna
+Colonocytes,single_cell,184.2,,HPA_rna
+Esophageal apical cells,single_cell,143.5,,HPA_rna
+Foveolar cells,single_cell,51.2,,HPA_rna
+Goblet cells,single_cell,86.0,,HPA_rna

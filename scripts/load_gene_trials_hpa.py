@@ -89,56 +89,114 @@ def fetch_trials(
     *,
     refresh: bool = False,
     page_size: int = 100,
-    max_trials: int = 100,
+    max_trials: int = 0,
 ) -> list[dict]:
+    """Fetch CT.gov studies for gene query. max_trials=0 → paginate until exhausted."""
     t = get_target(symbol)
     out = RAW / f"clinicaltrials_{symbol.lower()}.json"
     RAW.mkdir(parents=True, exist_ok=True)
     if out.exists() and not refresh:
         log.info("Using cached trials %s", out.name)
-        return json.loads(out.read_text(encoding="utf-8"))[:max_trials]
+        cached = json.loads(out.read_text(encoding="utf-8"))
+        return cached if max_trials <= 0 else cached[:max_trials]
 
     q = _trial_query(t)
-    log.info("Fetching ClinicalTrials.gov: %s (pageSize=%d)", q, page_size)
-    r = requests.get(
-        CT_URL,
-        params={"query.term": q, "pageSize": page_size, "format": "json"},
-        timeout=60,
-    )
-    r.raise_for_status()
-    studies = r.json().get("studies", [])[:max_trials]
+    log.info("Fetching ClinicalTrials.gov: %s (pageSize=%d, max=%s)", q, page_size, max_trials or "ALL")
+    studies: list[dict] = []
+    page_token: str | None = None
+    # ponytail: resume from partial cache if prior run died mid-pagination
+    partial_meta = out.with_suffix(".json.partial")
+    if partial_meta.exists() and not refresh:
+        try:
+            meta = json.loads(partial_meta.read_text(encoding="utf-8"))
+            studies = meta.get("studies") or []
+            page_token = meta.get("nextPageToken")
+            log.info("Resuming CT.gov from checkpoint (%d trials, token=%s)", len(studies), bool(page_token))
+        except Exception:
+            studies, page_token = [], None
+    while True:
+        params: dict[str, Any] = {
+            "query.term": q,
+            "pageSize": page_size,
+            "format": "json",
+        }
+        if page_token:
+            params["pageToken"] = page_token
+        payload = None
+        last_err: Exception | None = None
+        for attempt in range(1, 6):
+            try:
+                r = requests.get(CT_URL, params=params, timeout=120)
+                if r.status_code >= 500:
+                    raise requests.HTTPError(f"{r.status_code} {r.reason}", response=r)
+                r.raise_for_status()
+                payload = r.json()
+                break
+            except Exception as e:
+                last_err = e
+                wait = min(60, 2 ** attempt)
+                log.warning("CT.gov page failed attempt=%d/5 — sleep %ds (%s)", attempt, wait, e)
+                time.sleep(wait)
+        if payload is None:
+            # keep checkpoint for resume; don't wipe good pages
+            partial_meta.write_text(
+                json.dumps({"studies": studies, "nextPageToken": page_token, "query": q}, indent=2),
+                encoding="utf-8",
+            )
+            raise RuntimeError(f"CT.gov pagination failed after retries ({len(studies)} saved)") from last_err
+        batch = payload.get("studies") or []
+        if not batch:
+            break
+        studies.extend(batch)
+        page_token = payload.get("nextPageToken")
+        partial_meta.write_text(
+            json.dumps({"studies": studies, "nextPageToken": page_token, "query": q}, indent=2),
+            encoding="utf-8",
+        )
+        if max_trials > 0 and len(studies) >= max_trials:
+            studies = studies[:max_trials]
+            break
+        if not page_token:
+            break
+        time.sleep(0.5)
     out.write_text(json.dumps(studies, indent=2), encoding="utf-8")
+    if partial_meta.exists():
+        partial_meta.unlink()
     log.info("Saved %d trials → %s", len(studies), out)
     return studies
 
 
 def load_trials(session, symbol: str, studies: list[dict]) -> int:
+    # ponytail: batch UNWIND for trial nodes; disease links stay light (≤1 MATCH/trial)
     trial_cypher = """
-    MERGE (t:ClinicalTrial {nct_id: $nct_id})
-    SET t.title = $title,
-        t.status = $status,
-        t.phase = $phase,
-        t.sponsor = $sponsor,
-        t.start_date = $start_date,
-        t.condition = $condition,
-        t.intervention = $intervention,
+    UNWIND $rows AS row
+    MERGE (t:ClinicalTrial {nct_id: row.nct_id})
+    SET t.title = row.title,
+        t.status = row.status,
+        t.phase = row.phase,
+        t.sponsor = row.sponsor,
+        t.start_date = row.start_date,
+        t.condition = row.condition,
+        t.intervention = row.intervention,
         t.source = 'ClinicalTrials.gov',
         t.query_gene = $gene
-    WITH t
-    MATCH (g:Gene {symbol: $gene})
+    WITH t, $gene AS gene
+    MATCH (g:Gene {symbol: gene})
     MERGE (t)-[r:TARGETS_GENE]->(g)
     ON CREATE SET r.source = 'ClinicalTrials.gov'
     """
     disease_cypher = """
-    MATCH (t:ClinicalTrial {nct_id: $nct_id})
-    MATCH (d:Disease)
-    WHERE ($tcga <> '' AND d.tcga_code = $tcga)
-       OR ($hint <> '' AND toLower(coalesce(d.name, '')) CONTAINS $hint)
-    WITH t, d LIMIT 3
-    MERGE (t)-[r:INVESTIGATES]->(d)
-    ON CREATE SET r.source = 'ClinicalTrials.gov', r.via = 'condition_heuristic'
+    UNWIND $rows AS row
+    MATCH (t:ClinicalTrial {nct_id: row.nct_id})
+    CALL (t, row) {
+      MATCH (d:Disease)
+      WHERE (row.tcga <> '' AND d.tcga_code = row.tcga)
+         OR (row.hint <> '' AND toLower(coalesce(d.name, '')) CONTAINS row.hint)
+      WITH t, d LIMIT 3
+      MERGE (t)-[r:INVESTIGATES]->(d)
+      ON CREATE SET r.source = 'ClinicalTrials.gov', r.via = 'condition_heuristic'
+    }
     """
-    # crude condition → TCGA map for common cancers
     hint_map = [
         ("prostate", "PRAD", "prostate"),
         ("breast", "BRCA", "breast"),
@@ -156,7 +214,8 @@ def load_trials(session, symbol: str, studies: list[dict]) -> int:
         ("neuroendocrine", "", "neuroendocrine"),
         ("somatostatin", "", "somatostatin"),
     ]
-    n = 0
+    trial_rows: list[dict] = []
+    disease_rows: list[dict] = []
     for trial in studies:
         proto = trial.get("protocolSection", {})
         ident = proto.get("identificationModule", {})
@@ -171,32 +230,34 @@ def load_trials(session, symbol: str, studies: list[dict]) -> int:
         conditions = cond_mod.get("conditions", []) or []
         interventions = arms.get("interventions", []) or []
         intervention_names = [i.get("name", "") for i in interventions if isinstance(i, dict)]
-        session.run(
-            trial_cypher,
-            nct_id=nct_id,
-            title=ident.get("briefTitle", ""),
-            status=status_mod.get("overallStatus", ""),
-            phase=", ".join(design.get("phases", []) or []),
-            sponsor=(sponsor_mod.get("leadSponsor") or {}).get("name", ""),
-            start_date=(status_mod.get("startDateStruct") or {}).get("date", ""),
-            condition=", ".join(conditions[:3]),
-            intervention=", ".join(intervention_names[:2]),
-            gene=symbol,
+        trial_rows.append(
+            {
+                "nct_id": nct_id,
+                "title": ident.get("briefTitle", ""),
+                "status": status_mod.get("overallStatus", ""),
+                "phase": ", ".join(design.get("phases", []) or []),
+                "sponsor": (sponsor_mod.get("leadSponsor") or {}).get("name", ""),
+                "start_date": (status_mod.get("startDateStruct") or {}).get("date", ""),
+                "condition": ", ".join(conditions[:3]),
+                "intervention": ", ".join(intervention_names[:2]),
+            }
         )
         cond_blob = " ".join(conditions).lower()
         linked = False
         for needle, tcga, hint in hint_map:
             if needle in cond_blob:
-                session.run(disease_cypher, nct_id=nct_id, tcga=tcga, hint=hint)
+                disease_rows.append({"nct_id": nct_id, "tcga": tcga, "hint": hint})
                 linked = True
                 break
         if not linked and conditions:
-            # still try loose name match on first condition token
             token = conditions[0].split()[0].lower()
-            session.run(disease_cypher, nct_id=nct_id, tcga="", hint=token)
-        n += 1
-    log.info("%s ClinicalTrial: %d", symbol, n)
-    return n
+            disease_rows.append({"nct_id": nct_id, "tcga": "", "hint": token})
+    for i in range(0, len(trial_rows), 100):
+        session.run(trial_cypher, rows=trial_rows[i : i + 100], gene=symbol)
+    for i in range(0, len(disease_rows), 50):
+        session.run(disease_cypher, rows=disease_rows[i : i + 50])
+    log.info("%s ClinicalTrial: %d", symbol, len(trial_rows))
+    return len(trial_rows)
 
 
 def fetch_hpa(symbol: str, *, refresh: bool = False) -> dict:
@@ -348,7 +409,7 @@ def run_symbol(
     *,
     refresh: bool = False,
     page_size: int = 100,
-    max_trials: int = 100,
+    max_trials: int = 0,
 ) -> dict:
     symbol = symbol.upper()
     get_target(symbol)  # validate
@@ -384,12 +445,14 @@ def main() -> None:
     ap.add_argument("--all", action="store_true")
     ap.add_argument("--refresh", action="store_true")
     ap.add_argument("--page-size", type=int, default=100, help="ClinicalTrials.gov pageSize")
-    ap.add_argument("--max-trials", type=int, default=100, help="Max trials per gene")
+    ap.add_argument("--max-trials", type=int, default=0, help="Max trials (0=paginate full query result)")
     args = ap.parse_args()
+    from src.knowledge_graph.registry import all_symbols, non_cd46_symbols
+
     if args.all:
-        symbols = ["CD46", "FOLH1", "FAP", "SSTR2", "GRPR"]
+        symbols = all_symbols()
     elif args.all_non_cd46:
-        symbols = ["FOLH1", "FAP", "SSTR2", "GRPR"]
+        symbols = non_cd46_symbols()
     elif args.symbol:
         symbols = [args.symbol.upper()]
     else:

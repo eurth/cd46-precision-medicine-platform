@@ -54,56 +54,58 @@ def _driver():
     return d
 
 
-CLINVAR_CYPHER = """
-MATCH (p:Protein)
-WHERE p.symbol = $gene OR p.gene_symbol = $gene
-WITH p LIMIT 1
-MERGE (v:ProteinVariant {variant_id: $variant_id})
-ON CREATE SET
-    v.clinvar_id = $clinvar_id,
-    v.name = $name,
-    v.clinical_significance = $clinical_significance,
-    v.review_status = $review_status,
-    v.condition = $condition,
-    v.variant_type = $variant_type,
-    v.cdna_change = $cdna_change,
-    v.protein_change = $protein_change,
-    v.dbsnp_id = $dbsnp_id,
-    v.last_updated = $last_updated,
-    v.gene_symbol = $gene,
-    v.source = 'ClinVar'
-ON MATCH SET
-    v.clinical_significance = $clinical_significance,
-    v.review_status = $review_status,
-    v.last_updated = $last_updated
-MERGE (p)-[:HAS_VARIANT]->(v)
-"""
-
-
 def load_clinvar_variants(session, symbol: str, df: pd.DataFrame) -> int:
-    n = 0
+    # ponytail: batch UNWIND — full ClinVar panels blow Aura with per-row writes
+    rows = []
     for _, row in df.iterrows():
         vid = str(row.get("variation_id", "")).strip()
         if not vid:
             continue
-        session.run(
-            CLINVAR_CYPHER,
-            gene=symbol,
-            variant_id=clinvar_variant_id(vid),
-            clinvar_id=vid,
-            name=str(row.get("name") or ""),
-            clinical_significance=str(row.get("clinical_significance") or ""),
-            review_status=str(row.get("review_status") or ""),
-            condition=str(row.get("condition") or ""),
-            variant_type=str(row.get("variant_type") or ""),
-            cdna_change=str(row.get("cdna_change") or ""),
-            protein_change=str(row.get("protein_change") or ""),
-            dbsnp_id=str(row.get("rs_id") or ""),
-            last_updated=str(row.get("last_updated") or ""),
+        rows.append(
+            {
+                "variant_id": clinvar_variant_id(vid),
+                "clinvar_id": vid,
+                "name": str(row.get("name") or ""),
+                "clinical_significance": str(row.get("clinical_significance") or ""),
+                "review_status": str(row.get("review_status") or ""),
+                "condition": str(row.get("condition") or ""),
+                "variant_type": str(row.get("variant_type") or ""),
+                "cdna_change": str(row.get("cdna_change") or ""),
+                "protein_change": str(row.get("protein_change") or ""),
+                "dbsnp_id": str(row.get("rs_id") or ""),
+                "last_updated": str(row.get("last_updated") or ""),
+            }
         )
-        n += 1
-    log.info("%s ClinVar variants loaded: %d", symbol, n)
-    return n
+    # WITH p, row LIMIT 1 wrongly collapses the batch — resolve Protein once, then UNWIND
+    cypher = """
+    MATCH (p:Protein)
+    WHERE p.symbol = $gene OR p.gene_symbol = $gene
+    WITH p LIMIT 1
+    UNWIND $rows AS row
+    MERGE (v:ProteinVariant {variant_id: row.variant_id})
+    ON CREATE SET
+        v.clinvar_id = row.clinvar_id,
+        v.name = row.name,
+        v.clinical_significance = row.clinical_significance,
+        v.review_status = row.review_status,
+        v.condition = row.condition,
+        v.variant_type = row.variant_type,
+        v.cdna_change = row.cdna_change,
+        v.protein_change = row.protein_change,
+        v.dbsnp_id = row.dbsnp_id,
+        v.last_updated = row.last_updated,
+        v.gene_symbol = $gene,
+        v.source = 'ClinVar'
+    ON MATCH SET
+        v.clinical_significance = row.clinical_significance,
+        v.review_status = row.review_status,
+        v.last_updated = row.last_updated
+    MERGE (p)-[:HAS_VARIANT]->(v)
+    """
+    for i in range(0, len(rows), 100):
+        session.run(cypher, gene=symbol, rows=rows[i : i + 100])
+    log.info("%s ClinVar variants loaded: %d", symbol, len(rows))
+    return len(rows)
 
 
 def run_symbol(
@@ -122,7 +124,9 @@ def run_symbol(
         if not out_csv.exists():
             report["error"] = f"no cached CSV at {out_csv}; run fetch first"
             return report
-        df = pd.read_csv(out_csv).head(max_variants)
+        df = pd.read_csv(out_csv)
+        if max_variants > 0:
+            df = df.head(max_variants)
         report["variants_ready"] = len(df)
         report["csv"] = str(out_csv)
         pathogenic = df[
@@ -200,9 +204,13 @@ def main() -> None:
         return
 
     if args.all:
-        symbols = ["CD46", "FOLH1", "FAP", "SSTR2", "GRPR"]
+        from src.knowledge_graph.registry import all_symbols
+
+        symbols = all_symbols()
     elif args.all_non_cd46:
-        symbols = ["FOLH1", "FAP", "SSTR2", "GRPR"]
+        from src.knowledge_graph.registry import non_cd46_symbols
+
+        symbols = non_cd46_symbols()
     elif args.symbol:
         symbols = [args.symbol.upper()]
     else:

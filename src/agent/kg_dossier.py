@@ -18,9 +18,14 @@ from src.agent.kg_retrieval import (
     cypher_trials_count,
 )
 from src.agent.tools import query_kg
+from src.knowledge_graph.registry import all_symbols, load_registry
 
 
-_SYMBOLS = ("CD46", "FOLH1", "FAP", "SSTR2", "GRPR")
+def _registry_symbols() -> tuple[str, ...]:
+    try:
+        return tuple(all_symbols())
+    except Exception:
+        return ("CD46", "FOLH1", "FAP", "SSTR2", "GRPR")
 
 
 def gene_from_question(question: str, default: str) -> str:
@@ -28,7 +33,23 @@ def gene_from_question(question: str, default: str) -> str:
     q = question.upper()
     if "PSMA" in q or "FOLH1" in q:
         return "FOLH1"
-    for sym in _SYMBOLS:
+    if "TROP2" in q or "TACSTD2" in q:
+        return "TACSTD2"
+    if "HER2" in q or "ERBB2" in q:
+        return "ERBB2"
+    if "B7-H3" in q or "B7H3" in q or "CD276" in q:
+        return "CD276"
+    # aliases from registry
+    try:
+        for sym, meta in load_registry()["targets"].items():
+            if sym.upper() in q:
+                return sym
+            for a in meta.get("aliases") or []:
+                if str(a).upper() in q:
+                    return sym
+    except Exception:
+        pass
+    for sym in _registry_symbols():
         if sym in q:
             return sym
     return default

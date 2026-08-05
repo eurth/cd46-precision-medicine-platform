@@ -1,0 +1,4 @@
+tissue,type,intensity_score,data_source
+lymphoid tissue,normal,2075914.7,HPA_protein_intensity
+B-cells,cell_type,881067.4,HPA_protein_intensity
+T-cells,cell_type,489789.6,HPA_protein_intensity

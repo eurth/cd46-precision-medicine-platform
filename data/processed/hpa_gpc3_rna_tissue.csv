@@ -1,0 +1,16 @@
+tissue,type,ntpm,staining_intensity,data_source
+placenta,normal,669.8,,HPA_rna
+Cytotrophoblasts,single_cell,103.0,,HPA_rna
+Epididymal basal cells,single_cell,99.6,,HPA_rna
+Extravillous trophoblasts,single_cell,130.2,,HPA_rna
+Fibro-adipogenic progenitors,single_cell,162.9,,HPA_rna
+Fibroblasts,single_cell,326.8,,HPA_rna
+Müller glia,single_cell,124.5,,HPA_rna
+Parietal cells,single_cell,134.4,,HPA_rna
+Pericytes,single_cell,105.5,,HPA_rna
+Pituicytes/FSCs,single_cell,224.9,,HPA_rna
+Pituitary stem cells,single_cell,798.7,,HPA_rna
+Respiratory ciliated cells,single_cell,195.7,,HPA_rna
+Syncytiotrophoblasts,single_cell,229.7,,HPA_rna
+naive CD4 T-cell,blood,1.9,,HPA_rna
+naive CD8 T-cell,blood,1.2,,HPA_rna

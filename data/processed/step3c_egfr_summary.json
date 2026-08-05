@@ -1,0 +1,12 @@
+{
+  "symbol": "EGFR",
+  "uniprot_id": "P00533",
+  "gtex_tissues": 52,
+  "depmap_depends_on": 211,
+  "hpa_protein_tissues": 1,
+  "uniprot": {
+    "protein": 1,
+    "isoforms": 4,
+    "variants": 40
+  }
+}

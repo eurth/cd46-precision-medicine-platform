@@ -1,0 +1,11 @@
+tissue,type,ntpm,staining_intensity,data_source
+brain,normal,27.1,,HPA_rna
+Differentiating spermatogonia,single_cell,46.4,,HPA_rna
+Early primary spermatocytes,single_cell,17.3,,HPA_rna
+Epididymal basal cells,single_cell,13.0,,HPA_rna
+Oligodendrocyte progenitor cells,single_cell,49.3,,HPA_rna
+Oocytes,single_cell,96.7,,HPA_rna
+Other brain neurons,single_cell,12.2,,HPA_rna
+Undifferentiated spermatogonia,single_cell,27.3,,HPA_rna
+memory B-cell,blood,2.6,,HPA_rna
+naive CD8 T-cell,blood,1.4,,HPA_rna

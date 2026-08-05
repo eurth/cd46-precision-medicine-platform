@@ -1,0 +1,1187 @@
+depmap_id,crispr_score,cell_line_name,cancer_type,lineage,is_dependency,gene_symbol
+ACH-000015,-0.2933469724841095,NCI-H1581,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000045,-0.1739366846615669,MV4-11,Acute Myeloid Leukemia,Myeloid,False,NECTIN4
+ACH-000094,0.0665463631388915,HPAF-II,Pancreatic Adenocarcinoma,Pancreas,False,NECTIN4
+ACH-000096,-0.3572050293309136,G-401,Rhabdoid Cancer,Kidney,False,NECTIN4
+ACH-000099,-0.1429530289444713,SIMA,Neuroblastoma,Peripheral Nervous System,False,NECTIN4
+ACH-000167,-0.1651198315684197,KE-97,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-000178,-0.0399587454551136,Hs 766T,Pancreatic Adenocarcinoma,Pancreas,False,NECTIN4
+ACH-000213,1.2536103966231948e-05,HUP-T4,Pancreatic Adenocarcinoma,Pancreas,False,NECTIN4
+ACH-000216,-0.0314635207708552,JH-EsoAd1,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000223,-0.1360891028540953,HCC1937,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-000247,-0.3459843456398898,OCUM-1,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000261,-0.1214508989797587,RERF-LC-AI,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000262,-0.2156751341266947,UOK101,Renal Cell Carcinoma,Kidney,False,NECTIN4
+ACH-000286,-0.0828506842431172,SNU-1033,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-000312,-0.1167876548563785,SK-N-BE(2),Neuroblastoma,Peripheral Nervous System,False,NECTIN4
+ACH-000320,-0.0301798208782687,PSN1,Pancreatic Adenocarcinoma,Pancreas,False,NECTIN4
+ACH-000341,-0.2472947858193842,SK-N-FI,Neuroblastoma,Peripheral Nervous System,False,NECTIN4
+ACH-000354,-0.0443726277995243,Capan-1,Pancreatic Adenocarcinoma,Pancreas,False,NECTIN4
+ACH-000373,-0.0424544397650371,SKM-1,Acute Myeloid Leukemia,Myeloid,False,NECTIN4
+ACH-000402,-0.098327594665735,BL-70,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-000416,-0.1720817180727687,NCI-H838,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000435,-0.2257345328220314,EFE-184,Endometrial Carcinoma,Uterus,False,NECTIN4
+ACH-000437,-0.1328596914317862,SW 1088,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000450,0.0112212914941948,MEL-HO,Melanoma,Skin,False,NECTIN4
+ACH-000478,-0.104348138716731,SNU-387,Hepatocellular Carcinoma,Liver,False,NECTIN4
+ACH-000483,-0.0871224242771214,SNU-182,Hepatocellular Carcinoma,Liver,False,NECTIN4
+ACH-000493,-0.1878449702476895,SNU-423,Hepatocellular Carcinoma,Liver,False,NECTIN4
+ACH-000514,-0.1431033644378018,NCI-H1092,Lung Neuroendocrine Tumor,Lung,False,NECTIN4
+ACH-000516,-0.0507249962795886,CAL-78,Chondrosarcoma,Bone,False,NECTIN4
+ACH-000535,0.0035223587734562,BxPC-3,Pancreatic Adenocarcinoma,Pancreas,False,NECTIN4
+ACH-000544,-0.1234118399475937,OE21,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000563,-0.3607826349907891,EBC-1,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000592,-0.0749977951777552,TM-31,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000599,-0.0430250338075847,PA-TU-8902,Pancreatic Adenocarcinoma,Pancreas,False,NECTIN4
+ACH-000614,-0.1511578932573042,RVH-421,Melanoma,Skin,False,NECTIN4
+ACH-000618,-0.1622924804807293,SNU-1041,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-000652,-0.0446303908599551,SUIT-2,Pancreatic Adenocarcinoma,Pancreas,False,NECTIN4
+ACH-000656,-0.3049232122419666,SU-DHL-8,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-000695,0.0365098146502491,COR-L47,Lung Neuroendocrine Tumor,Lung,False,NECTIN4
+ACH-000717,0.084579544039599,COLO-680N,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000719,-0.1492486009953514,RMG-I,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-000748,-0.1421550309861048,SJSA-1,Osteosarcoma,Bone,False,NECTIN4
+ACH-000777,-0.03802341184435,KYSE-30,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000784,-0.2240640742383779,KYSE-70,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000793,-0.1162816774606784,KATO III,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000798,-0.239463586413096,CL-40,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-000820,-0.1581299653613735,SW403,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-000839,0.0530816830534539,SCaBER,Bladder Squamous Cell Carcinoma,Bladder/Urinary Tract,False,NECTIN4
+ACH-000862,-0.2383657864595307,KMBC-2,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,NECTIN4
+ACH-000872,-0.1735754188813197,HCC515,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000876,-0.2141057622738933,MDA-MB-415,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-000888,-0.0377026745742338,NCI-H1793,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000906,-0.1366026806065507,ES-2,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-000912,-0.205855840576617,NCI-H2286,Lung Neuroendocrine Tumor,Lung,False,NECTIN4
+ACH-000913,-0.088023600788197,ESS-1,Uterine Sarcoma/Mesenchymal,Uterus,False,NECTIN4
+ACH-000922,-0.1090142922314985,RCH-ACV,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,False,NECTIN4
+ACH-000928,-0.1371145241816846,JHUEM-1,Endometrial Carcinoma,Uterus,False,NECTIN4
+ACH-000934,-0.159658912527965,MDA-MB-361,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-000937,-0.0991635406282158,PF-382,T-Lymphoblastic Leukemia/Lymphoma,Lymphoid,False,NECTIN4
+ACH-000943,-0.2329858106899112,RKO,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-000950,-0.0945200163701305,LoVo,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-000953,-0.2218827400615702,SUP-T1,T-Lymphoblastic Leukemia/Lymphoma,Lymphoid,False,NECTIN4
+ACH-000957,-0.1357209351322212,LS 180,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-000960,-0.0721425247153136,Reh,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,False,NECTIN4
+ACH-000969,-0.3820589215015568,KM12,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-000994,-0.0851758274604382,HEC-59,Endometrial Carcinoma,Uterus,False,NECTIN4
+ACH-001228,-0.1454944574963879,UPCI-SCC-152,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-001329,-0.1354111812751752,ANGM-CSS,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-001374,0.0550315584129112,PA-1 [PA1],Ovarian Germ Cell Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-001393,-0.067500525353671,SUM-190PT,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-001418,-0.1751042440281017,UWB1.289,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-001419,-0.1444108543416755,VP229,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-001497,-0.0516823386483393,ESO51,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-001513,-0.0663134818842338,HCA-1,Cervical Adenocarcinoma,Cervix,False,NECTIN4
+ACH-001539,-0.1356925875218301,KML-1,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-001544,-0.0548623719227453,KYAE-1,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-001570,-0.2136080485360659,MM426,Melanoma,Skin,False,NECTIN4
+ACH-001603,-0.0203666245348285,NH-12,Neuroblastoma,Peripheral Nervous System,False,NECTIN4
+ACH-001650,-0.0033122785125941,SISO,Cervical Adenocarcinoma,Cervix,False,NECTIN4
+ACH-001675,-0.0530836608915989,TR146,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-001794,-0.0924025711904726,93T449,Liposarcoma,Soft Tissue,False,NECTIN4
+ACH-001802,-0.0804128345231394,LPS853,Liposarcoma,Soft Tissue,False,NECTIN4
+ACH-001972,-0.0990794107673502,MM473,Melanoma,Skin,False,NECTIN4
+ACH-001993,-0.0168123750040887,NALM-16,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,False,NECTIN4
+ACH-002002,0.0023995898606282,A375 SKIN CJ2,Melanoma,Skin,False,NECTIN4
+ACH-002052,-0.1739032845047846,Lu-139,Lung Neuroendocrine Tumor,Lung,False,NECTIN4
+ACH-002055,-0.2578933989628567,TL-1,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-002161,-0.1870813966237577,MKN28,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-002263,-0.3097733913378898,KYSE-220,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-002284,-0.1084816677187353,NB6,Neuroblastoma,Peripheral Nervous System,False,NECTIN4
+ACH-002463,-0.0887777323989536,RPE1-ss77,Non-Cancerous,Eye,False,NECTIN4
+ACH-002471,-0.0448424991001415,OS052,Osteosarcoma,Bone,False,NECTIN4
+ACH-002511,-0.0202298373260452,M104325,Melanoma,Skin,False,NECTIN4
+ACH-002512,0.1010435902165329,MM160113,Melanoma,Skin,False,NECTIN4
+ACH-002654,0.0602716586307859,JVE-015,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-002780,-0.0547116907637999,NCC-ES1-C1,Ewing Sarcoma,Bone,False,NECTIN4
+ACH-002784,-0.0453262180316081,NCC-UPS2-C1,Undifferentiated Pleomorphic Sarcoma/Malignant Fibrous Histiocytoma/High-Grade Spindle Cell Sarcoma,Soft Tissue,False,NECTIN4
+ACH-002799,-0.0070028522851089,NCC-MPNST1-C1,Nerve Sheath Tumor,Peripheral Nervous System,False,NECTIN4
+ACH-002806,-0.1419322893337399,TB096,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000018,-0.1083288683396195,T24,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,NECTIN4
+ACH-000029,-0.1246263741910514,HCC-827-GR5,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000036,-0.1004446989114979,U343,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000048,-0.2483387597388415,TOV-112D,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-000053,-0.1599274426066294,KARPAS-299,Mature T and NK Neoplasms,Lymphoid,False,NECTIN4
+ACH-000087,-0.1484970401227232,SK-ES-1,Ewing Sarcoma,Bone,False,NECTIN4
+ACH-000097,-0.035315822488747,ZR-75-1,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-000108,-0.1154031467835818,KP-3,Adenosquamous Carcinoma of the Pancreas,Pancreas,False,NECTIN4
+ACH-000120,-0.3705253507743382,CHP-212,Neuroblastoma,Peripheral Nervous System,False,NECTIN4
+ACH-000143,-0.2966694897235853,HCC2429,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000183,-0.0869178618488961,L-363,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-000190,-0.1275408954595004,HD-MY-Z,Acute Myeloid Leukemia,Myeloid,False,NECTIN4
+ACH-000195,-0.1939372161000843,Set-2,Acute Myeloid Leukemia,Myeloid,False,NECTIN4
+ACH-000198,-0.0153462052158849,EOL-1,Acute Myeloid Leukemia,Myeloid,False,NECTIN4
+ACH-000235,-0.0655689110471094,Panc 04.03,Pancreatic Adenocarcinoma,Pancreas,False,NECTIN4
+ACH-000255,-0.1101866040431233,LMSU,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000258,-0.1482764967203968,Du4475,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-000304,0.0763758053518153,WM-115,Melanoma,Skin,False,NECTIN4
+ACH-000311,0.0798623515615397,NCI-H2122,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000339,-0.1003577950841065,HCC-461,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000350,-0.3054133656011928,COLO-678,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-000361,-0.2650468574309169,SK-HEP-1,Hepatocellular Carcinoma,Liver,False,NECTIN4
+ACH-000375,0.0663201474325683,G-402,Rhabdoid Cancer,Kidney,False,NECTIN4
+ACH-000389,-0.0596188414565435,H4,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000391,-0.1292414650439993,MHH-ES-1,Ewing Sarcoma,Bone,False,NECTIN4
+ACH-000411,-0.0357350394106155,769-P,Renal Cell Carcinoma,Kidney,False,NECTIN4
+ACH-000421,-0.248883598916685,SW837,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-000427,0.1012229348471065,NCI-N87,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000434,-0.3157357752656824,NCI-H1915,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000441,-0.2327246586313513,SH-4,Melanoma,Skin,False,NECTIN4
+ACH-000444,-0.2173620360754967,LU99,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000467,-0.240750364947261,HCC-56,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-000471,0.0521156547316837,Li-7,Hepatocellular Carcinoma,Liver,False,NECTIN4
+ACH-000486,-0.176556233720636,KU-19-19,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,NECTIN4
+ACH-000490,-0.1014960354905263,SF767,Cervical Squamous Cell Carcinoma,Cervix,False,NECTIN4
+ACH-000496,-0.0872686096953518,NCI-H1792,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000533,-0.1501629529405034,NCI-H2004 RT,Rhabdoid Cancer,Kidney,False,NECTIN4
+ACH-000542,-0.106474688307154,Hey-A8,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-000546,-0.1183993309562437,HSC-4,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-000551,-0.156371243215087,K-562,Myeloproliferative Neoplasms,Myeloid,False,NECTIN4
+ACH-000558,-0.2557021271551687,A-172,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000576,-0.1585967993092087,KMS-27,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-000579,-0.1101202504616722,UACC-257,Melanoma,Skin,False,NECTIN4
+ACH-000588,-0.2055347070325098,KMS-26,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-000624,-0.0345180318436128,HCC1806,Breast Ductal Carcinoma In Situ,Breast,False,NECTIN4
+ACH-000638,-0.1742970939513759,NCI-H441,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000646,-0.1726191756517243,OVMANA,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-000654,-0.1515871272183188,Raji,Non-Hodgkin Lymphoma,Lymphoid,False,NECTIN4
+ACH-000738,-0.1602953314545931,GB-1,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000764,-0.1706385218651924,SH-10-TC,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000773,-0.1638866313175022,Ki-JK,Mature T and NK Neoplasms,Lymphoid,False,NECTIN4
+ACH-000807,-0.1701655593686907,SNU-738,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000811,-0.1715994799007305,SK-OV-3,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-000843,-0.1781751508304076,HARA,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000849,-0.0789008123551989,MDA-MB-468,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-000865,-0.1744431770171055,KYSE-450,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000890,-0.1391091452090834,SW 1271,SMARCA4-deficient undifferentiated tumor,Lung,False,NECTIN4
+ACH-000894,-0.2610372215464249,NCI-H1869,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000907,-0.0816795887886064,SNU-349,Renal Cell Carcinoma,Kidney,False,NECTIN4
+ACH-000917,-0.1164479488384313,TE-4,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000932,-0.1490845479481272,SNU-1,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000966,-0.2185696418146515,IGROV1,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-000974,-0.2396017090852216,SNG-M,Endometrial Carcinoma,Uterus,False,NECTIN4
+ACH-001031,-0.2582430690914086,CHLA-266,Embryonal Tumor,CNS/Brain,False,NECTIN4
+ACH-001338,-0.2643213026164294,CHP-134,Neuroblastoma,Peripheral Nervous System,False,NECTIN4
+ACH-001407,-0.0355304522431852,UM-UC-13,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,NECTIN4
+ACH-001409,0.0261419435767515,UM-UC-16,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,NECTIN4
+ACH-001454,-0.2968836572494026,C10,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-001511,0.0489375965402316,H413,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-001518,-0.2025829659843498,HEC-116,Endometrial Carcinoma,Uterus,False,NECTIN4
+ACH-001522,-0.2310589624710246,HMY-1,Melanoma,Skin,False,NECTIN4
+ACH-001536,-0.1576609765081023,KKU-100,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,NECTIN4
+ACH-001551,-0.1078042668789321,MCC14/2,Merkel Cell Carcinoma,Skin,False,NECTIN4
+ACH-001554,-0.0201961671516928,mel-202,Ocular Melanoma,Eye,False,NECTIN4
+ACH-001555,-0.2781940472270011,Mero-14,Pleural Mesothelioma,Pleura,False,NECTIN4
+ACH-001557,-0.1218850167162713,Mero-41,Pleural Mesothelioma,Pleura,False,NECTIN4
+ACH-001563,-0.0253125690847111,MM127,Melanoma,Skin,False,NECTIN4
+ACH-001574,-0.2772159561090789,MOLM-14,Acute Myeloid Leukemia,Myeloid,False,NECTIN4
+ACH-001607,-0.029439360162629,NOZ,Intracholecystic Papillary Neoplasm,Biliary Tract,False,NECTIN4
+ACH-001655,-0.0566247429792504,SKN,Uterine Sarcoma/Mesenchymal,Uterus,False,NECTIN4
+ACH-001674,-0.2202999504119021,TGW,Neuroblastoma,Peripheral Nervous System,False,NECTIN4
+ACH-001687,0.0776510045226323,UM-RC-3,Renal Cell Carcinoma,Kidney,False,NECTIN4
+ACH-001695,-0.016978976432995,UPCI-SCC-099,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-001696,-0.1375736230007985,UPCI-SCC-111,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-001699,-0.1248477573347227,UPCI-SCC-131,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-001737,-0.061733034080062,CTV-1-DM,T-Lymphoblastic Leukemia/Lymphoma,Lymphoid,False,NECTIN4
+ACH-001819,-0.0962296184352858,MFM-223,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-001843,-0.1485137038389587,MGH-ECC4,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,NECTIN4
+ACH-002040,-0.1041233357895368,HMV-II,Mucosal Melanoma of the Vulva/Vagina,Vulva/Vagina,False,NECTIN4
+ACH-002043,-0.0372314891220478,Ca9-22,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-002051,-0.1761638448315018,Lu-134-A,Lung Neuroendocrine Tumor,Lung,False,NECTIN4
+ACH-002060,0.207355383293733,MY,Acute Leukemias of Ambiguous Lineage,Myeloid,False,NECTIN4
+ACH-002141,-0.2767461424789972,HSC-39,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-002233,-0.1757329327334559,DIFI,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-002247,-0.2744518253540436,IM-9,Non-Cancerous,Myeloid,False,NECTIN4
+ACH-002257,-0.4612528173647223,KINGS-1,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-002500,-0.210071878533294,Z-138,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-002530,-0.1357134504860598,SNU-977,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-003191,0.0737312508051674,NRH-GCT2,Giant Cell Tumor of Bone,Bone,False,NECTIN4
+ACH-000005,0.072068150994407,HEL 92.1.7,Acute Myeloid Leukemia,Myeloid,False,NECTIN4
+ACH-000011,-0.1234313782181754,253J,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,NECTIN4
+ACH-000067,-0.1934977162687126,Hs 683,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000076,-0.2370778189050802,NCO2,Myeloproliferative Neoplasms,Myeloid,False,NECTIN4
+ACH-000093,-0.2995636136091046,Panc 05.04,Pancreatic Adenocarcinoma,Pancreas,False,NECTIN4
+ACH-000095,-0.0585592393240613,D341 Med,Embryonal Tumor,CNS/Brain,False,NECTIN4
+ACH-000098,-0.1297887717864377,GAMG,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000115,-0.17954063302553,VCaP,Prostate Adenocarcinoma,Prostate,False,NECTIN4
+ACH-000116,-0.0144209746723947,OAW28,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-000132,-0.1088235117470135,JHOS-2,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-000139,-0.0145674624925693,Panc 03.27,Pancreatic Adenocarcinoma,Pancreas,False,NECTIN4
+ACH-000159,-0.0941478517826473,OS-RC-2,Renal Cell Carcinoma,Kidney,False,NECTIN4
+ACH-000172,-0.0622261271794286,TM-87,Rhabdoid Cancer,Soft Tissue,False,NECTIN4
+ACH-000174,-0.070747128851674,CAL-62,Anaplastic Thyroid Cancer,Thyroid,False,NECTIN4
+ACH-000182,-0.0894107943624169,SNU-869,Ampullary Carcinoma,Ampulla of Vater,False,NECTIN4
+ACH-000212,0.0361682559723108,CAL-120,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-000226,-0.0381410292766518,SUP-M2,Mature T and NK Neoplasms,Lymphoid,False,NECTIN4
+ACH-000228,-0.180226419397615,BICR 31,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-000233,-0.1490889237983329,DEL,Mature T and NK Neoplasms,Lymphoid,False,NECTIN4
+ACH-000234,-0.0503151202535736,Caki-2,Renal Cell Carcinoma,Kidney,False,NECTIN4
+ACH-000260,-0.0597606519970077,SK-N-AS,Neuroblastoma,Peripheral Nervous System,False,NECTIN4
+ACH-000264,-0.174797727999795,Calu-6,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000277,-0.054508816620619,HCC1419,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-000293,-0.132420592681531,KLE,Endometrial Carcinoma,Uterus,False,NECTIN4
+ACH-000294,-0.2742483958272101,NB-4,Acute Myeloid Leukemia,Myeloid,False,NECTIN4
+ACH-000335,-0.2933469172944292,MSTO-211H,Pleural Mesothelioma,Pleura,False,NECTIN4
+ACH-000344,-0.0949468696353235,SNU-668,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000371,-0.1775492967459068,RL,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-000376,-0.1139865062357997,SF-295,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000381,-0.0868440685251818,T84,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-000403,-0.0462582357455508,NCI-H747,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-000404,-0.1791698388061498,K029AX,Melanoma,Skin,False,NECTIN4
+ACH-000503,0.2175720903377647,BICR 16,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-000504,-0.2226221931636127,SNB75,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000547,-0.1062417659853052,HT-1197,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,NECTIN4
+ACH-000548,-0.1465411905516722,BHY,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-000549,-0.150461117303987,SNU-1076,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-000584,-0.2299427515615066,JHOS-4,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-000616,-0.2630943105174078,Hs 746T,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000620,-0.1161399957952997,JHH-1,Hepatocellular Carcinoma,Liver,False,NECTIN4
+ACH-000663,-0.1624205115794676,OVTOKO,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-000746,-0.2093291219733641,GSS,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000753,-0.0779557620018337,JMSU-1,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,NECTIN4
+ACH-000756,0.017663748639129,GI-1,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000823,-0.1750779750927185,KYSE-140,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000831,-0.1300878615195906,HEC-50B,Endometrial Carcinoma,Uterus,False,NECTIN4
+ACH-000853,0.0442800161206551,NCI-H661,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000860,-0.1064104807061055,NCI-H358,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000864,-0.2049215632053381,COLO 684,Endometrial Carcinoma,Uterus,False,NECTIN4
+ACH-000882,-0.1801453418920695,IGR-1,Melanoma,Skin,False,NECTIN4
+ACH-000919,-0.1236509790634594,IM95,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000924,-0.0918707709600825,NCI-H2172,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000926,-0.0783152099192251,HT-55,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-000970,-0.0562601332995002,SNU-C5,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-000980,-0.1354970021266534,NCI-H1155,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000983,-0.0911063296631575,KCL-22,Myeloproliferative Neoplasms,Myeloid,False,NECTIN4
+ACH-001020,-0.2842700457643519,BT-16,Embryonal Tumor,CNS/Brain,False,NECTIN4
+ACH-001054,-0.0446398868824195,D458,Embryonal Tumor,CNS/Brain,False,NECTIN4
+ACH-001111,0.3693633957632644,L82,Mature T and NK Neoplasms,Lymphoid,False,NECTIN4
+ACH-001128,-0.041233783522885,MON,Rhabdoid Cancer,Soft Tissue,False,NECTIN4
+ACH-001134,-0.0985121618308711,MYLA,Non-Hodgkin Lymphoma,Lymphoid,False,NECTIN4
+ACH-001137,-0.3213242784110484,NCI-H1993,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-001172,-0.0810754845780419,U-251 MG DM,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-001275,-0.0081310515603415,SYO-1,Osteosarcoma,Bone,False,NECTIN4
+ACH-001279,-0.2791601176793791,SCCOHT-1,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-001280,0.0443494987465592,SCS-214,Synovial Sarcoma,Soft Tissue,False,NECTIN4
+ACH-001310,-0.0297624532736149,HA1E,Non-Cancerous,Kidney,False,NECTIN4
+ACH-001340,0.0315062827089708,COV413A,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-001386,-0.2222985527785156,SCLC-22H,Lung Neuroendocrine Tumor,Lung,False,NECTIN4
+ACH-001390,-0.1599446055903904,SUM-149PT,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-001396,0.0494453036512546,SUM-52PE,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-001398,-0.065281478058741,SW 156,Renal Cell Carcinoma,Kidney,False,NECTIN4
+ACH-001422,-0.0472163843992073,WPE1-NA22,Non-Cancerous,Prostate,False,NECTIN4
+ACH-001460,-0.1866934758328365,C84,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-001533,-0.1553145706830657,KARPAS 1718,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-001542,0.0016996663109653,KON,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-001547,-0.1555638668329717,LO68,Pleural Mesothelioma,Pleura,False,NECTIN4
+ACH-001548,-0.0836253973567169,LS,Neuroblastoma,Peripheral Nervous System,False,NECTIN4
+ACH-001558,-0.3312000097686703,Mero-48a,Pleural Mesothelioma,Pleura,False,NECTIN4
+ACH-001608,-0.1269746234306125,NP 2,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-001619,-0.0883738996123928,OCUG-1,Intracholecystic Papillary Neoplasm,Biliary Tract,False,NECTIN4
+ACH-001625,-0.1554963518413823,OSC-19,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-001642,-0.1930015943262349,SCC-3,Non-Hodgkin Lymphoma,Lymphoid,False,NECTIN4
+ACH-001691,-0.1423062473777177,UPCI-SCC-029A,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-001692,-0.12950914639549,UPCI-SCC-040,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-001842,0.1589119879979955,MGH-ICC2,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,NECTIN4
+ACH-001850,-0.1621268776053258,G415,Intracholecystic Papillary Neoplasm,Biliary Tract,False,NECTIN4
+ACH-001853,-0.1365065447345143,KMCH-1,Hepatocellular Carcinoma plus Intrahepatic Cholangiocarcinoma,Liver,False,NECTIN4
+ACH-001970,-0.3155783252849891,MM253,Melanoma,Skin,False,NECTIN4
+ACH-001991,-0.4307715553745948,NZOV9,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-002030,-0.2673977849884661,Sa3,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-002044,-0.0757902848387866,HSQ-89,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-002062,-0.2624981921019028,SLVL,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-002116,-0.3666518597875703,EW-22,Ewing Sarcoma,Bone,False,NECTIN4
+ACH-002210,-0.0370475443750873,ARH-77,Non-Cancerous,Myeloid,False,NECTIN4
+ACH-002464,-0.1350360094724041,RPE1-ss6,Non-Cancerous,Eye,False,NECTIN4
+ACH-002647,-0.1798877453510412,CCC-5,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,NECTIN4
+ACH-002680,0.0085205747226256,170-MG-BA,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-003176,-0.10192582176289,NRH-GCT1,Osteosarcoma,Bone,False,NECTIN4
+ACH-000014,-0.2620266658045607,Hs 294T,Melanoma,Skin,False,NECTIN4
+ACH-000019,0.4439470904508377,MCF7,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-000035,-0.226456710959509,NCI-H1650,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000042,-0.1297979336043319,Panc 02.03,Pancreatic Adenocarcinoma,Pancreas,False,NECTIN4
+ACH-000074,-0.0938429722562853,KU812,Myeloproliferative Neoplasms,Myeloid,False,NECTIN4
+ACH-000114,-0.104201631033342,SU.86.86,Pancreatic Adenocarcinoma,Pancreas,False,NECTIN4
+ACH-000127,-0.1391811602947679,SLR 20,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,NECTIN4
+ACH-000128,-0.2317833587149999,LN-319,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000133,-0.126891422332811,Hs 729,Non-Cancerous,Fibroblast,False,NECTIN4
+ACH-000153,-0.1785048125600733,NCI-H2052,Pleural Mesothelioma,Pleura,False,NECTIN4
+ACH-000164,-0.0461441485924872,PANC-1,Pancreatic Adenocarcinoma,Pancreas,False,NECTIN4
+ACH-000176,-0.3254791071136595,LOU-NH91,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000189,0.0698043626171775,RCC10RGB,Renal Cell Carcinoma,Kidney,False,NECTIN4
+ACH-000208,0.2346786481119622,U-178,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000210,0.1139882607407968,CADO-ES1,Ewing Sarcoma,Bone,False,NECTIN4
+ACH-000242,-0.1525921360601632,RT4,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,NECTIN4
+ACH-000251,-0.3265470571869727,NCI-H2887,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000288,-0.1342237732783984,BT-549,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-000325,-0.0255189119117689,SNU-620,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000331,-0.0925959529344415,IST-MES2,Pleural Mesothelioma,Pleura,False,NECTIN4
+ACH-000356,0.0371702151591725,MKN-45,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000398,-0.2373274500023112,RI-1,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-000470,-0.2721530950078128,SW1463,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-000476,-0.0744593634752202,JHH-4,Hepatocellular Carcinoma,Liver,False,NECTIN4
+ACH-000480,-0.2084374115574076,HuH-7,Hepatocellular Carcinoma,Liver,False,NECTIN4
+ACH-000489,-0.0858732990604103,SW1116,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-000545,-0.1082173991277404,VM-CUB1,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,NECTIN4
+ACH-000556,-0.1302033445509065,SIHA,Cervical Squamous Cell Carcinoma,Cervix,False,NECTIN4
+ACH-000580,-0.1042962715909831,C32,Melanoma,Skin,False,NECTIN4
+ACH-000596,-0.2119076957331777,LCLC-97TM1,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000597,-0.0402611340348027,TTC-709,Rhabdoid Cancer,Soft Tissue,False,NECTIN4
+ACH-000665,-0.1486204135726465,SK-MES-1,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000671,-0.1197055475753782,HuH-6,Hepatoblastoma,Liver,False,NECTIN4
+ACH-000747,-0.1542170485462499,NCI-H1703,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000763,0.0271613445859047,MM1-S,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-000765,-0.1410471942076521,WM983B,Melanoma,Skin,False,NECTIN4
+ACH-000785,-0.1665180214503366,NCI-H2126,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000817,-0.1014728721186977,RPMI 8226,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-000821,-0.0016836371957415,EJM,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-000851,-0.2265283261108817,MOR/CPR,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000880,-0.0817171070942207,AGS,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000914,-0.1946020773992189,HT,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-000941,-0.0911710357162829,HEC-1-B,Endometrial Carcinoma,Uterus,False,NECTIN4
+ACH-000963,-0.0447231500401403,CCK-81,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-000973,-0.0157824383176949,639-V,Urethral Cancer,Bladder/Urinary Tract,False,NECTIN4
+ACH-000984,-0.4635325488158406,HEC-6,Endometrial Carcinoma,Uterus,False,NECTIN4
+ACH-001041,-0.1521859971899075,CHL-1-DM,Melanoma,Skin,False,NECTIN4
+ACH-001048,-0.1285935737864237,COV504,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-001067,-0.0798154181094389,F5,Meningothelial Tumor,CNS/Brain,False,NECTIN4
+ACH-001081,0.0454913941499067,HCC2998,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-001119,0.0498656170203073,Mac-2A,Mature T and NK Neoplasms,Lymphoid,False,NECTIN4
+ACH-001145,-0.299041267478257,OC 316,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-001184,-0.2362753198687349,SCMC-RM2,Rhabdomyosarcoma,Soft Tissue,False,NECTIN4
+ACH-001274,-0.1021867709002747,SW982,Synovial Sarcoma,Soft Tissue,False,NECTIN4
+ACH-001333,-0.0807124895013646,C-33 A,Cervical Squamous Cell Carcinoma,Cervix,False,NECTIN4
+ACH-001335,-0.1062254171204413,C-4 II,Cervical Squamous Cell Carcinoma,Cervix,False,NECTIN4
+ACH-001376,0.0125468299447215,PACADD-135,Pancreatic Adenocarcinoma,Pancreas,False,NECTIN4
+ACH-001379,0.1060449472381376,PACADD-161,Pancreatic Adenocarcinoma,Pancreas,False,NECTIN4
+ACH-001389,-0.0756333446561906,SUM-1315MO2,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-001401,0.0953116544011775,SW-13,Adrenocortical Carcinoma,Adrenal Gland,False,NECTIN4
+ACH-001403,-0.1403472535055494,TO14,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-001413,-0.0063739392445593,UM-UC-11,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,NECTIN4
+ACH-001498,0.0034102999654613,Farage,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-001521,-0.1861831846981934,HKA-1,Cutaneous Squamous Cell Carcinoma,Skin,False,NECTIN4
+ACH-001525,0.0110178911774157,HT-3,Cervical Adenocarcinoma,Cervix,False,NECTIN4
+ACH-001526,-0.0591203861242385,HuO9,Osteosarcoma,Bone,False,NECTIN4
+ACH-001529,-0.151461079205541,JAR,Gestational Trophoblastic Disease,Uterus,False,NECTIN4
+ACH-001552,-0.0929903186641687,MCC26,Merkel Cell Carcinoma,Skin,False,NECTIN4
+ACH-001566,-0.1216483875167995,MM370,Melanoma,Skin,False,NECTIN4
+ACH-001605,0.0068883975703231,no.10,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-001618,-0.2851979178416799,OCI-M2,Acute Myeloid Leukemia,Myeloid,False,NECTIN4
+ACH-001627,-0.080882008796026,P4E6,Non-Cancerous,Prostate,False,NECTIN4
+ACH-001639,-0.1358253199506023,ROS-50,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-001649,-0.1075341808135241,Shmac 5,Non-Cancerous,Prostate,False,NECTIN4
+ACH-001652,-0.0774471223702123,SKG-II,Cervical Squamous Cell Carcinoma,Cervix,False,NECTIN4
+ACH-001669,-0.2850962087770552,TANOUE,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,False,NECTIN4
+ACH-001677,-0.1930752244605299,U-2904,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-001711,0.1794561648373443,PFSK-1,Embryonal Tumor,CNS/Brain,False,NECTIN4
+ACH-001740,-0.0200430278193379,RH28,Rhabdomyosarcoma,Soft Tissue,False,NECTIN4
+ACH-001795,-0.0007433771530478,94T778,Liposarcoma,Soft Tissue,False,NECTIN4
+ACH-001796,0.0514707519674028,95T1000,Liposarcoma,Soft Tissue,False,NECTIN4
+ACH-001799,0.0292686434792332,LPS141,Liposarcoma,Soft Tissue,False,NECTIN4
+ACH-001836,-0.0426209771917168,MGH-ICC10-8,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,NECTIN4
+ACH-001849,-0.3836119310840022,MGH-ICC9,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,NECTIN4
+ACH-001857,-0.2157912604613476,SG231,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,NECTIN4
+ACH-001862,0.0075406347897193,TGBC52TKB,Ampullary Carcinoma,Ampulla of Vater,False,NECTIN4
+ACH-001997,-0.088419971373997,MGH-AOVC1,Ampullary Carcinoma,Ampulla of Vater,False,NECTIN4
+ACH-002003,-0.0502797510959729,A375 SKIN CJ3,Melanoma,Skin,False,NECTIN4
+ACH-002019,-0.1205112251971955,HOKUG,Glassy Cell Carcinoma of the Cervix,Cervix,False,NECTIN4
+ACH-002023,-0.0890169513870459,TGBC18TKB,Ampullary Carcinoma,Ampulla of Vater,False,NECTIN4
+ACH-002265,-0.247636999266473,LB771-HNC,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-002298,-0.0255386361020643,PCI-6A,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-002305,-0.1141730443360535,SKN-3,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-002470,-0.0112194878563025,OS186,Osteosarcoma,Bone,False,NECTIN4
+ACH-002705,-0.0686625920251067,IS076P,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-002706,-0.187205941566884,IS076A,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-002778,-0.1021931631495534,NCC-OS1-X2-C1,Osteosarcoma,Bone,False,NECTIN4
+ACH-002800,0.0147293292323452,NCC-MPNST2-C1,Nerve Sheath Tumor,Peripheral Nervous System,False,NECTIN4
+ACH-002801,-0.0864841068737149,NCC-MPNST3-C1,Nerve Sheath Tumor,Peripheral Nervous System,False,NECTIN4
+ACH-000001,-0.438818647826572,NIH:OVCAR-3,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-000007,-0.1082858223921689,LS513,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-000013,-0.1508623999393724,ONCO-DG-1,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-000024,-0.2474902674481913,OPM-2,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-000026,0.0187440122093328,253J-BV,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,NECTIN4
+ACH-000078,-0.2179816503823043,MHH-NB-11,Neuroblastoma,Peripheral Nervous System,False,NECTIN4
+ACH-000100,-0.1585957173443754,RH-41,Rhabdomyosarcoma,Soft Tissue,False,NECTIN4
+ACH-000103,-0.2457282607641354,Caov-4,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-000123,-0.0788849640770803,COV434,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-000142,-0.2104287853012112,CAL-29,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,NECTIN4
+ACH-000155,0.1278603584618483,SW 1990,Pancreatic Adenocarcinoma,Pancreas,False,NECTIN4
+ACH-000163,-0.1329453349833292,SW579,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-000168,-0.3012008943307982,NOMO-1,Acute Myeloid Leukemia,Myeloid,False,NECTIN4
+ACH-000181,-0.0664752878307679,SCC-9,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-000221,-0.2074912257753877,SNU-398,Hepatocellular Carcinoma,Liver,False,NECTIN4
+ACH-000227,-0.125226590291117,KP-N-YN,Neuroblastoma,Peripheral Nervous System,False,NECTIN4
+ACH-000250,-0.0318994466355584,KMRC-20,Renal Cell Carcinoma,Kidney,False,NECTIN4
+ACH-000272,-0.1739130699278017,SLR 24,Renal Cell Carcinoma,Kidney,False,NECTIN4
+ACH-000310,-0.2116070254475351,IMR-32,Neuroblastoma,Peripheral Nervous System,False,NECTIN4
+ACH-000345,-0.1804169257997968,KP-N-RT-BM-1,Neuroblastoma,Peripheral Nervous System,False,NECTIN4
+ACH-000365,-0.2434344301597095,SU-DHL-4,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-000378,-0.165310238757039,NCI-H647,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000383,-0.0802835526145246,OE33,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000387,-0.1466034789171652,TF-1,Acute Myeloid Leukemia,Myeloid,False,NECTIN4
+ACH-000395,-0.1637297735008833,NCI-H520,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000422,-0.0937022752968981,SNU-475,Hepatocellular Carcinoma,Liver,False,NECTIN4
+ACH-000458,-0.0307209656272466,CJM,Melanoma,Skin,False,NECTIN4
+ACH-000460,-0.0130316562470066,SNU-8,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-000466,-0.2002221717123803,SNU-216,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000501,0.0528939443888301,LS123,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-000512,-0.1077977700272045,INA6,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-000520,0.0019372250443632,59M,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-000571,-0.0170409615556008,T98G,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000583,-0.0432441130243203,MC116,Non-Hodgkin Lymphoma,Lymphoid,False,NECTIN4
+ACH-000595,-0.057308225345979,LN-229,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000607,-0.024726612431143,KYM-1,Rhabdoid Cancer,Kidney,False,NECTIN4
+ACH-000648,-0.1338656595111306,NCI-H28,Pleural Mesothelioma,Pleura,False,NECTIN4
+ACH-000664,-0.0563906671595064,SU-DHL-1,Mature T and NK Neoplasms,Lymphoid,False,NECTIN4
+ACH-000713,-0.120890759694473,Caov-3,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-000724,-0.1073083013985995,HT-1376,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,NECTIN4
+ACH-000757,-0.294094407261858,A427,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000762,-0.2171737728277812,YD-38,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-000767,-0.6866245378580279,NCI-H526,Lung Neuroendocrine Tumor,Lung,True,NECTIN4
+ACH-000774,-0.1758600349361517,RERF-LC-Ad2,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000778,-0.3512034721398158,HSC-3,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-000782,-0.3529616007762191,SEM,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,False,NECTIN4
+ACH-000799,-0.0871050049102635,Hs 695T,Melanoma,Skin,False,NECTIN4
+ACH-000840,-0.2525708121544013,HCC-366,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000841,-0.2670250563572675,NCI-H2087,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000847,-0.1402232143253946,HGC-27,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000885,-0.2335252840127353,TOV-21G,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-000886,-0.1418679307463397,NCI-H2009,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000921,-0.0583893710097295,NCI-H157-DM,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000929,0.1794138763126824,NCI-H2110,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000945,-0.2914083677915456,NCI-H650,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000956,0.0027037622079923,22Rv1,Prostate Adenocarcinoma,Prostate,False,NECTIN4
+ACH-000975,-0.1947210910083189,HCC2450,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000986,-0.0594181864652926,HT115,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-001036,-0.0801219977746685,CMK-11-5,Acute Myeloid Leukemia,Myeloid,False,NECTIN4
+ACH-001061,-0.1786000594992123,DLD-1,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-001098,-0.1594253961738914,KCI-MOH1,Pancreatic Adenocarcinoma,Pancreas,False,NECTIN4
+ACH-001183,-0.1365244142063449,RT112/84,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,NECTIN4
+ACH-001295,-0.2808546171438587,Y-79,Retinoblastoma,Eye,False,NECTIN4
+ACH-001334,-0.110387535352576,C-4 I,Cervical Squamous Cell Carcinoma,Cervix,False,NECTIN4
+ACH-001370,0.0865059352691767,OCI-P5x,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-001442,-0.09669415354883,A388,Cutaneous Squamous Cell Carcinoma,Skin,False,NECTIN4
+ACH-001443,-0.0451291582866482,ASH-3,Anaplastic Thyroid Cancer,Thyroid,False,NECTIN4
+ACH-001484,-0.2147216411500372,CI,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-001495,-0.2474524196107286,EMTOKA,Endometrial Carcinoma,Uterus,False,NECTIN4
+ACH-001502,0.0652345025222591,GCT-27,Non-Seminomatous Germ Cell Tumor,Testis,False,NECTIN4
+ACH-001523,-0.1739943566615716,HSC-1,Cutaneous Squamous Cell Carcinoma,Skin,False,NECTIN4
+ACH-001550,-0.368384779623209,MCC13,Merkel Cell Carcinoma,Skin,False,NECTIN4
+ACH-001559,-0.1816288931643881,Mero-82,Pleural Mesothelioma,Pleura,False,NECTIN4
+ACH-001560,0.0143304642678648,Mero-83,Pleural Mesothelioma,Pleura,False,NECTIN4
+ACH-001606,-0.0854546265844174,no.11,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-001623,-0.0363834373045189,Onda 8,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-001626,-0.3733586928566881,OSC-20,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-001643,-0.0720885226395167,SCCH-196,Ewing Sarcoma,Bone,False,NECTIN4
+ACH-001645,-0.1046286200046576,SEKI,Melanoma,Skin,False,NECTIN4
+ACH-001648,-0.0884999585781138,Shmac 4,Non-Cancerous,Prostate,False,NECTIN4
+ACH-001688,-0.0395493623510153,UM-RC-7,Renal Cell Carcinoma,Kidney,False,NECTIN4
+ACH-001694,-0.0673039688593058,UPCI-SCC-074,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-001701,-0.4011298254271956,UPCI-SCC-200,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-001702,-0.2020014153332276,VA-ES-BJ,Epithelioid Sarcoma,Soft Tissue,False,NECTIN4
+ACH-001715,-0.0201130834219487,CAL-72,Osteosarcoma,Bone,False,NECTIN4
+ACH-001838,-0.1475756895027976,MGH-ICC12,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,NECTIN4
+ACH-002041,-0.1807789156821785,HOTHC,Anaplastic Thyroid Cancer,Thyroid,False,NECTIN4
+ACH-002143,-0.1125142092270395,IST-MEL1,Melanoma,Skin,False,NECTIN4
+ACH-002160,-0.0858033169394793,MC-IXC,Ewing Sarcoma,Bone,False,NECTIN4
+ACH-002198,-0.1132892240559713,SCH,Extra Gonadal Germ Cell Tumor,Other,False,NECTIN4
+ACH-002291,-0.2765152933892666,NTERA-2 cl.D1,Non-Seminomatous Germ Cell Tumor,Testis,False,NECTIN4
+ACH-002400,0.052036099664101,21MT-1,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-002465,-0.0393969989823002,RPE1-ss119,Non-Cancerous,Eye,False,NECTIN4
+ACH-002475,-0.1192114185133225,HAP1,Myeloproliferative Neoplasms,Myeloid,False,NECTIN4
+ACH-002508,-0.1548228255315234,WM3211,Melanoma,Skin,False,NECTIN4
+ACH-002522,0.0476125317953263,SNU-2292,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-002524,-0.0130930359236124,SNU-251,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-002544,-0.1416178951984746,SNU-1750,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-003177,-0.1043071441555164,NRH-UPS1,Undifferentiated Pleomorphic Sarcoma/Malignant Fibrous Histiocytoma/High-Grade Spindle Cell Sarcoma,Soft Tissue,False,NECTIN4
+ACH-000012,-0.258343853274142,HCC-827,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000039,0.156174354987647,SK-N-MC,Ewing Sarcoma,Bone,False,NECTIN4
+ACH-000055,-0.0251899208311561,D283 Med,Embryonal Tumor,CNS/Brain,False,NECTIN4
+ACH-000070,0.0213829908345698,697,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,False,NECTIN4
+ACH-000085,-0.3023764169187518,T3M-4,Pancreatic Adenocarcinoma,Pancreas,False,NECTIN4
+ACH-000106,-0.0919211967513665,JVM-2,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-000124,0.0173879340205924,OCI-LY-19,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-000141,-0.0224704022172331,SNU-308,Intracholecystic Papillary Neoplasm,Biliary Tract,False,NECTIN4
+ACH-000161,-0.0617417275019582,COR-L105,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000187,-0.3130834402813333,COR-L311,Lung Neuroendocrine Tumor,Lung,False,NECTIN4
+ACH-000202,-0.0380917689699401,COLO-320,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-000222,-0.0749857799735133,AsPC-1,Pancreatic Adenocarcinoma,Pancreas,False,NECTIN4
+ACH-000239,0.0493143465132857,HuG1-N,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000249,0.164376221058375,CL-11,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-000253,0.0210236777991654,COLO 201,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-000280,-0.3133011706372399,SNU-840,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-000291,-0.1198870161521243,OV-90,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-000302,-0.0861189502137465,SNU-1077,Endometrial Carcinoma,Uterus,False,NECTIN4
+ACH-000318,-0.1641224934595459,TE-10,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000323,-0.0568549744822046,42-MG-BA,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000326,-0.3089849756823118,JURL-MK1,Myeloproliferative Neoplasms,Myeloid,False,NECTIN4
+ACH-000329,-0.0073568691190885,CCF-STTG1,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000330,-0.2711722684392408,EFM-19,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-000366,-0.201127052641319,SK-N-DZ,Neuroblastoma,Peripheral Nervous System,False,NECTIN4
+ACH-000377,-0.1638382172397712,SNU-478,Ampullary Carcinoma,Ampulla of Vater,False,NECTIN4
+ACH-000406,-0.1098211428500804,U-937,Acute Myeloid Leukemia,Myeloid,False,NECTIN4
+ACH-000430,-0.2538337687746668,TYK-nu,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-000433,-0.2812802470452996,Caki-1,Renal Cell Carcinoma,Kidney,False,NECTIN4
+ACH-000454,-0.275221955042836,HCC-95,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000456,-0.0692715556370755,B-CPAP,Poorly Differentiated Thyroid Cancer,Thyroid,False,NECTIN4
+ACH-000464,-0.256818362014871,CAS-1,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000475,-0.1485567634233237,huH-1,Hepatocellular Carcinoma,Liver,False,NECTIN4
+ACH-000484,-0.2400803014308173,VMRC-RCW,Renal Cell Carcinoma,Kidney,False,NECTIN4
+ACH-000488,-0.1363981948566311,TE-11,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000554,0.0095480310312219,UACC-893,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-000565,-0.0180363412654464,RCM-1,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-000570,-0.0157855557071679,YKG1,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000573,-0.0804880907726378,MDA-MB-436,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-000602,-0.1427564662020719,M-07e,Acute Myeloid Leukemia,Myeloid,False,NECTIN4
+ACH-000606,-0.1167036043810494,PE/CA-PJ34 (clone C12),Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-000651,-0.2891693165375317,SW 620,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-000653,-0.1962871936614673,JJN-3,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-000672,-0.1732359341940401,IA-LM,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000677,-0.1900544653506712,SW 1573,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000693,-0.246415659817419,KYSE-180,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000699,-0.1317863770398992,HCC1395,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-000766,-0.0987125069749947,NCI-H1648,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000771,-0.1465120152102663,BICR 56,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-000866,-0.2480019403858352,NCI-H1048,Lung Neuroendocrine Tumor,Lung,False,NECTIN4
+ACH-000903,-0.1538329319859326,FTC-133,Well-Differentiated Thyroid Cancer,Thyroid,False,NECTIN4
+ACH-000920,-0.108778108612192,CML-T1,Myeloproliferative Neoplasms,Myeloid,False,NECTIN4
+ACH-000938,-0.0926580090051165,NALM-6,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,False,NECTIN4
+ACH-000958,-0.122988690400971,SW48,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-000968,-0.2206792159438377,COLO 792,Melanoma,Skin,False,NECTIN4
+ACH-000991,0.1721893634936691,SNU-81,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-000995,-0.3175779523581171,JURKAT,T-Lymphoblastic Leukemia/Lymphoma,Lymphoid,False,NECTIN4
+ACH-000996,0.0149358635675923,HEC-251,Endometrial Carcinoma,Uterus,False,NECTIN4
+ACH-000997,-0.0866269538235408,HCT-15,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-001033,0.0514207489683832,CHLA-57,Embryonal Tumor,CNS/Brain,False,NECTIN4
+ACH-001163,-0.4008796987429384,CCLF_PEDS_0001_T,Renal Cell Carcinoma,Kidney,False,NECTIN4
+ACH-001164,-0.0479338679986292,CCLF_PEDS_0003_T,Undifferentiated Pleomorphic Sarcoma/Malignant Fibrous Histiocytoma/High-Grade Spindle Cell Sarcoma,Soft Tissue,False,NECTIN4
+ACH-001188,-0.1562074866280653,SH-SY5Y,Neuroblastoma,Peripheral Nervous System,False,NECTIN4
+ACH-001270,0.160334154312123,1273/99,Synovial Sarcoma,Soft Tissue,False,NECTIN4
+ACH-001353,-0.2025598653061558,JOPACA-1,Pancreatic Adenocarcinoma,Pancreas,False,NECTIN4
+ACH-001356,-0.1124760052585216,MB-1,Anaplastic Thyroid Cancer,Thyroid,False,NECTIN4
+ACH-001368,-0.1418987008113735,OAC-M5.1,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-001394,0.001748837938583,SUM-229PE,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-001400,-0.1936094875137605,SW 954,Squamous Cell Carcinoma of the Vulva/Vagina,Vulva/Vagina,False,NECTIN4
+ACH-001416,-0.0095070723729181,UM-UC9,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,NECTIN4
+ACH-001515,-0.1229064545139558,HCS-2,Cervical Squamous Cell Carcinoma,Cervix,False,NECTIN4
+ACH-001528,-0.1278012418866586,IHH-4,Well-Differentiated Thyroid Cancer,Thyroid,False,NECTIN4
+ACH-001577,-0.1270016410354658,MUTZ-8,Acute Myeloid Leukemia,Myeloid,False,NECTIN4
+ACH-001622,-0.0196955764814538,Onda 7,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-001653,-0.1619662339820086,SK-GT-2,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-001654,-0.2044013772036118,SK-GT-4,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-001676,-0.1487343159789978,Ty-82,"Head and Neck Carcinoma, Other",Head and Neck,False,NECTIN4
+ACH-001709,-0.1591942533299134,WSU-NHL,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-001736,-0.1027813857967434,HB1119,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,False,NECTIN4
+ACH-001745,0.0187494502114209,RhJT,Rhabdomyosarcoma,Soft Tissue,False,NECTIN4
+ACH-001858,-0.1148928698253284,SSP-25,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,NECTIN4
+ACH-001863,-0.0769635707202021,TKKK,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,NECTIN4
+ACH-001864,-0.0448882774453311,YSCCC,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,NECTIN4
+ACH-001959,-0.1896493949663449,CC-LP-1,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,NECTIN4
+ACH-001992,-0.0555591590542323,ONE58,Pleural Mesothelioma,Pleura,False,NECTIN4
+ACH-002021,-0.2179717631614765,T3M-3,Gestational Trophoblastic Disease,Uterus,False,NECTIN4
+ACH-002025,-0.0715168977236073,TT1TKB,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-002033,-0.1528316638161878,HMMME,Pleural Mesothelioma,Pleura,False,NECTIN4
+ACH-002048,-0.1902312129657675,RMS-YM,Rhabdomyosarcoma,Soft Tissue,False,NECTIN4
+ACH-002080,-0.0805739575210252,TN-2,Neuroblastoma,Peripheral Nervous System,False,NECTIN4
+ACH-002105,0.0410779320311048,ES4,Ewing Sarcoma,Bone,False,NECTIN4
+ACH-002119,0.0489334256492507,EW-7,Ewing Sarcoma,Bone,False,NECTIN4
+ACH-002156,-0.293456203962165,LC-1-sq,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-002230,-0.2301032743508004,D-542MG,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-002234,-0.0966400965252607,DOK,"Head and Neck Carcinoma, Other",Head and Neck,False,NECTIN4
+ACH-002250,-0.3384624463702674,JHU-022,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-002251,-0.2022171996093091,JHU-029,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-002461,-0.0171881505441847,RVH421 SKIN FV1,Melanoma,Skin,False,NECTIN4
+ACH-002709,-0.2554589929105162,CMS,Acute Myeloid Leukemia,Myeloid,False,NECTIN4
+ACH-002925,-0.276003001324983,UPMM3,Ocular Melanoma,Eye,False,NECTIN4
+ACH-000030,-0.1714947623816248,PC-14,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000054,-0.1265211721678661,HT-1080,Fibrosarcoma,Soft Tissue,False,NECTIN4
+ACH-000082,-0.0446128758263694,"G-292, clone A141B1",Osteosarcoma,Bone,False,NECTIN4
+ACH-000118,-0.0966152206585438,HUP-T3,Pancreatic Adenocarcinoma,Pancreas,False,NECTIN4
+ACH-000152,0.0117139967570187,M059K,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000188,-0.0714251969597615,SCC-25,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-000192,-0.2420690673504635,MFE-280,Endometrial Carcinoma,Uterus,False,NECTIN4
+ACH-000200,-0.0072598111646124,NMC-G1,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000203,0.1060867447948206,NH-6,Neuroblastoma,Peripheral Nervous System,False,NECTIN4
+ACH-000209,-0.4194998955665155,SNU-1079,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,NECTIN4
+ACH-000271,-0.2555567193080033,SU-DHL-10,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-000274,0.0230210654923118,Hs 852.T,Melanoma,Skin,False,NECTIN4
+ACH-000305,-0.1139577306617815,EC-GI-10,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000313,-0.0285132065202603,KMRC-3,Renal Cell Carcinoma,Kidney,False,NECTIN4
+ACH-000374,-0.1262061228541376,HCC1143,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-000396,0.1591284259566976,J82,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,NECTIN4
+ACH-000410,-0.1626339308235581,Saos-2,Osteosarcoma,Bone,False,NECTIN4
+ACH-000425,-0.2303393803392692,UACC-62,Melanoma,Skin,False,NECTIN4
+ACH-000442,-0.1693141314756434,RERF-LC-Sq1,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000448,-0.0724158726181039,NCI-H1666,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000452,-0.0953601808279405,TE-8,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000459,-0.1121400402651018,TUHR10TKB,Renal Cell Carcinoma,Kidney,False,NECTIN4
+ACH-000463,-0.2287223136050024,NCI-H460,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000472,-0.0744592559562544,HSC-2,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-000510,-0.1699102138501682,NCI-H1299,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000519,0.0850947298998423,PEER,T-Lymphoblastic Leukemia/Lymphoma,Lymphoid,False,NECTIN4
+ACH-000525,-0.0881776424808853,NCI-H2171,Lung Neuroendocrine Tumor,Lung,False,NECTIN4
+ACH-000557,-0.1771236624995141,AML-193,Acute Myeloid Leukemia,Myeloid,False,NECTIN4
+ACH-000577,0.1187918791364543,JHH-2,Hepatocellular Carcinoma,Liver,False,NECTIN4
+ACH-000587,-0.1249138965656649,NCI-H1975,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000589,-0.0020371166098162,NCI-H1437,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000627,-0.1026296887290076,LCLC-103H,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000631,-0.1078892300810367,KS-1,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000637,-0.1804437806571814,KYSE-520,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000647,-0.1553074481970469,TE-1,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000660,-0.0747506148630288,SU-DHL-5,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-000667,-0.1100764449007708,HCC-44,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000676,-0.2102387604642255,LN-464,Melanoma,Skin,False,NECTIN4
+ACH-000700,-0.1163331794701028,NCI-H2882,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000704,-0.3500766099037303,OAW42,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-000706,-0.2126359432287729,EKVX,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000718,-0.1034450380201833,NCI-H2291,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000722,-0.0365047493764386,SNU-C1,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-000740,-0.0385125245865985,A-253,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-000760,-0.0105950832826365,LNZ308,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000776,0.0057137144250912,ONS-76,Embryonal Tumor,CNS/Brain,False,NECTIN4
+ACH-000787,-0.1167130418363296,LXF-289,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000829,-0.038157456177611,HuNS1,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-000834,-0.1492278388606663,UM-UC-1,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,NECTIN4
+ACH-000837,-0.0975453456180633,NCI-H322,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000859,-0.0746996919326788,HCC1954,Breast Ductal Carcinoma In Situ,Breast,False,NECTIN4
+ACH-000884,-0.0943552793969523,MDA-MB-435S,Melanoma,Skin,False,NECTIN4
+ACH-000896,-0.1093245644300673,647-V,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,NECTIN4
+ACH-000911,-0.0364282960844204,NUGC-3,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000916,0.267443850167454,NCI-H1573,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000947,-0.2328600035210167,OVK18,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-000993,-0.2805497669434954,JHUEM-7,Endometrial Carcinoma,Uterus,False,NECTIN4
+ACH-001029,-0.1246622742507982,CHLA-10,Ewing Sarcoma,Bone,False,NECTIN4
+ACH-001190,-0.0833104076461115,SK-MEL-2,Melanoma,Skin,False,NECTIN4
+ACH-001194,-0.0755648748187638,SK-RC-31,Renal Cell Carcinoma,Kidney,False,NECTIN4
+ACH-001278,-0.22482203520807,BIN-67,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-001300,-0.1524894619818537,CHLA-15,Neuroblastoma,Peripheral Nervous System,False,NECTIN4
+ACH-001318,-0.2997004612984348,PLC/PRF/5,Hepatocellular Carcinoma,Liver,False,NECTIN4
+ACH-001375,-0.1344118719031753,PACADD-119,Pancreatic Adenocarcinoma,Pancreas,False,NECTIN4
+ACH-001532,-0.0890814530913648,JMU-RTK-2,Rhabdoid Cancer,Kidney,False,NECTIN4
+ACH-001568,-0.0718574672229769,MM386,Melanoma,Skin,False,NECTIN4
+ACH-001578,0.1133339523906165,NCCIT,Non-Seminomatous Germ Cell Tumor,Testis,False,NECTIN4
+ACH-001610,-0.3987866849413114,NP 5,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-001611,-0.0058135484426011,NP 8,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-001624,-0.2841605554954867,Onda 9,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-001632,-0.2963910416367412,PEO4,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-001656,-0.1842667910271953,SKNO-1,Acute Myeloid Leukemia,Myeloid,False,NECTIN4
+ACH-001707,-0.1176230782173348,WA-OSEL,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-001735,-0.2663342005664038,SEMK2,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,False,NECTIN4
+ACH-001804,-0.0021913176011525,LPS510,Liposarcoma,Soft Tissue,False,NECTIN4
+ACH-001835,-0.0821853313465096,MGH-ICC10-6,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,NECTIN4
+ACH-001841,-0.0911621720668058,MGH-ECC3,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,NECTIN4
+ACH-001844,-0.0882622667531806,MGH-ICC4,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,NECTIN4
+ACH-001986,-0.1317313635024638,NZM42,Melanoma,Skin,False,NECTIN4
+ACH-001999,-0.2334780001620003,950-5-BIK,Pancreatic Adenocarcinoma,Pancreas,False,NECTIN4
+ACH-002001,-0.0249769657224558,A375 SKIN CJ1,Melanoma,Skin,False,NECTIN4
+ACH-002004,-0.196798805627905,UACC62 SKIN CJ1,Melanoma,Skin,False,NECTIN4
+ACH-002014,0.3260249712500566,Mel270,Ocular Melanoma,Eye,False,NECTIN4
+ACH-002042,-0.1395663202122638,T3M-5,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-002061,-0.2122676846553686,P2UR/K-562,Myeloproliferative Neoplasms,Myeloid,False,NECTIN4
+ACH-002077,0.1451044368612359,Lu-165,Lung Neuroendocrine Tumor,Lung,False,NECTIN4
+ACH-002106,-0.2588890841325635,ES5,Ewing Sarcoma,Bone,False,NECTIN4
+ACH-002110,-0.0511940847170829,EW-1,Ewing Sarcoma,Bone,False,NECTIN4
+ACH-002150,-0.0749535913684821,LB1047-RCC,Renal Cell Carcinoma,Kidney,False,NECTIN4
+ACH-002183,-0.2089191191123727,OVMIU,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-002186,0.0793399731358117,PL4,Pancreatic Adenocarcinoma,Pancreas,False,NECTIN4
+ACH-002229,0.0147131321011313,D-502MG,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-002239,-0.2535578177427651,H3118,Salivary Carcinoma,Head and Neck,False,NECTIN4
+ACH-002399,-0.0653876674135392,21NT,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-002538,-0.1457430283341997,SNU-1235,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-002650,-0.1574141521211002,ETCC-016,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-002690,-0.1837620298186461,OS526,Osteosarcoma,Bone,False,NECTIN4
+ACH-002710,-0.0467250186698513,MPNST-724,Nerve Sheath Tumor,Peripheral Nervous System,False,NECTIN4
+ACH-002711,-0.1585123690659791,UM-HACC-2A,Salivary Carcinoma,Head and Neck,False,NECTIN4
+ACH-000017,-0.0016952680092039,SK-BR-3,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-000040,-0.1392166328085152,U-118 MG,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000041,-0.302752873229795,RD-ES,Ewing Sarcoma,Bone,False,NECTIN4
+ACH-000086,-0.2463596406593422,ACC-MESO-1,Pleural Mesothelioma,Pleura,False,NECTIN4
+ACH-000090,-0.0628254029222969,PC-3,Prostate Adenocarcinoma,Prostate,False,NECTIN4
+ACH-000151,-0.0420941941417128,JM1,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,False,NECTIN4
+ACH-000206,0.0699496418590792,C8166,Non-Cancerous,Lymphoid,False,NECTIN4
+ACH-000207,-0.021811530620496,Detroit 562,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-000219,-0.0876273178435742,A-375,Melanoma,Skin,False,NECTIN4
+ACH-000231,-0.1262990347431662,KALS-1,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000244,-0.1680490916079098,DK-MG,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000246,-0.1201317244973855,SLR 23,Renal Cell Carcinoma,Kidney,False,NECTIN4
+ACH-000259,-0.1113656920159154,KELLY,Neuroblastoma,Peripheral Nervous System,False,NECTIN4
+ACH-000279,-0.247465892303579,EWS502,Ewing Sarcoma,Bone,False,NECTIN4
+ACH-000295,-0.2291227851061465,EM-2,Myeloproliferative Neoplasms,Myeloid,False,NECTIN4
+ACH-000296,0.005607505857983,OUMS-23,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-000316,-0.0813252730618729,SNU-886,Hepatocellular Carcinoma,Liver,False,NECTIN4
+ACH-000336,-0.4686974863176716,OCI-AML3,Acute Myeloid Leukemia,Myeloid,False,NECTIN4
+ACH-000367,-0.2096734253505209,NCI-H226,Pleural Mesothelioma,Pleura,False,NECTIN4
+ACH-000368,-0.0939865345764458,SNU-1105,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000397,-0.0968464250526424,TEN,Endometrial Carcinoma,Uterus,False,NECTIN4
+ACH-000420,-0.1379640625967399,SNU-449,Hepatocellular Carcinoma,Liver,False,NECTIN4
+ACH-000431,-0.0480711467589064,NCI-H1694,Lung Neuroendocrine Tumor,Lung,False,NECTIN4
+ACH-000455,-0.0655130917821712,LN-428,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000515,-0.1179076734119982,HCC-33,Lung Neuroendocrine Tumor,Lung,False,NECTIN4
+ACH-000518,-0.0428206746436266,CAL-33,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-000527,-0.132130140362538,OVISE,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-000552,-0.1182601415544544,HT-29,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-000559,-0.0722915244152388,NCI-H1836,Lung Neuroendocrine Tumor,Lung,False,NECTIN4
+ACH-000567,-0.103313972509613,ST486,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-000623,-0.1792957165161989,SNU-201,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000632,-0.0437596561787558,Hs 944.T,Melanoma,Skin,False,NECTIN4
+ACH-000639,-0.0204478841422781,NCI-H211,Lung Neuroendocrine Tumor,Lung,False,NECTIN4
+ACH-000661,-0.1589875871702385,WM1799,Melanoma,Skin,False,NECTIN4
+ACH-000702,-0.0136666054640232,L-1236,Hodgkin Lymphoma,Lymphoid,False,NECTIN4
+ACH-000709,-0.0362718027823322,KMRC-2,Renal Cell Carcinoma,Kidney,False,NECTIN4
+ACH-000732,-0.0393739720210147,PE/CA-PJ41 (clone D2),Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-000749,-0.1084833278543504,DMS 273,Lung Neuroendocrine Tumor,Lung,False,NECTIN4
+ACH-000796,-0.0777034337870827,MCAS,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-000809,-0.1941925135654312,KYSE-410,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000819,-0.046142946697946,LN-18,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000832,-0.045985137357536,CAL 27,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-000867,-0.0513728624836668,ChaGo-K-1,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000879,-0.1268038869530285,MFE-296,Endometrial Carcinoma,Uterus,False,NECTIN4
+ACH-000889,-0.4475123280952425,KMM-1,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-000948,-0.1852510956898369,23132/87,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000959,-0.0600921830488943,SNU-C4,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-000972,-0.1014672346915383,HEC-151,Endometrial Carcinoma,Uterus,False,NECTIN4
+ACH-000978,0.0422076507915132,EN,Endometrial Carcinoma,Uterus,False,NECTIN4
+ACH-000979,-0.4733650635841764,DU 145,Prostate Adenocarcinoma,Prostate,False,NECTIN4
+ACH-001001,-0.1778092044188753,143B,Osteosarcoma,Bone,False,NECTIN4
+ACH-001099,-0.4444245048992106,KD,Rhabdoid Cancer,Soft Tissue,False,NECTIN4
+ACH-001129,-0.1223550635157246,MONO-MAC-1,Acute Myeloid Leukemia,Myeloid,False,NECTIN4
+ACH-001192,-0.2263138853973962,SK-NEP-1,Ewing Sarcoma,Bone,False,NECTIN4
+ACH-001205,-0.2700901014766123,TC-32,Ewing Sarcoma,Bone,False,NECTIN4
+ACH-001229,-0.0328511345732859,UPCI-SCC-154,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-001233,-0.2438686372304199,VMRC-LCD,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-001302,0.1017100251939006,COG-N-305,Neuroblastoma,Peripheral Nervous System,False,NECTIN4
+ACH-001328,-0.1234114684523293,A-431,Cutaneous Squamous Cell Carcinoma,Skin,False,NECTIN4
+ACH-001331,-0.2082917982911142,BICR 10,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-001332,-0.0706789902226614,BICR 78,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-001341,-0.0719883043298383,DoTc2 4510,Mixed Cervical Carcinoma,Cervix,False,NECTIN4
+ACH-001354,-0.1760385046439911,LAN-2,Neuroblastoma,Peripheral Nervous System,False,NECTIN4
+ACH-001366,-0.1910316966406449,NGP,Neuroblastoma,Peripheral Nervous System,False,NECTIN4
+ACH-001377,-0.1106436270292904,PACADD-137,Pancreatic Adenocarcinoma,Pancreas,False,NECTIN4
+ACH-001391,-0.0348749189356645,SUM-159PT,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-001399,-0.1642330531214809,SW 626,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-001408,0.0218413776696058,UM-UC-14,Urethral Cancer,Bladder/Urinary Tract,False,NECTIN4
+ACH-001411,-0.1204977997130428,UM-UC-5,Bladder Squamous Cell Carcinoma,Bladder/Urinary Tract,False,NECTIN4
+ACH-001430,-0.2322950141543383,TC-138,Ewing Sarcoma,Bone,False,NECTIN4
+ACH-001436,-0.1894206479670408,1411H,Non-Seminomatous Germ Cell Tumor,Testis,False,NECTIN4
+ACH-001549,-0.0865943360340845,Lu-135,Lung Neuroendocrine Tumor,Lung,False,NECTIN4
+ACH-001634,-0.1030627624358181,PGA-1,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-001641,-0.1643286731430644,SAT,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-001664,-0.1078264159327899,SNU-638,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-001750,-0.0487145987057115,TTC442,Rhabdomyosarcoma,Soft Tissue,False,NECTIN4
+ACH-001791,-0.0684349632457632,LPS6,Liposarcoma,Soft Tissue,False,NECTIN4
+ACH-001839,-0.1618120024956643,MGH-ICC13-7,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,NECTIN4
+ACH-001852,-0.1115221191172334,HKGZ-CC,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,NECTIN4
+ACH-001861,-0.1880060528450811,TGBC1TKB,Intracholecystic Papillary Neoplasm,Biliary Tract,False,NECTIN4
+ACH-001990,-0.1403035129750007,NZM7,Melanoma,Skin,False,NECTIN4
+ACH-002020,-0.1333676515218089,SKG-IIIa,Cervical Squamous Cell Carcinoma,Cervix,False,NECTIN4
+ACH-002067,-0.2094374305638864,NOS-1,Osteosarcoma,Bone,False,NECTIN4
+ACH-002070,-0.0372273040343188,HKBMM,Meningothelial Tumor,CNS/Brain,False,NECTIN4
+ACH-002083,-0.3007865776157261,NB69,Neuroblastoma,Peripheral Nervous System,False,NECTIN4
+ACH-002114,-0.1469063053755037,EW-16,Ewing Sarcoma,Bone,False,NECTIN4
+ACH-002179,-0.0155985920137342,OCUB-M,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-002212,-0.1403581218091023,BB30-HNC,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-002243,-0.1697010334265343,HCE-4,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-002261,-0.1934762538832314,KP-N-YS,Neuroblastoma,Peripheral Nervous System,False,NECTIN4
+ACH-002304,-0.1064331107968382,SK-MG-1,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-002401,-0.0336279151563124,21MT-2,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-002458,-0.0544806929417597,HT144 SKIN FV1,Melanoma,Skin,False,NECTIN4
+ACH-002467,0.0431506673318051,RPE1-ss51,Non-Cancerous,Eye,False,NECTIN4
+ACH-002499,-0.1749696794655461,UACC-3199,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-002531,-0.1883999176045609,SNU-2535,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-002533,0.0164155795300025,SNU-482,Renal Cell Carcinoma,Kidney,False,NECTIN4
+ACH-002681,-0.0744923967023128,538-MG-BA,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-002847,-0.1916934291840187,YUHOIN,Melanoma,Skin,False,NECTIN4
+ACH-000023,-0.1128853180398219,PA-TU-8988T,Pancreatic Adenocarcinoma,Pancreas,False,NECTIN4
+ACH-000028,-0.1888110061686972,KPL-1,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-000047,-0.1654739733043194,GCIY,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000060,-0.1026771864078195,Panc 10.05,Pancreatic Adenocarcinoma,Pancreas,False,NECTIN4
+ACH-000092,-0.1164573902014661,NCI-H2452,Pleural Mesothelioma,Pleura,False,NECTIN4
+ACH-000137,-0.1103970337079739,8-MG-BA,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000145,-0.0745710732756145,SK-LMS-1,Leiomyosarcoma,Soft Tissue,False,NECTIN4
+ACH-000146,-0.1142488238868499,THP-1,Acute Myeloid Leukemia,Myeloid,False,NECTIN4
+ACH-000147,-0.1846793327942144,T-47D,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-000204,-0.1449308558405371,LP-1,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-000237,-0.1374899305326146,JHOM-1,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-000238,-0.1756342324211038,SCC-4,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-000276,-0.0183815420283864,HCC38,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-000334,0.0949894951077073,DB,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-000337,-0.2478044194846004,NCI-H3122,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000343,-0.1441008592317478,NCI-H522,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000352,-0.1112864161943069,HCC1428,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-000385,0.1042141208311585,SK-RC-52,Renal Cell Carcinoma,Kidney,False,NECTIN4
+ACH-000415,-0.2169280997584814,BICR 6,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-000436,-0.0850651696355125,OCI-My7,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-000438,-0.1616269829815446,Lu-65,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000461,-0.0736914416186697,SNU-1196,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,NECTIN4
+ACH-000469,0.0634759158478688,YH-13,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000477,0.0496641868524348,Malme-3M,Melanoma,Skin,False,NECTIN4
+ACH-000487,-0.0810261555603535,F-36P,Acute Myeloid Leukemia,Myeloid,False,NECTIN4
+ACH-000498,-0.0484021741452533,KO52,Acute Myeloid Leukemia,Myeloid,False,NECTIN4
+ACH-000499,-0.0371306609300266,EW8,Ewing Sarcoma,Bone,False,NECTIN4
+ACH-000521,-0.087566954324821,NCI-H2030,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000585,-0.2595572756059728,EPLC-272H,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000601,-0.1123372255538829,MIA PaCa-2,Pancreatic Adenocarcinoma,Pancreas,False,NECTIN4
+ACH-000630,-0.0635670670029018,YD-8,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-000649,-0.1254731267603837,786-O,Renal Cell Carcinoma,Kidney,False,NECTIN4
+ACH-000655,-0.070692050728317,SF268,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000682,-0.2693326807358398,SNU-1066,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-000701,-0.0944494726899312,RMUG-S,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-000736,-0.1220648359009257,SNU-601,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000741,-0.0927401733910305,U-BLC1,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,NECTIN4
+ACH-000781,-0.1567710179098167,NCI-H2023,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000792,-0.0177343592574405,BFTC-909,Renal Cell Carcinoma,Kidney,False,NECTIN4
+ACH-000794,-0.0501413395756675,BICR 22,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-000801,0.0168292239871493,Hs 936.T,Melanoma,Skin,False,NECTIN4
+ACH-000810,0.0282965907592344,SK-MEL-30,Melanoma,Skin,False,NECTIN4
+ACH-000822,-0.2086468908480765,SK-MEL-24,Melanoma,Skin,False,NECTIN4
+ACH-000835,-0.0817237263859084,GCT,Undifferentiated Pleomorphic Sarcoma/Malignant Fibrous Histiocytoma/High-Grade Spindle Cell Sarcoma,Soft Tissue,False,NECTIN4
+ACH-000855,-0.3005909701900124,KYSE-150,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000874,0.2885879415636863,RS4;11,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,False,NECTIN4
+ACH-000878,-0.30599088491234,HCC-15,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000900,-0.1426657526462814,NCI-H23,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000905,-0.1530290759772053,5637,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,NECTIN4
+ACH-000977,-0.1874344653230978,LNCaP clone FGC,Prostate Adenocarcinoma,Prostate,False,NECTIN4
+ACH-001065,-0.2858509332665745,Evsa-T,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-001193,-0.1573150885037941,SK-PN-DW,Ewing Sarcoma,Bone,False,NECTIN4
+ACH-001232,-0.100507703672181,UW228,Embryonal Tumor,CNS/Brain,False,NECTIN4
+ACH-001303,-0.2677120898247724,NB-1643,Neuroblastoma,Peripheral Nervous System,False,NECTIN4
+ACH-001307,-0.0423477293016343,8505C,Anaplastic Thyroid Cancer,Thyroid,False,NECTIN4
+ACH-001322,-0.2060693907376627,CME-1,Synovial Sarcoma,Soft Tissue,False,NECTIN4
+ACH-001347,-0.1206812968222892,H157,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-001382,-0.1191689054540267,PACADD-188,Pancreatic Adenocarcinoma,Pancreas,False,NECTIN4
+ACH-001385,-0.0211594421708983,RPMI 2650,"Head and Neck Carcinoma, Other",Head and Neck,False,NECTIN4
+ACH-001414,0.0149898731574997,UM-UC-6,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,NECTIN4
+ACH-001431,-0.3054386374281181,TC-205,Ewing Sarcoma,Bone,False,NECTIN4
+ACH-001459,-0.0656149341549501,C80,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-001461,-0.00088570909439,C99,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-001481,-0.0559945710848402,CHLA-90,Neuroblastoma,Peripheral Nervous System,False,NECTIN4
+ACH-001508,-0.1050283500611692,H314,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-001520,-0.0538842305028005,HG-3,Non-Cancerous,Lymphoid,False,NECTIN4
+ACH-001567,-0.0729269014358629,MM383,Melanoma,Skin,False,NECTIN4
+ACH-001630,-0.0767159626507568,PEO1,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-001647,-0.173326806946437,SHI-1,Acute Myeloid Leukemia,Myeloid,False,NECTIN4
+ACH-001683,-0.0229637101361013,ACC-3133,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-001793,-0.1237075814747044,LPS27,Liposarcoma,Soft Tissue,False,NECTIN4
+ACH-001814,0.0813449225895976,OS252,Osteosarcoma,Bone,False,NECTIN4
+ACH-001856,-0.1046998494101123,RBE,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,NECTIN4
+ACH-001961,-0.1148421434151765,MGH-GB2,Intracholecystic Papillary Neoplasm,Biliary Tract,False,NECTIN4
+ACH-001975,-0.0580319012472423,MM576,Melanoma,Skin,False,NECTIN4
+ACH-001982,-0.2039456469150228,NZM3,Melanoma,Skin,False,NECTIN4
+ACH-002026,-0.1752233412789515,HHUA,Endometrial Carcinoma,Uterus,False,NECTIN4
+ACH-002039,-0.1477367773923437,PK-8,Pancreatic Adenocarcinoma,Pancreas,False,NECTIN4
+ACH-002109,-0.0613928321318658,ES8,Ewing Sarcoma,Bone,False,NECTIN4
+ACH-002278,0.1715699368602508,NB10,Neuroblastoma,Peripheral Nervous System,False,NECTIN4
+ACH-002280,-0.5394288598909653,NB13,Neuroblastoma,Peripheral Nervous System,True,NECTIN4
+ACH-002283,-0.0487986123769449,NB5,Neuroblastoma,Peripheral Nervous System,False,NECTIN4
+ACH-002294,-0.2260301329790666,PCI-15A,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-002296,-0.1329386859364594,PCI-38,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-002297,0.066918000993011,PCI-4B,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-002460,-0.0892492241746776,HT144 SKIN FV2,Melanoma,Skin,False,NECTIN4
+ACH-002462,-0.1734974768111671,RPE1-ss48,Non-Cancerous,Eye,False,NECTIN4
+ACH-002478,0.0502094127794211,BC-2,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-002486,-0.2281027601755637,MES-OV,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-002510,-0.2880847709160191,M040416,Melanoma,Skin,False,NECTIN4
+ACH-002523,-0.0715935070238138,SNU-739,Hepatocellular Carcinoma,Liver,False,NECTIN4
+ACH-002535,-0.1240655884128601,SNU-254,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-002662,-0.2879539986866952,JVE-207,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-002669,-0.0998964416380913,KP-363T,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-002677,0.0577471486196221,U-2946,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-002678,-0.0252404106577437,WILL-1,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-002693,-0.2780858457126208,S462,Nerve Sheath Tumor,Peripheral Nervous System,False,NECTIN4
+ACH-002834,-0.1319847678610878,OS384,Osteosarcoma,Bone,False,NECTIN4
+ACH-002928,-0.2953989680759674,MM100511,Melanoma,Skin,False,NECTIN4
+ACH-000077,-0.1763065650377473,MJ,Non-Hodgkin Lymphoma,Lymphoid,False,NECTIN4
+ACH-000101,-0.0639298641436313,KE-37,T-Lymphoblastic Leukemia/Lymphoma,Lymphoid,False,NECTIN4
+ACH-000111,0.3616074674484758,HCC1187,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-000144,-0.5153698828038998,RERF-GC-1B,Esophagogastric Adenocarcinoma,Esophagus/Stomach,True,NECTIN4
+ACH-000148,-0.2330269131450276,Hs 578T,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-000160,-0.2078813329038812,BT-12,Embryonal Tumor,CNS/Brain,False,NECTIN4
+ACH-000191,-0.0364684563238165,BHT-101,Anaplastic Thyroid Cancer,Thyroid,False,NECTIN4
+ACH-000248,-0.077823911307245,AU565,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-000252,-0.2742212277048838,LS1034,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-000257,-0.3297117118735586,COR-L279,Lung Neuroendocrine Tumor,Lung,False,NECTIN4
+ACH-000266,-0.148485128485673,SNU-213,Pancreatic Adenocarcinoma,Pancreas,False,NECTIN4
+ACH-000290,-0.1291006945812206,NCI-H209,Lung Neuroendocrine Tumor,Lung,False,NECTIN4
+ACH-000292,-0.089922891327739,NCI-H841,SMARCA4-deficient undifferentiated tumor,Lung,False,NECTIN4
+ACH-000319,-0.1486184883149812,MPP 89,Pleural Mesothelioma,Pleura,False,NECTIN4
+ACH-000348,-0.1173912845134984,RPMI-7951,Melanoma,Skin,False,NECTIN4
+ACH-000359,-0.0090993238382035,MG-63,Osteosarcoma,Bone,False,NECTIN4
+ACH-000363,-0.1065374434078012,SK-MM-2,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-000414,-0.1368098725324195,NCI-H1944,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000424,-0.1444221169180791,TC-71,Ewing Sarcoma,Bone,False,NECTIN4
+ACH-000426,-0.205868972387267,KMS-20,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-000445,-0.0904606697095872,KNS-60,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000446,-0.0761197927793252,KP-N-SI9s,Neuroblastoma,Peripheral Nervous System,False,NECTIN4
+ACH-000468,-0.3669074436912721,PK-45H,Pancreatic Adenocarcinoma,Pancreas,False,NECTIN4
+ACH-000479,-0.1547544495628247,KNS-81,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000485,-0.1462014701549007,GSU,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000502,-0.0689130760516503,TCC-PAN2,Pancreatic Adenocarcinoma,Pancreas,False,NECTIN4
+ACH-000505,-0.1214799307836384,RKN,Leiomyosarcoma,Soft Tissue,False,NECTIN4
+ACH-000507,-0.138549322852078,KE-39,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000511,0.0681066846891445,Calu-1,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000522,-0.0737164400465253,UM-UC-3,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,NECTIN4
+ACH-000524,-0.0630122950755312,KURAMOCHI,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-000528,-0.0276428110050637,ABC-1,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000537,-0.0614232378719716,SNU-761,Hepatocellular Carcinoma,Liver,False,NECTIN4
+ACH-000569,0.0444290952810695,IST-MES1,Pleural Mesothelioma,Pleura,False,NECTIN4
+ACH-000581,-0.1106263560671543,SNU-16,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000593,-0.0491612188685535,BC-3C,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,NECTIN4
+ACH-000604,-0.265604524792401,KYO-1,Myeloproliferative Neoplasms,Myeloid,False,NECTIN4
+ACH-000605,-0.0864285961570292,TE-6,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000608,-0.1477547510402318,COV644,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-000609,-0.267437338542727,SF126,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000634,-0.061167583325597,LN-340,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000662,-0.3225922449959312,COR-L23,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000666,0.193748823233269,NCI-H1355,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000681,-0.3501238462941667,A549,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000685,-0.0574694802675007,L3.3,Adenosquamous Carcinoma of the Pancreas,Pancreas,False,NECTIN4
+ACH-000697,-0.0799352710442801,A3/KAW,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-000714,-0.2512856515636448,KMS-11,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-000768,-0.1163754136656286,MDA-MB-231,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-000788,-0.0642673685104593,A2058,Melanoma,Skin,False,NECTIN4
+ACH-000790,-0.061421814346456,SHP-77,Lung Neuroendocrine Tumor,Lung,False,NECTIN4
+ACH-000800,-0.1770628088482708,NCI-H446,Lung Neuroendocrine Tumor,Lung,False,NECTIN4
+ACH-000826,-0.3069335642409184,CAL-12T,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000845,-0.2139859236119033,NCI-H1373,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000846,-0.2437547497246642,FaDu,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-000863,-0.1548154550383403,DBTRG-05MG,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000871,-0.2204065320639742,NCI-H510,Lung Neuroendocrine Tumor,Lung,False,NECTIN4
+ACH-000873,-0.3409475905265891,KYSE-270,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000939,-0.1138346645228996,SK-UT-1,Uterine Sarcoma/Mesenchymal,Uterus,False,NECTIN4
+ACH-000961,-0.2847122392291431,Ishikawa (Heraklio) 02 ER-,Endometrial Carcinoma,Uterus,False,NECTIN4
+ACH-000971,-0.0991635668148739,HCT 116,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-000985,-0.0689529964213105,LS411N,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-001028,-0.1673674577820893,CHLA-06-ATRT,Embryonal Tumor,CNS/Brain,False,NECTIN4
+ACH-001075,-0.243719320679054,NCI-H292,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-001096,-0.1540736930556915,JR,Rhabdomyosarcoma,Soft Tissue,False,NECTIN4
+ACH-001126,-0.1066471793842091,MOG-G-UVW,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-001227,-0.002773909805532,UPCI-SCC-090,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-001283,-0.1663575905875671,TC-106,Ewing Sarcoma,Bone,False,NECTIN4
+ACH-001289,-0.2235994326021172,COG-AR-359,Embryonal Tumor,CNS/Brain,False,NECTIN4
+ACH-001306,-0.0926309756990419,8305C,Anaplastic Thyroid Cancer,Thyroid,False,NECTIN4
+ACH-001336,-0.0185852822482581,Ca Ski,Cervical Squamous Cell Carcinoma,Cervix,False,NECTIN4
+ACH-001346,-0.1396507086711305,H103,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-001380,-0.2237995582222664,PACADD-165,Pancreatic Adenocarcinoma,Pancreas,False,NECTIN4
+ACH-001402,-0.1497284306228992,SW756,Cervical Squamous Cell Carcinoma,Cervix,False,NECTIN4
+ACH-001433,-0.0842476190950249,CCLF_PEDS_0008_T,Epithelioid Sarcoma,Soft Tissue,False,NECTIN4
+ACH-001451,-0.0527304625850782,BOKU,Cervical Squamous Cell Carcinoma,Cervix,False,NECTIN4
+ACH-001453,-0.2009527013874046,BPH-1,Non-Cancerous,Prostate,False,NECTIN4
+ACH-001524,-0.1402332076811195,HSC-5,Cutaneous Squamous Cell Carcinoma,Skin,False,NECTIN4
+ACH-001628,-0.1919774122119557,PEA1,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-001673,-0.0612634226655338,TFK-1,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,NECTIN4
+ACH-001690,-0.1137301356551716,UPCI-SCC-026,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-001698,-0.0833118190339607,UPCI-SCC-116,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-001834,-0.1448332506844927,MGH-ICC10,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,NECTIN4
+ACH-001960,-0.1085533710413094,CC-SW-1,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,NECTIN4
+ACH-001973,-0.1060109682111064,MM485,Melanoma,Skin,False,NECTIN4
+ACH-002005,-0.038240789346331,SK-MEL-19,Melanoma,Skin,False,NECTIN4
+ACH-002015,-0.3029340979678995,Mel285,Ocular Melanoma,Eye,False,NECTIN4
+ACH-002016,-0.1645183069570563,Mel290,Ocular Melanoma,Eye,False,NECTIN4
+ACH-002027,-0.137099162258679,HOUA-I,Endometrial Carcinoma,Uterus,False,NECTIN4
+ACH-002084,-0.083299375759004,MMAc,Melanoma,Skin,False,NECTIN4
+ACH-002140,-0.1539447997082533,Hey,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-002181,0.0104710207622585,OVCA420,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-002189,-0.4238126932146678,RCC-FG2,Renal Cell Carcinoma,Kidney,False,NECTIN4
+ACH-002214,-0.1076377851430244,BC-1,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-002228,-0.2425578007751393,D-423MG,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-002446,-0.135805616137076,CCLF_UPGI_0005_T,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-002688,-0.4851697835832371,OS457,Osteosarcoma,Bone,False,NECTIN4
+ACH-002926,-0.1661293748243261,UPMD1,Ocular Melanoma,Eye,False,NECTIN4
+ACH-003180,-0.0709796745812762,NRH-UPS2,Undifferentiated Pleomorphic Sarcoma/Malignant Fibrous Histiocytoma/High-Grade Spindle Cell Sarcoma,Soft Tissue,False,NECTIN4
+ACH-003184,-0.2064091428757499,NRH-LMS2,Leiomyosarcoma,Soft Tissue,False,NECTIN4
+ACH-000004,-0.2526200050657338,HEL,Acute Myeloid Leukemia,Myeloid,False,NECTIN4
+ACH-000022,-0.0516316962004167,PA-TU-8988S,Pancreatic Adenocarcinoma,Pancreas,False,NECTIN4
+ACH-000052,-0.1945366829109334,A-673,Ewing Sarcoma,Bone,False,NECTIN4
+ACH-000113,-0.1363179038793384,OCI-AML2,Acute Myeloid Leukemia,Myeloid,False,NECTIN4
+ACH-000149,-0.0713910466076768,SK-N-SH,Neuroblastoma,Peripheral Nervous System,False,NECTIN4
+ACH-000169,-0.1051526277289215,RD,Rhabdomyosarcoma,Soft Tissue,False,NECTIN4
+ACH-000217,-0.353652869554828,JHH-6,Hepatocellular Carcinoma,Liver,False,NECTIN4
+ACH-000243,-0.1203810645396391,DAN-G,Pancreatic Adenocarcinoma,Pancreas,False,NECTIN4
+ACH-000263,-0.1137372709229275,KASUMI-1,Acute Myeloid Leukemia,Myeloid,False,NECTIN4
+ACH-000278,-0.3589078046263084,COV362,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-000303,-0.0834549466756804,SNU-5,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000308,-0.3340473148378623,EFO-21,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-000322,-0.0072241554133976,HT-144,Melanoma,Skin,False,NECTIN4
+ACH-000332,-0.1510661450186889,YAPC,Pancreatic Adenocarcinoma,Pancreas,False,NECTIN4
+ACH-000338,0.1429549894593763,SR-786,Mature T and NK Neoplasms,Lymphoid,False,NECTIN4
+ACH-000370,-0.011559084512097,SNU-626,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000390,-0.1670650620053149,LUDLU-1,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000393,-0.3679880040977242,HLF,Hepatocellular Carcinoma,Liver,False,NECTIN4
+ACH-000407,-0.0992945653781745,SNU-685,Endometrial Carcinoma,Uterus,False,NECTIN4
+ACH-000417,-0.0307625612457658,Panc 08.13,Pancreatic Adenocarcinoma,Pancreas,False,NECTIN4
+ACH-000473,-0.3476070287318767,RT-112,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,NECTIN4
+ACH-000491,-0.3959119133543211,NCI-H716,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-000495,-0.0603813935226453,TUHR4TKB,Renal Cell Carcinoma,Kidney,False,NECTIN4
+ACH-000532,-0.0770210517070322,SNU-61,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-000561,-0.0404739971293501,T.T,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000619,-0.0419909390558232,PE/CA-PJ15,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-000622,-0.2088556918909643,KNS-42,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000633,-0.3081114542369055,FU97,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000657,-0.2213472168866264,A2780,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-000668,0.0721658579743051,HCC70,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-000683,-0.6136382438959699,SNU-503,Colorectal Adenocarcinoma,Bowel,True,NECTIN4
+ACH-000688,-0.1959096205592051,OV7,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-000694,-0.1395497263875598,TE-9,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000711,0.1222488386868464,JIMT-1,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-000716,-0.2145004277638317,TT2609-C02,Well-Differentiated Thyroid Cancer,Thyroid,False,NECTIN4
+ACH-000720,-0.1235600627731213,TCCSUP,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,NECTIN4
+ACH-000721,-0.071419490736524,HMC-1-8,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-000735,-0.119120921661728,PE/CA-PJ49,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-000739,-0.1820716824285138,Hep G2,Hepatoblastoma,Liver,False,NECTIN4
+ACH-000770,-0.0932411001266684,P31/FUJ,Acute Myeloid Leukemia,Myeloid,False,NECTIN4
+ACH-000775,-0.0517271612361619,NCI-H727,Lung Neuroendocrine Tumor,Lung,False,NECTIN4
+ACH-000783,-0.1285811131348613,CAMA-1,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-000791,-0.2009136017458836,RERF-LC-Ad1,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000805,-0.0496503580012211,COLO-679,Melanoma,Skin,False,NECTIN4
+ACH-000824,-0.1915516600227061,KYSE-510,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000827,-0.1951161055943739,WM793,Melanoma,Skin,False,NECTIN4
+ACH-000838,0.0714814094746593,AMO-1,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-000848,-0.1767177674200956,JHH-7,Hepatocellular Carcinoma,Liver,False,NECTIN4
+ACH-000858,-0.1605239401438871,KNS-62,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000861,-0.2231825074282023,HOP-62,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000881,-0.0650827169517872,MEL-JUSO,Melanoma,Skin,False,NECTIN4
+ACH-000899,-0.1757106818966788,WM88,Melanoma,Skin,False,NECTIN4
+ACH-000910,-0.0623156971645411,MDA-MB-453,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-000915,-0.0537631527046448,IPC-298,Melanoma,Skin,False,NECTIN4
+ACH-000935,-0.2840869105123431,MDST8,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-000936,-0.3386189216528548,EFO-27,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-000944,-0.1781629780246743,NAMALWA,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-000962,0.2660570904154029,OC 314,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-000965,-0.1572520855892214,RL95-2,Endometrial Carcinoma,Uterus,False,NECTIN4
+ACH-000988,-0.1234134681280105,MFE-319,Endometrial Carcinoma,Uterus,False,NECTIN4
+ACH-001038,-0.1575785679424752,COG-E-352,Ewing Sarcoma,Bone,False,NECTIN4
+ACH-001050,0.0270124272808602,CW9019,Rhabdomyosarcoma,Soft Tissue,False,NECTIN4
+ACH-001053,-0.3677132378037495,D425,Embryonal Tumor,CNS/Brain,False,NECTIN4
+ACH-001151,-0.1180354153577228,OVCAR-5,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-001211,-0.0310977176276819,TTC-549,Rhabdoid Cancer,Soft Tissue,False,NECTIN4
+ACH-001239,0.0187903966529085,WM-266-4,Melanoma,Skin,False,NECTIN4
+ACH-001277,-0.235535952406339,Yamato,Synovial Sarcoma,Soft Tissue,False,NECTIN4
+ACH-001367,-0.137365862095881,NMB,Neuroblastoma,Peripheral Nervous System,False,NECTIN4
+ACH-001392,0.0970713966244325,SUM-185PE,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-001412,-0.2585285938453145,UM-UC-10,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,NECTIN4
+ACH-001458,-0.1407427566621864,C75,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-001510,-0.2847265685254488,H376,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-001530,-0.0131389145666191,JEG-3,Gestational Trophoblastic Disease,Uterus,False,NECTIN4
+ACH-001556,-0.041316905447801,Mero-25,Pleural Mesothelioma,Pleura,False,NECTIN4
+ACH-001562,-0.120956334391633,Mero-95,Pleural Mesothelioma,Pleura,False,NECTIN4
+ACH-001609,-0.0562654810901597,NP 3,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-001670,-0.3151948202162464,TASK1,Embryonal Tumor,CNS/Brain,False,NECTIN4
+ACH-002024,0.0758920783113245,ECC4,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-002029,-0.0915160501861488,SAS,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-002035,-0.1895034098900909,LCAM1,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-002045,-0.1871024788530095,HO-1-u-1,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-002046,-0.2224855713138485,HTMMT,Endometrial Carcinoma,Uterus,False,NECTIN4
+ACH-002059,-0.1389131064657548,P30/OHK,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,False,NECTIN4
+ACH-002066,-0.1689160565190283,HS-Sch-2,Nerve Sheath Tumor,Peripheral Nervous System,False,NECTIN4
+ACH-002142,-0.0927681463280731,HuO-3N1,Osteosarcoma,Bone,False,NECTIN4
+ACH-002215,-0.1415759914615065,BC-3,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-002249,-0.0847933953716854,JHU-011,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-002282,-0.3067747781120167,NB17,Neuroblastoma,Peripheral Nervous System,False,NECTIN4
+ACH-002295,-0.2335896642560009,PCI-30,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-002485,-0.2018634579180319,MAVER-1,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-002526,-0.1182738602238349,SNU-1327,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-002528,0.0171720389044191,SNU-267,Renal Cell Carcinoma,Kidney,False,NECTIN4
+ACH-002659,-0.0713725519626874,JVE-127,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-002660,-0.3856594974548126,JVE-187,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-002664,-0.0752080020540311,JVE-253,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-002672,-0.0814715860210896,MAPAC-HS-77,Pancreatic Adenocarcinoma,Pancreas,False,NECTIN4
+ACH-002792,0.0571232324908717,NCC-CCS1B-C1,Clear Cell Sarcoma,Soft Tissue,False,NECTIN4
+ACH-002922,-0.1498611060707525,SK-N-MM,Neuroblastoma,Peripheral Nervous System,False,NECTIN4
+ACH-000009,-0.0924566519526531,C2BBe1,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-000021,-0.1741811401770042,NCI-H1693,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000025,-0.0221630888028088,CH-157MN,Meningothelial Tumor,CNS/Brain,False,NECTIN4
+ACH-000037,-0.179294306507512,S-117,"Sarcoma, NOS",Soft Tissue,False,NECTIN4
+ACH-000075,-0.3030485357287963,U-87 MG,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000138,-0.1386522997437413,CFPAC-1,Pancreatic Adenocarcinoma,Pancreas,False,NECTIN4
+ACH-000211,-0.1716341034648863,Daoy,Embryonal Tumor,CNS/Brain,False,NECTIN4
+ACH-000215,-0.1799915015529835,LN382,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000232,-0.1463006024049359,U-251 MG,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000256,-0.116497115657991,COV318,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-000265,-0.1965014586953461,KP-4,Pancreatic Adenocarcinoma,Pancreas,False,NECTIN4
+ACH-000268,-0.2830320948057958,SNU-245,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,NECTIN4
+ACH-000269,-0.2373207411451204,AM-38,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000273,-0.0705955547978727,SF539,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000281,-0.4491475978719692,KP-2,Pancreatic Adenocarcinoma,Pancreas,False,NECTIN4
+ACH-000307,-0.0376006069240821,PK-1,Pancreatic Adenocarcinoma,Pancreas,False,NECTIN4
+ACH-000315,-0.2708891739163684,KARPAS-422,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-000317,-0.0356054035990128,TUHR14TKB,Renal Cell Carcinoma,Kidney,False,NECTIN4
+ACH-000324,-0.1175605506252866,JHOC-5,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-000346,0.0025456094988317,JVM-3,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-000355,-0.206032741064709,NCI-H82,Lung Neuroendocrine Tumor,Lung,False,NECTIN4
+ACH-000362,-0.1087772494834007,MOLM-13,Acute Myeloid Leukemia,Myeloid,False,NECTIN4
+ACH-000364,-0.1500100409405349,U-2 OS,Osteosarcoma,Bone,False,NECTIN4
+ACH-000401,-0.1977861707808436,COLO-800,Melanoma,Skin,False,NECTIN4
+ACH-000405,-0.1429899558925422,MEC-1,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-000408,-0.2160316904549175,TE-5,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000481,-0.2354995138729336,NCI-H2170,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000500,0.0185765234014428,SNU-46,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-000517,-0.064720286925346,SNU-410,Pancreatic Adenocarcinoma,Pancreas,False,NECTIN4
+ACH-000541,0.0478391585764881,KMS-34,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-000550,-0.1190737670521363,IGR-39,Melanoma,Skin,False,NECTIN4
+ACH-000562,-0.1766825592352987,HCC-78,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000591,-0.0617961150247227,LN-235,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000621,-0.1744090187389465,MDA-MB-157,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-000645,-0.0773864002990537,JL-1,Pleural Mesothelioma,Pleura,False,NECTIN4
+ACH-000673,-0.0940702082437535,LN-443,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000684,0.1309462326951093,KMRC-1,Renal Cell Carcinoma,Kidney,False,NECTIN4
+ACH-000696,-0.100992552244961,OVCAR-8,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-000698,-0.1521622060457057,DMS 53,Lung Neuroendocrine Tumor,Lung,False,NECTIN4
+ACH-000725,-0.2030879363897248,HCC202,Breast Ductal Carcinoma In Situ,Breast,False,NECTIN4
+ACH-000734,-0.2322179265451132,JHH-5,Hepatocellular Carcinoma,Liver,False,NECTIN4
+ACH-000754,-0.0881198438217743,L-428,Hodgkin Lymphoma,Lymphoid,False,NECTIN4
+ACH-000758,-0.1972574472157691,MKN74,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000769,-0.1872223759408212,LK-2,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000802,-0.2131838503545663,BFTC-905,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,NECTIN4
+ACH-000804,-0.0090700888878065,NB-1,Neuroblastoma,Peripheral Nervous System,False,NECTIN4
+ACH-000833,-0.2573800021098793,RH-30,Rhabdomyosarcoma,Soft Tissue,False,NECTIN4
+ACH-000836,-0.0904495694503549,YD-15,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-000856,-0.1050167543042526,CAL-51,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-000869,-0.2698593729853575,NCI-H1568,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000887,-0.0824497877359515,SF-172,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-000898,-0.0943903178617727,SNU-719,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-000901,-0.1205677528394695,HCC-1359,Non-Small Cell Lung Cancer,Lung,False,NECTIN4
+ACH-000946,-0.1056955661753235,HEC-265,Endometrial Carcinoma,Uterus,False,NECTIN4
+ACH-000976,-0.2288205742015221,HuCCT1,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,NECTIN4
+ACH-001016,-0.006941620262696,Becker,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-001039,0.2307834488403457,COLO 205,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-001107,-0.1343081705440194,KP-1N,Pancreatic Adenocarcinoma,Pancreas,False,NECTIN4
+ACH-001196,-0.0809867416764195,SMS-CTR,Rhabdomyosarcoma,Soft Tissue,False,NECTIN4
+ACH-001197,-0.2770085968426974,SMZ-1,Non-Hodgkin Lymphoma,Lymphoid,False,NECTIN4
+ACH-001301,-0.4484870232317735,COG-N-278,Neuroblastoma,Peripheral Nervous System,False,NECTIN4
+ACH-001344,-0.1927571303701065,GI-ME-N,Neuroblastoma,Peripheral Nervous System,False,NECTIN4
+ACH-001345,-0.0616436363842975,GP5d,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-001360,-0.0891174773405172,MS751,Cervical Squamous Cell Carcinoma,Cervix,False,NECTIN4
+ACH-001388,-0.1397907155396369,SUM-102PT,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-001415,-0.1045613341340352,UM-UC7,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,NECTIN4
+ACH-001421,-0.2816916915852113,WERI-Rb-1,Retinoblastoma,Eye,False,NECTIN4
+ACH-001450,-0.1035243085100391,BLUE-1,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-001494,-0.1171121389947204,EGI-1,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,NECTIN4
+ACH-001496,-0.0606932764746988,ESO26,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-001500,-0.2842016608896671,FLO-1,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-001509,-0.2616509981304322,H357,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-001517,-0.1108930920718529,HEC-1,Endometrial Carcinoma,Uterus,False,NECTIN4
+ACH-001538,-0.1929897474960679,KKU-213,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,NECTIN4
+ACH-001543,-0.0927104177750093,KOSC-2,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,NECTIN4
+ACH-001613,-0.1385792547601417,OCI-AML4,Acute Myeloid Leukemia,Myeloid,False,NECTIN4
+ACH-001616,0.0465978869920082,OCI-LY18,Mature B-Cell Neoplasms,Lymphoid,False,NECTIN4
+ACH-001651,-0.322918386119899,SKG-I,Cervical Squamous Cell Carcinoma,Cervix,False,NECTIN4
+ACH-001662,0.1308003262898643,SNU-2372,Invasive Breast Carcinoma,Breast,False,NECTIN4
+ACH-001668,-0.077275305662823,SUSA,Non-Seminomatous Germ Cell Tumor,Testis,False,NECTIN4
+ACH-001685,-0.0269472060755622,U-HO1,Hodgkin Lymphoma,Lymphoid,False,NECTIN4
+ACH-001719,-0.3056756071039601,OCI-C4P,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,NECTIN4
+ACH-001765,-0.1898855398049609,Rh4,Rhabdomyosarcoma,Soft Tissue,False,NECTIN4
+ACH-001786,-0.0725671647946863,SNU-1544,Colorectal Adenocarcinoma,Bowel,False,NECTIN4
+ACH-001820,-0.0705648784747212,COLO 824,"Breast Neoplasm, NOS",Breast,False,NECTIN4
+ACH-001848,0.0687681252956196,MGH-ICC8,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,NECTIN4
+ACH-001977,-0.1364436077910055,NO36,Pleural Mesothelioma,Pleura,False,NECTIN4
+ACH-002018,-0.0767217835339514,Omm2.5,Ocular Melanoma,Eye,False,NECTIN4
+ACH-002069,-0.1179184477944351,HS-Os-1,Osteosarcoma,Bone,False,NECTIN4
+ACH-002202,-0.0635122170742634,TMK-1,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,NECTIN4
+ACH-002269,-0.0908059475676262,LNZTA3WT4,Diffuse Glioma,CNS/Brain,False,NECTIN4
+ACH-002285,-0.321196657849059,NB7,Neuroblastoma,Peripheral Nervous System,False,NECTIN4
+ACH-002490,0.2466454282281071,NCI-H1882,Lung Neuroendocrine Tumor,Lung,False,NECTIN4
+ACH-002687,-0.0716635692492601,WM3772F,Ocular Melanoma,Eye,False,NECTIN4
+ACH-002708,-0.1078105556761006,DL-221,Liposarcoma,Soft Tissue,False,NECTIN4
+ACH-002782,-0.1090196885896923,NCC-UPS1-C1,Undifferentiated Pleomorphic Sarcoma/Malignant Fibrous Histiocytoma/High-Grade Spindle Cell Sarcoma,Soft Tissue,False,NECTIN4
+ACH-002785,-0.1159458993309638,NCC-LMS1-C1,Leiomyosarcoma,Soft Tissue,False,NECTIN4
+ACH-003012,-0.211968971163092,A549_CRAF_KD,Non-Small Cell Lung Cancer,Lung,False,NECTIN4

@@ -1,0 +1,55 @@
+tissue_site_detail,tissue_site,tissue_site_id,median_tpm,mean_tpm,q1_tpm,q3_tpm,n_samples,unit,dataset,gene_symbol,gencode_id
+Brain - Nucleus accumbens (basal ganglia),Brain,Brain_Nucleus_accumbens_basal_ganglia,11.44,11.0058,7.847,13.9,246,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Brain - Hypothalamus,Brain,Brain_Hypothalamus,8.566,8.4799,5.635,11.19,202,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Brain - Amygdala,Brain,Brain_Amygdala,8.328,8.4,6.57,10.18,152,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Brain - Anterior cingulate cortex (BA24),Brain,Brain_Anterior_cingulate_cortex_BA24,6.86,6.9471,5.707,8.083,176,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Brain - Caudate (basal ganglia),Brain,Brain_Caudate_basal_ganglia,6.476,6.4104,4.372,8.396,246,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Brain - Hippocampus,Brain,Brain_Hippocampus,6.239,6.4692,4.447,7.82,197,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Brain - Frontal Cortex (BA9),Brain,Brain_Frontal_Cortex_BA9,6.196,6.2103,5.098,7.082,209,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Brain - Cortex,Brain,Brain_Cortex,5.527,5.6252,4.62,6.495,255,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Brain - Putamen (basal ganglia),Brain,Brain_Putamen_basal_ganglia,5.452,5.7021,3.508,7.666,205,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Pituitary,Pituitary,Pituitary,4.951,6.2025,3.051,7.603,283,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Brain - Substantia nigra,Brain,Brain_Substantia_nigra,4.478,5.1091,2.695,6.452,139,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Testis,Testis,Testis,3.281,3.3399,2.714,3.877,361,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Brain - Spinal cord (cervical c-1),Brain,Brain_Spinal_cord_cervical_c-1,3.144,3.539,1.87,4.593,159,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Brain - Cerebellar Hemisphere,Brain,Brain_Cerebellar_Hemisphere,2.89,2.8687,2.111,3.554,215,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Brain - Cerebellum,Brain,Brain_Cerebellum,2.474,2.446,1.855,2.908,241,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Cells - Cultured fibroblasts,Skin,Cells_Cultured_fibroblasts,0.91,0.9841,0.5613,1.323,504,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Cells - EBV-transformed lymphocytes,Blood Vessel,Cells_EBV-transformed_lymphocytes,0.6105,0.7527,0.422,0.8681,174,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Ovary,Ovary,Ovary,0.3035,0.4509,0.1242,0.581,180,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Thyroid,Thyroid,Thyroid,0.2563,0.3005,0.1398,0.3868,653,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Spleen,Spleen,Spleen,0.1813,0.2115,0.1197,0.2798,241,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Nerve - Tibial,Nerve,Nerve_Tibial,0.1723,0.1928,0.0935,0.2563,619,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Small Intestine - Terminal Ileum,Small Intestine,Small_Intestine_Terminal_Ileum,0.1401,0.1986,0.0659,0.2737,187,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Cervix - Endocervix,Cervix Uteri,Cervix_Endocervix,0.1248,0.1246,0.0399,0.2,10,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Vagina,Vagina,Vagina,0.105,0.141,0.046,0.1906,156,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Colon - Sigmoid,Colon,Colon_Sigmoid,0.0912,0.1124,0.0505,0.1486,373,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Colon - Transverse,Colon,Colon_Transverse,0.0881,0.1121,0.0505,0.148,406,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Prostate,Prostate,Prostate,0.0797,0.0952,0.041,0.1268,245,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Skin - Not Sun Exposed (Suprapubic),Skin,Skin_Not_Sun_Exposed_Suprapubic,0.0742,0.1068,0.0387,0.1373,604,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Skin - Sun Exposed (Lower leg),Skin,Skin_Sun_Exposed_Lower_leg,0.0728,0.1023,0.0394,0.1265,701,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Cervix - Ectocervix,Cervix Uteri,Cervix_Ectocervix,0.0683,0.1093,0.0543,0.1225,9,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Fallopian Tube,Fallopian Tube,Fallopian_Tube,0.0655,0.0928,0.0251,0.1315,9,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Heart - Atrial Appendage,Heart,Heart_Atrial_Appendage,0.0553,0.0674,0.0256,0.0933,429,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Breast - Mammary Tissue,Breast,Breast_Mammary_Tissue,0.0551,0.0947,0.0182,0.1254,459,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Uterus,Uterus,Uterus,0.0487,0.0911,0.0199,0.1071,142,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Esophagus - Mucosa,Esophagus,Esophagus_Mucosa,0.0441,0.0606,0.0166,0.0899,555,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Stomach,Stomach,Stomach,0.0438,0.0629,0.0174,0.0879,359,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Lung,Lung,Lung,0.0401,0.0542,0.0162,0.0775,578,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Artery - Coronary,Blood Vessel,Artery_Coronary,0.0397,0.0606,0.0152,0.0757,240,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Adipose - Visceral (Omentum),Adipose Tissue,Adipose_Visceral_Omentum,0.0389,0.0582,0.0161,0.0755,541,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Whole Blood,Blood,Whole_Blood,0.0368,0.0533,0.0146,0.0708,755,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Kidney - Medulla,Kidney,Kidney_Medulla,0.0361,0.034,0.0357,0.0643,4,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Minor Salivary Gland,Salivary Gland,Minor_Salivary_Gland,0.0361,0.0465,0.0155,0.063,162,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Kidney - Cortex,Kidney,Kidney_Cortex,0.0344,0.0465,0.0133,0.0565,85,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Esophagus - Gastroesophageal Junction,Esophagus,Esophagus_Gastroesophageal_Junction,0.0338,0.0516,0.0115,0.062,375,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Bladder,Bladder,Bladder,0.0333,0.0536,0.0197,0.0575,21,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Esophagus - Muscularis,Esophagus,Esophagus_Muscularis,0.0327,0.0482,0.0117,0.0655,515,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Artery - Aorta,Blood Vessel,Artery_Aorta,0.0317,0.0485,0.0,0.0637,432,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Artery - Tibial,Blood Vessel,Artery_Tibial,0.0292,0.0443,0.0,0.056,663,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Adrenal Gland,Adrenal Gland,Adrenal_Gland,0.0244,0.038,0.0,0.0478,258,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Pancreas,Pancreas,Pancreas,0.0223,0.0304,0.0078,0.0412,328,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Adipose - Subcutaneous,Adipose Tissue,Adipose_Subcutaneous,0.022,0.04,0.0,0.0494,663,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Muscle - Skeletal,Muscle,Muscle_Skeletal,0.0164,0.0279,0.0,0.0353,803,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Heart - Left Ventricle,Heart,Heart_Left_Ventricle,0.013,0.023,0.0,0.0291,432,TPM,gtex_v8,DLL3,ENSG00000090932.10
+Liver,Liver,Liver,0.01,0.0158,0.0,0.0227,226,TPM,gtex_v8,DLL3,ENSG00000090932.10

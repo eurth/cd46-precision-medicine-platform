@@ -1,0 +1,8 @@
+{
+  "gene": "MSLN",
+  "ensembl": "ENSG00000102854",
+  "rna_tissue_specificity": "Tissue enhanced",
+  "rna_tissue_distribution": "Detected in many",
+  "rna_cancer_specificity": "Cancer enhanced",
+  "protein_class": "Cancer-related genes;Disease related genes;Plasma proteins;Predicted intracellular proteins;Predicted membrane proteins"
+}

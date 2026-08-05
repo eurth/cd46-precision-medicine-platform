@@ -48,9 +48,9 @@ CHEMBL_BY_UNIPROT: dict[str, str] = {
 # CD46 is antibody/biologic — ChEMBL has no SINGLE PROTEIN target for P15529
 NO_CHEMBL_UNIPROT = {"P15529"}
 
-PUBMED_MAX_PER_GENE = 50
-PUBMED_PER_QUERY = 15
-CHEMBL_MOL_CAP = 30
+PUBMED_MAX_PER_GENE = 0  # 0 = keep all unique PMIDs from curated queries (no truncate)
+PUBMED_PER_QUERY = 200
+CHEMBL_MOL_CAP = 0  # 0 = all ChEMBL molecules for target
 
 # Theranostic / clinical agents not fully covered by ChEMBL small-molecule TARGETS.
 CURATED_AGENTS: dict[str, list[dict[str, Any]]] = {
@@ -371,11 +371,13 @@ def fetch_pubmed(
                     log.warning("parse article: %s", e)
         except Exception as e:
             log.warning("Entrez error for '%s': %s", q, e)
-        if len(all_articles) >= pubmed_max:
+        if pubmed_max > 0 and len(all_articles) >= pubmed_max:
             break
         time.sleep(0.5)
 
-    articles = list(all_articles.values())[:pubmed_max]
+    articles = list(all_articles.values())
+    if pubmed_max > 0:
+        articles = articles[:pubmed_max]
     out.write_text(json.dumps(articles, indent=2), encoding="utf-8")
     log.info("Saved %d PubMed → %s", len(articles), out.name)
     return articles
@@ -395,45 +397,48 @@ def _evidence_type(title: str, keywords: str) -> str:
 
 
 def load_publications(session, symbol: str, articles: list[dict]) -> int:
+    # ponytail: batch UNWIND — per-row Aura writes stall/expire on full PubMed sets
     pub_cypher = """
-    MERGE (p:Publication {pubmed_id: $pmid})
+    UNWIND $rows AS row
+    MERGE (p:Publication {pubmed_id: row.pmid})
     ON CREATE SET
-        p.title = $title,
-        p.authors = $authors,
-        p.journal = $journal,
-        p.year = $year,
-        p.abstract = $abstract,
-        p.keywords = $keywords,
-        p.url = $url,
-        p.evidence_type = $evidence_type,
+        p.title = row.title,
+        p.authors = row.authors,
+        p.journal = row.journal,
+        p.year = row.year,
+        p.abstract = row.abstract,
+        p.keywords = row.keywords,
+        p.url = row.url,
+        p.evidence_type = row.evidence_type,
         p.source = 'PubMed',
         p.query_gene = $gene
     ON MATCH SET
-        p.abstract = COALESCE(p.abstract, $abstract),
+        p.abstract = COALESCE(p.abstract, row.abstract),
         p.query_gene = COALESCE(p.query_gene, $gene)
-    WITH p
-    MATCH (g:Gene {symbol: $gene})
+    WITH p, $gene AS gene
+    MATCH (g:Gene {symbol: gene})
     MERGE (p)-[r:SUPPORTS]->(g)
-    ON CREATE SET r.source = 'PubMed', r.gene_symbol = $gene
+    ON CREATE SET r.source = 'PubMed', r.gene_symbol = gene
     """
-    n = 0
-    for art in articles:
-        session.run(
-            pub_cypher,
-            pmid=art["pmid"],
-            title=art["title"],
-            authors=art.get("authors", ""),
-            journal=art.get("journal", ""),
-            year=art.get("year", ""),
-            abstract=art.get("abstract", ""),
-            keywords=art.get("keywords", ""),
-            url=art.get("url", ""),
-            evidence_type=_evidence_type(art.get("title", ""), art.get("keywords", "")),
-            gene=symbol,
-        )
-        n += 1
-    log.info("%s publications linked: %d", symbol, n)
-    return n
+    rows = [
+        {
+            "pmid": art["pmid"],
+            "title": art.get("title", ""),
+            "authors": art.get("authors", ""),
+            "journal": art.get("journal", ""),
+            "year": art.get("year", ""),
+            "abstract": (art.get("abstract") or "")[:4000],
+            "keywords": art.get("keywords", ""),
+            "url": art.get("url", ""),
+            "evidence_type": _evidence_type(art.get("title", ""), art.get("keywords", "")),
+        }
+        for art in articles
+        if art.get("pmid")
+    ]
+    for i in range(0, len(rows), 100):
+        session.run(pub_cypher, rows=rows[i : i + 100], gene=symbol)
+    log.info("%s publications linked: %d", symbol, len(rows))
+    return len(rows)
 
 
 # ---------------------------------------------------------------------------
@@ -457,32 +462,46 @@ def fetch_chembl_drugs(
 
     drugs: list[dict] = []
     if chembl_target_id:
-        log.info("Fetching ChEMBL activities for %s (%s)", symbol, chembl_target_id)
+        log.info("Fetching ChEMBL activities for %s (%s) — full pagination", symbol, chembl_target_id)
         try:
-            data = chembl_get(
-                "activity",
-                {
-                    "target_chembl_id": chembl_target_id,
-                    "limit": 100,
-                    "offset": 0,
-                },
-                timeout=90,
-            )
-            activities = data.get("activities") or []
-            # Prefer named molecules with phase / potency
             by_mol: dict[str, dict] = {}
-            for a in activities:
-                mid = a.get("molecule_chembl_id")
-                if not mid:
-                    continue
-                prev = by_mol.get(mid)
-                score = (
-                    (10 if a.get("canonical_smiles") else 0)
-                    + (5 if a.get("standard_value") is not None else 0)
+            offset = 0
+            page = 1000
+            while True:
+                data = chembl_get(
+                    "activity",
+                    {
+                        "target_chembl_id": chembl_target_id,
+                        "limit": page,
+                        "offset": offset,
+                    },
+                    timeout=120,
                 )
-                if prev is None or score > prev.get("_score", 0):
-                    by_mol[mid] = {**a, "_score": score}
-            mol_ids = list(by_mol.keys())[:chembl_cap]
+                activities = data.get("activities") or []
+                if not activities:
+                    break
+                for a in activities:
+                    mid = a.get("molecule_chembl_id")
+                    if not mid:
+                        continue
+                    prev = by_mol.get(mid)
+                    score = (
+                        (10 if a.get("canonical_smiles") else 0)
+                        + (5 if a.get("standard_value") is not None else 0)
+                    )
+                    if prev is None or score > prev.get("_score", 0):
+                        by_mol[mid] = {**a, "_score": score}
+                total = int(data.get("page_meta", {}).get("total_count") or 0)
+                offset += len(activities)
+                log.info("ChEMBL activities offset=%d unique_mols=%d total_hint=%s", offset, len(by_mol), total or "?")
+                if len(activities) < page:
+                    break
+                if total and offset >= total:
+                    break
+                time.sleep(0.35)
+            mol_ids = list(by_mol.keys())
+            if chembl_cap > 0:
+                mol_ids = mol_ids[:chembl_cap]
             for i in range(0, len(mol_ids), 20):
                 batch = mol_ids[i : i + 20]
                 try:
@@ -534,52 +553,54 @@ def fetch_chembl_drugs(
 
 
 def load_drugs(session, symbol: str, drugs: list[dict]) -> int:
+    # ponytail: batch UNWIND — same Aura SessionExpired risk as PubMed/STRING
     merge_cypher = """
-    MERGE (d:Drug {name: $name})
+    UNWIND $rows AS row
+    MERGE (d:Drug {name: row.name})
     ON CREATE SET
-        d.drug_type = $drug_type,
-        d.mechanism = $mechanism,
-        d.target_protein = $target,
-        d.developer = $developer,
-        d.max_phase = $max_phase,
-        d.indication = $indication,
-        d.isotope = $isotope,
-        d.source = $source,
-        d.chembl_id = $chembl_id,
-        d.smiles = $smiles,
-        d.molecule_type = $molecule_type,
+        d.drug_type = row.drug_type,
+        d.mechanism = row.mechanism,
+        d.target_protein = $gene,
+        d.developer = row.developer,
+        d.max_phase = row.max_phase,
+        d.indication = row.indication,
+        d.isotope = row.isotope,
+        d.source = row.source,
+        d.chembl_id = row.chembl_id,
+        d.smiles = row.smiles,
+        d.molecule_type = row.molecule_type,
         d.query_gene = $gene
     ON MATCH SET
-        d.max_phase = CASE WHEN $max_phase > coalesce(d.max_phase, 0) THEN $max_phase ELSE d.max_phase END,
-        d.chembl_id = COALESCE(d.chembl_id, $chembl_id),
-        d.smiles = COALESCE(d.smiles, $smiles),
+        d.max_phase = CASE WHEN row.max_phase > coalesce(d.max_phase, 0) THEN row.max_phase ELSE d.max_phase END,
+        d.chembl_id = COALESCE(d.chembl_id, row.chembl_id),
+        d.smiles = COALESCE(d.smiles, row.smiles),
         d.query_gene = COALESCE(d.query_gene, $gene)
-    WITH d
-    MATCH (g:Gene {symbol: $gene})
+    WITH d, row, $gene AS gene
+    MATCH (g:Gene {symbol: gene})
     MERGE (d)-[r:TARGETS]->(g)
-    ON CREATE SET r.source = $source, r.evidence = $mechanism, r.gene_symbol = $gene
+    ON CREATE SET r.source = row.source, r.evidence = row.mechanism, r.gene_symbol = gene
     """
-    n = 0
-    for drug in drugs:
-        session.run(
-            merge_cypher,
-            name=drug["name"],
-            drug_type=drug.get("drug_type") or "",
-            mechanism=drug.get("mechanism") or "",
-            target=symbol,
-            developer=drug.get("developer") or "",
-            max_phase=drug.get("max_phase") or 0,
-            indication=drug.get("indication") or "",
-            isotope=drug.get("isotope") or "",
-            source=drug.get("source") or "ChEMBL",
-            chembl_id=drug.get("chembl_id") or "",
-            smiles=drug.get("smiles") or "",
-            molecule_type=drug.get("molecule_type") or "",
-            gene=symbol,
-        )
-        n += 1
-    log.info("%s drugs linked: %d", symbol, n)
-    return n
+    rows = [
+        {
+            "name": drug["name"],
+            "drug_type": drug.get("drug_type") or "",
+            "mechanism": drug.get("mechanism") or "",
+            "developer": drug.get("developer") or "",
+            "max_phase": drug.get("max_phase") or 0,
+            "indication": drug.get("indication") or "",
+            "isotope": drug.get("isotope") or "",
+            "source": drug.get("source") or "ChEMBL",
+            "chembl_id": drug.get("chembl_id") or "",
+            "smiles": drug.get("smiles") or "",
+            "molecule_type": drug.get("molecule_type") or "",
+        }
+        for drug in drugs
+        if drug.get("name")
+    ]
+    for i in range(0, len(rows), 100):
+        session.run(merge_cypher, rows=rows[i : i + 100], gene=symbol)
+    log.info("%s drugs linked: %d", symbol, len(rows))
+    return len(rows)
 
 
 def run_symbol(
@@ -688,10 +709,12 @@ def main() -> None:
     ap.add_argument("--pubmed-max", type=int, default=PUBMED_MAX_PER_GENE, help="Max PubMed articles per gene")
     ap.add_argument("--chembl-cap", type=int, default=CHEMBL_MOL_CAP, help="Max ChEMBL molecules per gene")
     args = ap.parse_args()
+    from src.knowledge_graph.registry import all_symbols, non_cd46_symbols
+
     if args.all:
-        symbols = ["CD46", "FOLH1", "FAP", "SSTR2", "GRPR"]
+        symbols = all_symbols()
     elif args.all_non_cd46:
-        symbols = ["FOLH1", "FAP", "SSTR2", "GRPR"]
+        symbols = non_cd46_symbols()
     elif args.symbol:
         symbols = [args.symbol.upper()]
     else:

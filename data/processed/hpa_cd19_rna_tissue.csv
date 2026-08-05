@@ -1,0 +1,13 @@
+tissue,type,ntpm,staining_intensity,data_source
+intestine,normal,31.2,,HPA_rna
+lymphoid tissue,normal,70.8,,HPA_rna
+B-cells,single_cell,83.9,,HPA_rna
+Early primary spermatocytes,single_cell,7.7,,HPA_rna
+Early spermatids,single_cell,21.4,,HPA_rna
+Epicardial cells,single_cell,6.8,,HPA_rna
+Epididymal efferent duct ciliated cells,single_cell,10.1,,HPA_rna
+Late primary spermatocytes,single_cell,39.0,,HPA_rna
+Late spermatids,single_cell,9.4,,HPA_rna
+Plasma cells,single_cell,19.5,,HPA_rna
+memory B-cell,blood,138.6,,HPA_rna
+naive B-cell,blood,172.5,,HPA_rna

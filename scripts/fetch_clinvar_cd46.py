@@ -32,7 +32,7 @@ PROC = _ROOT / "data" / "processed"
 RAW = _ROOT / "data" / "raw" / "apis"
 
 NCBI_BASE = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
-DEFAULT_MAX = 100
+DEFAULT_MAX = 0  # 0 = load all ClinVar hits returned for the gene search
 SIG_ORDER = {
     "Pathogenic": 0,
     "Likely pathogenic": 1,
@@ -153,14 +153,17 @@ def fetch_clinvar(
     raw_out.parent.mkdir(parents=True, exist_ok=True)
 
     if out_csv.exists() and not refresh:
-        return sort_variants(pd.read_csv(out_csv)).head(max_variants)
+        df = sort_variants(pd.read_csv(out_csv))
+        return df if max_variants <= 0 else df.head(max_variants)
 
+    # retmax: full gene search (NCBI allows large retmax; paginate if needed later)
+    retmax = 10_000 if max_variants <= 0 else max(max_variants, 100)
     search_result = ncbi_get(
         "esearch.fcgi",
         {
             "db": "clinvar",
             "term": f"{symbol}[gene]",
-            "retmax": max(max_variants, 100),
+            "retmax": retmax,
         },
     )
     ids = search_result.get("esearchresult", {}).get("idlist", [])
@@ -195,7 +198,9 @@ def fetch_clinvar(
             all_summaries[vid] = result[vid]
 
     raw_out.write_text(json.dumps(all_summaries, indent=2), encoding="utf-8")
-    df = sort_variants(pd.DataFrame(parse_summaries(all_summaries, symbol))).head(max_variants)
+    df = sort_variants(pd.DataFrame(parse_summaries(all_summaries, symbol)))
+    if max_variants > 0:
+        df = df.head(max_variants)
     df.to_csv(out_csv, index=False)
     _ = t  # entrez_id reserved for future gene-id search fallback
     return df
@@ -234,9 +239,13 @@ def main() -> None:
         return
 
     if args.all:
-        symbols = ["CD46", "FOLH1", "FAP", "SSTR2", "GRPR"]
+        from src.knowledge_graph.registry import all_symbols
+
+        symbols = all_symbols()
     elif args.all_non_cd46:
-        symbols = ["FOLH1", "FAP", "SSTR2", "GRPR"]
+        from src.knowledge_graph.registry import non_cd46_symbols
+
+        symbols = non_cd46_symbols()
     elif args.symbol:
         symbols = [args.symbol.upper()]
     else:

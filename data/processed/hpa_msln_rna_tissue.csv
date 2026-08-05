@@ -1,0 +1,14 @@
+tissue,type,ntpm,staining_intensity,data_source
+adipose tissue,normal,89.2,,HPA_rna
+fallopian tube,normal,261.5,,HPA_rna
+Alveolar cells type 1,single_cell,375.8,,HPA_rna
+Conjunctival goblet cells,single_cell,998.0,,HPA_rna
+Endometrial luminal cells,single_cell,129.4,,HPA_rna
+Endometrial secretory cells,single_cell,125.4,,HPA_rna
+Fallopian secretory cells,single_cell,685.4,,HPA_rna
+Mesothelial cells,single_cell,266.2,,HPA_rna
+Respiratory deuterosomal cells,single_cell,215.6,,HPA_rna
+Respiratory secretory cells,single_cell,215.0,,HPA_rna
+Salivary duct cells,single_cell,115.0,,HPA_rna
+Transitional alveolar cells,single_cell,127.0,,HPA_rna
+myeloid DC,blood,5.9,,HPA_rna

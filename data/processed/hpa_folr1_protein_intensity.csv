@@ -1,0 +1,4 @@
+tissue,type,intensity_score,data_source
+fallopian tube,normal,14412848.9,HPA_protein_intensity
+kidney,normal,8726954.0,HPA_protein_intensity
+lung,normal,19514046.3,HPA_protein_intensity

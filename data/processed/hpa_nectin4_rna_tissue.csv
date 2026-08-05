@@ -1,0 +1,14 @@
+tissue,type,ntpm,staining_intensity,data_source
+cervix,normal,40.7,,HPA_rna
+esophagus,normal,96.0,,HPA_rna
+salivary gland,normal,32.2,,HPA_rna
+skin 1,normal,110.2,,HPA_rna
+vagina,normal,56.4,,HPA_rna
+Esophageal apical cells,single_cell,743.5,,HPA_rna
+Esophageal suprabasal cells,single_cell,312.2,,HPA_rna
+Extravillous trophoblasts,single_cell,115.1,,HPA_rna
+Ocular epithelial cells,single_cell,247.1,,HPA_rna
+Prostatic hillock cells,single_cell,174.2,,HPA_rna
+Suprabasal keratinocytes,single_cell,233.0,,HPA_rna
+Syncytiotrophoblasts,single_cell,571.5,,HPA_rna
+Urothelial cells,single_cell,241.4,,HPA_rna

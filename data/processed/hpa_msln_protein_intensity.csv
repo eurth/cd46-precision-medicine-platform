@@ -1,0 +1,3 @@
+tissue,type,intensity_score,data_source
+fallopian tube,normal,4541510.9,HPA_protein_intensity
+Fallopian tube cells,cell_type,3745907.3,HPA_protein_intensity

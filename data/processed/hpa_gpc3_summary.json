@@ -1,0 +1,8 @@
+{
+  "gene": "GPC3",
+  "ensembl": "ENSG00000147257",
+  "rna_tissue_specificity": "Tissue enriched",
+  "rna_tissue_distribution": "Detected in many",
+  "rna_cancer_specificity": "Cancer enhanced",
+  "protein_class": "Cancer-related genes;Disease related genes;Human disease related genes;Predicted membrane proteins"
+}

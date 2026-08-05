@@ -8,20 +8,13 @@ from __future__ import annotations
 import streamlit as st
 
 from components.targets import (
+    display_label,
     ensure_session_target,
     get_active_symbol,
     list_symbols,
     set_active_symbol,
 )
 from components.ui_kit import dimension_links
-
-_TGT_LABEL: dict[str, str] = {
-    "CD46": "CD46",
-    "FOLH1": "PSMA",
-    "FAP": "FAP",
-    "SSTR2": "SSTR2",
-    "GRPR": "GRPR",
-}
 
 
 def sync_target_from_query() -> None:
@@ -46,7 +39,7 @@ def render_floating_right_rail() -> str:
         st.markdown('<div class="ob-right-rail-host"></div>', unsafe_allow_html=True)
         st.markdown('<div class="ob-rail-kicker">Target</div>', unsafe_allow_html=True)
         for sym in list_symbols():
-            label = _TGT_LABEL.get(sym, sym)
+            label = display_label(sym)
             if st.button(
                 label,
                 key=f"ob_rail_tgt_{sym}",
@@ -68,6 +61,6 @@ def render_floating_right_rail() -> str:
 
 
 if __name__ == "__main__":
-    assert len(_TGT_LABEL) == 5
+    assert display_label("FOLH1") == "PSMA"
     assert len(dimension_links()) == 9
     print("right_rail_ok")

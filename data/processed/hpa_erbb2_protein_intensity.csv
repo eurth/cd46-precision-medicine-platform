@@ -1,0 +1,3 @@
+tissue,type,intensity_score,data_source
+lymphoid tissue,normal,8296603.9,HPA_protein_intensity
+Collecting ducts,cell_type,3603616.6,HPA_protein_intensity

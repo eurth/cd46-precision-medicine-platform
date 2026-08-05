@@ -1,0 +1,10 @@
+tissue,type,ntpm,staining_intensity,data_source
+prostate,normal,78.6,,HPA_rna
+Epicardial cells,single_cell,54.6,,HPA_rna
+Gastric progenitor cells,single_cell,98.7,,HPA_rna
+Mesothelial cells,single_cell,50.8,,HPA_rna
+Prostatic club cells,single_cell,78.8,,HPA_rna
+Prostatic glandular cells,single_cell,234.6,,HPA_rna
+Prostatic hillock cells,single_cell,43.3,,HPA_rna
+Respiratory basal cells,single_cell,44.2,,HPA_rna
+Respiratory secretory cells,single_cell,87.9,,HPA_rna

@@ -1,8 +1,10 @@
-"""Page 11 — Drug Pipeline: CD46-targeting and RLT therapeutic landscape.
+"""Page 11 — Drug Pipeline: gene-param therapeutic landscape.
 
-Static curated dataset — no KG dependency required.
+Active-target agents from ChEMBL + ClinicalTrials.gov; curated RLT/ADC
+rows retained only for CD46 (and PSMA competitive reference when FOLH1).
 Data: ClinicalTrials.gov · PubMed · FDA · ChEMBL (CC BY-SA 4.0)
 """
+import json
 import sys
 from pathlib import Path
 
@@ -12,15 +14,13 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
-from components.theme import plotly_layout, apply_plotly_layout
-from components.targets import get_active_symbol, render_stub_gate, render_case_study_gate
+from components.theme import apply_plotly_layout
+from components.targets import get_active_symbol, render_stub_gate
 from components.gene_data import load_trials_summary
 from components.target_narratives import strategy_context
-import json
+from components.ui_kit import info_banner, page_header, research_table, section_tabs
 
 if render_stub_gate(module="Drug Pipeline"):
-    st.stop()
-if render_case_study_gate(module="Drug Pipeline"):
     st.stop()
 
 _GENE = get_active_symbol()
@@ -30,7 +30,7 @@ _IS_FOLH1 = _GENE in ("FOLH1", "PSMA")
 # ── Theme ──────────────────────────────────────────────────────────────────────
 _BG     = "#FFFFFF"
 _LINE   = "#E2E8F0"
-_ORANGE  = "#FB923C"   # CD46-targeted
+_ORANGE  = "#FB923C"   # gene-targeted / CD46 curated
 _INDIGO = "#2563EB"   # PSMA-targeted
 _GREEN   = "#34D399"   # Complement inhibitor
 _AMBER   = "#FBBF24"
@@ -223,152 +223,177 @@ def _load_chembl_rows(symbol: str) -> pd.DataFrame:
         })
     return pd.DataFrame(rows)
 
-# Active-target view: curated rows matching gene, plus ChEMBL when curated empty
-_target_match = PIPELINE["Target"].astype(str).str.contains(_GENE, case=False, na=False)
-if _GENE == "FOLH1":
-    _target_match = _target_match | PIPELINE["Target"].astype(str).str.contains("PSMA|FOLH1", case=False, na=False)
-PIPELINE_ACTIVE = PIPELINE[_target_match].copy()
+# Active-target view: curated only for CD46 / FOLH1; others prefer ChEMBL + trials
 _chembl_df = _load_chembl_rows(_GENE)
-if PIPELINE_ACTIVE.empty and not _chembl_df.empty:
-    PIPELINE_ACTIVE = _chembl_df.copy()
-    PIPELINE_ACTIVE["Phase_num"] = PIPELINE_ACTIVE["Phase Label"].map(PHASE_ORDER).fillna(0)
-elif not _chembl_df.empty and not _IS_CD46:
-    # additive open-data agents for medium targets
-    extra = _chembl_df.copy()
-    extra["Phase_num"] = extra["Phase Label"].map(PHASE_ORDER).fillna(0)
-    PIPELINE_ACTIVE = pd.concat([PIPELINE_ACTIVE, extra], ignore_index=True)
+if not _chembl_df.empty:
+    _chembl_df = _chembl_df.copy()
+    _chembl_df["Phase_num"] = _chembl_df["Phase Label"].map(PHASE_ORDER).fillna(0)
 
-# Overview swim-lane keeps full curated landscape; agent tabs use active filter
+if _IS_CD46:
+    _target_match = PIPELINE["Target"].astype(str).str.contains("CD46", case=False, na=False)
+    PIPELINE_ACTIVE = PIPELINE[_target_match].copy()
+elif _IS_FOLH1:
+    _target_match = PIPELINE["Target"].astype(str).str.contains("PSMA|FOLH1", case=False, na=False)
+    PIPELINE_ACTIVE = PIPELINE[_target_match].copy()
+    if not _chembl_df.empty:
+        PIPELINE_ACTIVE = pd.concat([PIPELINE_ACTIVE, _chembl_df], ignore_index=True)
+else:
+    # ponytail: non-CD46 default is open-data slices, never the CD46 curated table
+    PIPELINE_ACTIVE = _chembl_df.copy() if not _chembl_df.empty else PIPELINE.iloc[0:0]
+
+if PIPELINE_ACTIVE.empty and not _chembl_df.empty and (_IS_CD46 or _IS_FOLH1):
+    PIPELINE_ACTIVE = _chembl_df.copy()
+
 PIPELINE_VIEW = PIPELINE_ACTIVE if not PIPELINE_ACTIVE.empty else PIPELINE.iloc[0:0]
+# Swim-lane: full curated landscape only when CD46 (competitive context); else active gene only
+PIPELINE_CHART = PIPELINE if _IS_CD46 else PIPELINE_VIEW
 
 _trials_summary = load_trials_summary(_GENE)
 
 # ── Page hero ─────────────────────────────────────────────────────────────────
 page_header(
         icon="💊",
-        module_name="Drug Pipeline Explorer",
+        module_name=f"{_GENE} Drug Pipeline",
         purpose=(
-            f"Active target **{_GENE}** · curated RLT/ADC landscape · "
-            "ChEMBL + ClinicalTrials.gov where sliced"
+            f"Active target **{_GENE}** · "
+            + ("curated RLT/ADC landscape · " if _IS_CD46 else "ChEMBL open-data agents · ")
+            + "ClinicalTrials.gov where sliced"
         ),
         kpi_chips=[
             ("Active Agents", str(len(PIPELINE_VIEW))),
             ("CT.gov slice", str(len(_trials_summary)) if not _trials_summary.empty else "—"),
-            ("Curated Total", str(len(PIPELINE))),
+            ("ChEMBL rows", str(len(_chembl_df)) if not _chembl_df.empty else "—"),
             ("Modality", strategy_context(_GENE)["modality"][:24]),
         ],
         source_badges=["ClinicalTrials", "ChEMBL", "FDA"],
     )
 
 if PIPELINE_VIEW.empty:
-    info_banner(f"No curated / ChEMBL pipeline rows for **{_GENE}** yet.")
+    info_banner(f"No ChEMBL / curated pipeline rows for **{_GENE}** yet (`chembl_{_PREFIX}.json`).")
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
-_DRUG_TABS = [
-    "Pipeline Overview",
-    f"{_GENE} Agents" if not _IS_CD46 else "CD46 Agents",
-    "PSMA Competitive",
-    "Complement Context",
-    "Combination Rationale",
-]
+if _IS_CD46:
+    _DRUG_TABS = [
+        "Pipeline Overview",
+        "CD46 Agents",
+        "PSMA Competitive",
+        "Complement Context",
+        "Combination Rationale",
+    ]
+else:
+    _DRUG_TABS = [
+        "Pipeline Overview",
+        f"{_GENE} Agents",
+        "Clinical Trials",
+    ]
 _active_drug = section_tabs(_DRUG_TABS, key="drug_pipeline_tabs")
 
 # TAB 1 — Pipeline Overview (swim-lane chart)
 if _active_drug == _DRUG_TABS[0]:
-    st.markdown("#### Clinical Development Landscape — Swim-Lane View")
+    st.markdown(f"#### {_GENE} Clinical Development Landscape — Swim-Lane View")
     st.caption("Each marker = one agent · hover for mechanism detail · colour = drug class · shape = modality")
 
-    df_sorted = PIPELINE.sort_values(["Drug Class", "Phase_num"], ascending=[True, False])
+    if PIPELINE_CHART.empty:
+        st.info(f"No agents to chart for **{_GENE}**.")
+        df_sorted = PIPELINE_CHART
+    else:
+        df_sorted = PIPELINE_CHART.sort_values(["Drug Class", "Phase_num"], ascending=[True, False])
     phase_labels = {0: "Preclinical", 1: "Phase 1", 2: "Phase 2", 3: "Phase 3", 4: "Approved"}
 
-    fig_swim = go.Figure()
+    if not df_sorted.empty:
+        fig_swim = go.Figure()
 
-    for phase_num in phase_labels:
-        fig_swim.add_vline(x=phase_num, line=dict(color=_LINE, width=1, dash="dot"))
+        for phase_num in phase_labels:
+            fig_swim.add_vline(x=phase_num, line=dict(color=_LINE, width=1, dash="dot"))
 
-    for drug_class, color in CLASS_COLORS.items():
-        df_cls = df_sorted[df_sorted["Drug Class"] == drug_class]
-        for _, row in df_cls.iterrows():
-            symb = MODALITY_SHAPES.get(row["Modality"], "circle")
+        for drug_class, color in CLASS_COLORS.items():
+            df_cls = df_sorted[df_sorted["Drug Class"] == drug_class]
+            for _, row in df_cls.iterrows():
+                symb = MODALITY_SHAPES.get(row["Modality"], "circle")
+                notes = str(row.get("Notes") or "")
+                fig_swim.add_trace(go.Scatter(
+                    x=[row["Phase_num"]],
+                    y=[row["Name"]],
+                    mode="markers+text",
+                    marker=dict(
+                        symbol=symb,
+                        size=32 if row["Phase Label"] == "FDA Approved" else 22,
+                        color=color,
+                        opacity=0.92,
+                        line=dict(width=2, color="#D5DEE8"),
+                    ),
+                    text=[f"  {row['Phase Label']}"],
+                    textposition="middle right",
+                    textfont=dict(size=10, color=_LIGHT),
+                    hovertemplate=(
+                        f"<b>{row['Name']}</b><br>"
+                        f"Class: {row['Drug Class']}<br>"
+                        f"Modality: {row['Modality']}<br>"
+                        f"Phase: {row['Phase Label']}<br>"
+                        f"Target: {row['Target']}<br>"
+                        f"Developer: {row['Developer']}<br>"
+                        f"Indication: {row['Indication']}<br>"
+                        f"NCT: {row['NCT']}<br>"
+                        f"<i>{notes[:120]}...</i><extra></extra>"
+                    ),
+                    name=drug_class,
+                    showlegend=False,
+                ))
+
+        for drug_class, color in CLASS_COLORS.items():
             fig_swim.add_trace(go.Scatter(
-                x=[row["Phase_num"]],
-                y=[row["Name"]],
-                mode="markers+text",
-                marker=dict(
-                    symbol=symb,
-                    size=32 if row["Phase Label"] == "FDA Approved" else 22,
-                    color=color,
-                    opacity=0.92,
-                    line=dict(width=2, color="#D5DEE8"),
-                ),
-                text=[f"  {row['Phase Label']}"],
-                textposition="middle right",
-                textfont=dict(size=10, color=_LIGHT),
-                hovertemplate=(
-                    f"<b>{row['Name']}</b><br>"
-                    f"Class: {row['Drug Class']}<br>"
-                    f"Modality: {row['Modality']}<br>"
-                    f"Phase: {row['Phase Label']}<br>"
-                    f"Target: {row['Target']}<br>"
-                    f"Developer: {row['Developer']}<br>"
-                    f"Indication: {row['Indication']}<br>"
-                    f"NCT: {row['NCT']}<br>"
-                    f"<i>{row['Notes'][:120]}...</i><extra></extra>"
-                ),
-                name=drug_class,
-                showlegend=False,
+                x=[None], y=[None], mode="markers",
+                marker=dict(size=12, color=color, symbol="circle"),
+                name=drug_class, showlegend=True,
+            ))
+        for mod, shape in MODALITY_SHAPES.items():
+            fig_swim.add_trace(go.Scatter(
+                x=[None], y=[None], mode="markers",
+                marker=dict(size=12, color=_SLATE, symbol=shape),
+                name=f"Shape: {mod}", showlegend=True,
             ))
 
-    for drug_class, color in CLASS_COLORS.items():
-        fig_swim.add_trace(go.Scatter(
-            x=[None], y=[None], mode="markers",
-            marker=dict(size=12, color=color, symbol="circle"),
-            name=drug_class, showlegend=True,
-        ))
-    for mod, shape in MODALITY_SHAPES.items():
-        fig_swim.add_trace(go.Scatter(
-            x=[None], y=[None], mode="markers",
-            marker=dict(size=12, color=_SLATE, symbol=shape),
-            name=f"Shape: {mod}", showlegend=True,
-        ))
-
-    apply_plotly_layout(fig_swim,
-        xaxis=dict(
-            tickvals=list(phase_labels.keys()),
-            ticktext=list(phase_labels.values()),
-            showgrid=False, range=[-0.5, 4.9],
-            title=None, color=_LIGHT,
-        ),
-        yaxis=dict(
-            showgrid=True, gridcolor=_LINE,
-            title=None, color=_LIGHT,
-            autorange="reversed",
-        ),
-        legend=dict(
-            bgcolor="rgba(13,24,41,0.90)", bordercolor=_LINE,
-            borderwidth=1, font=dict(size=10, color=_LIGHT),
-            x=1.01, y=1,
-        ),
-        height=500,
-        margin=dict(l=10, r=270, t=20, b=40),
-        hoverlabel=dict(bgcolor=_LINE, bordercolor="#475569", font=dict(color=_LIGHT, size=12)),
-    )
-    st.plotly_chart(fig_swim, use_container_width=True)
-    st.caption(
-        "◆ Diamond = ADC  ·  ★ Star = RLT (α)  ·  ● Circle = RLT (β⁻)  ·  ■ Square = Monoclonal Antibody  ·  "
-        "Hover each marker for mechanism details and trial context."
-    )
+        apply_plotly_layout(fig_swim,
+            xaxis=dict(
+                tickvals=list(phase_labels.keys()),
+                ticktext=list(phase_labels.values()),
+                showgrid=False, range=[-0.5, 4.9],
+                title=None, color=_LIGHT,
+            ),
+            yaxis=dict(
+                showgrid=True, gridcolor=_LINE,
+                title=None, color=_LIGHT,
+                autorange="reversed",
+            ),
+            legend=dict(
+                bgcolor="rgba(13,24,41,0.90)", bordercolor=_LINE,
+                borderwidth=1, font=dict(size=10, color=_LIGHT),
+                x=1.01, y=1,
+            ),
+            height=max(360, min(700, 80 + 28 * len(df_sorted))),
+            margin=dict(l=10, r=270, t=20, b=40),
+            hoverlabel=dict(bgcolor=_LINE, bordercolor="#475569", font=dict(color=_LIGHT, size=12)),
+        )
+        st.plotly_chart(fig_swim, use_container_width=True)
+        st.caption(
+            "◆ Diamond = ADC  ·  ★ Star = RLT (α)  ·  ● Circle = RLT (β⁻)  ·  ■ Square = Monoclonal Antibody  ·  "
+            "Hover each marker for mechanism details and trial context."
+        )
 
     st.markdown("---")
-    st.markdown("**Complete Agent Summary**")
+    st.markdown(f"**{_GENE} Agent Summary**")
     summary_cols = ["Name", "Drug Class", "Modality", "Target", "Phase Label",
                     "Developer", "Indication", "Isotope / Payload"]
-    research_table(
-        PIPELINE.sort_values(["Drug Class", "Phase_num"], ascending=[True, False])[summary_cols],
-        use_container_width=True,
-        height=340,
-        hide_index=True,
-    )
+    if not PIPELINE_CHART.empty:
+        research_table(
+            PIPELINE_CHART.sort_values(["Drug Class", "Phase_num"], ascending=[True, False])[summary_cols],
+            use_container_width=True,
+            height=340,
+            hide_index=True,
+        )
+    if not _trials_summary.empty:
+        st.markdown(f"**ClinicalTrials.gov slice — {_GENE}**")
+        research_table(_trials_summary, use_container_width=True, hide_index=True)
 
 # ─────────────────────────────────────────────────────────────────────────────
 # TAB 2 — CD46 Agents Detail
@@ -415,9 +440,20 @@ elif _active_drug == _DRUG_TABS[1]:
             research_table(iso_df, use_container_width=True, hide_index=True)
 
 # ─────────────────────────────────────────────────────────────────────────────
-# TAB 3 — PSMA Competitive Reference
+# TAB 3 — Clinical Trials (non-CD46) OR PSMA Competitive (CD46)
 # ─────────────────────────────────────────────────────────────────────────────
-elif _active_drug == _DRUG_TABS[2]:
+elif (not _IS_CD46) and _active_drug == _DRUG_TABS[2]:
+    st.markdown(f"#### ClinicalTrials.gov — {_GENE}")
+    st.caption(f"From `data/processed/{_PREFIX}_trials_summary.csv` (gene-param slice).")
+    if _trials_summary.empty:
+        st.info(
+            f"No trials summary for **{_GENE}**. "
+            f"Expected `{_PREFIX}_trials_summary.csv` or ClinicalTrials.gov cache."
+        )
+    else:
+        research_table(_trials_summary, use_container_width=True, hide_index=True)
+
+elif _IS_CD46 and _active_drug == _DRUG_TABS[2]:
     st.markdown("#### PSMA-Targeted RLT — Competitive Reference & Whitespace Map")
 
     df_psma = PIPELINE[PIPELINE["Drug Class"] == "PSMA-Targeted"]
@@ -509,9 +545,9 @@ elif _active_drug == _DRUG_TABS[2]:
                 st.info(f"💡 {row['Notes']}")
 
 # ─────────────────────────────────────────────────────────────────────────────
-# TAB 4 — Complement Inhibitors
+# TAB 4 — Complement Inhibitors (CD46 only)
 # ─────────────────────────────────────────────────────────────────────────────
-elif _active_drug == _DRUG_TABS[3]:
+elif _IS_CD46 and len(_DRUG_TABS) > 3 and _active_drug == _DRUG_TABS[3]:
     st.markdown("#### Complement Pathway Inhibitors — Mechanistic Context")
     st.markdown(
         "Complement inhibitors are not CD46-targeting agents — they validate the **complement pathway as "
@@ -583,9 +619,9 @@ C1 → C4 → C2                     C3 → CFB → CFD
     )
 
 # ─────────────────────────────────────────────────────────────────────────────
-# TAB 5 — Combination Rationale
+# TAB 5 — Combination Rationale (CD46 only)
 # ─────────────────────────────────────────────────────────────────────────────
-elif _active_drug == _DRUG_TABS[4]:
+elif _IS_CD46 and len(_DRUG_TABS) > 4 and _active_drug == _DRUG_TABS[4]:
     st.markdown("#### Combination Strategy Rationale")
     st.markdown(
         "KG traversal (Drug → Gene → Pathway → Disease) surfaces biologically motivated "

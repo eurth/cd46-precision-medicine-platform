@@ -1,0 +1,1187 @@
+depmap_id,crispr_score,cell_line_name,cancer_type,lineage,is_dependency,gene_symbol
+ACH-000015,-0.0431781471030877,NCI-H1581,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000045,0.144465972748878,MV4-11,Acute Myeloid Leukemia,Myeloid,False,EGFR
+ACH-000094,-0.2627458403142004,HPAF-II,Pancreatic Adenocarcinoma,Pancreas,False,EGFR
+ACH-000096,0.2706007365981114,G-401,Rhabdoid Cancer,Kidney,False,EGFR
+ACH-000099,0.0827513353307697,SIMA,Neuroblastoma,Peripheral Nervous System,False,EGFR
+ACH-000167,0.0499684598159418,KE-97,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-000178,-0.0973647562387984,Hs 766T,Pancreatic Adenocarcinoma,Pancreas,False,EGFR
+ACH-000213,-1.1195820663449276,HUP-T4,Pancreatic Adenocarcinoma,Pancreas,True,EGFR
+ACH-000216,-0.6043197208900919,JH-EsoAd1,Esophagogastric Adenocarcinoma,Esophagus/Stomach,True,EGFR
+ACH-000223,-0.2314772476163705,HCC1937,Invasive Breast Carcinoma,Breast,False,EGFR
+ACH-000247,-0.0513150436172889,OCUM-1,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,EGFR
+ACH-000261,0.1365839727569844,RERF-LC-AI,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000262,-0.4176494531626881,UOK101,Renal Cell Carcinoma,Kidney,False,EGFR
+ACH-000286,-0.0525078862142527,SNU-1033,Colorectal Adenocarcinoma,Bowel,False,EGFR
+ACH-000312,0.0547650818153,SK-N-BE(2),Neuroblastoma,Peripheral Nervous System,False,EGFR
+ACH-000320,0.1786281668235602,PSN1,Pancreatic Adenocarcinoma,Pancreas,False,EGFR
+ACH-000341,-0.3589387630532012,SK-N-FI,Neuroblastoma,Peripheral Nervous System,False,EGFR
+ACH-000354,-0.7728242001207464,Capan-1,Pancreatic Adenocarcinoma,Pancreas,True,EGFR
+ACH-000373,-0.1573669778502316,SKM-1,Acute Myeloid Leukemia,Myeloid,False,EGFR
+ACH-000402,-0.0529573791452627,BL-70,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-000416,0.0583914642784896,NCI-H838,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000435,-0.4007824932648474,EFE-184,Endometrial Carcinoma,Uterus,False,EGFR
+ACH-000437,0.137232519234403,SW 1088,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000450,-0.2616752207227781,MEL-HO,Melanoma,Skin,False,EGFR
+ACH-000478,-0.0222109838113804,SNU-387,Hepatocellular Carcinoma,Liver,False,EGFR
+ACH-000483,-0.3953512268904394,SNU-182,Hepatocellular Carcinoma,Liver,False,EGFR
+ACH-000493,0.085325892945949,SNU-423,Hepatocellular Carcinoma,Liver,False,EGFR
+ACH-000514,-0.2271893256055477,NCI-H1092,Lung Neuroendocrine Tumor,Lung,False,EGFR
+ACH-000516,-0.0309251307556056,CAL-78,Chondrosarcoma,Bone,False,EGFR
+ACH-000535,0.0622279268588796,BxPC-3,Pancreatic Adenocarcinoma,Pancreas,False,EGFR
+ACH-000544,-0.8367161713873118,OE21,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,True,EGFR
+ACH-000563,0.1392898841885587,EBC-1,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000592,-0.0419888649106181,TM-31,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000599,-0.0510423724077069,PA-TU-8902,Pancreatic Adenocarcinoma,Pancreas,False,EGFR
+ACH-000614,-0.2444013618040013,RVH-421,Melanoma,Skin,False,EGFR
+ACH-000618,-0.4152400588695762,SNU-1041,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,EGFR
+ACH-000652,-0.4770555163942274,SUIT-2,Pancreatic Adenocarcinoma,Pancreas,False,EGFR
+ACH-000656,0.1008414742795298,SU-DHL-8,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-000695,-0.1174650826816059,COR-L47,Lung Neuroendocrine Tumor,Lung,False,EGFR
+ACH-000717,-0.6620353727628581,COLO-680N,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,True,EGFR
+ACH-000719,-0.9060871521961394,RMG-I,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,True,EGFR
+ACH-000748,0.0358602354386781,SJSA-1,Osteosarcoma,Bone,False,EGFR
+ACH-000777,-0.8455792006264353,KYSE-30,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,True,EGFR
+ACH-000784,-0.169342350632881,KYSE-70,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,EGFR
+ACH-000793,0.0323296965786263,KATO III,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,EGFR
+ACH-000798,-0.11576497956353,CL-40,Colorectal Adenocarcinoma,Bowel,False,EGFR
+ACH-000820,0.0667303229658953,SW403,Colorectal Adenocarcinoma,Bowel,False,EGFR
+ACH-000839,-0.7536429470427948,SCaBER,Bladder Squamous Cell Carcinoma,Bladder/Urinary Tract,True,EGFR
+ACH-000862,-0.9052717578369373,KMBC-2,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,True,EGFR
+ACH-000872,-0.4223710418540076,HCC515,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000876,0.0938342245189418,MDA-MB-415,Invasive Breast Carcinoma,Breast,False,EGFR
+ACH-000888,-0.1536416128664876,NCI-H1793,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000906,0.0639925539877334,ES-2,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,EGFR
+ACH-000912,-0.0102314371661424,NCI-H2286,Lung Neuroendocrine Tumor,Lung,False,EGFR
+ACH-000913,-0.1078054660247671,ESS-1,Uterine Sarcoma/Mesenchymal,Uterus,False,EGFR
+ACH-000922,-0.0769337226372297,RCH-ACV,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,False,EGFR
+ACH-000928,-0.4265354756435492,JHUEM-1,Endometrial Carcinoma,Uterus,False,EGFR
+ACH-000934,-0.1291201809945409,MDA-MB-361,Invasive Breast Carcinoma,Breast,False,EGFR
+ACH-000937,0.1011028927567102,PF-382,T-Lymphoblastic Leukemia/Lymphoma,Lymphoid,False,EGFR
+ACH-000943,0.0721288343706381,RKO,Colorectal Adenocarcinoma,Bowel,False,EGFR
+ACH-000950,-0.1527160907522349,LoVo,Colorectal Adenocarcinoma,Bowel,False,EGFR
+ACH-000953,0.0902520285597592,SUP-T1,T-Lymphoblastic Leukemia/Lymphoma,Lymphoid,False,EGFR
+ACH-000957,-0.5479420400792361,LS 180,Colorectal Adenocarcinoma,Bowel,True,EGFR
+ACH-000960,0.1527683779933936,Reh,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,False,EGFR
+ACH-000969,0.0545750177579894,KM12,Colorectal Adenocarcinoma,Bowel,False,EGFR
+ACH-000994,-0.0291766044714693,HEC-59,Endometrial Carcinoma,Uterus,False,EGFR
+ACH-001228,-0.2914246964139069,UPCI-SCC-152,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,EGFR
+ACH-001329,-0.1025510847111181,ANGM-CSS,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-001374,-0.010116416188771,PA-1 [PA1],Ovarian Germ Cell Tumor,Ovary/Fallopian Tube,False,EGFR
+ACH-001393,-0.2313844178649767,SUM-190PT,Invasive Breast Carcinoma,Breast,False,EGFR
+ACH-001418,-0.4329146345851015,UWB1.289,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,EGFR
+ACH-001419,-0.4118850031093468,VP229,Invasive Breast Carcinoma,Breast,False,EGFR
+ACH-001497,0.3216696193514595,ESO51,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,EGFR
+ACH-001513,-0.4024204806251859,HCA-1,Cervical Adenocarcinoma,Cervix,False,EGFR
+ACH-001539,-0.198818232230513,KML-1,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-001544,-0.4845848033946854,KYAE-1,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,EGFR
+ACH-001570,0.0159710818530596,MM426,Melanoma,Skin,False,EGFR
+ACH-001603,-0.2261218581469042,NH-12,Neuroblastoma,Peripheral Nervous System,False,EGFR
+ACH-001650,-0.4578323342034906,SISO,Cervical Adenocarcinoma,Cervix,False,EGFR
+ACH-001675,-0.9360470328993316,TR146,Head and Neck Squamous Cell Carcinoma,Head and Neck,True,EGFR
+ACH-001794,0.0550137712320569,93T449,Liposarcoma,Soft Tissue,False,EGFR
+ACH-001802,0.0072263163788472,LPS853,Liposarcoma,Soft Tissue,False,EGFR
+ACH-001972,-0.0386288808649986,MM473,Melanoma,Skin,False,EGFR
+ACH-001993,-0.1003945857623683,NALM-16,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,False,EGFR
+ACH-002002,0.0406136073162359,A375 SKIN CJ2,Melanoma,Skin,False,EGFR
+ACH-002052,-0.0753157158410035,Lu-139,Lung Neuroendocrine Tumor,Lung,False,EGFR
+ACH-002055,-0.2305851107718313,TL-1,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-002161,-0.2650514134291081,MKN28,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,EGFR
+ACH-002263,-0.5899365844249999,KYSE-220,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,True,EGFR
+ACH-002284,0.1036814689203344,NB6,Neuroblastoma,Peripheral Nervous System,False,EGFR
+ACH-002463,0.077070446007638,RPE1-ss77,Non-Cancerous,Eye,False,EGFR
+ACH-002471,-0.3347360035105123,OS052,Osteosarcoma,Bone,False,EGFR
+ACH-002511,0.0867014629948391,M104325,Melanoma,Skin,False,EGFR
+ACH-002512,-0.3609821042741068,MM160113,Melanoma,Skin,False,EGFR
+ACH-002654,0.0641836368406387,JVE-015,Colorectal Adenocarcinoma,Bowel,False,EGFR
+ACH-002780,-0.1273537470804195,NCC-ES1-C1,Ewing Sarcoma,Bone,False,EGFR
+ACH-002784,0.0734752137968628,NCC-UPS2-C1,Undifferentiated Pleomorphic Sarcoma/Malignant Fibrous Histiocytoma/High-Grade Spindle Cell Sarcoma,Soft Tissue,False,EGFR
+ACH-002799,0.1597767686844644,NCC-MPNST1-C1,Nerve Sheath Tumor,Peripheral Nervous System,False,EGFR
+ACH-002806,-0.0324959467687929,TB096,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000018,0.0590670871087155,T24,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,EGFR
+ACH-000029,-0.1783572402250504,HCC-827-GR5,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000036,-0.1525174484306079,U343,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000048,-0.0303574491134529,TOV-112D,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,EGFR
+ACH-000053,-0.0524643897521871,KARPAS-299,Mature T and NK Neoplasms,Lymphoid,False,EGFR
+ACH-000087,-0.2283215028035206,SK-ES-1,Ewing Sarcoma,Bone,False,EGFR
+ACH-000097,-0.2887593721541824,ZR-75-1,Invasive Breast Carcinoma,Breast,False,EGFR
+ACH-000108,-0.3587348009107417,KP-3,Adenosquamous Carcinoma of the Pancreas,Pancreas,False,EGFR
+ACH-000120,0.2042021174685854,CHP-212,Neuroblastoma,Peripheral Nervous System,False,EGFR
+ACH-000143,0.0262038089031674,HCC2429,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000183,-0.2468268829777943,L-363,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-000190,-0.0789270488997701,HD-MY-Z,Acute Myeloid Leukemia,Myeloid,False,EGFR
+ACH-000195,-0.2166961759115718,Set-2,Acute Myeloid Leukemia,Myeloid,False,EGFR
+ACH-000198,0.0125723590875929,EOL-1,Acute Myeloid Leukemia,Myeloid,False,EGFR
+ACH-000235,-0.893643806550431,Panc 04.03,Pancreatic Adenocarcinoma,Pancreas,True,EGFR
+ACH-000255,-0.0161286881332829,LMSU,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,EGFR
+ACH-000258,-0.2211607503710443,Du4475,Invasive Breast Carcinoma,Breast,False,EGFR
+ACH-000304,-0.1724316340384241,WM-115,Melanoma,Skin,False,EGFR
+ACH-000311,-0.1285001209920665,NCI-H2122,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000339,-0.2665089159421777,HCC-461,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000350,-0.6917008675089009,COLO-678,Colorectal Adenocarcinoma,Bowel,True,EGFR
+ACH-000361,-0.0250239036433951,SK-HEP-1,Hepatocellular Carcinoma,Liver,False,EGFR
+ACH-000375,-0.1155178255037611,G-402,Rhabdoid Cancer,Kidney,False,EGFR
+ACH-000389,0.093082252555251,H4,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000391,0.1210696235584669,MHH-ES-1,Ewing Sarcoma,Bone,False,EGFR
+ACH-000411,-0.884739726496655,769-P,Renal Cell Carcinoma,Kidney,True,EGFR
+ACH-000421,-0.4141208006061485,SW837,Colorectal Adenocarcinoma,Bowel,False,EGFR
+ACH-000427,-0.5099418999145371,NCI-N87,Esophagogastric Adenocarcinoma,Esophagus/Stomach,True,EGFR
+ACH-000434,0.1474829436999499,NCI-H1915,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000441,0.0362924546304573,SH-4,Melanoma,Skin,False,EGFR
+ACH-000444,-0.2488197411822998,LU99,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000467,-0.3104818547025966,HCC-56,Colorectal Adenocarcinoma,Bowel,False,EGFR
+ACH-000471,5.546250680216192e-05,Li-7,Hepatocellular Carcinoma,Liver,False,EGFR
+ACH-000486,-0.1288613394963261,KU-19-19,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,EGFR
+ACH-000490,-0.3268544497090695,SF767,Cervical Squamous Cell Carcinoma,Cervix,False,EGFR
+ACH-000496,-0.6809015188673151,NCI-H1792,Non-Small Cell Lung Cancer,Lung,True,EGFR
+ACH-000533,-0.2777797013077808,NCI-H2004 RT,Rhabdoid Cancer,Kidney,False,EGFR
+ACH-000542,-0.0666474385987729,Hey-A8,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,EGFR
+ACH-000546,-1.684436817574627,HSC-4,Head and Neck Squamous Cell Carcinoma,Head and Neck,True,EGFR
+ACH-000551,-0.1265065411195226,K-562,Myeloproliferative Neoplasms,Myeloid,False,EGFR
+ACH-000558,-0.0804603780579404,A-172,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000576,-0.1208486685810784,KMS-27,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-000579,0.0989452449948122,UACC-257,Melanoma,Skin,False,EGFR
+ACH-000588,-0.1240827765932808,KMS-26,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-000624,-0.201708231884298,HCC1806,Breast Ductal Carcinoma In Situ,Breast,False,EGFR
+ACH-000638,-0.2161368576730828,NCI-H441,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000646,-0.5471647559829642,OVMANA,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,True,EGFR
+ACH-000654,-0.094486280756537,Raji,Non-Hodgkin Lymphoma,Lymphoid,False,EGFR
+ACH-000738,-0.0140647297374828,GB-1,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000764,-0.1857819453110231,SH-10-TC,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,EGFR
+ACH-000773,-0.0928682998083573,Ki-JK,Mature T and NK Neoplasms,Lymphoid,False,EGFR
+ACH-000807,0.0546892732092368,SNU-738,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000811,0.0150206145232507,SK-OV-3,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,EGFR
+ACH-000843,-0.2934899264578812,HARA,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000849,0.0221369790415964,MDA-MB-468,Invasive Breast Carcinoma,Breast,False,EGFR
+ACH-000865,-0.8348376103055508,KYSE-450,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,True,EGFR
+ACH-000890,0.0068771267552277,SW 1271,SMARCA4-deficient undifferentiated tumor,Lung,False,EGFR
+ACH-000894,-0.5482245247850361,NCI-H1869,Non-Small Cell Lung Cancer,Lung,True,EGFR
+ACH-000907,-0.119596380330337,SNU-349,Renal Cell Carcinoma,Kidney,False,EGFR
+ACH-000917,-0.047203080143012,TE-4,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,EGFR
+ACH-000932,-0.0573930389752361,SNU-1,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,EGFR
+ACH-000966,-0.2748767749754542,IGROV1,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,EGFR
+ACH-000974,-0.2694865846896674,SNG-M,Endometrial Carcinoma,Uterus,False,EGFR
+ACH-001031,-0.1765184539867676,CHLA-266,Embryonal Tumor,CNS/Brain,False,EGFR
+ACH-001338,-0.1548445741240782,CHP-134,Neuroblastoma,Peripheral Nervous System,False,EGFR
+ACH-001407,0.0279069471460417,UM-UC-13,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,EGFR
+ACH-001409,-0.4040470055421478,UM-UC-16,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,EGFR
+ACH-001454,0.1227487380768452,C10,Colorectal Adenocarcinoma,Bowel,False,EGFR
+ACH-001511,-0.3461694552379676,H413,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,EGFR
+ACH-001518,-0.2525613671803823,HEC-116,Endometrial Carcinoma,Uterus,False,EGFR
+ACH-001522,-0.0332090688246951,HMY-1,Melanoma,Skin,False,EGFR
+ACH-001536,-0.3502708364991709,KKU-100,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,EGFR
+ACH-001551,-0.0259102981557339,MCC14/2,Merkel Cell Carcinoma,Skin,False,EGFR
+ACH-001554,-0.1090964658246101,mel-202,Ocular Melanoma,Eye,False,EGFR
+ACH-001555,-0.2599451768555141,Mero-14,Pleural Mesothelioma,Pleura,False,EGFR
+ACH-001557,0.0369492146600283,Mero-41,Pleural Mesothelioma,Pleura,False,EGFR
+ACH-001563,-0.0225334326881411,MM127,Melanoma,Skin,False,EGFR
+ACH-001574,-0.0634620866746474,MOLM-14,Acute Myeloid Leukemia,Myeloid,False,EGFR
+ACH-001607,0.1577624024175449,NOZ,Intracholecystic Papillary Neoplasm,Biliary Tract,False,EGFR
+ACH-001655,0.0427024940695399,SKN,Uterine Sarcoma/Mesenchymal,Uterus,False,EGFR
+ACH-001674,-0.1082953301152528,TGW,Neuroblastoma,Peripheral Nervous System,False,EGFR
+ACH-001687,-0.2812929138122693,UM-RC-3,Renal Cell Carcinoma,Kidney,False,EGFR
+ACH-001695,-0.6886098873158822,UPCI-SCC-099,Head and Neck Squamous Cell Carcinoma,Head and Neck,True,EGFR
+ACH-001696,-0.4484860476988114,UPCI-SCC-111,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,EGFR
+ACH-001699,-0.3952520037876407,UPCI-SCC-131,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,EGFR
+ACH-001737,-0.1645798806764355,CTV-1-DM,T-Lymphoblastic Leukemia/Lymphoma,Lymphoid,False,EGFR
+ACH-001819,-0.0935876525168931,MFM-223,Invasive Breast Carcinoma,Breast,False,EGFR
+ACH-001843,-0.1589092948117003,MGH-ECC4,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,EGFR
+ACH-002040,-0.1136407058287815,HMV-II,Mucosal Melanoma of the Vulva/Vagina,Vulva/Vagina,False,EGFR
+ACH-002043,-0.0549341648888297,Ca9-22,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,EGFR
+ACH-002051,0.0487069663211422,Lu-134-A,Lung Neuroendocrine Tumor,Lung,False,EGFR
+ACH-002060,-0.235424777083848,MY,Acute Leukemias of Ambiguous Lineage,Myeloid,False,EGFR
+ACH-002141,0.0130945481466077,HSC-39,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,EGFR
+ACH-002233,-0.50168461899106,DIFI,Colorectal Adenocarcinoma,Bowel,True,EGFR
+ACH-002247,-0.0609058417264443,IM-9,Non-Cancerous,Myeloid,False,EGFR
+ACH-002257,0.1313986833921784,KINGS-1,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-002500,-0.153618563219785,Z-138,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-002530,-0.6889479486685313,SNU-977,Colorectal Adenocarcinoma,Bowel,True,EGFR
+ACH-003191,-0.516803922739329,NRH-GCT2,Giant Cell Tumor of Bone,Bone,True,EGFR
+ACH-000005,-0.1923462263687995,HEL 92.1.7,Acute Myeloid Leukemia,Myeloid,False,EGFR
+ACH-000011,-0.1159318737840081,253J,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,EGFR
+ACH-000067,-0.0664048259440511,Hs 683,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000076,-0.2631456313537691,NCO2,Myeloproliferative Neoplasms,Myeloid,False,EGFR
+ACH-000093,-0.8752538347102982,Panc 05.04,Pancreatic Adenocarcinoma,Pancreas,True,EGFR
+ACH-000095,-0.0019305204485974,D341 Med,Embryonal Tumor,CNS/Brain,False,EGFR
+ACH-000098,0.0384172427353544,GAMG,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000115,-0.1735160863520363,VCaP,Prostate Adenocarcinoma,Prostate,False,EGFR
+ACH-000116,-0.2343087849068482,OAW28,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,EGFR
+ACH-000132,-0.6056270014830396,JHOS-2,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,True,EGFR
+ACH-000139,-0.8980551738635286,Panc 03.27,Pancreatic Adenocarcinoma,Pancreas,True,EGFR
+ACH-000159,-0.0529263320531862,OS-RC-2,Renal Cell Carcinoma,Kidney,False,EGFR
+ACH-000172,0.0052407707308365,TM-87,Rhabdoid Cancer,Soft Tissue,False,EGFR
+ACH-000174,0.1166743692422633,CAL-62,Anaplastic Thyroid Cancer,Thyroid,False,EGFR
+ACH-000182,-0.1161854421986818,SNU-869,Ampullary Carcinoma,Ampulla of Vater,False,EGFR
+ACH-000212,0.0088190440171169,CAL-120,Invasive Breast Carcinoma,Breast,False,EGFR
+ACH-000226,-0.0236659904124743,SUP-M2,Mature T and NK Neoplasms,Lymphoid,False,EGFR
+ACH-000228,-0.6819544023504607,BICR 31,Head and Neck Squamous Cell Carcinoma,Head and Neck,True,EGFR
+ACH-000233,-0.0605913476109229,DEL,Mature T and NK Neoplasms,Lymphoid,False,EGFR
+ACH-000234,-0.7394282320884682,Caki-2,Renal Cell Carcinoma,Kidney,True,EGFR
+ACH-000260,0.0469791065170097,SK-N-AS,Neuroblastoma,Peripheral Nervous System,False,EGFR
+ACH-000264,-0.0954745694053972,Calu-6,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000277,-0.101917798263437,HCC1419,Invasive Breast Carcinoma,Breast,False,EGFR
+ACH-000293,0.1018309564833517,KLE,Endometrial Carcinoma,Uterus,False,EGFR
+ACH-000294,-0.1894064292352329,NB-4,Acute Myeloid Leukemia,Myeloid,False,EGFR
+ACH-000335,0.0477344737745728,MSTO-211H,Pleural Mesothelioma,Pleura,False,EGFR
+ACH-000344,-0.2734137142542132,SNU-668,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,EGFR
+ACH-000371,0.0966769562706351,RL,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-000376,-0.0280054503573225,SF-295,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000381,-0.3278136668473604,T84,Colorectal Adenocarcinoma,Bowel,False,EGFR
+ACH-000403,-0.2870183109835742,NCI-H747,Colorectal Adenocarcinoma,Bowel,False,EGFR
+ACH-000404,-0.1373123850164487,K029AX,Melanoma,Skin,False,EGFR
+ACH-000503,-0.3364588800236474,BICR 16,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,EGFR
+ACH-000504,-0.0394024742925818,SNB75,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000547,-0.1337721421121133,HT-1197,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,EGFR
+ACH-000548,-2.032630840040893,BHY,Head and Neck Squamous Cell Carcinoma,Head and Neck,True,EGFR
+ACH-000549,-0.4837152296624472,SNU-1076,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,EGFR
+ACH-000584,-0.0028025485551432,JHOS-4,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,EGFR
+ACH-000616,-0.1691260519484548,Hs 746T,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,EGFR
+ACH-000620,-1.3196345908221487,JHH-1,Hepatocellular Carcinoma,Liver,True,EGFR
+ACH-000663,-0.8382740340212702,OVTOKO,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,True,EGFR
+ACH-000746,-0.116451415262198,GSS,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,EGFR
+ACH-000753,-0.1437031924060134,JMSU-1,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,EGFR
+ACH-000756,0.1075828786934058,GI-1,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000823,-0.7628822731800216,KYSE-140,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,True,EGFR
+ACH-000831,-0.3958775526775081,HEC-50B,Endometrial Carcinoma,Uterus,False,EGFR
+ACH-000853,-0.1280663255904334,NCI-H661,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000860,-0.3650374774942317,NCI-H358,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000864,0.1780579823283332,COLO 684,Endometrial Carcinoma,Uterus,False,EGFR
+ACH-000882,0.1731675553492678,IGR-1,Melanoma,Skin,False,EGFR
+ACH-000919,-0.6811977768888475,IM95,Esophagogastric Adenocarcinoma,Esophagus/Stomach,True,EGFR
+ACH-000924,-0.1624450523465798,NCI-H2172,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000926,-0.5581831419569094,HT-55,Colorectal Adenocarcinoma,Bowel,True,EGFR
+ACH-000970,-0.0922261909777077,SNU-C5,Colorectal Adenocarcinoma,Bowel,False,EGFR
+ACH-000980,-0.0050042963939115,NCI-H1155,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000983,-0.0239976963636183,KCL-22,Myeloproliferative Neoplasms,Myeloid,False,EGFR
+ACH-001020,-0.0969983219519103,BT-16,Embryonal Tumor,CNS/Brain,False,EGFR
+ACH-001054,0.0729326744820717,D458,Embryonal Tumor,CNS/Brain,False,EGFR
+ACH-001111,-0.2069069162847102,L82,Mature T and NK Neoplasms,Lymphoid,False,EGFR
+ACH-001128,-0.1378844089330286,MON,Rhabdoid Cancer,Soft Tissue,False,EGFR
+ACH-001134,-0.0856501429406586,MYLA,Non-Hodgkin Lymphoma,Lymphoid,False,EGFR
+ACH-001137,-0.3145794146740693,NCI-H1993,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-001172,0.0239424367811319,U-251 MG DM,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-001275,-0.1003053826864523,SYO-1,Osteosarcoma,Bone,False,EGFR
+ACH-001279,-0.0830695450057116,SCCOHT-1,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,EGFR
+ACH-001280,-0.1751206427941049,SCS-214,Synovial Sarcoma,Soft Tissue,False,EGFR
+ACH-001310,-0.1365170710423418,HA1E,Non-Cancerous,Kidney,False,EGFR
+ACH-001340,-0.9840759910721484,COV413A,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,True,EGFR
+ACH-001386,-0.0184133550468205,SCLC-22H,Lung Neuroendocrine Tumor,Lung,False,EGFR
+ACH-001390,-0.7951387419381369,SUM-149PT,Invasive Breast Carcinoma,Breast,True,EGFR
+ACH-001396,-0.0388446773276808,SUM-52PE,Invasive Breast Carcinoma,Breast,False,EGFR
+ACH-001398,-0.2114771715554939,SW 156,Renal Cell Carcinoma,Kidney,False,EGFR
+ACH-001422,-1.1340526488146885,WPE1-NA22,Non-Cancerous,Prostate,True,EGFR
+ACH-001460,-1.026608582975057,C84,Colorectal Adenocarcinoma,Bowel,True,EGFR
+ACH-001533,-0.1742483228523063,KARPAS 1718,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-001542,-0.6068860708606283,KON,Head and Neck Squamous Cell Carcinoma,Head and Neck,True,EGFR
+ACH-001547,0.0114339620899093,LO68,Pleural Mesothelioma,Pleura,False,EGFR
+ACH-001548,-0.1571529965523956,LS,Neuroblastoma,Peripheral Nervous System,False,EGFR
+ACH-001558,-0.0981909841026238,Mero-48a,Pleural Mesothelioma,Pleura,False,EGFR
+ACH-001608,-0.0608436002454362,NP 2,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-001619,-0.95916923837163,OCUG-1,Intracholecystic Papillary Neoplasm,Biliary Tract,True,EGFR
+ACH-001625,-0.8377895193214289,OSC-19,Head and Neck Squamous Cell Carcinoma,Head and Neck,True,EGFR
+ACH-001642,-0.2029198099915745,SCC-3,Non-Hodgkin Lymphoma,Lymphoid,False,EGFR
+ACH-001691,0.0419693916334905,UPCI-SCC-029A,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,EGFR
+ACH-001692,-0.2637091027548055,UPCI-SCC-040,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,EGFR
+ACH-001842,-0.7656430036781869,MGH-ICC2,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,True,EGFR
+ACH-001850,-0.1378689038159369,G415,Intracholecystic Papillary Neoplasm,Biliary Tract,False,EGFR
+ACH-001853,-1.3311953370493503,KMCH-1,Hepatocellular Carcinoma plus Intrahepatic Cholangiocarcinoma,Liver,True,EGFR
+ACH-001970,-0.4077943070674355,MM253,Melanoma,Skin,False,EGFR
+ACH-001991,-0.0970236755580769,NZOV9,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,EGFR
+ACH-002030,-1.3986113235985491,Sa3,Head and Neck Squamous Cell Carcinoma,Head and Neck,True,EGFR
+ACH-002044,-0.1210976411874121,HSQ-89,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,EGFR
+ACH-002062,-0.5657476522776804,SLVL,Mature B-Cell Neoplasms,Lymphoid,True,EGFR
+ACH-002116,0.1015715764831342,EW-22,Ewing Sarcoma,Bone,False,EGFR
+ACH-002210,0.1310704257806552,ARH-77,Non-Cancerous,Myeloid,False,EGFR
+ACH-002464,0.0354597330039788,RPE1-ss6,Non-Cancerous,Eye,False,EGFR
+ACH-002647,-0.6464356007122563,CCC-5,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,True,EGFR
+ACH-002680,0.0313962416104224,170-MG-BA,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-003176,0.0057347522881095,NRH-GCT1,Osteosarcoma,Bone,False,EGFR
+ACH-000014,-0.1470149930440625,Hs 294T,Melanoma,Skin,False,EGFR
+ACH-000019,-0.0929897936704058,MCF7,Invasive Breast Carcinoma,Breast,False,EGFR
+ACH-000035,-0.1492745945972506,NCI-H1650,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000042,-0.531371401691983,Panc 02.03,Pancreatic Adenocarcinoma,Pancreas,True,EGFR
+ACH-000074,-0.0063298254174428,KU812,Myeloproliferative Neoplasms,Myeloid,False,EGFR
+ACH-000114,-0.2425200676919059,SU.86.86,Pancreatic Adenocarcinoma,Pancreas,False,EGFR
+ACH-000127,0.1574721152135978,SLR 20,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,EGFR
+ACH-000128,-0.2168387261628525,LN-319,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000133,-0.0682928616408382,Hs 729,Non-Cancerous,Fibroblast,False,EGFR
+ACH-000153,-0.3477629342954127,NCI-H2052,Pleural Mesothelioma,Pleura,False,EGFR
+ACH-000164,0.0668201792970652,PANC-1,Pancreatic Adenocarcinoma,Pancreas,False,EGFR
+ACH-000176,-1.555317662686441,LOU-NH91,Non-Small Cell Lung Cancer,Lung,True,EGFR
+ACH-000189,-0.5745571657837192,RCC10RGB,Renal Cell Carcinoma,Kidney,True,EGFR
+ACH-000208,0.0514244284655572,U-178,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000210,-0.1209140240901657,CADO-ES1,Ewing Sarcoma,Bone,False,EGFR
+ACH-000242,-0.3794357698932477,RT4,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,EGFR
+ACH-000251,-0.2074931384443058,NCI-H2887,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000288,0.1285985944198648,BT-549,Invasive Breast Carcinoma,Breast,False,EGFR
+ACH-000325,-0.0728786090984972,SNU-620,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,EGFR
+ACH-000331,0.0274266447284621,IST-MES2,Pleural Mesothelioma,Pleura,False,EGFR
+ACH-000356,-0.1035101730083939,MKN-45,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,EGFR
+ACH-000398,0.1228903100773317,RI-1,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-000470,-0.2567708430741285,SW1463,Colorectal Adenocarcinoma,Bowel,False,EGFR
+ACH-000476,-0.130954271470696,JHH-4,Hepatocellular Carcinoma,Liver,False,EGFR
+ACH-000480,-0.0311136902865205,HuH-7,Hepatocellular Carcinoma,Liver,False,EGFR
+ACH-000489,-0.6900930924529569,SW1116,Colorectal Adenocarcinoma,Bowel,True,EGFR
+ACH-000545,-0.4777717364893519,VM-CUB1,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,EGFR
+ACH-000556,-0.0825675542099386,SIHA,Cervical Squamous Cell Carcinoma,Cervix,False,EGFR
+ACH-000580,0.1369758127473627,C32,Melanoma,Skin,False,EGFR
+ACH-000596,-0.1281066409418711,LCLC-97TM1,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000597,-0.308960856730314,TTC-709,Rhabdoid Cancer,Soft Tissue,False,EGFR
+ACH-000665,-0.9530591433362952,SK-MES-1,Non-Small Cell Lung Cancer,Lung,True,EGFR
+ACH-000671,-0.0880596723206907,HuH-6,Hepatoblastoma,Liver,False,EGFR
+ACH-000747,0.0478738945847076,NCI-H1703,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000763,-0.2311239409613447,MM1-S,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-000765,-0.0885001080622282,WM983B,Melanoma,Skin,False,EGFR
+ACH-000785,-0.5141282566252197,NCI-H2126,Non-Small Cell Lung Cancer,Lung,True,EGFR
+ACH-000817,-0.0437591158384153,RPMI 8226,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-000821,-0.1794453242732089,EJM,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-000851,0.0555200274593425,MOR/CPR,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000880,-0.1778631248931839,AGS,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,EGFR
+ACH-000914,-0.1344196138519454,HT,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-000941,-0.2488852168963165,HEC-1-B,Endometrial Carcinoma,Uterus,False,EGFR
+ACH-000963,-0.5381293506134792,CCK-81,Colorectal Adenocarcinoma,Bowel,True,EGFR
+ACH-000973,-0.177881216307629,639-V,Urethral Cancer,Bladder/Urinary Tract,False,EGFR
+ACH-000984,-0.0242429348865963,HEC-6,Endometrial Carcinoma,Uterus,False,EGFR
+ACH-001041,-0.2542045573209773,CHL-1-DM,Melanoma,Skin,False,EGFR
+ACH-001048,-0.1806683052303062,COV504,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,EGFR
+ACH-001067,-0.0577607965729393,F5,Meningothelial Tumor,CNS/Brain,False,EGFR
+ACH-001081,0.180600158058072,HCC2998,Colorectal Adenocarcinoma,Bowel,False,EGFR
+ACH-001119,-0.3263117158512795,Mac-2A,Mature T and NK Neoplasms,Lymphoid,False,EGFR
+ACH-001145,-0.2084113941064473,OC 316,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,EGFR
+ACH-001184,-0.03214057728374,SCMC-RM2,Rhabdomyosarcoma,Soft Tissue,False,EGFR
+ACH-001274,-0.2766997167941993,SW982,Synovial Sarcoma,Soft Tissue,False,EGFR
+ACH-001333,-0.185859114585152,C-33 A,Cervical Squamous Cell Carcinoma,Cervix,False,EGFR
+ACH-001335,-0.9125986870292012,C-4 II,Cervical Squamous Cell Carcinoma,Cervix,True,EGFR
+ACH-001376,-0.4167200412035747,PACADD-135,Pancreatic Adenocarcinoma,Pancreas,False,EGFR
+ACH-001379,-0.2479294370707548,PACADD-161,Pancreatic Adenocarcinoma,Pancreas,False,EGFR
+ACH-001389,-0.0560790202811316,SUM-1315MO2,Invasive Breast Carcinoma,Breast,False,EGFR
+ACH-001401,-0.0643325444495664,SW-13,Adrenocortical Carcinoma,Adrenal Gland,False,EGFR
+ACH-001403,-0.097221846557432,TO14,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,EGFR
+ACH-001413,0.056409085364394,UM-UC-11,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,EGFR
+ACH-001498,-0.1228609993757354,Farage,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-001521,-0.3220117297378845,HKA-1,Cutaneous Squamous Cell Carcinoma,Skin,False,EGFR
+ACH-001525,-0.0295716137810164,HT-3,Cervical Adenocarcinoma,Cervix,False,EGFR
+ACH-001526,-0.119146474033103,HuO9,Osteosarcoma,Bone,False,EGFR
+ACH-001529,-0.0375180580307037,JAR,Gestational Trophoblastic Disease,Uterus,False,EGFR
+ACH-001552,0.0296137668262143,MCC26,Merkel Cell Carcinoma,Skin,False,EGFR
+ACH-001566,0.0616208624841147,MM370,Melanoma,Skin,False,EGFR
+ACH-001605,-0.063587854439248,no.10,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-001618,0.1319094582553421,OCI-M2,Acute Myeloid Leukemia,Myeloid,False,EGFR
+ACH-001627,-0.991319496528048,P4E6,Non-Cancerous,Prostate,True,EGFR
+ACH-001639,0.3070220194256722,ROS-50,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-001649,-1.175848701334246,Shmac 5,Non-Cancerous,Prostate,True,EGFR
+ACH-001652,-0.3594705604828258,SKG-II,Cervical Squamous Cell Carcinoma,Cervix,False,EGFR
+ACH-001669,0.0273518557510469,TANOUE,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,False,EGFR
+ACH-001677,0.011737897103807,U-2904,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-001711,-0.347883859980115,PFSK-1,Embryonal Tumor,CNS/Brain,False,EGFR
+ACH-001740,-0.2998332776070608,RH28,Rhabdomyosarcoma,Soft Tissue,False,EGFR
+ACH-001795,-0.1246095094586687,94T778,Liposarcoma,Soft Tissue,False,EGFR
+ACH-001796,-0.0439542613770349,95T1000,Liposarcoma,Soft Tissue,False,EGFR
+ACH-001799,0.0458384854711531,LPS141,Liposarcoma,Soft Tissue,False,EGFR
+ACH-001836,-1.8023507889337969,MGH-ICC10-8,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,True,EGFR
+ACH-001849,-0.6449093480847129,MGH-ICC9,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,True,EGFR
+ACH-001857,-0.1363369789177165,SG231,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,EGFR
+ACH-001862,-0.5651850821642671,TGBC52TKB,Ampullary Carcinoma,Ampulla of Vater,True,EGFR
+ACH-001997,-0.6139149166222835,MGH-AOVC1,Ampullary Carcinoma,Ampulla of Vater,True,EGFR
+ACH-002003,-0.2456644699079879,A375 SKIN CJ3,Melanoma,Skin,False,EGFR
+ACH-002019,-0.8225493151739518,HOKUG,Glassy Cell Carcinoma of the Cervix,Cervix,True,EGFR
+ACH-002023,-1.3510780932139623,TGBC18TKB,Ampullary Carcinoma,Ampulla of Vater,True,EGFR
+ACH-002265,-0.6224458352625495,LB771-HNC,Head and Neck Squamous Cell Carcinoma,Head and Neck,True,EGFR
+ACH-002298,-0.7067369572712006,PCI-6A,Head and Neck Squamous Cell Carcinoma,Head and Neck,True,EGFR
+ACH-002305,-0.2691886198062426,SKN-3,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,EGFR
+ACH-002470,-0.2417105515194152,OS186,Osteosarcoma,Bone,False,EGFR
+ACH-002705,-0.36027795856417,IS076P,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,EGFR
+ACH-002706,-0.1381953123882037,IS076A,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,EGFR
+ACH-002778,-0.2747002580940654,NCC-OS1-X2-C1,Osteosarcoma,Bone,False,EGFR
+ACH-002800,-0.03604563720427,NCC-MPNST2-C1,Nerve Sheath Tumor,Peripheral Nervous System,False,EGFR
+ACH-002801,-0.3199849168806141,NCC-MPNST3-C1,Nerve Sheath Tumor,Peripheral Nervous System,False,EGFR
+ACH-000001,0.0836744735975167,NIH:OVCAR-3,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,EGFR
+ACH-000007,-0.5363099272306204,LS513,Colorectal Adenocarcinoma,Bowel,True,EGFR
+ACH-000013,-0.112009410691137,ONCO-DG-1,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,EGFR
+ACH-000024,0.1071568897273634,OPM-2,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-000026,-0.1260773073149101,253J-BV,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,EGFR
+ACH-000078,-0.002949501924635,MHH-NB-11,Neuroblastoma,Peripheral Nervous System,False,EGFR
+ACH-000100,-0.064883048074935,RH-41,Rhabdomyosarcoma,Soft Tissue,False,EGFR
+ACH-000103,-0.0256974613629171,Caov-4,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,EGFR
+ACH-000123,-0.0768327088379282,COV434,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,EGFR
+ACH-000142,-0.4690062073550319,CAL-29,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,EGFR
+ACH-000155,-0.1966349236401532,SW 1990,Pancreatic Adenocarcinoma,Pancreas,False,EGFR
+ACH-000163,-0.0575651750544776,SW579,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,EGFR
+ACH-000168,0.1997476253631467,NOMO-1,Acute Myeloid Leukemia,Myeloid,False,EGFR
+ACH-000181,-1.8059306157382056,SCC-9,Head and Neck Squamous Cell Carcinoma,Head and Neck,True,EGFR
+ACH-000221,-0.0560413891556071,SNU-398,Hepatocellular Carcinoma,Liver,False,EGFR
+ACH-000227,0.1195357243950401,KP-N-YN,Neuroblastoma,Peripheral Nervous System,False,EGFR
+ACH-000250,-0.2827390628056936,KMRC-20,Renal Cell Carcinoma,Kidney,False,EGFR
+ACH-000272,-0.5486433824087972,SLR 24,Renal Cell Carcinoma,Kidney,True,EGFR
+ACH-000310,-0.0642216249435302,IMR-32,Neuroblastoma,Peripheral Nervous System,False,EGFR
+ACH-000345,-0.1417707911061114,KP-N-RT-BM-1,Neuroblastoma,Peripheral Nervous System,False,EGFR
+ACH-000365,0.1626398772636532,SU-DHL-4,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-000378,0.0423915350199394,NCI-H647,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000383,-0.3046726359537791,OE33,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,EGFR
+ACH-000387,-0.1706170479202002,TF-1,Acute Myeloid Leukemia,Myeloid,False,EGFR
+ACH-000395,-0.1563415076869619,NCI-H520,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000422,-0.2138428205320828,SNU-475,Hepatocellular Carcinoma,Liver,False,EGFR
+ACH-000458,0.0818746654556668,CJM,Melanoma,Skin,False,EGFR
+ACH-000460,-1.0409259950246577,SNU-8,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,True,EGFR
+ACH-000466,-0.6112717496056763,SNU-216,Esophagogastric Adenocarcinoma,Esophagus/Stomach,True,EGFR
+ACH-000501,-0.398132921270788,LS123,Colorectal Adenocarcinoma,Bowel,False,EGFR
+ACH-000512,-0.0959905176645555,INA6,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-000520,-0.0604696068578679,59M,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,EGFR
+ACH-000571,0.0248926382085172,T98G,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000583,0.2879767936082017,MC116,Non-Hodgkin Lymphoma,Lymphoid,False,EGFR
+ACH-000595,-0.2586686799966344,LN-229,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000607,-0.0353113720059649,KYM-1,Rhabdoid Cancer,Kidney,False,EGFR
+ACH-000648,-0.722521647870394,NCI-H28,Pleural Mesothelioma,Pleura,True,EGFR
+ACH-000664,0.0134311526412061,SU-DHL-1,Mature T and NK Neoplasms,Lymphoid,False,EGFR
+ACH-000713,-0.0708025002171858,Caov-3,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,EGFR
+ACH-000724,-1.2945324359389092,HT-1376,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,True,EGFR
+ACH-000757,-0.0898997642334355,A427,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000762,-0.6427276140405951,YD-38,Head and Neck Squamous Cell Carcinoma,Head and Neck,True,EGFR
+ACH-000767,0.1052465363889023,NCI-H526,Lung Neuroendocrine Tumor,Lung,False,EGFR
+ACH-000774,0.031421776622459,RERF-LC-Ad2,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000778,-0.9191515957860122,HSC-3,Head and Neck Squamous Cell Carcinoma,Head and Neck,True,EGFR
+ACH-000782,0.0996241171887672,SEM,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,False,EGFR
+ACH-000799,-0.2751987653389196,Hs 695T,Melanoma,Skin,False,EGFR
+ACH-000840,-0.3606364487986475,HCC-366,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000841,0.0237832150230877,NCI-H2087,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000847,-0.0161117472978421,HGC-27,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,EGFR
+ACH-000885,-0.1263287045299974,TOV-21G,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,EGFR
+ACH-000886,-0.055032720162896,NCI-H2009,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000921,-0.1146811375375162,NCI-H157-DM,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000929,-0.3281140336872409,NCI-H2110,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000945,0.0644156989233225,NCI-H650,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000956,0.0409453668912986,22Rv1,Prostate Adenocarcinoma,Prostate,False,EGFR
+ACH-000975,0.0287178821656209,HCC2450,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000986,-0.788993407491453,HT115,Colorectal Adenocarcinoma,Bowel,True,EGFR
+ACH-001036,-0.1474429821885309,CMK-11-5,Acute Myeloid Leukemia,Myeloid,False,EGFR
+ACH-001061,-0.2974158097661468,DLD-1,Colorectal Adenocarcinoma,Bowel,False,EGFR
+ACH-001098,-0.6453326407135958,KCI-MOH1,Pancreatic Adenocarcinoma,Pancreas,True,EGFR
+ACH-001183,-0.3073764891039346,RT112/84,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,EGFR
+ACH-001295,0.0556038042780667,Y-79,Retinoblastoma,Eye,False,EGFR
+ACH-001334,-0.7816058352055543,C-4 I,Cervical Squamous Cell Carcinoma,Cervix,True,EGFR
+ACH-001370,-0.0026700454980401,OCI-P5x,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,EGFR
+ACH-001442,-1.1871098986884423,A388,Cutaneous Squamous Cell Carcinoma,Skin,True,EGFR
+ACH-001443,-0.187796546443214,ASH-3,Anaplastic Thyroid Cancer,Thyroid,False,EGFR
+ACH-001484,-0.1418461746226966,CI,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-001495,-0.6333690462915954,EMTOKA,Endometrial Carcinoma,Uterus,True,EGFR
+ACH-001502,-0.1771037121153262,GCT-27,Non-Seminomatous Germ Cell Tumor,Testis,False,EGFR
+ACH-001523,-0.4844415818184377,HSC-1,Cutaneous Squamous Cell Carcinoma,Skin,False,EGFR
+ACH-001550,-0.1364352076303961,MCC13,Merkel Cell Carcinoma,Skin,False,EGFR
+ACH-001559,-0.0880964769516764,Mero-82,Pleural Mesothelioma,Pleura,False,EGFR
+ACH-001560,-0.3609721318540803,Mero-83,Pleural Mesothelioma,Pleura,False,EGFR
+ACH-001606,-0.0705434697672953,no.11,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-001623,0.0162535445232092,Onda 8,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-001626,-0.9928790649081544,OSC-20,Head and Neck Squamous Cell Carcinoma,Head and Neck,True,EGFR
+ACH-001643,-0.0143545140072785,SCCH-196,Ewing Sarcoma,Bone,False,EGFR
+ACH-001645,0.0260967254199196,SEKI,Melanoma,Skin,False,EGFR
+ACH-001648,-1.017617006044469,Shmac 4,Non-Cancerous,Prostate,True,EGFR
+ACH-001688,-0.3527949369579695,UM-RC-7,Renal Cell Carcinoma,Kidney,False,EGFR
+ACH-001694,-1.240294307576817,UPCI-SCC-074,Head and Neck Squamous Cell Carcinoma,Head and Neck,True,EGFR
+ACH-001701,-0.5236497342076428,UPCI-SCC-200,Head and Neck Squamous Cell Carcinoma,Head and Neck,True,EGFR
+ACH-001702,0.0591599150547111,VA-ES-BJ,Epithelioid Sarcoma,Soft Tissue,False,EGFR
+ACH-001715,0.1165737807960811,CAL-72,Osteosarcoma,Bone,False,EGFR
+ACH-001838,-0.0282713332757613,MGH-ICC12,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,EGFR
+ACH-002041,0.0401788598276313,HOTHC,Anaplastic Thyroid Cancer,Thyroid,False,EGFR
+ACH-002143,0.027728829893492,IST-MEL1,Melanoma,Skin,False,EGFR
+ACH-002160,0.1513326843827419,MC-IXC,Ewing Sarcoma,Bone,False,EGFR
+ACH-002198,0.2065855668568191,SCH,Extra Gonadal Germ Cell Tumor,Other,False,EGFR
+ACH-002291,-0.3006144180068992,NTERA-2 cl.D1,Non-Seminomatous Germ Cell Tumor,Testis,False,EGFR
+ACH-002400,-0.4886303150947174,21MT-1,Invasive Breast Carcinoma,Breast,False,EGFR
+ACH-002465,-0.1531907710727808,RPE1-ss119,Non-Cancerous,Eye,False,EGFR
+ACH-002475,-0.188086489834539,HAP1,Myeloproliferative Neoplasms,Myeloid,False,EGFR
+ACH-002508,-0.0743258723081821,WM3211,Melanoma,Skin,False,EGFR
+ACH-002522,0.0259973487217173,SNU-2292,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-002524,-0.219971526680333,SNU-251,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,EGFR
+ACH-002544,-0.0493113591842857,SNU-1750,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,EGFR
+ACH-003177,0.1504534783265374,NRH-UPS1,Undifferentiated Pleomorphic Sarcoma/Malignant Fibrous Histiocytoma/High-Grade Spindle Cell Sarcoma,Soft Tissue,False,EGFR
+ACH-000012,-0.0799013491619772,HCC-827,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000039,-0.3159405091133781,SK-N-MC,Ewing Sarcoma,Bone,False,EGFR
+ACH-000055,0.0187288678570687,D283 Med,Embryonal Tumor,CNS/Brain,False,EGFR
+ACH-000070,-0.1291212517898116,697,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,False,EGFR
+ACH-000085,-0.1286914013974494,T3M-4,Pancreatic Adenocarcinoma,Pancreas,False,EGFR
+ACH-000106,-0.1763941200880431,JVM-2,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-000124,0.3089917222562306,OCI-LY-19,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-000141,-0.3281959009338159,SNU-308,Intracholecystic Papillary Neoplasm,Biliary Tract,False,EGFR
+ACH-000161,-0.9263610040440656,COR-L105,Non-Small Cell Lung Cancer,Lung,True,EGFR
+ACH-000187,-0.1646423501595818,COR-L311,Lung Neuroendocrine Tumor,Lung,False,EGFR
+ACH-000202,-0.1671079261403065,COLO-320,Colorectal Adenocarcinoma,Bowel,False,EGFR
+ACH-000222,-0.6956991580629499,AsPC-1,Pancreatic Adenocarcinoma,Pancreas,True,EGFR
+ACH-000239,-0.164635408671399,HuG1-N,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,EGFR
+ACH-000249,-0.4306777480439581,CL-11,Colorectal Adenocarcinoma,Bowel,False,EGFR
+ACH-000253,-0.0482360922588125,COLO 201,Colorectal Adenocarcinoma,Bowel,False,EGFR
+ACH-000280,-0.5487354001767402,SNU-840,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,True,EGFR
+ACH-000291,-0.1027338604218629,OV-90,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,EGFR
+ACH-000302,-0.724993531882872,SNU-1077,Endometrial Carcinoma,Uterus,True,EGFR
+ACH-000318,-0.6584114983394002,TE-10,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,True,EGFR
+ACH-000323,-0.0722226488714908,42-MG-BA,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000326,-0.1411847633051984,JURL-MK1,Myeloproliferative Neoplasms,Myeloid,False,EGFR
+ACH-000329,-0.1404385160574782,CCF-STTG1,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000330,-0.1907646991767015,EFM-19,Invasive Breast Carcinoma,Breast,False,EGFR
+ACH-000366,-0.0679886587414934,SK-N-DZ,Neuroblastoma,Peripheral Nervous System,False,EGFR
+ACH-000377,-1.159636846557886,SNU-478,Ampullary Carcinoma,Ampulla of Vater,True,EGFR
+ACH-000406,-0.2467563444924822,U-937,Acute Myeloid Leukemia,Myeloid,False,EGFR
+ACH-000430,0.1413323096590855,TYK-nu,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,EGFR
+ACH-000433,-1.0290668272090508,Caki-1,Renal Cell Carcinoma,Kidney,True,EGFR
+ACH-000454,-0.112402872806146,HCC-95,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000456,-0.0504938141497267,B-CPAP,Poorly Differentiated Thyroid Cancer,Thyroid,False,EGFR
+ACH-000464,0.093002218588198,CAS-1,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000475,-0.3795727188466705,huH-1,Hepatocellular Carcinoma,Liver,False,EGFR
+ACH-000484,0.1666322133102515,VMRC-RCW,Renal Cell Carcinoma,Kidney,False,EGFR
+ACH-000488,-0.4606140038306581,TE-11,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,EGFR
+ACH-000554,-0.3847695627775375,UACC-893,Invasive Breast Carcinoma,Breast,False,EGFR
+ACH-000565,-1.1284576991394115,RCM-1,Colorectal Adenocarcinoma,Bowel,True,EGFR
+ACH-000570,-0.1727201167327735,YKG1,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000573,-0.1750480536104109,MDA-MB-436,Invasive Breast Carcinoma,Breast,False,EGFR
+ACH-000602,-0.3561074015159129,M-07e,Acute Myeloid Leukemia,Myeloid,False,EGFR
+ACH-000606,-0.6271367966316526,PE/CA-PJ34 (clone C12),Head and Neck Squamous Cell Carcinoma,Head and Neck,True,EGFR
+ACH-000651,-0.033834196390299,SW 620,Colorectal Adenocarcinoma,Bowel,False,EGFR
+ACH-000653,-0.1900417038912854,JJN-3,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-000672,-0.2466083549552247,IA-LM,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000677,-0.0547429286748233,SW 1573,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000693,-0.3979836436850134,KYSE-180,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,EGFR
+ACH-000699,-0.1596837650411317,HCC1395,Invasive Breast Carcinoma,Breast,False,EGFR
+ACH-000766,-0.7841448142300641,NCI-H1648,Non-Small Cell Lung Cancer,Lung,True,EGFR
+ACH-000771,-1.1631458799380563,BICR 56,Head and Neck Squamous Cell Carcinoma,Head and Neck,True,EGFR
+ACH-000866,0.0284325991138918,NCI-H1048,Lung Neuroendocrine Tumor,Lung,False,EGFR
+ACH-000903,-0.1793000757783497,FTC-133,Well-Differentiated Thyroid Cancer,Thyroid,False,EGFR
+ACH-000920,0.0492102174295497,CML-T1,Myeloproliferative Neoplasms,Myeloid,False,EGFR
+ACH-000938,-0.1449548903004196,NALM-6,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,False,EGFR
+ACH-000958,-0.8516416893153613,SW48,Colorectal Adenocarcinoma,Bowel,True,EGFR
+ACH-000968,-0.2080791902098511,COLO 792,Melanoma,Skin,False,EGFR
+ACH-000991,-0.7031526217244717,SNU-81,Colorectal Adenocarcinoma,Bowel,True,EGFR
+ACH-000995,-0.1682523657808921,JURKAT,T-Lymphoblastic Leukemia/Lymphoma,Lymphoid,False,EGFR
+ACH-000996,-0.0587798315020341,HEC-251,Endometrial Carcinoma,Uterus,False,EGFR
+ACH-000997,0.0315588751037111,HCT-15,Colorectal Adenocarcinoma,Bowel,False,EGFR
+ACH-001033,-0.240839709082738,CHLA-57,Embryonal Tumor,CNS/Brain,False,EGFR
+ACH-001163,-0.0359519578144404,CCLF_PEDS_0001_T,Renal Cell Carcinoma,Kidney,False,EGFR
+ACH-001164,-0.1416365629384955,CCLF_PEDS_0003_T,Undifferentiated Pleomorphic Sarcoma/Malignant Fibrous Histiocytoma/High-Grade Spindle Cell Sarcoma,Soft Tissue,False,EGFR
+ACH-001188,-0.28913099548058,SH-SY5Y,Neuroblastoma,Peripheral Nervous System,False,EGFR
+ACH-001270,-0.2703428333793257,1273/99,Synovial Sarcoma,Soft Tissue,False,EGFR
+ACH-001353,-0.6230030468491178,JOPACA-1,Pancreatic Adenocarcinoma,Pancreas,True,EGFR
+ACH-001356,-0.0151353139599058,MB-1,Anaplastic Thyroid Cancer,Thyroid,False,EGFR
+ACH-001368,-0.0962352331909031,OAC-M5.1,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,EGFR
+ACH-001394,-0.9707756421985018,SUM-229PE,Invasive Breast Carcinoma,Breast,True,EGFR
+ACH-001400,-0.717853603890712,SW 954,Squamous Cell Carcinoma of the Vulva/Vagina,Vulva/Vagina,True,EGFR
+ACH-001416,-0.4963210304660572,UM-UC9,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,EGFR
+ACH-001515,-0.6368309591760068,HCS-2,Cervical Squamous Cell Carcinoma,Cervix,True,EGFR
+ACH-001528,-0.1712026487607274,IHH-4,Well-Differentiated Thyroid Cancer,Thyroid,False,EGFR
+ACH-001577,-0.0280689300851162,MUTZ-8,Acute Myeloid Leukemia,Myeloid,False,EGFR
+ACH-001622,0.0343588390244731,Onda 7,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-001653,-0.1686706933341497,SK-GT-2,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,EGFR
+ACH-001654,-1.3526931746857571,SK-GT-4,Esophagogastric Adenocarcinoma,Esophagus/Stomach,True,EGFR
+ACH-001676,-0.0515847113197759,Ty-82,"Head and Neck Carcinoma, Other",Head and Neck,False,EGFR
+ACH-001709,-0.1449875244972953,WSU-NHL,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-001736,-0.1594780329544309,HB1119,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,False,EGFR
+ACH-001745,-0.2187984149862559,RhJT,Rhabdomyosarcoma,Soft Tissue,False,EGFR
+ACH-001858,-0.3697405677717054,SSP-25,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,EGFR
+ACH-001863,-0.7615737859289403,TKKK,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,True,EGFR
+ACH-001864,-0.5329773726595821,YSCCC,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,True,EGFR
+ACH-001959,-0.0998701276808285,CC-LP-1,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,EGFR
+ACH-001992,-0.1377134705119004,ONE58,Pleural Mesothelioma,Pleura,False,EGFR
+ACH-002021,-0.3386255353078797,T3M-3,Gestational Trophoblastic Disease,Uterus,False,EGFR
+ACH-002025,-1.3065252334104571,TT1TKB,Colorectal Adenocarcinoma,Bowel,True,EGFR
+ACH-002033,-0.0787031920183714,HMMME,Pleural Mesothelioma,Pleura,False,EGFR
+ACH-002048,-0.1515751771485203,RMS-YM,Rhabdomyosarcoma,Soft Tissue,False,EGFR
+ACH-002080,-0.108192538780358,TN-2,Neuroblastoma,Peripheral Nervous System,False,EGFR
+ACH-002105,-0.2724458249092594,ES4,Ewing Sarcoma,Bone,False,EGFR
+ACH-002119,0.070820497666354,EW-7,Ewing Sarcoma,Bone,False,EGFR
+ACH-002156,-2.0341014472599146,LC-1-sq,Non-Small Cell Lung Cancer,Lung,True,EGFR
+ACH-002230,-0.0168828472631486,D-542MG,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-002234,-1.2875754571197486,DOK,"Head and Neck Carcinoma, Other",Head and Neck,True,EGFR
+ACH-002250,-0.8160091709285914,JHU-022,Head and Neck Squamous Cell Carcinoma,Head and Neck,True,EGFR
+ACH-002251,-1.6696262884629998,JHU-029,Head and Neck Squamous Cell Carcinoma,Head and Neck,True,EGFR
+ACH-002461,-0.0153015015088562,RVH421 SKIN FV1,Melanoma,Skin,False,EGFR
+ACH-002709,-0.3207730934555353,CMS,Acute Myeloid Leukemia,Myeloid,False,EGFR
+ACH-002925,-0.6942296549972705,UPMM3,Ocular Melanoma,Eye,True,EGFR
+ACH-000030,-1.5909676279896177,PC-14,Non-Small Cell Lung Cancer,Lung,True,EGFR
+ACH-000054,-0.1328063186750457,HT-1080,Fibrosarcoma,Soft Tissue,False,EGFR
+ACH-000082,-0.0086459177263145,"G-292, clone A141B1",Osteosarcoma,Bone,False,EGFR
+ACH-000118,-0.7173897757928331,HUP-T3,Pancreatic Adenocarcinoma,Pancreas,True,EGFR
+ACH-000152,-0.0892787081026031,M059K,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000188,-0.622539026745194,SCC-25,Head and Neck Squamous Cell Carcinoma,Head and Neck,True,EGFR
+ACH-000192,-0.073599737184957,MFE-280,Endometrial Carcinoma,Uterus,False,EGFR
+ACH-000200,0.1975447850981998,NMC-G1,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000203,-0.2814415165135112,NH-6,Neuroblastoma,Peripheral Nervous System,False,EGFR
+ACH-000209,-0.2120463191801259,SNU-1079,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,EGFR
+ACH-000271,0.0808246954806585,SU-DHL-10,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-000274,-0.4847339369957406,Hs 852.T,Melanoma,Skin,False,EGFR
+ACH-000305,-0.8084735117773663,EC-GI-10,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,True,EGFR
+ACH-000313,-0.1823914148696908,KMRC-3,Renal Cell Carcinoma,Kidney,False,EGFR
+ACH-000374,-0.2936208777541485,HCC1143,Invasive Breast Carcinoma,Breast,False,EGFR
+ACH-000396,-0.2870385728393585,J82,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,EGFR
+ACH-000410,-0.1851279190352528,Saos-2,Osteosarcoma,Bone,False,EGFR
+ACH-000425,-0.1889213467646278,UACC-62,Melanoma,Skin,False,EGFR
+ACH-000442,-1.3976392327083769,RERF-LC-Sq1,Non-Small Cell Lung Cancer,Lung,True,EGFR
+ACH-000448,-1.6878023419484536,NCI-H1666,Non-Small Cell Lung Cancer,Lung,True,EGFR
+ACH-000452,-0.9473273743724762,TE-8,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,True,EGFR
+ACH-000459,-0.1003503199078904,TUHR10TKB,Renal Cell Carcinoma,Kidney,False,EGFR
+ACH-000463,-0.1405656138350568,NCI-H460,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000472,-2.1649094219761693,HSC-2,Head and Neck Squamous Cell Carcinoma,Head and Neck,True,EGFR
+ACH-000510,-0.1110183456950948,NCI-H1299,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000519,-0.3112494709067201,PEER,T-Lymphoblastic Leukemia/Lymphoma,Lymphoid,False,EGFR
+ACH-000525,-0.1051157327483992,NCI-H2171,Lung Neuroendocrine Tumor,Lung,False,EGFR
+ACH-000557,-0.0599496931325856,AML-193,Acute Myeloid Leukemia,Myeloid,False,EGFR
+ACH-000577,-0.3239992410879891,JHH-2,Hepatocellular Carcinoma,Liver,False,EGFR
+ACH-000587,-2.8485944935115963,NCI-H1975,Non-Small Cell Lung Cancer,Lung,True,EGFR
+ACH-000589,-0.1237091216057374,NCI-H1437,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000627,-0.1974026705546828,LCLC-103H,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000631,-0.2751224209655588,KS-1,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000637,-0.7036199708503263,KYSE-520,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,True,EGFR
+ACH-000647,-0.2310433803455285,TE-1,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,EGFR
+ACH-000660,0.0342592321096,SU-DHL-5,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-000667,-0.196007585408119,HCC-44,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000676,-0.0957826577679485,LN-464,Melanoma,Skin,False,EGFR
+ACH-000700,-0.0651110577339509,NCI-H2882,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000704,-0.185448297613428,OAW42,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,EGFR
+ACH-000706,-1.018081256250719,EKVX,Non-Small Cell Lung Cancer,Lung,True,EGFR
+ACH-000718,-0.240274932236783,NCI-H2291,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000722,-0.1438800757168543,SNU-C1,Colorectal Adenocarcinoma,Bowel,False,EGFR
+ACH-000740,-0.7358502978922491,A-253,Head and Neck Squamous Cell Carcinoma,Head and Neck,True,EGFR
+ACH-000760,-0.0486825057572141,LNZ308,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000776,-0.1280645756174335,ONS-76,Embryonal Tumor,CNS/Brain,False,EGFR
+ACH-000787,-0.2549347205073756,LXF-289,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000829,-0.1711123108136545,HuNS1,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-000834,-0.2604562724255391,UM-UC-1,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,EGFR
+ACH-000837,-0.8307516973774359,NCI-H322,Non-Small Cell Lung Cancer,Lung,True,EGFR
+ACH-000859,-0.7543394828021449,HCC1954,Breast Ductal Carcinoma In Situ,Breast,True,EGFR
+ACH-000884,-0.0093139951923573,MDA-MB-435S,Melanoma,Skin,False,EGFR
+ACH-000896,-0.6735300605255153,647-V,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,True,EGFR
+ACH-000911,-2.0290884814610117,NUGC-3,Esophagogastric Adenocarcinoma,Esophagus/Stomach,True,EGFR
+ACH-000916,-0.1869310943465582,NCI-H1573,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000947,-0.0912031587986813,OVK18,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,EGFR
+ACH-000993,-0.2631149219906406,JHUEM-7,Endometrial Carcinoma,Uterus,False,EGFR
+ACH-001029,-0.1347384431984556,CHLA-10,Ewing Sarcoma,Bone,False,EGFR
+ACH-001190,-0.0660000743432393,SK-MEL-2,Melanoma,Skin,False,EGFR
+ACH-001194,-0.2177260208368627,SK-RC-31,Renal Cell Carcinoma,Kidney,False,EGFR
+ACH-001278,-0.2708549111032139,BIN-67,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,EGFR
+ACH-001300,-0.2463179249804002,CHLA-15,Neuroblastoma,Peripheral Nervous System,False,EGFR
+ACH-001318,-1.0759346494315347,PLC/PRF/5,Hepatocellular Carcinoma,Liver,True,EGFR
+ACH-001375,-0.7168894468227964,PACADD-119,Pancreatic Adenocarcinoma,Pancreas,True,EGFR
+ACH-001532,-0.1559744782553953,JMU-RTK-2,Rhabdoid Cancer,Kidney,False,EGFR
+ACH-001568,0.0519116981288615,MM386,Melanoma,Skin,False,EGFR
+ACH-001578,-0.0413379992821779,NCCIT,Non-Seminomatous Germ Cell Tumor,Testis,False,EGFR
+ACH-001610,-0.0490548125622134,NP 5,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-001611,-0.18232019454249,NP 8,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-001624,-0.2467241520604538,Onda 9,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-001632,-0.1126899697604912,PEO4,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,EGFR
+ACH-001656,-0.3123062310467147,SKNO-1,Acute Myeloid Leukemia,Myeloid,False,EGFR
+ACH-001707,-0.2010163557497805,WA-OSEL,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-001735,-0.1272693525011374,SEMK2,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,False,EGFR
+ACH-001804,-0.2210296730448057,LPS510,Liposarcoma,Soft Tissue,False,EGFR
+ACH-001835,-0.6457142620679426,MGH-ICC10-6,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,True,EGFR
+ACH-001841,-1.1830814907087968,MGH-ECC3,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,True,EGFR
+ACH-001844,-0.9426763632504954,MGH-ICC4,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,True,EGFR
+ACH-001986,-0.4259689126801178,NZM42,Melanoma,Skin,False,EGFR
+ACH-001999,-0.3716809105131936,950-5-BIK,Pancreatic Adenocarcinoma,Pancreas,False,EGFR
+ACH-002001,-0.1102585642906317,A375 SKIN CJ1,Melanoma,Skin,False,EGFR
+ACH-002004,-0.5047967394585632,UACC62 SKIN CJ1,Melanoma,Skin,True,EGFR
+ACH-002014,-0.4585011276479237,Mel270,Ocular Melanoma,Eye,False,EGFR
+ACH-002042,-0.4005769958186786,T3M-5,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,EGFR
+ACH-002061,-0.4810812860907909,P2UR/K-562,Myeloproliferative Neoplasms,Myeloid,False,EGFR
+ACH-002077,-0.524432909117033,Lu-165,Lung Neuroendocrine Tumor,Lung,True,EGFR
+ACH-002106,0.0118616269091594,ES5,Ewing Sarcoma,Bone,False,EGFR
+ACH-002110,-0.11101728920261,EW-1,Ewing Sarcoma,Bone,False,EGFR
+ACH-002150,-0.1412681984039357,LB1047-RCC,Renal Cell Carcinoma,Kidney,False,EGFR
+ACH-002183,-0.7840460844614485,OVMIU,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,True,EGFR
+ACH-002186,0.0752209046842732,PL4,Pancreatic Adenocarcinoma,Pancreas,False,EGFR
+ACH-002229,-0.6046819420944641,D-502MG,Diffuse Glioma,CNS/Brain,True,EGFR
+ACH-002239,-2.0740745545977006,H3118,Salivary Carcinoma,Head and Neck,True,EGFR
+ACH-002399,-0.6920632873725683,21NT,Invasive Breast Carcinoma,Breast,True,EGFR
+ACH-002538,-0.1148861271502163,SNU-1235,Colorectal Adenocarcinoma,Bowel,False,EGFR
+ACH-002650,-0.2221938028778122,ETCC-016,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-002690,-0.2839510682592641,OS526,Osteosarcoma,Bone,False,EGFR
+ACH-002710,-0.0126819832669606,MPNST-724,Nerve Sheath Tumor,Peripheral Nervous System,False,EGFR
+ACH-002711,-0.1893707742285345,UM-HACC-2A,Salivary Carcinoma,Head and Neck,False,EGFR
+ACH-000017,-0.035608504327669,SK-BR-3,Invasive Breast Carcinoma,Breast,False,EGFR
+ACH-000040,0.0207389186555841,U-118 MG,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000041,0.1006185478199689,RD-ES,Ewing Sarcoma,Bone,False,EGFR
+ACH-000086,-0.0042995659049692,ACC-MESO-1,Pleural Mesothelioma,Pleura,False,EGFR
+ACH-000090,-0.3009285301158663,PC-3,Prostate Adenocarcinoma,Prostate,False,EGFR
+ACH-000151,-0.0844683263491022,JM1,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,False,EGFR
+ACH-000206,-0.2555222263901842,C8166,Non-Cancerous,Lymphoid,False,EGFR
+ACH-000207,-0.8658339704981731,Detroit 562,Head and Neck Squamous Cell Carcinoma,Head and Neck,True,EGFR
+ACH-000219,-0.0630387452454724,A-375,Melanoma,Skin,False,EGFR
+ACH-000231,0.0763532410572153,KALS-1,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000244,0.0739782823524532,DK-MG,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000246,-0.2209417745599063,SLR 23,Renal Cell Carcinoma,Kidney,False,EGFR
+ACH-000259,-0.072018128321251,KELLY,Neuroblastoma,Peripheral Nervous System,False,EGFR
+ACH-000279,-0.066965252581929,EWS502,Ewing Sarcoma,Bone,False,EGFR
+ACH-000295,-0.1209123064451482,EM-2,Myeloproliferative Neoplasms,Myeloid,False,EGFR
+ACH-000296,-0.0042289308099475,OUMS-23,Colorectal Adenocarcinoma,Bowel,False,EGFR
+ACH-000316,-0.5805374799404425,SNU-886,Hepatocellular Carcinoma,Liver,True,EGFR
+ACH-000336,0.0165927469858195,OCI-AML3,Acute Myeloid Leukemia,Myeloid,False,EGFR
+ACH-000367,0.1270599242829586,NCI-H226,Pleural Mesothelioma,Pleura,False,EGFR
+ACH-000368,-0.0271274670177556,SNU-1105,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000397,-1.2250928922700948,TEN,Endometrial Carcinoma,Uterus,True,EGFR
+ACH-000420,-0.3432355436097154,SNU-449,Hepatocellular Carcinoma,Liver,False,EGFR
+ACH-000431,-0.2099949581737634,NCI-H1694,Lung Neuroendocrine Tumor,Lung,False,EGFR
+ACH-000455,-0.1725544852564771,LN-428,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000515,-0.1965927061075177,HCC-33,Lung Neuroendocrine Tumor,Lung,False,EGFR
+ACH-000518,-0.9070921545168174,CAL-33,Head and Neck Squamous Cell Carcinoma,Head and Neck,True,EGFR
+ACH-000527,-0.2845842736254887,OVISE,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,EGFR
+ACH-000552,-0.4715319469080155,HT-29,Colorectal Adenocarcinoma,Bowel,False,EGFR
+ACH-000559,-0.0801432655504828,NCI-H1836,Lung Neuroendocrine Tumor,Lung,False,EGFR
+ACH-000567,0.066808160512959,ST486,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-000623,-0.0637693437854096,SNU-201,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000632,0.0608576795406521,Hs 944.T,Melanoma,Skin,False,EGFR
+ACH-000639,-0.0505548022194535,NCI-H211,Lung Neuroendocrine Tumor,Lung,False,EGFR
+ACH-000661,-0.5032558559181519,WM1799,Melanoma,Skin,True,EGFR
+ACH-000702,0.0155791919912143,L-1236,Hodgkin Lymphoma,Lymphoid,False,EGFR
+ACH-000709,-0.4737815373983279,KMRC-2,Renal Cell Carcinoma,Kidney,False,EGFR
+ACH-000732,-0.7461065981026161,PE/CA-PJ41 (clone D2),Head and Neck Squamous Cell Carcinoma,Head and Neck,True,EGFR
+ACH-000749,0.0927488135409526,DMS 273,Lung Neuroendocrine Tumor,Lung,False,EGFR
+ACH-000796,-0.7097930925226468,MCAS,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,True,EGFR
+ACH-000809,-0.181632857977558,KYSE-410,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,EGFR
+ACH-000819,-0.0770168099334438,LN-18,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000832,-0.6390052484945108,CAL 27,Head and Neck Squamous Cell Carcinoma,Head and Neck,True,EGFR
+ACH-000867,0.0364676565418295,ChaGo-K-1,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000879,0.1860101740812735,MFE-296,Endometrial Carcinoma,Uterus,False,EGFR
+ACH-000889,-0.1488252612476252,KMM-1,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-000948,-0.3468172827476278,23132/87,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,EGFR
+ACH-000959,-1.1262310181226205,SNU-C4,Colorectal Adenocarcinoma,Bowel,True,EGFR
+ACH-000972,-0.1036711829335166,HEC-151,Endometrial Carcinoma,Uterus,False,EGFR
+ACH-000978,-0.2723860729283303,EN,Endometrial Carcinoma,Uterus,False,EGFR
+ACH-000979,-0.9194191180377852,DU 145,Prostate Adenocarcinoma,Prostate,True,EGFR
+ACH-001001,-0.0277397421863563,143B,Osteosarcoma,Bone,False,EGFR
+ACH-001099,-0.2238255405002731,KD,Rhabdoid Cancer,Soft Tissue,False,EGFR
+ACH-001129,-0.0490565260671521,MONO-MAC-1,Acute Myeloid Leukemia,Myeloid,False,EGFR
+ACH-001192,-0.1729508553788901,SK-NEP-1,Ewing Sarcoma,Bone,False,EGFR
+ACH-001205,0.1431719260716126,TC-32,Ewing Sarcoma,Bone,False,EGFR
+ACH-001229,-0.5596083534502495,UPCI-SCC-154,Head and Neck Squamous Cell Carcinoma,Head and Neck,True,EGFR
+ACH-001233,0.1656969774560868,VMRC-LCD,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-001302,-0.2970245429949767,COG-N-305,Neuroblastoma,Peripheral Nervous System,False,EGFR
+ACH-001328,-0.8561104423053041,A-431,Cutaneous Squamous Cell Carcinoma,Skin,True,EGFR
+ACH-001331,0.0424261439541421,BICR 10,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,EGFR
+ACH-001332,-0.8060128727966026,BICR 78,Head and Neck Squamous Cell Carcinoma,Head and Neck,True,EGFR
+ACH-001341,-0.5904000671147942,DoTc2 4510,Mixed Cervical Carcinoma,Cervix,True,EGFR
+ACH-001354,-0.3421870184184863,LAN-2,Neuroblastoma,Peripheral Nervous System,False,EGFR
+ACH-001366,-0.2372074668124348,NGP,Neuroblastoma,Peripheral Nervous System,False,EGFR
+ACH-001377,-0.4743277410287264,PACADD-137,Pancreatic Adenocarcinoma,Pancreas,False,EGFR
+ACH-001391,-0.3751495148778687,SUM-159PT,Invasive Breast Carcinoma,Breast,False,EGFR
+ACH-001399,-0.4046394697648579,SW 626,Colorectal Adenocarcinoma,Bowel,False,EGFR
+ACH-001408,-0.2211326288546284,UM-UC-14,Urethral Cancer,Bladder/Urinary Tract,False,EGFR
+ACH-001411,-0.1339406812902564,UM-UC-5,Bladder Squamous Cell Carcinoma,Bladder/Urinary Tract,False,EGFR
+ACH-001430,-0.0139746569172214,TC-138,Ewing Sarcoma,Bone,False,EGFR
+ACH-001436,-0.0042649002913607,1411H,Non-Seminomatous Germ Cell Tumor,Testis,False,EGFR
+ACH-001549,0.1463369734370884,Lu-135,Lung Neuroendocrine Tumor,Lung,False,EGFR
+ACH-001634,-0.0980123227702922,PGA-1,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-001641,-1.0941344865030536,SAT,Head and Neck Squamous Cell Carcinoma,Head and Neck,True,EGFR
+ACH-001664,-0.097748918763822,SNU-638,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,EGFR
+ACH-001750,-0.1092434167069624,TTC442,Rhabdomyosarcoma,Soft Tissue,False,EGFR
+ACH-001791,-0.3373586417545469,LPS6,Liposarcoma,Soft Tissue,False,EGFR
+ACH-001839,-0.0825828603781606,MGH-ICC13-7,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,EGFR
+ACH-001852,-0.9000366830331469,HKGZ-CC,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,True,EGFR
+ACH-001861,-1.034741838026576,TGBC1TKB,Intracholecystic Papillary Neoplasm,Biliary Tract,True,EGFR
+ACH-001990,-0.16187955204128,NZM7,Melanoma,Skin,False,EGFR
+ACH-002020,-0.4248751781213108,SKG-IIIa,Cervical Squamous Cell Carcinoma,Cervix,False,EGFR
+ACH-002067,-0.0248900677348913,NOS-1,Osteosarcoma,Bone,False,EGFR
+ACH-002070,0.000103669123816,HKBMM,Meningothelial Tumor,CNS/Brain,False,EGFR
+ACH-002083,-0.7442703397404463,NB69,Neuroblastoma,Peripheral Nervous System,True,EGFR
+ACH-002114,-0.1143997518331451,EW-16,Ewing Sarcoma,Bone,False,EGFR
+ACH-002179,-0.0787002607410422,OCUB-M,Invasive Breast Carcinoma,Breast,False,EGFR
+ACH-002212,-1.3040895635551069,BB30-HNC,Head and Neck Squamous Cell Carcinoma,Head and Neck,True,EGFR
+ACH-002243,-0.1373938070320088,HCE-4,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,EGFR
+ACH-002261,0.0494745973412458,KP-N-YS,Neuroblastoma,Peripheral Nervous System,False,EGFR
+ACH-002304,0.1890141341765021,SK-MG-1,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-002401,-0.7766676954615936,21MT-2,Invasive Breast Carcinoma,Breast,True,EGFR
+ACH-002458,-0.22467630922428,HT144 SKIN FV1,Melanoma,Skin,False,EGFR
+ACH-002467,-0.1081393017967014,RPE1-ss51,Non-Cancerous,Eye,False,EGFR
+ACH-002499,-0.3655724232677625,UACC-3199,Invasive Breast Carcinoma,Breast,False,EGFR
+ACH-002531,-0.0024925151546869,SNU-2535,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-002533,-0.4867258995711216,SNU-482,Renal Cell Carcinoma,Kidney,False,EGFR
+ACH-002681,0.0743445312801275,538-MG-BA,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-002847,-0.3021900902374308,YUHOIN,Melanoma,Skin,False,EGFR
+ACH-000023,-0.1277836997342645,PA-TU-8988T,Pancreatic Adenocarcinoma,Pancreas,False,EGFR
+ACH-000028,0.1808072677903748,KPL-1,Invasive Breast Carcinoma,Breast,False,EGFR
+ACH-000047,-0.4500348867678382,GCIY,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,EGFR
+ACH-000060,-0.3357753535113326,Panc 10.05,Pancreatic Adenocarcinoma,Pancreas,False,EGFR
+ACH-000092,0.1744127428786223,NCI-H2452,Pleural Mesothelioma,Pleura,False,EGFR
+ACH-000137,0.0774102051855233,8-MG-BA,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000145,0.0896313492756394,SK-LMS-1,Leiomyosarcoma,Soft Tissue,False,EGFR
+ACH-000146,-0.0296682807546611,THP-1,Acute Myeloid Leukemia,Myeloid,False,EGFR
+ACH-000147,-0.3901450732231653,T-47D,Invasive Breast Carcinoma,Breast,False,EGFR
+ACH-000204,0.1512860232024358,LP-1,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-000237,0.0335253747175486,JHOM-1,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,EGFR
+ACH-000238,-0.6421576576329004,SCC-4,Head and Neck Squamous Cell Carcinoma,Head and Neck,True,EGFR
+ACH-000276,-0.1550467134289204,HCC38,Invasive Breast Carcinoma,Breast,False,EGFR
+ACH-000334,0.0664468359278333,DB,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-000337,-0.0502259981815722,NCI-H3122,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000343,0.0032768416080102,NCI-H522,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000352,0.0965171878868245,HCC1428,Invasive Breast Carcinoma,Breast,False,EGFR
+ACH-000385,-0.6199802069373453,SK-RC-52,Renal Cell Carcinoma,Kidney,True,EGFR
+ACH-000415,-0.494474938866057,BICR 6,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,EGFR
+ACH-000436,0.1008137652434329,OCI-My7,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-000438,-0.1515671059845428,Lu-65,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000461,-0.3840446482908015,SNU-1196,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,EGFR
+ACH-000469,0.1988837770102076,YH-13,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000477,0.094181224857672,Malme-3M,Melanoma,Skin,False,EGFR
+ACH-000487,-0.0472115022618247,F-36P,Acute Myeloid Leukemia,Myeloid,False,EGFR
+ACH-000498,-0.2675360904626924,KO52,Acute Myeloid Leukemia,Myeloid,False,EGFR
+ACH-000499,-0.2058240198898722,EW8,Ewing Sarcoma,Bone,False,EGFR
+ACH-000521,-0.3102272556357844,NCI-H2030,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000585,-0.1854544728902613,EPLC-272H,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000601,0.1281697927211762,MIA PaCa-2,Pancreatic Adenocarcinoma,Pancreas,False,EGFR
+ACH-000630,-0.1806300247927431,YD-8,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,EGFR
+ACH-000649,-0.066408299979822,786-O,Renal Cell Carcinoma,Kidney,False,EGFR
+ACH-000655,0.0403554322801789,SF268,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000682,-0.5934221678653748,SNU-1066,Head and Neck Squamous Cell Carcinoma,Head and Neck,True,EGFR
+ACH-000701,-0.318696248954043,RMUG-S,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,EGFR
+ACH-000736,-0.1670395740661701,SNU-601,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,EGFR
+ACH-000741,-1.017010975402116,U-BLC1,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,True,EGFR
+ACH-000781,-0.0890353922556742,NCI-H2023,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000792,-0.2612594326950812,BFTC-909,Renal Cell Carcinoma,Kidney,False,EGFR
+ACH-000794,-0.596072742054822,BICR 22,Head and Neck Squamous Cell Carcinoma,Head and Neck,True,EGFR
+ACH-000801,-0.0993748670171171,Hs 936.T,Melanoma,Skin,False,EGFR
+ACH-000810,0.122794034394175,SK-MEL-30,Melanoma,Skin,False,EGFR
+ACH-000822,-0.1361164377084157,SK-MEL-24,Melanoma,Skin,False,EGFR
+ACH-000835,0.090161918958138,GCT,Undifferentiated Pleomorphic Sarcoma/Malignant Fibrous Histiocytoma/High-Grade Spindle Cell Sarcoma,Soft Tissue,False,EGFR
+ACH-000855,-0.2162112501959298,KYSE-150,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,EGFR
+ACH-000874,0.197310497162603,RS4;11,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,False,EGFR
+ACH-000878,0.1295812078448251,HCC-15,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000900,0.1999419501799605,NCI-H23,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000905,-0.5849558616001965,5637,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,True,EGFR
+ACH-000977,0.0871366207461288,LNCaP clone FGC,Prostate Adenocarcinoma,Prostate,False,EGFR
+ACH-001065,0.093929444501048,Evsa-T,Invasive Breast Carcinoma,Breast,False,EGFR
+ACH-001193,0.1749560245814567,SK-PN-DW,Ewing Sarcoma,Bone,False,EGFR
+ACH-001232,0.1769180258196446,UW228,Embryonal Tumor,CNS/Brain,False,EGFR
+ACH-001303,0.1657581488039906,NB-1643,Neuroblastoma,Peripheral Nervous System,False,EGFR
+ACH-001307,0.064016342774094,8505C,Anaplastic Thyroid Cancer,Thyroid,False,EGFR
+ACH-001322,-0.1237496584672145,CME-1,Synovial Sarcoma,Soft Tissue,False,EGFR
+ACH-001347,-0.3963413844048042,H157,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,EGFR
+ACH-001382,-0.2102850508372185,PACADD-188,Pancreatic Adenocarcinoma,Pancreas,False,EGFR
+ACH-001385,0.0128809179874144,RPMI 2650,"Head and Neck Carcinoma, Other",Head and Neck,False,EGFR
+ACH-001414,-0.1935106661578,UM-UC-6,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,EGFR
+ACH-001431,-0.1265850207404609,TC-205,Ewing Sarcoma,Bone,False,EGFR
+ACH-001459,-0.3503150489183204,C80,Colorectal Adenocarcinoma,Bowel,False,EGFR
+ACH-001461,-0.3387287623584325,C99,Colorectal Adenocarcinoma,Bowel,False,EGFR
+ACH-001481,-0.2490494641746052,CHLA-90,Neuroblastoma,Peripheral Nervous System,False,EGFR
+ACH-001508,-0.3566121115874524,H314,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,EGFR
+ACH-001520,0.078671894579291,HG-3,Non-Cancerous,Lymphoid,False,EGFR
+ACH-001567,-0.110469792289507,MM383,Melanoma,Skin,False,EGFR
+ACH-001630,-0.1133843735154686,PEO1,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,EGFR
+ACH-001647,0.0902835979098448,SHI-1,Acute Myeloid Leukemia,Myeloid,False,EGFR
+ACH-001683,-0.2955341673666973,ACC-3133,Invasive Breast Carcinoma,Breast,False,EGFR
+ACH-001793,0.2006651108894658,LPS27,Liposarcoma,Soft Tissue,False,EGFR
+ACH-001814,-0.0536288805189447,OS252,Osteosarcoma,Bone,False,EGFR
+ACH-001856,-0.4485883818640669,RBE,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,EGFR
+ACH-001961,-1.0265282406976597,MGH-GB2,Intracholecystic Papillary Neoplasm,Biliary Tract,True,EGFR
+ACH-001975,-0.0902037839239817,MM576,Melanoma,Skin,False,EGFR
+ACH-001982,-0.0058033166627655,NZM3,Melanoma,Skin,False,EGFR
+ACH-002026,-0.0619712408289929,HHUA,Endometrial Carcinoma,Uterus,False,EGFR
+ACH-002039,-0.016521310993087,PK-8,Pancreatic Adenocarcinoma,Pancreas,False,EGFR
+ACH-002109,0.2392609753743094,ES8,Ewing Sarcoma,Bone,False,EGFR
+ACH-002278,0.2302172963827619,NB10,Neuroblastoma,Peripheral Nervous System,False,EGFR
+ACH-002280,0.18343877984154,NB13,Neuroblastoma,Peripheral Nervous System,False,EGFR
+ACH-002283,-0.5260495707894446,NB5,Neuroblastoma,Peripheral Nervous System,True,EGFR
+ACH-002294,-0.882930111098868,PCI-15A,Head and Neck Squamous Cell Carcinoma,Head and Neck,True,EGFR
+ACH-002296,-0.6031558171160741,PCI-38,Head and Neck Squamous Cell Carcinoma,Head and Neck,True,EGFR
+ACH-002297,-0.7034770857541447,PCI-4B,Head and Neck Squamous Cell Carcinoma,Head and Neck,True,EGFR
+ACH-002460,0.090642370080769,HT144 SKIN FV2,Melanoma,Skin,False,EGFR
+ACH-002462,0.0699640615553929,RPE1-ss48,Non-Cancerous,Eye,False,EGFR
+ACH-002478,-0.1174137805277758,BC-2,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-002486,0.1273329007321152,MES-OV,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,EGFR
+ACH-002510,-0.3073297266949092,M040416,Melanoma,Skin,False,EGFR
+ACH-002523,-0.2839167701977292,SNU-739,Hepatocellular Carcinoma,Liver,False,EGFR
+ACH-002535,-0.0454482627477871,SNU-254,Colorectal Adenocarcinoma,Bowel,False,EGFR
+ACH-002662,0.0776801865856596,JVE-207,Colorectal Adenocarcinoma,Bowel,False,EGFR
+ACH-002669,-0.0656741746699116,KP-363T,Colorectal Adenocarcinoma,Bowel,False,EGFR
+ACH-002677,-0.1220662075196089,U-2946,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-002678,-0.0982632940058837,WILL-1,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-002693,-0.1952726166794393,S462,Nerve Sheath Tumor,Peripheral Nervous System,False,EGFR
+ACH-002834,-0.2445048107222656,OS384,Osteosarcoma,Bone,False,EGFR
+ACH-002928,-0.1152003331812403,MM100511,Melanoma,Skin,False,EGFR
+ACH-000077,-0.3665446966850967,MJ,Non-Hodgkin Lymphoma,Lymphoid,False,EGFR
+ACH-000101,0.0315302944164606,KE-37,T-Lymphoblastic Leukemia/Lymphoma,Lymphoid,False,EGFR
+ACH-000111,0.1226618899865295,HCC1187,Invasive Breast Carcinoma,Breast,False,EGFR
+ACH-000144,-0.2842099809207932,RERF-GC-1B,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,EGFR
+ACH-000148,0.1034522862102245,Hs 578T,Invasive Breast Carcinoma,Breast,False,EGFR
+ACH-000160,-0.0798915303469896,BT-12,Embryonal Tumor,CNS/Brain,False,EGFR
+ACH-000191,-0.0465285688855633,BHT-101,Anaplastic Thyroid Cancer,Thyroid,False,EGFR
+ACH-000248,-0.0446410445691129,AU565,Invasive Breast Carcinoma,Breast,False,EGFR
+ACH-000252,0.1151057313720971,LS1034,Colorectal Adenocarcinoma,Bowel,False,EGFR
+ACH-000257,0.2407717249517053,COR-L279,Lung Neuroendocrine Tumor,Lung,False,EGFR
+ACH-000266,-1.0842600045453152,SNU-213,Pancreatic Adenocarcinoma,Pancreas,True,EGFR
+ACH-000290,-8.381420566250242e-06,NCI-H209,Lung Neuroendocrine Tumor,Lung,False,EGFR
+ACH-000292,-0.0051746307117476,NCI-H841,SMARCA4-deficient undifferentiated tumor,Lung,False,EGFR
+ACH-000319,-0.1325556972571324,MPP 89,Pleural Mesothelioma,Pleura,False,EGFR
+ACH-000348,-0.1545284305341148,RPMI-7951,Melanoma,Skin,False,EGFR
+ACH-000359,-0.0254789246013226,MG-63,Osteosarcoma,Bone,False,EGFR
+ACH-000363,-0.031951284714532,SK-MM-2,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-000414,-0.2360624212676909,NCI-H1944,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000424,0.0928524838140737,TC-71,Ewing Sarcoma,Bone,False,EGFR
+ACH-000426,-0.3003302882524158,KMS-20,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-000445,0.169115836647899,KNS-60,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000446,-0.0131910086070334,KP-N-SI9s,Neuroblastoma,Peripheral Nervous System,False,EGFR
+ACH-000468,-0.0161774506066504,PK-45H,Pancreatic Adenocarcinoma,Pancreas,False,EGFR
+ACH-000479,0.0140157321855381,KNS-81,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000485,-0.5181532602642125,GSU,Esophagogastric Adenocarcinoma,Esophagus/Stomach,True,EGFR
+ACH-000502,0.0130106077596819,TCC-PAN2,Pancreatic Adenocarcinoma,Pancreas,False,EGFR
+ACH-000505,-0.000202849504874,RKN,Leiomyosarcoma,Soft Tissue,False,EGFR
+ACH-000507,-0.354338210706741,KE-39,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,EGFR
+ACH-000511,-0.0925607054096752,Calu-1,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000522,0.0038649502097871,UM-UC-3,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,EGFR
+ACH-000524,-0.2637068466510983,KURAMOCHI,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,EGFR
+ACH-000528,-0.0836664794075291,ABC-1,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000537,-1.528757873673772,SNU-761,Hepatocellular Carcinoma,Liver,True,EGFR
+ACH-000569,0.0759508828154566,IST-MES1,Pleural Mesothelioma,Pleura,False,EGFR
+ACH-000581,0.1130632870848274,SNU-16,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,EGFR
+ACH-000593,-0.7248625684748649,BC-3C,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,True,EGFR
+ACH-000604,-0.203181547376697,KYO-1,Myeloproliferative Neoplasms,Myeloid,False,EGFR
+ACH-000605,-0.5194202664521801,TE-6,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,True,EGFR
+ACH-000608,-1.290008206725778,COV644,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,True,EGFR
+ACH-000609,0.0829214858535965,SF126,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000634,0.0314155390989453,LN-340,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000662,-0.1089915266713678,COR-L23,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000666,0.2530993937663269,NCI-H1355,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000681,-0.3069106028324235,A549,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000685,-0.3473156705052549,L3.3,Adenosquamous Carcinoma of the Pancreas,Pancreas,False,EGFR
+ACH-000697,0.0912902322974645,A3/KAW,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-000714,0.2199673232989097,KMS-11,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-000768,0.1364166203713576,MDA-MB-231,Invasive Breast Carcinoma,Breast,False,EGFR
+ACH-000788,0.0688603141641527,A2058,Melanoma,Skin,False,EGFR
+ACH-000790,0.0240718597322093,SHP-77,Lung Neuroendocrine Tumor,Lung,False,EGFR
+ACH-000800,-0.1146447927208208,NCI-H446,Lung Neuroendocrine Tumor,Lung,False,EGFR
+ACH-000826,-0.4569460130894771,CAL-12T,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000845,0.0408460933773459,NCI-H1373,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000846,-0.1043396001536956,FaDu,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,EGFR
+ACH-000863,0.0944975419868575,DBTRG-05MG,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000871,-0.1787549078155255,NCI-H510,Lung Neuroendocrine Tumor,Lung,False,EGFR
+ACH-000873,-0.9789108587574744,KYSE-270,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,True,EGFR
+ACH-000939,-0.335169583461041,SK-UT-1,Uterine Sarcoma/Mesenchymal,Uterus,False,EGFR
+ACH-000961,-0.3075560268776433,Ishikawa (Heraklio) 02 ER-,Endometrial Carcinoma,Uterus,False,EGFR
+ACH-000971,0.127308407514894,HCT 116,Colorectal Adenocarcinoma,Bowel,False,EGFR
+ACH-000985,0.0421877293007175,LS411N,Colorectal Adenocarcinoma,Bowel,False,EGFR
+ACH-001028,-0.041677771489382,CHLA-06-ATRT,Embryonal Tumor,CNS/Brain,False,EGFR
+ACH-001075,-0.3473037109312241,NCI-H292,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-001096,-0.1924476405042687,JR,Rhabdomyosarcoma,Soft Tissue,False,EGFR
+ACH-001126,0.0279496177274505,MOG-G-UVW,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-001227,-0.9773404837686188,UPCI-SCC-090,Head and Neck Squamous Cell Carcinoma,Head and Neck,True,EGFR
+ACH-001283,-0.0027491780566599,TC-106,Ewing Sarcoma,Bone,False,EGFR
+ACH-001289,-0.0615097099744245,COG-AR-359,Embryonal Tumor,CNS/Brain,False,EGFR
+ACH-001306,0.1772428052378843,8305C,Anaplastic Thyroid Cancer,Thyroid,False,EGFR
+ACH-001336,-0.1664642365108848,Ca Ski,Cervical Squamous Cell Carcinoma,Cervix,False,EGFR
+ACH-001346,-0.7696860566169027,H103,Head and Neck Squamous Cell Carcinoma,Head and Neck,True,EGFR
+ACH-001380,-0.1272148985324331,PACADD-165,Pancreatic Adenocarcinoma,Pancreas,False,EGFR
+ACH-001402,-0.2199716057627607,SW756,Cervical Squamous Cell Carcinoma,Cervix,False,EGFR
+ACH-001433,-0.1352872173772842,CCLF_PEDS_0008_T,Epithelioid Sarcoma,Soft Tissue,False,EGFR
+ACH-001451,0.0027073042965011,BOKU,Cervical Squamous Cell Carcinoma,Cervix,False,EGFR
+ACH-001453,-1.356409697993866,BPH-1,Non-Cancerous,Prostate,True,EGFR
+ACH-001524,-0.6526776505439715,HSC-5,Cutaneous Squamous Cell Carcinoma,Skin,True,EGFR
+ACH-001628,-0.1205046836265956,PEA1,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,EGFR
+ACH-001673,-0.4404688296378597,TFK-1,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,EGFR
+ACH-001690,-0.6368274384393816,UPCI-SCC-026,Head and Neck Squamous Cell Carcinoma,Head and Neck,True,EGFR
+ACH-001698,-0.9128869524038198,UPCI-SCC-116,Head and Neck Squamous Cell Carcinoma,Head and Neck,True,EGFR
+ACH-001834,-0.6496424590651828,MGH-ICC10,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,True,EGFR
+ACH-001960,-0.3026381360718111,CC-SW-1,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,EGFR
+ACH-001973,-0.285975264146502,MM485,Melanoma,Skin,False,EGFR
+ACH-002005,-0.1534815279917133,SK-MEL-19,Melanoma,Skin,False,EGFR
+ACH-002015,0.0522351873875192,Mel285,Ocular Melanoma,Eye,False,EGFR
+ACH-002016,-0.2522279946774439,Mel290,Ocular Melanoma,Eye,False,EGFR
+ACH-002027,-0.3783171893594557,HOUA-I,Endometrial Carcinoma,Uterus,False,EGFR
+ACH-002084,0.0323016093467156,MMAc,Melanoma,Skin,False,EGFR
+ACH-002140,-0.0625646121029773,Hey,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,EGFR
+ACH-002181,-0.13976868118865,OVCA420,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,EGFR
+ACH-002189,0.121855619658736,RCC-FG2,Renal Cell Carcinoma,Kidney,False,EGFR
+ACH-002214,0.0150638005257629,BC-1,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-002228,-0.2342413060629865,D-423MG,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-002446,-0.9725151220448064,CCLF_UPGI_0005_T,Esophagogastric Adenocarcinoma,Esophagus/Stomach,True,EGFR
+ACH-002688,0.1687220285028575,OS457,Osteosarcoma,Bone,False,EGFR
+ACH-002926,-0.0516159447729736,UPMD1,Ocular Melanoma,Eye,False,EGFR
+ACH-003180,0.0588326618805347,NRH-UPS2,Undifferentiated Pleomorphic Sarcoma/Malignant Fibrous Histiocytoma/High-Grade Spindle Cell Sarcoma,Soft Tissue,False,EGFR
+ACH-003184,-0.0845522312586556,NRH-LMS2,Leiomyosarcoma,Soft Tissue,False,EGFR
+ACH-000004,-0.1034460039543253,HEL,Acute Myeloid Leukemia,Myeloid,False,EGFR
+ACH-000022,-0.4551343116922831,PA-TU-8988S,Pancreatic Adenocarcinoma,Pancreas,False,EGFR
+ACH-000052,-0.2478019642010107,A-673,Ewing Sarcoma,Bone,False,EGFR
+ACH-000113,0.0219022818086619,OCI-AML2,Acute Myeloid Leukemia,Myeloid,False,EGFR
+ACH-000149,-0.3510611513072225,SK-N-SH,Neuroblastoma,Peripheral Nervous System,False,EGFR
+ACH-000169,0.1236678480033849,RD,Rhabdomyosarcoma,Soft Tissue,False,EGFR
+ACH-000217,-0.1484830050529423,JHH-6,Hepatocellular Carcinoma,Liver,False,EGFR
+ACH-000243,0.0006227429725991,DAN-G,Pancreatic Adenocarcinoma,Pancreas,False,EGFR
+ACH-000263,-0.1108651289039545,KASUMI-1,Acute Myeloid Leukemia,Myeloid,False,EGFR
+ACH-000278,-0.0911566235453167,COV362,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,EGFR
+ACH-000303,-0.0728277436725284,SNU-5,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,EGFR
+ACH-000308,0.2655986244590664,EFO-21,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,EGFR
+ACH-000322,-0.0541652759278229,HT-144,Melanoma,Skin,False,EGFR
+ACH-000332,-0.2596183452499466,YAPC,Pancreatic Adenocarcinoma,Pancreas,False,EGFR
+ACH-000338,-0.3341282381221332,SR-786,Mature T and NK Neoplasms,Lymphoid,False,EGFR
+ACH-000370,-0.112531754110088,SNU-626,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000390,-0.7773309570570999,LUDLU-1,Non-Small Cell Lung Cancer,Lung,True,EGFR
+ACH-000393,0.2057933931468243,HLF,Hepatocellular Carcinoma,Liver,False,EGFR
+ACH-000407,-0.0332064601263655,SNU-685,Endometrial Carcinoma,Uterus,False,EGFR
+ACH-000417,-0.3350508602998103,Panc 08.13,Pancreatic Adenocarcinoma,Pancreas,False,EGFR
+ACH-000473,-0.0854754110001243,RT-112,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,EGFR
+ACH-000491,0.2379035041604467,NCI-H716,Colorectal Adenocarcinoma,Bowel,False,EGFR
+ACH-000495,-0.1143408000122731,TUHR4TKB,Renal Cell Carcinoma,Kidney,False,EGFR
+ACH-000532,-1.0883667896353066,SNU-61,Colorectal Adenocarcinoma,Bowel,True,EGFR
+ACH-000561,-0.6362057993122396,T.T,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,True,EGFR
+ACH-000619,-0.5092780486935418,PE/CA-PJ15,Head and Neck Squamous Cell Carcinoma,Head and Neck,True,EGFR
+ACH-000622,0.0010107287422919,KNS-42,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000633,0.0906650935815509,FU97,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,EGFR
+ACH-000657,-0.0003035062890076,A2780,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,EGFR
+ACH-000668,0.1343277393044361,HCC70,Invasive Breast Carcinoma,Breast,False,EGFR
+ACH-000683,-0.5747013234047271,SNU-503,Colorectal Adenocarcinoma,Bowel,True,EGFR
+ACH-000688,0.0684929945338939,OV7,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,EGFR
+ACH-000694,-0.2470942985408169,TE-9,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,EGFR
+ACH-000711,-0.3562036295292004,JIMT-1,Invasive Breast Carcinoma,Breast,False,EGFR
+ACH-000716,-0.024668590349929,TT2609-C02,Well-Differentiated Thyroid Cancer,Thyroid,False,EGFR
+ACH-000720,-0.0408409346479894,TCCSUP,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,EGFR
+ACH-000721,-0.0059071278304796,HMC-1-8,Invasive Breast Carcinoma,Breast,False,EGFR
+ACH-000735,-1.7632235162634786,PE/CA-PJ49,Head and Neck Squamous Cell Carcinoma,Head and Neck,True,EGFR
+ACH-000739,0.0102923776385414,Hep G2,Hepatoblastoma,Liver,False,EGFR
+ACH-000770,0.0211229659655342,P31/FUJ,Acute Myeloid Leukemia,Myeloid,False,EGFR
+ACH-000775,-0.4255669381387247,NCI-H727,Lung Neuroendocrine Tumor,Lung,False,EGFR
+ACH-000783,0.1794905369948479,CAMA-1,Invasive Breast Carcinoma,Breast,False,EGFR
+ACH-000791,-0.2603670383177293,RERF-LC-Ad1,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000805,-0.1523562920256385,COLO-679,Melanoma,Skin,False,EGFR
+ACH-000824,-0.0984190427148102,KYSE-510,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,EGFR
+ACH-000827,0.2981213689038396,WM793,Melanoma,Skin,False,EGFR
+ACH-000838,-0.3199249947005633,AMO-1,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-000848,-0.0192176887816784,JHH-7,Hepatocellular Carcinoma,Liver,False,EGFR
+ACH-000858,-0.060832483706561,KNS-62,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000861,-0.1126963653873818,HOP-62,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000881,0.1443573326552686,MEL-JUSO,Melanoma,Skin,False,EGFR
+ACH-000899,-0.0927377544367524,WM88,Melanoma,Skin,False,EGFR
+ACH-000910,0.0935291724309102,MDA-MB-453,Invasive Breast Carcinoma,Breast,False,EGFR
+ACH-000915,-0.0993660574049688,IPC-298,Melanoma,Skin,False,EGFR
+ACH-000935,-0.0496263368409393,MDST8,Colorectal Adenocarcinoma,Bowel,False,EGFR
+ACH-000936,-1.8191886154268813,EFO-27,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,True,EGFR
+ACH-000944,-0.1213756182125994,NAMALWA,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-000962,0.0324683040300336,OC 314,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,EGFR
+ACH-000965,-0.4628086873129099,RL95-2,Endometrial Carcinoma,Uterus,False,EGFR
+ACH-000988,-0.7471280562649578,MFE-319,Endometrial Carcinoma,Uterus,True,EGFR
+ACH-001038,0.0224250042961957,COG-E-352,Ewing Sarcoma,Bone,False,EGFR
+ACH-001050,0.0481807876791117,CW9019,Rhabdomyosarcoma,Soft Tissue,False,EGFR
+ACH-001053,0.0427682267440309,D425,Embryonal Tumor,CNS/Brain,False,EGFR
+ACH-001151,-0.373437529545285,OVCAR-5,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,EGFR
+ACH-001211,-0.095766051193667,TTC-549,Rhabdoid Cancer,Soft Tissue,False,EGFR
+ACH-001239,-0.0122807768705532,WM-266-4,Melanoma,Skin,False,EGFR
+ACH-001277,0.0630084300422619,Yamato,Synovial Sarcoma,Soft Tissue,False,EGFR
+ACH-001367,0.1581670565415416,NMB,Neuroblastoma,Peripheral Nervous System,False,EGFR
+ACH-001392,-0.0145194002791769,SUM-185PE,Invasive Breast Carcinoma,Breast,False,EGFR
+ACH-001412,-0.6883802547465885,UM-UC-10,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,True,EGFR
+ACH-001458,-1.1423949574679322,C75,Colorectal Adenocarcinoma,Bowel,True,EGFR
+ACH-001510,-0.1686135983053283,H376,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,EGFR
+ACH-001530,-0.0007260296485842,JEG-3,Gestational Trophoblastic Disease,Uterus,False,EGFR
+ACH-001556,-0.1389644152709739,Mero-25,Pleural Mesothelioma,Pleura,False,EGFR
+ACH-001562,-0.2767280790377435,Mero-95,Pleural Mesothelioma,Pleura,False,EGFR
+ACH-001609,0.0400611210352674,NP 3,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-001670,-0.0954376559715557,TASK1,Embryonal Tumor,CNS/Brain,False,EGFR
+ACH-002024,-0.0354958578854079,ECC4,Colorectal Adenocarcinoma,Bowel,False,EGFR
+ACH-002029,-1.8165967538034409,SAS,Head and Neck Squamous Cell Carcinoma,Head and Neck,True,EGFR
+ACH-002035,-0.2120408641873752,LCAM1,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-002045,-0.301941488603981,HO-1-u-1,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,EGFR
+ACH-002046,0.0445750805690129,HTMMT,Endometrial Carcinoma,Uterus,False,EGFR
+ACH-002059,-0.0093681092793172,P30/OHK,B-Cell Acute Lymphoblastic Leukemia,Lymphoid,False,EGFR
+ACH-002066,-0.105080872508212,HS-Sch-2,Nerve Sheath Tumor,Peripheral Nervous System,False,EGFR
+ACH-002142,-0.3651057063248894,HuO-3N1,Osteosarcoma,Bone,False,EGFR
+ACH-002215,-0.1023052913321753,BC-3,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-002249,-1.4695014265234336,JHU-011,Head and Neck Squamous Cell Carcinoma,Head and Neck,True,EGFR
+ACH-002282,0.3091138668647405,NB17,Neuroblastoma,Peripheral Nervous System,False,EGFR
+ACH-002295,0.2432151363628857,PCI-30,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,EGFR
+ACH-002485,-0.0613711139772034,MAVER-1,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-002526,-0.3097339592219938,SNU-1327,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-002528,0.1127266163735941,SNU-267,Renal Cell Carcinoma,Kidney,False,EGFR
+ACH-002659,-0.0563025005747998,JVE-127,Colorectal Adenocarcinoma,Bowel,False,EGFR
+ACH-002660,-0.7199592476940426,JVE-187,Colorectal Adenocarcinoma,Bowel,True,EGFR
+ACH-002664,-0.112328302879709,JVE-253,Colorectal Adenocarcinoma,Bowel,False,EGFR
+ACH-002672,-0.9414285585828036,MAPAC-HS-77,Pancreatic Adenocarcinoma,Pancreas,True,EGFR
+ACH-002792,-0.5761179384704764,NCC-CCS1B-C1,Clear Cell Sarcoma,Soft Tissue,True,EGFR
+ACH-002922,-0.1237418440657046,SK-N-MM,Neuroblastoma,Peripheral Nervous System,False,EGFR
+ACH-000009,-1.3295090206091684,C2BBe1,Colorectal Adenocarcinoma,Bowel,True,EGFR
+ACH-000021,0.05408826559797,NCI-H1693,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000025,0.1457990010286359,CH-157MN,Meningothelial Tumor,CNS/Brain,False,EGFR
+ACH-000037,0.0119290180782564,S-117,"Sarcoma, NOS",Soft Tissue,False,EGFR
+ACH-000075,-0.020820391298946,U-87 MG,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000138,-0.131379756001511,CFPAC-1,Pancreatic Adenocarcinoma,Pancreas,False,EGFR
+ACH-000211,0.0658190692587257,Daoy,Embryonal Tumor,CNS/Brain,False,EGFR
+ACH-000215,0.0673573914418853,LN382,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000232,-0.0816194275810462,U-251 MG,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000256,0.1856350856063223,COV318,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,EGFR
+ACH-000265,0.0576683184179913,KP-4,Pancreatic Adenocarcinoma,Pancreas,False,EGFR
+ACH-000268,-0.8119870552438496,SNU-245,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,True,EGFR
+ACH-000269,-0.0214789720816152,AM-38,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000273,0.1915559401294773,SF539,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000281,0.133278232486006,KP-2,Pancreatic Adenocarcinoma,Pancreas,False,EGFR
+ACH-000307,-0.6060459139543254,PK-1,Pancreatic Adenocarcinoma,Pancreas,True,EGFR
+ACH-000315,-0.0640434872653537,KARPAS-422,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-000317,-0.3529320093359804,TUHR14TKB,Renal Cell Carcinoma,Kidney,False,EGFR
+ACH-000324,-0.5344321177272009,JHOC-5,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,True,EGFR
+ACH-000346,0.0416189086281104,JVM-3,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-000355,-0.4242617621604789,NCI-H82,Lung Neuroendocrine Tumor,Lung,False,EGFR
+ACH-000362,-0.0855689151836519,MOLM-13,Acute Myeloid Leukemia,Myeloid,False,EGFR
+ACH-000364,-0.1931365356771373,U-2 OS,Osteosarcoma,Bone,False,EGFR
+ACH-000401,-0.1468134130178583,COLO-800,Melanoma,Skin,False,EGFR
+ACH-000405,-0.1885080586199942,MEC-1,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-000408,-0.1862315790947739,TE-5,Esophageal Squamous Cell Carcinoma,Esophagus/Stomach,False,EGFR
+ACH-000481,0.0132686927352438,NCI-H2170,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000500,-0.1549356205561576,SNU-46,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,EGFR
+ACH-000517,0.0845372570786212,SNU-410,Pancreatic Adenocarcinoma,Pancreas,False,EGFR
+ACH-000541,-0.0893357919072056,KMS-34,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-000550,-0.007254413162409,IGR-39,Melanoma,Skin,False,EGFR
+ACH-000562,-0.3372994679821745,HCC-78,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000591,0.0505335608089608,LN-235,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000621,0.13213022793682,MDA-MB-157,Invasive Breast Carcinoma,Breast,False,EGFR
+ACH-000645,-0.249476947251163,JL-1,Pleural Mesothelioma,Pleura,False,EGFR
+ACH-000673,0.1837777916661871,LN-443,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-000684,-0.3419558719407545,KMRC-1,Renal Cell Carcinoma,Kidney,False,EGFR
+ACH-000696,-0.0297545593783024,OVCAR-8,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,EGFR
+ACH-000698,-0.0020008666380864,DMS 53,Lung Neuroendocrine Tumor,Lung,False,EGFR
+ACH-000725,-0.0939693770794714,HCC202,Breast Ductal Carcinoma In Situ,Breast,False,EGFR
+ACH-000734,-0.577997092068393,JHH-5,Hepatocellular Carcinoma,Liver,True,EGFR
+ACH-000754,-0.0499774168117018,L-428,Hodgkin Lymphoma,Lymphoid,False,EGFR
+ACH-000758,-0.4723978875374904,MKN74,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,EGFR
+ACH-000769,-0.0237760144909316,LK-2,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000802,-0.0325984541624735,BFTC-905,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,False,EGFR
+ACH-000804,-0.2808891899925061,NB-1,Neuroblastoma,Peripheral Nervous System,False,EGFR
+ACH-000833,-0.3780663333702383,RH-30,Rhabdomyosarcoma,Soft Tissue,False,EGFR
+ACH-000836,-0.7477253287393709,YD-15,Head and Neck Squamous Cell Carcinoma,Head and Neck,True,EGFR
+ACH-000856,-0.0426510640649794,CAL-51,Invasive Breast Carcinoma,Breast,False,EGFR
+ACH-000869,-0.2065230566844143,NCI-H1568,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000887,-0.6068277853204693,SF-172,Diffuse Glioma,CNS/Brain,True,EGFR
+ACH-000898,-0.6337496083452255,SNU-719,Esophagogastric Adenocarcinoma,Esophagus/Stomach,True,EGFR
+ACH-000901,0.1070155101005216,HCC-1359,Non-Small Cell Lung Cancer,Lung,False,EGFR
+ACH-000946,-0.4705328674008314,HEC-265,Endometrial Carcinoma,Uterus,False,EGFR
+ACH-000976,-1.2538095238119338,HuCCT1,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,True,EGFR
+ACH-001016,0.0050451739920973,Becker,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-001039,0.2485256343778499,COLO 205,Colorectal Adenocarcinoma,Bowel,False,EGFR
+ACH-001107,0.0955300769303588,KP-1N,Pancreatic Adenocarcinoma,Pancreas,False,EGFR
+ACH-001196,-0.0926687212917707,SMS-CTR,Rhabdomyosarcoma,Soft Tissue,False,EGFR
+ACH-001197,-0.0249121840917005,SMZ-1,Non-Hodgkin Lymphoma,Lymphoid,False,EGFR
+ACH-001301,0.02193166626707,COG-N-278,Neuroblastoma,Peripheral Nervous System,False,EGFR
+ACH-001344,-0.4502999876996844,GI-ME-N,Neuroblastoma,Peripheral Nervous System,False,EGFR
+ACH-001345,-0.2769292639567174,GP5d,Colorectal Adenocarcinoma,Bowel,False,EGFR
+ACH-001360,0.0302707907923899,MS751,Cervical Squamous Cell Carcinoma,Cervix,False,EGFR
+ACH-001388,-0.2086713858900696,SUM-102PT,Invasive Breast Carcinoma,Breast,False,EGFR
+ACH-001415,-0.6803801834958902,UM-UC7,Bladder Urothelial Carcinoma,Bladder/Urinary Tract,True,EGFR
+ACH-001421,0.0221651227058215,WERI-Rb-1,Retinoblastoma,Eye,False,EGFR
+ACH-001450,-0.0411502151288105,BLUE-1,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-001494,-0.3338885501112571,EGI-1,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,EGFR
+ACH-001496,-1.093530137574941,ESO26,Esophagogastric Adenocarcinoma,Esophagus/Stomach,True,EGFR
+ACH-001500,0.0682858007795467,FLO-1,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,EGFR
+ACH-001509,-0.7077101291329071,H357,Head and Neck Squamous Cell Carcinoma,Head and Neck,True,EGFR
+ACH-001517,0.0051303000705332,HEC-1,Endometrial Carcinoma,Uterus,False,EGFR
+ACH-001538,-0.3426131614290651,KKU-213,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,EGFR
+ACH-001543,-0.0205202491036051,KOSC-2,Head and Neck Squamous Cell Carcinoma,Head and Neck,False,EGFR
+ACH-001613,0.002858411143295,OCI-AML4,Acute Myeloid Leukemia,Myeloid,False,EGFR
+ACH-001616,-0.0724602965541085,OCI-LY18,Mature B-Cell Neoplasms,Lymphoid,False,EGFR
+ACH-001651,-0.2859805098828791,SKG-I,Cervical Squamous Cell Carcinoma,Cervix,False,EGFR
+ACH-001662,-0.1384509671761382,SNU-2372,Invasive Breast Carcinoma,Breast,False,EGFR
+ACH-001668,-0.1938616723752728,SUSA,Non-Seminomatous Germ Cell Tumor,Testis,False,EGFR
+ACH-001685,0.1901470206756781,U-HO1,Hodgkin Lymphoma,Lymphoid,False,EGFR
+ACH-001719,-0.1846306758598596,OCI-C4P,Ovarian Epithelial Tumor,Ovary/Fallopian Tube,False,EGFR
+ACH-001765,0.0269345604752275,Rh4,Rhabdomyosarcoma,Soft Tissue,False,EGFR
+ACH-001786,-0.785366224533529,SNU-1544,Colorectal Adenocarcinoma,Bowel,True,EGFR
+ACH-001820,-0.1110334184359127,COLO 824,"Breast Neoplasm, NOS",Breast,False,EGFR
+ACH-001848,0.1074367249016624,MGH-ICC8,Intraductal Papillary Neoplasm of the Bile Duct,Biliary Tract,False,EGFR
+ACH-001977,-0.3581155548457588,NO36,Pleural Mesothelioma,Pleura,False,EGFR
+ACH-002018,0.0344320069714374,Omm2.5,Ocular Melanoma,Eye,False,EGFR
+ACH-002069,-0.1516001854703282,HS-Os-1,Osteosarcoma,Bone,False,EGFR
+ACH-002202,-0.4927631227686241,TMK-1,Esophagogastric Adenocarcinoma,Esophagus/Stomach,False,EGFR
+ACH-002269,0.1248989752495461,LNZTA3WT4,Diffuse Glioma,CNS/Brain,False,EGFR
+ACH-002285,0.190273632743062,NB7,Neuroblastoma,Peripheral Nervous System,False,EGFR
+ACH-002490,0.270741310062449,NCI-H1882,Lung Neuroendocrine Tumor,Lung,False,EGFR
+ACH-002687,-0.1167279083207705,WM3772F,Ocular Melanoma,Eye,False,EGFR
+ACH-002708,-0.2901480668232687,DL-221,Liposarcoma,Soft Tissue,False,EGFR
+ACH-002782,0.0760334215865901,NCC-UPS1-C1,Undifferentiated Pleomorphic Sarcoma/Malignant Fibrous Histiocytoma/High-Grade Spindle Cell Sarcoma,Soft Tissue,False,EGFR
+ACH-002785,0.14906685647374,NCC-LMS1-C1,Leiomyosarcoma,Soft Tissue,False,EGFR
+ACH-003012,-0.2977271109900242,A549_CRAF_KD,Non-Small Cell Lung Cancer,Lung,False,EGFR

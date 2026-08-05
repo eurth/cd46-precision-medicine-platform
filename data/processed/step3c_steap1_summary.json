@@ -1,0 +1,12 @@
+{
+  "symbol": "STEAP1",
+  "uniprot_id": "Q9UHE8",
+  "gtex_tissues": 52,
+  "depmap_depends_on": 0,
+  "hpa_protein_tissues": 1,
+  "uniprot": {
+    "protein": 1,
+    "isoforms": 0,
+    "variants": 2
+  }
+}

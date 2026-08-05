@@ -91,10 +91,10 @@ CAB_QUESTIONS = cab_questions(_GENE)
 # Agent initialisation (graceful degradation)
 # ---------------------------------------------------------------------------
 @st.cache_resource
-def _get_agent(provider: str):
+def _get_agent(provider: str, gene: str):
     try:
         from src.agent.orchestrator import TargetResearchAgent
-        return TargetResearchAgent(provider=provider), None
+        return TargetResearchAgent(provider=provider, gene=gene), None
     except Exception as e:
         return None, str(e)
 
@@ -139,7 +139,7 @@ if _active_asst == _ASST_TABS[0]:
             key="temp_slider",
         )
 
-    agent, agent_error = _get_agent(provider)
+    agent, agent_error = _get_agent(provider, _GENE)
 
     if agent_error:
         st.warning(
@@ -194,7 +194,7 @@ if _active_asst == _ASST_TABS[0]:
                     ph = st.empty()
                     full = ""
                     try:
-                        for token in agent.stream(q):
+                        for token in agent.stream(q, gene=_GENE):
                             full += token
                             ph.markdown(full + ("▌" if not full.startswith("###") else ""))
                         ph.markdown(full)
@@ -439,7 +439,7 @@ elif _active_asst == _ASST_TABS[2]:
     st.markdown(f"#### Evidence base — active target **{_GENE}**")
     st.caption(
         "Structured data retrieved by the assistant (CSVs + AuraDB templates). "
-        "Depth varies by target tier; CD46 retains the richest cohort narratives."
+        "Depth varies by target tier."
     )
 
     ev1, ev2 = st.columns(2)
@@ -451,7 +451,7 @@ elif _active_asst == _ASST_TABS[2]:
         )
         info_banner(
             f"**Patient eligibility** — `{_GENE.lower()}_patient_groups.csv` threshold stats "
-            "(CD46 uses the legacy deep cohort file).",
+            f"for {_GENE}-High cohorts when available.",
         )
         info_banner(
             f"**Drug / trial context** — ChEMBL + ClinicalTrials.gov cache keyed to **{_GENE}** "

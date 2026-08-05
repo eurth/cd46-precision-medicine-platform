@@ -1,38 +1,38 @@
 # Data freeze metadata shown in the UI banner.
 # Update access_date / notes whenever ETL refreshes processed artifacts or Aura.
 
-platform_version: "1.3.0"
-freeze_id: "2026-08-04-aura-free-expand"
-freeze_label: "Aura Free KG expansion — Waves 0–9 complete"
+platform_version: "1.4.0"
+freeze_id: "2026-08-05-path-to-50k"
+freeze_label: "Path to 50k — 20-gene full-source panel loaded"
 
 sources:
   - name: Neo4j AuraDB (OncoBridge KG)
-    access_date: "2026-08-04"
-    notes: "6,982 nodes / 12,704 rels · five theranostic slices · Aura Free (~3.5% of 200k node ceiling)"
+    access_date: "2026-08-05"
+    notes: "102,122 nodes / 292,691 rels · 20 theranostic targets · Aura Free (~51% of 200k node ceiling; ~73% of 400k rel ceiling) · includes TCGA PatientGroups"
   - name: Open Targets Platform
-    access_date: "2026-08-04"
-    notes: "GraphQL · ASSOCIATED_WITH per gene: CD46 1546, SSTR2 1000, FAP 888, FOLH1 758, GRPR 219"
+    access_date: "2026-08-05"
+    notes: "Full GraphQL associations per gene (ot-size 0) · 20-gene registry"
   - name: ClinicalTrials.gov
-    access_date: "2026-08-04"
-    notes: "~100–148 TARGETS_GENE trials/gene · RLT/ADC query extras (Wave 2)"
+    access_date: "2026-08-05"
+    notes: "Full query pagination · ~26.8k ClinicalTrial nodes (largest: CA9 7098, ERBB2 5163, EGFR 4619)"
   - name: PubMed / ChEMBL
-    access_date: "2026-08-04"
-    notes: "50 Publication SUPPORTS/gene · ~30 ChEMBL Drug TARGETS/gene (Wave 3)"
+    access_date: "2026-08-05"
+    notes: "Full PubMed query sets · full ChEMBL molecule pagination when API healthy (EGFR ~19k drugs; some genes ChEMBL 500/timeout → 0)"
   - name: STRING DB
-    access_date: "2026-08-04"
-    notes: "INTERACTS_WITH neighborhoods · FAP required_score 400 · others 700 (Wave 4)"
+    access_date: "2026-08-05"
+    notes: "Batched UNWIND INTERACTS_WITH · required_score 400 · edge-limit 500"
   - name: HPA / GTEx / UniProt / DepMap
-    access_date: "2026-08-04"
-    notes: "GTEx ~52 tissues/gene · UniProt isoforms/variants · DepMap DEPENDS_ON (FAP/GRPR sparse) (Waves 5–6)"
+    access_date: "2026-08-05"
+    notes: "Full UniProt isoforms/variants · GTEx tissues · DepMap DEPENDS_ON where CellLine exists"
   - name: ClinVar
-    access_date: "2026-08-04"
-    notes: "280 ProteinVariant nodes for FOLH1/FAP/SSTR2/GRPR (≤75/gene) (Wave 7)"
+    access_date: "2026-08-05"
+    notes: "Full gene ClinVar search (max-variants 0) · ~15.2k ProteinVariant nodes"
   - name: TCGA / UCSC Xena (processed extracts)
-    access_date: "2026-08-04"
-    notes: "by_cancer EXPRESSED_IN_CANCER + SurvivalResult per gene; CD46 CORRELATED_WITH combo biomarkers (Wave 8)"
+    access_date: "2026-08-05"
+    notes: "by_cancer / survival / expression for all 20 registry genes (panel extract 2026-08-05; CA9 exact-match + NECTIN4=PVRL4 aliases)"
   - name: cBioPortal mCRPC cohorts
     access_date: "pipeline-local"
-    notes: "Existing PatientGroup load retained; per-gene somatic mutation fetch deferred (not a small flag)"
+    notes: "Existing PatientGroup load retained; Phase C StudySummary fillers deferred (already ≥50k)"
 
 disclaimer: >
   Research use only. Not a medical device and not clinical advice.

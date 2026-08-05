@@ -1,0 +1,7 @@
+{
+  "gene": "EGFR",
+  "protein_tissue_specificity": "Low tissue specificity",
+  "protein_tissue_distribution": "Detected in all",
+  "protein_cell_type_specificity": "Cell type enhanced",
+  "n_intensity_rows": 1
+}

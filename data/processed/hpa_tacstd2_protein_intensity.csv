@@ -1,0 +1,6 @@
+tissue,type,intensity_score,data_source
+lung,normal,22139708.2,HPA_protein_intensity
+salivary gland,normal,23989590.1,HPA_protein_intensity
+Collecting ducts,cell_type,39656144.8,HPA_protein_intensity
+Keratinocytes,cell_type,130337143.7,HPA_protein_intensity
+Large ducts,cell_type,112026489.4,HPA_protein_intensity

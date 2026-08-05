@@ -1,0 +1,12 @@
+{
+  "symbol": "CD276",
+  "uniprot_id": "Q5ZPR3",
+  "gtex_tissues": 52,
+  "depmap_depends_on": 24,
+  "hpa_protein_tissues": 3,
+  "uniprot": {
+    "protein": 1,
+    "isoforms": 4,
+    "variants": 9
+  }
+}

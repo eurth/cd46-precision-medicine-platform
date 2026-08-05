@@ -149,10 +149,12 @@ def _load_context_for_intent(intent: str, question: str) -> tuple[str, list[str]
         return "\n\n".join(contexts), sources
 
     if intent == "eligibility":
-        result = get_eligibility("PRAD", "75th_pct")
-        contexts.append(f"PRAD eligibility (75th pct, {gene}):\n{result}")
+        # Pan-cancer eligibility first — PRAD detail only for CD46 case study
         result2 = run_analysis_summary("top_eligible")
-        contexts.append(f"Top eligible cancers:\n{result2}")
+        contexts.append(f"Top eligible cancers ({gene}):\n{result2}")
+        if gene.upper() == "CD46":
+            result = get_eligibility("PRAD", "75th_pct")
+            contexts.append(f"PRAD eligibility (75th pct, {gene}):\n{result}")
         sources += [f"{gene.lower()}_patient_groups.csv", "TCGA"]
 
     elif intent == "survival":
@@ -255,11 +257,12 @@ def load_context(state: AgentState) -> AgentState:
 
 
 def generate_answer(state: AgentState, llm=None) -> AgentState:
+    gene = _gene_for_question(state["question"])
     if llm is None:
         from src.agent.llm_factory import get_llm
-        llm = get_llm()
+        llm = get_llm(gene=gene)
 
-    answer = llm.chat(state["question"], context=state["context"])
+    answer = llm.chat(state["question"], context=state["context"], gene=gene)
     return {**state, "answer": answer}
 
 
@@ -281,9 +284,10 @@ class TargetResearchAgent:
     sequential fallback otherwise.
     """
 
-    def __init__(self, provider: str = "auto"):
+    def __init__(self, provider: str = "auto", gene: str | None = None):
         from src.agent.llm_factory import get_llm
-        self.llm = get_llm(provider=provider)
+        self.gene = gene or _active_gene()
+        self.llm = get_llm(provider=provider, gene=self.gene)
         self._graph = self._build_graph()
         self.last_sources: list[str] = []
         self.last_intent: str = ""
@@ -318,7 +322,7 @@ class TargetResearchAgent:
             logger.warning("LangGraph not available — using sequential fallback")
             return None
 
-    def ask(self, question: str) -> str:
+    def ask(self, question: str, gene: str | None = None) -> str:
         """Ask a question and get an answer with context."""
         initial_state: AgentState = {
             "question": question,
@@ -340,15 +344,16 @@ class TargetResearchAgent:
             result = self._graph.invoke(state)
         else:
             state = load_context(state)
-            state = generate_answer(state, self.llm)
-            state = format_response(state)
+            active = gene or _gene_for_question(question)
+            answer = self.llm.chat(state["question"], context=state["context"], gene=active)
+            state = format_response({**state, "answer": answer})
             result = state
 
         self.last_sources = list(result.get("sources") or [])
         self.last_intent = str(result.get("intent") or "")
         return result["answer"]
 
-    def stream(self, question: str):
+    def stream(self, question: str, gene: str | None = None):
         """Stream the answer token by token (for Streamlit)."""
         context, sources, intent = self.retrieve(question)
         self.last_sources = sources
@@ -356,7 +361,8 @@ class TargetResearchAgent:
         if intent == "dossier":
             yield context
             return
-        yield from self.llm.stream(question, context=context)
+        active = gene or _gene_for_question(question)
+        yield from self.llm.stream(question, context=context, gene=active)
 
 
 # Back-compat alias — do not remove (pipeline + imports)
@@ -364,14 +370,25 @@ CD46Agent = TargetResearchAgent
 
 
 # ---------------------------------------------------------------------------
-# Preset Q&A for demo
+# Preset Q&A for demo — gene-aware (no CD46-only hardcoding)
 # ---------------------------------------------------------------------------
 
-PRESET_QUESTIONS = [
-    "How many mCRPC patients are eligible for 225Ac-CD46 therapy at the 75th percentile threshold?",
-    "Which cancer types show the strongest survival impact from high CD46 expression?",
-    "Is CD46 expression correlated with PSMA in prostate cancer, and what does that mean therapeutically?",
-    "What is the CD46 priority score for ovarian cancer and why?",
-    "List the active clinical trials targeting CD46 in prostate cancer.",
-    "How does CD46 expression in prostate tumor tissue compare to normal prostate in the HPA?",
-]
+def preset_questions(gene: str | None = None) -> list[str]:
+    """Quick-start questions for the active (or given) gene."""
+    g = gene or _active_gene()
+    try:
+        from components.agent_prompts import quick_start_questions
+        return quick_start_questions(g)
+    except Exception:
+        return [
+            f"Which cancers have the strongest combination of {g} over-expression and survival impact?",
+            f"What is the current {g}-targeted drug pipeline and which agents are in clinical trials?",
+            f"What is the therapeutic rationale for targeting {g} in solid tumours?",
+            f"What DepMap evidence supports {g} as a cancer dependency?",
+            f"Summarise {g} expression across TCGA cancer types with hazard ratios.",
+            f"List active clinical trials targeting {g}.",
+        ]
+
+
+# Back-compat: resolve at import for callers that still read the list
+PRESET_QUESTIONS = preset_questions()

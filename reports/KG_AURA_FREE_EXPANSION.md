@@ -1,8 +1,36 @@
 # Aura Free KG Expansion Log
 
 **Instance:** Aura Free (200k node / 400k rel ceiling)  
-**Budget stop:** ≤40k nodes  
-**Baseline freeze prior:** `2026-07-28-phase4-five-targets`
+**Program target:** ≥50,000 nodes (aspirational)  
+**Infra guard:** stop *between genes* near ~180k nodes / stay under 400k rels  
+**Current freeze:** `2026-08-05-path-to-50k`
+
+## Path to 50k — complete (2026-08-05)
+
+Live Aura: **102,122 nodes / 292,691 rels** (from 6,982 / 12,704). Soft goal ≥50k cleared mid-panel (after CA9); remaining genes finished full-source; TCGA extracts + PatientGroups for all 20.
+
+| Milestone | Nodes | Rels |
+|-----------|------:|-----:|
+| Pre–Path-to-50k | 6,982 | 12,704 |
+| Phase A (5 genes full reload) | ~16,138 | ~38,034 |
+| Soft goal cleared (post-CA9) | 50,200 | — |
+| Phase B panel done (20 genes) | 100,250 | 288,572 |
+| + TCGA PatientGroups (panel) | **102,122** | **292,691** |
+
+**Registry (all `kg_status: loaded`):** CD46, FOLH1, FAP, SSTR2, GRPR + CEACAM5, STEAP1, DLL3, NECTIN4, ERBB2, TACSTD2, CD276, CA9, EGFR, MET, CLDN18, MSLN, GPC3, FOLR1, CD19.
+
+**Largest gene deltas (panel):** EGFR +24.7k · MET +18.7k · CA9 +14.1k · ERBB2 +13.6k.
+
+**Label snapshot (post-panel):** Gene 2,016 · Disease 9,885 · Drug 36,555 · ClinicalTrial 26,855 · Publication 6,775 · ProteinVariant 15,186 · Tissue 216 · PatientGroup 1,164 · CellLine 1,186.
+
+**Ops notes:** Batched UNWIND for STRING / PubMed / ChEMBL / trials / ClinVar (Aura SessionExpired fix). CT.gov page retries + checkpoints. ChEMBL HTTP 500/timeout left 0 drugs for some thinner targets (re-fetch later). TCGA `*_by_cancer.csv` / survival for all 20 genes (CA9 exact-match fix; NECTIN4↔PVRL4). Phase C fillers skipped — already ≥50k.
+
+**Load philosophy:** Research datasets loaded **complete** per gene/source. Soft goal ≥50k is aspirational — **never truncate mid-dataset**. Only infra guard: stop between genes near Aura Free ceiling (~180k).
+
+## Path to 50k — baseline re-audit (2026-08-05)
+
+Live Aura then: **6,982 nodes / 12,704 rels**. Gap to soft goal 50k: **43,018**.  
+Root cause: five-gene scope + per-source caps + prior ≤40k soft budget (~3.5% of Free ceiling).
 
 ## Wave 0 — Baseline (2026-08-04)
 
@@ -153,9 +181,9 @@ cBioPortal per-gene somatic mutations deferred (cohort PatientGroups already in 
 
 ## Final budget (vs Aura Free 200k / 400k)
 
-| Metric | Baseline | Final | Headroom |
-|--------|---------:|------:|---------:|
-| Nodes | 4,850 | **6,982** | ~193k |
-| Rels | 6,337 | **12,704** | ~387k |
+| Metric | Wave 0 | Waves 0–9 | Path to 50k (2026-08-05) | Headroom |
+|--------|-------:|----------:|-------------------------:|---------:|
+| Nodes | 4,850 | 6,982 | **100,250** | ~100k |
+| Rels | 6,337 | 12,704 | **288,572** | ~111k |
 
-Well under the ≤40k node soft stop.
+Soft goal ≥50k cleared; still on Aura Free (no Pro upgrade).

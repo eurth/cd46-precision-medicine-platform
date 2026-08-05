@@ -1,0 +1,3 @@
+tissue,type,intensity_score,data_source
+Stomach,normal,282652562.9,HPA_protein_intensity
+Keratinocytes,cell_type,115250.8,HPA_protein_intensity

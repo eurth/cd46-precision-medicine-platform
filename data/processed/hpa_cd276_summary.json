@@ -1,0 +1,8 @@
+{
+  "gene": "CD276",
+  "ensembl": "ENSG00000103855",
+  "rna_tissue_specificity": "Low tissue specificity",
+  "rna_tissue_distribution": "Detected in many",
+  "rna_cancer_specificity": "Low cancer specificity",
+  "protein_class": "CD markers;Predicted intracellular proteins;Predicted membrane proteins"
+}

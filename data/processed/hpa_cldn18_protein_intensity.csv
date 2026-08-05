@@ -1,0 +1,3 @@
+tissue,type,intensity_score,data_source
+lung,normal,7482438.2,HPA_protein_intensity
+Alveolar cell types,cell_type,9350271.1,HPA_protein_intensity

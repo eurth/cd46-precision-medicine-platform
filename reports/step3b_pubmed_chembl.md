@@ -1,14 +1,10 @@
 # Step 3b — PubMed + ChEMBL per target
 
-**Aura after Step 3b:** **6656 nodes**
+**Aura after Step 3b:** **100250 nodes**
 
 | Gene | PubMed | Pubs loaded | ChEMBL ID | Drugs loaded | SUPPORTS | TARGETS | Nodes Δ |
 |------|--------|-------------|-----------|--------------|----------|---------|---------|
-| CD46 | 50 | 50 | — | 2 | 99 | 6 | 22 |
-| FOLH1 | 50 | 50 | CHEMBL1892 | 32 | 50 | 32 | 29 |
-| FAP | 50 | 50 | CHEMBL4683 | 32 | 50 | 32 | 29 |
-| SSTR2 | 50 | 50 | CHEMBL1804 | 32 | 50 | 32 | 31 |
-| GRPR | 50 | 50 | CHEMBL4959 | 32 | 50 | 32 | 24 |
+| CD19 | 784 | 784 | CHEMBL3390821 | 0 | 784 | 0 | 0 |
 
 ## Schema
 

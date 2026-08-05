@@ -1,0 +1,55 @@
+tissue_site_detail,tissue_site,tissue_site_id,median_tpm,mean_tpm,q1_tpm,q3_tpm,n_samples,unit,dataset,gene_symbol,gencode_id
+Spleen,Spleen,Spleen,166.2,187.1965,116.8,226.7,241,TPM,gtex_v8,CD19,ENSG00000177455.12
+Cells - EBV-transformed lymphocytes,Blood Vessel,Cells_EBV-transformed_lymphocytes,138.7,145.3801,119.9,166.0,174,TPM,gtex_v8,CD19,ENSG00000177455.12
+Small Intestine - Terminal Ileum,Small Intestine,Small_Intestine_Terminal_Ileum,29.36,100.812,3.384,176.9,187,TPM,gtex_v8,CD19,ENSG00000177455.12
+Testis,Testis,Testis,12.64,12.8994,7.095,17.27,361,TPM,gtex_v8,CD19,ENSG00000177455.12
+Whole Blood,Blood,Whole_Blood,7.28,10.6606,3.922,12.75,755,TPM,gtex_v8,CD19,ENSG00000177455.12
+Colon - Transverse,Colon,Colon_Transverse,1.699,4.7681,0.5886,5.178,406,TPM,gtex_v8,CD19,ENSG00000177455.12
+Lung,Lung,Lung,1.363,2.1272,0.728,2.302,578,TPM,gtex_v8,CD19,ENSG00000177455.12
+Ovary,Ovary,Ovary,1.112,1.3571,0.7732,1.742,180,TPM,gtex_v8,CD19,ENSG00000177455.12
+Fallopian Tube,Fallopian Tube,Fallopian_Tube,1.085,1.0668,0.9659,1.413,9,TPM,gtex_v8,CD19,ENSG00000177455.12
+Esophagus - Mucosa,Esophagus,Esophagus_Mucosa,0.785,2.3621,0.2198,2.579,555,TPM,gtex_v8,CD19,ENSG00000177455.12
+Stomach,Stomach,Stomach,0.601,1.4245,0.327,1.264,359,TPM,gtex_v8,CD19,ENSG00000177455.12
+Nerve - Tibial,Nerve,Nerve_Tibial,0.5679,0.6564,0.3818,0.8417,619,TPM,gtex_v8,CD19,ENSG00000177455.12
+Prostate,Prostate,Prostate,0.5314,1.8292,0.3061,1.135,245,TPM,gtex_v8,CD19,ENSG00000177455.12
+Bladder,Bladder,Bladder,0.491,1.8186,0.262,0.7456,21,TPM,gtex_v8,CD19,ENSG00000177455.12
+Minor Salivary Gland,Salivary Gland,Minor_Salivary_Gland,0.4905,0.6804,0.2432,0.8915,162,TPM,gtex_v8,CD19,ENSG00000177455.12
+Uterus,Uterus,Uterus,0.4304,0.5249,0.2777,0.6364,142,TPM,gtex_v8,CD19,ENSG00000177455.12
+Cervix - Endocervix,Cervix Uteri,Cervix_Endocervix,0.4299,0.6874,0.3334,0.8671,10,TPM,gtex_v8,CD19,ENSG00000177455.12
+Artery - Coronary,Blood Vessel,Artery_Coronary,0.4226,3.8066,0.2148,0.7107,240,TPM,gtex_v8,CD19,ENSG00000177455.12
+Kidney - Cortex,Kidney,Kidney_Cortex,0.4081,1.6602,0.1898,1.407,85,TPM,gtex_v8,CD19,ENSG00000177455.12
+Kidney - Medulla,Kidney,Kidney_Medulla,0.4046,0.625,0.3106,1.558,4,TPM,gtex_v8,CD19,ENSG00000177455.12
+Colon - Sigmoid,Colon,Colon_Sigmoid,0.3764,1.0073,0.2213,0.6159,373,TPM,gtex_v8,CD19,ENSG00000177455.12
+Adipose - Visceral (Omentum),Adipose Tissue,Adipose_Visceral_Omentum,0.3722,1.4731,0.207,0.787,541,TPM,gtex_v8,CD19,ENSG00000177455.12
+Thyroid,Thyroid,Thyroid,0.3684,4.2617,0.1901,0.7024,653,TPM,gtex_v8,CD19,ENSG00000177455.12
+Liver,Liver,Liver,0.3234,0.4087,0.1563,0.5181,226,TPM,gtex_v8,CD19,ENSG00000177455.12
+Vagina,Vagina,Vagina,0.3228,0.8402,0.148,0.7385,156,TPM,gtex_v8,CD19,ENSG00000177455.12
+Cervix - Ectocervix,Cervix Uteri,Cervix_Ectocervix,0.3111,0.3253,0.1351,0.5139,9,TPM,gtex_v8,CD19,ENSG00000177455.12
+Breast - Mammary Tissue,Breast,Breast_Mammary_Tissue,0.2575,0.4838,0.1352,0.4628,459,TPM,gtex_v8,CD19,ENSG00000177455.12
+Adrenal Gland,Adrenal Gland,Adrenal_Gland,0.2477,0.2999,0.1448,0.382,258,TPM,gtex_v8,CD19,ENSG00000177455.12
+Esophagus - Muscularis,Esophagus,Esophagus_Muscularis,0.2438,0.3422,0.1313,0.3753,515,TPM,gtex_v8,CD19,ENSG00000177455.12
+Pituitary,Pituitary,Pituitary,0.2421,0.3396,0.142,0.3848,283,TPM,gtex_v8,CD19,ENSG00000177455.12
+Esophagus - Gastroesophageal Junction,Esophagus,Esophagus_Gastroesophageal_Junction,0.2261,0.2992,0.1382,0.3772,375,TPM,gtex_v8,CD19,ENSG00000177455.12
+Artery - Aorta,Blood Vessel,Artery_Aorta,0.2212,0.5145,0.117,0.3938,432,TPM,gtex_v8,CD19,ENSG00000177455.12
+Brain - Spinal cord (cervical c-1),Brain,Brain_Spinal_cord_cervical_c-1,0.19,0.2289,0.0946,0.3036,159,TPM,gtex_v8,CD19,ENSG00000177455.12
+Adipose - Subcutaneous,Adipose Tissue,Adipose_Subcutaneous,0.1705,0.2454,0.0917,0.2849,663,TPM,gtex_v8,CD19,ENSG00000177455.12
+Heart - Atrial Appendage,Heart,Heart_Atrial_Appendage,0.1427,0.3035,0.0758,0.2616,429,TPM,gtex_v8,CD19,ENSG00000177455.12
+Brain - Substantia nigra,Brain,Brain_Substantia_nigra,0.1303,0.1652,0.0601,0.208,139,TPM,gtex_v8,CD19,ENSG00000177455.12
+Brain - Hypothalamus,Brain,Brain_Hypothalamus,0.1211,0.1564,0.0645,0.2056,202,TPM,gtex_v8,CD19,ENSG00000177455.12
+Brain - Cortex,Brain,Brain_Cortex,0.107,0.1169,0.0542,0.1592,255,TPM,gtex_v8,CD19,ENSG00000177455.12
+Artery - Tibial,Blood Vessel,Artery_Tibial,0.1067,0.18,0.0511,0.1953,663,TPM,gtex_v8,CD19,ENSG00000177455.12
+Brain - Hippocampus,Brain,Brain_Hippocampus,0.106,0.1428,0.0503,0.1711,197,TPM,gtex_v8,CD19,ENSG00000177455.12
+Brain - Amygdala,Brain,Brain_Amygdala,0.1047,0.1373,0.0573,0.1641,152,TPM,gtex_v8,CD19,ENSG00000177455.12
+Skin - Not Sun Exposed (Suprapubic),Skin,Skin_Not_Sun_Exposed_Suprapubic,0.0975,0.1158,0.0459,0.1487,604,TPM,gtex_v8,CD19,ENSG00000177455.12
+Brain - Frontal Cortex (BA9),Brain,Brain_Frontal_Cortex_BA9,0.0941,0.1123,0.0456,0.1438,209,TPM,gtex_v8,CD19,ENSG00000177455.12
+Skin - Sun Exposed (Lower leg),Skin,Skin_Sun_Exposed_Lower_leg,0.0939,0.1208,0.0421,0.1545,701,TPM,gtex_v8,CD19,ENSG00000177455.12
+Brain - Caudate (basal ganglia),Brain,Brain_Caudate_basal_ganglia,0.0931,0.111,0.0579,0.1459,246,TPM,gtex_v8,CD19,ENSG00000177455.12
+Brain - Putamen (basal ganglia),Brain,Brain_Putamen_basal_ganglia,0.0916,0.1104,0.0562,0.1523,205,TPM,gtex_v8,CD19,ENSG00000177455.12
+Brain - Anterior cingulate cortex (BA24),Brain,Brain_Anterior_cingulate_cortex_BA24,0.0906,0.1145,0.0469,0.1534,176,TPM,gtex_v8,CD19,ENSG00000177455.12
+Brain - Nucleus accumbens (basal ganglia),Brain,Brain_Nucleus_accumbens_basal_ganglia,0.0875,0.1061,0.0426,0.1425,246,TPM,gtex_v8,CD19,ENSG00000177455.12
+Cells - Cultured fibroblasts,Skin,Cells_Cultured_fibroblasts,0.0809,0.1011,0.0398,0.1416,504,TPM,gtex_v8,CD19,ENSG00000177455.12
+Brain - Cerebellum,Brain,Brain_Cerebellum,0.0698,0.0873,0.0287,0.117,241,TPM,gtex_v8,CD19,ENSG00000177455.12
+Brain - Cerebellar Hemisphere,Brain,Brain_Cerebellar_Hemisphere,0.055,0.0657,0.0202,0.095,215,TPM,gtex_v8,CD19,ENSG00000177455.12
+Pancreas,Pancreas,Pancreas,0.0408,0.0682,0.0163,0.0823,328,TPM,gtex_v8,CD19,ENSG00000177455.12
+Muscle - Skeletal,Muscle,Muscle_Skeletal,0.0359,0.0514,0.0134,0.0685,803,TPM,gtex_v8,CD19,ENSG00000177455.12
+Heart - Left Ventricle,Heart,Heart_Left_Ventricle,0.0352,0.0575,0.0107,0.0684,432,TPM,gtex_v8,CD19,ENSG00000177455.12

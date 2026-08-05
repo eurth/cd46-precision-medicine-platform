@@ -87,6 +87,26 @@ def ensure_session_target() -> str:
     return str(st.session_state[_SESSION_KEY])
 
 
+def display_label(symbol: str | None = None) -> str:
+    """Short UI label (PSMA, TROP2, HER2, …) from aliases or known map."""
+    sym = (symbol or get_active_symbol()).upper()
+    known = {
+        "FOLH1": "PSMA",
+        "TACSTD2": "TROP2",
+        "ERBB2": "HER2",
+        "CD276": "B7-H3",
+        "CEACAM5": "CEA",
+        "FOLR1": "FRα",
+        "CLDN18": "CLDN18.2",
+        "NECTIN4": "Nectin-4",
+    }
+    if sym in known:
+        return known[sym]
+    t = get_target(sym)
+    aliases = t.get("aliases") or []
+    return str(aliases[0]) if aliases else sym
+
+
 def _tier_help(tier: str) -> str:
     return {
         "stub": "Registered only — no open-data slice yet",
@@ -95,7 +115,7 @@ def _tier_help(tier: str) -> str:
             "Open-data pack: expression, survival, OT/STRING, trials, PubMed, "
             "ChEMBL/drugs, UniProt, GTEx, DepMap, HPA protein intensity"
         ),
-        "full": "Deep case-study depth (CD46 reference modules + full narrative)",
+        "full": "Full open-data depth for this target (expression, survival, KG evidence)",
     }.get(tier, tier)
 
 
@@ -111,11 +131,10 @@ def render_sidebar_target_selector() -> str:
     t = get_target(current)
     tier = data_tier(current)
     symbols = list_symbols()
-    _labels = {"CD46": "CD46", "FOLH1": "PSMA", "FAP": "FAP", "SSTR2": "SSTR2", "GRPR": "GRPR"}
     st.markdown(
         f'<div class="ob-side-target">'
         f'<div class="ob-side-target-kicker">Active target</div>'
-        f'<div class="ob-side-target-sym">{current}</div>'
+        f'<div class="ob-side-target-sym">{display_label(current)}</div>'
         f'<div class="ob-side-target-sub">{t.get("name", "")} · {tier}</div>'
         f"</div>",
         unsafe_allow_html=True,
@@ -125,7 +144,7 @@ def render_sidebar_target_selector() -> str:
         "Switch target",
         symbols,
         index=idx,
-        format_func=lambda s: _labels.get(s, s),
+        format_func=lambda s: display_label(s),
         key="ob_sidebar_target_pick",
     )
     if picked != current:
@@ -153,27 +172,13 @@ def render_stub_gate(*, module: str = "This module") -> bool:
 
 
 def render_case_study_gate(*, module: str = "This module") -> bool:
-    """
-    Depth banner only — never hard-stops.
-
-    Formerly blocked non-CD46 targets. Now all modules stay open; we warn when
-    some charts still use CD46-depth narratives while PARAM work catches up.
-    Return value kept for call-site compat (`if gate: st.stop()`); always False.
-    """
-    sym = get_active_symbol()
-    if is_case_study(sym):
-        return False
-    tier = data_tier(sym)
-    st.info(
-        f"**{module}** is open for **{sym}** (data tier `{tier}`). "
-        "Curated cohort and biomarker depth is expanding across all registered targets."
-    )
+    """Deprecated no-op — all targets get the same modules. Always returns False."""
     return False
 
 
 def render_depth_banner(*, module: str = "This module") -> None:
-    """Explicit non-blocking depth note (preferred over gate for new code)."""
-    render_case_study_gate(module=module)
+    """Deprecated no-op (kept for call-site compat)."""
+    return
 
 def format_gene_cypher(cypher: str, symbol: str | None = None) -> str:
     sym = symbol or get_active_symbol()

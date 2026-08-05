@@ -1,0 +1,55 @@
+tissue_site_detail,tissue_site,tissue_site_id,median_tpm,mean_tpm,q1_tpm,q3_tpm,n_samples,unit,dataset,gene_symbol,gencode_id
+Esophagus - Mucosa,Esophagus,Esophagus_Mucosa,1419.0,1445.0666,1080.0,1726.0,555,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Skin - Not Sun Exposed (Suprapubic),Skin,Skin_Not_Sun_Exposed_Suprapubic,709.2,732.5531,574.6,853.2,604,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Skin - Sun Exposed (Lower leg),Skin,Skin_Sun_Exposed_Lower_leg,683.9,707.6424,545.6,851.8,701,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Minor Salivary Gland,Salivary Gland,Minor_Salivary_Gland,680.9,776.0476,349.8,1136.0,162,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Vagina,Vagina,Vagina,663.6,703.3405,258.7,1124.0,156,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Kidney - Medulla,Kidney,Kidney_Medulla,255.0,199.6875,182.0,292.6,4,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Prostate,Prostate,Prostate,154.1,198.2369,92.99,277.6,245,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Breast - Mammary Tissue,Breast,Breast_Mammary_Tissue,131.5,188.496,5.778,332.2,459,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Lung,Lung,Lung,118.8,125.9831,64.65,169.6,578,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Kidney - Cortex,Kidney,Kidney_Cortex,59.22,101.5147,31.31,99.89,85,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Pancreas,Pancreas,Pancreas,46.75,61.9835,28.74,83.86,328,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Bladder,Bladder,Bladder,38.39,209.5459,8.374,315.6,21,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Fallopian Tube,Fallopian Tube,Fallopian_Tube,18.22,20.0661,7.321,34.62,9,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Nerve - Tibial,Nerve,Nerve_Tibial,11.65,24.136,7.777,19.3,619,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Stomach,Stomach,Stomach,9.715,17.8778,3.722,19.55,359,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Thyroid,Thyroid,Thyroid,8.103,11.6383,5.458,12.98,653,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Adipose - Subcutaneous,Adipose Tissue,Adipose_Subcutaneous,6.28,9.6397,3.82,9.607,663,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Artery - Aorta,Blood Vessel,Artery_Aorta,6.039,7.0728,4.302,8.551,432,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Artery - Tibial,Blood Vessel,Artery_Tibial,5.059,7.2073,3.081,8.615,663,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Cervix - Ectocervix,Cervix Uteri,Cervix_Ectocervix,5.053,374.3098,3.363,48.66,9,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Uterus,Uterus,Uterus,4.853,9.8809,2.027,12.35,142,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Cervix - Endocervix,Cervix Uteri,Cervix_Endocervix,4.487,35.632,2.317,63.98,10,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Artery - Coronary,Blood Vessel,Artery_Coronary,3.978,4.6432,2.668,5.586,240,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Cells - Cultured fibroblasts,Skin,Cells_Cultured_fibroblasts,2.937,4.6046,1.726,5.626,504,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Adipose - Visceral (Omentum),Adipose Tissue,Adipose_Visceral_Omentum,2.227,2.821,1.553,3.488,541,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Esophagus - Muscularis,Esophagus,Esophagus_Muscularis,2.212,5.719,1.432,3.725,515,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Pituitary,Pituitary,Pituitary,2.118,5.0835,1.167,4.247,283,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Small Intestine - Terminal Ileum,Small Intestine,Small_Intestine_Terminal_Ileum,2.029,2.3071,1.368,2.797,187,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Esophagus - Gastroesophageal Junction,Esophagus,Esophagus_Gastroesophageal_Junction,1.969,6.4771,1.255,3.068,375,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Ovary,Ovary,Ovary,1.895,3.4099,1.222,3.619,180,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Whole Blood,Blood,Whole_Blood,1.435,2.7937,0.6353,3.286,755,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Liver,Liver,Liver,1.434,2.4893,0.9215,2.52,226,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Spleen,Spleen,Spleen,1.362,1.8111,0.9216,2.073,241,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Colon - Sigmoid,Colon,Colon_Sigmoid,1.301,1.8146,0.8679,2.131,373,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Colon - Transverse,Colon,Colon_Transverse,1.276,1.8146,0.9283,1.973,406,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Testis,Testis,Testis,1.04,1.2664,0.7861,1.365,361,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Adrenal Gland,Adrenal Gland,Adrenal_Gland,0.9586,1.249,0.6862,1.449,258,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Heart - Atrial Appendage,Heart,Heart_Atrial_Appendage,0.5411,0.8492,0.3316,0.8116,429,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Muscle - Skeletal,Muscle,Muscle_Skeletal,0.4788,1.0322,0.302,0.7589,803,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Brain - Cerebellum,Brain,Brain_Cerebellum,0.4136,0.6212,0.239,0.6933,241,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Cells - EBV-transformed lymphocytes,Blood Vessel,Cells_EBV-transformed_lymphocytes,0.4092,0.7018,0.246,0.6656,174,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Brain - Spinal cord (cervical c-1),Brain,Brain_Spinal_cord_cervical_c-1,0.3938,0.7986,0.2229,0.6651,159,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Brain - Substantia nigra,Brain,Brain_Substantia_nigra,0.376,0.4599,0.2379,0.6281,139,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Brain - Hippocampus,Brain,Brain_Hippocampus,0.3529,0.4664,0.2044,0.5605,197,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Brain - Cortex,Brain,Brain_Cortex,0.3269,0.4496,0.2026,0.524,255,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Brain - Putamen (basal ganglia),Brain,Brain_Putamen_basal_ganglia,0.3194,0.3938,0.1902,0.4916,205,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Brain - Caudate (basal ganglia),Brain,Brain_Caudate_basal_ganglia,0.3191,0.3906,0.195,0.4672,246,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Brain - Hypothalamus,Brain,Brain_Hypothalamus,0.2971,0.5068,0.1796,0.4789,202,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Brain - Frontal Cortex (BA9),Brain,Brain_Frontal_Cortex_BA9,0.2755,0.3964,0.1571,0.4464,209,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Brain - Nucleus accumbens (basal ganglia),Brain,Brain_Nucleus_accumbens_basal_ganglia,0.2746,0.4337,0.1632,0.4821,246,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Brain - Cerebellar Hemisphere,Brain,Brain_Cerebellar_Hemisphere,0.25,0.333,0.1044,0.4474,215,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Heart - Left Ventricle,Heart,Heart_Left_Ventricle,0.2354,0.374,0.1418,0.4143,432,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Brain - Amygdala,Brain,Brain_Amygdala,0.2248,0.4507,0.1534,0.3825,152,TPM,gtex_v8,TACSTD2,ENSG00000184292.6
+Brain - Anterior cingulate cortex (BA24),Brain,Brain_Anterior_cingulate_cortex_BA24,0.1737,0.3184,0.0927,0.3061,176,TPM,gtex_v8,TACSTD2,ENSG00000184292.6

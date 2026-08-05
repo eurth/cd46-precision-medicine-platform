@@ -1,0 +1,4 @@
+tissue,type,intensity_score,data_source
+ovary,normal,12441216.3,HPA_protein_intensity
+Granulosa cells,cell_type,108570.7,HPA_protein_intensity
+Oocytes,cell_type,218277.0,HPA_protein_intensity

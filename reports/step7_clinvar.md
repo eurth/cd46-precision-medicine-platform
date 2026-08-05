@@ -2,10 +2,7 @@
 
 | Gene | Variants | Pathogenic | Nodes Δ |
 |------|----------|------------|---------|
-| FOLH1 | 75 | — | 75 |
-| FAP | 75 | — | 75 |
-| SSTR2 | 55 | — | 55 |
-| GRPR | 75 | — | 75 |
+| CD19 | 577 | — | 0 |
 
 Schema: `Protein-[:HAS_VARIANT]->ProteinVariant` (`source='ClinVar'`).
 

@@ -1,0 +1,8 @@
+{
+  "gene": "ERBB2",
+  "ensembl": "ENSG00000141736",
+  "rna_tissue_specificity": "Low tissue specificity",
+  "rna_tissue_distribution": "Detected in all",
+  "rna_cancer_specificity": "Low cancer specificity",
+  "protein_class": "Cancer-related genes;CD markers;Disease related genes;Enzymes;FDA approved drug targets;Human disease related genes;Plasma proteins;Predicted intracellular proteins;Predicted membrane proteins;Transporters"
+}

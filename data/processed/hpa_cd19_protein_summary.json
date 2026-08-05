@@ -1,0 +1,7 @@
+{
+  "gene": "CD19",
+  "protein_tissue_specificity": "Tissue enriched",
+  "protein_tissue_distribution": "Detected in single",
+  "protein_cell_type_specificity": "Group enriched",
+  "n_intensity_rows": 3
+}

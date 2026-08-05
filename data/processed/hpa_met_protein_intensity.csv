@@ -1,0 +1,5 @@
+tissue,type,intensity_score,data_source
+intestine,normal,104706.0,HPA_protein_intensity
+liver,normal,110974.2,HPA_protein_intensity
+Alveolar cell types,cell_type,1794640.6,HPA_protein_intensity
+Pancreas epithelial cells,cell_type,2481523.2,HPA_protein_intensity

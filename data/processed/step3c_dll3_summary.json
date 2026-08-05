@@ -1,0 +1,12 @@
+{
+  "symbol": "DLL3",
+  "uniprot_id": "Q9NYJ7",
+  "gtex_tissues": 52,
+  "depmap_depends_on": 4,
+  "hpa_protein_tissues": 0,
+  "uniprot": {
+    "protein": 1,
+    "isoforms": 2,
+    "variants": 5
+  }
+}
