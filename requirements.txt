@@ -31,6 +31,8 @@ gspread>=6.0
 
 # Streamlit web app
 streamlit>=1.32,<2.0
+# ponytail: Starlette 1.4.0 broke Streamlit gzip middleware; pin until Streamlit patches
+starlette>=0.46.0,<1.4.0
 streamlit-shadcn-ui>=0.1.19
 streamlit-extras>=0.4.0
 streamlit-antd-components>=0.3.2
