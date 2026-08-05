@@ -78,7 +78,7 @@ driver, conn_error = get_driver()
 # ---------------------------------------------------------------------------
 # Live KG stats (or static fallback)
 # ---------------------------------------------------------------------------
-@st.cache_data(ttl=300)
+@st.cache_data(ttl=300, show_spinner=False)
 def _live_stats():
     if driver is None:
         return None

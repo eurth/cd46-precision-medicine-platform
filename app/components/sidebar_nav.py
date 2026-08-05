@@ -1,4 +1,4 @@
-"""Sidebar nav — collapsed sections by default + top spacing."""
+"""Sidebar nav — expand active section once; avoid click-thrash layout flicker."""
 from __future__ import annotations
 
 import json
@@ -37,54 +37,64 @@ PAGE_TO_SECTION: dict[str, str] = {
 }
 
 
-def _collapsed_state() -> dict[str, bool]:
-    # ponytail: all sections collapsed on load; user expands when needed
-    return dict.fromkeys(NAV_SECTIONS, False)
-
-
 def inject_sidebar_nav_defaults(current_page: str | None) -> None:
-    """Persist collapsed section state; click-collapse after nav paints."""
-    _ = PAGE_TO_SECTION.get(current_page or "", "Home")  # reserved for future active hints
-    state_json = json.dumps(_collapsed_state())
-    sections_js = json.dumps(list(NAV_SECTIONS))
+    """Expand the section for the current page; collapse others once.
+
+    Previous interval clicked every open section header for ~4.5s after paint,
+    which thrashed layout on deep-link refresh (formatting flicker / 'Streamlit'
+    chrome flash). One-shot apply after nav mounts.
+    """
+    active = PAGE_TO_SECTION.get(current_page or "", "Home")
+    active_js = json.dumps(active)
+    # ponytail: st.components.v1.html → migrate to st.iframe when Streamlit drops html()
     components.html(
         f"""
 <script>
 (function () {{
   const win = window.parent;
   const doc = win.document;
-  const state = {state_json};
-  const sectionNames = {sections_js};
+  const activeSection = {active_js};
+  const FLAG = "__ob_nav_applied__";
 
-  function storageKey() {{
-    return Object.keys(win.localStorage).find((k) => k.startsWith("stSidebarSectionsState-"));
+  function headerLabel(header) {{
+    return (header.textContent || "").replace(/\\s+/g, " ").trim();
   }}
 
-  function persistState() {{
-    const key = storageKey();
-    if (key) win.localStorage.setItem(key, JSON.stringify(state));
+  function sectionExpanded(section) {{
+    if (!section) return false;
+    if (section.getAttribute("aria-expanded") === "true") return true;
+    if (section.getAttribute("aria-expanded") === "false") return false;
+    // Fallback: visible nav links under this section
+    const link = section.querySelector('[data-testid="stSidebarNavLink"]');
+    if (!link) return false;
+    const style = win.getComputedStyle(link);
+    return style && style.display !== "none" && style.visibility !== "hidden";
   }}
 
-  function collapseExpanded() {{
+  function applyOnce() {{
+    if (win[FLAG]) return true;
     const nav = doc.querySelector('[data-testid="stSidebarNav"]');
     if (!nav) return false;
-    let clicked = false;
-    nav.querySelectorAll('[data-testid="stNavSectionHeader"]').forEach((header) => {{
+    const headers = nav.querySelectorAll('[data-testid="stNavSectionHeader"]');
+    if (!headers.length) return false;
+
+    headers.forEach((header) => {{
+      const name = headerLabel(header);
       const section = header.parentElement;
-      if (!section) return;
-      if (section.querySelector('[data-testid="stSidebarNavLink"]')) {{
-        header.click();
-        clicked = true;
+      const wantOpen = name === activeSection;
+      const isOpen = sectionExpanded(section);
+      if (wantOpen !== isOpen) {{
+        try {{ header.click(); }} catch (e) {{}}
       }}
     }});
-    return !clicked;
+    win[FLAG] = true;
+    return true;
   }}
 
-  persistState();
   let tries = 0;
   const timer = win.setInterval(() => {{
-    if (collapseExpanded() || ++tries > 30) win.clearInterval(timer);
-  }}, 150);
+    if (applyOnce() || ++tries > 20) win.clearInterval(timer);
+  }}, 100);
 }})();
 </script>
         """,
@@ -95,5 +105,5 @@ def inject_sidebar_nav_defaults(current_page: str | None) -> None:
 
 if __name__ == "__main__":
     assert PAGE_TO_SECTION["Platform Overview"] == "Home"
-    assert _collapsed_state()["Target / Cancer"] is False
+    assert PAGE_TO_SECTION["Research Assistant"] == "Graph / Ask"
     print("sidebar_nav_ok")

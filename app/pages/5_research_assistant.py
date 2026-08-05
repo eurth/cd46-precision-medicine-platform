@@ -55,7 +55,7 @@ def _get_kg_driver():
         return None
 
 
-@st.cache_data(ttl=300)
+@st.cache_data(ttl=300, show_spinner=False)
 def _kg_counts():
     driver = _get_kg_driver()
     if driver is None:

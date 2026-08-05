@@ -694,11 +694,15 @@ section.main {{
 }}
 
 @media (max-width: 768px) {{
+    /* Keep Streamlit chrome hidden — our #ob-topbar is the brand bar */
     header[data-testid="stHeader"] {{
-        display: flex !important; background: {TOPBAR_BG} !important;
+        display: none !important;
     }}
     [data-testid="stSidebarCollapsedControl"],
-    button[data-testid="stBaseButton-headerNoPadding"] {{ display: flex !important; }}
+    button[data-testid="stBaseButton-headerNoPadding"] {{
+        display: flex !important;
+        z-index: 1002 !important;
+    }}
     .ob-tb-sidebar-zone {{ display: none !important; }}
     .ob-tb-main-zone {{ padding-left: 3rem !important; }}
     .block-container {{ padding-left: 1rem !important; padding-right: 1rem !important; }}
@@ -706,6 +710,14 @@ section.main {{
     .ob-tb-brand {{ border-right: 0; padding-left: 3rem; }}
     [data-testid="column"]:has(.ob-right-rail-host),
     [data-testid="stColumn"]:has(.ob-right-rail-host) {{ display: none !important; }}
+}}
+
+/* Reduce "Running …" status flash on deep-link / cache warmup */
+div[data-testid="stStatusWidget"] {{
+    display: none !important;
+}}
+[data-testid="stSpinner"] {{
+    opacity: 0.85;
 }}
 
 .ob-crumb {{ font-size: 12px; color: {TEXT_MUTED}; margin: 0 0 10px 0; padding-left: 0; }}

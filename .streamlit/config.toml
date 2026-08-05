@@ -18,3 +18,8 @@ maxUploadSize        = 50
 
 [browser]
 gatherUsageStats = false
+
+[client]
+# Hide Streamlit developer toolbar/menu — reduces chrome flash on deep-link refresh
+toolbarMode = "minimal"
+showSidebarNavigation = true

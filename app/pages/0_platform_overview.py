@@ -42,7 +42,7 @@ def _get_driver():
         return None
 
 
-@st.cache_data(ttl=1800)
+@st.cache_data(ttl=1800, show_spinner=False)
 def _kg_stats():
     driver = _get_driver()
     if driver is None:

@@ -22,8 +22,19 @@ st.set_page_config(
     page_title="OncoBridge Intelligence",
     page_icon="🔬",
     layout="wide",
-    initial_sidebar_state="auto",
+    initial_sidebar_state="expanded",
+    menu_items={
+        "Get Help": None,
+        "Report a bug": None,
+        "About": "OncoBridge Intelligence — theranostics research workbench.",
+    },
 )
+
+# Hide Streamlit chrome early (also pinned in .streamlit/config.toml)
+try:
+    st.set_option("client.toolbarMode", "minimal")
+except Exception:
+    pass
 
 inject_global_css()
 apply_theme()
@@ -109,11 +120,11 @@ st.markdown(
 
 log_page_visit(pg.title or "Unknown")
 sync_target_from_query()
+# Expand active nav section before page body (avoids post-paint click thrash)
+inject_sidebar_nav_defaults(pg.title)
 # ponytail: rail before pg.run() so target button clicks apply before page body renders
 render_floating_right_rail()
 pg.run()
-
-inject_sidebar_nav_defaults(pg.title)
 
 with st.sidebar:
     render_sidebar_target_selector()

@@ -63,7 +63,7 @@ def get_driver():
     return GraphDatabase.driver(uri, auth=(user, pwd))
 
 
-@st.cache_data(ttl=300)
+@st.cache_data(ttl=300, show_spinner=False)
 def get_header_stats():
     driver = get_driver()
     if driver is None:
